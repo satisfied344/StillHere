@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StillHere</title>
+    <link rel="stylesheet" href="register-screen.css">
+</head>
+<body>
+    <div class="nav-bar">
+        <nav class="top-info">
+            <a href="about.html" class="nav-link">about</a>
+
+            <a href="contacts.html" class="nav-link">contacts</a>
+
+            <a href="updates.html" class="nav-link">updates</a>
+        </nav>
+    </div>
+
+    <div class="register">
+        <form action="#" method="post" class="form-example">
+            <div class="display_name">
+                <label for="display_name">Enter your nickname: </label>
+                <input type="text" name="display_name" id="display_name" required autocomplete="given-name" placeholder="your name">
+                <input type="text" name="display_last_name" id="display_last_name" autocomplete="family-name" placeholder="your last name (optional)">
+            </div>
+            
+            <div class="username">
+                <label for="username">Enter your username: </label>
+                <input type="text" name="username" id="username" required autocomplete="username" placeholder="your username">
+            </div>
+
+            <div>
+                <label for="password">Enter your password: </label>
+                <input type="password" name="password" id="password" required autocomplete="new-password" placeholder="password">
+            </div>
+            
+            <p class="login-text">
+                <a href="login.html" class="login-link">if you already have an account, log in here</a>
+            </p>
+
+
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+
+</body>
+</html>
