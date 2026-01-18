@@ -7,11 +7,11 @@
 </head>
 <body>
     <nav class="top-info" aria-label="Primary navigation">
-        <a href="../main.html" class="nav-link nav-link--stack">
+        <a href="main.html" class="nav-link nav-link--stack">
             <span>добавишь тут лого проекта</span>
         </a>
 
-        <a href="about.html" class="nav-link nav-link--stack">
+        <a href="nav-bar/about.html" class="nav-link nav-link--stack">
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2"
@@ -24,7 +24,7 @@
             <span>about</span>
         </a>
 
-        <a href="contacts.html" class="nav-link nav-link--stack">
+        <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2"
@@ -39,7 +39,7 @@
         <span>contacts</span>
         </a>
 
-        <a href="updates.html" class="nav-link nav-link--stack">
+        <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2"
@@ -53,7 +53,7 @@
         <span>updates</span>
         </a>
 
-        <a href="profile.html" class="nav-link nav-link--stack" aria-current="page">
+        <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2"
@@ -65,7 +65,7 @@
         <span>profile</span>
         </a>
 
-        <a href="../login.html" class="nav-link nav-link--stack">
+        <a href="login.html" class="nav-link nav-link--stack">
             <svg xmlns="http://www.w3.org/2000/svg" 
                 width="24" height="24" viewBox="0 0 24 24" 
                 fill="none" stroke="currentColor" stroke-width="2" 
@@ -76,14 +76,32 @@
             </svg>
         <span>login</span>
         </a>
-  </nav>
+    </nav>
 
-    <main>
-        <h1>About StillHere</h1>
-        <p>
-            ###
-        </p>
-    </main>
+<form class="post-form">
+    <h1>New post</h1>
+
+    <textarea placeholder="Write what you feel…" required></textarea>
+
+    <div class="pill-group">
+        <label>
+            <input type="checkbox" name="tags" value="need-support">
+                Need support
+        </label>
+
+        <label>
+            <input type="checkbox" name="tags" value="no-advice">
+                Need support
+        </label>
+    </div>
+
+    <select>
+        <option>EN</option>
+        <option>RU</option>
+    </select>
+
+    <button type="submit">Publish</button>
+</form>
 
 <footer class="footer">
   <p>StillHere — a project about presence, not solutions.</p>

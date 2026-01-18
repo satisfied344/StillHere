@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>StillHere</title>
-    <link rel="stylesheet" href="about-screen.css">
+    <link rel="stylesheet" href="post2-screen.css">
 </head>
 <body>
     <nav class="top-info" aria-label="Primary navigation">
@@ -60,11 +60,45 @@
         </a>
     </nav>
 
-    <main>
-        <h1>Мне сложно просить о помощи</h1>
+    <main class="post">
+        <header class="post-header">
+            <h1>Мне сложно просить о помощи</h1>
+            <p class="author">Anonymous · 2 hours ago</p>
+
+            <div class="post-menu">
+                <button
+                    class="post-menu-button"
+                    aria-label="Post options"
+                    aria-haspopup="menu"
+                    >
+                    ...
+                </button>
+
+                <ul class="post-menu" role="menu">
+                    <li role="menuitem">
+                        <button type="button">Report</button>
+                    </li>
+
+                    <li role="menuitem">
+                        <button type="button">Copy link</button>
+                    </li>
+
+                    <li role="menuitem">
+                        <button type="button" disabled>Delete</button>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
         <p>
             Я обычно молчу, но сейчас не получается…
         </p>
+
+        <div class="post-actions">
+            <button class="like_button" data-liked="false">
+                ❤️
+            </button>
+        </div>
     </main>
 
 <footer class="footer">
