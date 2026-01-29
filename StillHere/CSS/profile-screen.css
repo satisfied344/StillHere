@@ -7,7 +7,7 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: #111827;
   background: #f7f7fb;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 a {
@@ -18,14 +18,22 @@ a {
 .top-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
   padding: 14px 22px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: nowrap;
+  margin-right: auto
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
 }
 
 .nav-link {
@@ -53,175 +61,6 @@ a {
   padding: 8px 10px;
 }
 
-.nav-link[aria-current="page"] {
-  background: #eef2ff;
-  color: #3730a3;
-}
-
 .icon {
   display: block;
-}
-
-.page {
-  max-width: 900px;
-  margin: 32px auto 60px;
-  padding: 0 20px;
-}
-
-.profile_card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 28px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-}
-
-.profile_card h1 {
-  margin: 0 0 18px;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-fieldset {
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 18px;
-  margin: 18px 0;
-  background: #fafafa;
-}
-
-.label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
-  padding: 0 6px;
-}
-
-.section_avatar {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 18px;
-  align-items: center;
-}
-
-.avatar {
-  border-radius: 50%;
-  border: 2px solid #e5e7eb;
-  background: #ffffff;
-}
-
-.field {
-  display: grid;
-  gap: 8px;
-}
-
-label {
-  font-size: 14px;
-  color: #374151;
-}
-
-input[type="text"],
-input[type="file"] {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  background: #ffffff;
-}
-
-input[type="text"]:focus,
-input[type="file"]:focus {
-  outline: 2px solid #93c5fd;
-  border-color: #60a5fa;
-}
-
-.hint {
-  margin: 0;
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.value {
-  margin: 0;
-  padding: 8px 12px;
-  background: #ffffff;
-  border: 1px dashed #d1d5db;
-  border-radius: 8px;
-  color: #111827;
-}
-
-.profile_card_display_name,
-.profile_card-username {
-  margin-bottom: 10px;
-}
-
-button {
-  border: none;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  background: #111827;
-  color: #ffffff;
-}
-
-button:hover {
-  background: #0f172a;
-}
-
-button#remove_avatar {
-  background: #ffffff;
-  color: #111827;
-  border: 1px solid #d1d5db;
-}
-
-button#remove_avatar:hover {
-  background: #f3f4f6;
-}
-
-.button_change_display_name,
-.button_change_username,
-.btn_change_password {
-  margin-top: 8px;
-}
-
-.save-reset {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  padding-top: 6px;
-}
-
-#reset_button {
-  background: #ffffff;
-  color: #111827;
-  border: 1px solid #d1d5db;
-}
-
-#reset_button:hover {
-  background: #f3f4f6;
-}
-
-.footer {
-  text-align: center;
-  padding: 24px 16px 40px;
-  color: #6b7280;
-  font-size: 14px;
-}
-
-@media (max-width: 720px) {
-  .section_avatar {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-  }
-
-  .save-reset {
-    justify-content: stretch;
-  }
-
-  .save-reset button {
-    flex: 1;
-  }
 }

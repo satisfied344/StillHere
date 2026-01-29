@@ -18,14 +18,22 @@ a {
 .top-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
   padding: 14px 22px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: nowrap;
+  margin-right: auto
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
 }
 
 .nav-link {

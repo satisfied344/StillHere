@@ -18,14 +18,22 @@ a {
 .top-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
   padding: 14px 22px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: nowrap;
+  margin-right: auto
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
 }
 
 .nav-link {
@@ -56,6 +64,18 @@ a {
 .icon {
   display: block;
 }
+
+.post-card {
+  max-width: 720px;
+  margin: 16px auto 30px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  display: grid;
+  gap: 16px;
+} 
 
 .post-form {
   max-width: 720px;
