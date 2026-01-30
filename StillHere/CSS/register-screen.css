@@ -123,6 +123,57 @@ input:focus {
   border-color: #60a5fa;
 }
 
+.checkbox-rules-text {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.checkbox-rules-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.checkbox-rules-link:hover {
+  text-decoration: underline;
+}
+
+.link {
+  color: blue;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal:target {
+  display: block;
+}
+
+.modal-content {
+  position: relative;
+  background: #fff;
+  width: 400px;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;;
+}
+
+.close svg {
+  width: 28px;
+  height: 28px;
+  color: #e43030;
+}
+
 .login-text {
   margin: 0;
   font-size: 14px;

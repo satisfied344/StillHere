@@ -67,22 +67,54 @@
         <form action="#" method="post" class="form-example">
             <div class="display_name">
                 <label for="display_name">Enter your nickname: </label>
-                <input type="text" name="display_name" id="display_name" required autocomplete="given-name" placeholder="your name">
-                <input type="text" name="display_last_name" id="display_last_name" autocomplete="family-name" placeholder="your last name (optional)">
+                <input type="text" name="display_name" id="display_name" required autocomplete="given-name" placeholder="Your name">
+                <input type="text" name="display_last_name" id="display_last_name" autocomplete="family-name" placeholder="Your last name (optional)">
             </div>
             
             <div class="username">
                 <label for="username">Enter your username: </label>
-                <input type="text" name="username" id="username" required autocomplete="username" placeholder="your username">
+                <input type="text" name="username" id="username" required autocomplete="username" placeholder="Your username">
             </div>
 
             <div>
                 <label for="password">Enter your password: </label>
-                <input type="password" name="password" id="password" required autocomplete="new-password" placeholder="password">
+                <input type="password" name="password" id="password" required autocomplete="new-password" placeholder="Password">
+            </div>
+
+            <label class="checkbox-rules">
+                <input type="checkbox" required>
+                <span class="checkbox-rules-text">
+                    I have read and agree to the
+                    <a href="#agreement" class="checkbox-rules-link">
+                        User Agreement
+                    </a>
+                </span>
+            </label>
+
+            <div id="agreement" class="modal">
+                <div class="modal-content">
+                    <a href="#" class="close">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="close-icon">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18 18 6M6 6l12 12"/>
+                        </svg>
+                    </a>
+
+                    <h2>User Agreement</h2>
+
+                    <p>
+                        уекпвпаввава
+                    </p>
+                </div>
             </div>
             
             <p class="login-text">
-                already have an account? <a href="login.html" class="login-link">Sign in</a>
+                Already have an account? <a href="login.html" class="login-link">Sign in</a>
             </p>
 
 

@@ -174,19 +174,21 @@ a {
   color: #374151;
 }
 
-.post-menu {
+.post {
   position: relative;
 }
 
-.post-menu-button {
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
+.post-menu {
+  position: absolute;
+  top: 0px;
+  right: 10px;
 }
 
-.post-menu ul.post-menu {
+.post-menu-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
   list-style: none;
   margin: 8px 0 0;
   padding: 6px;
@@ -197,11 +199,19 @@ a {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
-.post-menu ul.post-menu li {
-  margin: 0;
+.post-menu:hover .post-menu-list {
+  display: block;
 }
 
-.post-menu ul.post-menu button {
+.post-menu-button {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.post-menu-list button {
   width: 100%;
   text-align: left;
   padding: 8px 10px;
@@ -211,7 +221,7 @@ a {
   cursor: pointer;
 }
 
-.post-menu ul.post-menu button:hover {
+.post-menu-list button:hover {
   background: #f3f4f6;
 }
 

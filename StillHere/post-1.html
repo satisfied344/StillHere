@@ -67,28 +67,30 @@
             <h1>I don’t know how to keep going</h1>
             <p class="author">Anonymous · 2 hours ago</p>
 
-                <div class="post-menu">
-                    <button
-                        class="post-menu-button"
-                        aria-label="Post options"
-                        aria-haspopup="menu"
-                        >
-                        ...
-                    </button>
+                <div class="post">
+                    <div class="post-menu">
+                        <button
+                            class="post-menu-button"
+                            aria-label="Post options"
+                            aria-haspopup="menu"
+                            >
+                            ⋮
+                        </button>
 
-                    <ul class="post-menu" role="menu">
-                        <li role="menuitem">
-                            <button type="button">Report</button>
-                        </li>
+                        <ul class="post-menu-list" role="menu">
+                            <li role="menuitem">
+                                <button type="button">Report</button>
+                            </li>
 
-                        <li role="menuitem">
-                            <button type="button">Copy link</button>
-                        </li>
+                            <li role="menuitem">
+                                <button type="button">Copy link</button>
+                            </li>
 
-                        <li role="menuitem">
-                            <button type="button" disabled>Delete</button>
-                        </li>
-                    </ul>
+                            <li role="menuitem">
+                                <button type="button" disabled>Delete</button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
         </header>
 
@@ -96,13 +98,30 @@
             Just need to say it somewhere. Everything feels heavy…
         </p>
 
+
         <div class="post-actions">
             <button class="like_button" data-liked="false">
                 ❤️
             </button>
         </div>
-
+        
     </main>
+    <section class="comments" aria-labelledby="comments-title">
+        <h2 id="comments-title">Комментарии</h2>
+
+        <ol class="comment-list">
+            <li>
+                <article class="comment">
+                    <header>
+                    <address class="author">Alex</address>
+                    <time datetime="2026-01-28">28 January</time>
+                    </header>
+
+                    <p>/////</p>
+                </article>
+            </li>
+        </ol>
+    </section>
 
 <footer class="footer">
   <p>StillHere — a project about presence, not solutions.</p>
