@@ -49,24 +49,45 @@
                 <span>updates</span>
             </a>
 
-            <a href="login.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
+            <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
                         class="icon" aria-hidden="true">
-                        <path d="m10 17 5-5-5-5"/><path d="M15 12H3"/>
-                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                    <circle cx="12" cy="8" r="5" />
+                    <path d="M20 21a8 8 0 0 0-16 0" />
                     </svg>
-                <span>login</span>
+                <span>profile</span>
             </a>
         </div>
 </nav>
+
+<aside class="sidebar" aria-label="sidebar navigation">
+    <nav class="sidebar_nav">
+        <a href="#" class="sidebar_item"><span>Home</span></a>
+        <a href="#" class="sidebar_item"><span>Popular</span></a>
+        <a href="#" class="sidebar_item"><span>Create post</span></a>
+    </nav>
+</aside>
 
 <main class="main-feed">
 
     <section class="feed">
         <div class="filters">
+
+            <div class="search-row">
+                <input
+                    id="searchInput"
+                    class="search-input"
+                    type="search"
+                    placeholder="Search by topic (anxiety, burnout, relationships...)"
+                    aria-label="Search posts"
+                    />
+                <button id="searchClear" class="search-btn" type="button">Clear</button>
+                <button id="search" class="search-btn" type="button">Search</button>
+            </div>
+
             <div class="pill-group" aria-label="Language filter">
                 <button class="pill" type="button">EN</button>
                 <button class="pill" type="button">RU</button>  
@@ -76,18 +97,6 @@
                 <button class="pill" type="button">Need support</button>
                 <button class="pill" type="button">No advices</button>  
             </div>
-        </div>
-
-        <div class="search-row">
-            <input
-                id="searchInput"
-                class="search-input"
-                type="search"
-                placeholder="Search by topic (anxiety, burnout, relationships...)"
-                aria-label="Search posts"
-                />
-            <button id="searchClear" class="search-btn" type="button">Clear</button>
-            <button id="search" class="search-btn" type="button">Search</button>
         </div>
 
         <article class="post-card">
@@ -170,11 +179,13 @@
     </section>
 
     <section class="create-post">
-        <a href="create-post.html" class="button create_post_button">
-            Create post
+        <a href="create-post.html" class="button_create_post_button">
+            <svg class="button_create_post_button_icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" 
+                d="M12 5v14M5 12h14" />
+            </svg>
         </a>
 </main>
-
-<!-- сделать еще пиллсы по поводу need support, advices, как будет реализовываться сам пост, лайки, кнопка поста, все эти пиллсы в прубликовке и тд-->
 </body>
 </html>
