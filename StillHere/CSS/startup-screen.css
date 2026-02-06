@@ -4,11 +4,20 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  color: #111827;
-  background: #f7f7fb;
+  font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #5A5A5A;
   min-height: 100vh;
+
+  background: linear-gradient(135deg, #edcfb6, #e7c5b9, #ded3f1, #e6cfbb, #f2d6c7);
+  background-size: 400% 400%;
+  animation: warmFlow 17s ease-in-out infinite alternate;
 }
+
+  @keyframes warmFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 100%; }
+  }
 
 a {
   color: inherit;
@@ -19,8 +28,29 @@ a {
   display: flex;
   align-items: center;
   padding: 14px 22px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(24px) saturate(1.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.top-info::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .logo {
@@ -41,14 +71,14 @@ a {
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
+  color: #5A5A5A;
   border-radius: 999px;
-  color: #111827;
   font-size: 14px;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
 .nav-link:hover {
-  background: #f3f4f6;
+  background: linear-gradient(135deg, #fcf9f6, #F5E6E0);
 }
 
 .nav-link--stack {
@@ -85,21 +115,53 @@ a {
   display: grid;
   place-items: center;
   padding: 40px 20px;
-  background: radial-gradient(1200px 600px at 50% 0%, #ffffff 0%, #f7f7fb 55%, #eef2f7 100%);
+  background: transparent;
+}
+
+.title-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-top: 140px;
 }
 
 .title {
-  font-size: clamp(48px, 10vw, 200px);
+  font-size: clamp(64px, 12vw, 260px);
   font-weight: 700;
   letter-spacing: 1px;
   margin: 0;
   text-align: center;
   line-height: 1;
+  color: #5A5A5A;
+  transition: text-shadow 0.7s ease;
+}
+
+.title-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #7C7C7C, #A0A0A0, #7C7C7C);
+  /*background: linear-gradient(90deg, #e0bda5, #a691c2);-ярче*/
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+
+.title-wrapper:hover .title-gradient {
+  opacity: 1;
+}
+
+.title-wrapper:hover .title {
+  text-shadow: 0 8px 28px rgba(170, 140, 120, 0.22);
 }
 
 .subtitle {
   margin: 4px 0 0;
   font-size: 16px;
-  color: #6b7280;
   text-align: center;
+  color: #8A8A8A;
 }
