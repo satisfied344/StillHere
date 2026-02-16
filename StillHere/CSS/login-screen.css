@@ -4,11 +4,24 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  color: #1f2937;
-  background: #f7f7fb;
-  line-height: 1.5;
+  font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #5A5A5A;
+  min-height: 100vh;
+  background: linear-gradient(135deg,
+    #edcfb6, 
+    #e7c5b9, 
+    #ded3f1, 
+    #e6cfbb, 
+    #f2d6c7);
+  background-size: 400% 400%;
+  animation: warmFlow 20s ease-in-out infinite alternate;
 }
+
+  @keyframes warmFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 100%; }
+  }
 
 a {
   color: inherit;
@@ -19,8 +32,29 @@ a {
   display: flex;
   align-items: center;
   padding: 14px 22px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(24px) saturate(1.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.top-info::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .logo {
@@ -83,6 +117,7 @@ a {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  margin-top: 150px;
 }
 
 .page {
