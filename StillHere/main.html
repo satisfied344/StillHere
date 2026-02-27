@@ -4,179 +4,597 @@
     <meta charset="UTF-8">
     <title>StillHere</title>
     <link rel="stylesheet" href="CSS/main-screen.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<nav class="top-info" aria-label="Primary navigation">
-        <a href="startup-page.html" class="logo">
-            <span>добавишь тут лого проекта</span>
-        </a>
-        
-        <div class="nav">
-            <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
-                        class="icon" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
-                    </svg>  
-                <span>about</span>
+<div class="page-wrapper">
+    <nav class="top-info" aria-label="Primary navigation">
+            <a href="startup-page.html" class="logo">
+                <span>добавишь тут лого проекта</span>
             </a>
+            
+            <div class="nav">
+                <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                            width="24" height="24" viewBox="0 0 24 24" 
+                            fill="none" stroke="currentColor" stroke-width="2" 
+                            stroke-linecap="round" stroke-linejoin="round" 
+                            class="icon" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                        </svg>  
+                    <span>about</span>
+                </a>
 
-            <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
-                        class="icon" aria-hidden="true">
-                        <path d="M16 2v2"/><path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/>
-                        <path d="M8 2v2"/><circle cx="12" cy="11" r="3"/><rect x="3" y="4" width="18" height="18" rx="2"/>
-                    </svg>
-                <span>contacts</span>
-            </a>
+                <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                            width="24" height="24" viewBox="0 0 24 24" 
+                            fill="none" stroke="currentColor" stroke-width="2" 
+                            stroke-linecap="round" stroke-linejoin="round" 
+                            class="icon" aria-hidden="true">
+                            <path d="M16 2v2"/><path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/>
+                            <path d="M8 2v2"/><circle cx="12" cy="11" r="3"/><rect x="3" y="4" width="18" height="18" rx="2"/>
+                        </svg>
+                    <span>contacts</span>
+                </a>
 
-            <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
-                        class="icon" aria-hidden="true">
-                        <path d="M15 18h-5"/><path d="M18 14h-8"/>
-                        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/>
-                        <rect width="8" height="4" x="10" y="6" rx="1"/>
-                    </svg>
-                <span>updates</span>
-            </a>
+                <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                            width="24" height="24" viewBox="0 0 24 24" 
+                            fill="none" stroke="currentColor" stroke-width="2" 
+                            stroke-linecap="round" stroke-linejoin="round" 
+                            class="icon" aria-hidden="true">
+                            <path d="M15 18h-5"/><path d="M18 14h-8"/>
+                            <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/>
+                            <rect width="8" height="4" x="10" y="6" rx="1"/>
+                        </svg>
+                    <span>updates</span>
+                </a>
 
-            <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round"
-                        class="icon" aria-hidden="true">
-                    <circle cx="12" cy="8" r="5" />
-                    <path d="M20 21a8 8 0 0 0-16 0" />
-                    </svg>
-                <span>profile</span>
-            </a>
-        </div>
-</nav>
-
-<aside class="sidebar" aria-label="sidebar navigation">
-    <nav class="sidebar_nav">
-        <a href="#" class="sidebar_item"><span>Home</span></a>
-        <a href="#" class="sidebar_item"><span>Popular</span></a>
-        <a href="#" class="sidebar_item"><span>Create post</span></a>
+                <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"
+                            class="icon" aria-hidden="true">
+                        <circle cx="12" cy="8" r="5" />
+                        <path d="M20 21a8 8 0 0 0-16 0" />
+                        </svg>
+                    <span>profile</span>
+                </a>
+            </div>
     </nav>
-</aside>
 
-<main class="main-feed">
+    <div class="main-main">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <div class="sidebar-primary-navigation">
+                    <a href="#" class="sidebar-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" height="20" 
+                            width="20"viewBox="0 0 24 24" stroke-width="1.5" 
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 
+                                0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 
+                                1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 
+                                0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                        </svg>
+                        <span>Home</span>
+                    </a>
 
-    <section class="feed">
-        <div class="filters">
+                    <a href="#" class="sidebar-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" 
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 
+                                3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 
+                                19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 
+                                1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                        </svg>
 
-            <div class="search-row">
-                <input
-                    id="searchInput"
-                    class="search-input"
-                    type="search"
-                    placeholder="Search by topic (anxiety, burnout, relationships...)"
-                    aria-label="Search posts"
-                    />
-                <button id="searchClear" class="search-btn" type="button">Clear</button>
-                <button id="search" class="search-btn" type="button">Search</button>
-            </div>
+                        <span>Following</span>
+                    </a>
 
-            <div class="pill-group" aria-label="Language filter">
-                <button class="pill" type="button">EN</button>
-                <button class="pill" type="button">RU</button>  
-            </div>
+                    <a href="#" class="sidebar-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" 
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 
+                                3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 
+                                0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 
+                                3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 
+                                1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 
+                                0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 
+                                0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                        </svg>
+                        <span>Saved</span>
+                    </a>
+                </div>
 
-            <div class="pill-group" aria-label="Category filter">
-                <button class="pill" type="button">Need support</button>
-                <button class="pill" type="button">No advices</button>  
-            </div>
-        </div>
+                <div class="asidebar-divider"></div>
 
-        <article class="post-card">
-            <header class="post-header">
-                <h2>
-                    <a href="post-1.html">I don't know how to keep going</a>
-                </h2>
-                
-                <p class="author">Anonymous · 2 hours ago</p>
-                
-                <div class="post">
-                    <div class="post-menu">
-                        <button
-                            class="post-menu-button"
-                            aria-label="Post options"
-                            aria-haspopup="menu"
-                            >
-                            ⋮
-                        </button>
+                <div class="sidebar-secondary-navigation">
+                    <div class="sidebar-section">
 
-                        <ul class="post-menu-list" role="menu">
-                            <li role="menuitem">
-                                <button type="button">Report</button>
-                            </li>
+                        <h3 class="sidebar-top">Topics</h3>
 
-                            <li role="menuitem">
-                                <button type="button">Copy link</button>
-                            </li>
+                        <a href="#" class="sidebar-item small">
+                            <span class="topic-span topic-anxiety"></span>
+                            <span>Anxiety</span>
+                            <span class="topic-count">0</span>
+                        </a>
 
-                            <li role="menuitem">
-                                <button type="button" disabled>Delete</button>
-                            </li>
-                        </ul>
+                        <a href="#" class="sidebar-item small">
+                            <span class="topic-span topic-depression"></span>
+                            <span>Depression</span>
+                            <span class="topic-count">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small">
+                            <span class="topic-span topic-relationships"></span>
+                            <span>Relationships</span>
+                            <span class="topic-count">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small">
+                            <span class="topic-span topic-grief"></span>
+                            <span>Grief & Loss</span>
+                            <span class="topic-count">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small">
+                            <span class="topic-span topic-burnout"></span>
+                            <span>Burnout</span>
+                            <span class="topic-count">0</span>
+                        </a>
+
+                        <button class="sidebar-more">Show more topics</button>
+
                     </div>
                 </div>
 
-            </header>
-            <p class="meta">EN · Anxiety · No advice</p>
-            <p class="preview">Just need to say it somewhere. Everything feels heavy…</p>
+                <div class="asidebar-divider"></div>
 
-        </article>
+                <a href="create-post.html" class="sidebar-create-post-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
 
-        <article class="post-card">
-            <header class="post-header">
-                <h2>
-                    <a href="post-2.html">Мне сложно просить о помощи</a>
-                </h2>
-                
-                <p class="author">Anonymous · 2 hours ago</p>
-                
-                <div class="post">
-                    <div class="post-menu">
-                        <button
-                            class="post-menu-button"
-                            aria-label="Post options"
-                            aria-haspopup="menu"
-                            >
-                            ⋮
+                    <span>Share Your Story</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-feed">
+            <div class="feed-head">
+                <h1 class="feed-title">Community Feed</h1>
+                <div class="feed-filter-actions">
+                    <button class="button-icon" id="filterToggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+                            fill="none" viewBox="0 0 24 24" stroke-width="2" 
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 
+                                1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 
+                                2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 
+                                0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                        </svg>
+                    </button>
+
+                    <button class="button-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" 
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 
+                                0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 
+                                13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-panel" id="filterPanel">
+                <div class="filters-container">
+                    <div class="search-bar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+
+                        <input
+                            id="searchInput"
+                            class="search-input"
+                            type="search"
+                            placeholder="Search by topic, mood, or keywords..."
+                        />
+
+                        <button class="search-clear" type="button" id="searchClear" >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="16" height="16" 
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+
                         </button>
+                    </div>
 
-                        <ul class="post-menu-list" role="menu">
-                            <li role="menuitem">
-                                <button type="button">Report</button>
-                            </li>
+                    <div class="filter-group">
+                        <label class="filter-title">Language</label>
 
-                            <li role="menuitem">
-                                <button type="button">Copy link</button>
-                            </li>
+                        <div class="pill-group">
+                            <button class="pill active" data-filter="lang" data-value="all" type="button">All</button>
+                            <button class="pill" data-filter="lang" data-value="en" type="button" >EN</button>
+                            <button class="pill" type="button" data-filter="lang" data-value="ru">RU</button>  
+                        </div>
+                    </div>
 
-                            <li role="menuitem">
-                                <button type="button" disabled>Delete</button>
-                            </li>
-                        </ul>
+                    <div class="filter-group">
+                        <label class="filter-title">Support Type</label>
+
+                        <div class="pill-group">
+                            <button class="pill" type="button" data-value="need-support" data-filter="support">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" 
+                                    fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 
+                                    3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                                Need Support
+                            </button>
+
+                            <button class="pill" data-filter="support" data-value="no-advice" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="14" height="14" 
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+                                </svg>
+                                No Advice
+                            </button>  
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-title">Sort by</label>
+
+                        <select class="filter-select" id="sortSelect">
+                            <option value="recent">Most Recent</option>
+                            <option value="popular">Most Supported</option>
+                            <option value="discussed">Most Discussed</option>
+                            <option value="unanswered">Needs Support</option>
+                        </select>
                     </div>
                 </div>
-            </header>
-            <p class="meta">RU · Self-esteem · Need support</p>
-            <p class="preview">Я обычно молчу, но сейчас не получается…</p>
-        </article>
-    </section>
+            </div>
+
+            <div class="feed">
+                <article class="post-card" data-post-id="1">
+                    <div class="post-header">
+                        <div class="post-author-info">
+                            <div class="post-avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon" aria-hidden="true">
+                                <circle cx="12" cy="8" r="5" />
+                                <path d="M20 21a8 8 0 0 0-16 0" />
+                                </svg>
+                            </div>
+
+                            <div class="post-include-info">
+                                <span class="post-author">Anonymous</span>
+                                <span class="post-time">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" 
+                                        fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    2 hours ago
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-actions-menu">
+                            <button class="button-icon post-menu-trigger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" 
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 
+                                    12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 
+                                    0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                </svg>
+                            </button>
+
+                            <ul class="post-menu-down" role="menu">
+                                <li role="menu-item">
+                                    <button type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 
+                                            3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                        </svg>
+                                        Save Post
+                                    </button>
+                                </li>
+
+                                <li role="menu-item">
+                                    <button type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                            d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 
+                                            1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                                        </svg>
+                                        Copy Link
+                                    </button>
+                                </li>
+
+                                <li role="menu-item">
+                                    <button type="button" class="menu-item-report">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" 
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 
+                                            0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                        </svg>
+                                        Report
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="post-content">
+                        <h2 class="post-title">
+                            <a href="post-1.html">I don't know how to keep going</a>
+                        </h2>
+                        
+                        <div class="post-tags">
+                            <span class="tag tag-lang">EN</span>
+                            <span class="tag tag-topic">Anxiety</span>
+                            <span class="tag tag-mode tag-no-advice">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="12" height="12" 
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+                                </svg>
+                                No Advice
+                            </span>
+                        </div>
+
+                        <p class="post-preview">
+                            Just need to say it somewhere. Everything feels heavy. I wake up and the weight is already there, before I even open my eyes. I'm trying to keep going but I don't know how much longer I can...
+                        </p>
+                    </div>
+
+                    <div class="post-actions">
+                        <button class="post-actions-item" data-action="support">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                                    fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 
+                                    3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                            <span class="action-stat">0</span>
+                            <span class="action-title">Support</span>
+                        </button>
+
+                        <button class="post-actions-item" data-action="comment">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="18" height="18" 
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 
+                                0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 
+                                48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                            </svg>
+
+                            <span class="action-stat">0</span>
+                            <span class="action-title">Responses</span>
+                        </button>
+
+                        <button class="post-actions-item" data-action="share">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" 
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 
+                                2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 
+                                7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 
+                                1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                            </svg>
+                            <span class="action-title">Share</span>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="post-card" data-post-id="2">
+                    <div class="post-header">
+                        <div class="post-author-info">
+                            <div class="post-avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon" aria-hidden="true">
+                                <circle cx="12" cy="8" r="5" />
+                                <path d="M20 21a8 8 0 0 0-16 0" />
+                                </svg>
+                            </div>
+
+                            <div class="post-include-info">
+                                <span class="post-author">Anonymous</span>
+                                <span class="post-time">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" 
+                                        fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    2 hours ago
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-actions-menu">
+                            <button class="button-icon post-menu-trigger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" 
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 
+                                    12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 
+                                    0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                </svg>
+                            </button>
+
+                            <ul class="post-menu-down" role="menu">
+                                <li role="menu-item">
+                                    <button type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 
+                                            3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                        </svg>
+                                        Save Post
+                                    </button>
+                                </li>
+
+                                <li role="menu-item">
+                                    <button type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                            d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 
+                                            1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                                        </svg>
+                                        Copy Link
+                                    </button>
+                                </li>
+
+                                <li role="menu-item">
+                                    <button type="button" class="menu-item-report">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" 
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 
+                                            0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                        </svg>
+                                        Report
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="post-content">
+                        <h2 class="post-title">
+                            <a href="post-1.html">Мне сложно просить о помощи</a>
+                        </h2>
+                        
+                        <div class="post-tags">
+                            <span class="tag tag-lang">RU</span>
+                            <span class="tag tag-topic">Self-esteem</span>
+                            <span class="tag tag-mode tag-need-support">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" 
+                                    fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 
+                                    3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                                Need Support
+                            </span>
+                        </div>
+
+                        <p class="post-preview">
+                            Я обычно молчу, но сейчас не получается…
+                        </p>
+                    </div>
+
+                    <div class="post-actions">
+                        <button class="post-actions-item" data-action="support">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                                    fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 
+                                    3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                            <span class="action-stat">0</span>
+                            <span class="action-title">Support</span>
+                        </button>
+
+                        <button class="post-actions-item" data-action="comment">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="18" height="18" 
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 
+                                0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 
+                                48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                            </svg>
+
+                            <span class="action-stat">0</span>
+                            <span class="action-title">Responses</span>
+                        </button>
+
+                        <button class="post-actions-item" data-action="share">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" 
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 
+                                2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 
+                                7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 
+                                1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                            </svg>
+                            <span class="action-title">Share</span>
+                        </button>
+                    </div>
+                </article>
+
+            <div class="loading-indicator" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>Loading more stories...</p>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="widget support">
+                <h3 class="widget-title">Need Immediate Help?</h3>
+                <p class="widget-subtitle">If you're in crisis, please call out:</p>
+                <a href="#" class="widget-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" 
+                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 
+                            6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 
+                            1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 
+                            3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                    </svg>
+                    Crisis Hotlines
+                </a>
+            </div>
+
+            <div class="widget guidelines">
+                <h3 class="widget-title">Community Guidelines</h3>
+
+                <ul class="widget-list">
+                    <li>Be kind and respectful</li>
+                    <li>Respect "No Advice" tags</li>
+                    <li>No medical advice</li>
+                    <li>Protect anonymity</li>
+                </ul>
+
+                <a href="#" class="widget-link-guidelines">Read full guidelines →</a>
+            </div>
+
+            <div class="widget statistic">
+                <h3 class="widget-title">This Week</h3>
+
+                <div class="statistic-row">
+                    <span class="statistic-title">Stories shared</span>
+                    <span class="statistic-value">0</span>
+                </div>
+
+                <div class="statistic-row">
+                    <span class="statistic-title">Support given</span>
+                    <span class="statistic-value">0</span>
+                </div>
+
+                <div class="statistic-row">
+                    <span class="statistic-title">Active members</span>
+                    <span class="statistic-value">0</span>
+                </div>
+            </div>
+        </aside>
+    </div>
 
     <section class="create-post">
         <a href="create-post.html" class="button_create_post_button">
@@ -186,6 +604,20 @@
                 d="M12 5v14M5 12h14" />
             </svg>
         </a>
-</main>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>StillHere - A project about presence, not solutions</p>
+        <div class="footer-links">
+            <a href="nav-bar/about.html">About</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="nav-bar/contacts.html">Contact</a>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
