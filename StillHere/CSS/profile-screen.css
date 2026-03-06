@@ -18,11 +18,10 @@ body {
   color: #5A5A5A;
   min-height: 100vh;
   background: linear-gradient(135deg,
-    #edcfb6, 
-    #e7c5b9, 
-    #ded3f1, 
-    #e6cfbb, 
-    #f2d6c7);
+    #edcfb6,
+    #e7c5b9,
+    #ded3f1,
+    #e6cfbb);
   background-size: 400% 400%;
   animation: warmFlow 20s ease-in-out infinite alternate;
 } 

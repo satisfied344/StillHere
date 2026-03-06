@@ -61,6 +61,14 @@
                         </svg>
                     <span>profile</span>
                 </a>
+                
+                <div class="main-menu-dropdown">
+                    <button class="button-icon main-menu-trigger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
             </div>
     </nav>
 
@@ -70,7 +78,7 @@
                 <div class="sidebar-primary-navigation">
                     <a href="#" class="sidebar-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" height="20" 
-                            width="20"viewBox="0 0 24 24" stroke-width="1.5" 
+                            width="20"viewBox="0 0 24 24" stroke-width="2" 
                             stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" 
                                 d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 
@@ -83,7 +91,7 @@
 
                     <a href="#" class="sidebar-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" 
-                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" 
                                 d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 
                                 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 
@@ -96,7 +104,7 @@
 
                     <a href="#" class="sidebar-item">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" 
-                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 
                                 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 
                                 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 
@@ -155,7 +163,7 @@
 
                 <a href="create-post.html" class="sidebar-create-post-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+                        fill="none" viewBox="0 0 24 24" stroke-width="2" 
                         stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
@@ -196,7 +204,7 @@
             <div class="filter-panel" id="filterPanel">
                 <div class="filters-container">
                     <div class="search-bar">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
                             fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" 
                                 d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -220,13 +228,36 @@
 
                     <div class="filter-group">
                         <label class="filter-title">Language</label>
+                        <div class="lang-tabs">
+                            <div class="pill-group">
+                                <button class="pill active" data-filter="lang" data-value="all" type="button">All</button>
+                                <button class="pill" data-filter="lang" data-value="en" type="button">EN</button>
+                                <button class="pill" data-filter="lang" data-value="ru" type="button">RU</button>
+                                <button class="pill lang-more-trigger" type="button">More ›</button>
+                            </div>
 
-                        <div class="pill-group">
-                            <button class="pill active" data-filter="lang" data-value="all" type="button">All</button>
-                            <button class="pill" data-filter="lang" data-value="en" type="button" >EN</button>
-                            <button class="pill" type="button" data-filter="lang" data-value="ru">RU</button>  
+                            <div class="lang-more-panel">
+                                <button class="pill" data-filter="lang" data-value="de" type="button">DE</button>
+                                <button class="pill" data-filter="lang" data-value="fr" type="button">FR</button>
+                                <button class="pill" data-filter="lang" data-value="es" type="button">ES</button>
+                                <button class="pill" data-filter="lang" data-value="pt" type="button">PT</button>
+                                <button class="pill" data-filter="lang" data-value="ja" type="button">JA</button>
+                                <button class="pill" data-filter="lang" data-value="ko" type="button">KO</button>
+                                <button class="pill" data-filter="lang" data-value="zh" type="button">ZH</button>
+                                <button class="pill" data-filter="lang" data-value="ar" type="button">AR</button>
+                                <button class="pill" data-filter="lang" data-value="tr" type="button">TR</button>
+                                <button class="pill" data-filter="lang" data-value="pl" type="button">PL</button>
+                                <button class="pill" data-filter="lang" data-value="uk" type="button">UK</button>
+                                <button class="pill" data-filter="lang" data-value="hi" type="button">HI</button>
+                                <button class="pill" data-filter="lang" data-value="it" type="button">IT</button>
+                                <button class="pill" data-filter="lang" data-value="nl" type="button">NL</button>
+                                <button class="pill" data-filter="lang" data-value="sv" type="button">SV</button>
+                                <button class="pill" data-filter="lang" data-value="id" type="button">ID</button>
+                                <button class="pill" data-filter="lang" data-value="th" type="button">TH</button>
+                                <button class="pill" data-filter="lang" data-value="vi" type="button">VI</button>
+                            </div>
                         </div>
-                    </div>
+                        </div>
 
                     <div class="filter-group">
                         <label class="filter-title">Support Type</label>
@@ -540,9 +571,10 @@
                     </div>
                 </article>
 
-            <div class="loading-indicator" id="loadingIndicator">
-                <div class="spinner"></div>
-                <p>Loading more stories...</p>
+                <div class="loading-indicator" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Loading more stories...</p>
+                </div>
             </div>
         </main>
 
@@ -596,15 +628,14 @@
         </aside>
     </div>
 
-    <section class="create-post">
-        <a href="create-post.html" class="button_create_post_button">
-            <svg class="button_create_post_button_icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-                stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" 
-                d="M12 5v14M5 12h14" />
-            </svg>
-        </a>
-    </section>
+    <a href="create-post.html" class="button_create_post_button">
+        <svg class="button_create_post_button_icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+            stroke-width="2" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" 
+            d="M12 5v14M5 12h14" />
+        </svg>
+    </a>
+
 </div>
 
 <footer class="footer">
