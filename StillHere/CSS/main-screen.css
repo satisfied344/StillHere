@@ -148,6 +148,7 @@ a {
   flex: 1;
   padding-top: 80px;
   padding: 104px 24px 48px;
+  padding-bottom: 30px;
 }
 
 .icon {
@@ -815,9 +816,10 @@ a {
   margin: 0 0 16px;
 }
 
-.widget-support {
-  background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(239, 68, 68, 0.05));
-  border-color: rgba(220, 38, 38, 0.2);
+.widget.support {
+  background: linear-gradient(135deg, rgba(237, 25, 25, 0.1), rgba(255, 0, 0, 0.05));
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.1);
 }
 
 .widget-link {
@@ -976,38 +978,87 @@ a {
 }
 
 .footer {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.8);
-  margin-top: auto;
-  padding: 32px 24px;
-  text-align: center;
+  background: rgba(255,255,255,.28);
+  backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(255,255,255,.45);
+  padding: 64px 40px 32px;
+  position: relative;
+  z-index: 1;
 }
 
-.footer-content {
-  max-width: 1400px;
+.footer_content {
+  max-width: 1160px;
   margin: 0 auto;
 }
 
-.footer-content p {
-  font-size: 14px;
-  color: var(--text-mid-light);
-  margin: 0 0 12px;
-}
-
-.footer-links {
+.footer_main {
   display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 64px;
+  margin-bottom: 48px;
 }
 
-.footer-links a {
+.footer_logo p {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px;
+}
+
+.footer_subtitle {
   font-size: 13px;
-  color: var(--text-mid-light);
-  transition: color 0.3s ease;
+  color: #8A8A8A;
+  max-width: 220px;
+  line-height: 1.6;
 }
 
-.footer-links a:hover {
-  color: var(--text-dark);
+.footer_links {
+  display: flex;
+  gap: 56px;
+}
+
+.footer_links h3 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #111827;
+  margin: 0 0 18px;
+}
+
+.footer_links ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer_links a {
+  font-size: 14px;
+  color: #5A5A5A;
+  transition: color .2s;
+}
+
+.footer_links a:hover { color: #111827; }
+
+.footer_footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.07);
+  font-size: 13px;
+  color: #8A8A8A;
+}
+
+.footer_social {
+  display: flex;
+  gap: 16px;
+}
+
+.footer_social a {
+  color: #8A8A8A;
+  transition: color .2s, transform .2s;
+  display: flex;
 }
