@@ -2,116 +2,385 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>StillHere</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StillHere — Share Your Story</title>
     <link rel="stylesheet" href="CSS/create-post-screen.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="top-info" aria-label="Primary navigation">
-        <a href="startup-page.html" class="logo">
-            <span>добавишь тут лого проекта</span>
-        </a>
-        
-        <div class="nav">
-            <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
-                        class="icon" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
-                    </svg>  
+
+<nav class="top-info" aria-label="Primary navigation">
+            <a href="startup-page.html" class="logo">
+                <span>StillHere</span>
+            </a>
+            
+            <div class="nav">
+                <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="30" height="30"
+                        viewBox="0 0 256 256" 
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
+                    </svg> 
                 <span>about</span>
-            </a>
+                </a>
 
-            <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
-                        class="icon" aria-hidden="true">
-                        <path d="M16 2v2"/><path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/>
-                        <path d="M8 2v2"/><circle cx="12" cy="11" r="3"/><rect x="3" y="4" width="18" height="18" rx="2"/>
-                    </svg>
-                <span>contacts</span>
-            </a>
+                <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="30" height="30"
+                            viewBox="0 0 256 256" stroke-width="22"
+                            fill="currentColor"
+                            class="icon"
+                            aria-hidden="true">
+                            <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
+                        </svg>
+                    <span>contacts</span>
+                </a>
 
-            <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
-                        class="icon" aria-hidden="true">
-                        <path d="M15 18h-5"/><path d="M18 14h-8"/>
-                        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/>
-                        <rect width="8" height="4" x="10" y="6" rx="1"/>
-                    </svg>
-                <span>updates</span>
-            </a>
+                <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="30" height="30"
+                            viewBox="0 0 256 256"
+                            fill="currentColor"
+                            class="icon"
+                            aria-hidden="true">
+                            <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
+                        </svg>
+                    <span>updates</span>
+                </a>
 
-            <a href="login.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="24" height="24" viewBox="0 0 24 24" 
-                        fill="none" stroke="currentColor" stroke-width="2" 
-                        stroke-linecap="round" stroke-linejoin="round" 
-                        class="icon" aria-hidden="true">
-                        <path d="m10 17 5-5-5-5"/><path d="M15 12H3"/>
-                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-                    </svg>
-                <span>login</span>
-            </a>
-        </div>
+                <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="30" height="30"
+                            viewBox="0 0 256 256"
+                            fill="currentColor"
+                            class="icon"
+                            aria-hidden="true">
+                            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
+                        </svg>
+                    <span>profile</span>
+                </a>
+                
+                <div class="main-menu-dropdown">
+                    <button class="main-menu-trigger">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="30" height="30"
+                            viewBox="0 0 256 256"
+                            fill="currentColor"
+                            class="icon"
+                            aria-hidden="true">
+                            <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
     </nav>
 
-<form class="post-form">
-    <h1>New post</h1>
+<div class="bg_words" aria-hidden="true">
+    <div class="row left">
+        <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
+        <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
+        <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
+        <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
+    </div>
+    <div class="row right">
+        <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
+        <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
+        <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
+        <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
+    </div>
+    <div class="row left slow">
+        <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
+        <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
+        <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
+        <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
+    </div>
+    <div class="row right slower">
+        <span>you matter</span><span>importas</span><span>tu comptes</span><span>du bist wichtig</span><span>ти важливий</span>
+        <span>sei importante</span><span>você importa</span><span>jesteś ważny</span><span>あなたは大切</span><span>你很重要</span>
+        <span>youʼre not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
+        <span>non sei solo</span><span>não está sozinho</span><span>nie jesteś sam</span><span>혼자가 아니야</span><span>你并不孤单</span>
+    </div>
+    <div class="row left slowest">
+        <span>stay</span><span>quédate</span><span>reste</span><span>bleib</span><span>залишайся</span>
+        <span>rimani</span><span>fica</span><span>zostań</span><span>ابقَ</span><span>とどまって</span>
+        <span>listen</span><span>escucha</span><span>écoute</span><span>hör zu</span><span>слухай</span>
+        <span>ascolta</span><span>ouve</span><span>słuchaj</span><span>倾听</span><span>들어봐</span>
+    </div>
+</div>
 
-    <div class="post-card">
-        <input
-            type="text"
-            name="title"
-            class="post-title"
-            placeholder="Title"
-            maxlength="120"
-        />
+<div class="page-body">
+
+    <div class="hero">
+        <h1>Your words,<br><em>your language</em></h1>
+        <p class="hero-sub">Somebody out there needs to hear exactly what you're feeling right now.</p>
+        <div class="hero-divider"></div>
     </div>
 
-    <textarea placeholder="Write what you feel…" required></textarea>
+    <form method="post" action="#">
 
-    <div class="media-upload">
-        <label class="add-media">
-            ➕ Add photos
-            <input type="file" multiple accept="image/*" hidden>
-        </label>
+        <div class="lang-strip">
+            <div class="lang-strip-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                    <path d="M128,24a104,104,0,1,0,104,104A104.11,104.11,0,0,0,128,24Zm88,104a87.47,87.47,0,0,1-5.28,29.61L196,151.73a19.85,19.85,0,0,0-4.9-2.3l-28-8.4a20,20,0,0,0-24.7,13.1l-6.4,19.2A20,20,0,0,0,144,192v28.09A88.14,88.14,0,0,1,40.56,145.1L56,149.5a20,20,0,0,0,24.5-13.5L84,124a20.06,20.06,0,0,0-13.5-24.5l-14.68-4.4A88,88,0,0,1,216,128Z"/>
+                </svg>
+                Select post language
+            </div>
+            <div class="lang-select-row">
+                <div class="lang-popular">
+                    <label class="lang-item"><input type="radio" name="lang" value="en" class="lang-radio" checked><span class="lang-pill">🇬🇧 EN</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="ru" class="lang-radio"><span class="lang-pill">🇷🇺 RU</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="uk" class="lang-radio"><span class="lang-pill">🇺🇦 UK</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="de" class="lang-radio"><span class="lang-pill">🇩🇪 DE</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="fr" class="lang-radio"><span class="lang-pill">🇫🇷 FR</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="es" class="lang-radio"><span class="lang-pill">🇪🇸 ES</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="zh" class="lang-radio"><span class="lang-pill">🇨🇳 ZH</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="ja" class="lang-radio"><span class="lang-pill">🇯🇵 JA</span></label>
+                    <label class="lang-item"><input type="radio" name="lang" value="ar" class="lang-radio"><span class="lang-pill">🇸🇦 AR</span></label>
+                </div>
+                <select name="lang_other" class="lang-select-other" aria-label="More languages">
+                    <option value="">More languages…</option>
+                    <option value="pt">🇧🇷 PT — Português</option>
+                    <option value="it">🇮🇹 IT — Italiano</option>
+                    <option value="pl">🇵🇱 PL — Polski</option>
+                    <option value="nl">🇳🇱 NL — Nederlands</option>
+                    <option value="sv">🇸🇪 SV — Svenska</option>
+                    <option value="no">🇳🇴 NO — Norsk</option>
+                    <option value="fi">🇫🇮 FI — Suomi</option>
+                    <option value="cs">🇨🇿 CS — Čeština</option>
+                    <option value="sk">🇸🇰 SK — Slovenčina</option>
+                    <option value="ro">🇷🇴 RO — Română</option>
+                    <option value="hu">🇭🇺 HU — Magyar</option>
+                    <option value="tr">🇹🇷 TR — Türkçe</option>
+                    <option value="he">🇮🇱 HE — עברית</option>
+                    <option value="fa">🇮🇷 FA — فارسی</option>
+                    <option value="hi">🇮🇳 HI — हिन्दी</option>
+                    <option value="bn">🇧🇩 BN — বাংলা</option>
+                    <option value="ur">🇵🇰 UR — اردو</option>
+                    <option value="ko">🇰🇷 KO — 한국어</option>
+                    <option value="th">🇹🇭 TH — ภาษาไทย</option>
+                    <option value="vi">🇻🇳 VI — Tiếng Việt</option>
+                    <option value="id">🇮🇩 ID — Indonesia</option>
+                    <option value="ms">🇲🇾 MS — Melayu</option>
+                    <option value="tl">🇵🇭 TL — Filipino</option>
+                    <option value="sw">🇹🇿 SW — Swahili</option>
+                    <option value="am">🇪🇹 AM — Amharic</option>
+                    <option value="ka">🇬🇪 KA — ქართული</option>
+                    <option value="hy">🇦🇲 HY — Հայերեն</option>
+                    <option value="az">🇦🇿 AZ — Azərbaycan</option>
+                    <option value="kk">🇰🇿 KK — Қазақша</option>
+                    <option value="uz">🇺🇿 UZ — Oʻzbek</option>
+                    <option value="other">… Other</option>
+                </select>
+            </div>
+        </div>
 
-    <div class="media-preview">
-    <div class="media-placeholder"></div>
-    <div class="media-placeholder"></div>
-    </div>
-    </div>
+        <div class="main-grid">
 
-    <div class="pill-group">
-        <label>
-            <input type="checkbox" name="tags" value="need-support">
-                Need support
-        </label>
+            <div class="form-col">
 
-        <label>
-            <input type="checkbox" name="tags" value="no-advice">
-                Need support
-        </label>
-    </div>
+                <div class="card">
+                    <label for="post-title" class="field-label">Title</label>
+                    <textarea id="post-title" name="title" class="title-input" placeholder="What's on your mind…" maxlength="120" rows="1"></textarea>
+                    <div class="char-hint">max 120 characters</div>
+                </div>
 
-    <select>
-        <option>EN</option>
-        <option>RU</option>
-    </select>
+                <div class="card">
+                    <label for="post-content" class="field-label">Your story</label>
+                    <textarea id="post-content" name="content" class="content-area" placeholder="Write what you feel… there's no wrong way to say it." required></textarea>
+                </div>
 
-    <button type="submit">Publish</button>
-</form>
+                <div class="card form-group">
+                    <label class="form-label">Media <span class="optional">(optional)</span></label>
+                    <div class="media-upload-area" id="mediaUploadArea">
+                        <input type="file" id="mediaInput" name="media" multiple accept="image/*" hidden>
+                        <div class="upload-prompt">
+                            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            <p class="upload-text">Click to upload images or drag and drop</p>
+                            <p class="upload-hint">PNG, JPG up to 5MB each</p>
+                        </div>
+                        <div class="media-preview-grid" id="mediaPreview"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="field-label">Topic — choose what fits</span>
+                    <div class="topic-row">
+                        <input type="checkbox" name="topic" value="anxiety"       id="t-anxiety"    class="topic-check">
+                        <label for="t-anxiety"    class="topic-chip chip-anxiety"   ><span class="chip-dot"></span>Anxiety</label>
+                        <input type="checkbox" name="topic" value="depression"    id="t-depression" class="topic-check">
+                        <label for="t-depression" class="topic-chip chip-depression"><span class="chip-dot"></span>Depression</label>
+                        <input type="checkbox" name="topic" value="relationships" id="t-relations"  class="topic-check">
+                        <label for="t-relations"  class="topic-chip chip-relations" ><span class="chip-dot"></span>Relationships</label>
+                        <input type="checkbox" name="topic" value="grief"         id="t-grief"      class="topic-check">
+                        <label for="t-grief"      class="topic-chip chip-grief"     ><span class="chip-dot"></span>Grief &amp; Loss</label>
+                        <input type="checkbox" name="topic" value="burnout"       id="t-burnout"    class="topic-check">
+                        <label for="t-burnout"    class="topic-chip chip-burnout"   ><span class="chip-dot"></span>Burnout</label>
+                        <input type="checkbox" name="topic" value="loneliness"    id="t-loneliness" class="topic-check">
+                        <label for="t-loneliness" class="topic-chip chip-loneliness"><span class="chip-dot"></span>Loneliness</label>
+                        <input type="checkbox" name="topic" value="trauma"        id="t-trauma"     class="topic-check">
+                        <label for="t-trauma"     class="topic-chip chip-trauma"    ><span class="chip-dot"></span>Trauma</label>
+                        <input type="checkbox" name="topic" value="other"         id="t-other"      class="topic-check">
+                        <label for="t-other"      class="topic-chip chip-other"     ><span class="chip-dot"></span>Other</label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="field-label">What kind of response do you want?</span>
+                    <div class="mode-row">
+                        <input type="radio" name="mode" value="support" id="m-support" class="mode-radio">
+                        <label for="m-support" class="mode-card mode-support">
+                            <div class="mode-icon mode-icon-support">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></svg>
+                            </div>
+                            <div class="mode-text">
+                                <strong>Need Support</strong>
+                                <span>Open to warm, caring responses</span>
+                            </div>
+                            <div class="mode-radio-dot"></div>
+                        </label>
+                        <input type="radio" name="mode" value="no-advice" id="m-noadvice" class="mode-radio">
+                        <label for="m-noadvice" class="mode-card mode-noadvice">
+                            <div class="mode-icon mode-icon-noadvice">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/></svg>
+                            </div>
+                            <div class="mode-text">
+                                <strong>No Advice</strong>
+                                <span>Just presence — no fixes, no tips</span>
+                            </div>
+                            <div class="mode-radio-dot"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="submit-row">
+                        <p class="submit-hint">Your post will be reviewed before publishing.</p>
+                        <div class="submit-actions">
+                            <a href="main.html" class="btn-cancel">Cancel</a>
+                            <button type="submit" class="btn-publish">
+                                Publish story
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12l4-4-4-4"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <aside class="right-sidebar post-tips">
+
+                <div class="widget support">
+                    <h3 class="widget-title">Need Immediate Help?</h3>
+                    <p class="widget-subtitle">If you're in crisis, please call out:</p>
+                    <a href="nav-bar/about.html#crisis" class="widget-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+                            <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/>
+                        </svg>
+                        Crisis Hotlines
+                    </a>
+                </div>
+
+                <div class="widget guidelines">
+                    <h3 class="widget-title">Community Guidelines</h3>
+                    <ul class="widget-list">
+                        <li>Be kind and respectful</li>
+                        <li>Respect "No Advice" tags</li>
+                        <li>No medical advice</li>
+                        <li>Protect anonymity</li>
+                    </ul>
+                    <a href="#" class="widget-link-guidelines">Read full guidelines →</a>
+                </div>
+
+                <div class="widget">
+                    <h3 class="widget-title">Sharing Tips</h3>
+                    <ul class="widget-list">
+                        <li>There's no wrong way to share your feelings</li>
+                        <li>You can stay completely anonymous</li>
+                        <li>Use "No Advice" if you just need to vent</li>
+                        <li>Be as brief or detailed as you need</li>
+                    </ul>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </form>
+</div>
 
 <footer class="footer">
-  <p>StillHere — a project about presence, not solutions.</p>
-</footer>
+    <div class="footer_content">
+        <div class="footer_main">
+            <div class="footer_stillhere">
+                <div class="footer_logo">
+                    <p>StillHere</p>
+                </div>
+                <p class="footer_subtitle">A project about presence, not solutions</p>
+            </div>
 
+            <div class="footer_links">
+                <div class="footer_links_1">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="main.html">Browse Stories</a></li>
+                        <li><a href="create-post.html">Share Your Story</a></li>
+                        <li><a href="nav-bar/updates.html">Updates</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_2">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="nav-bar/about.html">About Us</a></li>
+                        <li><a href="nav-bar/contacts.html">Contacts</a></li>
+                        <li><a href="#">Guidelines</a></li>
+                        <li><a href="#">Crisis Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_3">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer_footer">
+            <p>2026 StillHere.</p>
+            <div class="footer_social">
+                <a href="https://t.me/still_here_global" target="_blank" rel="noopener" aria-label="Telegram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+                        <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+                        <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
+                    </svg>
+                </a>
+                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" aria-label="TikTok">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+                        <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

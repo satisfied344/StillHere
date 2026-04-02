@@ -232,38 +232,61 @@
                         </button>
                     </div>
 
-                    <div class="filter-group">
-                        <label class="filter-title">Language</label>
-                        <div class="lang-tabs">
-                            <div class="pill-group">
-                                <button class="pill active" data-filter="lang" data-value="all" type="button">All</button>
-                                <button class="pill" data-filter="lang" data-value="en" type="button">EN</button>
-                                <button class="pill" data-filter="lang" data-value="ru" type="button">RU</button>
-                                <button class="pill lang-more-trigger" type="button">More ›</button>
+                    <div class="lang-strip">
+
+                        <div class="lang-strip-label">
+                            Language
+                        </div>
+
+                        <div class="lang-select-row">
+                            <div class="lang-popular">
+                                <label class="lang-item"><input type="radio" name="lang" value="en" class="lang-radio" checked><span class="lang-pill">🇬🇧 EN</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="ru" class="lang-radio"><span class="lang-pill">🇷🇺 RU</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="uk" class="lang-radio"><span class="lang-pill">🇺🇦 UK</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="de" class="lang-radio"><span class="lang-pill">🇩🇪 DE</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="fr" class="lang-radio"><span class="lang-pill">🇫🇷 FR</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="es" class="lang-radio"><span class="lang-pill">🇪🇸 ES</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="zh" class="lang-radio"><span class="lang-pill">🇨🇳 ZH</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="ja" class="lang-radio"><span class="lang-pill">🇯🇵 JA</span></label>
+                                <label class="lang-item"><input type="radio" name="lang" value="ar" class="lang-radio"><span class="lang-pill">🇸🇦 AR</span></label>
                             </div>
 
-                            <div class="lang-more-panel">
-                                <button class="pill" data-filter="lang" data-value="de" type="button">DE</button>
-                                <button class="pill" data-filter="lang" data-value="fr" type="button">FR</button>
-                                <button class="pill" data-filter="lang" data-value="es" type="button">ES</button>
-                                <button class="pill" data-filter="lang" data-value="pt" type="button">PT</button>
-                                <button class="pill" data-filter="lang" data-value="ja" type="button">JA</button>
-                                <button class="pill" data-filter="lang" data-value="ko" type="button">KO</button>
-                                <button class="pill" data-filter="lang" data-value="zh" type="button">ZH</button>
-                                <button class="pill" data-filter="lang" data-value="ar" type="button">AR</button>
-                                <button class="pill" data-filter="lang" data-value="tr" type="button">TR</button>
-                                <button class="pill" data-filter="lang" data-value="pl" type="button">PL</button>
-                                <button class="pill" data-filter="lang" data-value="uk" type="button">UK</button>
-                                <button class="pill" data-filter="lang" data-value="hi" type="button">HI</button>
-                                <button class="pill" data-filter="lang" data-value="it" type="button">IT</button>
-                                <button class="pill" data-filter="lang" data-value="nl" type="button">NL</button>
-                                <button class="pill" data-filter="lang" data-value="sv" type="button">SV</button>
-                                <button class="pill" data-filter="lang" data-value="id" type="button">ID</button>
-                                <button class="pill" data-filter="lang" data-value="th" type="button">TH</button>
-                                <button class="pill" data-filter="lang" data-value="vi" type="button">VI</button>
-                            </div>
+                            <select name="lang_other" class="lang-select-other">
+                                <option value="">More languages…</option>
+                                <option value="pt">🇧🇷 PT — Português</option>
+                                <option value="it">🇮🇹 IT — Italiano</option>
+                                <option value="pl">🇵🇱 PL — Polski</option>
+                                <option value="nl">🇳🇱 NL — Nederlands</option>
+                                <option value="sv">🇸🇪 SV — Svenska</option>
+                                <option value="no">🇳🇴 NO — Norsk</option>
+                                <option value="fi">🇫🇮 FI — Suomi</option>
+                                <option value="cs">🇨🇿 CS — Čeština</option>
+                                <option value="sk">🇸🇰 SK — Slovenčina</option>
+                                <option value="ro">🇷🇴 RO — Română</option>
+                                <option value="hu">🇭🇺 HU — Magyar</option>
+                                <option value="tr">🇹🇷 TR — Türkçe</option>
+                                <option value="he">🇮🇱 HE — עברית</option>
+                                <option value="fa">🇮🇷 FA — فارسی</option>
+                                <option value="hi">🇮🇳 HI — हिन्दी</option>
+                                <option value="bn">🇧🇩 BN — বাংলা</option>
+                                <option value="ur">🇵🇰 UR — اردو</option>
+                                <option value="ko">🇰🇷 KO — 한국어</option>
+                                <option value="th">🇹🇭 TH — ภาษาไทย</option>
+                                <option value="vi">🇻🇳 VI — Tiếng Việt</option>
+                                <option value="id">🇮🇩 ID — Indonesia</option>
+                                <option value="ms">🇲🇾 MS — Melayu</option>
+                                <option value="tl">🇵🇭 TL — Filipino</option>
+                                <option value="sw">🇹🇿 SW — Swahili</option>
+                                <option value="am">🇪🇹 AM — Amharic</option>
+                                <option value="ka">🇬🇪 KA — ქართული</option>
+                                <option value="hy">🇦🇲 HY — Հայերեն</option>
+                                <option value="az">🇦🇿 AZ — Azərbaycan</option>
+                                <option value="kk">🇰🇿 KK — Қазақша</option>
+                                <option value="uz">🇺🇿 UZ — Oʻzbek</option>
+                                <option value="other">… Other</option>
+                            </select>
                         </div>
-                        </div>
+                    </div>
 
                     <div class="filter-group">
                         <label class="filter-title">Support Type</label>

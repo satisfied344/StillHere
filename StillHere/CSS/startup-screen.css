@@ -272,7 +272,6 @@ a {
   background: linear-gradient(to right, #8776a3, #e0bda5);
   border-radius: 999px;
   margin: 0 auto 28px;
-  filter: blur(0.4px);
 }
 
 .subtitle {
