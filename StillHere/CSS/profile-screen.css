@@ -46,6 +46,11 @@ body::after {
     100% { background-position: 0% 100%; }
   }
 
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 a {
   color: inherit;
@@ -61,7 +66,7 @@ a {
   left: 0;
   width: 100%;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.7);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
   border-top: 1px solid rgba(255, 255, 255, 0.6);
@@ -85,9 +90,10 @@ a {
 
 .logo {
   font-weight: 600;
-  font-size: 16px;
+  font-size: 28px;
   white-space: nowrap;
-  margin-right: auto
+  margin-right: auto;
+  color:#111827;
 }
 
 .nav {
@@ -100,15 +106,19 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 999px;
   color: #111827;
   font-size: 14px;
-  transition: background 0.2s ease, color 0.2s ease;
+  font-weight: 500;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 .nav-link:hover {
-  background: #f3f4f6;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.4), 
+    rgba(255, 255, 255, 0.1));
+  transform: translateY(-1.5px);
 }
 
 .nav-link--stack {
@@ -121,6 +131,42 @@ a {
   padding: 8px 10px;
 }
 
+.main-main {
+  display: grid;
+  grid-template-columns: 260px 1fr 300px;
+  max-width: 1600px;
+  margin: 0 auto;
+  gap: 24px;
+  padding: 24px;
+  flex: 1;
+  padding-top: 80px;
+  padding: 104px 24px 48px;
+  padding-bottom: 30px;
+}
+
 .icon {
   display: block;
+}
+
+.main-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #111827;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: auto;
+  height: auto;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.main-menu-trigger:hover {
+  background: linear-gradient(135deg, 
+  rgba(255, 255, 255, 0.4), 
+  rgba(255, 255, 255, 0.1));
+  transform: translateY(-1.5px);
 }
