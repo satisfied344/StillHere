@@ -80,7 +80,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 999px;
   color: var(--charcoal);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
@@ -141,6 +141,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.12em;
   color: var(--purple);
   margin-bottom: 32px;
+  font-weight: 700;
 }
 
 .hero-title {
@@ -150,12 +151,14 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -4px;
   line-height: 0.88;
   margin-bottom: 40px;
+  font-weight: 700;
 }
 
 .hero-title em {
   font-style: italic;
   font-weight: 300;
   color: var(--purple);
+  font-weight: 700;
 }
 
 .hero-sub {
@@ -164,6 +167,7 @@ a { color: inherit; text-decoration: none; }
   font-style: italic;
   color: var(--text-mid);
   line-height: 1.5;
+  font-weight: 500;
 }
 
 .hero-right {
@@ -172,6 +176,7 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   padding: 80px 64px 80px 60px;
   animation: fadeRight 0.9s ease-out 0.15s both;
+  font-weight: 700;
 }
 
 @keyframes fadeRight {
@@ -191,6 +196,7 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.6;
   border-left: 3px solid var(--purple);
   padding-left: 24px;
+  font-weight: 500;
 }
 
 .hero-meta-row {
@@ -210,6 +216,7 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255,255,255,0.5);
   border: 1px solid rgba(255,255,255,0.7);
   border-radius: 999px;
+  font-weight: 700;
 }
 
 .hero-meta-item i { font-size: 15px; color: var(--purple); }
@@ -232,6 +239,7 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-mid);
+  font-weight: 700;
 }
 
 @keyframes marquee {
@@ -269,6 +277,7 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.65;
   color: var(--charcoal);
   margin-bottom: 24px;
+  font-weight: 700;
 }
 
 .origin-text-col p {
@@ -276,6 +285,7 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.8;
   color: var(--text-mid);
   margin-bottom: 16px;
+  font-weight: 700;
 }
 
 .tiktok-card {
@@ -391,6 +401,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--charcoal);
   letter-spacing: -0.5px;
   max-width: 900px;
+  font-weight: 500;
 }
 
 .statement p em {
@@ -402,6 +413,7 @@ a { color: inherit; text-decoration: none; }
   padding: 0 64px 100px;
   max-width: 1400px;
   margin: 0 auto;
+  font-weight: 500;
 }
 
 .values-label {
@@ -685,7 +697,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .footer_links h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -701,8 +713,13 @@ a { color: inherit; text-decoration: none; }
   gap: 10px;
 }
 
+.footer a {
+  padding: 4px 0;
+  display: inline-block;
+}
+
 .footer_links a {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-mid);
   transition: color 0.2s;
 }

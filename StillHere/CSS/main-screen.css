@@ -6,7 +6,8 @@
   --text-light: #8A8A8A;
   --text-mid-light: #5A5A5A;
   --text-dark: #404040;
-  --charchoal: #111827;
+  --charcoal: #111827;
+  --pil-active: #e1e1e1;
 }
 
 body::before {
@@ -117,7 +118,7 @@ a {
   border-radius: 999px;
   color: #111827;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
@@ -215,6 +216,7 @@ a {
   position: relative;
   overflow: hidden;
   text-decoration: none;
+  font-weight: 700;
 }
 
 .sidebar-item::before {
@@ -343,7 +345,7 @@ a {
   font-size: 34px;
   letter-spacing: -0.5px;
   font-weight: 700;
-  color: var(--charchoal);
+  color: var(--charcoal);
   margin: 0;
 }
 
@@ -369,7 +371,7 @@ a {
 
 .button-icon:hover,
 .button-icon.active {
-  background: var(--charchoal);
+  background: var(--charcoal);
   color: white;
   transform: translateY(-2px);
 }
@@ -496,8 +498,8 @@ a {
 }
 
 .pill-active {
-  background: var(--charchoal);
-  border-color: var(--charchoal);
+  background: var(--charcoal);
+  border-color: var(--charcoal);
   color: white;
 }
 
@@ -559,7 +561,7 @@ input[type="radio"].lang-radio { display: none; }
 }
 
 input[type="radio"].lang-radio:checked + .lang-pill {
-  background: var(--charcoal);
+  background: var(--pil-active);
   border-color: var(--charcoal);
   color: rgb(54, 52, 52);
   box-shadow: 0 3px 10px rgba(17,24,39,0.2);
@@ -752,7 +754,7 @@ input[type="radio"].lang-radio:checked + .lang-pill {
 }
 
 .post-title a:hover {
-  color: #a691c2;
+  color: #715e8a;
 }
 
 .post-tags {
@@ -856,6 +858,12 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  font-weight: 700;
+}
+
+.footer_social a:hover {
+  color: var(--charcoal);
+  transform: translateY(-2px);
 }
 
 .widget {
@@ -871,7 +879,7 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   font-size: 16px;
   font-weight: 700;
   margin: 0 0 12px;
-  color: var(--charchoal);
+  color: var(--charcoal);
 }
 
 .widget-subtitle {
@@ -885,6 +893,12 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   background: linear-gradient(135deg, rgba(237, 25, 25, 0.1), rgba(255, 0, 0, 0.05));
   border: 1px solid rgba(220, 38, 38, 0.2);
   box-shadow: 0 4px 20px rgba(220, 38, 38, 0.1);
+}
+
+.widget.support.ai {
+  background: linear-gradient(135deg, rgba(255, 248, 240, 0.7), rgba(255, 235, 220, 0.5));
+  border: 1px solid rgba(251, 146, 60, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .widget-link {
@@ -902,6 +916,24 @@ input[type="radio"].lang-radio:checked + .lang-pill {
 
 .widget-link:hover {
   background: #b91c1c;
+  transform: translateY(-2px);
+}
+
+.widgetai-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #c97c66;
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.widgetai-link:hover {
+  background: #9a5a48;
   transform: translateY(-2px);
 }
 
@@ -961,7 +993,7 @@ input[type="radio"].lang-radio:checked + .lang-pill {
 .stat-value {
   font-size: 16px;
   font-weight: 700;
-  color: var(--charchoal);
+  color: var(--charcoal);
 }
 
 .create-post {
@@ -1017,7 +1049,7 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--charchoal);
+  background: var(--charcoal);
   color: white;
   border: none;
   border-radius: 50%;
@@ -1083,7 +1115,7 @@ input[type="radio"].lang-radio:checked + .lang-pill {
 }
 
 .footer_links h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .08em;
@@ -1099,8 +1131,13 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   gap: 10px;
 }
 
+.footer a {
+  padding: 4px 0;
+  display: inline-block;
+}
+
 .footer_links a {
-  font-size: 14px;
+  font-size: 15px;
   color: #5A5A5A;
   transition: color .2s;
 }

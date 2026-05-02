@@ -19,6 +19,7 @@
     --text-primary: #111827;
     --shadow-md: 0 4px 16px rgba(0,0,0,0.07);
     --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    --pil-active: #e1e1e1;
 }
 
 body {
@@ -348,7 +349,7 @@ input[type="radio"].lang-radio { display: none; }
 }
 
 input[type="radio"].lang-radio:checked + .lang-pill {
-
+    background: var(--pil-active);
     border-color: var(--charcoal);
     color: rgb(88, 87, 87);
     box-shadow: 0 3px 10px rgba(17,24,39,0.2);
@@ -758,6 +759,30 @@ input[name="mode"]:checked + .mode-card.mode-noadvice .mode-radio-dot::after { b
 .widget-crisis {
     background: linear-gradient(135deg, rgba(239,68,68,0.07), rgba(255,255,255,0.65));
     border: 1px solid rgba(220,38,38,0.18);
+}
+
+.widget.support.ai {
+  background: linear-gradient(135deg, rgba(255, 248, 240, 0.7), rgba(255, 235, 220, 0.5));
+  border: 1px solid rgba(251, 146, 60, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.widgetai-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #c97c66;
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.widgetai-link:hover {
+  background: #9a5a48;
+  transform: translateY(-2px);
 }
 
 .widget-crisis .widget-title { color: #dc2626; }

@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+:root{
+  --charcoal: #111827;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -142,9 +146,8 @@ a {
 .logo {
   font-weight: 700;
   font-size: 28px;
-  white-space: nowrap;
+  color: var(--charcoal);
   margin-right: auto;
-  color:#111827
 }
 
 .nav {
@@ -158,21 +161,16 @@ a {
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #404040;
   border-radius: 999px;
+  color: var(--charcoal);
   font-size: 14px;
-  transition: all 0.2s ease, color 0.2s ease;
-   transition: transform 0.5s ease, box-shadow 0.5s ease;
+  font-weight: 700;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.4), 
-    rgba(255, 255, 255, 0.1));
+  background: rgba(255,255,255,0.5);
   transform: translateY(-1.5px);
-
 }
 
 .nav-link--stack:last-child {
@@ -468,6 +466,11 @@ a {
   margin-bottom: 48px;
 }
 
+.footer_social a:hover {
+  color: var(--charcoal);
+  transform: translateY(-2px);
+}
+
 .footer_logo p {
   font-size: 20px;
   font-weight: 700;
@@ -488,7 +491,7 @@ a {
 }
 
 .footer_links h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .08em;
@@ -504,8 +507,13 @@ a {
   gap: 10px;
 }
 
+.footer a {
+  padding: 4px 0;
+  display: inline-block;
+}
+
 .footer_links a {
-  font-size: 14px;
+  font-size: 15px;
   color: #5A5A5A;
   transition: color .2s;
 }
