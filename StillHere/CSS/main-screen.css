@@ -619,8 +619,8 @@ input[type="radio"].lang-radio:checked + .lang-pill {
 }
 
 .post-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
   border-color: rgba(255, 255, 255, 1);
 }
 
@@ -689,52 +689,57 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 200px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-  padding: 8px;
+  min-width: 172px;
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  padding: 6px;
   list-style: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
   z-index: 50;
 }
 
 .post-menu-down.show {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .post-menu-down li button {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
+  gap: 10px;
+  padding: 9px 12px;
   background: none;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 400;
   color: var(--text-dark);
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease;
 }
 
 .post-menu-down li button:hover {
-  background: #fafaf9;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .menu-item-report {
-  color: #dc2626 !important;
+  color: #c97c8c !important;
 }
 
 .menu-item-report:hover {
-  background: #fef2f2 !important;
+  background: rgba(201, 124, 140, 0.08) !important;
 }
 
 .post-content {

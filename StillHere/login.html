@@ -1,105 +1,131 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>StillHere</title>
-    <link rel="stylesheet" href="CSS/login-screen.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in – StillHere</title>
+  <link rel="stylesheet" href="CSS/login-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="top-info" aria-label="Primary navigation">
-            <a href="main.html" class="logo">
-                <span>StillHere</span>
-            </a>
-            
-            <div class="nav">
-                <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256" 
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
-                    </svg> 
-                <span>about</span>
-                </a>
 
-                <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256" stroke-width="22"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
-                        </svg>
-                    <span>contacts</span>
-                </a>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+  </svg>
 
-                <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
-                        </svg>
-                    <span>updates</span>
-                </a>
+  <div class="bg_words" aria-hidden="true">
+    <div class="row left">
+      <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
+      <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
+      <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
+      <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
+    </div>
+    <div class="row right">
+      <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
+      <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
+      <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
+      <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
+    </div>
+    <div class="row left slow">
+      <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
+      <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
+      <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
+      <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
+    </div>
+    <div class="row right slower">
+      <span>you matter</span><span>importas</span><span>tu comptes</span><span>du bist wichtig</span><span>ти важливий</span>
+      <span>sei importante</span><span>você importa</span><span>jesteś ważny</span><span>あなたは大切</span><span>你很重要</span>
+      <span>you're not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
+      <span>non sei solo</span><span>não está sozinho</span><span>nie jesteś sam</span><span>혼자가 아니야</span><span>你并不孤单</span>
+    </div>
+    <div class="row left slowest">
+      <span>stay</span><span>quédate</span><span>reste</span><span>bleib</span><span>залишайся</span>
+      <span>rimani</span><span>fica</span><span>zostań</span><span>ابقَ</span><span>とどまって</span>
+      <span>listen</span><span>escucha</span><span>écoute</span><span>hör zu</span><span>слухай</span>
+      <span>ascolta</span><span>ouve</span><span>słuchaj</span><span>倾听</span><span>들어봐</span>
+    </div>
+  </div>
 
-                <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
-                        </svg>
-                    <span>profile</span>
-                </a>
-                
-                <div class="main-menu-dropdown">
-                    <button class="main-menu-trigger">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-    </nav>
-    
-    <div class="login">
-        <h1 class="page">Sign in to StillHere</h1>
-        <form action="#" method="post" class="form-example">
-            <div class="username">
-                <label for="username">Enter your username: </label>
-                <input type="text" name="username" id="username" required autocomplete="username" placeholder="Your username" autofocus>
-            </div>
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="startup-page.html" class="logo">StillHere</a>
+    <div class="nav">
+      <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
+        </svg>
+        <span>about</span>
+      </a>
+      <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
+        </svg>
+        <span>contacts</span>
+      </a>
+      <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
+        </svg>
+        <span>updates</span>
+      </a>
+      <a href="register.html" class="nav-link nav-link--stack nav-link--cta">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/>
+        </svg>
+        <span>join</span>
+      </a>
+    </div>
+  </nav>
 
-            <div>
-                <label for="password">Enter your password: </label>
-                <input type="password" name="password" id="password" required autocomplete="current-password" placeholder="Password">
-            </div>
-            
-            <p>
-                <a href="register.html" class="register-link">Don`t have an account? Sign up</a>
-            </p>
+  <main class="auth-main">
 
-            <button type="submit">Sign in</button>
-        </form>
+    <div class="auth-left">
+      <span class="auth-eyebrow">Welcome back</span>
+      <h1 class="auth-title">You're still<br><em>here.</em></h1>
+      <p class="auth-sub">Your space hasn't gone anywhere.</p>
+      <p class="auth-note">No followers. No notifications.<br>Just you, again.</p>
     </div>
 
-<footer class="footer">
-  <p>StillHere – a project about presence, not solutions.</p>
-</footer>
+    <div class="auth-right">
+      <div class="auth-card">
+        <p class="auth-card-label">sign in</p>
+
+        <form class="auth-form" action="#" method="post" novalidate>
+
+          <div class="field">
+            <label class="field-label" for="login-username">Username</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">@</span>
+              <input type="text" id="login-username" name="username"
+                     placeholder="yourhandle" autocomplete="username" autofocus>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="login-password">Password</label>
+            <input type="password" id="login-password" name="password"
+                   placeholder="••••••••" autocomplete="current-password">
+          </div>
+
+          <button type="submit" class="auth-btn">
+            Sign in
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
+            </svg>
+          </button>
+
+        </form>
+
+        <p class="auth-switch">No account yet? <a href="register.html">Start here</a></p>
+
+      </div>
+    </div>
+
+  </main>
 
 </body>
 </html>
+

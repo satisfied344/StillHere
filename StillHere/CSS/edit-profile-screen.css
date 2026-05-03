@@ -1,4 +1,4 @@
-*, *::before, *::after {
+﻿*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -120,6 +120,35 @@ a { color: inherit; text-decoration: none; }
   padding: 60px 40px 44px;
 }
 
+
+@keyframes eyebrowReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; }
+  to   { clip-path: inset(0 0% 0 0);   opacity: 1; }
+}
+
+@keyframes titleDrift {
+  from { opacity: 0; transform: translateY(22px); filter: blur(5px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+@keyframes subFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardSettle {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  }
+}
+
 .edit-eyebrow {
   display: inline-block;
   font-size: 11px;
@@ -128,6 +157,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.14em;
   color: var(--purple);
   margin-bottom: 16px;
+  animation: eyebrowReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
 }
 
 .edit-title {
@@ -137,12 +167,14 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.05;
   letter-spacing: -0.03em;
   margin-bottom: 12px;
+  animation: titleDrift 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
 
 .edit-sub {
   font-size: 16px;
   color: var(--text-mid);
   line-height: 1.65;
+  animation: subFade 0.8s ease-out 0.46s both;
 }
 
 .edit-form {
@@ -163,29 +195,19 @@ a { color: inherit; text-decoration: none; }
 }
 
 .edit-card {
-  background: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.65);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.82);
   border-radius: 20px;
   padding: 28px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  animation: cardSettle 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
-.edit-aside .edit-card {
-  background: rgba(255, 255, 255, 0.42);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-}
-
-.edit-aside .card-label { color: rgba(166, 145, 194, 0.9); }
-.edit-aside .avatar-name { color: #ffffff; }
-.edit-aside .avatar-handle { color: rgba(255, 255, 255, 0.55); }
-.edit-aside .avatar-note { color: rgba(255, 255, 255, 0.4); }
+.edit-aside .avatar-name { color: var(--charcoal); }
+.edit-aside .avatar-handle { color: var(--text-light); }
+.edit-aside .avatar-note { color: var(--text-light); }
 
 .edit-fields {
   display: flex;
@@ -414,7 +436,7 @@ input[type="password"]:focus {
   background: var(--charcoal);
   color: white;
   border: none;
-  border-radius: 999px;
+  border-radius: 6px;
   font-family: inherit;
   font-size: 16px;
   font-weight: 700;

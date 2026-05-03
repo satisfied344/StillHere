@@ -1,355 +1,205 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>StillHere</title>
-    <link rel="stylesheet" href="CSS/startup-screen.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StillHere</title>
+  <link rel="stylesheet" href="CSS/startup-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Cormorant+Garamond:ital,wght@1,400;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="top-info" aria-label="Primary navigation">
-        <a href="startup-page.html" class="logo">
-            <span>StillHere</span>
-        </a>
-        
-        <div class="nav">
-            <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256" 
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
-                    </svg> 
-                <span>about</span>
-            </a>
 
-            <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256" stroke-width="22"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
-                    </svg>
-                <span>contacts</span>
-            </a>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+    </filter>
+  </svg>
 
-            <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
-                    </svg>
-                <span>updates</span>
-            </a>
-
-            <a href="login.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="28" height="28"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/>
-                    </svg>
-                <span>login</span>
-            </a>
-        </div>
-    </nav>
-
-    <div class="effects">
-        <svg width="0" height="0" style="position:absolute">
-            <filter id="noise">
-                <feTurbulence
-                type="noise"
-                baseFrequency="0.3"
-                numOctaves="2"
-                stitchTiles="stitch" />
-                <feColorMatrix type="saturate" values="0" />
-                <feComponentTransfer>
-                <feFuncA type="linear" slope="0.09" />
-                </feComponentTransfer>
-            </filter>
-        </svg>
-
-        <div class="bg_words">
-            <div class="row left">
-                <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
-                <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
-                <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
-                <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
-            </div>
-
-            <div class="row right">
-                <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
-                <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
-                <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
-                <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
-            </div>
-
-            <div class="row left slow">
-                <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
-                <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
-                <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
-                <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
-            </div>
-
-            <div class="row right slower">
-                <span>you matter</span><span>importas</span><span>tu comptes</span><span>du bist wichtig</span><span>ти важливий</span>
-                <span>sei importante</span><span>você importa</span><span>jesteś ważny</span><span>あなたは大切</span><span>你很重要</span>
-                <span>youʼre not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
-                <span>non sei solo</span><span>não está sozinho</span><span>nie jesteś sam</span><span>혼자가 아니야</span><span>你并不孤单</span>
-            </div>
-
-            <div class="row left slowest">
-                <span>stay</span><span>quédate</span><span>reste</span><span>bleib</span><span>залишайся</span>
-                <span>rimani</span><span>fica</span><span>zostań</span><span>ابقَ</span><span>とどまって</span>
-                <span>listen</span><span>escucha</span><span>écoute</span><span>hör zu</span><span>слухай</span>
-                <span>ascolta</span><span>ouve</span><span>słuchaj</span><span>倾听</span><span>들어봐</span>
-            </div>
-        </div>
+  <div class="bg_words" aria-hidden="true">
+    <div class="row left">
+      <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
+      <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
+      <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
+      <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
     </div>
+    <div class="row right">
+      <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
+      <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
+      <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
+      <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
+    </div>
+    <div class="row left slow">
+      <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
+      <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
+      <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
+      <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
+    </div>
+    <div class="row right slower">
+      <span>you matter</span><span>importas</span><span>tu comptes</span><span>du bist wichtig</span><span>ти важливий</span>
+      <span>sei importante</span><span>você importa</span><span>jesteś ważny</span><span>あなたは大切</span><span>你很重要</span>
+      <span>you're not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
+      <span>non sei solo</span><span>não está sozinho</span><span>nie jesteś sam</span><span>혼자가 아니야</span><span>你并不孤单</span>
+    </div>
+    <div class="row left slowest">
+      <span>stay</span><span>quédate</span><span>reste</span><span>bleib</span><span>залишайся</span>
+      <span>rimani</span><span>fica</span><span>zostań</span><span>ابقَ</span><span>とどまって</span>
+      <span>listen</span><span>escucha</span><span>écoute</span><span>hör zu</span><span>слухай</span>
+      <span>ascolta</span><span>ouve</span><span>słuchaj</span><span>倾听</span><span>들어봐</span>
+    </div>
+  </div>
 
-    <main class="start-content">
-        <div class="start-content-1">
-            <div class="title-wrapper">
-                <h1 class="title">StillHere</h1>
-                <h1 class="title title-gradient" aria-hidden="true">StillHere</h1>
-            </div>
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="startup-page.html" class="logo">StillHere</a>
+    <div class="nav">
+      <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
+        </svg>
+        <span>about</span>
+      </a>
+      <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
+        </svg>
+        <span>contacts</span>
+      </a>
+      <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
+        </svg>
+        <span>updates</span>
+      </a>
+      <a href="login.html" class="nav-link nav-link--stack nav-link--cta">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/>
+        </svg>
+        <span>login</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="start-content">
+    <h1 class="hero-wordmark">StillHere</h1>
+    <p class="hero-tagline">A space for presence, not solutions.</p>
+    <p class="hero-sub">When everything feels heavy – find your own pace here.</p>
+    <div class="hero-actions">
+      <a href="register.html" class="btn button_start_1">
+        Start Sharing
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
+        </svg>
+      </a>
+      <a href="main.html" class="btn-text-link">Explore Stories</a>
+    </div>
+  </main>
+
+  <section class="features-section">
+    <div class="features-scatter">
+
+      <div class="feature-item feature-item--1">
+        <h3 class="feature-title">Anonymous<br>by design</h3>
+        <div class="feature-connector"></div>
+        <p class="feature-desc">No name required. Post freely – or just read. You set the terms of how much you share, and when.</p>
+      </div>
+
+      <div class="feature-item feature-item--2">
+        <h3 class="feature-title">No advice<br>unless you ask</h3>
+        <div class="feature-connector"></div>
+        <p class="feature-desc">A toggle that keeps unsolicited fixes away. People here listen first. That's the whole point.</p>
+      </div>
+
+      <div class="feature-item feature-item--3">
+        <h3 class="feature-title">Real people,<br>real weight</h3>
+        <div class="feature-connector"></div>
+        <p class="feature-desc">No bots. No algorithmic nudges. Just people who've carried something heavy too – and chose to stay.</p>
+      </div>
+
+      <div class="feature-item feature-item--4">
+        <h3 class="feature-title">Safe,<br>always</h3>
+        <div class="feature-connector"></div>
+        <p class="feature-desc">Sensitive content is reviewed. Crisis resources are one tap away – no matter where you are or what time it is.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <div class="manifesto-inner">
+      <span class="manifesto-label">a reminder</span>
+      <p class="manifesto-text">You don't have to explain yourself<br>to exist here.</p>
+      <p class="manifesto-sub">Some days, just being present is enough.<br>Join the people who already understand that.</p>
+      <a href="register.html" class="manifesto-link">Join StillHere</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer_content">
+      <div class="footer_main">
+        <div class="footer_stillhere">
+          <div class="footer_logo">
+            <p>StillHere</p>
+          </div>
+          <p class="footer_subtitle">A project about presence, not solutions.</p>
         </div>
-
-        <div class="hero-divider"></div>
-
-        <p class="subtitle">
-            A space for presence, not solutions
-        </p>
-
-        <p class="subtitle-2">
-            When everything feels heavy - find your own presence
-        </p>
-
-        <div class="butttons_on_start">
-            <a href="register.html" class="btn button_start_1">
-                <span>Start Sharing</span>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    width="16"height="16"
-                    viewBox="0 0 16 16"aria-hidden="true">
-                    <path d="M6 12l4-4-4-4"
-                    fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-                </svg>
-            </a>
-
-            <a href="main.html" class="btn button_start_2">
-                <span>Explore Stories</span>
-            </a>
+        <div class="footer_links">
+          <div class="footer_links_1">
+            <h3>Platform</h3>
+            <ul>
+              <li><a href="main.html">Browse Stories</a></li>
+              <li><a href="create-post.html">Share Your Story</a></li>
+              <li><a href="nav-bar/updates.html">Updates</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_2">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="nav-bar/about.html">About</a></li>
+              <li><a href="nav-bar/contacts.html">Contacts</a></li>
+              <li><a href="docs/html/guidelines.html">Guidelines</a></li>
+              <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_3">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
+            </ul>
+          </div>
         </div>
-    </main>
-
-    <section class="card-section">
-        <div class="cards">
-            <h2 class="card-section-title">Why StillHere?</h2>
-            
-            <div class="features">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/>
-                        </svg>
-                    </div>
-                    <h3>Anonymous & Safe</h3>
-                    <p>Full-safety posts, you can be anonymous</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/>
-                        </svg>
-                    </div>
-                    <h3>No Advice Mode</h3>
-                    <p>An option that could protect you from advices</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"/>
-                        </svg>
-                    </div>
-                    <h3>Big Community</h3>
-                    <p>Around 1000+ people already have joined StillHere</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,112a28,28,0,0,0-8,54.83V184a8,8,0,0,0,16,0V166.83A28,28,0,0,0,128,112Zm0,40a12,12,0,1,1,12-12A12,12,0,0,1,128,152Zm80-72H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/>
-                        </svg>
-                    </div>
-                    <h3>Moderated Support</h3>
-                    <p>You can report sensitive content/posts, our moderators will review them</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M216,80H184V48a16,16,0,0,0-16-16H40A16,16,0,0,0,24,48V176a8,8,0,0,0,13,6.22L72,154V184a16,16,0,0,0,16,16h93.59L219,230.22a8,8,0,0,0,5,1.78,8,8,0,0,0,8-8V96A16,16,0,0,0,216,80ZM66.55,137.78,40,159.25V48H168v88H71.58A8,8,0,0,0,66.55,137.78ZM216,207.25l-26.55-21.47a8,8,0,0,0-5-1.78H88V152h80a16,16,0,0,0,16-16V96h32Z"/>
-                        </svg>
-                    </div>
-                    <h3>Real Conversations and People</h3>
-                    <p>All people on StillHere are real, conversations are mindful and sensible</p>
-                </div>
-            </div>
+      </div>
+      <div class="footer_footer">
+        <p>2026 StillHere.</p>
+        <div class="footer_social">
+          <a href="https://t.me/still_here_global" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+              <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+              <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
+            </svg>
+          </a>
+          <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+              <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+              <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
+            </svg>
+          </a>
         </div>
-    </section>
+      </div>
+    </div>
+  </footer>
 
-    <section class="join-section">
-        <div class="container">
-            <div class="join-content">
-                <h2 class="join-title">You don't have to carry it out alone</h2>
-                
-                <p class="join-description">
-                Your story matters. Your feelings are valid.
-                </p>
-
-                <a href="register.html" class="btn join-register">
-                    <span>Join StillHere</span>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="16" height="16"
-                        viewBox="0 0 16 16" aria-hidden="true">
-                        <path d="M6 12l4-4-4-4"
-                            fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer_content">
-            <div class="footer_main">
-                <div class="footer_stillhere">
-                    <div class="footer_logo">
-                        <p>StillHere</p>
-                    </div>
-                    <p class="footer_subtitle">A project about presence, not solutions</p>
-                </div>
-
-                <div class="footer_links">
-                    <div class="footer_links_1">
-                        <h3>Platform</h3>
-                        <ul>
-                            <li><a href="main.html">Browse Stories</a></li>
-                            <li><a href="create-post.html">Share Your Story</a></li>
-                            <li><a href="nav-bar/updates.html">Updates</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer_links_2">
-                        <h3>Support</h3>
-                        <ul>
-                            <li><a href="nav-bar/about.html">About Us</a></li>
-                            <li><a href="nav-bar/contacts.html">Contacts</a></li>
-                            <li><a href="docs/html/guidelines.html">Guidelines</a></li>
-                            <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer_links_3">
-                        <h3>Legal</h3>
-                        <ul>
-                            <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
-                            <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer_footer">
-                <p>2026 StillHere.</p>
-                <div class="footer_social">
-                    <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
-                        </svg>
-                    </a>
-
-                    <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
-                        </svg>
-                    </a>
-
-                    <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
-                        </svg>
-                    </a>
-
-                    <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
+  
 
 </body>
 </html>
+
