@@ -1,0 +1,78 @@
+.main-menu-dropdown {
+  position: relative;
+}
+
+.main-menu-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 230px;
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 20px;
+  box-shadow:
+    0 16px 52px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  list-style: none;
+  z-index: 300;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.96);
+  transform-origin: top right;
+  transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.2s;
+}
+
+.main-menu-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.mmenu-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-family: "Ubuntu", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #5A5A5A;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.mmenu-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #111827;
+}
+
+.mmenu-item--login {
+  font-weight: 600;
+  color: #111827;
+}
+
+.mmenu-item--session {
+  font-weight: 500;
+  color: #a691c2;
+}
+
+.mmenu-item--session:hover {
+  background: rgba(166, 145, 194, 0.1);
+  color: #7d62a8;
+}
+
+.mmenu-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.06);
+  margin: 5px 8px;
+  list-style: none;
+}

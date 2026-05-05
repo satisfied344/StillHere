@@ -330,15 +330,15 @@ a {
 .main-feed {
   max-width: 980px;
   padding: 0 20px;
-  display: grid;
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .feed-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .feed-title {
@@ -384,6 +384,23 @@ a {
   margin-bottom: 0;
 }
 */
+
+.filter-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-bottom: 0;
+  transition:
+    max-height 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease,
+    margin-bottom 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.filter-panel.is-open {
+  max-height: 640px;
+  opacity: 1;
+  margin-bottom: 16px;
+}
 
 .filters-panel--visible {
   max-height: 500px;
@@ -441,6 +458,7 @@ a {
   right: 12px;
   width: 28px;
   height: 28px;
+  display: flex;
   align-items: center;
   justify-content: center;
   background: #e5e7eb;
@@ -734,6 +752,21 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   background: rgba(0, 0, 0, 0.04);
 }
 
+.post-menu-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.06);
+  margin: 4px 8px;
+  list-style: none;
+}
+
+.menu-item-danger {
+  color: #c97c8c !important;
+}
+
+.menu-item-danger:hover {
+  background: rgba(201, 124, 140, 0.08) !important;
+}
+
 .menu-item-report {
   color: #c97c8c !important;
 }
@@ -808,6 +841,62 @@ input[type="radio"].lang-radio:checked + .lang-pill {
   line-height: 1.7;
   color: #828287;
   margin: 0;
+}
+
+.post-media-strip {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 130px;
+}
+
+.post-media-thumb-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+  flex: 1;
+  min-width: 0;
+  border-radius: 10px;
+  transition: opacity 0.2s;
+}
+.post-media-thumb-img:hover { opacity: 0.88; }
+
+.post-media-thumb--video {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.post-media-thumb--video .post-media-thumb-img {
+  border-radius: 0;
+}
+.post-media-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+.post-media-more {
+  flex: 0 0 72px;
+  height: 130px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #666;
 }
 
 .post-actions {
