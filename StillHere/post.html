@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loading… – StillHere</title>
-  <link rel="stylesheet" href="CSS/post1-screen.css">
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+  <link rel="stylesheet" href="CSS/post-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
   <script src="JS/supabase-config.js"></script>
   <script src="JS/post-page.js" defer></script>
 </head>
@@ -136,17 +139,30 @@
                 </svg>
               </button>
               <div class="options-dropdown" id="optionsDropdown" role="menu">
+                <button class="options-item" role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                    <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/>
+                  </svg>
+                  Save Post
+                </button>
                 <button class="options-item" role="menuitem" id="copyLinkBtn">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                    <path d="M137.54,186.36a8,8,0,0,1,0,11.31l-9.94,10a56,56,0,0,1-79.22-79.22L66.08,120a8,8,0,1,1,11.31,11.31L69.38,139a40,40,0,0,0,56.61,56.61l9.94-9.94A8,8,0,0,1,137.54,186.36Zm70.08-138a56.08,56.08,0,0,0-79.22,0l-9.94,9.95a8,8,0,0,0,11.32,11.31l9.94-9.94a40,40,0,0,1,56.61,56.61l-8,8a8,8,0,0,0,11.31,11.31l8.05-8.05A56.08,56.08,0,0,0,207.62,48.38ZM167.71,88.29a8,8,0,0,0-11.32,0l-64,64a8,8,0,0,0,11.32,11.32l64-64A8,8,0,0,0,167.71,88.29Z"/>
+                    <path d="M137.54,186.36a8,8,0,0,1,0,11.31l-9.94,10a56,56,0,0,1-79.22-79.22L66.08,120a8,8,0,1,1,11.31,11.31L69.38,139a40,40,0,0,0,56.61,56.61l9.94-9.94A8,8,0,0,1,137.54,186.36Zm70.08-138a56.08,56.08,0,0,0-79.22,0l-9.94,9.95a8,8,0,0,0,11.32,11.31l9.94-9.94a40,40,0,0,1,56.61,56.61l-8,8a8,8,0,0,0,11.31,11.31l8.05-8.05A56.08,56.08,0,0,0,207.62,48.38Z"/>
                   </svg>
                   Copy link
+                </button>
+                <div class="options-divider"></div>
+                <button class="options-item options-item--danger" role="menuitem" id="deletePostBtn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                    <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+                  </svg>
+                  Delete post
                 </button>
                 <button class="options-item options-item--danger" role="menuitem">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                     <path d="M236.8,188.09,149.35,36.22a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/>
                   </svg>
-                  Report post
+                  Report
                 </button>
               </div>
             </div>
@@ -180,20 +196,18 @@
 
         <div class="compose-card" id="compose">
           <p class="compose-label">say something.</p>
-          <form class="compose-form" novalidate id="commentForm">
-            <textarea class="compose-textarea" id="compose-textarea" placeholder="write here…" rows="3" aria-label="Write a comment"></textarea>
-            <div class="compose-media-bar">
-              <span class="compose-note">Anonymous · no account needed</span>
-            </div>
+          <div class="compose-form" id="commentForm">
+            <div id="comment-editor" class="comment-rich-editor"></div>
             <div class="compose-footer">
-              <button type="submit" class="compose-submit">
+              <span class="compose-note">Anonymous · no account needed</span>
+              <button type="button" class="compose-submit" id="commentSubmitBtn">
                 Reply
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                   <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
                 </svg>
               </button>
             </div>
-          </form>
+          </div>
         </div>
 
         <section class="comments-section" id="comments" aria-labelledby="comments-heading">
@@ -220,8 +234,8 @@
               <span class="sidebar-stat-value" id="sidebar-posted">…</span>
             </div>
             <div class="sidebar-stat">
-              <span class="sidebar-stat-label">Replies</span>
-              <span class="sidebar-stat-value" id="sidebar-replies">0</span>
+              <span class="sidebar-stat-label">Support given</span>
+              <span class="sidebar-stat-value" id="sidebar-support">0</span>
             </div>
           </div>
         </div>
@@ -250,6 +264,23 @@
   </footer>
 
   <div class="toast" id="toast" aria-live="polite">Link copied</div>
+
+  <!-- Delete confirmation modal -->
+  <div class="del-backdrop" id="delBackdrop" aria-hidden="true">
+    <div class="del-modal" role="alertdialog" aria-modal="true" aria-labelledby="delTitle" aria-describedby="delDesc">
+      <div class="del-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+        </svg>
+      </div>
+      <h2 class="del-title" id="delTitle">Delete forever?</h2>
+      <p class="del-desc" id="delDesc">This cannot be undone. Once deleted, it's gone.</p>
+      <div class="del-actions">
+        <button class="del-btn del-btn--cancel" id="delCancel">Cancel</button>
+        <button class="del-btn del-btn--confirm" id="delConfirm">Yes, delete</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     (function () {

@@ -5,7 +5,66 @@
   if (!form) return;
 
   /* ─────────────────────────────────────────────
-     Media upload UI
+     Rich text editor (Quill)
+     ───────────────────────────────────────────── */
+
+  var quill = new Quill('#post-editor', {
+    theme: 'snow',
+    placeholder: 'Write freely…',
+    modules: {
+      toolbar: {
+        container: [
+          ['bold', 'italic', 'strike'],
+          [{ header: 2 }, { header: 3 }],
+          ['link', 'image', 'video'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['blockquote', 'code-block'],
+          ['clean']
+        ],
+        handlers: {
+          image: handleImageUpload
+        }
+      }
+    }
+  });
+
+  /* image upload → Supabase Storage, then insert URL into editor */
+  function handleImageUpload() {
+    var input = document.createElement('input');
+    input.type   = 'image/*'.length ? 'file' : 'file'; // just 'file'
+    input.accept = 'image/*';
+    input.onchange = function () {
+      var file = input.files && input.files[0];
+      if (!file) return;
+
+      var sbUrl = window.SH_SUPABASE_URL;
+      var sbKey = window.SH_SUPABASE_KEY;
+      if (!sbUrl || !window.supabase) { alert('Supabase not configured.'); return; }
+
+      var db     = window.supabase.createClient(sbUrl, sbKey);
+      var bucket = db.storage.from('post-media');
+      var ext    = file.name.split('.').pop().toLowerCase();
+      var path   = 'posts/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+
+      // Show a brief "uploading…" tooltip
+      var range = quill.getSelection(true);
+      quill.insertText(range.index, 'Uploading image…', 'italic', true);
+
+      bucket.upload(path, file, { cacheControl: '3600', upsert: false }).then(function (res) {
+        // Remove the "Uploading…" placeholder text
+        quill.deleteText(range.index, 'Uploading image…'.length);
+
+        if (res.error) { alert('Upload failed: ' + res.error.message); return; }
+        var url = bucket.getPublicUrl(path).data.publicUrl;
+        quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
+        quill.setSelection(range.index + 1, Quill.sources.SILENT);
+      });
+    };
+    input.click();
+  }
+
+  /* ─────────────────────────────────────────────
+     Media upload UI (file attachments strip)
      ───────────────────────────────────────────── */
 
   var uploadArea   = document.getElementById('mediaUploadArea');
@@ -111,6 +170,27 @@
   }
 
   /* ─────────────────────────────────────────────
+     Language selection — sync radios ↔ dropdown
+     ───────────────────────────────────────────── */
+
+  var langOtherSelectEl = form.querySelector('[name="lang_other"]');
+  var langRadioEls      = form.querySelectorAll('[name="lang"]');
+
+  if (langOtherSelectEl) {
+    langOtherSelectEl.addEventListener('change', function () {
+      if (langOtherSelectEl.value) {
+        langRadioEls.forEach(function (r) { r.checked = false; });
+      }
+    });
+  }
+
+  langRadioEls.forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      if (langOtherSelectEl) langOtherSelectEl.value = '';
+    });
+  });
+
+  /* ─────────────────────────────────────────────
      Form submit
      ───────────────────────────────────────────── */
 
@@ -132,14 +212,16 @@
 
     var db = window.supabase.createClient(sbUrl, sbKey);
 
-    var title   = (document.getElementById('post-title').value   || '').trim();
-    var content = (document.getElementById('post-content').value || '').trim();
+    var title   = (document.getElementById('post-title').value || '').trim();
 
-    if (!content) {
-      var contentEl = document.getElementById('post-content');
-      if (contentEl) contentEl.focus();
+    /* get rich-text HTML from Quill; strip if truly empty */
+    var rawHtml   = quill.root.innerHTML;
+    var plainText = quill.getText().trim();
+    if (!plainText) {
+      quill.focus();
       return;
     }
+    var content = rawHtml;
 
     var langOtherEl = form.querySelector('[name="lang_other"]');
     var langOther   = langOtherEl ? (langOtherEl.value || '') : '';
@@ -164,7 +246,7 @@
         : btnHtml;
     }
 
-    /* upload all files to Supabase Storage, return array of public URLs */
+    /* upload attachment files to Supabase Storage */
     function uploadAll(files, done) {
       if (!files.length) { done([]); return; }
 

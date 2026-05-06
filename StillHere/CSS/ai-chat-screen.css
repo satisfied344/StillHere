@@ -304,10 +304,10 @@ a {
 .chat-welcome {
   flex: 1;
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   animation: fadeIn 0.55s ease;
+  /* overflow comes from .chat-messages scroll, not clipped here */
 }
 
 @keyframes fadeIn {
@@ -362,17 +362,15 @@ a {
   display: grid;
   grid-template-columns: 55% 45%;
   flex: 1;
-  min-height: 0;
   min-width: 0;
-  overflow: hidden;
 }
 
 .welcome-left {
-  padding: 60px 48px 52px 60px;
+  padding: 40px 36px 40px 48px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 26px;
+  gap: 22px;
   min-width: 0;
 }
 
@@ -385,7 +383,7 @@ a {
 }
 
 .welcome-title {
-  font-size: clamp(40px, 4.8vw, 72px);
+  font-size: clamp(32px, 3.8vw, 58px);
   font-weight: 700;
   font-style: italic;
   color: var(--charcoal);
@@ -450,18 +448,18 @@ a {
 }
 
 .welcome-right {
-  padding: 48px 56px 48px 36px;
+  padding: 32px 40px 32px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: 20px;
   border-left: 1px solid rgba(255, 255, 255, 0.38);
 }
 
 .welcome-quote-card {
   position: relative;
-  padding: 44px 40px 36px;
+  padding: 56px 32px 28px;
   background: rgba(255, 255, 255, 0.28);
   -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
@@ -473,23 +471,23 @@ a {
 
 .welcome-quote-mark {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 96px;
+  font-size: 72px;
   line-height: 1;
-  color: rgba(166, 145, 194, 0.32);
+  color: rgba(166, 145, 194, 0.28);
   position: absolute;
-  top: 8px;
-  left: 28px;
+  top: 10px;
+  left: 20px;
   pointer-events: none;
   user-select: none;
 }
 
 .welcome-quote-text {
-  font-size: 18px;
+  font-size: 16px;
   font-style: italic;
   font-weight: 400;
   color: var(--text-dark);
-  line-height: 1.72;
-  margin-bottom: 22px;
+  line-height: 1.7;
+  margin-bottom: 16px;
   position: relative;
   z-index: 1;
 }

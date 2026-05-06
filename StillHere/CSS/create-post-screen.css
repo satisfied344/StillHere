@@ -1095,3 +1095,84 @@ input[name="mode"]:checked + .mode-card.mode-noadvice .mode-radio-dot::after { b
     .lang-strip { padding: 16px 18px; }
     .card { padding: 20px 20px; }
 }
+
+/* ═══════════════════════════════════════════
+   Rich text editor (Quill) — create post
+   ═══════════════════════════════════════════ */
+
+/* Wrap the Quill container */
+.rich-editor {
+  min-height: 220px;
+  font-family: inherit;
+}
+
+/* Toolbar */
+.rich-editor .ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid rgba(166,145,194,0.25);
+  padding: 8px 0 10px;
+  margin: 0 0 4px;
+  font-family: inherit;
+}
+
+.rich-editor .ql-toolbar .ql-formats {
+  margin-right: 10px;
+}
+
+/* Toolbar button colours */
+.rich-editor .ql-toolbar.ql-snow .ql-stroke { stroke: #8a8a8a; }
+.rich-editor .ql-toolbar.ql-snow .ql-fill   { fill:   #8a8a8a; }
+.rich-editor .ql-toolbar.ql-snow button:hover .ql-stroke,
+.rich-editor .ql-toolbar.ql-snow .ql-picker-label:hover .ql-stroke { stroke: var(--purple); }
+.rich-editor .ql-toolbar.ql-snow button:hover .ql-fill,
+.rich-editor .ql-toolbar.ql-snow .ql-picker-label:hover .ql-fill   { fill:   var(--purple); }
+.rich-editor .ql-toolbar.ql-snow button.ql-active .ql-stroke { stroke: var(--charcoal); }
+.rich-editor .ql-toolbar.ql-snow button.ql-active .ql-fill   { fill:   var(--charcoal); }
+
+/* Editor area */
+.rich-editor .ql-container.ql-snow {
+  border: none;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--text-dark);
+}
+
+.rich-editor .ql-editor {
+  padding: 10px 0;
+  min-height: 200px;
+}
+
+.rich-editor .ql-editor.ql-blank::before {
+  color: #b8b8b8;
+  font-style: italic;
+  left: 0;
+}
+
+/* Content styling inside editor */
+.rich-editor .ql-editor p,
+.rich-editor .ql-editor h2,
+.rich-editor .ql-editor h3 { margin-bottom: 0.6em; }
+.rich-editor .ql-editor h2 { font-size: 20px; font-weight: 700; color: var(--charcoal); }
+.rich-editor .ql-editor h3 { font-size: 17px; font-weight: 600; color: var(--charcoal); }
+.rich-editor .ql-editor blockquote {
+  border-left: 3px solid var(--purple);
+  padding-left: 14px;
+  color: var(--text-mid);
+  font-style: italic;
+  margin: 12px 0;
+}
+.rich-editor .ql-editor pre.ql-syntax {
+  background: #f4f1f9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--charcoal);
+}
+.rich-editor .ql-editor img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 8px 0;
+  display: block;
+}
+.rich-editor .ql-editor a { color: var(--purple); text-decoration: underline; }

@@ -47,16 +47,6 @@ if (searchInput && searchClear) {
 }
 
 /* ─────────────────────────────────────────────
-   Filter pills (support type)
-   ───────────────────────────────────────────── */
-
-document.querySelectorAll('.pill[data-filter]').forEach(function (pill) {
-  pill.addEventListener('click', function () {
-    pill.classList.toggle('pill-active');
-  });
-});
-
-/* ─────────────────────────────────────────────
    Post options menu — event delegation
    (works for both static and dynamic post cards)
    ───────────────────────────────────────────── */
@@ -99,17 +89,51 @@ document.addEventListener('click', function (e) {
   const action = btn.dataset.action;
 
   if (action === 'support') {
-    const active = btn.classList.toggle('post-actions-item--active');
-    const stat   = btn.querySelector('.action-stat');
+    var active  = btn.classList.toggle('post-actions-item--active');
+    var stat    = btn.querySelector('.action-stat');
+    var postId  = btn.closest('[data-post-id]');
+    postId = postId ? postId.dataset.postId : null;
+
     if (stat) stat.textContent = active
       ? String(parseInt(stat.textContent || '0', 10) + 1)
       : String(Math.max(0, parseInt(stat.textContent || '1', 10) - 1));
+
+    // Persist to DB if Supabase is available
+    if (postId && window.SH_SUPABASE_URL && window.supabase) {
+      var _db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+      var fn  = active ? 'increment_support' : 'decrement_support';
+      _db.rpc(fn, { post_id: postId });
+    }
   }
 
   if (action === 'share') {
-    navigator.clipboard && navigator.clipboard.writeText(window.location.href);
+    var card = btn.closest('[data-post-id]');
+    var id   = card ? card.dataset.postId : null;
+    var url  = id
+      ? window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'post.html?id=' + id
+      : window.location.href;
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast('Link copied'); });
   }
 });
+
+/* Copy Link button in post card dropdown menu */
+document.addEventListener('click', function (e) {
+  var copyBtn = e.target.closest('[data-action-copy]');
+  if (!copyBtn) return;
+  var postId = copyBtn.getAttribute('data-action-copy');
+  var url = window.location.origin +
+    window.location.pathname.replace(/[^/]*$/, '') + 'post.html?id=' + postId;
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast('Link copied'); });
+  closeAllPostMenus();
+});
+
+function showMainToast(msg) {
+  var t = document.getElementById('mainToast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('is-visible');
+  setTimeout(function () { t.classList.remove('is-visible'); }, 2200);
+}
 
 /* ─────────────────────────────────────────────
    Supabase — load posts from database
@@ -139,6 +163,12 @@ document.addEventListener('click', function (e) {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  /* Strip HTML tags for plain-text preview of Quill-authored posts */
+  function stripHtml(html) {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
   }
 
   function timeAgo(iso) {
@@ -185,30 +215,37 @@ document.addEventListener('click', function (e) {
   function buildMediaStrip(post) {
     var urls = post.media_urls;
     if (!urls || !urls.length) return '';
+
     var shown = urls.slice(0, 3);
     var extra = urls.length - shown.length;
-    var html  = '<div class="post-media-strip">';
-    shown.forEach(function (url) {
+    var count = shown.length;
+    var html = '<div class="post-media-strip post-media-strip--' + count + '">';
+
+    shown.forEach(function (url, i) {
       var isVideo = /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
+      var isLast  = (i === shown.length - 1) && extra > 0;
+
+      html += '<div class="post-media-cell">';
       if (isVideo) {
-        html += '<div class="post-media-thumb post-media-thumb--video">' +
-          '<video src="' + escHtml(url) + '" muted preload="none" class="post-media-thumb-img"></video>' +
-          '<span class="post-media-play">▶</span></div>';
+        html += '<video src="' + escHtml(url) + '" autoplay muted loop playsinline preload="auto" class="post-media-thumb-img"></video>';
       } else {
         html += '<img src="' + escHtml(url) + '" class="post-media-thumb-img" alt="" loading="lazy">';
       }
+      if (isLast) {
+        html += '<div class="post-media-more">+' + extra + '</div>';
+      }
+      html += '</div>';
     });
-    if (extra > 0) {
-      html += '<div class="post-media-more">+' + extra + '</div>';
-    }
+
     html += '</div>';
     return html;
   }
 
   function buildPostCard(post) {
-    var title   = post.title ? escHtml(post.title) : '';
-    var rawBody = post.content || '';
-    var preview = escHtml(rawBody.length > 220 ? rawBody.slice(0, 220) + '…' : rawBody);
+    var title      = post.title ? escHtml(post.title) : '';
+    var rawBody    = post.content || '';
+    var plainBody  = stripHtml(rawBody);
+    var preview    = escHtml(plainBody.length > 220 ? plainBody.slice(0, 220) + '…' : plainBody);
     var id      = escHtml(post.id);
 
     return (
@@ -241,7 +278,7 @@ document.addEventListener('click', function (e) {
               '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z' +
               'm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/></svg>' +
               'Save Post</button></li>' +
-            '<li role="menu-item"><button type="button">' +
+            '<li role="menu-item"><button type="button" data-action-copy="' + id + '">' +
               '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M240,88.23a54.43,54.43,0,0,1-16,37L189.25,160a54.27,54.27,0,0,1-38.63,16h-.05A54.63,54.63,0,0,1,96,119.84a8,8,0,0,1,16,.45A38.62,38.62,0,0,0,150.58,160h0' +
               'a38.39,38.39,0,0,0,27.31-11.31l34.75-34.75a38.63,38.63,0,0,0-54.63-54.63l-11,11A8,8,0,0,1,135.7,59l11-11A54.65,54.65,0,0,1,224,48,54.86,54.86,0,0,1,240,88.23Z' +
@@ -283,14 +320,14 @@ document.addEventListener('click', function (e) {
           'a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/></svg>' +
           '<span class="action-title">Support</span>' +
         '</button>' +
-        '<button class="post-actions-item" data-action="comment">' +
+        '<a class="post-actions-item" href="post.html?id=' + id + '#comments">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
           '<path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Z' +
           'm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216' +
           'A16,16,0,0,1,232,64ZM40,224h0ZM216,64H40V224l34.77-30A8,8,0,0,1,80,192H216Z"/></svg>' +
-          '<span class="action-stat">0</span>' +
+          '<span class="action-stat">' + (post.comment_count || 0) + '</span>' +
           '<span class="action-title">Responses</span>' +
-        '</button>' +
+        '</a>' +
         '<button class="post-actions-item" data-action="share">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
           '<path d="M176,160a39.89,39.89,0,0,0-28.62,12.09l-46.1-29.63a39.8,39.8,0,0,0,0-28.92l46.1-29.63a40,40,0,1,0-8.66-13.45l-46.1,29.63' +
@@ -304,16 +341,26 @@ document.addEventListener('click', function (e) {
     );
   }
 
+  /* ── post cache + filter state ── */
+
+  var allPosts    = [];
+  var activeLangs = {};   // { en: true, ru: true, … }
+  var activeModes = {};   // { 'support': true, 'no-advice': true } — both can be active
+  var activeTopic = '';   // e.g. 'anxiety' — single topic filter from sidebar
+  var searchQuery = '';
+
   /* ── render ── */
 
   function renderPosts(posts) {
-    feed.querySelectorAll('.post-card').forEach(function (el) { el.remove(); });
+    feed.querySelectorAll('.post-card, .feed-empty').forEach(function (el) { el.remove(); });
     if (loader) loader.style.display = 'none';
 
     if (!posts || posts.length === 0) {
       var empty = document.createElement('p');
       empty.className    = 'feed-empty';
-      empty.textContent  = 'No stories yet. Be the first to share yours.';
+      empty.textContent  = Object.keys(activeLangs).length || Object.keys(activeModes).length || searchQuery
+        ? 'No posts match your filters.'
+        : 'No stories yet. Be the first to share yours.';
       empty.style.cssText = 'text-align:center;color:#888;padding:40px 0;font-size:15px;';
       feed.insertBefore(empty, loader);
       return;
@@ -328,21 +375,334 @@ document.addEventListener('click', function (e) {
     feed.insertBefore(fragment, loader);
   }
 
-  /* ── fetch ── */
+  /* ── client-side filter ── */
 
-  if (loader) loader.style.display = 'flex';
+  function applyFilters() {
+    var langKeys  = Object.keys(activeLangs);
+    var modeKeys  = Object.keys(activeModes);
+    var query     = searchQuery.trim().toLowerCase();
+    var sortVal   = (document.getElementById('sortSelect') || {}).value || 'recent';
 
-  db.from('posts')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .then(function (result) {
-      if (result.error) {
-        console.error('Supabase fetch error:', result.error);
-        if (loader) loader.style.display = 'none';
-        return;
+    var filtered = allPosts.filter(function (post) {
+      if (langKeys.length && langKeys.indexOf(post.lang) === -1) return false;
+      if (modeKeys.length && modeKeys.indexOf(post.mode) === -1) return false;
+      if (activeTopic && (post.topics || []).indexOf(activeTopic) === -1) return false;
+      if (query) {
+        var inTitle   = (post.title   || '').toLowerCase().indexOf(query) !== -1;
+        var inContent = (post.content || '').toLowerCase().indexOf(query) !== -1;
+        if (!inTitle && !inContent) return false;
       }
-      renderPosts(result.data);
+      return true;
     });
+
+    if (sortVal === 'recent') {
+      // newest first
+      filtered.sort(function (a, b) { return new Date(b.created_at) - new Date(a.created_at); });
+    } else if (sortVal === 'popular') {
+      // most supports first (support_count column if present), then newest
+      filtered.sort(function (a, b) {
+        var diff = (b.support_count || 0) - (a.support_count || 0);
+        return diff !== 0 ? diff : new Date(b.created_at) - new Date(a.created_at);
+      });
+    } else if (sortVal === 'discussed') {
+      // most comments first (comment_count column if present), then newest
+      filtered.sort(function (a, b) {
+        var diff = (b.comment_count || 0) - (a.comment_count || 0);
+        return diff !== 0 ? diff : new Date(b.created_at) - new Date(a.created_at);
+      });
+    } else if (sortVal === 'unanswered') {
+      // posts that need support most: fewest supports + oldest (been waiting longest)
+      filtered.sort(function (a, b) {
+        var sa = a.support_count || 0;
+        var sb = b.support_count || 0;
+        if (sa !== sb) return sa - sb; // ascending — least supported first
+        return new Date(a.created_at) - new Date(b.created_at); // oldest first
+      });
+    }
+
+    renderPosts(filtered);
+  }
+
+  /* ── lang chip helpers (for dropdown-selected languages) ── */
+
+  // Languages that already have a visible checkbox pill — no chip needed
+  var PILL_LANG_CODES = ['en','ru','uk','de','fr','es','zh','ja','ar'];
+
+  // Short display labels for dropdown langs
+  var DROPDOWN_LANG_NAMES = {
+    pt:'PT', it:'IT', pl:'PL', nl:'NL', sv:'SV', no:'NO', fi:'FI',
+    cs:'CS', sk:'SK', ro:'RO', hu:'HU', tr:'TR', he:'HE', fa:'FA',
+    hi:'HI', bn:'BN', ur:'UR', ko:'KO', th:'TH', vi:'VI', id:'ID',
+    ms:'MS', tl:'TL', sw:'SW', am:'AM', ka:'KA', hy:'HY', az:'AZ',
+    kk:'KK', uz:'UZ', other:'?'
+  };
+
+  var activeLangTagsEl = null;
+
+  function ensureLangTagsEl() {
+    if (activeLangTagsEl) return;
+    var row = document.querySelector('.lang-select-row');
+    if (!row) return;
+    activeLangTagsEl = document.createElement('div');
+    activeLangTagsEl.className = 'active-lang-tags';
+    row.parentNode.insertBefore(activeLangTagsEl, row.nextSibling);
+  }
+
+  function renderLangChips() {
+    ensureLangTagsEl();
+    if (!activeLangTagsEl) return;
+    activeLangTagsEl.innerHTML = '';
+    Object.keys(activeLangs).forEach(function (code) {
+      if (PILL_LANG_CODES.indexOf(code) !== -1) return; // already shown as a checkbox pill
+      var label = DROPDOWN_LANG_NAMES[code] || code.toUpperCase();
+      var chip  = document.createElement('button');
+      chip.type      = 'button';
+      // Use the same classes as selected lang-pills so they look identical
+      chip.className = 'lang-pill pill-active';
+      chip.innerHTML = label + ' <span style="opacity:0.55;margin-left:3px;font-size:14px">×</span>';
+      chip.title     = 'Remove ' + label + ' filter';
+      chip.addEventListener('click', function (e) {
+        e.stopPropagation();
+        delete activeLangs[code];
+        if (!Object.keys(activeLangs).length && langAllBtn) {
+          langAllBtn.classList.add('pill-active');
+        }
+        renderLangChips();
+        applyFilters();
+      });
+      activeLangTagsEl.appendChild(chip);
+    });
+  }
+
+  /* ── language checkboxes + "All" ── */
+
+  var langAllBtn = document.getElementById('langAll');
+
+  document.querySelectorAll('.lang-radio').forEach(function (cb) {
+    cb.addEventListener('change', function () {
+      if (cb.checked) {
+        activeLangs[cb.value] = true;
+        if (langAllBtn) langAllBtn.classList.remove('pill-active');
+      } else {
+        delete activeLangs[cb.value];
+        if (!Object.keys(activeLangs).length && langAllBtn) {
+          langAllBtn.classList.add('pill-active');
+        }
+      }
+      applyFilters();
+    });
+  });
+
+  if (langAllBtn) {
+    langAllBtn.addEventListener('click', function () {
+      activeLangs = {};
+      document.querySelectorAll('.lang-radio').forEach(function (cb) { cb.checked = false; });
+      langAllBtn.classList.add('pill-active');
+      renderLangChips();
+      applyFilters();
+    });
+  }
+
+  /* ── "More languages" dropdown → add to activeLangs + show chip ── */
+
+  var langSelectOther = document.querySelector('.lang-select-other');
+  if (langSelectOther) {
+    langSelectOther.addEventListener('change', function () {
+      var val = langSelectOther.value;
+      langSelectOther.value = ''; // reset to placeholder so user can pick again
+      if (!val) return;
+      activeLangs[val] = true;
+      if (langAllBtn) langAllBtn.classList.remove('pill-active');
+      renderLangChips();
+      applyFilters();
+    });
+  }
+
+  /* ── support type pills → toggle each independently ── */
+
+  document.querySelectorAll('.pill[data-filter="support"]').forEach(function (pill) {
+    pill.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var val = pill.dataset.value === 'need-support' ? 'support' : 'no-advice';
+      if (activeModes[val]) {
+        // clicking active pill → deselect (show all)
+        activeModes = {};
+        document.querySelectorAll('.pill[data-filter="support"]').forEach(function (p) {
+          p.classList.remove('pill-active');
+        });
+      } else {
+        // select this one, deselect the other
+        activeModes = {};
+        activeModes[val] = true;
+        document.querySelectorAll('.pill[data-filter="support"]').forEach(function (p) {
+          p.classList.toggle('pill-active', p === pill);
+        });
+      }
+      applyFilters();
+    });
+  });
+
+  /* ── search → filter ── */
+
+  var searchInputEl = document.getElementById('searchInput');
+  if (searchInputEl) {
+    var searchTimer;
+    searchInputEl.addEventListener('input', function () {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () {
+        searchQuery = searchInputEl.value;
+        applyFilters();
+      }, 280);
+    });
+  }
+
+  /* ── sort → filter ── */
+
+  var sortSelectEl = document.getElementById('sortSelect');
+  if (sortSelectEl) {
+    sortSelectEl.addEventListener('change', applyFilters);
+  }
+
+  /* ── topic sidebar links → filter feed ── */
+
+  document.querySelectorAll('[data-topic-filter]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var topic = link.getAttribute('data-topic-filter');
+      if (activeTopic === topic) {
+        // clicking active topic deselects it
+        activeTopic = '';
+        document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
+          l.classList.remove('active');
+        });
+      } else {
+        activeTopic = topic;
+        document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
+          l.classList.toggle('active', l === link);
+        });
+      }
+      applyFilters();
+    });
+  });
+
+  /* ── fetch from Supabase ── */
+
+  function fetchPosts() {
+    if (loader) loader.style.display = 'flex';
+    feed.querySelectorAll('.post-card, .feed-empty').forEach(function (el) { el.remove(); });
+
+    var refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) refreshBtn.classList.add('spinning');
+
+    db.from('posts')
+      .select('*, comments(count)')
+      .order('created_at', { ascending: false })
+      .then(function (result) {
+        if (refreshBtn) refreshBtn.classList.remove('spinning');
+        if (result.error) {
+          console.error('Supabase fetch error:', result.error);
+          if (loader) loader.style.display = 'none';
+          return;
+        }
+        /* merge live comment count from the join */
+        allPosts = (result.data || []).map(function (p) {
+          var liveCount = (p.comments && p.comments[0]) ? (p.comments[0].count || 0) : 0;
+          p.comment_count = liveCount;
+          return p;
+        });
+        applyFilters();
+        updateTopicCounts(allPosts);
+        updateWeekStats(allPosts);
+      });
+  }
+
+  /* ── topic counts (left sidebar) ── */
+
+  function updateTopicCounts(posts) {
+    var counts = { anxiety: 0, depression: 0, relationships: 0, grief: 0, burnout: 0 };
+    posts.forEach(function (post) {
+      (post.topics || []).forEach(function (t) {
+        if (Object.prototype.hasOwnProperty.call(counts, t)) counts[t]++;
+      });
+    });
+    Object.keys(counts).forEach(function (key) {
+      var el = document.getElementById('tc-' + key);
+      if (el) el.textContent = String(counts[key]);
+    });
+  }
+
+  /* ── "This Week" stats (right sidebar) ── */
+
+  function updateWeekStats(posts) {
+    var weekAgo  = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    var stories  = posts.filter(function (p) { return new Date(p.created_at) >= weekAgo; }).length;
+
+    var storiesEl = document.getElementById('stat-stories');
+    var supportEl = document.getElementById('stat-support');
+    var membersEl = document.getElementById('stat-members');
+
+    if (storiesEl) storiesEl.textContent = String(stories);
+
+    /* Support given = total comments this week; also used for active members */
+    db.from('comments')
+      .select('id', { count: 'exact', head: true })
+      .gte('created_at', weekAgo.toISOString())
+      .then(function (res) {
+        var commentCount = res.error ? 0 : (res.count || 0);
+        if (supportEl) supportEl.textContent = String(commentCount);
+        if (membersEl) membersEl.textContent = String(stories + commentCount);
+      });
+  }
+
+  fetchPosts();
+
+  /* ── refresh button ── */
+
+  var refreshBtn = document.getElementById('refreshBtn');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', fetchPosts);
+  }
+
+  /* ── delete confirm modal ── */
+
+  var _mainDelCallback = null;
+
+  (function wireMainDelModal() {
+    var backdrop  = document.getElementById('mainDelBackdrop');
+    var btnOk     = document.getElementById('mainDelConfirm');
+    var btnCancel = document.getElementById('mainDelCancel');
+    if (!backdrop || !btnOk || !btnCancel) return;
+
+    function close() {
+      backdrop.classList.remove('is-open');
+      backdrop.setAttribute('aria-hidden', 'true');
+      _mainDelCallback = null;
+    }
+
+    btnOk.addEventListener('click', function () {
+      var cb = _mainDelCallback;
+      close();
+      if (cb) cb();
+    });
+
+    btnCancel.addEventListener('click', close);
+    backdrop.addEventListener('click', function (e) { if (e.target === backdrop) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && backdrop.classList.contains('is-open')) close();
+    });
+  })();
+
+  function showMainConfirm(callback) {
+    var backdrop = document.getElementById('mainDelBackdrop');
+    if (!backdrop) { if (callback) callback(); return; }
+    _mainDelCallback = callback;
+    backdrop.classList.add('is-open');
+    backdrop.setAttribute('aria-hidden', 'false');
+    setTimeout(function () {
+      var btn = document.getElementById('mainDelConfirm');
+      if (btn) btn.focus();
+    }, 50);
+  }
 
   /* ── delete post handler ── */
 
@@ -355,15 +715,21 @@ document.addEventListener('click', function (e) {
 
     closeAllPostMenus();
 
-    if (!confirm('Delete this post? This cannot be undone.')) return;
-
-    db.from('posts').delete().eq('id', postId).then(function (result) {
-      if (result.error) {
-        alert('Could not delete: ' + result.error.message);
-        return;
-      }
-      var card = delBtn.closest('.post-card');
-      if (card) card.remove();
+    showMainConfirm(function () {
+      db.from('posts').delete().eq('id', postId).then(function (result) {
+        if (result.error) {
+          var toast = document.getElementById('mainToast');
+          if (toast) {
+            toast.textContent = 'Error: ' + result.error.message;
+            toast.classList.add('is-visible');
+            setTimeout(function () { toast.classList.remove('is-visible'); }, 2800);
+          }
+          return;
+        }
+        allPosts = allPosts.filter(function (p) { return p.id !== postId; });
+        var card = delBtn.closest('.post-card');
+        if (card) card.remove();
+      });
     });
   });
 })();

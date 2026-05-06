@@ -114,19 +114,7 @@
                             fill="currentColor"
                             class="icon"
                             aria-hidden="true">
-                            <path d="M144,157.68a68,68,0,1,0-71.9,0c-20.65,6.76-39.23,19.39-54.17,37.17a8,8,0,0,0,12.25,10.3C50.25,181.19,77.91,168,108,168s57.75,13.19,77.87,37.15a8,8,0,0,0,12.25-10.3C183.18,177.07,164.6,164.44,144,157.68ZM56,100a52,52,0,1,1,52,52A52.06,52.06,0,0,1,56,100Zm197.66,33.66-32,32a8,8,0,0,1-11.32,0l-16-16a8,8,0,0,1,11.32-11.32L216,148.69l26.34-26.35a8,8,0,0,1,11.32,11.32Z"/>
-                        </svg>
-                        <span>Following</span>
-                    </a>
-
-                    <a href="#" class="sidebar-item">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"/>
+                            <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/>
                         </svg>
                         <span>Saved</span>
                     </a>
@@ -139,34 +127,34 @@
 
                         <h3 class="sidebar-top">Topics</h3>
 
-                        <a href="#" class="sidebar-item small">
+                        <a href="#" class="sidebar-item small" data-topic-filter="anxiety">
                             <span class="topic-span topic-anxiety"></span>
                             <span>Anxiety</span>
-                            <span class="topic-count">0</span>
+                            <span class="topic-count" id="tc-anxiety">0</span>
                         </a>
 
-                        <a href="#" class="sidebar-item small">
+                        <a href="#" class="sidebar-item small" data-topic-filter="depression">
                             <span class="topic-span topic-depression"></span>
                             <span>Depression</span>
-                            <span class="topic-count">0</span>
+                            <span class="topic-count" id="tc-depression">0</span>
                         </a>
 
-                        <a href="#" class="sidebar-item small">
+                        <a href="#" class="sidebar-item small" data-topic-filter="relationships">
                             <span class="topic-span topic-relationships"></span>
                             <span>Relationships</span>
-                            <span class="topic-count">0</span>
+                            <span class="topic-count" id="tc-relationships">0</span>
                         </a>
 
-                        <a href="#" class="sidebar-item small">
+                        <a href="#" class="sidebar-item small" data-topic-filter="grief">
                             <span class="topic-span topic-grief"></span>
                             <span>Grief & Loss</span>
-                            <span class="topic-count">0</span>
+                            <span class="topic-count" id="tc-grief">0</span>
                         </a>
 
-                        <a href="#" class="sidebar-item small">
+                        <a href="#" class="sidebar-item small" data-topic-filter="burnout">
                             <span class="topic-span topic-burnout"></span>
                             <span>Burnout</span>
-                            <span class="topic-count">0</span>
+                            <span class="topic-count" id="tc-burnout">0</span>
                         </a>
 
                         <button class="sidebar-more">Show more topics</button>
@@ -205,7 +193,7 @@
                         </svg>
                     </button>
 
-                    <button class="button-icon">
+                    <button class="button-icon" id="refreshBtn" title="Check for new posts">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="25" height="25"
                             viewBox="0 0 256 256"
@@ -254,15 +242,16 @@
 
                         <div class="lang-select-row">
                             <div class="lang-popular">
-                                <label class="lang-item"><input type="radio" name="lang" value="en" class="lang-radio" checked><span class="lang-pill">🇬🇧 EN</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="ru" class="lang-radio"><span class="lang-pill">🇷🇺 RU</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="uk" class="lang-radio"><span class="lang-pill">🇺🇦 UK</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="de" class="lang-radio"><span class="lang-pill">🇩🇪 DE</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="fr" class="lang-radio"><span class="lang-pill">🇫🇷 FR</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="es" class="lang-radio"><span class="lang-pill">🇪🇸 ES</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="zh" class="lang-radio"><span class="lang-pill">🇨🇳 ZH</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="ja" class="lang-radio"><span class="lang-pill">🇯🇵 JA</span></label>
-                                <label class="lang-item"><input type="radio" name="lang" value="ar" class="lang-radio"><span class="lang-pill">🇸🇦 AR</span></label>
+                                <button class="lang-pill lang-pill--all pill-active" id="langAll" type="button">All</button>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="en" class="lang-radio"><span class="lang-pill">🇬🇧 EN</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="ru" class="lang-radio"><span class="lang-pill">🇷🇺 RU</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="uk" class="lang-radio"><span class="lang-pill">🇺🇦 UK</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="de" class="lang-radio"><span class="lang-pill">🇩🇪 DE</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="fr" class="lang-radio"><span class="lang-pill">🇫🇷 FR</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="es" class="lang-radio"><span class="lang-pill">🇪🇸 ES</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="zh" class="lang-radio"><span class="lang-pill">🇨🇳 ZH</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="ja" class="lang-radio"><span class="lang-pill">🇯🇵 JA</span></label>
+                                <label class="lang-item"><input type="checkbox" name="lang" value="ar" class="lang-radio"><span class="lang-pill">🇸🇦 AR</span></label>
                             </div>
 
                             <select name="lang_other" class="lang-select-other">
@@ -402,17 +391,17 @@
 
                 <div class="statistic-row">
                     <span class="statistic-title">Stories shared</span>
-                    <span class="statistic-value">0</span>
+                    <span class="statistic-value" id="stat-stories">0</span>
                 </div>
 
                 <div class="statistic-row">
                     <span class="statistic-title">Support given</span>
-                    <span class="statistic-value">0</span>
+                    <span class="statistic-value" id="stat-support">0</span>
                 </div>
 
                 <div class="statistic-row">
                     <span class="statistic-title">Active members</span>
-                    <span class="statistic-value">0</span>
+                    <span class="statistic-value" id="stat-members">0</span>
                 </div>
             </div>
         </aside>
@@ -535,6 +524,25 @@
       });
     })();
   </script>
+
+  <div class="toast" id="mainToast" aria-live="polite"></div>
+
+  <!-- Delete confirmation modal -->
+  <div class="del-backdrop" id="mainDelBackdrop" aria-hidden="true">
+    <div class="del-modal" role="alertdialog" aria-modal="true" aria-labelledby="mainDelTitle" aria-describedby="mainDelDesc">
+      <div class="del-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+        </svg>
+      </div>
+      <h2 class="del-title" id="mainDelTitle">Delete forever?</h2>
+      <p class="del-desc" id="mainDelDesc">This cannot be undone. Once deleted, it's gone.</p>
+      <div class="del-actions">
+        <button class="del-btn del-btn--cancel" id="mainDelCancel">Cancel</button>
+        <button class="del-btn del-btn--confirm" id="mainDelConfirm">Yes, delete</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
 
