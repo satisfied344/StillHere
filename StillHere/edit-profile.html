@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit profile – StillHere</title>
@@ -8,6 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="CSS/nav-menu.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="JS/supabase-config.js"></script>
+  <script src="JS/session.js"></script>
+  <script src="JS/moderation.js"></script>
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <script src="JS/theme.js"></script>
 </head>
 <body>
 
@@ -48,11 +55,11 @@
         <ul class="main-menu-panel" role="menu">
           <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="#" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
+          <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
           <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
-          <li role="none"><a href="#" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="#" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
         </ul>
         </div>
     </div>
@@ -178,7 +185,352 @@
   </footer>
 
 
+  <!-- Delete account confirmation modal -->
+  <div class="del-backdrop" id="delAccBackdrop" aria-hidden="true">
+    <div class="del-modal" role="alertdialog" aria-labelledby="delAccTitle" aria-describedby="delAccDesc">
+      <div class="del-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+        </svg>
+      </div>
+      <h2 class="del-title" id="delAccTitle">Delete account?</h2>
+      <p class="del-desc" id="delAccDesc">All your posts, comments and data will be permanently deleted. There is no going back.</p>
+      <div class="del-actions">
+        <button class="del-btn del-btn--cancel" id="delAccCancel">Cancel</button>
+        <button class="del-btn del-btn--confirm" id="delAccConfirm">Yes, delete</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    /* ── Edit profile logic ─────────────────────────────────────── */
+    window.SH_SESSION.whenReady(async function (user) {
+
+      /* Not logged in → redirect */
+      if (!user) { window.location.href = 'login.html'; return; }
+
+      var sb = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+
+      /* ── Pre-fill form ── */
+      var fullName  = (user.displayName || '').trim();
+      var parts     = fullName.split(' ');
+      var firstName = parts[0] || '';
+      var lastName  = parts.slice(1).join(' ') || '';
+
+      var fnInput      = document.getElementById('display_name_input');
+      var lnInput      = document.getElementById('display_last_name_input');
+      var unInput      = document.getElementById('username_input');
+      var avatarName   = document.querySelector('.avatar-name');
+      var avatarHandle = document.querySelector('.avatar-handle');
+      var avatarCircle = document.querySelector('.avatar-circle');
+
+      if (fnInput)  fnInput.value  = firstName;
+      if (lnInput)  lnInput.value  = lastName;
+      if (unInput)  unInput.value  = user.username;
+      if (avatarName)   avatarName.textContent   = user.displayName || user.username;
+      if (avatarHandle) avatarHandle.textContent = '@' + user.username;
+
+      /* Show current avatar if exists */
+      if (user.avatarUrl && avatarCircle) {
+        avatarCircle.innerHTML = '<img src="' + user.avatarUrl + '" alt="Avatar">';
+      }
+
+      /* ── Live name preview ── */
+      function updatePreview() {
+        var fn   = fnInput ? fnInput.value.trim() : '';
+        var ln   = lnInput ? lnInput.value.trim() : '';
+        var un   = unInput ? unInput.value.trim() : user.username;
+        var name = [fn, ln].filter(Boolean).join(' ') || un;
+        if (avatarName)   avatarName.textContent   = name;
+        if (avatarHandle) avatarHandle.textContent = '@' + (un || user.username);
+      }
+      if (fnInput) fnInput.addEventListener('input', updatePreview);
+      if (lnInput) lnInput.addEventListener('input', updatePreview);
+      if (unInput) unInput.addEventListener('input', updatePreview);
+
+      /* ── Resize image to base64 via canvas ── */
+      function resizeToBase64(file, maxPx) {
+        return new Promise(function (resolve) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var img = new Image();
+            img.onload = function () {
+              var scale = Math.min(maxPx / img.width, maxPx / img.height, 1);
+              var w = Math.round(img.width  * scale);
+              var h = Math.round(img.height * scale);
+              var canvas = document.createElement('canvas');
+              canvas.width  = w;
+              canvas.height = h;
+              canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+              resolve(canvas.toDataURL('image/jpeg', 0.82));
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      /* ── Avatar file selection → instant preview ── */
+      var pendingAvatarBase64 = null;
+      var avatarInput = document.getElementById('avatar_input');
+      if (avatarInput) {
+        avatarInput.addEventListener('change', async function () {
+          var file = avatarInput.files && avatarInput.files[0];
+          if (!file) return;
+          var b64 = await resizeToBase64(file, 300);
+          pendingAvatarBase64 = b64;
+          if (avatarCircle) avatarCircle.innerHTML = '<img src="' + b64 + '" alt="Avatar">';
+        });
+      }
+
+      /* ── Remove photo ── */
+      var removeBtn = document.querySelector('.btn-ghost');
+      if (removeBtn) {
+        removeBtn.addEventListener('click', async function () {
+          pendingAvatarBase64 = null;
+          if (avatarCircle) avatarCircle.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+            '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>';
+          /* Clear avatar in DB */
+          await sb.from('profiles').update({ avatar_url: null }).eq('id', user.id);
+          toast('Photo removed.', false);
+        });
+      }
+
+      /* ── Toast helper ── */
+      function toast(msg, isErr) {
+        var t = document.getElementById('editToast');
+        if (!t) {
+          t = document.createElement('div');
+          t.id = 'editToast';
+          t.style.cssText =
+            'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);' +
+            'padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;' +
+            'z-index:999;transition:opacity 0.3s ease;white-space:nowrap;' +
+            'box-shadow:0 4px 20px rgba(0,0,0,0.14);';
+          document.body.appendChild(t);
+        }
+        t.textContent = msg;
+        t.style.background = isErr ? '#c0392b' : '#111827';
+        t.style.color = '#fff';
+        t.style.opacity = '1';
+        clearTimeout(t._timer);
+        t._timer = setTimeout(function () { t.style.opacity = '0'; }, 2800);
+      }
+
+      /* ── Name / username validators ── */
+      function validateName(val) {
+        if (!val) return null;
+        if (val.length > 30) return 'Max 30 characters.';
+        if (/\s/.test(val)) return 'One word per field — put the rest in Last name.';
+        if (!/^[\p{L}\p{M}][\p{L}\p{M}'\-]*$/u.test(val)) return 'Letters, hyphens and apostrophes only.';
+        return null;
+      }
+      function validateUsername(val) {
+        if (!val) return null;
+        if (val.length < 3)  return 'At least 3 characters.';
+        if (val.length > 24) return 'Max 24 characters.';
+        if (!/^[a-z0-9_]+$/.test(val)) return 'a–z, 0–9 and _ only — no spaces, Cyrillic or other characters.';
+        return null;
+      }
+
+      /* ── Field error helpers ── */
+      function setFieldErr(input, msg) {
+        if (!input) return;
+        var wrap = input.closest('.field') || input.parentNode;
+        var existing = wrap.querySelector('.field-error');
+        if (existing) existing.remove();
+        var p = document.createElement('p');
+        p.className = 'field-error';
+        p.style.cssText = 'margin:4px 0 0;font-size:12.5px;color:#c0392b;';
+        p.textContent = msg;
+        wrap.appendChild(p);
+        input.style.outline = '1.5px solid rgba(192,57,43,0.5)';
+      }
+      function clearFieldErr(input) {
+        if (!input) return;
+        var wrap = input.closest('.field') || input.parentNode;
+        var p = wrap.querySelector('.field-error');
+        if (p) p.remove();
+        input.style.outline = '';
+      }
+
+      /* ── Form submit ── */
+      var form    = document.querySelector('.edit-form');
+      var saveBtn = document.querySelector('.btn-save');
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        var fn = fnInput ? fnInput.value.trim() : '';
+        var ln = lnInput ? lnInput.value.trim() : '';
+        var newUsername     = unInput ? unInput.value.trim().toLowerCase() : user.username;
+        var newDisplayName  = [fn, ln].filter(Boolean).join(' ') || user.username;
+
+        clearFieldErr(fnInput);
+        clearFieldErr(lnInput);
+        clearFieldErr(unInput);
+
+        // ── Frontend validation ──
+        var fnErr = validateName(fn);
+        var lnErr = validateName(ln);
+        var unErr = validateUsername(newUsername);
+        if (fnErr) { setFieldErr(fnInput, fnErr); return; }
+        if (lnErr) { setFieldErr(lnInput, lnErr); return; }
+        if (unErr) { setFieldErr(unInput, unErr); return; }
+
+        var passNew     = (document.getElementById('pass_new')     || {value:''}).value;
+        var passConfirm = (document.getElementById('pass_confirm') || {value:''}).value;
+
+        if (passNew && passNew !== passConfirm) { toast('Passwords do not match.', true); return; }
+        if (passNew && passNew.length < 8)      { toast('Password must be at least 8 characters.', true); return; }
+
+        // Disable button now — re-enable if rejected below
+        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Checking…'; }
+
+        /* ── Moderation: names ── */
+        if (window.SH_MOD) {
+          var nameToCheck = [fn, ln].filter(Boolean).join(' ');
+          if (nameToCheck) {
+            var nameRes = await window.SH_MOD.checkUsername(nameToCheck);
+            if (!nameRes.allowed) {
+              setFieldErr(fnInput, nameRes.label || 'This name is not allowed.');
+              if (saveBtn) {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
+              }
+              return;
+            }
+          }
+          /* ── Moderation: username (only if changed) ── */
+          if (newUsername && newUsername !== user.username) {
+            var unRes = await window.SH_MOD.checkUsername(newUsername);
+            if (!unRes.allowed) {
+              setFieldErr(unInput, unRes.label || 'This username is not allowed.');
+              if (saveBtn) {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
+              }
+              return;
+            }
+          }
+        }
+
+        if (saveBtn) { saveBtn.textContent = 'Saving…'; }
+        var ok = true;
+
+        /* Use base64 avatar if a new photo was selected */
+        var newAvatarUrl = user.avatarUrl;
+        if (pendingAvatarBase64) {
+          newAvatarUrl = pendingAvatarBase64;
+          pendingAvatarBase64 = null;
+        }
+
+        /* Update profile row */
+        if (ok) {
+          var profileUpdate = { display_name: newDisplayName };
+          if (newUsername && newUsername !== user.username) profileUpdate.username = newUsername;
+          /* Only include avatar_url if we have a value (avoids error if column missing) */
+          if (newAvatarUrl !== undefined) profileUpdate.avatar_url = newAvatarUrl;
+
+          var { error: profErr } = await sb
+            .from('profiles')
+            .update(profileUpdate)
+            .eq('id', user.id);
+
+          if (profErr && profErr.message && profErr.message.includes('avatar_url')) {
+            /* Column doesn't exist yet — save without it, show hint */
+            var { error: profErr2 } = await sb
+              .from('profiles')
+              .update({ display_name: newDisplayName })
+              .eq('id', user.id);
+            if (profErr2) { toast('Error: ' + profErr2.message, true); ok = false; }
+            else toast('Saved (no photo — run SQL to enable avatars)', false);
+          } else if (profErr) {
+            toast('Error: ' + profErr.message, true); ok = false;
+          }
+        }
+
+        /* Update password */
+        if (ok && passNew) {
+          var { error: pwErr } = await sb.auth.updateUser({ password: passNew });
+          if (pwErr) { toast('Password error: ' + pwErr.message, true); ok = false; }
+        }
+
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+            '<path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
+            'Save changes';
+        }
+        if (ok) {
+          toast('✓ Saved!', false);
+          if (document.getElementById('pass_new'))     document.getElementById('pass_new').value     = '';
+          if (document.getElementById('pass_confirm')) document.getElementById('pass_confirm').value = '';
+        }
+      });
+
+      /* ── Delete account — custom modal ── */
+      var delBtn     = document.querySelector('.btn-delete');
+      var delBackdrop = document.getElementById('delAccBackdrop');
+      var delConfirm  = document.getElementById('delAccConfirm');
+      var delCancel   = document.getElementById('delAccCancel');
+
+      function openDelModal()  { delBackdrop.classList.add('is-open');    delBackdrop.setAttribute('aria-hidden','false'); setTimeout(function(){ delConfirm.focus(); }, 50); }
+      function closeDelModal() { delBackdrop.classList.remove('is-open'); delBackdrop.setAttribute('aria-hidden','true'); }
+
+      if (delBtn)    delBtn.addEventListener('click', openDelModal);
+      if (delCancel) delCancel.addEventListener('click', closeDelModal);
+      if (delBackdrop) delBackdrop.addEventListener('click', function(e){ if(e.target===delBackdrop) closeDelModal(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDelModal(); });
+
+      if (delConfirm) {
+        delConfirm.addEventListener('click', async function () {
+          delConfirm.disabled = true;
+          delConfirm.textContent = 'Deleting…';
+
+          var errors = [];
+
+          /* 1. Delete user's comments */
+          var { error: cErr } = await sb.from('comments').delete().eq('user_id', user.id);
+          if (cErr && !cErr.message.includes('column') && !cErr.message.includes('does not exist')) {
+            errors.push('comments: ' + cErr.message);
+          }
+
+          /* 2. Delete user's posts */
+          var { error: pErr } = await sb.from('posts').delete().eq('user_id', user.id);
+          if (pErr && !pErr.message.includes('column') && !pErr.message.includes('does not exist')) {
+            errors.push('posts: ' + pErr.message);
+          }
+
+          /* 3. Delete profile row */
+          var { error: profDelErr } = await sb.from('profiles').delete().eq('id', user.id);
+          if (profDelErr) errors.push('profile: ' + profDelErr.message);
+
+          /* 4. Delete the auth user via RPC (requires SQL function — see below) */
+          var { error: rpcErr } = await sb.rpc('delete_own_account');
+          if (rpcErr) {
+            /* RPC not set up yet — just sign out */
+            console.warn('delete_own_account RPC not available:', rpcErr.message);
+          }
+
+          if (errors.length > 0) {
+            closeDelModal();
+            toast('Delete failed: ' + errors[0], true);
+            delConfirm.disabled = false;
+            delConfirm.textContent = 'Yes, delete';
+            return;
+          }
+
+          /* 5. Sign out and redirect */
+          await window.SH_SESSION.signOut();
+          window.location.href = 'login.html';
+        });
+      }
+    });
+
+    /* ── Nav menu toggle ── */
     (function () {
       document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
         var btn   = wrap.querySelector('.main-menu-trigger');

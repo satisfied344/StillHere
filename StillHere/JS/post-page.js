@@ -477,26 +477,51 @@
     var html      = _replyQuill.root.innerHTML;
     var parentCid = _replyTarget;
     var btn       = _replyForm.querySelector('.irep-submit');
+
+    // Find or create mod-error container inside reply form
+    var replyModErr = _replyForm.querySelector('.mod-error-wrap');
+    if (!replyModErr) {
+      replyModErr = document.createElement('div');
+      replyModErr.className = 'mod-error-wrap';
+      replyModErr.style.display = 'none';
+      btn.parentNode.insertBefore(replyModErr, btn);
+    }
+    if (window.SH_MOD) window.SH_MOD.clearError(replyModErr);
+
     btn.disabled    = true;
-    btn.textContent = 'Posting…';
+    btn.textContent = 'Checking…';
 
-    db.from('comments').insert({
-      post_id:   postId,
-      parent_id: parentCid,
-      content:   safeHtml(html)
-    }).then(function (res) {
-      btn.disabled    = false;
-      btn.textContent = 'Post reply';
-
-      if (res.error) {
-        console.error('Reply insert error:', res.error);
-        showToast('Error: ' + (res.error.message || 'Could not post reply'));
+    Promise.resolve(
+      window.SH_MOD ? window.SH_MOD.check(plainText, 'reply') : { allowed: true }
+    ).then(function (mod) {
+      if (!mod.allowed) {
+        btn.disabled    = false;
+        btn.textContent = 'Post reply';
+        if (window.SH_MOD) window.SH_MOD.showBlock(replyModErr, mod);
+        if (mod.banned) btn.disabled = true;
         return;
       }
 
-      db.rpc('increment_comment', { post_id: postId });
-      closeReplyForm();
-      loadComments();
+      btn.textContent = 'Posting…';
+
+      db.from('comments').insert({
+        post_id:   postId,
+        parent_id: parentCid,
+        content:   safeHtml(html)
+      }).then(function (res) {
+        btn.disabled    = false;
+        btn.textContent = 'Post reply';
+
+        if (res.error) {
+          console.error('Reply insert error:', res.error);
+          showToast('Error: ' + (res.error.message || 'Could not post reply'));
+          return;
+        }
+
+        db.rpc('increment_comment', { post_id: postId });
+        closeReplyForm();
+        loadComments();
+      });
     });
   }
 
@@ -596,6 +621,16 @@
 
   var submitBtn = document.getElementById('commentSubmitBtn');
   if (submitBtn) {
+    // Inject mod-error container right above the submit button
+    var commentModErr = document.createElement('div');
+    commentModErr.className = 'mod-error-wrap';
+    commentModErr.style.display = 'none';
+    submitBtn.parentNode.insertBefore(commentModErr, submitBtn);
+
+    var REPLY_ICON =
+      'Reply <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+      '<path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>';
+
     submitBtn.addEventListener('click', function () {
       if (!commentQuill) return;
 
@@ -604,24 +639,38 @@
 
       var html = commentQuill.root.innerHTML;
 
+      if (window.SH_MOD) window.SH_MOD.clearError(commentModErr);
+
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
+      submitBtn.textContent = 'Checking…';
 
-      db.from('comments').insert({ post_id: postId, content: html }).then(function (result) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML =
-          'Reply <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
-          '<path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>';
-
-        if (result.error) {
-          console.error('Comment insert error:', result.error);
-          showToast('Error: ' + (result.error.message || 'Could not post comment'));
+      Promise.resolve(
+        window.SH_MOD ? window.SH_MOD.check(plainText, 'comment') : { allowed: true }
+      ).then(function (mod) {
+        if (!mod.allowed) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = REPLY_ICON;
+          if (window.SH_MOD) window.SH_MOD.showBlock(commentModErr, mod);
+          if (mod.banned) submitBtn.disabled = true;
           return;
         }
 
-        db.rpc('increment_comment', { post_id: postId });
-        commentQuill.setContents([]);
-        loadComments();
+        submitBtn.textContent = 'Sending…';
+
+        db.from('comments').insert({ post_id: postId, content: html }).then(function (result) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = REPLY_ICON;
+
+          if (result.error) {
+            console.error('Comment insert error:', result.error);
+            showToast('Error: ' + (result.error.message || 'Could not post comment'));
+            return;
+          }
+
+          db.rpc('increment_comment', { post_id: postId });
+          commentQuill.setContents([]);
+          loadComments();
+        });
       });
     });
   }

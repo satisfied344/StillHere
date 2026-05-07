@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preferences – StillHere</title>
+  <script>
+    /* Apply theme immediately to prevent flash */
+    (function(){var t=localStorage.getItem('sh_theme');if(t)document.documentElement.setAttribute('data-theme',t);})();
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/main-screen.css">
+  <link rel="stylesheet" href="CSS/nav-menu.css">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="JS/supabase-config.js"></script>
+  <script src="JS/session.js"></script>
+  <script src="JS/theme.js"></script>
+  <style>
+    body { padding-top: 73px; }
+
+    .pref-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* ── Page header ── */
+    .pref-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .pref-title {
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .pref-subtitle {
+      font-size: 16px;
+      color: var(--text-mid);
+      margin-bottom: 52px;
+      line-height: 1.6;
+    }
+
+    /* ── Section ── */
+    .pref-section {
+      margin-bottom: 48px;
+    }
+
+    .pref-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-light);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    /* ── Theme cards ── */
+    .theme-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .theme-card {
+      position: relative;
+      border-radius: 18px;
+      border: 2px solid var(--border-subtle);
+      background: var(--surface-card);
+      padding: 20px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .theme-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+    }
+
+    .theme-card.is-active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(166, 145, 194, 0.20);
+    }
+
+    .theme-card-check {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-input);
+      transition: background 0.18s, border-color 0.18s;
+    }
+
+    .theme-card.is-active .theme-card-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .theme-card-check svg {
+      display: none;
+    }
+
+    .theme-card.is-active .theme-card-check svg {
+      display: block;
+    }
+
+    /* Mini preview */
+    .theme-preview {
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      height: 100px;
+      position: relative;
+    }
+
+    .theme-preview--light {
+      background: linear-gradient(135deg, #edcfb6, #e7c5b9, #ded3f1, #e6cfbb);
+    }
+
+    .theme-preview--dark {
+      background: linear-gradient(135deg, #1d1520, #1a1828, #201a2c, #1d1820);
+    }
+
+    .theme-preview-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 5px;
+    }
+
+    .theme-preview--light .theme-preview-bar {
+      background: rgba(255,255,255,0.70);
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .theme-preview--dark .theme-preview-bar {
+      background: rgba(20,17,30,0.90);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .theme-preview-dot {
+      width: 28px;
+      height: 6px;
+      border-radius: 99px;
+    }
+
+    .theme-preview--light .theme-preview-dot { background: rgba(0,0,0,0.12); }
+    .theme-preview--dark  .theme-preview-dot { background: rgba(255,255,255,0.15); }
+
+    .theme-preview-card {
+      position: absolute;
+      bottom: 8px; left: 10px; right: 10px;
+      height: 36px;
+      border-radius: 8px;
+    }
+
+    .theme-preview--light .theme-preview-card {
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .theme-preview--dark .theme-preview-card {
+      background: rgba(30,27,44,0.90);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .theme-card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 3px;
+    }
+
+    .theme-card-desc {
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    /* ── Back button ── */
+    .pref-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal);
+      background: var(--surface-widget);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 11px 24px;
+      margin-top: 12px;
+      transition: background 0.18s, transform 0.18s;
+      text-decoration: none;
+    }
+
+    .pref-back:hover {
+      background: var(--surface-card);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      .theme-options { grid-template-columns: 1fr; }
+      .pref-title { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="main.html" class="logo">StillHere</a>
+    <div class="nav">
+      <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
+        </svg>
+        <span>about</span>
+      </a>
+      <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
+        </svg>
+        <span>contacts</span>
+      </a>
+      <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
+        </svg>
+        <span>updates</span>
+      </a>
+      <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+          <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
+        </svg>
+        <span>profile</span>
+      </a>
+
+      <div class="main-menu-dropdown">
+        <button class="main-menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+            <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
+          </svg>
+        </button>
+        <ul class="main-menu-panel" role="menu">
+          <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="preferences.html" class="mmenu-item mmenu-item--active-page" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
+          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="pref-wrap">
+
+    <p class="pref-eyebrow">Settings</p>
+    <h1 class="pref-title">Preferences</h1>
+    <p class="pref-subtitle">Customize how StillHere looks and feels for you.</p>
+
+    <!-- ── Appearance ── -->
+    <section class="pref-section">
+      <p class="pref-section-label">Appearance</p>
+      <div class="theme-options" role="radiogroup" aria-label="Theme">
+
+        <div class="theme-card" id="themeLight" role="radio" aria-checked="true" tabindex="0" data-theme-val="light">
+          <div class="theme-preview theme-preview--light">
+            <div class="theme-preview-bar">
+              <div class="theme-preview-dot"></div>
+              <div class="theme-preview-dot" style="width:16px"></div>
+              <div class="theme-preview-dot" style="width:16px"></div>
+            </div>
+            <div class="theme-preview-card"></div>
+          </div>
+          <div class="theme-card-check">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="theme-card-name">Light</p>
+          <p class="theme-card-desc">Warm, bright tones</p>
+        </div>
+
+        <div class="theme-card" id="themeDark" role="radio" aria-checked="false" tabindex="0" data-theme-val="dark">
+          <div class="theme-preview theme-preview--dark">
+            <div class="theme-preview-bar">
+              <div class="theme-preview-dot"></div>
+              <div class="theme-preview-dot" style="width:16px"></div>
+              <div class="theme-preview-dot" style="width:16px"></div>
+            </div>
+            <div class="theme-preview-card"></div>
+          </div>
+          <div class="theme-card-check">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="theme-card-name">Dark</p>
+          <p class="theme-card-desc">Easy on the eyes at night</p>
+        </div>
+
+      </div>
+    </section>
+
+    <a href="javascript:history.back()" class="pref-back">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>
+      </svg>
+      Go back
+    </a>
+
+  </div>
+
+  <script>
+    /* ── Nav menu toggle ── */
+    (function () {
+      document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
+        var btn   = wrap.querySelector('.main-menu-trigger');
+        var panel = wrap.querySelector('.main-menu-panel');
+        if (!btn || !panel) return;
+        btn.setAttribute('aria-haspopup', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = panel.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', String(open));
+        });
+        panel.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) {
+          p.classList.remove('is-open');
+          var b = p.closest('.main-menu-dropdown').querySelector('.main-menu-trigger');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+
+    /* ── Session: swap Login → Sign out ── */
+    window.SH_SESSION.whenReady(function (user) {
+      var loginItem = document.querySelector('.mmenu-item--login');
+      if (!loginItem || !user) return;
+      loginItem.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+        '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
+        'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
+        'Sign out';
+      loginItem.removeAttribute('href');
+      loginItem.style.cursor = 'pointer';
+      loginItem.addEventListener('click', async function (e) {
+        e.preventDefault();
+        await window.SH_SESSION.signOut();
+        window.location.href = 'login.html';
+      });
+    });
+
+    /* ── Theme card logic ── */
+    (function () {
+      var cards = document.querySelectorAll('.theme-card');
+
+      function applyActive(val) {
+        cards.forEach(function (c) {
+          var isActive = c.dataset.themeVal === val;
+          c.classList.toggle('is-active', isActive);
+          c.setAttribute('aria-checked', String(isActive));
+        });
+      }
+
+      /* Set initial state */
+      applyActive(window.SH_THEME.get());
+
+      cards.forEach(function (card) {
+        function activate() {
+          var val = card.dataset.themeVal;
+          window.SH_THEME.set(val);
+          applyActive(val);
+        }
+        card.addEventListener('click', activate);
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

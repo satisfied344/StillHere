@@ -1,3 +1,6 @@
+/* nav-menu.css inherits :root tokens from main-screen.css on pages that load both.
+   Standalone pages that only load nav-menu.css should define :root themselves. */
+
 .main-menu-dropdown {
   position: relative;
 }
@@ -7,10 +10,10 @@
   top: calc(100% + 10px);
   right: 0;
   min-width: 230px;
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--surface-menu, rgba(255, 255, 255, 0.96));
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.92));
   border-radius: 20px;
   box-shadow:
     0 16px 52px rgba(0, 0, 0, 0.12),
@@ -57,7 +60,13 @@
 
 .mmenu-item--login {
   font-weight: 600;
-  color: #111827;
+  color: #c0392b;
+  background: rgba(192, 57, 43, 0.07);
+}
+
+.mmenu-item--login:hover {
+  background: rgba(192, 57, 43, 0.13) !important;
+  color: #a93226 !important;
 }
 
 .mmenu-item--session {

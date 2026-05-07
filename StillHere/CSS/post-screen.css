@@ -5,21 +5,54 @@
 }
 
 :root {
-  --charcoal:   #111827;
-  --text-dark:  #404040;
-  --text-mid:   #5A5A5A;
+  /* ── Background gradient ── */
+  --bg-1: #edcfb6;
+  --bg-2: #e7c5b9;
+  --bg-3: #ded3f1;
+  --bg-4: #e6cfbb;
+
+  /* ── Glass surfaces ── */
+  --surface-nav:     rgba(255, 255, 255, 0.70);
+  --surface-card:    #ffffff;
+  --surface-sidebar: rgba(255, 255, 255, 0.75);
+  --surface-widget:  rgba(255, 255, 255, 0.70);
+  --surface-menu:    rgba(255, 255, 255, 0.96);
+  --surface-modal:   rgba(255, 255, 255, 0.96);
+  --surface-input:   #ffffff;
+  --surface-footer:  rgba(255, 255, 255, 0.28);
+
+  /* ── Borders ── */
+  --border-glass:   rgba(255, 255, 255, 0.80);
+  --border-nav:     rgba(255, 255, 255, 0.60);
+  --border-subtle:  #e5e7eb;
+  --border-divider: rgba(0, 0, 0, 0.06);
+  --border-footer:  rgba(255, 255, 255, 0.45);
+
+  /* ── Text ── */
   --text-light: #8A8A8A;
-  --purple:     #a691c2;
-  --peach:      #e0bda5;
-  --rose:       #c97c8c;
-  --thread:     rgba(166, 145, 194, 0.22);
+  --text-mid:   #5A5A5A;
+  --text-dark:  #404040;
+  --charcoal:   #111827;
+
+  /* ── Accent ── */
+  --accent:      #a691c2;
+  --accent-warm: #e0bda5;
+
+  /* ── Semantic ── */
+  --color-danger:  #dc2626;
+  --color-rose:    #c97c8c;
+  --color-success: #16a34a;
+
+  /* ── Misc ── */
+  --pil-active: #e1e1e1;
   --topbar-h:   73px;
+  --thread:     rgba(166, 145, 194, 0.22);
 }
 
 body {
   font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text-mid);
-  background: linear-gradient(135deg, #edcfb6, #e7c5b9, #ded3f1, #e6cfbb);
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4));
   background-size: 400% 400%;
   animation: warmFlow 20s ease-in-out infinite alternate;
   min-height: 100vh;
@@ -488,6 +521,31 @@ a { color: inherit; text-decoration: none; }
 }
 .action-btn:hover { background: rgba(0,0,0,0.05); color: var(--text-mid); }
 
+
+/* ── Moderation error block (shared, also used in post-screen) ── */
+.mod-error-wrap {
+  margin-bottom: 10px;
+}
+
+.mod-error {
+  margin: 0 0 3px;
+  padding: 0;
+  font-size: 13px;
+  color: #c0392b;
+  letter-spacing: 0.01em;
+}
+
+.mod-warn {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted, #888);
+}
+
+.mod-ban {
+  margin: 1px 0 0;
+  font-size: 12px;
+  color: var(--text-muted, #888);
+}
 
 .compose-card {
   background: rgba(255, 255, 255, 0.68);

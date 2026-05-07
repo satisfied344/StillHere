@@ -28,6 +28,10 @@
     }
   });
 
+  /* Track URLs of images inserted via the Quill toolbar.
+     Populated as each upload completes — used at submit time for moderation. */
+  var inlineImageUrls = [];
+
   /* image upload → Supabase Storage, then insert URL into editor */
   function handleImageUpload() {
     var input = document.createElement('input');
@@ -56,6 +60,7 @@
 
         if (res.error) { alert('Upload failed: ' + res.error.message); return; }
         var url = bucket.getPublicUrl(path).data.publicUrl;
+        inlineImageUrls.push(url);  // register for moderation at submit time
         quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
         quill.setSelection(range.index + 1, Quill.sources.SILENT);
       });
@@ -274,25 +279,86 @@
       });
     }
 
-    setLoading(true, selectedFiles.length > 0 ? 'Uploading…' : 'Publishing…');
+    var modErrorEl = document.getElementById('mod-error');
+    if (window.SH_MOD) window.SH_MOD.clearError(modErrorEl);
 
-    uploadAll(selectedFiles, function (mediaUrls) {
-      db.from('posts').insert({
-        title:      title   || null,
-        content:    content,
-        lang:       lang,
-        topics:     topics,
-        mode:       mode,
-        media_urls: mediaUrls
-      }).then(function (result) {
-        if (result.error) {
-          console.error('Supabase insert error:', result.error);
-          alert('Could not publish: ' + result.error.message);
-          setLoading(false);
-          return;
+    // ── Collect editor image URLs from all available sources ──
+    // Source 1: inlineImageUrls — tracked at upload time in handleImageUpload
+    var editorImageUrls = inlineImageUrls.slice();
+    // Source 2: Quill delta — reads Quill's internal ops directly (most reliable)
+    try {
+      quill.getContents().ops.forEach(function (op) {
+        if (op.insert && typeof op.insert === 'object') {
+          var src = op.insert.image;
+          if (typeof src === 'string' && src.startsWith('http') &&
+              editorImageUrls.indexOf(src) === -1) {
+            editorImageUrls.push(src);
+          }
         }
-        window.location.href = 'main.html';
       });
+    } catch (_) {}
+
+    // ── Moderation check ──────────────────────────────────────
+    setLoading(true, 'Checking…');
+
+    var textToCheck = (title ? title + '\n' : '') + plainText;
+
+    Promise.resolve(
+      window.SH_MOD ? window.SH_MOD.check(textToCheck, 'post') : { allowed: true }
+    ).then(function (mod) {
+
+      if (!mod.allowed) {
+        setLoading(false);
+        if (window.SH_MOD) window.SH_MOD.showBlock(modErrorEl, mod);
+        // Если забанен — заблокировать кнопку полностью
+        if (mod.banned && btn) btn.disabled = true;
+        return;
+      }
+
+      // ── Passed → upload media then insert ────────────────────
+      setLoading(true, selectedFiles.length > 0 ? 'Uploading…' : 'Publishing…');
+
+      uploadAll(selectedFiles, function (mediaUrls) {
+        var userId = (window.SH_SESSION && window.SH_SESSION.user) ? window.SH_SESSION.user.id : null;
+
+        // Combine attachment URLs + editor-embedded image URLs
+        var allImageUrls = mediaUrls.concat(editorImageUrls);
+
+        // ── Image moderation (attachment files + Quill-embedded images) ──
+        Promise.resolve(
+          (window.SH_MOD && allImageUrls.length > 0)
+            ? window.SH_MOD.check('', 'post', allImageUrls)
+            : { allowed: true }
+        ).then(function (imgMod) {
+
+          if (!imgMod.allowed) {
+            setLoading(false);
+            if (window.SH_MOD) window.SH_MOD.showBlock(modErrorEl, imgMod);
+            if (imgMod.banned && btn) btn.disabled = true;
+            return;
+          }
+
+          db.from('posts').insert({
+            title:      title   || null,
+            content:    content,
+            lang:       lang,
+            topics:     topics,
+            mode:       mode,
+            media_urls: mediaUrls,
+            user_id:    userId
+          }).then(function (result) {
+            if (result.error) {
+              console.error('Supabase insert error:', result.error);
+              alert('Could not publish: ' + result.error.message);
+              setLoading(false);
+              return;
+            }
+            window.location.href = 'main.html';
+          });
+
+        });
+      });
+
     });
   });
 

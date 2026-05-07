@@ -1,0 +1,910 @@
+/* ═══════════════════════════════════════════════
+   Dark theme token overrides.
+   Applied when <html data-theme="dark"> is set.
+   Set by JS/theme.js + preferences.html toggle.
+   ═══════════════════════════════════════════════ */
+
+html[data-theme="dark"] {
+  /* ── Background gradient (warm-dark purples) ── */
+  --bg-1: #1d1520;
+  --bg-2: #1a1828;
+  --bg-3: #201a2c;
+  --bg-4: #1d1820;
+
+  /* ── Glass surfaces ── */
+  --surface-nav:     rgba(20, 17, 30, 0.90);
+  --surface-card:    #1e1b2c;
+  --surface-sidebar: rgba(20, 17, 30, 0.85);
+  --surface-widget:  rgba(20, 17, 30, 0.80);
+  --surface-menu:    rgba(18, 15, 28, 0.97);
+  --surface-modal:   rgba(18, 15, 28, 0.97);
+  --surface-input:   #1a1728;
+  --surface-footer:  rgba(15, 13, 22, 0.75);
+
+  /* ── Borders ── */
+  --border-glass:   rgba(255, 255, 255, 0.08);
+  --border-nav:     rgba(255, 255, 255, 0.06);
+  --border-subtle:  #2e2a42;
+  --border-divider: rgba(255, 255, 255, 0.07);
+  --border-footer:  rgba(255, 255, 255, 0.10);
+
+  /* ── Text ── */
+  --text-light:     #52506a;
+  --text-mid:       #9a97b5;
+  --text-mid-light: #9a97b5;
+  --text-dark:      #c5c2da;
+  --charcoal:       #ede9f8;
+
+  /* ── Accent ── */
+  --accent:      #b8a6d4;
+  --accent-warm: #c9a898;
+
+  /* ── Semantic ── */
+  --color-danger:  #e05555;
+  --color-rose:    #d48898;
+  --color-success: #4ade80;
+
+  /* ── Misc ── */
+  --pil-active: #2d2a42;
+
+  /* ── Coming-soon page tokens ── */
+  --cs-eyebrow:    #b8a6d4;
+  --cs-title:      #ede9f8;
+  --cs-lead:       #9a97b5;
+  --cs-card-bg:    rgba(255, 255, 255, 0.04);
+  --cs-card-title: #ede9f8;
+  --cs-card-desc:  #6b6880;
+  --cs-back-bg:    rgba(255, 255, 255, 0.07);
+  --cs-back-color: #ede9f8;
+}
+
+/* ══════════════════════════════════════════════════════
+   Specific element overrides (hardcoded values in CSS
+   that don't pick up the :root tokens automatically)
+   ══════════════════════════════════════════════════════ */
+
+html[data-theme="dark"] body {
+  color: var(--text-mid);
+}
+
+/* ─────────────────────────────────────
+   NAVBAR  — covers every page's .top-info
+   (page-specific CSS files still have
+    hardcoded rgba(255,255,255) here)
+   ───────────────────────────────────── */
+html[data-theme="dark"] .top-info {
+  background: var(--surface-nav) !important;
+  border-top-color:    var(--border-nav) !important;
+  border-bottom-color: var(--border-nav) !important;
+}
+
+html[data-theme="dark"] .logo,
+html[data-theme="dark"] .nav-link,
+html[data-theme="dark"] .main-menu-trigger {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .nav-link:hover,
+html[data-theme="dark"] .main-menu-trigger:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .mmenu-item {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .mmenu-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--charcoal);
+}
+
+/* Sign out — reddish so it's visually distinct */
+html[data-theme="dark"] .mmenu-item--login {
+  color: #e07070 !important;
+  background: rgba(220, 80, 80, 0.08) !important;
+}
+
+html[data-theme="dark"] .mmenu-item--login:hover {
+  background: rgba(220, 80, 80, 0.16) !important;
+  color: #f08080 !important;
+}
+
+html[data-theme="dark"] .mmenu-divider {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ── Post cards (main feed) ── */
+html[data-theme="dark"] .post-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .post-title a {
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .post-preview {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .post-actions {
+  border-top-color: var(--border-subtle);
+}
+
+html[data-theme="dark"] .post-menu-down {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .post-menu-down li button {
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .post-menu-down li button:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Sidebar ── */
+html[data-theme="dark"] .sidebar-item {
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .sidebar-item:hover,
+html[data-theme="dark"] .sidebar-item.active {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .sidebar-create-post-button {
+  background: var(--accent);
+  color: #fff;
+}
+
+html[data-theme="dark"] .sidebar-create-post-button:hover {
+  background: #c9bae0;
+}
+
+html[data-theme="dark"] .sidebar-more {
+  border-color: var(--border-subtle);
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .sidebar-more:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Filter icon buttons (sort/filter toggles above feed) ── */
+html[data-theme="dark"] .button-icon {
+  background: rgba(30, 27, 44, 0.80) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .button-icon:hover,
+html[data-theme="dark"] .button-icon.active {
+  background: var(--charcoal) !important;
+  color: #fff;
+}
+
+/* ── Feed title + action stats ── */
+html[data-theme="dark"] .feed-title {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .post-actions-item {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .post-actions-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .action-stat {
+  color: var(--text-mid);
+}
+
+/* ── Sidebar topic count badges ── */
+html[data-theme="dark"] .topic-count {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: var(--text-mid) !important;
+}
+
+/* ── Right sidebar stat numbers ── */
+html[data-theme="dark"] .stat-value {
+  color: var(--charcoal) !important;
+}
+
+html[data-theme="dark"] .statistic-title {
+  color: var(--text-mid) !important;
+}
+
+html[data-theme="dark"] .statistic-row {
+  border-bottom-color: var(--border-subtle) !important;
+}
+
+/* ── Filters / search ── */
+html[data-theme="dark"] .search-input {
+  background: var(--surface-input);
+  border-color: var(--border-subtle);
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .search-input::placeholder {
+  color: var(--text-light);
+}
+
+html[data-theme="dark"] .search-clear {
+  background: var(--border-subtle);
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .pill {
+  background: var(--surface-input);
+  border-color: var(--border-subtle);
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .lang-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-subtle);
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .filter-select {
+  background: var(--surface-input);
+  border-color: var(--border-subtle);
+  color: var(--text-dark);
+}
+
+/* ── Tags ── */
+html[data-theme="dark"] .tag-lang {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .tag-topic {
+  background: rgba(166, 145, 194, 0.18);
+  color: var(--accent);
+}
+
+/* ── Modal ── */
+html[data-theme="dark"] .del-modal {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+html[data-theme="dark"] .del-title {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .del-desc {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .del-btn--cancel {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .del-btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.13);
+}
+
+/* ── Spinner ── */
+html[data-theme="dark"] .spinner {
+  border-color: var(--border-subtle);
+  border-top-color: var(--accent);
+}
+
+/* ── Toast ── */
+html[data-theme="dark"] .toast {
+  background: #2d2a42;
+  color: #ede9f8;
+}
+
+/* ── Footer ── */
+html[data-theme="dark"] .footer_logo p,
+html[data-theme="dark"] .footer_links h3 {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .footer_links a {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .footer_links a:hover {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .footer_footer,
+html[data-theme="dark"] .footer_social a {
+  color: var(--text-light);
+}
+
+html[data-theme="dark"] .footer_footer {
+  border-top-color: var(--border-divider);
+}
+
+html[data-theme="dark"] .footer {
+  background: var(--surface-footer) !important;
+  border-top-color: var(--border-footer) !important;
+}
+
+html[data-theme="dark"] .footer_subtitle {
+  color: var(--text-light);
+}
+
+/* ── Button (floating create post) ── */
+html[data-theme="dark"] .button_create_post_button,
+html[data-theme="dark"] .create-post {
+  background: var(--accent);
+}
+
+/* ── Widget ── */
+html[data-theme="dark"] .widget-title {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .widget-subtitle,
+html[data-theme="dark"] .widget-list li {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .statistic-row {
+  border-bottom-color: var(--border-subtle);
+}
+
+/* ─────────────────────────────────────
+   CONTACTS PAGE
+   ───────────────────────────────────── */
+html[data-theme="dark"] .contact-block {
+  background: rgba(30, 27, 44, 0.72);
+  border-color: var(--border-glass);
+}
+
+html[data-theme="dark"] .contact-block:hover {
+  background: rgba(35, 32, 52, 0.90);
+}
+
+html[data-theme="dark"] .contact-block-label {
+  color: var(--text-light);
+}
+
+html[data-theme="dark"] .email-address {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .contact-block-note {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .contact-cta {
+  color: var(--accent);
+}
+
+html[data-theme="dark"] .social-card {
+  background: rgba(30, 27, 44, 0.65);
+  border-color: var(--border-glass);
+}
+
+html[data-theme="dark"] .social-card:hover {
+  background: rgba(35, 32, 52, 0.90);
+}
+
+html[data-theme="dark"] .social-card-name {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .social-card-handle {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .hero-title,
+html[data-theme="dark"] .hero-desc,
+html[data-theme="dark"] .hero-eyebrow {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .note-inner {
+  background: rgba(30, 27, 44, 0.65);
+  border-color: var(--border-glass);
+}
+
+/* ─────────────────────────────────────
+   ABOUT PAGE
+   ───────────────────────────────────── */
+html[data-theme="dark"] .hero-meta-item {
+  background: rgba(30, 27, 44, 0.65);
+  border-color: var(--border-glass);
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .tiktok-card {
+  background: rgba(30, 27, 44, 0.80);
+  border-color: var(--border-glass);
+}
+
+html[data-theme="dark"] .tiktok-msg,
+html[data-theme="dark"] .tiktok-text {
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .tiktok-user {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .value-row {
+  background: rgba(30, 27, 44, 0.55);
+  border-color: var(--border-glass);
+}
+
+html[data-theme="dark"] .value-row:hover {
+  background: rgba(35, 32, 52, 0.80);
+}
+
+html[data-theme="dark"] .doc-link {
+  background: rgba(30, 27, 44, 0.65);
+  border-color: var(--border-glass);
+}
+
+html[data-theme="dark"] .doc-link:hover {
+  background: rgba(35, 32, 52, 0.90);
+}
+
+html[data-theme="dark"] .origin-lead,
+html[data-theme="dark"] .origin-text-col p {
+  color: var(--text-mid);
+}
+
+/* ─────────────────────────────────────
+   UPDATES PAGE
+   ───────────────────────────────────── */
+html[data-theme="dark"] .entry-body {
+  background: rgba(30, 27, 44, 0.65);
+  border-color: var(--border-glass);
+}
+
+html[data-theme="dark"] .entry-body:hover {
+  background: rgba(35, 32, 52, 0.88);
+}
+
+html[data-theme="dark"] .entry-title {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .entry-lead {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .entry-detail {
+  background: rgba(30, 27, 44, 0.55);
+  border-color: var(--border-glass);
+}
+
+html[data-theme="dark"] .entry-detail[open] {
+  background: rgba(35, 32, 52, 0.80);
+}
+
+html[data-theme="dark"] .entry-detail summary {
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .entry-detail-body {
+  color: var(--text-mid);
+  border-top-color: var(--border-divider);
+}
+
+html[data-theme="dark"] .timeline::before {
+  background: var(--border-subtle);
+}
+
+html[data-theme="dark"] .entry-dot {
+  border-color: var(--border-subtle);
+  background: var(--surface-card);
+}
+
+/* ─────────────────────────────────────
+   PROFILE PAGE
+   ───────────────────────────────────── */
+html[data-theme="dark"] .profile-card {
+  background: rgba(30, 27, 44, 0.72) !important;
+  border-color: rgba(166, 145, 194, 0.25) !important;
+  box-shadow:
+    0 0 32px rgba(166, 145, 194, 0.18),
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+html[data-theme="dark"] .profile-name {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .profile-handle,
+html[data-theme="dark"] .profile-meta {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .btn-edit {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--border-glass);
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .btn-edit:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme="dark"] .stat-block {
+  background: rgba(30, 27, 44, 0.65) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .stat-num {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .stat-desc {
+  color: var(--text-mid);
+}
+
+/* action cards — base (keeps border, color variants override bg) */
+html[data-theme="dark"] .action-card {
+  border-color: var(--border-glass) !important;
+}
+
+/* Purple variant: Browse Stories, AI Helper */
+html[data-theme="dark"] .action-card--purple {
+  background: rgba(145, 115, 185, 0.16) !important;
+  border-color: rgba(166, 145, 194, 0.28) !important;
+}
+
+html[data-theme="dark"] .action-card--purple:hover {
+  background: rgba(145, 115, 185, 0.26) !important;
+}
+
+/* Featured card: Share Something */
+html[data-theme="dark"] .action-card--featured {
+  background: linear-gradient(135deg, rgba(110, 85, 155, 0.70), rgba(40, 32, 68, 0.90)) !important;
+  border-color: rgba(166, 145, 194, 0.35) !important;
+}
+
+html[data-theme="dark"] .action-card--featured:hover {
+  background: linear-gradient(135deg, rgba(130, 100, 175, 0.80), rgba(50, 38, 80, 0.95)) !important;
+}
+
+/* Peach variant: Edit Profile */
+html[data-theme="dark"] .action-card--peach {
+  background: rgba(200, 148, 110, 0.14) !important;
+  border-color: rgba(210, 165, 130, 0.26) !important;
+}
+
+html[data-theme="dark"] .action-card--peach:hover {
+  background: rgba(200, 148, 110, 0.24) !important;
+}
+
+/* Generic fallback (cards without a color variant) */
+html[data-theme="dark"] .action-card:not([class*="action-card--"]) {
+  background: rgba(30, 27, 44, 0.65) !important;
+}
+
+html[data-theme="dark"] .action-title {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .action-desc {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .action-icon {
+  background: rgba(255, 255, 255, 0.10) !important;
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .action-arrow {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+html[data-theme="dark"] .anon-note {
+  background: rgba(18, 15, 28, 0.96);
+  border-color: var(--border-glass);
+  color: var(--text-mid);
+}
+
+/* btn-signout stays solid red in dark mode */
+html[data-theme="dark"] .btn-signout {
+  background: #b03030 !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+html[data-theme="dark"] .btn-signout:hover {
+  background: #c0392b !important;
+  box-shadow: 0 6px 20px rgba(192, 57, 43, 0.40) !important;
+}
+
+html[data-theme="dark"] .hero-note {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .stats-label,
+html[data-theme="dark"] .actions-label {
+  color: var(--text-light);
+}
+
+/* ─────────────────────────────────────
+   EDIT PROFILE PAGE
+   ───────────────────────────────────── */
+html[data-theme="dark"] .edit-card {
+  background: rgba(30, 27, 44, 0.72) !important;
+  border-color: var(--border-glass) !important;
+}
+
+/* input-prefix-wrap: the wrapper around "@username" field has hardcoded white bg */
+html[data-theme="dark"] .input-prefix-wrap {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+html[data-theme="dark"] .input-prefix-wrap:focus-within {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(184, 166, 212, 0.18) !important;
+}
+
+html[data-theme="dark"] .input-prefix {
+  color: var(--text-light) !important;
+}
+
+html[data-theme="dark"] .card-divider {
+  background: var(--border-subtle) !important;
+}
+
+html[data-theme="dark"] .field-hint {
+  color: var(--text-light) !important;
+}
+
+html[data-theme="dark"] .btn-ghost {
+  border-color: var(--border-glass) !important;
+  color: var(--text-mid) !important;
+}
+
+html[data-theme="dark"] .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-dark) !important;
+}
+
+html[data-theme="dark"] .btn-upload {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .btn-upload:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+html[data-theme="dark"] .edit-title {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .edit-sub {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .card-desc {
+  color: var(--text-mid);
+}
+
+/* ─────────────────────────────────────
+   POST PAGE
+   ───────────────────────────────────── */
+
+/* post-screen.css hardcodes background: #ffffff on .post-card */
+html[data-theme="dark"] .post-page .post-card,
+html[data-theme="dark"] .post-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .options-dropdown {
+  background: var(--surface-menu) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .options-item {
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .options-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .options-divider {
+  background: var(--border-divider);
+}
+
+html[data-theme="dark"] .post-body p {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .comment-card {
+  background: rgba(30, 27, 44, 0.65) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .comment-card--reply {
+  background: rgba(25, 22, 38, 0.55) !important;
+}
+
+html[data-theme="dark"] .comment-input,
+html[data-theme="dark"] .compose-textarea {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+
+html[data-theme="dark"] .media-upload-btn {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .back-link {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .back-link:hover {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .heart-btn {
+  color: var(--text-mid);
+}
+
+/* post-screen.css hardcodes compose-card background */
+html[data-theme="dark"] .compose-card {
+  background: rgba(30, 27, 44, 0.72) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .post-title {
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .post-author-name {
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .post-time {
+  color: var(--text-light);
+}
+
+/* ─────────────────────────────────────
+   STARTUP / LOGIN / REGISTER PAGES
+   ───────────────────────────────────── */
+html[data-theme="dark"] .auth-card,
+html[data-theme="dark"] .login-card,
+html[data-theme="dark"] .register-card,
+html[data-theme="dark"] .form-card {
+  background: rgba(30, 27, 44, 0.80) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="email"],
+html[data-theme="dark"] input[type="password"],
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: var(--text-light) !important;
+}
+
+/* ─────────────────────────────────────
+   CREATE POST PAGE
+   ───────────────────────────────────── */
+html[data-theme="dark"] .card {
+  background: rgba(30, 27, 44, 0.72) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .card:focus-within {
+  border-color: var(--accent) !important;
+}
+
+html[data-theme="dark"] .lang-strip {
+  background: rgba(30, 27, 44, 0.65) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .title-input,
+html[data-theme="dark"] .content-area {
+  background: transparent !important;
+  color: var(--charcoal) !important;
+}
+
+html[data-theme="dark"] .title-input::placeholder,
+html[data-theme="dark"] .content-area::placeholder {
+  color: var(--text-light) !important;
+}
+
+html[data-theme="dark"] .mode-card {
+  background: rgba(30, 27, 44, 0.65) !important;
+  border-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .mode-card:hover {
+  background: rgba(35, 32, 52, 0.90) !important;
+}
+
+html[data-theme="dark"] .mode-card.is-selected {
+  border-color: var(--accent) !important;
+}
+
+html[data-theme="dark"] .field-label {
+  color: var(--accent);
+}
+
+html[data-theme="dark"] .media-upload-area {
+  background: rgba(30, 27, 44, 0.55) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+html[data-theme="dark"] .btn-cancel {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .rich-editor .ql-toolbar.ql-snow {
+  background: rgba(30, 27, 44, 0.80) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+html[data-theme="dark"] .rich-editor .ql-container.ql-snow {
+  background: transparent !important;
+  border-color: var(--border-subtle) !important;
+}
+
+html[data-theme="dark"] .rich-editor .ql-editor {
+  color: var(--text-dark) !important;
+}
+
+html[data-theme="dark"] .rich-editor .ql-toolbar.ql-snow .ql-stroke {
+  stroke: var(--text-mid);
+}
+
+html[data-theme="dark"] .rich-editor .ql-toolbar.ql-snow .ql-fill {
+  fill: var(--text-mid);
+}
+
+/* ─────────────────────────────────────
+   MODERATION ERROR BLOCK (all pages)
+   ───────────────────────────────────── */
+html[data-theme="dark"] .mod-error {
+  color: #f87171 !important;
+}
+
+html[data-theme="dark"] .mod-warn,
+html[data-theme="dark"] .mod-ban {
+  color: rgba(255,255,255,0.40) !important;
+}
+
+/* ─────────────────────────────────────
+   AI CHAT PAGE
+   ───────────────────────────────────── */
+html[data-theme="dark"] .chat-bubble--ai {
+  background: rgba(30, 27, 44, 0.80) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark);
+}
+
+html[data-theme="dark"] .chat-input-wrap,
+html[data-theme="dark"] .chat-box {
+  background: var(--surface-nav) !important;
+  border-color: var(--border-nav) !important;
+}

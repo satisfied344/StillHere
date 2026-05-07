@@ -1,11 +1,14 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Join – StillHere</title>
   <link rel="stylesheet" href="CSS/register-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <script src="JS/theme.js"></script>
 </head>
 <body>
 
@@ -93,7 +96,7 @@
       <div class="auth-card">
         <p class="auth-card-label">create account</p>
 
-        <form class="auth-form" action="#" method="post" novalidate>
+        <form class="auth-form" id="registerForm" action="#" method="post" novalidate>
 
           <div class="fields-row">
             <div class="field">
@@ -114,20 +117,34 @@
             </div>
           </div>
 
-          <div class="field">
+          <div class="field" id="field-username">
             <label class="field-label" for="reg-username">Username</label>
             <div class="input-prefix-wrap">
               <span class="input-prefix">@</span>
               <input type="text" id="reg-username" name="username"
                      placeholder="yourhandle" autocomplete="username" autofocus required>
             </div>
-            <span class="field-hint">This is how others will find you.</span>
+            <span class="field-hint">Letters, numbers, _ and - only. 3–30 characters.</span>
           </div>
 
-          <div class="field">
+          <div class="field" id="field-password">
             <label class="field-label" for="reg-password">Password</label>
-            <input type="password" id="reg-password" name="password"
-                   placeholder="••••••••" autocomplete="new-password" required>
+            <div class="input-pw-wrap">
+              <input type="password" id="reg-password" name="password"
+                     placeholder="••••••••" autocomplete="new-password" required>
+              <button type="button" class="pw-toggle" data-target="reg-password" aria-label="Show password">
+                <span class="pw-toggle-show">show</span>
+                <span class="pw-toggle-hide" hidden>hide</span>
+              </button>
+            </div>
+            <div class="pw-strength-wrap">
+              <div class="pw-strength-track">
+                <div class="pw-strength-bar" id="pwStrengthBar"></div>
+              </div>
+              <div class="pw-strength-meta">
+                <span id="pwStrengthText"></span>
+              </div>
+            </div>
           </div>
 
           <label class="terms-check">
@@ -153,6 +170,10 @@
 
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="JS/supabase-config.js"></script>
+  <script src="JS/moderation.js"></script>
+  <script src="JS/auth.js"></script>
 </body>
 </html>
 

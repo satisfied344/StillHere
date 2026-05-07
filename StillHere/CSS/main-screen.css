@@ -2,11 +2,47 @@
   box-sizing: border-box;
 }
 
-:root{
-  --text-light: #8A8A8A;
-  --text-mid-light: #5A5A5A;
-  --text-dark: #404040;
-  --charcoal: #111827;
+:root {
+  /* ── Background gradient ── */
+  --bg-1: #edcfb6;
+  --bg-2: #e7c5b9;
+  --bg-3: #ded3f1;
+  --bg-4: #e6cfbb;
+
+  /* ── Glass surfaces ── */
+  --surface-nav:     rgba(255, 255, 255, 0.70);
+  --surface-card:    #ffffff;
+  --surface-sidebar: rgba(255, 255, 255, 0.75);
+  --surface-widget:  rgba(255, 255, 255, 0.70);
+  --surface-menu:    rgba(255, 255, 255, 0.96);
+  --surface-modal:   rgba(255, 255, 255, 0.96);
+  --surface-input:   #ffffff;
+  --surface-footer:  rgba(255, 255, 255, 0.28);
+
+  /* ── Borders ── */
+  --border-glass:   rgba(255, 255, 255, 0.80);
+  --border-nav:     rgba(255, 255, 255, 0.60);
+  --border-subtle:  #e5e7eb;
+  --border-divider: rgba(0, 0, 0, 0.06);
+  --border-footer:  rgba(255, 255, 255, 0.45);
+
+  /* ── Text ── */
+  --text-light:     #8A8A8A;
+  --text-mid:       #5A5A5A;
+  --text-mid-light: #5A5A5A; /* alias */
+  --text-dark:      #404040;
+  --charcoal:       #111827;
+
+  /* ── Accent ── */
+  --accent:      #a691c2;
+  --accent-warm: #e0bda5;
+
+  /* ── Semantic ── */
+  --color-danger:  #dc2626;
+  --color-rose:    #c97c8c;
+  --color-success: #16a34a;
+
+  /* ── Misc ── */
   --pil-active: #e1e1e1;
 }
 
@@ -26,10 +62,10 @@ body {
   color: #5A5A5A;
   min-height: 100vh;
   background: linear-gradient(135deg,
-    #edcfb6,
-    #e7c5b9,
-    #ded3f1,
-    #e6cfbb);
+    var(--bg-1),
+    var(--bg-2),
+    var(--bg-3),
+    var(--bg-4));
   background-size: 400% 400%;
   animation: warmFlow 20s ease-in-out infinite alternate;
 } 
@@ -74,11 +110,11 @@ a {
   left: 0;
   width: 100%;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--surface-nav);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid var(--border-nav);
+  border-bottom: 1px solid var(--border-nav);
   box-shadow:
     0 4px 30px rgba(0, 0, 0, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -189,10 +225,10 @@ a {
   position: sticky;
   top: 80px;
   height: fit-content;
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--surface-sidebar);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border-glass);
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
@@ -240,6 +276,11 @@ a {
 
 .sidebar-item.active::before {
   transform: scaleY(1);
+}
+
+.save-post-btn--saved {
+  color: #a691c2 !important;
+  font-weight: 600;
 }
 
 .sidebar-item.small {
@@ -408,9 +449,9 @@ a {
 }
 
 .filters-container {
-  background:rgba(255, 255, 255, 0.7);
+  background: var(--surface-widget);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border-glass);
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -438,7 +479,7 @@ a {
   border: 2px solid #e5e7eb;
   border-radius: 12px;
   font-size: 15px;
-  background: white;
+  background: var(--surface-input);
   transition: all 0.3s ease;
 }
 
@@ -648,8 +689,8 @@ button.lang-pill {
 }
 
 .post-card {
-  background: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: var(--surface-card);
+  border: 1px solid var(--border-glass);
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -686,6 +727,15 @@ button.lang-pill {
   justify-content: center;
   color: var(--text-light);
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.post-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .post-avatar-colored {
@@ -729,10 +779,10 @@ button.lang-pill {
   top: calc(100% + 8px);
   right: 0;
   min-width: 172px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--surface-menu);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-glass);
   border-radius: 14px;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   padding: 6px;
@@ -1021,9 +1071,9 @@ button.lang-pill {
 }
 
 .widget {
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--surface-widget);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border-glass);
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -1229,9 +1279,9 @@ button.lang-pill {
 }
 
 .footer {
-  background: rgba(255,255,255,.28);
+  background: var(--surface-footer);
   backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(255,255,255,.45);
+  border-top: 1px solid var(--border-footer);
   padding: 64px 40px 32px;
   position: relative;
   z-index: 1;
@@ -1367,10 +1417,10 @@ button.lang-pill {
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
   width: min(420px, calc(100vw - 32px));
-  background: rgba(255,255,255,0.96);
+  background: var(--surface-modal);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.9);
+  border: 1px solid var(--border-glass);
   border-radius: 24px;
   box-shadow: 0 24px 60px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.9);
   padding: 36px 32px 28px;

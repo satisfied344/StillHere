@@ -5,19 +5,53 @@
 }
 
 :root {
-  --charcoal: #111827;
-  --text-dark: #404040;
-  --text-mid: #5A5A5A;
+  /* ── Background gradient ── */
+  --bg-1: #edcfb6;
+  --bg-2: #e7c5b9;
+  --bg-3: #ded3f1;
+  --bg-4: #e6cfbb;
+
+  /* ── Glass surfaces ── */
+  --surface-nav:     rgba(255, 255, 255, 0.70);
+  --surface-card:    #ffffff;
+  --surface-sidebar: rgba(255, 255, 255, 0.75);
+  --surface-widget:  rgba(255, 255, 255, 0.70);
+  --surface-menu:    rgba(255, 255, 255, 0.96);
+  --surface-modal:   rgba(255, 255, 255, 0.96);
+  --surface-input:   #ffffff;
+  --surface-footer:  rgba(255, 255, 255, 0.28);
+
+  /* ── Borders ── */
+  --border-glass:   rgba(255, 255, 255, 0.80);
+  --border-nav:     rgba(255, 255, 255, 0.60);
+  --border-subtle:  #e5e7eb;
+  --border-divider: rgba(0, 0, 0, 0.06);
+  --border-footer:  rgba(255, 255, 255, 0.45);
+
+  /* ── Text ── */
   --text-light: #8A8A8A;
-  --purple: #a691c2;
-  --peach: #e0bda5;
-  --topbar-h: 73px;
+  --text-mid:   #5A5A5A;
+  --text-dark:  #404040;
+  --charcoal:   #111827;
+
+  /* ── Accent ── */
+  --accent:      #a691c2;
+  --accent-warm: #e0bda5;
+
+  /* ── Semantic ── */
+  --color-danger:  #dc2626;
+  --color-rose:    #c97c8c;
+  --color-success: #16a34a;
+
+  /* ── Misc ── */
+  --pil-active: #e1e1e1;
+  --topbar-h:   73px;
 }
 
 body {
   font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text-mid);
-  background: linear-gradient(135deg, #edcfb6, #e7c5b9, #ded3f1, #e6cfbb);
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4));
   background-size: 400% 400%;
   animation: warmFlow 20s ease-in-out infinite alternate;
   min-height: 100vh;
@@ -527,6 +561,114 @@ input[type="password"]:focus {
 }
 
 .footer-inner a:hover { color: var(--charcoal); }
+
+/* ── Avatar image in circle ─────────────────────────────────── */
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ── Avatar image in post cards ─────────────────────────────── */
+.post-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ── Delete account confirmation modal ──────────────────────── */
+.del-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.del-backdrop.is-open {
+  opacity: 1;
+  pointer-events: all;
+  animation: backdropIn 0.25s ease;
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.del-modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 36px 32px;
+  max-width: 380px;
+  width: calc(100% - 48px);
+  text-align: center;
+  box-shadow: 0 24px 72px rgba(0,0,0,0.18);
+  animation: modalBounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalBounce {
+  from { transform: scale(0.88) translateY(16px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+.del-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(217,79,79,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #d94f4f;
+}
+.del-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 10px;
+}
+.del-desc {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+.del-actions {
+  display: flex;
+  gap: 10px;
+}
+.del-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.del-btn--cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+.del-btn--cancel:hover { background: #e5e7eb; }
+.del-btn--confirm {
+  background: #d94f4f;
+  color: #fff;
+}
+.del-btn--confirm:hover {
+  background: #c0392b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(217,79,79,0.35);
+}
+
 
 @media (max-width: 860px) {
   .edit-body { grid-template-columns: 1fr; }

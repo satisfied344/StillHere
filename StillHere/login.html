@@ -1,11 +1,14 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign in – StillHere</title>
   <link rel="stylesheet" href="CSS/login-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <script src="JS/theme.js"></script>
 </head>
 <body>
 
@@ -93,9 +96,9 @@
       <div class="auth-card">
         <p class="auth-card-label">sign in</p>
 
-        <form class="auth-form" action="#" method="post" novalidate>
+        <form class="auth-form" id="loginForm" action="#" method="post" novalidate>
 
-          <div class="field">
+          <div class="field" id="field-username">
             <label class="field-label" for="login-username">Username</label>
             <div class="input-prefix-wrap">
               <span class="input-prefix">@</span>
@@ -104,10 +107,16 @@
             </div>
           </div>
 
-          <div class="field">
+          <div class="field" id="field-password">
             <label class="field-label" for="login-password">Password</label>
-            <input type="password" id="login-password" name="password"
-                   placeholder="••••••••" autocomplete="current-password">
+            <div class="input-pw-wrap">
+              <input type="password" id="login-password" name="password"
+                     placeholder="••••••••" autocomplete="current-password">
+              <button type="button" class="pw-toggle" data-target="login-password" aria-label="Show password">
+                <span class="pw-toggle-show">show</span>
+                <span class="pw-toggle-hide" hidden>hide</span>
+              </button>
+            </div>
           </div>
 
           <button type="submit" class="auth-btn">
@@ -126,6 +135,9 @@
 
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="JS/supabase-config.js"></script>
+  <script src="JS/auth.js"></script>
 </body>
 </html>
 

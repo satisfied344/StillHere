@@ -5,18 +5,52 @@
 }
 
 :root {
-  --charcoal: #111827;
-  --text-dark: #404040;
-  --text-mid: #5A5A5A;
+  /* ── Background gradient ── */
+  --bg-1: #edcfb6;
+  --bg-2: #e7c5b9;
+  --bg-3: #ded3f1;
+  --bg-4: #e6cfbb;
+
+  /* ── Glass surfaces ── */
+  --surface-nav:     rgba(255, 255, 255, 0.70);
+  --surface-card:    #ffffff;
+  --surface-sidebar: rgba(255, 255, 255, 0.75);
+  --surface-widget:  rgba(255, 255, 255, 0.70);
+  --surface-menu:    rgba(255, 255, 255, 0.96);
+  --surface-modal:   rgba(255, 255, 255, 0.96);
+  --surface-input:   #ffffff;
+  --surface-footer:  rgba(255, 255, 255, 0.28);
+
+  /* ── Borders ── */
+  --border-glass:   rgba(255, 255, 255, 0.80);
+  --border-nav:     rgba(255, 255, 255, 0.60);
+  --border-subtle:  #e5e7eb;
+  --border-divider: rgba(0, 0, 0, 0.06);
+  --border-footer:  rgba(255, 255, 255, 0.45);
+
+  /* ── Text ── */
   --text-light: #8A8A8A;
-  --purple: #a691c2;
-  --peach: #e0bda5;
+  --text-mid:   #5A5A5A;
+  --text-dark:  #404040;
+  --charcoal:   #111827;
+
+  /* ── Accent ── */
+  --accent:      #a691c2;
+  --accent-warm: #e0bda5;
+
+  /* ── Semantic ── */
+  --color-danger:  #dc2626;
+  --color-rose:    #c97c8c;
+  --color-success: #16a34a;
+
+  /* ── Misc ── */
+  --pil-active: #e1e1e1;
 }
 
 body {
   font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text-mid);
-  background: linear-gradient(135deg, #edcfb6, #e7c5b9, #ded3f1, #e6cfbb);
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4));
   background-size: 400% 400%;
   animation: warmFlow 20s ease-in-out infinite alternate;
   min-height: 100vh;
@@ -452,6 +486,152 @@ input[type="password"]:focus {
 .auth-switch a:hover {
   color: var(--charcoal);
   text-decoration-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* ── Field-level errors ─────────────────────────────────────────── */
+
+.field-error {
+  font-size: 12px;
+  color: #d94f4f;
+  margin-top: 1px;
+  animation: errFadeIn 0.2s ease;
+}
+
+@keyframes errFadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.field--error input[type="text"],
+.field--error input[type="password"] {
+  border-color: rgba(217, 79, 79, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(217, 79, 79, 0.10) !important;
+}
+
+.field--error .input-prefix-wrap {
+  border-color: rgba(217, 79, 79, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(217, 79, 79, 0.10) !important;
+}
+
+/* ── Form-level error banner ────────────────────────────────────── */
+
+.form-error {
+  font-size: 13px;
+  color: #c0392b;
+  background: rgba(217, 79, 79, 0.08);
+  border: 1px solid rgba(217, 79, 79, 0.22);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 4px;
+  animation: errFadeIn 0.2s ease;
+}
+
+/* ── Button loading / disabled ──────────────────────────────────── */
+
+.auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.auth-btn--loading {
+  pointer-events: none;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btnSpin 0.65s linear infinite;
+}
+
+@keyframes btnSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Password show/hide toggle ──────────────────────────────────── */
+
+.input-pw-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-pw-wrap input[type="password"],
+.input-pw-wrap input[type="text"] {
+  padding-right: 52px;
+  width: 100%;
+}
+
+.pw-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  cursor: pointer;
+  color: var(--text-light);
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  transition: color 0.2s ease;
+  border-radius: 4px;
+  line-height: 1;
+  user-select: none;
+}
+
+.pw-toggle:hover {
+  color: var(--purple);
+}
+
+/* ── Password strength meter ────────────────────────────────────── */
+
+.pw-strength-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.pw-strength-track {
+  height: 3px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.pw-strength-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.35s ease;
+  background-color: #d94f4f;
+}
+
+.pw-strength-bar--weak   { background-color: #d94f4f; }
+.pw-strength-bar--fair   { background-color: #e09040; }
+.pw-strength-bar--good   { background-color: #6ab87a; }
+.pw-strength-bar--strong { background-color: #4aab6d; }
+
+.pw-strength-meta {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#pwStrengthText {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  min-height: 15px;
+  transition: color 0.3s ease;
 }
 
 

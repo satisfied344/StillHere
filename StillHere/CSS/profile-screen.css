@@ -5,20 +5,58 @@
 }
 
 :root {
-  --charcoal: #111827;
-  --text-dark: #404040;
-  --text-mid: #5A5A5A;
+  /* ── Background gradient ── */
+  --bg-1: #edcfb6;
+  --bg-2: #e7c5b9;
+  --bg-3: #ded3f1;
+  --bg-4: #e6cfbb;
+
+  /* ── Glass surfaces ── */
+  --surface-nav:     rgba(255, 255, 255, 0.70);
+  --surface-card:    #ffffff;
+  --surface-sidebar: rgba(255, 255, 255, 0.75);
+  --surface-widget:  rgba(255, 255, 255, 0.70);
+  --surface-menu:    rgba(255, 255, 255, 0.96);
+  --surface-modal:   rgba(255, 255, 255, 0.96);
+  --surface-input:   #ffffff;
+  --surface-footer:  rgba(255, 255, 255, 0.28);
+
+  /* ── Borders ── */
+  --border-glass:   rgba(255, 255, 255, 0.80);
+  --border-nav:     rgba(255, 255, 255, 0.60);
+  --border-subtle:  #e5e7eb;
+  --border-divider: rgba(0, 0, 0, 0.06);
+  --border-footer:  rgba(255, 255, 255, 0.45);
+
+  /* ── Text ── */
   --text-light: #8A8A8A;
+  --text-mid:   #5A5A5A;
+  --text-dark:  #404040;
+  --charcoal:   #111827;
+
+  /* ── Accent ── */
+  --accent:      #a691c2;
+  --accent-warm: #e0bda5;
+
+  /* ── Semantic ── */
+  --color-danger:  #dc2626;
+  --color-rose:    #c97c8c;
+  --color-success: #16a34a;
+
+  /* ── Misc ── */
+  --pil-active: #e1e1e1;
+  --topbar-h:   73px;
+
+  /* ── Legacy page-specific tokens ── */
+  --white:  #ffffff;
   --purple: #a691c2;
-  --peach: #e0bda5;
-  --topbar-h: 73px;
-  --white: #ffffff;
+  --peach:  #e0bda5;
 }
 
 body {
   font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text-mid);
-  background: linear-gradient(135deg, #edcfb6, #e7c5b9, #ded3f1, #e6cfbb);
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4));
   background-size: 400% 400%;
   animation: warmFlow 20s ease-in-out infinite alternate;
   min-height: 100vh;
@@ -252,6 +290,16 @@ a {
   justify-content: center;
   color: white;
   margin-bottom: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .profile-name {
@@ -285,6 +333,9 @@ a {
 .profile-card-actions {
   border-top: 1px solid rgba(255, 255, 255, 0.5);
   padding-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .btn-edit {
@@ -298,12 +349,38 @@ a {
   font-size: 14px;
   font-weight: 600;
   transition: all 0.25s ease;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
 }
 
 .btn-edit:hover {
   background: #1f2937;
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(17, 24, 39, 0.22);
+}
+
+.btn-signout {
+  background: #c0392b;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-signout:hover {
+  background: #a93226;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(192, 57, 43, 0.35);
+}
+
+.btn-signin {
+  background: rgba(166, 145, 194, 0.15);
+  color: var(--purple);
+  border: 1.5px solid rgba(166, 145, 194, 0.3);
+}
+
+.btn-signin:hover {
+  background: rgba(166, 145, 194, 0.25);
+  box-shadow: 0 4px 14px rgba(166, 145, 194, 0.18);
 }
 
 .strip-spacer {
@@ -583,7 +660,7 @@ a {
 
 .anon-stat-label {
   font-size: 13px;
-  color: var(--text-light);
+  color: rgba(255, 255, 255, 0.50);
   font-weight: 500;
 }
 

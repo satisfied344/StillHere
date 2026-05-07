@@ -78,6 +78,29 @@ document.addEventListener('click', function (e) {
 });
 
 /* ─────────────────────────────────────────────
+   Liked-posts set — persisted in localStorage
+   ───────────────────────────────────────────── */
+
+var _likedPosts = (function () {
+  try { return new Set(JSON.parse(localStorage.getItem('sh_liked_posts') || '[]')); }
+  catch (e) { return new Set(); }
+})();
+
+function _saveLiked() {
+  try { localStorage.setItem('sh_liked_posts', JSON.stringify([..._likedPosts])); } catch (e) {}
+}
+
+/* ── Saved posts set — persisted in localStorage ── */
+var _savedPosts = (function () {
+  try { return new Set(JSON.parse(localStorage.getItem('sh_saved_posts') || '[]')); }
+  catch (e) { return new Set(); }
+})();
+
+function _saveSaved() {
+  try { localStorage.setItem('sh_saved_posts', JSON.stringify([..._savedPosts])); } catch (e) {}
+}
+
+/* ─────────────────────────────────────────────
    Post action buttons — event delegation
    (support / share — works for dynamic cards)
    ───────────────────────────────────────────── */
@@ -98,7 +121,14 @@ document.addEventListener('click', function (e) {
       ? String(parseInt(stat.textContent || '0', 10) + 1)
       : String(Math.max(0, parseInt(stat.textContent || '1', 10) - 1));
 
-    // Persist to DB if Supabase is available
+    /* Persist liked state in localStorage */
+    if (postId) {
+      if (active) _likedPosts.add(postId);
+      else        _likedPosts.delete(postId);
+      _saveLiked();
+    }
+
+    /* Persist count to DB if Supabase is available */
     if (postId && window.SH_SUPABASE_URL && window.supabase) {
       var _db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
       var fn  = active ? 'increment_support' : 'decrement_support';
@@ -114,6 +144,38 @@ document.addEventListener('click', function (e) {
       : window.location.href;
     if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast('Link copied'); });
   }
+});
+
+/* Save Post button in post card dropdown menu */
+document.addEventListener('click', function (e) {
+  var saveBtn = e.target.closest('[data-action-save]');
+  if (!saveBtn) return;
+  var postId = saveBtn.getAttribute('data-action-save');
+  var isSaved = _savedPosts.has(postId);
+
+  if (isSaved) {
+    _savedPosts.delete(postId);
+    /* Outline bookmark icon */
+    saveBtn.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
+      '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z' +
+      'm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/></svg>Save Post';
+    saveBtn.classList.remove('save-post-btn--saved');
+    showMainToast('Removed from saved');
+  } else {
+    _savedPosts.add(postId);
+    /* Filled bookmark icon */
+    saveBtn.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
+      '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"/></svg>Saved';
+    saveBtn.classList.add('save-post-btn--saved');
+    showMainToast('Post saved');
+  }
+  _saveSaved();
+  closeAllPostMenus();
+
+  /* If currently viewing saved feed, re-render to reflect removal */
+  if (activeSavedFilter && !_savedPosts.has(postId)) applyFilters();
 });
 
 /* Copy Link button in post card dropdown menu */
@@ -153,6 +215,12 @@ function showMainToast(msg) {
   }
 
   var db = window.supabase.createClient(sbUrl, sbKey);
+
+  /* ── infinite scroll sentinel ── */
+  var scrollSentinel = document.createElement('div');
+  scrollSentinel.id = 'feed-scroll-sentinel';
+  scrollSentinel.style.cssText = 'height:1px;';
+  feed.parentNode.insertBefore(scrollSentinel, feed.nextSibling);
 
   /* ── helpers ── */
 
@@ -254,13 +322,15 @@ function showMainToast(msg) {
       '<div class="post-header">' +
         '<div class="post-author-info">' +
           '<div class="post-avatar">' +
-            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"' +
-            ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"' +
-            ' stroke-linejoin="round" class="icon" aria-hidden="true">' +
-            '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>' +
+            (post.profiles && post.profiles.avatar_url
+              ? '<img src="' + escHtml(post.profiles.avatar_url) + '" alt="Avatar" class="post-avatar-img">'
+              : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"' +
+                ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"' +
+                ' stroke-linejoin="round" class="icon" aria-hidden="true">' +
+                '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>') +
           '</div>' +
           '<div class="post-include-info">' +
-            '<span class="post-author">Anonymous</span>' +
+            '<span class="post-author">' + (post.profiles ? escHtml(post.profiles.display_name || post.profiles.username) : 'Anonymous') + '</span>' +
             '<span class="post-time">' + CLOCK_SVG + ' ' + timeAgo(post.created_at) + '</span>' +
           '</div>' +
         '</div>' +
@@ -273,11 +343,11 @@ function showMainToast(msg) {
             'M208,96a32,32,0,1,0,32,32A32,32,0,0,0,208,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,208,144Z"/></svg>' +
           '</button>' +
           '<ul class="post-menu-down" role="menu">' +
-            '<li role="menu-item"><button type="button">' +
-              '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
-              '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z' +
-              'm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/></svg>' +
-              'Save Post</button></li>' +
+            '<li role="menu-item"><button type="button" data-action-save="' + id + '" class="save-post-btn' + (_savedPosts.has(post.id) ? ' save-post-btn--saved' : '') + '">' +
+              (_savedPosts.has(post.id)
+                ? '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"/></svg>Saved'
+                : '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/></svg>Save Post') +
+              '</button></li>' +
             '<li role="menu-item"><button type="button" data-action-copy="' + id + '">' +
               '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M240,88.23a54.43,54.43,0,0,1-16,37L189.25,160a54.27,54.27,0,0,1-38.63,16h-.05A54.63,54.63,0,0,1,96,119.84a8,8,0,0,1,16,.45A38.62,38.62,0,0,0,150.58,160h0' +
@@ -313,7 +383,7 @@ function showMainToast(msg) {
       '</div>' +
 
       '<div class="post-actions">' +
-        '<button class="post-actions-item" data-action="support">' +
+        '<button class="post-actions-item' + (_likedPosts.has(post.id) ? ' post-actions-item--active' : '') + '" data-action="support">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
           '<path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0' +
           'C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27' +
@@ -345,9 +415,45 @@ function showMainToast(msg) {
 
   var allPosts    = [];
   var activeLangs = {};   // { en: true, ru: true, … }
-  var activeModes = {};   // { 'support': true, 'no-advice': true } — both can be active
-  var activeTopic = '';   // e.g. 'anxiety' — single topic filter from sidebar
-  var searchQuery = '';
+  var activeModes       = {};    // { 'support': true, 'no-advice': true } — both can be active
+  var activeTopic       = '';    // e.g. 'anxiety' — single topic filter from sidebar
+  var searchQuery       = '';
+  var activeSavedFilter = false; // true when "Saved" sidebar item is selected
+
+  /* ── infinite scroll state ── */
+  var PAGE_SIZE            = 12;
+  var currentFilteredPosts = [];
+  var displayedCount       = 0;
+  var _scrollObserver      = null;
+
+  /* ── append next batch of posts ── */
+
+  function renderBatch() {
+    var batch = currentFilteredPosts.slice(displayedCount, displayedCount + PAGE_SIZE);
+    if (!batch.length) {
+      if (_scrollObserver) _scrollObserver.disconnect();
+      return;
+    }
+    var fragment = document.createDocumentFragment();
+    batch.forEach(function (post) {
+      var tmp = document.createElement('div');
+      tmp.innerHTML = buildPostCard(post);
+      while (tmp.firstChild) fragment.appendChild(tmp.firstChild);
+    });
+    feed.insertBefore(fragment, loader);
+    displayedCount += batch.length;
+    if (displayedCount >= currentFilteredPosts.length && _scrollObserver) {
+      _scrollObserver.disconnect();
+    }
+  }
+
+  function initScrollObserver() {
+    if (_scrollObserver) _scrollObserver.disconnect();
+    _scrollObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) renderBatch();
+    }, { rootMargin: '200px' });
+    _scrollObserver.observe(scrollSentinel);
+  }
 
   /* ── render ── */
 
@@ -355,24 +461,26 @@ function showMainToast(msg) {
     feed.querySelectorAll('.post-card, .feed-empty').forEach(function (el) { el.remove(); });
     if (loader) loader.style.display = 'none';
 
-    if (!posts || posts.length === 0) {
+    currentFilteredPosts = posts || [];
+    displayedCount = 0;
+
+    if (!currentFilteredPosts.length) {
+      if (_scrollObserver) _scrollObserver.disconnect();
       var empty = document.createElement('p');
       empty.className    = 'feed-empty';
-      empty.textContent  = Object.keys(activeLangs).length || Object.keys(activeModes).length || searchQuery
-        ? 'No posts match your filters.'
-        : 'No stories yet. Be the first to share yours.';
+      empty.textContent  = activeSavedFilter
+        ? 'No saved posts yet. Click "Save Post" on any story.'
+        : (Object.keys(activeLangs).length || Object.keys(activeModes).length || searchQuery
+          ? 'No posts match your filters.'
+          : 'No stories yet. Be the first to share yours.');
       empty.style.cssText = 'text-align:center;color:#888;padding:40px 0;font-size:15px;';
       feed.insertBefore(empty, loader);
       return;
     }
 
-    var fragment = document.createDocumentFragment();
-    posts.forEach(function (post) {
-      var tmp = document.createElement('div');
-      tmp.innerHTML = buildPostCard(post);
-      while (tmp.firstChild) fragment.appendChild(tmp.firstChild);
-    });
-    feed.insertBefore(fragment, loader);
+    renderBatch();
+    if (currentFilteredPosts.length > PAGE_SIZE) initScrollObserver();
+    else if (_scrollObserver) _scrollObserver.disconnect();
   }
 
   /* ── client-side filter ── */
@@ -384,6 +492,7 @@ function showMainToast(msg) {
     var sortVal   = (document.getElementById('sortSelect') || {}).value || 'recent';
 
     var filtered = allPosts.filter(function (post) {
+      if (activeSavedFilter && !_savedPosts.has(post.id)) return false;
       if (langKeys.length && langKeys.indexOf(post.lang) === -1) return false;
       if (modeKeys.length && modeKeys.indexOf(post.mode) === -1) return false;
       if (activeTopic && (post.topics || []).indexOf(activeTopic) === -1) return false;
@@ -594,26 +703,36 @@ function showMainToast(msg) {
     var refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) refreshBtn.classList.add('spinning');
 
-    db.from('posts')
-      .select('*, comments(count)')
-      .order('created_at', { ascending: false })
-      .then(function (result) {
-        if (refreshBtn) refreshBtn.classList.remove('spinning');
-        if (result.error) {
-          console.error('Supabase fetch error:', result.error);
-          if (loader) loader.style.display = 'none';
+    function processPostsResult(result) {
+      if (refreshBtn) refreshBtn.classList.remove('spinning');
+      if (result.error) {
+        /* If avatar_url column is missing, retry without it */
+        if (result.error.message && result.error.message.includes('avatar_url')) {
+          db.from('posts')
+            .select('*, comments(count), profiles(username, display_name)')
+            .order('created_at', { ascending: false })
+            .then(processPostsResult);
           return;
         }
-        /* merge live comment count from the join */
-        allPosts = (result.data || []).map(function (p) {
-          var liveCount = (p.comments && p.comments[0]) ? (p.comments[0].count || 0) : 0;
-          p.comment_count = liveCount;
-          return p;
-        });
-        applyFilters();
-        updateTopicCounts(allPosts);
-        updateWeekStats(allPosts);
+        console.error('Supabase fetch error:', result.error);
+        if (loader) loader.style.display = 'none';
+        return;
+      }
+      /* merge live comment count from the join */
+      allPosts = (result.data || []).map(function (p) {
+        var liveCount = (p.comments && p.comments[0]) ? (p.comments[0].count || 0) : 0;
+        p.comment_count = liveCount;
+        return p;
       });
+      applyFilters();
+      updateTopicCounts(allPosts);
+      updateWeekStats(allPosts);
+    }
+
+    db.from('posts')
+      .select('*, comments(count), profiles(username, display_name, avatar_url)')
+      .order('created_at', { ascending: false })
+      .then(processPostsResult);
   }
 
   /* ── topic counts (left sidebar) ── */
@@ -655,6 +774,12 @@ function showMainToast(msg) {
   }
 
   fetchPosts();
+
+  /* ── Sidebar Saved / Home filter event ── */
+  document.addEventListener('sh:savedFilter', function (e) {
+    activeSavedFilter = e.detail;
+    applyFilters();
+  });
 
   /* ── refresh button ── */
 
