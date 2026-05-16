@@ -534,31 +534,97 @@ input[type="password"]:focus {
 }
 
 .footer {
-  background: rgba(255, 255, 255, 0.28);
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(255, 255, 255, 0.45);
-  padding: 28px 40px;
+  background: var(--paper-2);
+  border-top: 1.5px solid var(--ink);
+  padding: 72px 40px 32px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
+  color: var(--ink-soft);
 }
 
-.footer-inner {
-  max-width: 1060px;
-  margin: 0 auto;
+.footer_content { max-width: 1280px; margin: 0 auto; }
+
+.footer_main {
+  display: flex;
+  justify-content: space-between;
+  gap: 64px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+
+.footer_stillhere { display: flex; flex-direction: column; gap: 8px; }
+
+.footer_logo p {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.footer_subtitle {
+  font-size: 13px;
+  color: var(--ink-mid);
+  max-width: 240px;
+  line-height: 1.55;
+  font-style: italic;
+  margin: 0;
+}
+
+.footer_links {
+  display: flex;
+  gap: 56px;
+  flex-wrap: wrap;
+}
+
+.footer_links h3 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+
+.footer_links ul {
+  list-style: none;
+  padding: 0; margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer_links a {
+  font-size: 14px;
+  color: var(--ink-soft);
+  transition: color 0.2s, transform 0.2s;
+  display: inline-block;
+  padding: 2px 0;
+}
+.footer_links a:hover { color: var(--accent-2); transform: translateX(3px); }
+
+.footer_footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
   font-size: 13px;
-  color: var(--text-light);
+  color: var(--ink-mid);
+  flex-wrap: wrap;
+  gap: 16px;
 }
+.footer_footer p { margin: 0; }
 
-.footer-inner a {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-light);
-  transition: color 0.2s ease;
+.footer_social { display: flex; gap: 14px; }
+
+.footer_social a {
+  color: var(--ink-mid);
+  transition: color 0.2s, transform 0.2s;
+  display: flex;
 }
+.footer_social a:hover { color: var(--accent-2); transform: translateY(-2px); }
+.footer_social svg { width: 24px; height: 24px; }
 
 .footer-inner a:hover { color: var(--charcoal); }
 

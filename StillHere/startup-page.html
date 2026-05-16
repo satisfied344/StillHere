@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
@@ -7,62 +7,93 @@
     <link rel="stylesheet" href="CSS/startup-screen.css">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="JS/supabase-config.js"></script>
     <script src="JS/session.js"></script>
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="JS/theme.js"></script>
+
+  <style>
+    /* ── Floating theme toggle (sun / moon) ── */
+    .theme-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      z-index: 9000;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--paper-soft, #fffaf0);
+      border: 1px solid rgba(26, 20, 16, 0.16);
+      box-shadow: 0 4px 18px -4px rgba(26, 20, 16, 0.22), 0 1px 4px rgba(26,20,16,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink, #1a1410);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.25s ease,
+                  background 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .theme-fab:hover {
+      transform: scale(1.12) rotate(18deg);
+      box-shadow: 0 8px 28px -6px rgba(26, 20, 16, 0.30), 0 2px 6px rgba(26,20,16,0.10);
+    }
+    .theme-fab:active { transform: scale(0.94); }
+
+    /* icon visibility — swap on dark mode */
+    .theme-fab-sun,
+    .theme-fab-moon {
+      position: absolute;
+      transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    /* light mode: sun visible */
+    .theme-fab-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+    .theme-fab-moon { opacity: 0; transform: rotate(-30deg) scale(0.7); }
+    /* dark mode: moon visible */
+    [data-theme="dark"] .theme-fab-sun  { opacity: 0; transform: rotate(30deg) scale(0.7); }
+    [data-theme="dark"] .theme-fab-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+    /* dark mode background flip */
+    [data-theme="dark"] .theme-fab {
+      background: rgba(36, 28, 22, 0.90);
+      border-color: rgba(244, 234, 214, 0.14);
+      color: #f4ead6;
+      box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.40), 0 1px 4px rgba(0,0,0,0.20);
+    }
+  </style>
 </head>
 <body>
     <nav class="top-info" aria-label="Primary navigation">
-        <a href="startup-page.html" class="logo">
+        <a href="main.html" class="logo">
             <span>StillHere</span>
         </a>
 
         <div class="nav">
             <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256" 
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
-                    </svg> 
+                    </svg>
                 <span>about</span>
             </a>
 
             <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256" stroke-width="22"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" stroke-width="22" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
                     </svg>
                 <span>contacts</span>
             </a>
 
             <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
                     </svg>
                 <span>updates</span>
             </a>
 
             <a href="login.html" class="nav-link nav-link--stack" id="navLoginLink">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="28" height="28"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/>
                     </svg>
                 <span>login</span>
@@ -73,15 +104,9 @@
     <div class="effects">
         <svg width="0" height="0" style="position:absolute">
             <filter id="noise">
-                <feTurbulence
-                type="noise"
-                baseFrequency="0.3"
-                numOctaves="2"
-                stitchTiles="stitch" />
+                <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
                 <feColorMatrix type="saturate" values="0" />
-                <feComponentTransfer>
-                <feFuncA type="linear" slope="0.09" />
-                </feComponentTransfer>
+                <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
             </filter>
         </svg>
 
@@ -92,28 +117,24 @@
                 <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
                 <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
             </div>
-
             <div class="row right">
                 <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
                 <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
                 <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
                 <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
             </div>
-
             <div class="row left slow">
                 <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
                 <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
                 <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
                 <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
             </div>
-
             <div class="row right slower">
                 <span>you matter</span><span>importas</span><span>tu comptes</span><span>du bist wichtig</span><span>ти важливий</span>
                 <span>sei importante</span><span>você importa</span><span>jesteś ważny</span><span>あなたは大切</span><span>你很重要</span>
-                <span>youʼre not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
+                <span>you're not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
                 <span>non sei solo</span><span>não está sozinho</span><span>nie jesteś sam</span><span>혼자가 아니야</span><span>你并不孤单</span>
             </div>
-
             <div class="row left slowest">
                 <span>stay</span><span>quédate</span><span>reste</span><span>bleib</span><span>залишайся</span>
                 <span>rimani</span><span>fica</span><span>zostań</span><span>ابقَ</span><span>とどまって</span>
@@ -124,145 +145,272 @@
     </div>
 
     <main class="start-content">
+        <!-- Hero ambient doodles — sparse, calm, drawn-on-paper feel -->
+        <img src="assets/doodles2/09_cloud.png" class="d-img doodle-hero-cloud d-bob d-mouse" data-px="0.012" alt="" aria-hidden="true">
+        <img src="assets/doodles2/01_star.png" class="d-img doodle-hero-spark d-parallax d-mouse" data-px="0.025" data-rot="-12" alt="" aria-hidden="true">
+        <img src="assets/doodles2/08_wavy_line.png" class="d-img doodle-hero-wave d-parallax d-mouse" data-px="0.018" data-rot="-2" alt="" aria-hidden="true">
+
+        <!-- Heart — right side accent -->
+        <img src="assets/doodles2/06_double_heart.png" class="d-img doodle-hero-heart-r d-mouse" data-px="0.022" alt="" aria-hidden="true">
+
+
+        <div class="hero-meta reveal">
+            <span class="hero-index">
+                <em>—</em> 01 / Presence, not solutions
+            </span>
+            <span class="hero-loc">Global · Anonymous · Free</span>
+        </div>
+
         <div class="start-content-1">
             <div class="title-wrapper">
-                <h1 class="title">StillHere</h1>
-                <h1 class="title title-gradient" aria-hidden="true">StillHere</h1>
+                <h1 class="title reveal-stagger">
+                    <span class="title-word">still</span><em class="title-em">here</em>
+                </h1>
+                <svg class="scribble-circle" viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                    <path d="M40 60 C 40 30, 80 12, 120 14 C 160 16, 188 38, 188 70 C 188 100, 150 112, 100 110 C 50 108, 18 90, 14 64 C 10 38, 30 22, 60 18 C 100 12, 160 22, 188 50"/>
+                </svg>
+                <!-- Star annotation pointing at "here" — like a margin note -->
+                <img src="assets/doodles2/01_star.png" class="d-img title-star d-bob" alt="" aria-hidden="true">
             </div>
         </div>
 
-        <div class="hero-divider"></div>
+        <div class="hero-bottom">
+            <div class="hero-bottom-left reveal">
+                <p class="subtitle">
+                    a space for <em>presence</em>,<br>
+                    not solutions.
+                </p>
+            </div>
 
-        <p class="subtitle">
-            A space for presence, not solutions
-        </p>
+            <div class="hero-bottom-right reveal" data-reveal-delay="200">
+                <p class="subtitle-2">
+                    when everything feels heavy — slow down,<br>
+                    breathe, and find a quiet place that <em>feels like yours.</em>
+                </p>
 
-        <p class="subtitle-2">
-            When everything feels heavy - find your own presence
-        </p>
+                <div class="butttons_on_start">
+                    <!-- Writing hand — sits right beside "start sharing", scribbling toward it -->
+                    <div class="start-hand-wrap" aria-hidden="true">
+                        <img src="assets/emotions/hand-with-pen.png" class="d-img start-hand">
+                        <!-- Ink scribble that grows out of the pen tip toward the button -->
+                        <svg class="start-hand-ink" viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+                            <path d="M4 30 Q 20 12, 38 22 T 70 18 T 110 24"/>
+                        </svg>
+                    </div>
 
-        <div class="butttons_on_start">
-            <a href="register.html" class="btn button_start_1" id="startSharingBtn">
-                <span>Start Sharing</span>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    width="16"height="16"
-                    viewBox="0 0 16 16"aria-hidden="true">
-                    <path d="M6 12l4-4-4-4"
-                    fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-                </svg>
-            </a>
+                    <a href="create-post.html" class="btn button_start_1" id="startSharingBtn">
+                        <span>start sharing</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M6 12l4-4-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
 
-            <a href="main.html" class="btn button_start_2">
-                <span>Explore Stories</span>
-            </a>
+                    <a href="main.html" class="btn button_start_2">
+                        <span>explore stories</span>
+                        <span class="btn-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
         </div>
+
+        <a href="#why-section" class="scroll-cue" aria-label="Scroll to next section">
+            <span>scroll</span>
+            <span class="scroll-cue-line"></span>
+            <span class="scroll-cue-dot">↓</span>
+        </a>
     </main>
 
-    <section class="card-section">
-        <div class="cards">
-            <h2 class="card-section-title">Why StillHere?</h2>
+    <!-- ── Stamp band ── -->
+    <div class="stamp-band" aria-hidden="true">
+        <div class="stamp-track">
+            <span>
+                <span>you are here</span><span class="stamp-sep">✶</span>
+                <span><em>respira</em></span><span class="stamp-sep">✶</span>
+                <span>you matter</span><span class="stamp-sep">✶</span>
+                <span><em>дыши</em></span><span class="stamp-sep">✶</span>
+                <span>still — here</span><span class="stamp-sep">✶</span>
+                <span><em>todo bien</em></span><span class="stamp-sep">✶</span>
+                <span>not alone</span><span class="stamp-sep">✶</span>
+                <span><em>ゆっくり</em></span><span class="stamp-sep">✶</span>
+                <span>breathe</span><span class="stamp-sep">✶</span>
+                <span><em>ça va</em></span><span class="stamp-sep">✶</span>
+            </span>
+            <span aria-hidden="true">
+                <span>you are here</span><span class="stamp-sep">✶</span>
+                <span><em>respira</em></span><span class="stamp-sep">✶</span>
+                <span>you matter</span><span class="stamp-sep">✶</span>
+                <span><em>дыши</em></span><span class="stamp-sep">✶</span>
+                <span>still — here</span><span class="stamp-sep">✶</span>
+                <span><em>todo bien</em></span><span class="stamp-sep">✶</span>
+                <span>not alone</span><span class="stamp-sep">✶</span>
+                <span><em>ゆっくり</em></span><span class="stamp-sep">✶</span>
+                <span>breathe</span><span class="stamp-sep">✶</span>
+                <span><em>ça va</em></span><span class="stamp-sep">✶</span>
+            </span>
+        </div>
+    </div>
 
-            <div class="features">
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/>
-                        </svg>
-                    </div>
-                    <h3>Anonymous & Safe</h3>
-                    <p>Full-safety posts, you can be anonymous</p>
-                </div>
+    <section class="card-section" id="why-section">
+        <!-- Soft fog at corners — ties this section into the page rhythm -->
+        <img src="assets/fog/77.jpg" class="section-fog section-fog--tl" alt="" aria-hidden="true">
+        <img src="assets/fog/152.jpg" class="section-fog section-fog--br" alt="" aria-hidden="true">
 
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/>
-                        </svg>
-                    </div>
-                    <h3>No Advice Mode</h3>
-                    <p>An option that could protect you from advices</p>
-                </div>
+        <!-- Subtle corner accents — light, never heavy black scribbles -->
+        <img src="assets/doodles2/06_double_heart.png" class="d-img section-doodle section-doodle--mr d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true">
+        <img src="assets/doodles/wave-swirl.png" class="d-img section-doodle section-doodle--br d-mouse" data-px="0.014" alt="" aria-hidden="true">
+        <img src="assets/doodles2/01_star.png" class="d-img section-doodle section-doodle--ml d-mouse" data-px="0.020" alt="" aria-hidden="true">
+        <img src="assets/doodles2/02_asterisk_flower.png" class="d-img section-doodle section-doodle--bl d-bob d-mouse" data-px="0.016" alt="" aria-hidden="true">
 
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"/>
-                        </svg>
-                    </div>
-                    <h3>Big Community</h3>
-                    <p>Around 1000+ people already have joined StillHere</p>
-                </div>
+        <!-- BIG writing-hand filling the persistent "empty right side" next to title.
+             Animated ink scribble flows toward the heading. -->
+        <div class="section-hand-wrap" aria-hidden="true">
+            <img src="assets/emotions/hand-with-pen.png" class="d-img section-hand">
+            <svg class="section-hand-ink" viewBox="0 0 220 90" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+                <path d="M8 62 Q 36 36, 70 48 T 140 44 T 212 52"/>
+                <path d="M18 78 Q 48 62, 86 70 T 160 66"/>
+            </svg>
+        </div>
 
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,112a28,28,0,0,0-8,54.83V184a8,8,0,0,0,16,0V166.83A28,28,0,0,0,128,112Zm0,40a12,12,0,1,1,12-12A12,12,0,0,1,128,152Zm80-72H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/>
-                        </svg>
-                    </div>
-                    <h3>Moderated Support</h3>
-                    <p>You can report sensitive content/posts, our moderators will review them</p>
-                </div>
+        <!-- Side-of-grid accents — asterisks + abstract doodles, all quiet -->
+        <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img grid-side grid-side--l-top d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true">
+        <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img grid-side grid-side--l-mid d-mouse" data-px="0.020" alt="" aria-hidden="true">
+        <img src="assets/doodles2/06_double_heart.png" class="d-img grid-side grid-side--l-bot d-mouse" data-px="0.012" alt="" aria-hidden="true">
+        <img src="assets/letters/_Special Characters/Asterisk_02.png" class="d-img grid-side grid-side--r-top d-mouse" data-px="0.016" alt="" aria-hidden="true">
+       
+        <img src="assets/doodles/wave-swirl.png" class="d-img grid-side grid-side--r-bot d-mouse" data-px="0.014" alt="" aria-hidden="true">
 
-                <div class="card">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="46" height="46"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M216,80H184V48a16,16,0,0,0-16-16H40A16,16,0,0,0,24,48V176a8,8,0,0,0,13,6.22L72,154V184a16,16,0,0,0,16,16h93.59L219,230.22a8,8,0,0,0,5,1.78,8,8,0,0,0,8-8V96A16,16,0,0,0,216,80ZM66.55,137.78,40,159.25V48H168v88H71.58A8,8,0,0,0,66.55,137.78ZM216,207.25l-26.55-21.47a8,8,0,0,0-5-1.78H88V152h80a16,16,0,0,0,16-16V96h32Z"/>
-                        </svg>
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="section-eyebrow">
+                    <img src="assets/doodles2/02_asterisk_flower.png" class="eyebrow-doodle" alt="" aria-hidden="true">
+                    02 / why stillhere
+                </span>
+                <h2 class="card-section-title">built for <em>quiet</em>,<br>not for noise.</h2>
+
+                <img src="assets/crayon-textures/045.png" class="d-img section-underline" alt="" aria-hidden="true">
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card reveal-row" style="--rot: -1.2deg;">
+                    <img src="assets/skotch/03.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <div class="card-emotion">
+                        <img src="assets/cats_named/sneaking.png" class="d-img" alt="" aria-hidden="true">
                     </div>
-                    <h3>Real Conversations and People</h3>
-                    <p>All people on StillHere are real, conversations are mindful and sensible</p>
-                </div>
+                    <span class="feature-num">01 — privacy</span>
+                    <h3>anonymous &amp; safe</h3>
+                    <p>share without showing your face or your name. your presence is enough.</p>
+                </article>
+
+                <article class="feature-card reveal-row" style="--rot: 1.4deg;">
+                    <img src="assets/skotch/11.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <div class="card-emotion">
+                        <img src="assets/cats_named/calm.png" class="d-img" alt="" aria-hidden="true">
+                    </div>
+                    <span class="feature-num">02 — care</span>
+                    <h3>no-advice mode</h3>
+                    <p>a toggle that protects your story from unsolicited advice — only listening, only company.</p>
+                </article>
+
+                <article class="feature-card reveal-row" style="--rot: -0.8deg;">
+                    <img src="assets/skotch/19.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <div class="card-emotion">
+                        <img src="assets/cats_named/happy.png" class="d-img" alt="" aria-hidden="true">
+                    </div>
+                    <span class="feature-num">03 — together</span>
+                    <h3>a quiet community</h3>
+                    <p>1,000+ people already showed up here, in their own languages, at their own pace.</p>
+                </article>
+
+                <article class="feature-card reveal-row" style="--rot: 1.0deg;">
+                    <img src="assets/skotch/24.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <div class="card-emotion">
+                        <img src="assets/cats_named/surprised.png" class="d-img" alt="" aria-hidden="true">
+                    </div>
+                    <span class="feature-num">04 — trust</span>
+                    <h3>moderated, with care</h3>
+                    <p>sensitive content can be flagged. humans review every report — slowly, gently.</p>
+                </article>
+
+                <article class="feature-card feature-card--wide reveal-row" style="--rot: -0.6deg;">
+                    <img src="assets/skotch/06.png" class="skotch card-skotch card-skotch--l" alt="" aria-hidden="true">
+                    <img src="assets/skotch/27.png" class="skotch card-skotch card-skotch--r" alt="" aria-hidden="true">
+                    <div class="card-emotion">
+                        <img src="assets/cats_named/confused.png" class="d-img" alt="" aria-hidden="true">
+                    </div>
+                    <span class="feature-num">05 — human</span>
+                    <h3>real people, real words</h3>
+                    <p>no bots, no performance — mindful, honest conversation, in any language.</p>
+                    <img src="assets/doodles2/08_wavy_line.png" class="d-img card-extra card-extra--1" alt="" aria-hidden="true">
+                    <img src="assets/doodles2/01_star.png" class="d-img card-extra card-extra--2" alt="" aria-hidden="true">
+                    <img src="assets/doodles/wave-mmmm.png" class="d-img card-extra card-extra--3" alt="" aria-hidden="true">
+                </article>
             </div>
         </div>
     </section>
 
-    <section class="join-section">
+    <!-- ── Quote band — framed by giant quotation marks + ambient doodles ── -->
+    <section class="quote-band reveal">
+        <!-- Hand-drawn quotation marks — quiet, not pretentious -->
+        <img src="assets/letters/_Special Characters/Quotation_Mark_06.png" class="quote-mark quote-mark--open" alt="" aria-hidden="true">
+        <img src="assets/letters/_Special Characters/Quotation_Mark_06.png" class="quote-mark quote-mark--close" alt="" aria-hidden="true">
+
+        <!-- Floating ambient companions — asterisks + abstract doodles tie the note in -->
+        <img src="assets/letters/_Special Characters/Asterisk_02.png" class="d-img quote-ambient quote-ambient--1 d-mouse" data-px="0.022" alt="" aria-hidden="true">
+        <img src="assets/doodles2/08_wavy_line.png" class="d-img quote-ambient quote-ambient--2 d-mouse" data-px="0.018" alt="" aria-hidden="true">
+        
+
+        <div class="quote-note">
+            <img src="assets/skotch/14.png" class="skotch skotch-tl" alt="" aria-hidden="true">
+            <img src="assets/skotch/22.png" class="skotch skotch-tr" alt="" aria-hidden="true">
+
+            <p class="quote-text">
+                "you don't always need to be <em>fixed.</em><br>
+                sometimes you just need to be <em>witnessed.</em>"
+            </p>
+            <span class="quote-cite">— a stillhere note</span>
+
+            <img src="assets/doodles2/02_asterisk_flower.png" class="d-img quote-flower d-bob" alt="" aria-hidden="true">
+        </div>
+    </section>
+
+    <section class="join-section" id="join-section">
         <div class="container">
+            <div class="join-meta reveal">
+                <span class="section-eyebrow">
+                    <img src="assets/doodles2/01_star.png" class="eyebrow-doodle" alt="" aria-hidden="true">
+                    03 / invitation
+                </span>
+            </div>
+
             <div class="join-content">
-                <h2 class="join-title">You don't have to carry it out alone</h2>
+                <!-- "not alone" note — pinned to FAR top-right corner of section, well above title -->
+                <div class="paper-note paper-note--join d-mouse" data-px="0.014" aria-hidden="true">
+                    <img src="assets/paper-structions-torn-parts/27.png" class="paper-note-bg" alt="">
+                    <span class="paper-note-text">not&nbsp;alone</span>
+                    <img src="assets/skotch/17.png" class="skotch paper-note-skotch" alt="">
+                </div>
 
-                <p class="join-description">
-                Your story matters. Your feelings are valid.
-                </p>
+                <h2 class="join-title reveal">you don't have<br>to carry it <em>alone</em>.</h2>
 
-                <a href="register.html" class="btn join-register" id="joinRegisterBtn">
-                    <span>Join StillHere</span>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="16" height="16"
-                        viewBox="0 0 16 16" aria-hidden="true">
-                        <path d="M6 12l4-4-4-4"
-                            fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"/>
-                    </svg>
-                </a>
+                <div class="join-bottom">
+                    <p class="join-description">
+                        your story matters.<br>
+                        your feelings are valid.
+                    </p>
+
+                    <a href="create-post.html" class="btn join-register" id="joinRegisterBtn">
+                        <span>start sharing</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M6 12l4-4-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Decorative accents — asterisks + soft wave, placed in true dead zones -->
+                <img src="assets/doodles2/08_wavy_line.png" class="d-img doodle-join-wave d-mouse" data-px="0.012" alt="" aria-hidden="true">
+                <img src="assets/letters/_Special Characters/Asterisk_03.png" class="d-img doodle-join-flower d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true">
+                <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img doodle-join-star2 d-mouse" data-px="0.018" alt="" aria-hidden="true">
+                <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img doodle-join-margin-mark d-mouse" data-px="0.014" alt="" aria-hidden="true">
             </div>
         </div>
     </section>
@@ -311,45 +459,22 @@
                 <p>2026 StillHere.</p>
                 <div class="footer_social">
                     <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                             <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
                         </svg>
                     </a>
-
                     <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                             <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
                         </svg>
                     </a>
-
                     <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                             <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
                         </svg>
                     </a>
-
                     <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                             <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
                         </svg>
                     </a>
@@ -358,24 +483,22 @@
         </div>
     </footer>
 
+  <!-- ── Floating theme toggle ── -->
+  <button class="theme-fab" id="themeFab" aria-label="Toggle dark / light theme">
+    <!-- Sun icon — light mode -->
+    <svg class="theme-fab-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+      <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM40,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H32A8,8,0,0,0,40,128Zm88,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H224a8,8,0,0,0,0,16h16a8,8,0,0,0,0-16Z"/>
+    </svg>
+    <!-- Moon icon — dark mode -->
+    <svg class="theme-fab-moon" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+      <path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106.08,106.08,0,0,0,96,56a104.11,104.11,0,0,0,104,104,106.08,106.08,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/>
+    </svg>
+  </button>
 
   <script>
     window.SH_SESSION.whenReady(function (user) {
       if (!user) return;
-
-      /* ── "Start Sharing" → create-post.html ── */
-      var startBtn = document.getElementById('startSharingBtn');
-      if (startBtn) startBtn.href = 'create-post.html';
-
-      /* ── "Join StillHere" → create-post.html ── */
-      var joinBtn = document.getElementById('joinRegisterBtn');
-      if (joinBtn) {
-        joinBtn.href = 'create-post.html';
-        var joinSpan = joinBtn.querySelector('span');
-        if (joinSpan) joinSpan.textContent = 'Start Sharing';
-      }
-
-      /* ── Nav: Login → Profile ── */
+      /* already pointing at create-post.html — nothing to swap */
       var loginLink = document.getElementById('navLoginLink');
       if (loginLink) {
         loginLink.href = 'nav-bar/profile.html';
@@ -386,6 +509,198 @@
           '<span>' + (user.displayName || user.username) + '</span>';
       }
     });
+  </script>
+
+  <!-- Scroll reveal + parallax + global mouse-tracking -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* 0. Navbar shrink-on-scroll — slim-on-load → ultra-slim after 24px */
+      var navEl = document.querySelector('.top-info');
+      if (navEl) {
+        var lastScrolled = false;
+        window.addEventListener('scroll', function () {
+          var s = window.scrollY > 24;
+          if (s !== lastScrolled) {
+            navEl.classList.toggle('is-scrolled', s);
+            lastScrolled = s;
+          }
+        }, { passive: true });
+      }
+
+      /* 1. Scroll reveal */
+      var revealEls = document.querySelectorAll('.reveal, .reveal-row, .reveal-stagger');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var el = entry.target;
+              var delay = parseInt(el.getAttribute('data-reveal-delay'), 10) || 0;
+              setTimeout(function () { el.classList.add('is-in'); }, delay);
+              io.unobserve(el);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(function (el) { io.observe(el); });
+      } else {
+        revealEls.forEach(function (el) { el.classList.add('is-in'); });
+      }
+
+      /* 2. Hero mouse parallax (gentle, dampened) */
+      var parallaxEls = document.querySelectorAll('.d-parallax');
+      var heroEl = document.querySelector('.start-content');
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (heroEl && parallaxEls.length && !reduced) {
+        var mx = 0, my = 0, cx = 0, cy = 0, raf = null;
+        parallaxEls.forEach(function (el) {
+          var rot = parseFloat(el.getAttribute('data-rot')) || 0;
+          var flip = parseFloat(el.getAttribute('data-flip')) || 1;
+          el._baseTransform = 'rotate(' + rot + 'deg) scaleX(' + flip + ')';
+          el.style.transform = el._baseTransform;
+        });
+        function tick() {
+          cx += (mx - cx) * 0.04;
+          cy += (my - cy) * 0.04;
+          parallaxEls.forEach(function (el) {
+            var f = parseFloat(el.getAttribute('data-px')) || 0.02;
+            el.style.transform =
+              'translate(' + (cx * f).toFixed(2) + 'px, ' + (cy * f).toFixed(2) + 'px) ' +
+              el._baseTransform;
+          });
+          if (Math.abs(mx - cx) > 0.3 || Math.abs(my - cy) > 0.3) {
+            raf = requestAnimationFrame(tick);
+          } else { raf = null; }
+        }
+        document.addEventListener('mousemove', function (e) {
+          var r = heroEl.getBoundingClientRect();
+          var nx = (e.clientX - r.left - r.width / 2);
+          var ny = (e.clientY - r.top - r.height / 2);
+          mx = Math.max(-400, Math.min(400, nx));
+          my = Math.max(-300, Math.min(300, ny));
+          if (!raf) raf = requestAnimationFrame(tick);
+        }, { passive: true });
+      }
+
+      /* 3. GLOBAL mouse-tracking for ALL doodles tagged .d-mouse
+         (very subtle — every doodle on the page reacts to the cursor) */
+      var mouseEls = document.querySelectorAll('.d-mouse');
+      if (mouseEls.length && !reduced) {
+        var winW = window.innerWidth, winH = window.innerHeight;
+        window.addEventListener('resize', function () {
+          winW = window.innerWidth; winH = window.innerHeight;
+        });
+        var globRaf = null;
+        var gmx = 0, gmy = 0;
+        function globTick() {
+          mouseEls.forEach(function (el) {
+            // skip elements driven by parallax (already animated by tick above)
+            if (el.classList.contains('d-parallax')) return;
+            var f = parseFloat(el.getAttribute('data-px')) || 0.012;
+            var existing = window.getComputedStyle(el).transform;
+            // Read base rotate from data-rot if present
+            var rot = parseFloat(el.getAttribute('data-rot')) || 0;
+            el.style.transform =
+              'translate(' + (gmx * f).toFixed(2) + 'px, ' + (gmy * f).toFixed(2) + 'px)' +
+              (rot ? ' rotate(' + rot + 'deg)' : '');
+          });
+          globRaf = null;
+        }
+        document.addEventListener('mousemove', function (e) {
+          gmx = e.clientX - winW / 2;
+          gmy = e.clientY - winH / 2;
+          if (!globRaf) globRaf = requestAnimationFrame(globTick);
+        }, { passive: true });
+      }
+
+      /* 4. Title hover — random tilt the em word */
+      var titleEm = document.querySelector('.title em.title-em');
+      if (titleEm) {
+        var titleWrap = document.querySelector('.title-wrapper');
+        if (titleWrap) {
+          titleWrap.addEventListener('mouseenter', function () {
+            var deg = (Math.random() * 8 - 4).toFixed(2);
+            titleEm.style.transform = 'rotate(' + deg + 'deg)';
+          });
+          titleWrap.addEventListener('mouseleave', function () {
+            titleEm.style.transform = 'rotate(0deg)';
+          });
+        }
+      }
+
+      /* 5. Scroll-cue fades on scroll */
+      var cue = document.querySelector('.scroll-cue');
+      if (cue) {
+        window.addEventListener('scroll', function () {
+          var op = Math.max(0, 1 - window.scrollY / 400);
+          cue.style.opacity = op;
+        }, { passive: true });
+      }
+
+      /* 6. Card emotion mouse-tracking — hovered card reacts strongly */
+      if (!reduced) {
+        var cards = document.querySelectorAll('.feature-card');
+        cards.forEach(function (card) {
+          var img = card.querySelector('.card-emotion .d-img');
+          if (!img) return;
+          var hovered = false;
+          card.addEventListener('mouseenter', function () { hovered = true; });
+          card.addEventListener('mouseleave', function () {
+            hovered = false;
+            img.style.transform = 'translate(0,0)';
+          });
+          card._emotionImg = img;
+          card._emotionHovered = function () { return hovered; };
+        });
+        var winW2 = window.innerWidth, winH2 = window.innerHeight;
+        window.addEventListener('resize', function () {
+          winW2 = window.innerWidth; winH2 = window.innerHeight;
+        });
+        var lastTime = 0;
+        document.addEventListener('mousemove', function (e) {
+          var now = performance.now();
+          if (now - lastTime < 16) return;
+          lastTime = now;
+          var nx = (e.clientX / winW2) - 0.5;
+          var ny = (e.clientY / winH2) - 0.5;
+          cards.forEach(function (card) {
+            if (!card._emotionImg) return;
+            var rect = card.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > winH2) return;
+            var strong = card._emotionHovered();
+            var mult = strong ? 18 : 6;
+            var tx = (nx * mult).toFixed(2);
+            var ty = (ny * mult).toFixed(2);
+            card._emotionImg.style.transform =
+              'translate(' + tx + 'px, ' + ty + 'px)' +
+              (strong ? ' rotate(-6deg) scale(1.06)' : '');
+          });
+        }, { passive: true });
+      }
+    })();
+  </script>
+
+  <!-- Theme FAB logic -->
+  <script>
+    (function () {
+      var fab = document.getElementById('themeFab');
+      if (!fab || !window.SH_THEME) return;
+
+      fab.addEventListener('click', function () {
+        window.SH_THEME.toggle();
+
+        /* Brief spin-and-pop on click */
+        fab.style.transition = 'none';
+        fab.style.transform  = 'scale(0.88) rotate(-15deg)';
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            fab.style.transition = 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            fab.style.transform  = 'scale(1) rotate(0deg)';
+          });
+        });
+      });
+    })();
   </script>
 </body>
 </html>

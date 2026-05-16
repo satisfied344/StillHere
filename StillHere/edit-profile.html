@@ -1,97 +1,608 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit profile – StillHere</title>
-  <link rel="stylesheet" href="CSS/edit-profile-screen.css">
+  <title>Edit profile — StillHere</title>
+  <link rel="stylesheet" href="CSS/main-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="JS/supabase-config.js"></script>
   <script src="JS/session.js"></script>
   <script src="JS/moderation.js"></script>
-  <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="JS/theme.js"></script>
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       Edit profile — paper aesthetic
+       ══════════════════════════════════════════════════════ */
+
+    body { overflow-x: hidden; }
+
+    .ep-page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: calc(73px + 38px) 32px 80px;
+      position: relative;
+      z-index: 2;
+      animation: epIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes epIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .ep-hero {
+      margin-bottom: 48px;
+      padding-bottom: 28px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .ep-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+    .ep-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+    .ep-title {
+      font-family: "Caveat", cursive;
+      font-size: 72px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .ep-title em {
+      color: var(--accent-2);
+      font-style: italic;
+      font-weight: 700;
+    }
+    .ep-title-star {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      vertical-align: top;
+      margin-left: 8px;
+      margin-top: 10px;
+      transform: rotate(-12deg);
+      animation: epBob 4.5s ease-in-out infinite;
+    }
+    @keyframes epBob {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50%      { transform: rotate(-4deg)  translateY(-5px); }
+    }
+    .ep-sub {
+      font-size: 15.5px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+      max-width: 560px;
+    }
+    .ep-sub em {
+      color: var(--accent-2);
+      font-style: italic;
+    }
+
+    /* ── LAYOUT ──────────────────────────────────────── */
+    .ep-body {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* ── CARDS ───────────────────────────────────────── */
+    .ep-card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: 24px 26px;
+      position: relative;
+    }
+    .ep-card-head {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .ep-card-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 4px;
+    }
+    .ep-card-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+      margin-bottom: 3px;
+    }
+    .ep-card-desc {
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.5;
+    }
+
+    /* ── AVATAR ASIDE ────────────────────────────────── */
+    .ep-aside { position: sticky; top: 96px; }
+    .ep-avatar-card {
+      text-align: center;
+      transform: rotate(-1.2deg);
+      box-shadow: 0 14px 36px -18px rgba(26, 20, 16, 0.18);
+    }
+    .ep-avatar-card::before {
+      content: "";
+      position: absolute;
+      top: -11px; left: 50%;
+      transform: translateX(-50%) rotate(3deg);
+      width: 70px; height: 22px;
+      background: rgba(214, 83, 60, 0.20);
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(26, 20, 16, 0.08);
+    }
+    .ep-avatar-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 18px 0 16px;
+    }
+    .avatar-circle {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-mid);
+      overflow: hidden;
+      transition: border-color 0.25s ease;
+    }
+    .avatar-circle:hover { border-color: var(--accent-2); }
+    .avatar-circle img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .avatar-name {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .avatar-handle {
+      font-size: 13px;
+      color: var(--accent-2);
+      font-weight: 500;
+      margin-bottom: 18px;
+    }
+    .btn-upload {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--accent-2);
+      color: #fff;
+      border: 1px solid var(--accent-2);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+    }
+    .btn-upload:hover {
+      background: #b8462f;
+      border-color: #b8462f;
+      transform: translateY(-1px);
+    }
+    #avatar_input { display: none; }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 9px 14px;
+      background: transparent;
+      color: var(--ink-light);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.25s ease, border-color 0.25s ease;
+    }
+    .btn-ghost:hover {
+      color: var(--accent-2);
+      border-color: var(--accent-2);
+    }
+
+    /* ── FIELDS ──────────────────────────────────────── */
+    .ep-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .fields-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+    .field-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .field-optional {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink-light);
+      font-style: italic;
+      padding: 1px 7px;
+      background: rgba(26, 20, 16, 0.05);
+      border-radius: 999px;
+    }
+    .field input[type="text"],
+    .field input[type="password"],
+    .input-prefix-wrap {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--ink);
+      font-family: inherit;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .field input[type="text"]:focus,
+    .field input[type="password"]:focus,
+    .input-prefix-wrap:focus-within {
+      outline: none;
+      border-color: var(--accent-2);
+      background: var(--paper-soft);
+    }
+    .input-prefix-wrap {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      overflow: hidden;
+    }
+    .input-prefix {
+      padding: 11px 4px 11px 14px;
+      color: var(--ink-light);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .input-prefix-wrap input {
+      flex: 1;
+      padding: 11px 14px 11px 4px;
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      color: var(--ink);
+      font-family: inherit;
+      outline: none;
+    }
+    .field-hint {
+      margin: 6px 0 0;
+      font-size: 12px;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+    .field-error {
+      margin: 6px 0 0;
+      font-size: 12.5px;
+      color: var(--color-danger, #c0392b);
+    }
+
+    /* ── ACTIONS ─────────────────────────────────────── */
+    .ep-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      background: var(--accent-2);
+      color: #fff;
+      border: 1px solid var(--accent-2);
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+    }
+    .btn-save:hover:not(:disabled) {
+      background: #b8462f;
+      border-color: #b8462f;
+      transform: translateY(-1px);
+    }
+    .btn-save:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-cancel {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 20px;
+      background: transparent;
+      color: var(--ink-mid);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: color 0.25s ease, border-color 0.25s ease;
+    }
+    .btn-cancel:hover {
+      color: var(--accent-2);
+      border-color: var(--accent-2);
+    }
+
+    /* ── DANGER ZONE ─────────────────────────────────── */
+    .ep-card--danger {
+      background: linear-gradient(135deg, rgba(214, 83, 60, 0.07), rgba(214, 83, 60, 0.02));
+      border-color: rgba(214, 83, 60, 0.30);
+    }
+    .ep-card--danger .ep-card-label {
+      color: var(--color-danger, #c0392b);
+    }
+    .ep-danger-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .btn-danger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: transparent;
+      color: var(--color-danger, #c0392b);
+      border: 1px solid rgba(214, 83, 60, 0.40);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    .btn-danger:hover {
+      background: var(--color-danger, #c0392b);
+      color: #fff;
+      border-color: var(--color-danger, #c0392b);
+    }
+    .btn-danger--soft {
+      color: var(--ink-mid);
+      border-color: var(--line);
+    }
+    .btn-danger--soft:hover {
+      background: rgba(214, 83, 60, 0.08);
+      color: var(--color-danger, #c0392b);
+      border-color: rgba(214, 83, 60, 0.40);
+    }
+
+    /* ── DELETE MODAL ────────────────────────────────── */
+    .del-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 20, 16, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      z-index: 9999;
+      backdrop-filter: blur(4px);
+    }
+    .del-backdrop.is-open { opacity: 1; visibility: visible; }
+    .del-modal {
+      background: var(--paper-soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 30px 32px 24px;
+      max-width: 440px;
+      width: calc(100% - 32px);
+      text-align: center;
+      box-shadow: 0 20px 60px -20px rgba(26, 20, 16, 0.40);
+      transform: translateY(10px) scale(0.98);
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+    }
+    .del-backdrop.is-open .del-modal {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    .del-icon-wrap {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(214, 83, 60, 0.14);
+      color: var(--accent-2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .del-title {
+      font-family: "Caveat", cursive;
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .del-desc {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+    .del-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .del-btn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    .del-btn--cancel {
+      background: transparent;
+      color: var(--ink-mid);
+      border: 1px solid var(--line);
+    }
+    .del-btn--cancel:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+    .del-btn--confirm {
+      background: var(--accent-2);
+      color: #fff;
+      border: 1px solid var(--accent-2);
+    }
+    .del-btn--confirm:hover { background: #b8462f; border-color: #b8462f; }
+    .del-btn--confirm:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 880px) {
+      .ep-body { grid-template-columns: 1fr; }
+      .ep-aside { position: static; }
+      .ep-avatar-card { transform: rotate(0); max-width: 380px; margin: 0 auto; }
+      .ep-title { font-size: 56px; }
+    }
+    @media (max-width: 540px) {
+      .ep-page { padding: calc(73px + 24px) 18px 50px; }
+      .ep-title { font-size: 46px; }
+      .ep-sub { font-size: 14.5px; }
+      .fields-row { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
+  <!-- Paper-grain noise filter -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
+
+  <!-- Ambient background doodles -->
+  <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+
   <nav class="top-info" aria-label="Primary navigation">
-    <a href="main.html" class="logo">StillHere</a>
+    <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>
         <span>about</span>
       </a>
       <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg>
         <span>contacts</span>
       </a>
       <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/></svg>
         <span>updates</span>
       </a>
       <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>
         <span>profile</span>
       </a>
+
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-            <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
-          </svg>
+        <button class="main-menu-trigger" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
         </button>
-      
         <ul class="main-menu-panel" role="menu">
           <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
           <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
           <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
-          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
         </ul>
-        </div>
+      </div>
     </div>
   </nav>
 
-  <main class="edit-main">
+  <!-- ════════════════════ PAGE ════════════════════ -->
+  <main class="ep-page">
 
-    <div class="edit-top">
-      <span class="edit-eyebrow">Settings</span>
-      <h1 class="edit-title">Your profile.</h1>
-      <p class="edit-sub">Change what others see – or don't. None of it is required.</p>
-    </div>
+    <!-- ─── HERO ─── -->
+    <section class="ep-hero">
+      <span class="ep-eyebrow"><em>—</em> settings, gently</span>
+      <h1 class="ep-title">
+        your <em>profile.</em>
+        <img src="assets/letters/_Special Characters/Asterisk_01.png" class="ep-title-star" alt="" aria-hidden="true">
+      </h1>
+      <p class="ep-sub">
+        change what others see — or <em>don't.</em> none of it is required, and none of it has to be real.
+      </p>
+    </section>
 
     <form class="edit-form" novalidate>
-      <div class="edit-body">
+      <div class="ep-body">
 
-        <aside class="edit-aside">
-          <div class="edit-card">
-            <p class="card-label">how you show up</p>
-            <div class="avatar-wrap">
+        <!-- ─── ASIDE: AVATAR ─── -->
+        <aside class="ep-aside">
+          <div class="ep-card ep-avatar-card">
+            <div class="ep-card-head">
+              <div class="ep-card-label">how you show up</div>
+              <div class="ep-card-title">your face here</div>
+            </div>
+
+            <div class="ep-avatar-wrap">
               <div class="avatar-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                   <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
                 </svg>
               </div>
             </div>
-            <div class="avatar-meta">
-              <p class="avatar-name">Someone here</p>
-              <p class="avatar-handle">@anonymous</p>
-            </div>
+
+            <p class="avatar-name">Someone here</p>
+            <p class="avatar-handle">@anonymous</p>
+
             <label class="btn-upload" for="avatar_input">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                 <path d="M240,136v64a16,16,0,0,1-16,16H32a16,16,0,0,1-16-16V136a16,16,0,0,1,16-16H80a8,8,0,0,1,0,16H32v64H224V136H176a8,8,0,0,1,0-16h48A16,16,0,0,1,240,136ZM88.57,68.57,120,37.13V136a8,8,0,0,0,16,0V37.13l31.43,31.44a8,8,0,0,0,11.31-11.32l-45.66-45.65a8,8,0,0,0-11.32,0L76.1,57.25A8,8,0,0,0,87.41,68.57Z"/>
               </svg>
               Upload photo
@@ -101,14 +612,18 @@
           </div>
         </aside>
 
-        <div class="edit-fields">
+        <!-- ─── MAIN FIELDS ─── -->
+        <div class="ep-fields">
 
-          <div class="edit-card">
-            <div class="card-header">
-              <p class="card-label">about you</p>
-              <p class="card-desc">What others see when you post. None of it has to be real.</p>
+          <!-- About you -->
+          <div class="ep-card">
+            <div class="ep-card-head">
+              <div class="ep-card-label">— 01 about you</div>
+              <div class="ep-card-title">how others see you</div>
+              <p class="ep-card-desc">none of it has to be real. you can leave any of it blank.</p>
             </div>
-            <div class="fields-row">
+
+            <div class="fields-row" style="margin-bottom:14px;">
               <div class="field">
                 <label class="field-label" for="display_name_input">First name or nickname</label>
                 <input type="text" id="display_name_input" name="display_name" placeholder="e.g. Alex" maxlength="40" autocomplete="given-name">
@@ -120,22 +635,25 @@
                 <input type="text" id="display_last_name_input" name="display_last_name" placeholder="e.g. K." maxlength="60" autocomplete="family-name">
               </div>
             </div>
-            <div class="card-divider"></div>
+
             <div class="field">
               <label class="field-label" for="username_input">Username</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">@</span>
                 <input type="text" id="username_input" name="username" placeholder="yourhandle" maxlength="24" autocomplete="username">
               </div>
-              <p class="field-hint">Letters, numbers, _ only.</p>
+              <p class="field-hint">letters, numbers, and _ only — this is how you find your own posts.</p>
             </div>
           </div>
 
-          <div class="edit-card">
-            <div class="card-header">
-              <p class="card-label">password</p>
-              <p class="card-desc">Leave blank to keep the current one.</p>
+          <!-- Password -->
+          <div class="ep-card">
+            <div class="ep-card-head">
+              <div class="ep-card-label">— 02 password</div>
+              <div class="ep-card-title">change it, or leave it</div>
+              <p class="ep-card-desc">leave blank to keep your current password.</p>
             </div>
+
             <div class="fields-row">
               <div class="field">
                 <label class="field-label" for="pass_new">New password</label>
@@ -148,9 +666,10 @@
             </div>
           </div>
 
-          <div class="edit-actions">
+          <!-- Save / Cancel -->
+          <div class="ep-actions">
             <button type="submit" class="btn-save">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                 <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/>
               </svg>
               Save changes
@@ -158,17 +677,31 @@
             <a href="nav-bar/profile.html" class="btn-cancel">Cancel</a>
           </div>
 
-          <div class="edit-card edit-card--danger">
-            <div class="card-header">
-              <p class="card-label danger-label">danger zone</p>
-              <p class="card-desc">Delete your account. Everything goes with it – we don't keep copies.</p>
+          <!-- Danger zone -->
+          <div class="ep-card ep-card--danger">
+            <div class="ep-card-head">
+              <div class="ep-card-label">— 03 danger zone</div>
+              <div class="ep-card-title">careful — these can't be undone</div>
+              <p class="ep-card-desc">
+                delete all your posts at once, or close your account. closing keeps your posts up
+                (shown as "deleted account") so the conversations they started stay intact.
+              </p>
             </div>
-            <button type="button" class="btn-delete">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V216a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,176H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
-              </svg>
-              Delete my account
-            </button>
+
+            <div class="ep-danger-actions">
+              <button type="button" class="btn-danger btn-danger--soft" id="btnDeleteAllPosts">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V216a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,176H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+                </svg>
+                Delete all my posts
+              </button>
+              <button type="button" class="btn-danger btn-delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V216a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,176H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+                </svg>
+                Close my account
+              </button>
+            </div>
           </div>
 
         </div>
@@ -177,13 +710,97 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <p>StillHere – a project about presence, not solutions.</p>
-      <a href="nav-bar/profile.html">← Back to profile</a>
-    </div>
-  </footer>
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="footer">
+    <div class="footer_content">
+        <div class="footer_main">
+            <div class="footer_stillhere">
+                <div class="footer_logo">
+                    <p>StillHere</p>
+                </div>
+                <p class="footer_subtitle">A project about presence, not solutions</p>
+            </div>
 
+            <div class="footer_links">
+                <div class="footer_links_1">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="main.html">Browse Stories</a></li>
+                        <li><a href="create-post.html">Share Your Story</a></li>
+                        <li><a href="nav-bar/updates.html">Updates</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_2">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="nav-bar/about.html">About Us</a></li>
+                        <li><a href="nav-bar/contacts.html">Contacts</a></li>
+                        <li><a href="docs/html/guidelines.html">Guidelines</a></li>
+                        <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_3">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer_footer">
+            <p>2026 StillHere.</p>
+            <div class="footer_social">
+                <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
 
   <!-- Delete account confirmation modal -->
   <div class="del-backdrop" id="delAccBackdrop" aria-hidden="true">
@@ -193,11 +810,15 @@
           <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
         </svg>
       </div>
-      <h2 class="del-title" id="delAccTitle">Delete account?</h2>
-      <p class="del-desc" id="delAccDesc">All your posts, comments and data will be permanently deleted. There is no going back.</p>
+      <h2 class="del-title" id="delAccTitle">close your account?</h2>
+      <p class="del-desc" id="delAccDesc">
+        your account will be closed and your name removed. the posts and comments you wrote
+        will stay on the platform, shown as posted by "deleted account" — this keeps the
+        conversations they started intact for everyone who replied.
+      </p>
       <div class="del-actions">
-        <button class="del-btn del-btn--cancel" id="delAccCancel">Cancel</button>
-        <button class="del-btn del-btn--confirm" id="delAccConfirm">Yes, delete</button>
+        <button class="del-btn del-btn--cancel" id="delAccCancel">cancel</button>
+        <button class="del-btn del-btn--confirm" id="delAccConfirm">yes, close account</button>
       </div>
     </div>
   </div>
@@ -230,7 +851,6 @@
       if (avatarName)   avatarName.textContent   = user.displayName || user.username;
       if (avatarHandle) avatarHandle.textContent = '@' + user.username;
 
-      /* Show current avatar if exists */
       if (user.avatarUrl && avatarCircle) {
         avatarCircle.innerHTML = '<img src="' + user.avatarUrl + '" alt="Avatar">';
       }
@@ -291,7 +911,6 @@
           if (avatarCircle) avatarCircle.innerHTML =
             '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
             '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>';
-          /* Clear avatar in DB */
           await sb.from('profiles').update({ avatar_url: null }).eq('id', user.id);
           toast('Photo removed.', false);
         });
@@ -305,20 +924,20 @@
           t.id = 'editToast';
           t.style.cssText =
             'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);' +
-            'padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;' +
-            'z-index:999;transition:opacity 0.3s ease;white-space:nowrap;' +
-            'box-shadow:0 4px 20px rgba(0,0,0,0.14);';
+            'padding:12px 24px;border-radius:999px;font-size:13.5px;font-weight:600;' +
+            'z-index:9998;transition:opacity 0.3s ease;white-space:nowrap;' +
+            'box-shadow:0 8px 28px rgba(26,20,16,0.22);';
           document.body.appendChild(t);
         }
         t.textContent = msg;
-        t.style.background = isErr ? '#c0392b' : '#111827';
-        t.style.color = '#fff';
+        t.style.background = isErr ? '#c0392b' : '#1a1410';
+        t.style.color = '#fffaf0';
         t.style.opacity = '1';
         clearTimeout(t._timer);
         t._timer = setTimeout(function () { t.style.opacity = '0'; }, 2800);
       }
 
-      /* ── Name / username validators ── */
+      /* ── Validators ── */
       function validateName(val) {
         if (!val) return null;
         if (val.length > 30) return 'Max 30 characters.';
@@ -333,8 +952,6 @@
         if (!/^[a-z0-9_]+$/.test(val)) return 'a–z, 0–9 and _ only — no spaces, Cyrillic or other characters.';
         return null;
       }
-
-      /* ── Field error helpers ── */
       function setFieldErr(input, msg) {
         if (!input) return;
         var wrap = input.closest('.field') || input.parentNode;
@@ -342,17 +959,16 @@
         if (existing) existing.remove();
         var p = document.createElement('p');
         p.className = 'field-error';
-        p.style.cssText = 'margin:4px 0 0;font-size:12.5px;color:#c0392b;';
         p.textContent = msg;
         wrap.appendChild(p);
-        input.style.outline = '1.5px solid rgba(192,57,43,0.5)';
+        input.style.borderColor = '#c0392b';
       }
       function clearFieldErr(input) {
         if (!input) return;
         var wrap = input.closest('.field') || input.parentNode;
         var p = wrap.querySelector('.field-error');
         if (p) p.remove();
-        input.style.outline = '';
+        input.style.borderColor = '';
       }
 
       /* ── Form submit ── */
@@ -371,7 +987,6 @@
         clearFieldErr(lnInput);
         clearFieldErr(unInput);
 
-        // ── Frontend validation ──
         var fnErr = validateName(fn);
         var lnErr = validateName(ln);
         var unErr = validateUsername(newUsername);
@@ -385,10 +1000,9 @@
         if (passNew && passNew !== passConfirm) { toast('Passwords do not match.', true); return; }
         if (passNew && passNew.length < 8)      { toast('Password must be at least 8 characters.', true); return; }
 
-        // Disable button now — re-enable if rejected below
         if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Checking…'; }
 
-        /* ── Moderation: names ── */
+        /* Moderation */
         if (window.SH_MOD) {
           var nameToCheck = [fn, ln].filter(Boolean).join(' ');
           if (nameToCheck) {
@@ -397,19 +1011,18 @@
               setFieldErr(fnInput, nameRes.label || 'This name is not allowed.');
               if (saveBtn) {
                 saveBtn.disabled = false;
-                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
+                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
               }
               return;
             }
           }
-          /* ── Moderation: username (only if changed) ── */
           if (newUsername && newUsername !== user.username) {
             var unRes = await window.SH_MOD.checkUsername(newUsername);
             if (!unRes.allowed) {
               setFieldErr(unInput, unRes.label || 'This username is not allowed.');
               if (saveBtn) {
                 saveBtn.disabled = false;
-                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
+                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
               }
               return;
             }
@@ -419,18 +1032,15 @@
         if (saveBtn) { saveBtn.textContent = 'Saving…'; }
         var ok = true;
 
-        /* Use base64 avatar if a new photo was selected */
         var newAvatarUrl = user.avatarUrl;
         if (pendingAvatarBase64) {
           newAvatarUrl = pendingAvatarBase64;
           pendingAvatarBase64 = null;
         }
 
-        /* Update profile row */
         if (ok) {
           var profileUpdate = { display_name: newDisplayName };
           if (newUsername && newUsername !== user.username) profileUpdate.username = newUsername;
-          /* Only include avatar_url if we have a value (avoids error if column missing) */
           if (newAvatarUrl !== undefined) profileUpdate.avatar_url = newAvatarUrl;
 
           var { error: profErr } = await sb
@@ -439,7 +1049,6 @@
             .eq('id', user.id);
 
           if (profErr && profErr.message && profErr.message.includes('avatar_url')) {
-            /* Column doesn't exist yet — save without it, show hint */
             var { error: profErr2 } = await sb
               .from('profiles')
               .update({ display_name: newDisplayName })
@@ -451,7 +1060,6 @@
           }
         }
 
-        /* Update password */
         if (ok && passNew) {
           var { error: pwErr } = await sb.auth.updateUser({ password: passNew });
           if (pwErr) { toast('Password error: ' + pwErr.message, true); ok = false; }
@@ -460,7 +1068,7 @@
         if (saveBtn) {
           saveBtn.disabled = false;
           saveBtn.innerHTML =
-            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
             '<path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
             'Save changes';
         }
@@ -471,8 +1079,8 @@
         }
       });
 
-      /* ── Delete account — custom modal ── */
-      var delBtn     = document.querySelector('.btn-delete');
+      /* ── Delete account modal ── */
+      var delBtn      = document.querySelector('.btn-delete');
       var delBackdrop = document.getElementById('delAccBackdrop');
       var delConfirm  = document.getElementById('delAccConfirm');
       var delCancel   = document.getElementById('delAccCancel');
@@ -480,52 +1088,65 @@
       function openDelModal()  { delBackdrop.classList.add('is-open');    delBackdrop.setAttribute('aria-hidden','false'); setTimeout(function(){ delConfirm.focus(); }, 50); }
       function closeDelModal() { delBackdrop.classList.remove('is-open'); delBackdrop.setAttribute('aria-hidden','true'); }
 
-      if (delBtn)    delBtn.addEventListener('click', openDelModal);
-      if (delCancel) delCancel.addEventListener('click', closeDelModal);
+      if (delBtn)      delBtn.addEventListener('click', openDelModal);
+      if (delCancel)   delCancel.addEventListener('click', closeDelModal);
       if (delBackdrop) delBackdrop.addEventListener('click', function(e){ if(e.target===delBackdrop) closeDelModal(); });
       document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDelModal(); });
 
       if (delConfirm) {
         delConfirm.addEventListener('click', async function () {
           delConfirm.disabled = true;
-          delConfirm.textContent = 'Deleting…';
+          delConfirm.textContent = 'closing…';
 
           var errors = [];
+          var stubName    = 'deleted account';
+          var randSuffix  = Math.random().toString(36).slice(2, 8);
 
-          /* 1. Delete user's comments */
-          var { error: cErr } = await sb.from('comments').delete().eq('user_id', user.id);
-          if (cErr && !cErr.message.includes('column') && !cErr.message.includes('does not exist')) {
-            errors.push('comments: ' + cErr.message);
-          }
+          var { error: profErr } = await sb.from('profiles').update({
+            display_name: stubName,
+            username:     'deleted_' + randSuffix,
+            avatar_url:   null
+          }).eq('id', user.id);
+          if (profErr) errors.push('profile: ' + profErr.message);
 
-          /* 2. Delete user's posts */
-          var { error: pErr } = await sb.from('posts').delete().eq('user_id', user.id);
-          if (pErr && !pErr.message.includes('column') && !pErr.message.includes('does not exist')) {
-            errors.push('posts: ' + pErr.message);
-          }
-
-          /* 3. Delete profile row */
-          var { error: profDelErr } = await sb.from('profiles').delete().eq('id', user.id);
-          if (profDelErr) errors.push('profile: ' + profDelErr.message);
-
-          /* 4. Delete the auth user via RPC (requires SQL function — see below) */
           var { error: rpcErr } = await sb.rpc('delete_own_account');
-          if (rpcErr) {
-            /* RPC not set up yet — just sign out */
-            console.warn('delete_own_account RPC not available:', rpcErr.message);
-          }
+          if (rpcErr) console.warn('delete_own_account RPC not available:', rpcErr.message);
 
           if (errors.length > 0) {
             closeDelModal();
-            toast('Delete failed: ' + errors[0], true);
+            toast('Could not close account: ' + errors[0], true);
             delConfirm.disabled = false;
-            delConfirm.textContent = 'Yes, delete';
+            delConfirm.textContent = 'yes, close account';
             return;
           }
 
-          /* 5. Sign out and redirect */
           await window.SH_SESSION.signOut();
           window.location.href = 'login.html';
+        });
+      }
+
+      /* ── Delete all my posts ── */
+      var btnDelAllPosts = document.getElementById('btnDeleteAllPosts');
+      if (btnDelAllPosts) {
+        btnDelAllPosts.addEventListener('click', async function () {
+          if (!confirm('Delete ALL of your posts? This cannot be undone. Comments other people made on them will also be deleted.')) return;
+          btnDelAllPosts.disabled = true;
+          var origText = btnDelAllPosts.innerHTML;
+          btnDelAllPosts.textContent = 'Deleting…';
+          var { data: posts } = await sb.from('posts').select('id').eq('user_id', user.id);
+          var ids = (posts || []).map(function (p) { return p.id; });
+          if (ids.length === 0) {
+            btnDelAllPosts.disabled = false;
+            btnDelAllPosts.innerHTML = origText;
+            toast('You have no posts to delete.');
+            return;
+          }
+          await sb.from('comments').delete().in('post_id', ids);
+          var { error: dpErr } = await sb.from('posts').delete().eq('user_id', user.id);
+          btnDelAllPosts.disabled = false;
+          btnDelAllPosts.innerHTML = origText;
+          if (dpErr) { toast('Delete failed: ' + dpErr.message, true); return; }
+          toast('Deleted ' + ids.length + (ids.length === 1 ? ' post.' : ' posts.'));
         });
       }
     });
@@ -552,9 +1173,37 @@
           if (b) b.setAttribute('aria-expanded', 'false');
         });
       });
+
+      /* Navbar scroll-shrink */
+      var navEl = document.querySelector('.top-info');
+      if (navEl) {
+        var last = false;
+        window.addEventListener('scroll', function () {
+          var s = window.scrollY > 24;
+          if (s !== last) { navEl.classList.toggle('is-scrolled', s); last = s; }
+        }, { passive: true });
+      }
+
+      /* Session: swap Login → Sign out in nav menu */
+      if (window.SH_SESSION && window.SH_SESSION.whenReady) {
+        window.SH_SESSION.whenReady(function (user) {
+          var loginItem = document.querySelector('.mmenu-item--login');
+          if (!loginItem || !user) return;
+          loginItem.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+            '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
+            'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
+            'Sign out';
+          loginItem.removeAttribute('href');
+          loginItem.style.cursor = 'pointer';
+          loginItem.addEventListener('click', async function (e) {
+            e.preventDefault();
+            await window.SH_SESSION.signOut();
+            window.location.href = 'login.html';
+          });
+        });
+      }
     })();
   </script>
 </body>
 </html>
-
-

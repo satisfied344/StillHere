@@ -1,348 +1,1324 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About – StillHere</title>
-    <link rel="stylesheet" href="../CSS/about-screen.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — StillHere</title>
+  <link rel="stylesheet" href="../CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../CSS/nav-menu.css">
   <link rel="stylesheet" href="../CSS/dark-theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../JS/supabase-config.js"></script>
+  <script src="../JS/session.js"></script>
   <script src="../JS/theme.js"></script>
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       About — paper aesthetic, matches startup/main/ai-chat/contacts/updates
+       ══════════════════════════════════════════════════════ */
+
+    body { overflow-x: hidden; }
+
+    .ab-page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: calc(73px + 38px) 32px 80px;
+      position: relative;
+      z-index: 2;
+      animation: abIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes abIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .ab-hero {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 64px;
+      padding-bottom: 36px;
+      border-bottom: 1px dashed var(--line-soft);
+      position: relative;
+    }
+    .ab-hero-left { min-width: 0; }
+    .ab-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+    .ab-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+
+    .ab-title {
+      font-family: "Caveat", cursive;
+      font-size: 84px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 14px;
+      position: relative;
+      display: inline-block;
+    }
+    .ab-title em {
+      color: var(--accent-2);
+      font-style: italic;
+      font-weight: 700;
+    }
+    .ab-title-star {
+      display: inline-block;
+      width: 38px;
+      height: 38px;
+      vertical-align: top;
+      margin-left: 8px;
+      margin-top: 14px;
+      transform: rotate(-12deg);
+      animation: abBob 4.5s ease-in-out infinite;
+    }
+    @keyframes abBob {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50%      { transform: rotate(-4deg)  translateY(-5px); }
+    }
+
+    .ab-lede {
+      font-size: 17px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      max-width: 540px;
+    }
+    .ab-lede em {
+      color: var(--accent-2);
+      font-style: italic;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+      padding-bottom: 1px;
+    }
+
+    .ab-hero-right {
+      position: relative;
+      min-height: 200px;
+    }
+    .ab-hero-card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 30px -15px rgba(26, 20, 16, 0.16);
+      transform: rotate(-1.8deg);
+      position: relative;
+    }
+    .ab-hero-card::before {
+      content: "";
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%) rotate(3deg);
+      width: 70px; height: 22px;
+      background: rgba(214, 83, 60, 0.18);
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(26, 20, 16, 0.08);
+    }
+    .ab-hero-card-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 6px;
+    }
+    .ab-hero-card-title {
+      font-family: "Caveat", cursive;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .ab-hero-card-text {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+    .ab-hero-card-text strong { color: var(--ink); font-weight: 600; }
+
+    /* ── SECTION HEADERS ────────────────────────────────── */
+    .ab-section { margin-bottom: 60px; }
+    .ab-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .ab-section-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .ab-section-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .ab-section-hint {
+      font-size: 13px;
+      color: var(--ink-light);
+      margin-left: auto;
+      font-style: italic;
+    }
+
+    /* ── PREMISE BIG BLOCK ───────────────────────────────── */
+    .ab-premise {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .ab-premise-text {
+      font-size: 16px;
+      color: var(--ink-mid);
+      line-height: 1.7;
+    }
+    .ab-premise-text p { margin-bottom: 14px; }
+    .ab-premise-text p:last-child { margin-bottom: 0; }
+    .ab-premise-text em {
+      color: var(--accent-2);
+      font-style: italic;
+      font-weight: 500;
+    }
+    .ab-premise-text strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .ab-premise-quote {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-left: 3px solid var(--accent-2);
+      border-radius: 8px;
+      padding: 26px 28px;
+      position: relative;
+      transform: rotate(0.6deg);
+    }
+    .ab-premise-quote-mark {
+      font-family: "Caveat", cursive;
+      font-size: 64px;
+      color: var(--accent-2);
+      line-height: 0.6;
+      opacity: 0.4;
+      position: absolute;
+      top: 16px; left: 18px;
+    }
+    .ab-premise-quote-text {
+      font-family: "Caveat", cursive;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.25;
+      padding-left: 28px;
+      margin-bottom: 12px;
+    }
+    .ab-premise-quote-text em { color: var(--accent-2); font-style: italic; }
+    .ab-premise-quote-attr {
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      padding-left: 28px;
+    }
+
+    /* ── FEATURE CARDS ─────────────────────────────────── */
+    .ab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .ab-card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 24px 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .ab-card:hover {
+      transform: translateY(-3px) rotate(-0.3deg);
+      border-color: var(--line);
+      box-shadow: 0 12px 30px -12px rgba(26, 20, 16, 0.18);
+    }
+    .ab-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+    .ab-card-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26, 20, 16, 0.06);
+      color: var(--ink-mid);
+      flex-shrink: 0;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .ab-card:hover .ab-card-icon {
+      background: rgba(214, 83, 60, 0.14);
+      color: var(--accent-2);
+    }
+    .ab-card-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .ab-card-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 16.5px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .ab-card-desc {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+    .ab-card-link {
+      align-self: flex-start;
+      margin-top: 4px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.25s ease, gap 0.25s ease;
+    }
+    .ab-card-link:hover {
+      color: var(--accent-2);
+      gap: 8px;
+    }
+
+    /* ── PRINCIPLES STRIP ─────────────────────────────── */
+    .ab-principles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .ab-principle {
+      padding: 22px 24px;
+      border-right: 1px dashed var(--line-soft);
+      position: relative;
+      transition: background 0.25s ease;
+    }
+    .ab-principle:last-child { border-right: none; }
+    .ab-principle:hover { background: rgba(214, 83, 60, 0.04); }
+    .ab-principle-num {
+      font-family: "Caveat", cursive;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent-2);
+      line-height: 1;
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
+    .ab-principle-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.005em;
+    }
+    .ab-principle-desc {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      line-height: 1.5;
+    }
+
+    /* ── WHAT WE'RE NOT ────────────────────────────────── */
+    .ab-not {
+      background: linear-gradient(135deg, rgba(214, 83, 60, 0.06), rgba(214, 83, 60, 0.02));
+      border: 1px solid rgba(214, 83, 60, 0.20);
+      border-radius: 8px;
+      padding: 28px 30px;
+    }
+    .ab-not-title {
+      font-family: "Caveat", cursive;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .ab-not-title em { color: var(--accent-2); font-style: italic; }
+    .ab-not-sub {
+      font-size: 14px;
+      color: var(--ink-mid);
+      margin-bottom: 22px;
+      line-height: 1.55;
+    }
+    .ab-not-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 28px;
+    }
+    .ab-not-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+    }
+    .ab-not-item-mark {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(214, 83, 60, 0.14);
+      color: var(--accent-2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .ab-not-item strong { color: var(--ink); font-weight: 600; }
+
+    /* ── STORY / WHO ───────────────────────────────────── */
+    .ab-story {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 36px;
+      align-items: center;
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 32px 36px;
+      position: relative;
+    }
+    .ab-story-art {
+      position: relative;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ab-story-art-paper {
+      width: 100%;
+      max-width: 220px;
+      aspect-ratio: 4 / 5;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      box-shadow: 0 12px 32px -16px rgba(26, 20, 16, 0.25);
+      transform: rotate(-4deg);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+    .ab-story-art-paper::before {
+      content: "";
+      position: absolute;
+      top: -12px; left: 50%;
+      transform: translateX(-50%) rotate(-4deg);
+      width: 70px; height: 22px;
+      background: rgba(109, 130, 104, 0.32);
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(26, 20, 16, 0.10);
+    }
+    .ab-story-art-line {
+      height: 1px;
+      background: var(--line-soft);
+      width: 100%;
+    }
+    .ab-story-art-line--short { width: 60%; }
+    .ab-story-art-line--accent { background: var(--accent-2); opacity: 0.4; height: 2px; }
+    .ab-story-art-doodle {
+      position: absolute;
+      width: 56px;
+      opacity: 0.7;
+      animation: abStoryBob 5s ease-in-out infinite;
+    }
+    .ab-story-art-doodle--1 {
+      top: 12px; right: -8px;
+      transform: rotate(18deg);
+    }
+    .ab-story-art-doodle--2 {
+      bottom: 8px; left: -14px;
+      width: 44px;
+      transform: rotate(-14deg);
+      animation-delay: -2s;
+    }
+    @keyframes abStoryBob {
+      0%, 100% { transform: rotate(18deg) translateY(0); }
+      50%      { transform: rotate(14deg) translateY(-6px); }
+    }
+    .ab-story-text { min-width: 0; }
+    .ab-story-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 10px;
+    }
+    .ab-story-heading {
+      font-family: "Caveat", cursive;
+      font-size: 36px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+    .ab-story-heading em { color: var(--accent-2); font-style: italic; }
+    .ab-story-body {
+      font-size: 14.5px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+    }
+    .ab-story-body p { margin-bottom: 10px; }
+    .ab-story-body p:last-child { margin-bottom: 0; }
+
+    /* ── BY THE NUMBERS STRIP ──────────────────────────── */
+    .ab-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .ab-stat {
+      padding: 22px 24px;
+      border-right: 1px dashed var(--line-soft);
+      text-align: center;
+    }
+    .ab-stat:last-child { border-right: none; }
+    .ab-stat-num {
+      font-family: "Caveat", cursive;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--accent-2);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .ab-stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ── CLOSING ───────────────────────────────────────── */
+    .ab-closing {
+      margin-top: 64px;
+      text-align: center;
+      padding: 50px 24px 0;
+      position: relative;
+    }
+    .ab-closing-text {
+      font-family: "Caveat", cursive;
+      font-size: 42px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.12;
+      margin-bottom: 8px;
+    }
+    .ab-closing-text em {
+      color: var(--accent-2);
+      font-style: italic;
+    }
+    .ab-closing-sub {
+      font-size: 13px;
+      color: var(--ink-light);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .ab-closing-actions {
+      display: inline-flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .ab-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 24px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, border-color 0.25s ease;
+      white-space: nowrap;
+    }
+    .ab-cta--primary {
+      background: var(--accent-2);
+      color: #fff;
+    }
+    .ab-cta--primary:hover {
+      background: #b8462f;
+      transform: translateY(-2px) rotate(-0.5deg);
+    }
+    .ab-cta--ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .ab-cta--ghost:hover {
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+      transform: translateY(-2px) rotate(0.5deg);
+    }
+
+    /* ── ORIGIN / TIKTOK ──────────────────────────────── */
+    .ab-origin {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 36px;
+      align-items: start;
+    }
+    .ab-origin-mock {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px -14px rgba(26, 20, 16, 0.18);
+      transform: rotate(-1.2deg);
+      position: relative;
+    }
+    .ab-origin-mock-bar {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding: 8px 12px;
+      background: rgba(26, 20, 16, 0.05);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .ab-origin-mock-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--line);
+    }
+    .ab-origin-mock-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-left: 4px;
+    }
+    .ab-origin-mock-video {
+      padding: 14px 16px 12px;
+      background: linear-gradient(135deg, rgba(26, 20, 16, 0.07), rgba(26, 20, 16, 0.02));
+      border-bottom: 1px dashed var(--line-soft);
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ab-origin-mock-video-icon {
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      background: rgba(26, 20, 16, 0.10);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-light);
+      flex-shrink: 0;
+    }
+    .ab-origin-mock-video-text {
+      font-family: "Caveat", cursive;
+      font-size: 13.5px;
+      color: var(--ink-light);
+      font-style: italic;
+      line-height: 1.3;
+    }
+    .ab-origin-mock-comments {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ab-origin-mock-comment {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+    .ab-origin-mock-comment--reply {
+      padding-left: 22px;
+    }
+    .ab-origin-mock-avatar {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(26, 20, 16, 0.10);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .ab-origin-mock-avatar--sm { width: 20px; height: 20px; }
+    .ab-origin-mock-comment-user {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--accent-2);
+      margin-bottom: 3px;
+      letter-spacing: 0.02em;
+    }
+    .ab-origin-mock-comment-text {
+      font-size: 12px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+    }
+    .ab-origin-text {
+      padding: 2px 0;
+      font-size: 15.5px;
+      color: var(--ink-mid);
+      line-height: 1.72;
+    }
+    .ab-origin-text p { margin-bottom: 14px; }
+    .ab-origin-text p:last-child { margin-bottom: 0; }
+    .ab-origin-text em {
+      color: var(--accent-2);
+      font-style: italic;
+    }
+    .ab-origin-text strong { color: var(--ink); font-weight: 600; }
+    .ab-origin-pull {
+      margin-top: 18px;
+      padding: 16px 20px;
+      background: rgba(214, 83, 60, 0.07);
+      border-left: 3px solid var(--accent-2);
+      border-radius: 0 6px 6px 0;
+      font-family: "Caveat", cursive;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .ab-origin-pull em { color: var(--accent-2); font-style: italic; }
+
+    /* ── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 880px) {
+      .ab-hero {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .ab-title { font-size: 64px; }
+      .ab-hero-card { transform: rotate(0); max-width: 380px; }
+      .ab-premise { grid-template-columns: 1fr; gap: 24px; }
+      .ab-origin { grid-template-columns: 1fr; gap: 24px; }
+      .ab-origin-mock { transform: rotate(0); }
+      .ab-principles { grid-template-columns: repeat(2, 1fr); }
+      .ab-principle:nth-child(2) { border-right: none; }
+      .ab-principle:nth-child(-n+2) { border-bottom: 1px dashed var(--line-soft); }
+      .ab-not-list { grid-template-columns: 1fr; }
+      .ab-story { grid-template-columns: 1fr; padding: 28px 24px; }
+      .ab-story-art { min-height: 240px; }
+      .ab-stats { grid-template-columns: repeat(2, 1fr); }
+      .ab-stat:nth-child(2) { border-right: none; }
+      .ab-stat:nth-child(-n+2) { border-bottom: 1px dashed var(--line-soft); }
+    }
+    @media (max-width: 540px) {
+      .ab-page { padding: calc(73px + 24px) 18px 50px; }
+      .ab-title { font-size: 52px; }
+      .ab-lede { font-size: 15.5px; }
+      .ab-closing-text { font-size: 32px; }
+      .ab-story-heading { font-size: 30px; }
+      .ab-premise-quote-text { font-size: 22px; }
+    }
+  </style>
 </head>
 <body>
 
-    <nav class="top-info" aria-label="Primary navigation">
-                <a href="../main.html" class="logo">
-                    <span>StillHere</span>
-                </a>
-                
-                <div class="nav">
-                    <a href="about.html" class="nav-link nav-link--stack">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256" 
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
-                        </svg> 
-                    <span>about</span>
-                    </a>
+  <!-- Paper-grain noise filter -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
 
-                    <a href="contacts.html" class="nav-link nav-link--stack">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                width="30" height="30"
-                                viewBox="0 0 256 256" stroke-width="22"
-                                fill="currentColor"
-                                class="icon"
-                                aria-hidden="true">
-                                <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
-                            </svg>
-                        <span>contacts</span>
-                    </a>
+  <!-- Ambient background doodles -->
+  <img src="../assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="../assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="../assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="../assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
-                    <a href="updates.html" class="nav-link nav-link--stack">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                width="30" height="30"
-                                viewBox="0 0 256 256"
-                                fill="currentColor"
-                                class="icon"
-                                aria-hidden="true">
-                                <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
-                            </svg>
-                        <span>updates</span>
-                    </a>
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="../main.html" class="logo"><span>StillHere</span></a>
+    <div class="nav">
+      <a href="about.html" class="nav-link nav-link--stack" aria-current="page">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>
+        <span>about</span>
+      </a>
+      <a href="contacts.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg>
+        <span>contacts</span>
+      </a>
+      <a href="updates.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/></svg>
+        <span>updates</span>
+      </a>
+      <a href="profile.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>
+        <span>profile</span>
+      </a>
 
-                    <a href="profile.html" class="nav-link nav-link--stack" aria-current="page">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                width="30" height="30"
-                                viewBox="0 0 256 256"
-                                fill="currentColor"
-                                class="icon"
-                                aria-hidden="true">
-                                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
-                            </svg>
-                        <span>profile</span>
-                    </a>
-                    
-                    <div class="main-menu-dropdown">
-                        <button class="main-menu-trigger">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                width="30" height="30"
-                                viewBox="0 0 256 256"
-                                fill="currentColor"
-                                class="icon"
-                                aria-hidden="true">
-                                <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
-                            </svg>
-                        </button>
-                    
-                  <ul class="main-menu-panel" role="menu">
-                    <li role="none"><a href="../login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
-                    <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-                    <li role="none"><a href="../preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
-                    <li role="none"><a href="../ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
-                    <li role="none"><a href="../coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
-                    <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-                    <li role="none"><a href="../coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
-                  </ul>
-                  </div>
-                </div>
-    </nav>
+      <div class="main-menu-dropdown">
+        <button class="main-menu-trigger" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
+        </button>
+        <ul class="main-menu-panel" role="menu">
+          <li role="none"><a href="../login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="../main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
+          <li role="none"><a href="../preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
+          <li role="none"><a href="../ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="../coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <main class="about-main">
+  <!-- ════════════════════ PAGE ════════════════════ -->
+  <main class="ab-page">
 
-        <section class="hero">
-            <div class="hero-left">
-                <span class="hero-eyebrow">About the project</span>
-                <h1 class="hero-title">Still<br><em>Here.</em></h1>
-                <p class="hero-sub">A space for presence,<br>not solutions.</p>
+    <!-- ─── HERO ─── -->
+    <section class="ab-hero">
+      <div class="ab-hero-left">
+        <span class="ab-eyebrow"><em>—</em> a quiet space, made on purpose</span>
+        <h1 class="ab-title">
+          about <em>StillHere.</em>
+          <img src="../assets/letters/_Special Characters/Asterisk_01.png" class="ab-title-star" alt="" aria-hidden="true">
+        </h1>
+        <p class="ab-lede">
+          we built this for the moments when everything feels heavy and you don't know
+          where to put it. not a clinic, not a forum — a <em>small, soft place</em> on the
+          internet where presence matters more than answers.
+        </p>
+      </div>
+
+      <div class="ab-hero-right">
+        <div class="ab-hero-card">
+          <div class="ab-hero-card-eyebrow">— our one-line</div>
+          <div class="ab-hero-card-title">presence, not solutions.</div>
+          <p class="ab-hero-card-text">
+            you don't always need to be fixed. sometimes you just need to be
+            <strong>heard</strong> — and to know someone, somewhere, gets it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PREMISE ─── -->
+    <section class="ab-section">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— 01</span>
+        <h2 class="ab-section-title">why this exists</h2>
+        <span class="ab-section-hint">the short version</span>
+      </div>
+
+      <div class="ab-premise">
+        <div class="ab-premise-text">
+          <p>
+            most of the internet is loud. it wants your attention, your reaction, your hot take.
+            mental-health spaces aren't always better — they push <strong>productivity</strong>,
+            <strong>positivity</strong>, <strong>five-step plans</strong>.
+          </p>
+          <p>
+            sometimes none of that fits. sometimes you just need somewhere
+            <em>slower</em>. somewhere a stranger can read what you wrote and not try to
+            sell you anything, fix you, or rush you toward "better."
+          </p>
+          <p>
+            so we made one. it's small on purpose. it's anonymous on purpose. and it stays
+            free, because the people who need it most can rarely afford one more subscription.
+          </p>
+        </div>
+
+        <aside class="ab-premise-quote">
+          <span class="ab-premise-quote-mark">"</span>
+          <p class="ab-premise-quote-text">
+            you don't have to be okay. <em>you just have to be here.</em>
+          </p>
+          <div class="ab-premise-quote-attr">— the only rule</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ─── ORIGIN: TIKTOK STORY ─── -->
+    <section class="ab-section">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— the origin</span>
+        <h2 class="ab-section-title">it started in a comment section</h2>
+        <span class="ab-section-hint">not a startup idea</span>
+      </div>
+
+      <div class="ab-origin">
+
+        <!-- Mock TikTok-style comment thread -->
+        <div class="ab-origin-mock">
+          <div class="ab-origin-mock-bar">
+            <span class="ab-origin-mock-dot"></span>
+            <span class="ab-origin-mock-dot"></span>
+            <span class="ab-origin-mock-dot"></span>
+            <span class="ab-origin-mock-label">someone else's post — comments</span>
+          </div>
+          <div class="ab-origin-mock-video">
+            <div class="ab-origin-mock-video-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,64H56a8,8,0,0,1,0-16H216a8,8,0,0,1,0,16Zm8,40a8,8,0,0,0-8-8H56a8,8,0,0,0,0,16H216A8,8,0,0,0,224,104Zm0,48a8,8,0,0,0-8-8H56a8,8,0,0,0,0,16H216A8,8,0,0,0,224,152Zm0,48a8,8,0,0,0-8-8H56a8,8,0,0,0,0,16H216A8,8,0,0,0,224,200Z"/></svg>
             </div>
-            
-            <div class="hero-right">
-                <div class="hero-pull">
-                    <p>"People were writing their deepest fears in comment sections of strangers' videos – because it felt safer than saying it out loud."</p>
-                </div>
+            <div class="ab-origin-mock-video-text">
+              a video about unrequited love — you know the kind.<br>
+              <span style="font-size:11px;opacity:0.7;">you'd never repost it. everyone you know would see.</span>
             </div>
-        </section>
-
-        <div class="strip-spacer"></div>
-
-        <section class="origin">
-            <div class="origin-label">where it started</div>
-            <div class="origin-body">
-
-                <div class="origin-text-col">
-                    <p class="origin-lead">On TikTok, people leave comments under videos that describe their situation. Not because they want the creator to see – but because the comment section is full of strangers who might understand.</p>
-                    <p>They write things they'd never post on their own profile, because their friends follow them there. They quote the video with "me" or "this is literally my life" – pointing at something so they don't have to say it directly.</p>
-                    <p>We saw that pattern and thought: what if there was a place built exactly for that? Where anonymity is the point, not a workaround.</p>
-                </div>
-
-                <div class="origin-aside">
-                    <div class="tiktok-card">
-                        <div class="tiktok-card-top">
-                            <div class="tiktok-icon"><i class="ph ph-tiktok-logo"></i></div>
-                            <span>The TikTok comment</span>
-                        </div>
-
-                        <div class="tiktok-comment">
-                            <div class="tiktok-avatar"></div>
-                            <div class="tiktok-msg">
-                                <span class="tiktok-user">@someone</span>
-                                <span class="tiktok-text">this is literally me rn and i can't even talk about it with anyone 😭</span>
-                                <span class="tiktok-likes"><i class="ph ph-heart"></i> 4.2K</span>
-                            </div>
-                        </div>
-
-                        <div class="tiktok-arrow"><i class="ph ph-arrow-down"></i></div>
-                        <div class="tiktok-card-bottom">
-                            <i class="ph ph-house"></i>
-                            <span>That's StillHere.</span>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="ab-origin-mock-comments">
+            <div class="ab-origin-mock-comment">
+              <div class="ab-origin-mock-avatar"></div>
+              <div>
+                <span class="ab-origin-mock-comment-user">@someone_quiet</span>
+                <p class="ab-origin-mock-comment-text">i scrolled past this 4 times before i decided to write this here. i can't talk about this with anyone i know — it's been 5 months and i still think about them every single day. i didn't even share this video because my friends would ask questions.</p>
+              </div>
             </div>
-        </section>
-
-        <section class="statement">
-            <p>The most powerful thing you can offer someone is genuine attention. Maybe not a solution. Not a suggestion. Just: <em>I hear you.</em></p>
-        </section>
-
-        <section class="values">
-            <div class="values-label">what we stand for</div>
-            <div class="values-list">
-                <div class="value-row">
-                    <span class="value-idx">01</span>
-                    <div class="value-divider"></div>
-                    <div class="value-content">
-                        <h3>Presence over advice</h3>
-                        <p>When someone tags a post "No Advice" – that's not a suggestion. It's the entire point. You don't have to fix anything to matter here.</p>
-                    </div>
-                    <div class="value-accent value-accent--purple"><i class="ph ph-ear"></i></div>
-                </div>
-                <div class="value-row">
-                    <span class="value-idx">02</span>
-                    <div class="value-divider"></div>
-                    <div class="value-content">
-                        <h3>Anonymity as freedom</h3>
-                        <p>You don't need your name, your face, or your reasons. Anonymity isn't hiding – it's the condition that makes honesty possible.</p>
-                    </div>
-                    <div class="value-accent value-accent--peach"><i class="ph ph-mask-happy"></i></div>
-                </div>
-                <div class="value-row">
-                    <span class="value-idx">03</span>
-                    <div class="value-divider"></div>
-                    <div class="value-content">
-                        <h3>All of it belongs here</h3>
-                        <p>The devastating and the absurd. Grief and a crush you're embarrassed about. A 3am thought that made no sense. There's no minimum weight requirement.</p>
-                    </div>
-                    <div class="value-accent value-accent--purple"><i class="ph ph-heart"></i></div>
-                </div>
-                <div class="value-row">
-                    <span class="value-idx">04</span>
-                    <div class="value-divider"></div>
-                    <div class="value-content">
-                        <h3>Every language, every story</h3>
-                        <p>Human experience doesn't have a default language. Write in whatever language feels most like home – the platform was built for that from day one.</p>
-                    </div>
-                    <div class="value-accent value-accent--peach"><i class="ph ph-globe"></i></div>
-                </div>
+            <div class="ab-origin-mock-comment ab-origin-mock-comment--reply">
+              <div class="ab-origin-mock-avatar ab-origin-mock-avatar--sm"></div>
+              <div>
+                <span class="ab-origin-mock-comment-user">@quiet_reader</span>
+                <p class="ab-origin-mock-comment-text">i feel this so much. this is exactly why i never repost anything.</p>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <section class="solo">
-            <div class="solo-inner">
-                <div class="solo-left">
-                    <div class="solo-tag">independent project</div>
-                    <h2 class="solo-title">Made by one person.</h2>
-                    <p class="solo-text">StillHere is not a startup. There's no team, no investors, no office. It's an independent project built because this space needed to exist – and no one else was going to make it the right way.</p>
-                    <p class="solo-text">Every design decision, every word, every feature comes from a genuine belief in what this platform can be – not from a roadmap or an investor deck.</p>
-                    <a href="contacts.html" class="solo-link">Say something <i class="ph ph-arrow-right"></i></a>
-                </div>
-                <div class="solo-right">
-                    <div class="solo-stat">
-                        <span class="solo-stat-num">1</span>
-                        <span class="solo-stat-label">person building this</span>
-                    </div>
-                    <div class="solo-stat">
-                        <span class="solo-stat-num">0</span>
-                        <span class="solo-stat-label">investors</span>
-                    </div>
-                    <div class="solo-stat">
-                        <span class="solo-stat-num">∞</span>
-                        <span class="solo-stat-label">people who can be heard</span>
-                    </div>
-                </div>
+        <!-- Origin story text -->
+        <div class="ab-origin-text">
+          <p>
+            people were writing their whole situations in <em>the comment sections of other people's content (especially TikTok) </em> —
+            not as posts they'd actually share, just quietly, under videos that happened to capture
+            something they were going through.
+          </p>
+          <p>
+            unrequited love. grief. burnout. the kind of stuff that's genuinely heavy but
+            almost impossible to say out loud when <em>sharing the video</em> means every friend,
+            coworker, and acquaintance sees the repost in their feed too.
+          </p>
+          <p>
+            so they didn't share. they just wrote — <em>sideways</em>, in someone else's thread —
+            and hoped someone out there would respond.
+          </p>
+          <p>
+            <strong>StillHere is that place, built on purpose.</strong> not sideways, not hidden in a comment
+            under someone else's video. here, you don't need a viral clip to give you permission.
+            your story doesn't have to be attached to anything. and nobody you know will see
+            you here unless you tell them.
+          </p>
+          <div class="ab-origin-pull">
+            you shouldn't need a stranger's video<br>to feel safe saying <em>something true.</em>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="ab-section">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— 02</span>
+        <h2 class="ab-section-title">how it works</h2>
+        <span class="ab-section-hint">four small things, no more</span>
+      </div>
+
+      <div class="ab-grid">
+
+        <article class="ab-card">
+          <div class="ab-card-head">
+            <span class="ab-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/>
+              </svg>
+            </span>
+            <div>
+              <div class="ab-card-label">— feature 01</div>
+              <div class="ab-card-title">community feed</div>
             </div>
-        </section>
+          </div>
+          <p class="ab-card-desc">
+            a slow scroll of stories — no likes, no clout. people share what they're carrying;
+            others respond gently. tag <strong>"no advice"</strong> if you only want presence.
+          </p>
+          <a href="../main.html" class="ab-card-link">
+            visit feed
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </a>
+        </article>
 
-        <section class="docs-links">
-            <div class="docs-links-label">read more</div>
-            <div class="docs-links-row">
-                <a href="../docs/html/guidelines.html" class="doc-link">
-                    <span class="doc-link-title">Community Guidelines</span>
-                    <span class="doc-link-sub">How we treat each other</span>
-                    <i class="ph ph-arrow-up-right"></i>
-                </a>
-
-                <a href="../docs/html/privacy-policy.html" class="doc-link">
-                    <span class="doc-link-title">Privacy Policy</span>
-                    <span class="doc-link-sub">What we collect and why</span>
-                    <i class="ph ph-arrow-up-right"></i>
-                </a>
-
-                <a href="../docs/html/crisis-resources.html" class="doc-link">
-                    <span class="doc-link-title">Crisis Resources</span>
-                    <span class="doc-link-sub">If you need immediate support</span>
-                    <i class="ph ph-arrow-up-right"></i>
-                </a>
-
-                <a href="../docs/html/terms-of-service.html" class="doc-link">
-                    <span class="doc-link-title">Terms of Service</span>
-                    <span class="doc-link-sub">Rules of the platform</span>
-                    <i class="ph ph-arrow-up-right"></i>
-                </a>
+        <article class="ab-card">
+          <div class="ab-card-head">
+            <span class="ab-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/>
+              </svg>
+            </span>
+            <div>
+              <div class="ab-card-label">— feature 02</div>
+              <div class="ab-card-title">ai companion</div>
             </div>
-        </section>
+          </div>
+          <p class="ab-card-desc">
+            a quiet companion that <strong>listens, not solves</strong>. set a mood, turn on
+            no-advice mode, and talk at your own pace — no scripts, no diagnosis, no urgency.
+          </p>
+          <a href="../ai-chat.html" class="ab-card-link">
+            open chat
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </a>
+        </article>
 
-    </main>
+        <article class="ab-card">
+          <div class="ab-card-head">
+            <span class="ab-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/>
+              </svg>
+            </span>
+            <div>
+              <div class="ab-card-label">— feature 03</div>
+              <div class="ab-card-title">anonymous by default</div>
+            </div>
+          </div>
+          <p class="ab-card-desc">
+            no real name, no photo, no profile to maintain. you can post fully anonymously,
+            or pick a soft username. <strong>nothing is sold to anyone, ever.</strong>
+          </p>
+          <a href="../docs/html/privacy-policy.html" class="ab-card-link">
+            read privacy
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </a>
+        </article>
+        <!--
+        <article class="ab-card">
+          <div class="ab-card-head">
+            <span class="ab-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M178.34,165.66,160,147.31V208a8,8,0,0,1-16,0V147.31l-18.34,18.35a8,8,0,0,1-11.32-11.32l32-32a8,8,0,0,1,11.32,0l32,32a8,8,0,0,1-11.32,11.32ZM160,40A88.08,88.08,0,0,0,81.29,88.67,64,64,0,1,0,72,216H96a8,8,0,0,0,0-16H72a48,48,0,0,1,0-96,48.62,48.62,0,0,1,7.7.62A88,88,0,0,0,72,128a8,8,0,0,0,16,0,72,72,0,1,1,100.8,66,8,8,0,0,0,3.2,15.66A88,88,0,0,0,160,40Z"/>
+              </svg>
+            </span>
+            <div>
+              <div class="ab-card-label">— feature 04</div>
+              <div class="ab-card-title">free, forever</div>
+            </div>
+          </div>
+          <p class="ab-card-desc">
+            no premium tier, no paywall on the "good" features. if money ever shows up,
+            it's <strong>donations or grants</strong> — and we'll always say where.
+          </p>
+          <a href="updates.html" class="ab-card-link">
+            see roadmap
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </a>
+        </article>
+        -->
 
-    <footer class="footer">
-        <div class="footer_content">
-            <div class="footer_main">
-                <div class="footer_stillhere">
-                    <div class="footer_logo">
-                        <p>StillHere</p>
-                    </div>
-                    <p class="footer_subtitle">A project about presence, not solutions</p>
+      </div>
+    </section>
+
+    <!-- ─── PRINCIPLES ─── -->
+    <section class="ab-section">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— 03</span>
+        <h2 class="ab-section-title">what we believe</h2>
+        <span class="ab-section-hint">our four quiet rules</span>
+      </div>
+
+      <div class="ab-principles">
+        <div class="ab-principle">
+          <div class="ab-principle-num">01</div>
+          <div class="ab-principle-title">presence over fixing</div>
+          <div class="ab-principle-desc">listening is the work. solutions are optional.</div>
+        </div>
+        <div class="ab-principle">
+          <div class="ab-principle-num">02</div>
+          <div class="ab-principle-title">slow over viral</div>
+          <div class="ab-principle-desc">no streaks, no notifications begging for return.</div>
+        </div>
+        <div class="ab-principle">
+          <div class="ab-principle-num">03</div>
+          <div class="ab-principle-title">private over public</div>
+          <div class="ab-principle-desc">your story is yours. we don't sell, profile, or train on it.</div>
+        </div>
+        <div class="ab-principle">
+          <div class="ab-principle-num">04</div>
+          <div class="ab-principle-title">human over algorithm</div>
+          <div class="ab-principle-desc">the feed is chronological. no engagement scoring.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── WHAT WE'RE NOT ─── -->
+    <section class="ab-section">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— 04</span>
+        <h2 class="ab-section-title">what we're not</h2>
+        <span class="ab-section-hint">honest about the edges</span>
+      </div>
+
+      <div class="ab-not">
+        <h3 class="ab-not-title">we're <em>not</em> a replacement for —</h3>
+        <p class="ab-not-sub">
+          StillHere is a soft place, but it has limits. please know them, and
+          please don't carry serious things alone.
+        </p>
+
+        <div class="ab-not-list">
+          <div class="ab-not-item">
+            <span class="ab-not-item-mark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
+            </span>
+            <span><strong>a therapist or psychiatrist.</strong> we can't diagnose, prescribe, or treat clinical conditions.</span>
+          </div>
+          <div class="ab-not-item">
+            <span class="ab-not-item-mark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
+            </span>
+            <span><strong>a crisis line.</strong> if you're unsafe right now, please call a trained counselor — they're 24/7 and free.</span>
+          </div>
+          <div class="ab-not-item">
+            <span class="ab-not-item-mark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
+            </span>
+            <span><strong>a debate forum.</strong> unkindness and "well actually" replies get removed.</span>
+          </div>
+          <div class="ab-not-item">
+            <span class="ab-not-item-mark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
+            </span>
+            <span><strong>a place for promotion.</strong> no products, no programs, no "DM me my e-book."</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── STORY / WHO ─── -->
+    <section class="ab-section">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— 05</span>
+        <h2 class="ab-section-title">who's behind this</h2>
+        <span class="ab-section-hint">a very small team</span>
+      </div>
+
+      <div class="ab-story">
+        <div class="ab-story-art">
+          <div class="ab-story-art-paper">
+            <div class="ab-story-art-line"></div>
+            <div class="ab-story-art-line"></div>
+            <div class="ab-story-art-line ab-story-art-line--short"></div>
+            <div class="ab-story-art-line ab-story-art-line--accent"></div>
+            <div class="ab-story-art-line"></div>
+            <div class="ab-story-art-line ab-story-art-line--short"></div>
+            <img src="../assets/letters/_Special Characters/Asterisk_06.png" class="ab-story-art-doodle ab-story-art-doodle--1" alt="" aria-hidden="true">
+            <img src="../assets/doodles2/06_double_heart.png" class="ab-story-art-doodle ab-story-art-doodle--2" alt="" aria-hidden="true">
+          </div>
+        </div>
+
+        <div class="ab-story-text">
+          <div class="ab-story-eyebrow">— the people</div>
+          <h3 class="ab-story-heading">a few of us, <em>working quietly.</em></h3>
+          <div class="ab-story-body">
+            <p>
+              StillHere started as a side project of the one person who'd been on the other side
+              of burnout, grief, and the kind of nights where the internet only made it worse.
+              we wanted something that <strong>didn't shout</strong>.
+            </p>
+            <p>
+              we're still small. mostly volunteers, occasional grant funding, fully
+              open-source on GitHub. no investors, no growth team, no quarterly numbers.
+            </p>
+            <p>
+              if you want to help — write, translate, or just share your story —
+              you already are.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── BY THE NUMBERS ─── -->
+    <section class="ab-section">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— 06</span>
+        <h2 class="ab-section-title">in numbers</h2>
+        <span class="ab-section-hint">honest counts, not vanity metrics</span>
+      </div>
+
+      <div class="ab-stats">
+        <div class="ab-stat">
+          <div class="ab-stat-num">0</div>
+          <div class="ab-stat-label">ads, ever</div>
+        </div>
+        <div class="ab-stat">
+          <div class="ab-stat-num">100%</div>
+          <div class="ab-stat-label">anonymous-capable</div>
+        </div>
+        <div class="ab-stat">
+          <div class="ab-stat-num">24/7</div>
+          <div class="ab-stat-label">ai companion online</div>
+        </div>
+        <div class="ab-stat">
+          <div class="ab-stat-num">∞</div>
+          <div class="ab-stat-label">time you can take</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CLOSING ─── -->
+    <section class="ab-closing">
+      <p class="ab-closing-text">
+        wherever you are tonight — <em>we're glad you found this.</em>
+      </p>
+      <p class="ab-closing-sub">— still here, always</p>
+
+      <div class="ab-closing-actions">
+        <a href="../create-post.html" class="ab-cta ab-cta--primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/>
+          </svg>
+          start sharing
+        </a>
+        <a href="../ai-chat.html" class="ab-cta ab-cta--ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/>
+          </svg>
+          talk to ai support
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+  <footer class="footer">
+    <div class="footer_content">
+        <div class="footer_main">
+            <div class="footer_stillhere">
+                <div class="footer_logo">
+                    <p>StillHere</p>
+                </div>
+                <p class="footer_subtitle">A project about presence, not solutions</p>
+            </div>
+
+            <div class="footer_links">
+                <div class="footer_links_1">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="../main.html">Browse Stories</a></li>
+                        <li><a href="../create-post.html">Share Your Story</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
                 </div>
 
-                <div class="footer_links">
-                    <div class="footer_links_1">
-                        <h3>Platform</h3>
-                        <ul>
-                            <li><a href="../main.html">Browse Stories</a></li>
-                            <li><a href="../create-post.html">Share Your Story</a></li>
-                            <li><a href="updates.html">Updates</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer_links_2">
-                        <h3>Support</h3>
-                        <ul>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="../docs/html/guidelines.html">Guidelines</a></li>
-                            <li><a href="../docs/html/crisis-resources.html">Crisis Resources</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer_links_3">
-                        <h3>Legal</h3>
-                        <ul>
-                            <li><a href="../docs/html/privacy-policy.html">Privacy Policy</a></li>
-                            <li><a href="../docs/html/terms-of-service.html">Terms of Service</a></li>
-                        </ul>
-                    </div>
+                <div class="footer_links_2">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contacts.html">Contacts</a></li>
+                        <li><a href="../docs/html/guidelines.html">Guidelines</a></li>
+                        <li><a href="../docs/html/crisis-resources.html">Crisis Resources</a></li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="footer_footer">
-                <p>2026 StillHere.</p>
-                <div class="footer_social">
-                    <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
-                        </svg>
-                    </a>
-
-                    <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
-                        </svg>
-                    </a>
-
-                    <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
-                        </svg>
-                    </a>
-
-                    <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
-                        </svg>
-                    </a>
+                <div class="footer_links_3">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="../docs/html/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../docs/html/terms-of-service.html">Terms of Service</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </footer>
 
+        <div class="footer_footer">
+            <p>2026 StillHere.</p>
+            <div class="footer_social">
+                <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
 
   <script>
+    /* ── Nav menu toggle ── */
     (function () {
       document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
         var btn   = wrap.querySelector('.main-menu-trigger');
@@ -364,8 +1340,38 @@
           if (b) b.setAttribute('aria-expanded', 'false');
         });
       });
+
+      /* Navbar scroll-shrink */
+      var navEl = document.querySelector('.top-info');
+      if (navEl) {
+        var last = false;
+        window.addEventListener('scroll', function () {
+          var s = window.scrollY > 24;
+          if (s !== last) { navEl.classList.toggle('is-scrolled', s); last = s; }
+        }, { passive: true });
+      }
     })();
+
+    /* ── Session: swap Login → Sign out ── */
+    if (window.SH_SESSION && window.SH_SESSION.whenReady) {
+      window.SH_SESSION.whenReady(function (user) {
+        var loginItem = document.querySelector('.mmenu-item--login');
+        if (!loginItem || !user) return;
+        loginItem.innerHTML =
+          '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+          '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
+          'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
+          'Sign out';
+        loginItem.removeAttribute('href');
+        loginItem.style.cursor = 'pointer';
+        loginItem.addEventListener('click', async function (e) {
+          e.preventDefault();
+          await window.SH_SESSION.signOut();
+          window.location.href = '../login.html';
+        });
+      });
+    }
   </script>
+
 </body>
 </html>
-

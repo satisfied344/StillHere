@@ -160,17 +160,20 @@ html[data-theme="dark"] .sidebar-create-post-button {
   color: #fff;
 }
 
+html[data-theme="dark"] .asidebar-divider {
+  background: rgba(255, 255, 255, 0.06);
+}
+
 html[data-theme="dark"] .sidebar-create-post-button:hover {
   background: #c9bae0;
 }
 
 html[data-theme="dark"] .sidebar-more {
-  border-color: var(--border-subtle);
-  color: var(--text-mid);
+  color: #52506a;
 }
 
 html[data-theme="dark"] .sidebar-more:hover {
-  background: rgba(255, 255, 255, 0.05);
+  color: #8b87a8;
 }
 
 /* ── Filter icon buttons (sort/filter toggles above feed) ── */
@@ -907,4 +910,186 @@ html[data-theme="dark"] .chat-input-wrap,
 html[data-theme="dark"] .chat-box {
   background: var(--surface-nav) !important;
   border-color: var(--border-nav) !important;
+}
+
+/* Chat sidebar */
+html[data-theme="dark"] .chat-sidebar {
+  background: rgba(20, 17, 30, 0.85) !important;
+  border-right-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .sidebar-top-area {
+  border-bottom-color: var(--border-glass) !important;
+}
+
+html[data-theme="dark"] .chat-history-item {
+  color: var(--text-mid);
+}
+
+html[data-theme="dark"] .chat-history-item:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .chat-history-item.active {
+  background: rgba(255, 255, 255, 0.10) !important;
+  color: var(--charcoal);
+}
+
+html[data-theme="dark"] .sidebar-empty {
+  color: var(--text-light) !important;
+}
+
+/* Background words in welcome screen — use light opacity in dark mode */
+html[data-theme="dark"] .wb-row {
+  color: rgba(255, 255, 255, 0.045) !important;
+}
+
+/* Author badge in dark theme */
+html[data-theme="dark"] .comment-author-badge {
+  color: #c4b5fd !important;
+  background: rgba(167, 139, 250, 0.14) !important;
+  border-color: rgba(167, 139, 250, 0.30) !important;
+}
+html[data-theme="dark"] .comment-card--author {
+  border-left-color: rgba(167, 139, 250, 0.45) !important;
+  background: rgba(167, 139, 250, 0.04) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Startup page (paper + doodle redesign) — dark overrides
+   Dark = night-paper: deep warm-charcoal bg, cream ink
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] body {
+  background: #1a1612 !important;
+  color: #ede1c8 !important;
+}
+
+html[data-theme="dark"] .top-info {
+  background: rgba(26, 22, 18, 0.82) !important;
+  border-bottom-color: rgba(237, 225, 200, 0.12) !important;
+}
+
+html[data-theme="dark"] .logo,
+html[data-theme="dark"] .title,
+html[data-theme="dark"] .card-section-title,
+html[data-theme="dark"] .subtitle,
+html[data-theme="dark"] .feature-body h3,
+html[data-theme="dark"] .join-title,
+html[data-theme="dark"] .footer_logo p,
+html[data-theme="dark"] .footer_links h3,
+html[data-theme="dark"] .quote-text { color: #ede1c8 !important; }
+
+html[data-theme="dark"] .title em,
+html[data-theme="dark"] .subtitle em,
+html[data-theme="dark"] .subtitle em::after,
+html[data-theme="dark"] .card-section-title em,
+html[data-theme="dark"] .join-title em,
+html[data-theme="dark"] .quote-text em,
+html[data-theme="dark"] .logo::after { color: #e8a87c !important; }
+
+html[data-theme="dark"] .nav-link { color: rgba(237,225,200,0.7) !important; }
+html[data-theme="dark"] .nav-link:hover { color: #ede1c8 !important; }
+html[data-theme="dark"] .nav-link::after { background: #ede1c8 !important; }
+html[data-theme="dark"] .nav-link--stack:last-child {
+  background: #ede1c8 !important;
+  color: #1a1612 !important;
+}
+html[data-theme="dark"] .nav-link--stack:last-child:hover {
+  background: #e8a87c !important;
+  color: #1a1612 !important;
+}
+
+html[data-theme="dark"] .hero-meta,
+html[data-theme="dark"] .section-eyebrow,
+html[data-theme="dark"] .feature-num,
+html[data-theme="dark"] .feature-body p,
+html[data-theme="dark"] .subtitle-2,
+html[data-theme="dark"] .join-description,
+html[data-theme="dark"] .quote-cite,
+html[data-theme="dark"] .footer_subtitle,
+html[data-theme="dark"] .footer_links a,
+html[data-theme="dark"] .footer_footer,
+html[data-theme="dark"] .scroll-cue { color: rgba(237,225,200,0.6) !important; }
+
+html[data-theme="dark"] .feature-list { border-top-color: rgba(237,225,200,0.18) !important; }
+html[data-theme="dark"] .feature-row { border-bottom-color: rgba(237,225,200,0.18) !important; }
+html[data-theme="dark"] .feature-row::before { background: rgba(237,225,200,0.05) !important; }
+html[data-theme="dark"] .feature-row:hover .feature-body h3 { color: #e8a87c !important; }
+
+html[data-theme="dark"] .feature-tag {
+  border-color: rgba(237,225,200,0.18) !important;
+  color: rgba(237,225,200,0.55) !important;
+  background: rgba(237,225,200,0.03) !important;
+}
+html[data-theme="dark"] .feature-row:hover .feature-tag {
+  border-color: rgba(232,168,124,0.55) !important;
+  color: #e8a87c !important;
+  background: rgba(232,168,124,0.06) !important;
+}
+
+html[data-theme="dark"] .scroll-cue-line::after { background: #e8a87c !important; }
+
+html[data-theme="dark"] .join-bottom { border-top-color: rgba(237,225,200,0.18) !important; }
+
+html[data-theme="dark"] .button_start_1,
+html[data-theme="dark"] .join-register {
+  background: #ede1c8 !important;
+  color: #1a1612 !important;
+  box-shadow: 4px 4px 0 0 #e8a87c !important;
+}
+html[data-theme="dark"] .button_start_1:hover,
+html[data-theme="dark"] .join-register:hover {
+  background: #f7eed5 !important;
+  box-shadow: 6px 6px 0 0 #e8a87c !important;
+}
+
+html[data-theme="dark"] .button_start_2 {
+  color: #ede1c8 !important;
+  border-color: rgba(237,225,200,0.45) !important;
+  background: transparent !important;
+}
+html[data-theme="dark"] .button_start_2:hover {
+  background: #ede1c8 !important;
+  color: #1a1612 !important;
+  border-color: #ede1c8 !important;
+}
+
+/* Stamp band inverts in dark — paper bar over ink page */
+html[data-theme="dark"] .stamp-band {
+  background: #ede1c8 !important;
+  color: #1a1612 !important;
+  border-top-color: #ede1c8 !important;
+  border-bottom-color: #ede1c8 !important;
+}
+html[data-theme="dark"] .stamp-track .stamp-sep { color: #d6533c !important; }
+
+/* Quote band */
+html[data-theme="dark"] .quote-band {
+  background: rgba(237,225,200,0.04) !important;
+  border-top-color: rgba(237,225,200,0.10) !important;
+  border-bottom-color: rgba(237,225,200,0.10) !important;
+}
+
+/* Doodles glow in cream */
+html[data-theme="dark"] .doodle { color: #ede1c8 !important; }
+html[data-theme="dark"] .doodle--accent { color: #e8a87c !important; }
+html[data-theme="dark"] .doodle--ochre  { color: #d4a06a !important; }
+html[data-theme="dark"] .doodle--sage   { color: #9bb39a !important; }
+
+/* Background marquee words — slightly visible cream */
+html[data-theme="dark"] .row { color: rgba(237,225,200,0.045) !important; }
+
+/* Footer */
+html[data-theme="dark"] .footer {
+  background: #15110e !important;
+  border-top-color: rgba(237,225,200,0.18) !important;
+}
+html[data-theme="dark"] .footer_links a:hover,
+html[data-theme="dark"] .footer_social a:hover { color: #e8a87c !important; }
+html[data-theme="dark"] .footer_footer { border-top-color: rgba(237,225,200,0.10) !important; }
+
+/* Subtitle squiggle underline — repaint to warm in dark */
+html[data-theme="dark"] .subtitle em::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'><path d='M2 8 Q 30 2, 60 6 T 120 7 T 198 5' fill='none' stroke='%23e8a87c' stroke-width='2.4' stroke-linecap='round'/></svg>") !important;
 }

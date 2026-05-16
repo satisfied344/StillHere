@@ -1,29 +1,42 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Helper – StillHere</title>
+  <title>AI support — StillHere</title>
   <link rel="stylesheet" href="CSS/ai-chat-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/dark-theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="JS/supabase-config.js"></script>
+  <script src="JS/session.js"></script>
+  <script src="JS/ai-chat-config.js?v=4"></script>
   <script src="JS/theme.js"></script>
 </head>
 <body>
 
-  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Paper-grain noise filter (shared with startup-page + main) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <filter id="noise">
-      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
-      <feBlend in="SourceGraphic" mode="overlay"/>
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
     </filter>
   </svg>
 
+  <!-- Ambient background doodles — fixed, behind everything, very low opacity -->
+  <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+  <img src="assets/doodles2/08_wavy_line.png"                        class="pg-doodle pg-doodle--5" alt="" aria-hidden="true">
+
   <nav class="top-info" aria-label="Primary navigation">
-    <a href="main.html" class="logo">StillHere</a>
+    <a href="startup-page.html" class="logo"><span>StillHere</span></a>
+
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
@@ -54,12 +67,12 @@
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger">
+        <button class="main-menu-trigger" aria-label="Open menu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
             <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
           </svg>
         </button>
-      
+
         <ul class="main-menu-panel" role="menu">
           <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
@@ -68,145 +81,184 @@
           <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208a8,8,0,0,1-8,8H24a8,8,0,0,1,0-16H232A8,8,0,0,1,240,208ZM16,144a8,8,0,0,0,8,8H56v32a8,8,0,0,0,16,0V152H104v16a8,8,0,0,0,16,0V152h32v48a8,8,0,0,0,16,0V152h32v16a8,8,0,0,0,16,0V152h32a8,8,0,0,0,0-16H24A8,8,0,0,0,16,144ZM229.66,82.34l-48-48a8,8,0,0,0-11.32,0L128,86.69,105.66,64.34a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,57.66,123.66L104,77.37l22.34,22.29a8,8,0,0,0,11.32,0L184,53.37l42.34,42.29a8,8,0,0,0,11.32-11.32Z"/></svg>Statistics</a></li>
         </ul>
-        </div>
+      </div>
     </div>
   </nav>
 
-  <div class="chat-layout">
-    <aside class="chat-sidebar">
-      <div class="sidebar-top-area">
-        <button class="new-chat-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-            <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/>
-          </svg>
-          New Chat
-        </button>
+  <main class="chat-page">
+
+    <!-- Floating "reopen sidebar" button — visible only when sidebar is collapsed -->
+    <button class="sidebar-reopen" id="sidebarReopen" aria-label="Open sidebar" title="Open conversations">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+        <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/>
+      </svg>
+    </button>
+
+    <!-- ────────── SIDEBAR ────────── -->
+    <aside class="chat-sidebar" aria-label="Conversation history">
+      <button class="sidebar-toggle" aria-label="Collapse sidebar" title="Collapse">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/>
+        </svg>
+      </button>
+
+      <div class="sidebar-head">
+        <span class="sidebar-eyebrow">— a quiet space</span>
+        <h2 class="sidebar-title">your conversations</h2>
       </div>
-      <div class="chat-history-scroll">
-        <div class="sidebar-empty">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-            <path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.05,16.05,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78.69.69,0,0,0,.13-.11L82.5,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM216,192H82.5a16,16,0,0,0-10.25,3.78.69.69,0,0,0-.13.11L40,224V64H216Z"/>
+
+      <button class="new-chat-btn" id="newChatBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96A16,16,0,0,0,227.31,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"/>
+        </svg>
+        <span>start a new conversation</span>
+      </button>
+
+      <div class="sidebar-search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/>
+        </svg>
+        <input type="text" id="sidebarSearch" placeholder="search past chats…" autocomplete="off">
+      </div>
+
+      <div class="chat-history" id="chatHistory">
+        <!-- Populated dynamically from localStorage / Supabase -->
+        <div class="history-empty" id="historyEmpty">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.05,16.05,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78L82.5,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48Zm0,144H82.5a16,16,0,0,0-10.25,3.78L40,224V64H216Z"/>
           </svg>
-          <p>No conversations yet.<br>Start one above.</p>
+          <p>no conversations yet.<br>start one above.</p>
         </div>
+      </div>
+
+      <!-- Soft confidentiality note at the bottom -->
+      <div class="sidebar-foot">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96Zm112,152H48V96H208V208Z"/>
+        </svg>
+        <span>private &amp; anonymous</span>
       </div>
     </aside>
 
-    <main class="chat-main">
-      <div class="chat-messages">
-        <div class="chat-welcome">
+    <!-- ────────── CHAT AREA ────────── -->
+    <section class="chat-area" aria-label="Conversation">
 
-          <div class="welcome-bg-words" aria-hidden="true">
-            <div class="wb-row wb-left">
-              still · here · breathe · listen · you matter · safe · still · here · breathe · listen · you matter · safe · still · here · breathe · listen · you matter · safe ·
-            </div>
-            <div class="wb-row wb-right wb-slow">
-              healing · present · seen · heard · together · calm · healing · present · seen · heard · together · calm · healing · present · seen · heard · together · calm ·
-            </div>
-            <div class="wb-row wb-left">
-              no judgment · open · gentle · real · honest · grounded · no judgment · open · gentle · real · honest · grounded · no judgment · open · gentle · real · honest ·
-            </div>
-          </div>
-
-          <div class="welcome-grid">
-            <div class="welcome-left">
-              <span class="welcome-eyebrow">AI Helper</span>
-              <h1 class="welcome-title"><em>A space<br>to breathe.</em></h1>
-              <p class="welcome-desc">Not a therapist. Not a script. Just something that actually listens – no timer, no judgment, no wrong answer.</p>
-              <div class="welcome-prompts">
-                <button class="welcome-prompt-btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                    <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
-                  </svg>
-                  I just need someone to listen right now
-                </button>
-                <button class="welcome-prompt-btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                    <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
-                  </svg>
-                  I've been pretending I'm fine for a while
-                </button>
-                <button class="welcome-prompt-btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                    <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
-                  </svg>
-                  I don't even know where to start
-                </button>
-                <button class="welcome-prompt-btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                    <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
-                  </svg>
-                  Something happened and I can't stop thinking about it
-                </button>
-              </div>
-            </div>
-
-            <div class="welcome-right">
-              <div class="welcome-quote-card">
-                <span class="welcome-quote-mark">"</span>
-                <p class="welcome-quote-text">You don't have to explain yourself perfectly. You just have to show up. Everything else can wait.</p>
-                <span class="welcome-quote-attr">StillHere AI</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
+      <!-- Ambient doodles — fixed to the chat-area, NOT inside the scrolling welcome -->
+      <div class="welcome-doodles" id="welcomeDoodles" aria-hidden="true">
+        <img src="assets/doodles2/02_asterisk_flower.png"                            class="wd wd--cloud-l">
+        <img src="assets/doodles2/08_wavy_line.png"                        class="wd wd--wave">
+        <img src="assets/letters/_Special Characters/Asterisk_06.png"      class="wd wd--star-r">
+        <img src="assets/doodles2/01_star.png"                             class="wd wd--spark">
       </div>
 
-      <div class="chat-disclaimer">
-        <div class="disclaimer-left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-            <path d="M240,94c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,220.66,16,164,16,94A62.07,62.07,0,0,1,78,32c20.65,0,38.73,8.88,50,23.89C139.27,40.88,157.35,32,178,32A62.07,62.07,0,0,1,240,94Z"/>
+      <!-- WELCOME STATE — calming, almost a postcard -->
+      <div class="chat-welcome" id="chatWelcome">
+
+        <div class="welcome-eyebrow">— a place to slow down</div>
+
+        <h1 class="welcome-title">
+          hi, <em>we're listening.</em>
+          <img src="assets/letters/_Special Characters/Asterisk_01.png" class="welcome-star" alt="" aria-hidden="true">
+        </h1>
+
+        <p class="welcome-lede">
+          not a therapist. not a script. <br>
+          a quiet companion that listens, gently — at your pace,
+          in your words, for as long as you need.
+        </p>
+
+      </div>
+
+      <!-- LIVE MESSAGES (hidden initially; JS toggles when a chat starts) -->
+      <div class="chat-stream" id="chatStream" hidden>
+        <!-- messages render here -->
+      </div>
+
+      <!-- INPUT BAR — floating, paper card -->
+      <div class="chat-composer">
+        <div class="composer-card">
+          <textarea
+            id="chatInput"
+            class="composer-input"
+            placeholder="say anything — even just a feeling, half a thought, a word…"
+            rows="1"
+            aria-label="Message"></textarea>
+
+          <div class="composer-row">
+            <div class="composer-tools">
+              <button class="ctool" type="button" id="toolNoAdvice" aria-pressed="false"
+                      title="no-advice mode — i'll just listen, no suggestions">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"/>
+                </svg>
+                <span>no-advice mode</span>
+                <svg class="ctool-check" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/>
+                </svg>
+              </button>
+
+              <div class="mood-wrap">
+                <button class="ctool" type="button" id="toolMood" aria-pressed="false"
+                        title="how are you feeling?">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                    <path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68A16,16,0,0,0,243.31,136ZM84,96a12,12,0,1,1,12-12A12,12,0,0,1,84,96Z"/>
+                  </svg>
+                  <span id="moodLabel">mood</span>
+                </button>
+                <ul class="mood-menu" id="moodMenu" role="menu" hidden>
+                  <li><button data-mood="" class="mood-opt"><em>none</em></button></li>
+                  <li><button data-mood="sad"      class="mood-opt">sad</button></li>
+                  <li><button data-mood="anxious"  class="mood-opt">anxious</button></li>
+                  <li><button data-mood="angry"    class="mood-opt">angry</button></li>
+                  <li><button data-mood="numb"     class="mood-opt">numb</button></li>
+                  <li><button data-mood="tired"    class="mood-opt">tired</button></li>
+                  <li><button data-mood="lonely"   class="mood-opt">lonely</button></li>
+                  <li><button data-mood="ok"       class="mood-opt">ok</button></li>
+                  <li><button data-mood="hopeful"  class="mood-opt">hopeful</button></li>
+                </ul>
+              </div>
+            </div>
+
+            <button class="send-btn" id="sendBtn" type="button" disabled aria-label="Send">
+              <span class="send-label">send</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M223.87,114,89.87,34A16,16,0,0,0,66.4,53.65L88,128,66.4,202.35A16,16,0,0,0,82.13,224a16.06,16.06,0,0,0,7.77-2L223.87,142a16,16,0,0,0,0-28ZM82.12,208,103.66,134.4l63.49.07a8,8,0,0,0,0-16l-63.49.07L82,53.94,216,128Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <p class="composer-foot">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M128,24A104,104,0,1,0,232,128,104.13,104.13,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm12-80a12,12,0,1,1-12-12A12,12,0,0,1,140,136Zm-4-44v8a8,8,0,0,1-16,0V92a8,8,0,0,1,16,0Z"/>
           </svg>
-          For support only – not medical advice. In crisis?
-          <a href="docs/html/crisis-resources.html">Crisis Resources</a>
-        </div>
-        <div class="disclaimer-right">
-          <span class="status-dot"></span>
-          AI online – ready to chat
-        </div>
+          for support, not medical advice. in crisis, please reach a
+          <a href="docs/html/crisis-resources.html">real person</a>.
+        </p>
       </div>
 
-      <div class="chat-input-wrapper">
-        <div class="chat-input-box">
-          <textarea id="chatInput" placeholder="Write anything…" rows="1"></textarea>
-          <button class="send-btn" disabled aria-label="Send">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </main>
+    </section>
+  </main>
 
+  <!-- Delete conversation confirmation modal -->
+  <div class="del-backdrop" id="chatDelBackdrop" aria-hidden="true">
+    <div class="del-modal" role="alertdialog" aria-modal="true" aria-labelledby="chatDelTitle" aria-describedby="chatDelDesc">
+      <div class="del-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+        </svg>
+      </div>
+      <h2 class="del-title" id="chatDelTitle">delete this conversation?</h2>
+      <p class="del-desc" id="chatDelDesc">this can't be undone.</p>
+      <div class="del-actions">
+        <button class="del-btn del-btn--cancel" id="chatDelCancel">cancel</button>
+        <button class="del-btn del-btn--confirm" id="chatDelConfirm">yes, delete</button>
+      </div>
+    </div>
   </div>
 
-
-  <script>
-    (function () {
-      document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
-        var btn   = wrap.querySelector('.main-menu-trigger');
-        var panel = wrap.querySelector('.main-menu-panel');
-        if (!btn || !panel) return;
-        btn.setAttribute('aria-haspopup', 'true');
-        btn.setAttribute('aria-expanded', 'false');
-        btn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          var open = panel.classList.toggle('is-open');
-          btn.setAttribute('aria-expanded', String(open));
-        });
-        panel.addEventListener('click', function (e) { e.stopPropagation(); });
-      });
-      document.addEventListener('click', function () {
-        document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) {
-          p.classList.remove('is-open');
-          var b = p.closest('.main-menu-dropdown').querySelector('.main-menu-trigger');
-          if (b) b.setAttribute('aria-expanded', 'false');
-        });
-      });
-    })();
-  </script>
+  <script src="JS/ai-chat.js?v=4"></script>
 </body>
 </html>
-

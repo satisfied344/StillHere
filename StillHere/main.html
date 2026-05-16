@@ -6,6 +6,7 @@
     <title>StillHere</title>
     <link rel="stylesheet" href="CSS/main-screen.css">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="JS/supabase-config.js"></script>
@@ -56,6 +57,22 @@
   <script src="JS/theme.js"></script>
 </head>
 <body>
+<!-- Paper-grain noise filter (shared with startup-page) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="noise">
+    <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+    <feColorMatrix type="saturate" values="0" />
+    <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+  </filter>
+</svg>
+
+
+<!-- Background atmosphere doodles — fixed, behind everything -->
+<img src="../assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+<img src="../assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+<img src="../assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+<img src="../assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+
 <div class="page-wrapper">
     <nav class="top-info" aria-label="Primary navigation">
             <a href="startup-page.html" class="logo">
@@ -131,6 +148,7 @@
           <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208a8,8,0,0,1-8,8H24a8,8,0,0,1,0-16H232A8,8,0,0,1,240,208ZM16,144a8,8,0,0,0,8,8H56v32a8,8,0,0,0,16,0V152H104v16a8,8,0,0,0,16,0V152h32v48a8,8,0,0,0,16,0V152h32v16a8,8,0,0,0,16,0V152h32a8,8,0,0,0,0-16H24A8,8,0,0,0,16,144ZM229.66,82.34l-48-48a8,8,0,0,0-11.32,0L128,86.69,105.66,64.34a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,57.66,123.66L104,77.37l22.34,22.29a8,8,0,0,0,11.32,0L184,53.37l42.34,42.29a8,8,0,0,0,11.32-11.32Z"/></svg>Statistics</a></li>
         </ul>
         </div>
             </div>
@@ -224,30 +242,31 @@
         </aside>
 
         <main class="main-feed">
+            <!-- Ambient doodles — edges only, z-index 0 behind all content -->
+
             <div class="feed-head">
-                <h1 class="feed-title">Community Feed</h1>
+                <h1 class="feed-title">
+                    <span class="feed-title-eyebrow">— stories shared here</span>
+                    <span class="feed-title-line">community feed
+                        <img src="assets/letters/_Special Characters/Asterisk_05.png"
+                             class="feed-title-star" alt="" aria-hidden="true">
+                    </span>
+                </h1>
                 <div class="feed-filter-actions">
                     <button class="button-icon" id="filterToggle">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="25" height="25"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                             <path d="M230.6,49.53A15.81,15.81,0,0,0,216,40H40A16,16,0,0,0,28.19,66.76l.08.09L96,139.17V216a16,16,0,0,0,24.87,13.32l32-21.34A16,16,0,0,0,160,194.66V139.17l67.74-72.32.08-.09A15.8,15.8,0,0,0,230.6,49.53ZM40,56h0Zm106.18,74.58A8,8,0,0,0,144,136v58.66L112,216V136a8,8,0,0,0-2.16-5.47L40,56H216Z"/>
                         </svg>
+                        filter
                     </button>
 
-                    <button class="button-icon" id="refreshBtn" title="Check for new posts">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="25" height="25"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
+                    <button class="button-icon button-icon--ghost" id="refreshBtn" title="Check for new posts">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                             <path d="M224,48V96a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h28.69L182.06,73.37a79.56,79.56,0,0,0-56.13-23.43h-.45A79.52,79.52,0,0,0,69.59,72.71,8,8,0,0,1,58.41,61.27a96,96,0,0,1,135,.79L208,76.69V48a8,8,0,0,1,16,0ZM186.41,183.29a80,80,0,0,1-112.47-.66L59.31,168H88a8,8,0,0,0,0-16H40a8,8,0,0,0-8,8v48a8,8,0,0,0,16,0V179.31l14.63,14.63A95.43,95.43,0,0,0,130,222.06h.53a95.36,95.36,0,0,0,67.07-27.33,8,8,0,0,0-11.18-11.44Z"/>
                         </svg>
+                        refresh
                     </button>
+
                 </div>
             </div>
 
@@ -278,6 +297,7 @@
                             </svg>
                         </button>
                     </div>
+                    
 
                     <div class="lang-strip">
 
@@ -385,6 +405,7 @@
                     <p>Loading more stories...</p>
                 </div>
             </div>
+            
         </main>
 
         <aside class="right-sidebar">
@@ -546,6 +567,22 @@
 
 
   <script>
+    /* Navbar shrink-on-scroll — same behavior as startup-page */
+    (function () {
+      var navEl = document.querySelector('.top-info');
+      if (!navEl) return;
+      var lastScrolled = false;
+      window.addEventListener('scroll', function () {
+        var s = window.scrollY > 24;
+        if (s !== lastScrolled) {
+          navEl.classList.toggle('is-scrolled', s);
+          lastScrolled = s;
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+  <script>
     (function () {
       document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
         var btn   = wrap.querySelector('.main-menu-trigger');
@@ -580,11 +617,11 @@
           <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
         </svg>
       </div>
-      <h2 class="del-title" id="mainDelTitle">Delete forever?</h2>
-      <p class="del-desc" id="mainDelDesc">This cannot be undone. Once deleted, it's gone.</p>
+      <h2 class="del-title" id="mainDelTitle">delete this post?</h2>
+      <p class="del-desc" id="mainDelDesc">this can't be undone.</p>
       <div class="del-actions">
-        <button class="del-btn del-btn--cancel" id="mainDelCancel">Cancel</button>
-        <button class="del-btn del-btn--confirm" id="mainDelConfirm">Yes, delete</button>
+        <button class="del-btn del-btn--cancel" id="mainDelCancel">cancel</button>
+        <button class="del-btn del-btn--confirm" id="mainDelConfirm">yes, delete</button>
       </div>
     </div>
   </div>

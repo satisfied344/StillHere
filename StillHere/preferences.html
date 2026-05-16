@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preferences – StillHere</title>
-  <script>
-    /* Apply theme immediately to prevent flash */
-    (function(){var t=localStorage.getItem('sh_theme');if(t)document.documentElement.setAttribute('data-theme',t);})();
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <title>Preferences — StillHere</title>
   <link rel="stylesheet" href="CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -17,221 +15,442 @@
   <script src="JS/session.js"></script>
   <script src="JS/theme.js"></script>
   <style>
-    body { padding-top: 73px; }
+    /* ══════════════════════════════════════════════════════
+       Preferences — paper aesthetic, matches startup/main/ai-chat
+       ══════════════════════════════════════════════════════ */
 
-    .pref-wrap {
+    body { overflow-x: hidden; }
+
+    .pref-page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: calc(73px + 38px) 32px 160px;
       position: relative;
       z-index: 2;
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 60px 24px 80px;
+      animation: prefIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes prefIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Page header ── */
+    /* ── Header ── */
     .pref-eyebrow {
       font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
+      font-weight: 600;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--ink-light);
       margin-bottom: 14px;
+      display: inline-block;
     }
+    .pref-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
 
     .pref-title {
-      font-size: 44px;
+      font-family: "Caveat", cursive;
+      font-size: 64px;
       font-weight: 700;
-      color: var(--charcoal);
-      line-height: 1.1;
-      margin-bottom: 10px;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+      position: relative;
+      display: inline-block;
+    }
+    .pref-title em {
+      color: var(--accent-2);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .pref-title-star {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      vertical-align: top;
+      margin-left: 6px;
+      margin-top: 8px;
+      transform: rotate(-12deg);
+      animation: starBob 4s ease-in-out infinite;
+    }
+    @keyframes starBob {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50%      { transform: rotate(-6deg)  translateY(-4px); }
     }
 
     .pref-subtitle {
-      font-size: 16px;
-      color: var(--text-mid);
-      margin-bottom: 52px;
+      font-size: 15.5px;
+      color: var(--ink-mid);
       line-height: 1.6;
+      margin-bottom: 48px;
+      max-width: 540px;
     }
 
     /* ── Section ── */
-    .pref-section {
-      margin-bottom: 48px;
-    }
-
-    .pref-section-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-light);
-      margin-bottom: 16px;
+    .pref-section { margin-bottom: 42px; position: relative; }
+    .pref-section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
       padding-bottom: 10px;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .pref-section-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .pref-section-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+      line-height: 1.2;
+    }
+    .pref-section-hint {
+      font-size: 13px;
+      color: var(--ink-light);
+      margin-left: auto;
+      font-style: italic;
     }
 
     /* ── Theme cards ── */
     .theme-options {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 16px;
     }
-
     .theme-card {
       position: relative;
-      border-radius: 18px;
-      border: 2px solid var(--border-subtle);
-      background: var(--surface-card);
-      padding: 20px;
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 18px;
       cursor: pointer;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
-      overflow: hidden;
+      transition: border-color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
       user-select: none;
+      overflow: hidden;
     }
-
-    .theme-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
-    }
-
-    .theme-card.is-active {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(166, 145, 194, 0.20);
-    }
-
-    .theme-card-check {
+    .theme-card::before {
+      content: "";
       position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 22px;
-      height: 22px;
+      inset: 0;
+      border-radius: 8px;
+      box-shadow: 0 0 0 0 rgba(214, 83, 60, 0.35);
+      transition: box-shadow 0.3s ease;
+      pointer-events: none;
+    }
+    .theme-card:hover {
+      transform: translateY(-2px) rotate(-0.3deg);
+      box-shadow: 0 12px 28px -10px rgba(26, 20, 16, 0.16);
+    }
+    .theme-card.is-active {
+      border-color: var(--accent-2);
+    }
+    .theme-card.is-active::before {
+      box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.18);
+    }
+
+    .theme-check {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 22px; height: 22px;
       border-radius: 50%;
-      border: 2px solid var(--border-subtle);
+      border: 1.5px solid var(--line);
+      background: var(--paper);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--surface-input);
-      transition: background 0.18s, border-color 0.18s;
+      transition: background 0.25s ease, border-color 0.25s ease;
     }
-
-    .theme-card.is-active .theme-card-check {
-      background: var(--accent);
-      border-color: var(--accent);
+    .theme-card.is-active .theme-check {
+      background: var(--accent-2);
+      border-color: var(--accent-2);
     }
+    .theme-check svg { display: none; }
+    .theme-card.is-active .theme-check svg { display: block; }
 
-    .theme-card-check svg {
-      display: none;
-    }
-
-    .theme-card.is-active .theme-card-check svg {
-      display: block;
-    }
-
-    /* Mini preview */
     .theme-preview {
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 16px;
-      height: 100px;
+      height: 96px;
+      border-radius: 6px;
+      margin-bottom: 14px;
       position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line-soft);
     }
-
-    .theme-preview--light {
-      background: linear-gradient(135deg, #edcfb6, #e7c5b9, #ded3f1, #e6cfbb);
-    }
-
-    .theme-preview--dark {
-      background: linear-gradient(135deg, #1d1520, #1a1828, #201a2c, #1d1820);
-    }
+    .theme-preview--light { background: var(--paper); }
+    .theme-preview--dark  { background: #1a1410; }
 
     .theme-preview-bar {
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 22px;
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center; gap: 5px;
       padding: 0 10px;
-      gap: 5px;
     }
-
     .theme-preview--light .theme-preview-bar {
-      background: rgba(255,255,255,0.70);
-      border-bottom: 1px solid rgba(255,255,255,0.5);
+      background: rgba(244, 234, 214, 0.85);
+      border-bottom: 1px solid rgba(26, 20, 16, 0.10);
     }
-
     .theme-preview--dark .theme-preview-bar {
-      background: rgba(20,17,30,0.90);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(15, 11, 9, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
-
     .theme-preview-dot {
-      width: 28px;
-      height: 6px;
+      width: 28px; height: 5px;
       border-radius: 99px;
     }
-
-    .theme-preview--light .theme-preview-dot { background: rgba(0,0,0,0.12); }
-    .theme-preview--dark  .theme-preview-dot { background: rgba(255,255,255,0.15); }
+    .theme-preview--light .theme-preview-dot { background: rgba(26, 20, 16, 0.18); }
+    .theme-preview--dark  .theme-preview-dot { background: rgba(255, 255, 255, 0.18); }
 
     .theme-preview-card {
       position: absolute;
       bottom: 8px; left: 10px; right: 10px;
-      height: 36px;
-      border-radius: 8px;
+      height: 38px;
+      border-radius: 4px;
     }
-
     .theme-preview--light .theme-preview-card {
-      background: rgba(255,255,255,0.80);
-      border: 1px solid rgba(255,255,255,0.9);
+      background: #fffaf0;
+      border: 1px solid rgba(26, 20, 16, 0.10);
     }
-
     .theme-preview--dark .theme-preview-card {
-      background: rgba(30,27,44,0.90);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: #2a201a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .theme-preview-accent {
+      position: absolute;
+      bottom: 14px; left: 18px;
+      width: 18px; height: 4px;
+      background: var(--accent-2);
+      border-radius: 99px;
     }
 
     .theme-card-name {
       font-size: 15px;
-      font-weight: 700;
-      color: var(--charcoal);
-      margin-bottom: 3px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 2px;
+      letter-spacing: 0.01em;
+    }
+    .theme-card-desc {
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      letter-spacing: 0.02em;
     }
 
-    .theme-card-desc {
+    /* ── Language selector ── */
+    .lang-wrap { position: relative; }
+    .lang-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      color: var(--ink);
+      text-align: left;
+      transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+    }
+    .lang-btn:hover {
+      border-color: var(--line);
+      background: var(--paper);
+      transform: translateY(-1px);
+    }
+    .lang-btn.is-open {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.10);
+    }
+    .lang-flag {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--paper-3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .lang-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+    .lang-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+    .lang-native {
+      font-size: 12px;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+    .lang-caret {
+      width: 18px; height: 18px;
+      color: var(--ink-mid);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      flex-shrink: 0;
+    }
+    .lang-btn.is-open .lang-caret { transform: rotate(180deg); }
+
+    .lang-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0; right: 0;
+      background: var(--surface-menu);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 6px;
+      list-style: none;
+      max-height: 320px;
+      overflow-y: auto;
+      box-shadow:
+        0 4px 12px rgba(26, 20, 16, 0.10),
+        0 30px 60px -15px rgba(26, 20, 16, 0.30);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px) scale(0.98);
+      transform-origin: top center;
+      transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+      z-index: 500;
+      margin: 0;
+    }
+    .lang-menu.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.18s ease, transform 0.2s ease;
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+    .lang-option:hover {
+      background: rgba(244, 234, 214, 0.9);
+      color: var(--ink);
+      transform: translateX(2px);
+    }
+    .lang-option-flag {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--paper-3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       font-size: 13px;
-      color: var(--text-mid);
+      line-height: 1;
+    }
+    .lang-option-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      min-width: 0;
+    }
+    .lang-option-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .lang-option-native {
+      font-size: 11.5px;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+    .lang-option.is-active {
+      background: rgba(214, 83, 60, 0.08);
+      color: var(--accent-2);
+    }
+    .lang-option.is-active .lang-option-name { color: var(--accent-2); font-weight: 600; }
+    .lang-option-check {
+      width: 14px; height: 14px;
+      color: var(--accent-2);
+      flex-shrink: 0;
+      display: none;
+    }
+    .lang-option.is-active .lang-option-check { display: block; }
+
+    .lang-soon-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      background: rgba(200, 148, 86, 0.18);
+      color: #8a5a20;
+      border: 1px solid rgba(200, 148, 86, 0.30);
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-left: 6px;
     }
 
     /* ── Back button ── */
+    .pref-actions { margin-top: 36px; }
     .pref-back {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--charcoal);
-      background: var(--surface-widget);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 11px 24px;
-      margin-top: 12px;
-      transition: background 0.18s, transform 0.18s;
-      text-decoration: none;
+      font-size: 13px;
+      color: var(--ink-light);
+      padding: 8px 14px 8px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+      transition: color 0.25s ease, background 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     .pref-back:hover {
-      background: var(--surface-card);
-      transform: translateY(-1px);
+      color: var(--accent-2);
+      background: rgba(214, 83, 60, 0.06);
+      transform: translateX(-3px);
     }
+    .pref-back svg { transition: transform 0.3s ease; }
+    .pref-back:hover svg { transform: translateX(-2px); }
 
-    @media (max-width: 480px) {
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .pref-page { padding: calc(73px + 24px) 18px 40px; }
+      .pref-title { font-size: 48px; }
       .theme-options { grid-template-columns: 1fr; }
-      .pref-title { font-size: 32px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Paper-grain noise filter -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
+
+  <!-- Ambient background doodles -->
+  <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+
   <nav class="top-info" aria-label="Primary navigation">
-    <a href="main.html" class="logo">StillHere</a>
+    <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
@@ -259,7 +478,7 @@
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger">
+        <button class="main-menu-trigger" aria-label="Open menu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
             <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
           </svg>
@@ -267,9 +486,8 @@
         <ul class="main-menu-panel" role="menu">
           <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="preferences.html" class="mmenu-item mmenu-item--active-page" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
+          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
           <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
-          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
         </ul>
@@ -277,17 +495,28 @@
     </div>
   </nav>
 
-  <div class="pref-wrap">
+  <!-- ════════════════════ PAGE ════════════════════ -->
+  <main class="pref-page">
 
-    <p class="pref-eyebrow">Settings</p>
-    <h1 class="pref-title">Preferences</h1>
-    <p class="pref-subtitle">Customize how StillHere looks and feels for you.</p>
+    <span class="pref-eyebrow"><em>—</em> a quiet space, your way</span>
+    <h1 class="pref-title">
+      <em>preferences</em>
+      <img src="assets/letters/_Special Characters/Asterisk_01.png" class="pref-title-star" alt="" aria-hidden="true">
+    </h1>
+    <p class="pref-subtitle">
+      small choices that shape how StillHere feels — pick a tone for your eyes,
+      and a language that feels like home.
+    </p>
 
-    <!-- ── Appearance ── -->
+    <!-- ════════ APPEARANCE ════════ -->
     <section class="pref-section">
-      <p class="pref-section-label">Appearance</p>
-      <div class="theme-options" role="radiogroup" aria-label="Theme">
+      <div class="pref-section-header">
+        <span class="pref-section-eyebrow">— 01</span>
+        <h2 class="pref-section-title">appearance</h2>
+        <span class="pref-section-hint">choose your light</span>
+      </div>
 
+      <div class="theme-options" role="radiogroup" aria-label="Theme">
         <div class="theme-card" id="themeLight" role="radio" aria-checked="true" tabindex="0" data-theme-val="light">
           <div class="theme-preview theme-preview--light">
             <div class="theme-preview-bar">
@@ -296,14 +525,15 @@
               <div class="theme-preview-dot" style="width:16px"></div>
             </div>
             <div class="theme-preview-card"></div>
+            <div class="theme-preview-accent"></div>
           </div>
-          <div class="theme-card-check">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <div class="theme-check">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 6l3 3 5-5" stroke="#fffaf0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <p class="theme-card-name">Light</p>
-          <p class="theme-card-desc">Warm, bright tones</p>
+          <p class="theme-card-name">paper, light</p>
+          <p class="theme-card-desc">warm cream, ink on paper</p>
         </div>
 
         <div class="theme-card" id="themeDark" role="radio" aria-checked="false" tabindex="0" data-theme-val="dark">
@@ -314,27 +544,115 @@
               <div class="theme-preview-dot" style="width:16px"></div>
             </div>
             <div class="theme-preview-card"></div>
+            <div class="theme-preview-accent"></div>
           </div>
-          <div class="theme-card-check">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <div class="theme-check">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 6l3 3 5-5" stroke="#fffaf0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <p class="theme-card-name">Dark</p>
-          <p class="theme-card-desc">Easy on the eyes at night</p>
+          <p class="theme-card-name">ink, dark</p>
+          <p class="theme-card-desc">easy on tired eyes</p>
         </div>
-
       </div>
     </section>
 
-    <a href="javascript:history.back()" class="pref-back">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>
-      </svg>
-      Go back
-    </a>
+    <!-- ════════ LANGUAGE ════════ -->
+    <section class="pref-section">
+      <div class="pref-section-header">
+        <span class="pref-section-eyebrow">— 02</span>
+        <h2 class="pref-section-title">language</h2>
+        <span class="pref-section-hint">coming soon</span>
+      </div>
 
-  </div>
+      <div class="lang-wrap">
+        <button type="button" class="lang-btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+          <span class="lang-flag" aria-hidden="true">EN</span>
+          <span class="lang-text">
+            <span class="lang-name" id="langName">English</span>
+            <span class="lang-native" id="langNative">english · default</span>
+          </span>
+          <svg class="lang-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+          </svg>
+        </button>
+
+        <ul class="lang-menu" id="langMenu" role="listbox" aria-labelledby="langBtn">
+          <!-- Languages populated by JS -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- ════════ BACK ════════ -->
+    <div class="pref-actions">
+      <a href="javascript:history.back()" class="pref-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>
+        </svg>
+        go back
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+  <footer class="footer">
+    <div class="footer_content">
+      <div class="footer_main">
+        <div class="footer_stillhere">
+          <div class="footer_logo">
+            <p>StillHere</p>
+          </div>
+          <p class="footer_subtitle">A project about presence, not solutions</p>
+        </div>
+
+        <div class="footer_links">
+          <div class="footer_links_1">
+            <h3>Platform</h3>
+            <ul>
+              <li><a href="main.html">Browse Stories</a></li>
+              <li><a href="create-post.html">Share Your Story</a></li>
+              <li><a href="nav-bar/updates.html">Updates</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_2">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="nav-bar/about.html">About Us</a></li>
+              <li><a href="nav-bar/contacts.html">Contacts</a></li>
+              <li><a href="docs/html/guidelines.html">Guidelines</a></li>
+              <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_3">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer_footer">
+        <p>2026 StillHere.</p>
+        <div class="footer_social">
+          <a href="https://t.me/still_here_global" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/></svg>
+          </a>
+          <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script>
     /* ── Nav menu toggle ── */
@@ -359,30 +677,41 @@
           if (b) b.setAttribute('aria-expanded', 'false');
         });
       });
+
+      /* Navbar scroll-shrink */
+      var navEl = document.querySelector('.top-info');
+      if (navEl) {
+        var last = false;
+        window.addEventListener('scroll', function () {
+          var s = window.scrollY > 24;
+          if (s !== last) { navEl.classList.toggle('is-scrolled', s); last = s; }
+        }, { passive: true });
+      }
     })();
 
     /* ── Session: swap Login → Sign out ── */
-    window.SH_SESSION.whenReady(function (user) {
-      var loginItem = document.querySelector('.mmenu-item--login');
-      if (!loginItem || !user) return;
-      loginItem.innerHTML =
-        '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
-        '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
-        'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
-        'Sign out';
-      loginItem.removeAttribute('href');
-      loginItem.style.cursor = 'pointer';
-      loginItem.addEventListener('click', async function (e) {
-        e.preventDefault();
-        await window.SH_SESSION.signOut();
-        window.location.href = 'login.html';
+    if (window.SH_SESSION && window.SH_SESSION.whenReady) {
+      window.SH_SESSION.whenReady(function (user) {
+        var loginItem = document.querySelector('.mmenu-item--login');
+        if (!loginItem || !user) return;
+        loginItem.innerHTML =
+          '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+          '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
+          'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
+          'Sign out';
+        loginItem.removeAttribute('href');
+        loginItem.style.cursor = 'pointer';
+        loginItem.addEventListener('click', async function (e) {
+          e.preventDefault();
+          await window.SH_SESSION.signOut();
+          window.location.href = 'login.html';
+        });
       });
-    });
+    }
 
     /* ── Theme card logic ── */
     (function () {
       var cards = document.querySelectorAll('.theme-card');
-
       function applyActive(val) {
         cards.forEach(function (c) {
           var isActive = c.dataset.themeVal === val;
@@ -390,14 +719,11 @@
           c.setAttribute('aria-checked', String(isActive));
         });
       }
-
-      /* Set initial state */
-      applyActive(window.SH_THEME.get());
-
+      applyActive(window.SH_THEME ? window.SH_THEME.get() : 'light');
       cards.forEach(function (card) {
         function activate() {
           var val = card.dataset.themeVal;
-          window.SH_THEME.set(val);
+          if (window.SH_THEME) window.SH_THEME.set(val);
           applyActive(val);
         }
         card.addEventListener('click', activate);
@@ -406,6 +732,89 @@
         });
       });
     })();
+
+    /* ────────────────────────────────────────────────
+       Language selector — visual only, not yet active
+       ──────────────────────────────────────────────── */
+    (function () {
+      var LANGUAGES = [
+        { code: 'en', flag: 'EN', name: 'English',    native: 'english',    available: true  },
+        { code: 'ru', flag: 'RU', name: 'Russian',    native: 'русский',    available: false },
+        { code: 'uk', flag: 'UA', name: 'Ukrainian',  native: 'українська', available: false },
+        { code: 'es', flag: 'ES', name: 'Spanish',    native: 'español',    available: false },
+        { code: 'fr', flag: 'FR', name: 'French',     native: 'français',   available: false },
+        { code: 'de', flag: 'DE', name: 'German',     native: 'deutsch',    available: false },
+        { code: 'it', flag: 'IT', name: 'Italian',    native: 'italiano',   available: false },
+        { code: 'pt', flag: 'PT', name: 'Portuguese', native: 'português',  available: false },
+        { code: 'pl', flag: 'PL', name: 'Polish',     native: 'polski',     available: false },
+        { code: 'nl', flag: 'NL', name: 'Dutch',      native: 'nederlands', available: false },
+        { code: 'tr', flag: 'TR', name: 'Turkish',    native: 'türkçe',     available: false },
+        { code: 'zh', flag: '中',  name: 'Chinese',    native: '中文',        available: false },
+        { code: 'ja', flag: '日',  name: 'Japanese',   native: '日本語',      available: false },
+        { code: 'ko', flag: '한',  name: 'Korean',     native: '한국어',      available: false },
+        { code: 'ar', flag: 'ع',  name: 'Arabic',     native: 'العربية',     available: false },
+        { code: 'hi', flag: 'हि',  name: 'Hindi',      native: 'हिन्दी',       available: false },
+      ];
+
+      var langBtn    = document.getElementById('langBtn');
+      var langMenu   = document.getElementById('langMenu');
+      var langName   = document.getElementById('langName');
+      var langNative = document.getElementById('langNative');
+      var langFlag   = langBtn ? langBtn.querySelector('.lang-flag') : null;
+      if (!langBtn || !langMenu) return;
+
+      /* Render options */
+      langMenu.innerHTML = LANGUAGES.map(function (l, i) {
+        return '<li class="lang-option' + (i === 0 ? ' is-active' : '') + '" role="option" data-code="' + l.code + '" tabindex="0" aria-selected="' + (i === 0 ? 'true' : 'false') + '">' +
+          '<span class="lang-option-flag" aria-hidden="true">' + l.flag + '</span>' +
+          '<span class="lang-option-text">' +
+            '<span class="lang-option-name">' + l.name + (l.available ? '' : '<span class="lang-soon-badge">soon</span>') + '</span>' +
+            '<span class="lang-option-native">' + l.native + '</span>' +
+          '</span>' +
+          '<svg class="lang-option-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
+        '</li>';
+      }).join('');
+
+      /* Toggle menu */
+      function setOpen(open) {
+        langMenu.classList.toggle('is-open', open);
+        langBtn.classList.toggle('is-open', open);
+        langBtn.setAttribute('aria-expanded', String(open));
+      }
+      langBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setOpen(!langMenu.classList.contains('is-open'));
+      });
+      langMenu.addEventListener('click', function (e) { e.stopPropagation(); });
+      document.addEventListener('click', function () { setOpen(false); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
+
+      /* Option click — visual selection only; nothing actually changes */
+      langMenu.querySelectorAll('.lang-option').forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          var code = opt.getAttribute('data-code');
+          var lang = LANGUAGES.find(function (l) { return l.code === code; });
+          if (!lang) return;
+
+          /* Always allow visual selection, but for unavailable show a brief hint */
+          langMenu.querySelectorAll('.lang-option').forEach(function (o) {
+            o.classList.remove('is-active');
+            o.setAttribute('aria-selected', 'false');
+          });
+          opt.classList.add('is-active');
+          opt.setAttribute('aria-selected', 'true');
+
+          if (langFlag)   langFlag.textContent   = lang.flag;
+          if (langName)   langName.textContent   = lang.name;
+          if (langNative) langNative.textContent = lang.native + (lang.available ? ' · default' : ' · coming soon');
+
+          setOpen(false);
+        });
+      });
+    })();
   </script>
+
 </body>
 </html>

@@ -1,360 +1,1074 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StillHere – Share Your Story</title>
-    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-    <link rel="stylesheet" href="CSS/create-post-screen.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share your story — StillHere</title>
+  <link rel="stylesheet" href="CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
   <script src="JS/supabase-config.js"></script>
   <script src="JS/session.js"></script>
   <script src="JS/moderation.js"></script>
-  <script src="JS/create-post.js" defer></script>
-  <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="JS/theme.js"></script>
+  <script src="JS/create-post.js" defer></script>
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       Create post — paper aesthetic, matches startup/main/about/profile
+       ══════════════════════════════════════════════════════ */
+    body { overflow-x: hidden; }
+
+    .cp-page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: calc(73px + 38px) 32px 80px;
+      position: relative;
+      z-index: 2;
+      animation: cpIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes cpIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .cp-hero {
+      margin-bottom: 44px;
+      padding-bottom: 30px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .cp-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+    .cp-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+
+    .cp-title {
+      font-family: "Caveat", cursive;
+      font-size: 78px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+    .cp-title em {
+      color: var(--accent-2);
+      font-style: italic;
+      font-weight: 700;
+    }
+    .cp-title-star {
+      display: inline-block;
+      width: 36px; height: 36px;
+      vertical-align: top;
+      margin-left: 8px;
+      margin-top: 12px;
+      transform: rotate(-12deg);
+      animation: cpBob 4.5s ease-in-out infinite;
+    }
+    @keyframes cpBob {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50%      { transform: rotate(-4deg)  translateY(-5px); }
+    }
+    .cp-lede {
+      font-size: 16.5px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      max-width: 620px;
+    }
+    .cp-lede em {
+      color: var(--accent-2);
+      font-style: italic;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+      padding-bottom: 1px;
+    }
+
+    /* ── BODY GRID ─────────────────────────────────────── */
+    .cp-body {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* ── STEP CARDS ────────────────────────────────────── */
+    .cp-card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: 22px 26px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: border-color 0.25s ease;
+    }
+    .cp-card:hover { border-color: var(--line); }
+
+    .cp-card-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .cp-card-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+    }
+    .cp-card-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .cp-card-hint {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      margin-left: auto;
+      font-style: italic;
+    }
+    .cp-card-sub {
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.5;
+      margin: -6px 0 14px;
+    }
+
+    /* ── LANGUAGE CHIPS ───────────────────────────────── */
+    .cp-lang-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .cp-lang-item input { position: absolute; opacity: 0; pointer-events: none; }
+    .cp-lang-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      user-select: none;
+    }
+    .cp-lang-pill:hover {
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+    }
+    .cp-lang-item input:checked + .cp-lang-pill {
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .cp-lang-other {
+      padding: 8px 14px;
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--ink-mid);
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .cp-lang-other:hover, .cp-lang-other:focus {
+      outline: none;
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+    }
+
+    /* ── TITLE INPUT ──────────────────────────────────── */
+    .cp-title-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: "Caveat", cursive;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+      resize: none;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .cp-title-input::placeholder {
+      color: var(--ink-light);
+      opacity: 0.7;
+    }
+    .cp-title-input:focus {
+      outline: none;
+      border-color: var(--accent-2);
+      background: var(--paper-soft);
+    }
+    .cp-title-meta {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--ink-light);
+      font-style: italic;
+      text-align: right;
+    }
+
+    /* ── QUILL EDITOR OVERRIDES ────────────────────────── */
+    #post-editor {
+      min-height: 220px;
+    }
+    .ql-toolbar.ql-snow {
+      border: 1px solid var(--line) !important;
+      border-bottom: none !important;
+      border-radius: 8px 8px 0 0;
+      background: var(--paper);
+      padding: 8px 10px;
+    }
+    .ql-container.ql-snow {
+      border: 1px solid var(--line) !important;
+      border-radius: 0 0 8px 8px;
+      background: var(--paper);
+      font-family: "Ubuntu", sans-serif;
+      font-size: 15px;
+    }
+    .ql-container.ql-snow:focus-within {
+      border-color: var(--accent-2) !important;
+    }
+    .ql-toolbar.ql-snow:focus-within { border-color: var(--accent-2) !important; }
+    .ql-editor {
+      min-height: 220px;
+      color: var(--ink);
+      line-height: 1.65;
+      padding: 16px 18px;
+    }
+    .ql-editor.ql-blank::before {
+      color: var(--ink-light);
+      font-style: italic;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 15px;
+    }
+    .ql-snow .ql-stroke { stroke: var(--ink-mid); }
+    .ql-snow .ql-fill   { fill: var(--ink-mid); }
+    .ql-snow .ql-picker { color: var(--ink-mid); }
+    .ql-snow .ql-active .ql-stroke,
+    .ql-snow button:hover .ql-stroke { stroke: var(--accent-2); }
+    .ql-snow .ql-active .ql-fill,
+    .ql-snow button:hover .ql-fill { fill: var(--accent-2); }
+    .ql-snow .ql-active .ql-picker,
+    .ql-snow button:hover .ql-picker { color: var(--accent-2); }
+
+    /* ── MEDIA UPLOAD ──────────────────────────────────── */
+    .cp-upload {
+      position: relative;
+      border: 1.5px dashed var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      padding: 22px;
+      cursor: pointer;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .cp-upload:hover, .cp-upload.drag-over {
+      border-color: var(--accent-2);
+      background: rgba(214, 83, 60, 0.04);
+    }
+    .upload-prompt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      color: var(--ink-mid);
+    }
+    .upload-prompt svg {
+      color: var(--ink-light);
+      transition: color 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .cp-upload:hover .upload-prompt svg {
+      color: var(--accent-2);
+      transform: translateY(-2px) rotate(-3deg);
+    }
+    .upload-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0;
+    }
+    .upload-hint {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      margin: 0;
+    }
+    .media-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .media-preview-grid:empty { margin-top: 0; }
+    .media-preview-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line-soft);
+      background: var(--paper-soft);
+      animation: cpIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .media-preview-item img,
+    .media-preview-item video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .media-remove {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: rgba(26, 20, 16, 0.78);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .media-remove:hover {
+      background: var(--accent-2);
+      transform: scale(1.08);
+    }
+
+    /* ── TOPIC CHIPS ──────────────────────────────────── */
+    .cp-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+    .cp-topic-input { position: absolute; opacity: 0; pointer-events: none; }
+    .cp-topic-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .cp-topic-chip::before {
+      content: "";
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--chip-color, var(--ink-light));
+      transition: transform 0.2s ease;
+    }
+    .cp-topic-chip:hover {
+      border-color: var(--chip-color, var(--accent-2));
+      color: var(--ink);
+    }
+    .cp-topic-input:checked + .cp-topic-chip {
+      background: rgba(255, 255, 255, 0.55);
+      border-color: var(--chip-color, var(--accent-2));
+      color: var(--ink);
+      box-shadow: 0 2px 8px -3px rgba(26,20,16,0.10);
+    }
+    .cp-topic-input:checked + .cp-topic-chip::before {
+      transform: scale(1.4);
+    }
+    .chip-anxiety     { --chip-color: #d6533c; }
+    .chip-depression  { --chip-color: #6d8268; }
+    .chip-relations   { --chip-color: #c8945d; }
+    .chip-grief       { --chip-color: #8a7197; }
+    .chip-burnout     { --chip-color: #b85c3a; }
+    .chip-loneliness  { --chip-color: #6b8baf; }
+    .chip-trauma      { --chip-color: #a55a5a; }
+    .chip-other       { --chip-color: var(--ink-light); }
+
+    /* ── MODE CARDS ───────────────────────────────────── */
+    .cp-modes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .cp-mode-input { position: absolute; opacity: 0; pointer-events: none; }
+    .cp-mode-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+      position: relative;
+    }
+    .cp-mode-card:hover {
+      border-color: var(--line);
+      transform: translateY(-2px);
+    }
+    .cp-mode-input:checked + .cp-mode-card {
+      border-color: var(--accent-2);
+      background: linear-gradient(135deg, rgba(214,83,60,0.08), rgba(214,83,60,0.02));
+      box-shadow: 0 4px 14px -6px rgba(214,83,60,0.20);
+    }
+    .cp-mode-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(26,20,16,0.06);
+      color: var(--ink-mid);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .cp-mode-input:checked + .cp-mode-card .cp-mode-icon {
+      background: rgba(214,83,60,0.16);
+      color: var(--accent-2);
+    }
+    .cp-mode-text { min-width: 0; flex: 1; }
+    .cp-mode-text strong {
+      display: block;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+      margin-bottom: 2px;
+    }
+    .cp-mode-text span {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      line-height: 1.45;
+    }
+    .cp-mode-dot {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--line);
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .cp-mode-input:checked + .cp-mode-card .cp-mode-dot {
+      border-color: var(--accent-2);
+      background: radial-gradient(circle at center, var(--accent-2) 0%, var(--accent-2) 40%, transparent 45%);
+    }
+
+    /* ── SUBMIT ROW ───────────────────────────────────── */
+    .cp-submit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 22px;
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      flex-wrap: wrap;
+    }
+    .cp-submit-hint {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      font-style: italic;
+      max-width: 320px;
+      line-height: 1.5;
+    }
+    .cp-submit-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn-cancel {
+      display: inline-flex;
+      align-items: center;
+      padding: 11px 20px;
+      background: transparent;
+      color: var(--ink-mid);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: color 0.25s ease, border-color 0.25s ease;
+      cursor: pointer;
+    }
+    .btn-cancel:hover {
+      color: var(--accent-2);
+      border-color: var(--accent-2);
+    }
+    .btn-publish {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--accent-2);
+      color: #fff;
+      border: 1px solid var(--accent-2);
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    .btn-publish:hover:not(:disabled) {
+      background: #b8462f;
+      border-color: #b8462f;
+      transform: translateY(-1px);
+    }
+    .btn-publish:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .mod-error-wrap {
+      margin-bottom: 14px;
+      padding: 12px 16px;
+      background: rgba(214, 83, 60, 0.08);
+      border: 1px solid rgba(214, 83, 60, 0.30);
+      border-radius: 8px;
+      color: var(--accent-2);
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+
+    /* ── SIDEBAR ──────────────────────────────────────── */
+    .cp-aside { position: sticky; top: 96px; }
+    .cp-widget {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin-bottom: 14px;
+      transition: border-color 0.25s ease, transform 0.3s ease;
+    }
+    .cp-widget:hover {
+      border-color: var(--line);
+    }
+    .cp-widget--crisis {
+      background: linear-gradient(135deg, rgba(214,83,60,0.10), rgba(214,83,60,0.02));
+      border-color: rgba(214,83,60,0.30);
+    }
+    .cp-widget--ai {
+      background: linear-gradient(135deg, rgba(109,130,104,0.10), rgba(109,130,104,0.02));
+      border-color: rgba(109,130,104,0.30);
+    }
+    .cp-widget-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 4px;
+    }
+    .cp-widget--crisis .cp-widget-eyebrow { color: var(--accent-2); }
+    .cp-widget--ai .cp-widget-eyebrow { color: #6d8268; }
+    .cp-widget-title {
+      font-family: "Caveat", cursive;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    .cp-widget-title em { color: var(--accent-2); font-style: italic; }
+    .cp-widget-text {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+    .cp-widget-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;
+    }
+    .cp-widget-link:hover {
+      background: var(--ink);
+      color: var(--paper-soft);
+      border-color: var(--ink);
+      gap: 11px;
+    }
+    .cp-widget--crisis .cp-widget-link {
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+      color: #fff;
+    }
+    .cp-widget--crisis .cp-widget-link:hover {
+      background: #b8462f;
+      border-color: #b8462f;
+    }
+    .cp-widget--ai .cp-widget-link {
+      background: #6d8268;
+      border-color: #6d8268;
+      color: #fff;
+    }
+    .cp-widget--ai .cp-widget-link:hover {
+      background: #58695a;
+      border-color: #58695a;
+    }
+    .cp-widget-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .cp-widget-list li {
+      position: relative;
+      padding: 6px 0 6px 18px;
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .cp-widget-list li:last-child { border-bottom: none; }
+    .cp-widget-list li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 14px;
+      width: 8px; height: 1px;
+      background: var(--accent-2);
+    }
+    .cp-widget-foot {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line-soft);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-light);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.25s ease, gap 0.25s ease;
+    }
+    .cp-widget-foot:hover { color: var(--accent-2); gap: 8px; }
+
+    /* ── CLOSING ──────────────────────────────────────── */
+    .cp-closing {
+      grid-column: 1 / -1;
+      margin-top: 32px;
+      text-align: center;
+      padding: 30px 24px 0;
+    }
+    .cp-closing-text {
+      font-family: "Caveat", cursive;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+    .cp-closing-text em { color: var(--accent-2); font-style: italic; }
+    .cp-closing-sub {
+      font-size: 12px;
+      color: var(--ink-light);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 980px) {
+      .cp-body { grid-template-columns: 1fr; }
+      .cp-aside { position: static; }
+      .cp-title { font-size: 60px; }
+    }
+    @media (max-width: 560px) {
+      .cp-page { padding: calc(73px + 24px) 18px 50px; }
+      .cp-title { font-size: 48px; }
+      .cp-lede { font-size: 15px; }
+      .cp-card { padding: 18px 18px; }
+      .cp-modes { grid-template-columns: 1fr; }
+      .cp-submit-row { flex-direction: column; align-items: stretch; }
+      .cp-submit-actions { justify-content: stretch; }
+      .cp-submit-actions .btn-cancel,
+      .cp-submit-actions .btn-publish { flex: 1; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 
-<nav class="top-info" aria-label="Primary navigation">
-            <a href="main.html" class="logo">
-                <span>StillHere</span>
-            </a>
-            
-            <div class="nav">
-                <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="30" height="30"
-                        viewBox="0 0 256 256" 
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
-                    </svg> 
-                <span>about</span>
-                </a>
+  <!-- Paper-grain noise filter -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
 
-                <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256" stroke-width="22"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
-                        </svg>
-                    <span>contacts</span>
-                </a>
+  <!-- Ambient background doodles -->
+  <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
-                <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
-                        </svg>
-                    <span>updates</span>
-                </a>
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="main.html" class="logo"><span>StillHere</span></a>
+    <div class="nav">
+      <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>
+        <span>about</span>
+      </a>
+      <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg>
+        <span>contacts</span>
+      </a>
+      <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/></svg>
+        <span>updates</span>
+      </a>
+      <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>
+        <span>profile</span>
+      </a>
 
-                <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
-                        </svg>
-                    <span>profile</span>
-                </a>
-                
-                <div class="main-menu-dropdown">
-                    <button class="main-menu-trigger">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="30" height="30"
-                            viewBox="0 0 256 256"
-                            fill="currentColor"
-                            class="icon"
-                            aria-hidden="true">
-                            <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
-                        </svg>
-                    </button>
-                
+      <div class="main-menu-dropdown">
+        <button class="main-menu-trigger" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
+        </button>
         <ul class="main-menu-panel" role="menu">
           <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
           <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
           <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
-          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
         </ul>
-        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════ PAGE ════════════════════ -->
+  <main class="cp-page">
+
+    <!-- ─── HERO ─── -->
+    <section class="cp-hero">
+      <span class="cp-eyebrow"><em>—</em> share, anonymously</span>
+      <h1 class="cp-title">
+        say it, <em>gently.</em>
+        <img src="assets/letters/_Special Characters/Asterisk_01.png" class="cp-title-star" alt="" aria-hidden="true">
+      </h1>
+      <p class="cp-lede">
+        no perfect words, no need to wrap it up neatly. somebody out there is going through
+        something almost <em>just like this</em> — and seeing yours might be the reason they
+        finally write theirs too.
+      </p>
+    </section>
+
+    <form id="postForm" novalidate>
+      <div class="cp-body">
+
+        <!-- ════════ MAIN FORM COLUMN ════════ -->
+        <div>
+
+          <!-- 01 — language -->
+          <div class="cp-card">
+            <div class="cp-card-head">
+              <span class="cp-card-eyebrow">— 01</span>
+              <h2 class="cp-card-title">language</h2>
+              <span class="cp-card-hint">write in whatever feels native</span>
             </div>
-    </nav>
 
-<div class="bg_words" aria-hidden="true">
-    <div class="row left">
-        <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
-        <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
-        <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
-        <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
-    </div>
-    <div class="row right">
-        <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
-        <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
-        <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
-        <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
-    </div>
-    <div class="row left slow">
-        <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
-        <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
-        <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
-        <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
-    </div>
-    <div class="row right slower">
-        <span>you matter</span><span>importas</span><span>tu comptes</span><span>du bist wichtig</span><span>ти важливий</span>
-        <span>sei importante</span><span>você importa</span><span>jesteś ważny</span><span>あなたは大切</span><span>你很重要</span>
-        <span>youʼre not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
-        <span>non sei solo</span><span>não está sozinho</span><span>nie jesteś sam</span><span>혼자가 아니야</span><span>你并不孤单</span>
-    </div>
-    <div class="row left slowest">
-        <span>stay</span><span>quédate</span><span>reste</span><span>bleib</span><span>залишайся</span>
-        <span>rimani</span><span>fica</span><span>zostań</span><span>ابقَ</span><span>とどまって</span>
-        <span>listen</span><span>escucha</span><span>écoute</span><span>hör zu</span><span>слухай</span>
-        <span>ascolta</span><span>ouve</span><span>słuchaj</span><span>倾听</span><span>들어봐</span>
-    </div>
-</div>
+            <div class="cp-lang-row">
+              <label class="cp-lang-item"><input type="radio" name="lang" value="en" checked><span class="cp-lang-pill">🇬🇧 EN</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="ru"><span class="cp-lang-pill">🇷🇺 RU</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="uk"><span class="cp-lang-pill">🇺🇦 UK</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="de"><span class="cp-lang-pill">🇩🇪 DE</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="fr"><span class="cp-lang-pill">🇫🇷 FR</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="es"><span class="cp-lang-pill">🇪🇸 ES</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="zh"><span class="cp-lang-pill">🇨🇳 ZH</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="ja"><span class="cp-lang-pill">🇯🇵 JA</span></label>
+              <label class="cp-lang-item"><input type="radio" name="lang" value="ar"><span class="cp-lang-pill">🇸🇦 AR</span></label>
+              <select name="lang_other" class="cp-lang-other" aria-label="More languages">
+                <option value="">+ more…</option>
+                <option value="pt">🇧🇷 PT – Português</option>
+                <option value="it">🇮🇹 IT – Italiano</option>
+                <option value="pl">🇵🇱 PL – Polski</option>
+                <option value="nl">🇳🇱 NL – Nederlands</option>
+                <option value="sv">🇸🇪 SV – Svenska</option>
+                <option value="no">🇳🇴 NO – Norsk</option>
+                <option value="fi">🇫🇮 FI – Suomi</option>
+                <option value="cs">🇨🇿 CS – Čeština</option>
+                <option value="sk">🇸🇰 SK – Slovenčina</option>
+                <option value="ro">🇷🇴 RO – Română</option>
+                <option value="hu">🇭🇺 HU – Magyar</option>
+                <option value="tr">🇹🇷 TR – Türkçe</option>
+                <option value="he">🇮🇱 HE – עברית</option>
+                <option value="fa">🇮🇷 FA – فارسی</option>
+                <option value="hi">🇮🇳 HI – हिन्दी</option>
+                <option value="bn">🇧🇩 BN – বাংলা</option>
+                <option value="ur">🇵🇰 UR – اردو</option>
+                <option value="ko">🇰🇷 KO – 한국어</option>
+                <option value="th">🇹🇭 TH – ภาษาไทย</option>
+                <option value="vi">🇻🇳 VI – Tiếng Việt</option>
+                <option value="id">🇮🇩 ID – Indonesia</option>
+                <option value="ms">🇲🇾 MS – Melayu</option>
+                <option value="tl">🇵🇭 TL – Filipino</option>
+                <option value="sw">🇹🇿 SW – Swahili</option>
+                <option value="am">🇪🇹 AM – Amharic</option>
+                <option value="ka">🇬🇪 KA – ქართული</option>
+                <option value="hy">🇦🇲 HY – Հայերեն</option>
+                <option value="az">🇦🇿 AZ – Azərbaycan</option>
+                <option value="kk">🇰🇿 KK – Қазақша</option>
+                <option value="uz">🇺🇿 UZ – Oʻzbek</option>
+                <option value="other">… other</option>
+              </select>
+            </div>
+          </div>
 
-<div class="page-body">
+          <!-- 02 — title -->
+          <div class="cp-card">
+            <div class="cp-card-head">
+              <span class="cp-card-eyebrow">— 02</span>
+              <h2 class="cp-card-title">a title, if it helps</h2>
+              <span class="cp-card-hint">optional</span>
+            </div>
+            <p class="cp-card-sub">a few words, like a margin note. you can skip this.</p>
 
-    <div class="hero">
-        <h1>Your words,<br><em>your language</em></h1>
-        <p class="hero-sub">Somebody out there needs to hear exactly what you're feeling right now.</p>
-        <div class="hero-divider"></div>
-    </div>
+            <textarea
+              id="post-title"
+              name="title"
+              class="cp-title-input"
+              placeholder="what's on your mind…"
+              maxlength="120"
+              rows="1"
+            ></textarea>
+            <div class="cp-title-meta">max 120 characters</div>
+          </div>
 
-    <form id="postForm">
+          <!-- 03 — story -->
+          <div class="cp-card">
+            <div class="cp-card-head">
+              <span class="cp-card-eyebrow">— 03</span>
+              <h2 class="cp-card-title">your story</h2>
+              <span class="cp-card-hint">brief or long — both are okay</span>
+            </div>
+            <p class="cp-card-sub">there's no wrong way to say what you're feeling. write like nobody's grading it.</p>
 
-        <div class="lang-strip">
-            <div class="lang-strip-label">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                    <path d="M128,24a104,104,0,1,0,104,104A104.11,104.11,0,0,0,128,24Zm88,104a87.47,87.47,0,0,1-5.28,29.61L196,151.73a19.85,19.85,0,0,0-4.9-2.3l-28-8.4a20,20,0,0,0-24.7,13.1l-6.4,19.2A20,20,0,0,0,144,192v28.09A88.14,88.14,0,0,1,40.56,145.1L56,149.5a20,20,0,0,0,24.5-13.5L84,124a20.06,20.06,0,0,0-13.5-24.5l-14.68-4.4A88,88,0,0,1,216,128Z"/>
+            <div id="post-editor" class="rich-editor"></div>
+            <textarea id="post-content" name="content" style="display:none" aria-hidden="true"></textarea>
+          </div>
+
+          <!-- 04 — media -->
+          <div class="cp-card">
+            <div class="cp-card-head">
+              <span class="cp-card-eyebrow">— 04</span>
+              <h2 class="cp-card-title">images or video</h2>
+              <span class="cp-card-hint">optional</span>
+            </div>
+            <p class="cp-card-sub">add up to 6 things — drawings, photos, a song clip. up to 50MB each.</p>
+
+            <div class="cp-upload" id="mediaUploadArea">
+              <input type="file" id="mediaInput" name="media" multiple accept="image/*,video/*" hidden>
+              <div class="upload-prompt">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
                 </svg>
-                Select post language
+                <p class="upload-text">click to upload, or drag &amp; drop</p>
+                <p class="upload-hint">images or video · up to 50MB each · max 6</p>
+              </div>
+              <div class="media-preview-grid" id="mediaPreview"></div>
             </div>
-            <div class="lang-select-row">
-                <div class="lang-popular">
-                    <label class="lang-item"><input type="radio" name="lang" value="en" class="lang-radio" checked><span class="lang-pill">🇬🇧 EN</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="ru" class="lang-radio"><span class="lang-pill">🇷🇺 RU</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="uk" class="lang-radio"><span class="lang-pill">🇺🇦 UK</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="de" class="lang-radio"><span class="lang-pill">🇩🇪 DE</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="fr" class="lang-radio"><span class="lang-pill">🇫🇷 FR</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="es" class="lang-radio"><span class="lang-pill">🇪🇸 ES</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="zh" class="lang-radio"><span class="lang-pill">🇨🇳 ZH</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="ja" class="lang-radio"><span class="lang-pill">🇯🇵 JA</span></label>
-                    <label class="lang-item"><input type="radio" name="lang" value="ar" class="lang-radio"><span class="lang-pill">🇸🇦 AR</span></label>
-                </div>
-                <select name="lang_other" class="lang-select-other" aria-label="More languages">
-                    <option value="">More languages…</option>
-                    <option value="pt">🇧🇷 PT – Português</option>
-                    <option value="it">🇮🇹 IT – Italiano</option>
-                    <option value="pl">🇵🇱 PL – Polski</option>
-                    <option value="nl">🇳🇱 NL – Nederlands</option>
-                    <option value="sv">🇸🇪 SV – Svenska</option>
-                    <option value="no">🇳🇴 NO – Norsk</option>
-                    <option value="fi">🇫🇮 FI – Suomi</option>
-                    <option value="cs">🇨🇿 CS – Čeština</option>
-                    <option value="sk">🇸🇰 SK – Slovenčina</option>
-                    <option value="ro">🇷🇴 RO – Română</option>
-                    <option value="hu">🇭🇺 HU – Magyar</option>
-                    <option value="tr">🇹🇷 TR – Türkçe</option>
-                    <option value="he">🇮🇱 HE – עברית</option>
-                    <option value="fa">🇮🇷 FA – فارسی</option>
-                    <option value="hi">🇮🇳 HI – हिन्दी</option>
-                    <option value="bn">🇧🇩 BN – বাংলা</option>
-                    <option value="ur">🇵🇰 UR – اردو</option>
-                    <option value="ko">🇰🇷 KO – 한국어</option>
-                    <option value="th">🇹🇭 TH – ภาษาไทย</option>
-                    <option value="vi">🇻🇳 VI – Tiếng Việt</option>
-                    <option value="id">🇮🇩 ID – Indonesia</option>
-                    <option value="ms">🇲🇾 MS – Melayu</option>
-                    <option value="tl">🇵🇭 TL – Filipino</option>
-                    <option value="sw">🇹🇿 SW – Swahili</option>
-                    <option value="am">🇪🇹 AM – Amharic</option>
-                    <option value="ka">🇬🇪 KA – ქართული</option>
-                    <option value="hy">🇦🇲 HY – Հայերեն</option>
-                    <option value="az">🇦🇿 AZ – Azərbaycan</option>
-                    <option value="kk">🇰🇿 KK – Қазақша</option>
-                    <option value="uz">🇺🇿 UZ – Oʻzbek</option>
-                    <option value="other">… Other</option>
-                </select>
-            </div>
-        </div>
+          </div>
 
-        <div class="main-grid">
-
-            <div class="form-col">
-
-                <div class="card">
-                    <label for="post-title" class="field-label">Title</label>
-                    <textarea id="post-title" name="title" class="title-input" placeholder="What's on your mind…" maxlength="120" rows="1"></textarea>
-                    <div class="char-hint">max 120 characters</div>
-                </div>
-
-                <div class="card">
-                    <label class="field-label">Your story</label>
-                    <div id="post-editor" class="rich-editor"></div>
-                    <!-- hidden textarea keeps the value for form validation fallback -->
-                    <textarea id="post-content" name="content" style="display:none" aria-hidden="true"></textarea>
-                </div>
-
-                <div class="card form-group">
-                    <label class="form-label">Media <span class="optional">(optional)</span></label>
-                    <div class="media-upload-area" id="mediaUploadArea">
-                        <input type="file" id="mediaInput" name="media" multiple accept="image/*,video/*" hidden>
-                        <div class="upload-prompt">
-                            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                <polyline points="21 15 16 10 5 21"/>
-                            </svg>
-                            <p class="upload-text">Click to upload or drag and drop</p>
-                            <p class="upload-hint">Images or video · up to 50MB each</p>
-                        </div>
-                        <div class="media-preview-grid" id="mediaPreview"></div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <span class="field-label">Topic – choose what fits</span>
-                    <div class="topic-row">
-                        <input type="checkbox" name="topic" value="anxiety"       id="t-anxiety"    class="topic-check">
-                        <label for="t-anxiety"    class="topic-chip chip-anxiety"   ><span class="chip-dot"></span>Anxiety</label>
-                        <input type="checkbox" name="topic" value="depression"    id="t-depression" class="topic-check">
-                        <label for="t-depression" class="topic-chip chip-depression"><span class="chip-dot"></span>Depression</label>
-                        <input type="checkbox" name="topic" value="relationships" id="t-relations"  class="topic-check">
-                        <label for="t-relations"  class="topic-chip chip-relations" ><span class="chip-dot"></span>Relationships</label>
-                        <input type="checkbox" name="topic" value="grief"         id="t-grief"      class="topic-check">
-                        <label for="t-grief"      class="topic-chip chip-grief"     ><span class="chip-dot"></span>Grief &amp; Loss</label>
-                        <input type="checkbox" name="topic" value="burnout"       id="t-burnout"    class="topic-check">
-                        <label for="t-burnout"    class="topic-chip chip-burnout"   ><span class="chip-dot"></span>Burnout</label>
-                        <input type="checkbox" name="topic" value="loneliness"    id="t-loneliness" class="topic-check">
-                        <label for="t-loneliness" class="topic-chip chip-loneliness"><span class="chip-dot"></span>Loneliness</label>
-                        <input type="checkbox" name="topic" value="trauma"        id="t-trauma"     class="topic-check">
-                        <label for="t-trauma"     class="topic-chip chip-trauma"    ><span class="chip-dot"></span>Trauma</label>
-                        <input type="checkbox" name="topic" value="other"         id="t-other"      class="topic-check">
-                        <label for="t-other"      class="topic-chip chip-other"     ><span class="chip-dot"></span>Other</label>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <span class="field-label">What kind of response do you want?</span>
-                    <div class="mode-row">
-                        <input type="radio" name="mode" value="support" id="m-support" class="mode-radio">
-                        <label for="m-support" class="mode-card mode-support">
-                            <div class="mode-icon mode-icon-support">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></svg>
-                            </div>
-                            <div class="mode-text">
-                                <strong>Need Support</strong>
-                                <span>Open to warm, caring responses</span>
-                            </div>
-                            <div class="mode-radio-dot"></div>
-                        </label>
-                        <input type="radio" name="mode" value="no-advice" id="m-noadvice" class="mode-radio">
-                        <label for="m-noadvice" class="mode-card mode-noadvice">
-                            <div class="mode-icon mode-icon-noadvice">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/></svg>
-                            </div>
-                            <div class="mode-text">
-                                <strong>No Advice</strong>
-                                <span>Just presence – no fixes, no tips</span>
-                            </div>
-                            <div class="mode-radio-dot"></div>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div id="mod-error" class="mod-error-wrap" style="display:none"></div>
-                    <div class="submit-row">
-                        <p class="submit-hint">Your post will be reviewed before publishing.</p>
-                        <div class="submit-actions">
-                            <a href="main.html" class="btn-cancel">Cancel</a>
-                            <button type="submit" class="btn-publish">
-                                Publish story
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12l4-4-4-4"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+          <!-- 05 — topics -->
+          <div class="cp-card">
+            <div class="cp-card-head">
+              <span class="cp-card-eyebrow">— 05</span>
+              <h2 class="cp-card-title">what does it touch on?</h2>
+              <span class="cp-card-hint">pick what fits — or skip</span>
             </div>
 
-            <aside class="right-sidebar post-tips">
+            <div class="cp-topics">
+              <input type="checkbox" name="topic" value="anxiety"       id="t-anxiety"    class="cp-topic-input">
+              <label for="t-anxiety"    class="cp-topic-chip chip-anxiety">anxiety</label>
 
-                <div class="widget support">
-                    <h3 class="widget-title">Need Immediate Help?</h3>
-                    <p class="widget-subtitle">If you're in crisis, please call out:</p>
-                    <a href="docs/html/crisis-resources.html" class="widget-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-                            <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/>
-                        </svg>
-                        Crisis Hotlines
-                    </a>
-                </div>
+              <input type="checkbox" name="topic" value="depression"    id="t-depression" class="cp-topic-input">
+              <label for="t-depression" class="cp-topic-chip chip-depression">depression</label>
 
-                <div class="widget support ai">
-                    <h3 class="widget-title">Need support right now?</h3>
-                    <p class="widget-subtitle">If you're going through something difficult, you can talk to our AI support:</p>
-                    <a href="ai-chat.html" class="widgetai-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" 
-                            width="20" height="20" fill="currentColor" 
-                            viewBox="0 0 256 256" data-darkreader-inline-fill="" 
-                            style="--darkreader-inline-fill: var(--darkreader-background-000000, #000000);">
-                            <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
-                        </svg>
-                        Talk to AI support
-                    </a>
-                </div>
+              <input type="checkbox" name="topic" value="relationships" id="t-relations"  class="cp-topic-input">
+              <label for="t-relations"  class="cp-topic-chip chip-relations">relationships</label>
 
-                <div class="widget guidelines">
-                    <h3 class="widget-title">Community Guidelines</h3>
-                    <ul class="widget-list">
-                        <li>Be kind and respectful</li>
-                        <li>Respect "No Advice" tags</li>
-                        <li>No medical advice</li>
-                        <li>Protect anonymity</li>
-                    </ul>
-                    <a href="docs/html/guidelines.html" class="widget-link-guidelines">Read full guidelines →</a>
-                </div>
+              <input type="checkbox" name="topic" value="grief"         id="t-grief"      class="cp-topic-input">
+              <label for="t-grief"      class="cp-topic-chip chip-grief">grief &amp; loss</label>
 
-                <div class="widget">
-                    <h3 class="widget-title">Sharing Tips</h3>
-                    <ul class="widget-list">
-                        <li>There's no wrong way to share your feelings</li>
-                        <li>You can stay completely anonymous</li>
-                        <li>Use "No Advice" if you just need to vent</li>
-                        <li>Be as brief or detailed as you need</li>
-                    </ul>
-                </div>
+              <input type="checkbox" name="topic" value="burnout"       id="t-burnout"    class="cp-topic-input">
+              <label for="t-burnout"    class="cp-topic-chip chip-burnout">burnout</label>
 
-            </aside>
+              <input type="checkbox" name="topic" value="loneliness"    id="t-loneliness" class="cp-topic-input">
+              <label for="t-loneliness" class="cp-topic-chip chip-loneliness">loneliness</label>
+
+              <input type="checkbox" name="topic" value="trauma"        id="t-trauma"     class="cp-topic-input">
+              <label for="t-trauma"     class="cp-topic-chip chip-trauma">trauma</label>
+
+              <input type="checkbox" name="topic" value="other"         id="t-other"      class="cp-topic-input">
+              <label for="t-other"      class="cp-topic-chip chip-other">other</label>
+            </div>
+          </div>
+
+          <!-- 06 — mode -->
+          <div class="cp-card">
+            <div class="cp-card-head">
+              <span class="cp-card-eyebrow">— 06</span>
+              <h2 class="cp-card-title">what kind of response feels okay?</h2>
+              <span class="cp-card-hint">tell people in advance</span>
+            </div>
+
+            <div class="cp-modes">
+              <input type="radio" name="mode" value="support" id="m-support" class="cp-mode-input" checked>
+              <label for="m-support" class="cp-mode-card">
+                <span class="cp-mode-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></svg>
+                </span>
+                <span class="cp-mode-text">
+                  <strong>open to support</strong>
+                  <span>warm words, perspective, a "me too" — all welcome.</span>
+                </span>
+                <span class="cp-mode-dot"></span>
+              </label>
+
+              <input type="radio" name="mode" value="no-advice" id="m-noadvice" class="cp-mode-input">
+              <label for="m-noadvice" class="cp-mode-card">
+                <span class="cp-mode-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/></svg>
+                </span>
+                <span class="cp-mode-text">
+                  <strong>no advice</strong>
+                  <span>just presence. no fixes, no tips, no "have you tried…"</span>
+                </span>
+                <span class="cp-mode-dot"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- moderation error slot -->
+          <div id="mod-error" class="mod-error-wrap" style="display:none"></div>
+
+          <!-- submit -->
+          <div class="cp-submit-row">
+            <p class="cp-submit-hint">
+              everything goes through a gentle moderation pass before it's published —
+              this keeps the space soft for everyone.
+            </p>
+            <div class="cp-submit-actions">
+              <a href="main.html" class="btn-cancel">cancel</a>
+              <button type="submit" class="btn-publish">
+                publish story
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/></svg>
+              </button>
+            </div>
+          </div>
 
         </div>
 
+        <!-- ════════ SIDEBAR ════════ -->
+        <aside class="cp-aside">
+
+          <div class="cp-widget cp-widget--crisis">
+            <div class="cp-widget-eyebrow">— urgent</div>
+            <h3 class="cp-widget-title">need help <em>right now?</em></h3>
+            <p class="cp-widget-text">
+              if you're in crisis or unsafe, please reach a trained counselor —
+              they're free, 24/7, and trained for this exact moment.
+            </p>
+            <a href="docs/html/crisis-resources.html" class="cp-widget-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/></svg>
+              crisis hotlines
+            </a>
+          </div>
+
+          <div class="cp-widget cp-widget--ai">
+            <div class="cp-widget-eyebrow">— quiet companion</div>
+            <h3 class="cp-widget-title">talk to <em>ai support</em></h3>
+            <p class="cp-widget-text">
+              not a therapist — a quiet companion that listens, never rushes,
+              and won't give advice unless you ask.
+            </p>
+            <a href="ai-chat.html" class="cp-widget-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>
+              open chat
+            </a>
+          </div>
+
+          <div class="cp-widget">
+            <div class="cp-widget-eyebrow">— guidelines</div>
+            <h3 class="cp-widget-title">how we treat each other</h3>
+            <ul class="cp-widget-list">
+              <li>be kind, especially when you disagree.</li>
+              <li>respect "no advice" tags.</li>
+              <li>no medical or legal advice.</li>
+              <li>protect anonymity — yours and others'.</li>
+            </ul>
+            <a href="docs/html/guidelines.html" class="cp-widget-foot">
+              read full guidelines
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+            </a>
+          </div>
+
+          <div class="cp-widget">
+            <div class="cp-widget-eyebrow">— small tips</div>
+            <h3 class="cp-widget-title">if you're stuck starting</h3>
+            <ul class="cp-widget-list">
+              <li>start with one sentence. it doesn't have to flow.</li>
+              <li>stay anonymous — no real name needed.</li>
+              <li>use "no advice" if you just need to vent.</li>
+              <li>brief is fine. one line is fine.</li>
+            </ul>
+          </div>
+
+        </aside>
+
+        <!-- ─── CLOSING ─── -->
+        <section class="cp-closing">
+          <p class="cp-closing-text">
+            whatever you write, <em>it counts.</em>
+          </p>
+          <p class="cp-closing-sub">— take your time</p>
+        </section>
+
+      </div>
     </form>
-</div>
 
-<footer class="footer">
+  </main>
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+  <footer class="footer">
     <div class="footer_content">
         <div class="footer_main">
             <div class="footer_stillhere">
@@ -397,23 +1111,46 @@
         <div class="footer_footer">
             <p>2026 StillHere.</p>
             <div class="footer_social">
-                <a href="https://t.me/still_here_global" target="_blank" rel="noopener" aria-label="Telegram">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+                <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
                         <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
                     </svg>
                 </a>
-                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" aria-label="GitHub">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+
+                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
                         <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
                     </svg>
                 </a>
-                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" aria-label="TikTok">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+
+                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
                         <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
                     </svg>
                 </a>
-                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" aria-label="Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+
+                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
                         <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
                     </svg>
                 </a>
@@ -423,6 +1160,7 @@
 </footer>
 
   <script>
+    /* ── Nav menu toggle ── */
     (function () {
       document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
         var btn   = wrap.querySelector('.main-menu-trigger');
@@ -444,8 +1182,48 @@
           if (b) b.setAttribute('aria-expanded', 'false');
         });
       });
+
+      /* Navbar scroll-shrink */
+      var navEl = document.querySelector('.top-info');
+      if (navEl) {
+        var last = false;
+        window.addEventListener('scroll', function () {
+          var s = window.scrollY > 24;
+          if (s !== last) { navEl.classList.toggle('is-scrolled', s); last = s; }
+        }, { passive: true });
+      }
+
+      /* Title autosize — grow with content */
+      var titleEl = document.getElementById('post-title');
+      if (titleEl) {
+        function autosize() {
+          titleEl.style.height = 'auto';
+          titleEl.style.height = titleEl.scrollHeight + 'px';
+        }
+        titleEl.addEventListener('input', autosize);
+        autosize();
+      }
+
+      /* Session: swap Login → Sign out in nav menu */
+      if (window.SH_SESSION && window.SH_SESSION.whenReady) {
+        window.SH_SESSION.whenReady(function (user) {
+          var loginItem = document.querySelector('.mmenu-item--login');
+          if (!loginItem || !user) return;
+          loginItem.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+            '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
+            'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
+            'Sign out';
+          loginItem.removeAttribute('href');
+          loginItem.style.cursor = 'pointer';
+          loginItem.addEventListener('click', async function (e) {
+            e.preventDefault();
+            await window.SH_SESSION.signOut();
+            window.location.href = 'login.html';
+          });
+        });
+      }
     })();
   </script>
 </body>
 </html>
-

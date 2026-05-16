@@ -315,6 +315,7 @@ function showMainToast(msg) {
     var plainBody  = stripHtml(rawBody);
     var preview    = escHtml(plainBody.length > 220 ? plainBody.slice(0, 220) + '…' : plainBody);
     var id      = escHtml(post.id);
+    var canDelete = !!(_currentUserId && post.user_id && post.user_id === _currentUserId);
 
     return (
       '<article class="post-card" data-post-id="' + id + '">' +
@@ -330,7 +331,13 @@ function showMainToast(msg) {
                 '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>') +
           '</div>' +
           '<div class="post-include-info">' +
-            '<span class="post-author">' + (post.profiles ? escHtml(post.profiles.display_name || post.profiles.username) : 'Anonymous') + '</span>' +
+            '<span class="post-author">' + (
+            post.profiles
+              ? escHtml(post.profiles.display_name || post.profiles.username)
+              : post.user_id
+                ? '<span style="opacity:0.5;font-style:italic">deleted account</span>'
+                : 'Anonymous'
+          ) + '</span>' +
             '<span class="post-time">' + CLOCK_SVG + ' ' + timeAgo(post.created_at) + '</span>' +
           '</div>' +
         '</div>' +
@@ -355,12 +362,14 @@ function showMainToast(msg) {
               'M109,185.66l-11,11A38.41,38.41,0,0,1,70.6,208h0a38.63,38.63,0,0,1-27.29-65.94L78,107.31A38.63,38.63,0,0,1,144,135.71a8,8,0,0,0,16,.45A54.86,54.86,0,0,0,144,96' +
               'a54.65,54.65,0,0,0-77.27,0L32,130.75A54.62,54.62,0,0,0,70.56,224h0a54.28,54.28,0,0,0,38.64-16l11-11A8,8,0,0,0,109,185.66Z"/></svg>' +
               'Copy Link</button></li>' +
-            '<li role="none" class="post-menu-divider" aria-hidden="true"></li>' +
-            '<li role="menu-item"><button type="button" class="menu-item-danger" data-action-delete="' + id + '">' +
-              '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
-              '<path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16Z' +
-              'M96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>' +
-              'Delete post</button></li>' +
+            (canDelete
+              ? '<li role="none" class="post-menu-divider" aria-hidden="true"></li>' +
+                '<li role="menu-item"><button type="button" class="menu-item-danger" data-action-delete="' + id + '">' +
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
+                  '<path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16Z' +
+                  'M96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>' +
+                  'Delete post</button></li>'
+              : '') +
             '<li role="menu-item"><button type="button" class="menu-item-report">' +
               '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9' +
@@ -414,6 +423,7 @@ function showMainToast(msg) {
   /* ── post cache + filter state ── */
 
   var allPosts    = [];
+  var _currentUserId = null;
   var activeLangs = {};   // { en: true, ru: true, … }
   var activeModes       = {};    // { 'support': true, 'no-advice': true } — both can be active
   var activeTopic       = '';    // e.g. 'anxiety' — single topic filter from sidebar
@@ -703,36 +713,101 @@ function showMainToast(msg) {
     var refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) refreshBtn.classList.add('spinning');
 
-    function processPostsResult(result) {
+    function processPostsResult(result, _retryPass) {
       if (refreshBtn) refreshBtn.classList.remove('spinning');
       if (result.error) {
-        /* If avatar_url column is missing, retry without it */
-        if (result.error.message && result.error.message.includes('avatar_url')) {
+        console.warn('Supabase posts query error (pass=' + (_retryPass || 0) + '):', result.error.message);
+        /* Pass 0 → try without avatar_url (column might not exist) */
+        if (!_retryPass) {
           db.from('posts')
             .select('*, comments(count), profiles(username, display_name)')
             .order('created_at', { ascending: false })
-            .then(processPostsResult);
+            .then(function (r) { processPostsResult(r, 1); });
           return;
         }
-        console.error('Supabase fetch error:', result.error);
+        /* Pass 1 → try bare posts+profiles (comments join might be blocked) */
+        if (_retryPass === 1) {
+          db.from('posts')
+            .select('*, profiles(username, display_name, avatar_url)')
+            .order('created_at', { ascending: false })
+            .then(function (r) { processPostsResult(r, 2); });
+          return;
+        }
+        /* Pass 2 → bare posts only, no join */
+        if (_retryPass === 2) {
+          db.from('posts')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .then(function (r) { processPostsResult(r, 3); });
+          return;
+        }
+        /* All retries exhausted */
+        console.error('Could not load posts after all retries:', result.error);
         if (loader) loader.style.display = 'none';
         return;
       }
       /* merge live comment count from the join */
-      allPosts = (result.data || []).map(function (p) {
+      var rawPosts = (result.data || []).map(function (p) {
         var liveCount = (p.comments && p.comments[0]) ? (p.comments[0].count || 0) : 0;
         p.comment_count = liveCount;
         return p;
       });
+
+      /* If any posts are missing profile data, fetch those profiles
+         separately and merge them in before rendering. */
+      var missingProfileUids = rawPosts
+        .filter(function (p) { return p.user_id && !p.profiles; })
+        .map(function (p) { return p.user_id; });
+      // De-duplicate
+      missingProfileUids = missingProfileUids.filter(function (id, i, arr) { return arr.indexOf(id) === i; });
+
+      var needsProfileFetch = missingProfileUids.length > 0;
+
+      if (needsProfileFetch) {
+        db.from('profiles')
+          .select('id, username, display_name, avatar_url')
+          .in('id', missingProfileUids)
+          .then(function (pr) {
+            var map = {};
+            if (!pr.error && pr.data) {
+              pr.data.forEach(function (prof) { map[prof.id] = prof; });
+            }
+            allPosts = rawPosts.map(function (p) {
+              if (p.user_id && map[p.user_id]) p.profiles = map[p.user_id];
+              return p;
+            });
+            applyFilters();
+            updateTopicCounts(allPosts);
+            updateWeekStats(allPosts);
+          });
+        return; // wait for profile fetch
+      }
+
+      allPosts = rawPosts;
       applyFilters();
       updateTopicCounts(allPosts);
       updateWeekStats(allPosts);
     }
 
-    db.from('posts')
-      .select('*, comments(count), profiles(username, display_name, avatar_url)')
-      .order('created_at', { ascending: false })
-      .then(processPostsResult);
+    // Run auth-user lookup and posts fetch in parallel so a slow/failing
+    // auth call never blocks the feed from loading.
+    Promise.all([
+      db.auth.getUser().catch(function () { return { data: { user: null } }; }),
+      db.from('posts')
+        .select('*, comments(count), profiles(username, display_name, avatar_url)')
+        .order('created_at', { ascending: false }),
+    ]).then(function (results) {
+      var userRes  = results[0];
+      var postsRes = results[1];
+      _currentUserId = (userRes && userRes.data && userRes.data.user)
+        ? userRes.data.user.id : null;
+      processPostsResult(postsRes);
+    }).catch(function (err) {
+      // Unexpected rejection (should never happen since getUser is caught above)
+      console.error('fetchPosts unexpected error:', err);
+      if (refreshBtn) refreshBtn.classList.remove('spinning');
+      if (loader) loader.style.display = 'none';
+    });
   }
 
   /* ── topic counts (left sidebar) ── */

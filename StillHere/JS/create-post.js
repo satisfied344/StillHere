@@ -319,43 +319,65 @@
       setLoading(true, selectedFiles.length > 0 ? 'Uploading…' : 'Publishing…');
 
       uploadAll(selectedFiles, function (mediaUrls) {
-        var userId = (window.SH_SESSION && window.SH_SESSION.user) ? window.SH_SESSION.user.id : null;
+        // Always resolve user ID fresh from the auth API so we never
+        // accidentally insert a post with user_id = null.
+        db.auth.getUser().then(function (authRes) {
+          var userId = (authRes && authRes.data && authRes.data.user)
+            ? authRes.data.user.id : null;
 
-        // Combine attachment URLs + editor-embedded image URLs
-        var allImageUrls = mediaUrls.concat(editorImageUrls);
+          // Combine attachment URLs + editor-embedded image URLs
+          var allImageUrls = mediaUrls.concat(editorImageUrls);
 
-        // ── Image moderation (attachment files + Quill-embedded images) ──
-        Promise.resolve(
-          (window.SH_MOD && allImageUrls.length > 0)
-            ? window.SH_MOD.check('', 'post', allImageUrls)
-            : { allowed: true }
-        ).then(function (imgMod) {
+          // ── Image moderation (attachment files + Quill-embedded images) ──
+          Promise.resolve(
+            (window.SH_MOD && allImageUrls.length > 0)
+              ? window.SH_MOD.check('', 'post', allImageUrls)
+              : { allowed: true }
+          ).then(function (imgMod) {
 
-          if (!imgMod.allowed) {
-            setLoading(false);
-            if (window.SH_MOD) window.SH_MOD.showBlock(modErrorEl, imgMod);
-            if (imgMod.banned && btn) btn.disabled = true;
-            return;
-          }
-
-          db.from('posts').insert({
-            title:      title   || null,
-            content:    content,
-            lang:       lang,
-            topics:     topics,
-            mode:       mode,
-            media_urls: mediaUrls,
-            user_id:    userId
-          }).then(function (result) {
-            if (result.error) {
-              console.error('Supabase insert error:', result.error);
-              alert('Could not publish: ' + result.error.message);
+            if (!imgMod.allowed) {
               setLoading(false);
+              if (window.SH_MOD) window.SH_MOD.showBlock(modErrorEl, imgMod);
+              if (imgMod.banned && btn) btn.disabled = true;
               return;
             }
-            window.location.href = 'main.html';
-          });
 
+            // ── Ensure profile row exists so the author name shows correctly ──
+            // Without a DB trigger, newly registered users have no row in
+            // `profiles`, causing the feed to display "deleted account".
+            // We upsert here so the join always finds the author's name.
+            var profileStep = userId ? (function () {
+              var shUser = window.SH_SESSION && window.SH_SESSION.user;
+              var uname  = (shUser && shUser.username)    || ('user_' + userId.slice(0, 8));
+              var dname  = (shUser && shUser.displayName) || null;
+              var aurl   = (shUser && shUser.avatarUrl)   || null;
+              return db.from('profiles').upsert(
+                { id: userId, username: uname, display_name: dname, avatar_url: aurl },
+                { onConflict: 'id' }
+              );
+            })() : Promise.resolve({ error: null });
+
+            profileStep.then(function () {
+              db.from('posts').insert({
+                title:      title   || null,
+                content:    content,
+                lang:       lang,
+                topics:     topics,
+                mode:       mode,
+                media_urls: mediaUrls,
+                user_id:    userId
+              }).then(function (result) {
+                if (result.error) {
+                  console.error('Supabase insert error:', result.error);
+                  alert('Could not publish: ' + result.error.message);
+                  setLoading(false);
+                  return;
+                }
+                window.location.href = 'main.html';
+              });
+            });
+
+          });
         });
       });
 

@@ -87,10 +87,11 @@
     },
 
     /* Main check. Returns the full response object from the Edge Function.
-       Always resolves (never rejects) — if the call fails, returns { allowed: true }
-       so a network error never silently blocks a user.
-       Pass mediaUrls (string[]) to also moderate uploaded images. */
-    check: async function (content, contentType, mediaUrls) {
+       Always resolves (never rejects).
+       Pass mediaUrls (string[]) to also moderate uploaded images.
+       Pass postAuthorId (string) when checking a comment/reply so the
+       backend knows there's a vulnerable post author to protect. */
+    check: async function (content, contentType, mediaUrls, postAuthorId) {
       var jwt = await getJwt();
       if (!jwt) {
         // Not logged in — anonymous content, skip moderation
@@ -101,6 +102,9 @@
         var body = { content: content, contentType: contentType };
         if (Array.isArray(mediaUrls) && mediaUrls.length > 0) {
           body.mediaUrls = mediaUrls;
+        }
+        if (typeof postAuthorId === 'string' && postAuthorId) {
+          body.postAuthorId = postAuthorId;
         }
 
         var res = await fetch(FUNCTION_URL, {
@@ -114,6 +118,9 @@
 
         if (!res.ok) {
           console.warn('[SH_MOD] Edge function returned', res.status);
+          // Network/HTTP error — fail open ONLY here. Real moderation
+          // decisions (including service_unavailable) come back as 200
+          // with allowed:false in the body.
           return { allowed: true };
         }
 
@@ -134,6 +141,13 @@
       var label = result.label || 'Community guidelines violation';
       var html = '<p class="mod-error">✕ ' + label + '</p>';
 
+      if (result.retry) {
+        // service_unavailable — soft, retryable error, no block counter
+        el.innerHTML = html;
+        el.style.display = 'block';
+        return;
+      }
+
       if (result.banned && result.bannedUntil) {
         var until = new Date(result.bannedUntil);
         var diff  = Math.ceil((until - Date.now()) / 3_600_000);
@@ -141,7 +155,7 @@
           ? Math.ceil(diff / 24) + (Math.ceil(diff / 24) === 1 ? ' day' : ' days')
           : diff + (diff === 1 ? ' hour' : ' hours');
         html += '<p class="mod-ban">Account suspended · ' + timeStr + '</p>';
-      } else if (!result.banned && result.blocksLeft > 0) {
+      } else if (!result.banned && typeof result.blocksLeft === 'number' && result.blocksLeft > 0) {
         html += '<p class="mod-warn">' + result.blocksLeft + ' attempt' + (result.blocksLeft === 1 ? '' : 's') + ' remaining</p>';
       }
 

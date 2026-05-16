@@ -292,6 +292,25 @@
         return;
       }
 
+      /* ── Insert profile row ──────────────────────────────────────
+         Without a DB trigger Supabase won't auto-create the profile.
+         After signUp() the client already holds the new session so
+         auth.uid() = signData.user.id and RLS allows the insert.
+      ────────────────────────────────────────────────────────────── */
+      if (signData && signData.user) {
+        await sb.from('profiles').upsert(
+          {
+            id:           signData.user.id,
+            username:     username.toLowerCase(),
+            display_name: displayName || null,
+            avatar_url:   null
+          },
+          { onConflict: 'id' }
+        );
+        // Ignore errors — even if RLS blocks it we still redirect.
+        // The session.js auto-create will retry on next login.
+      }
+
       try { localStorage.setItem('sh_username', username.toLowerCase()); } catch (_) {}
       window.location.href = 'main.html';
     });

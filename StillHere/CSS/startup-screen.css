@@ -1,50 +1,72 @@
-﻿* {
-  box-sizing: border-box;
-}
+/* ══════════════════════════════════════════════════════
+   startup-screen.css — Cream paper + ink-doodle redesign
+   Inspired by rumbekeplatse.be + hand-drawn doodle accents
+   ══════════════════════════════════════════════════════ */
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 :root {
-  /* ── Background gradient ── */
-  --bg-1: #edcfb6;
-  --bg-2: #e7c5b9;
-  --bg-3: #ded3f1;
-  --bg-4: #e6cfbb;
+  /* ── Paper palette ── */
+  --paper:    #f4ead6;
+  --paper-2:  #ecddbe;
+  --paper-3:  #e6d2ad;
 
-  /* ── Glass surfaces ── */
-  --surface-nav:     rgba(255, 255, 255, 0.70);
-  --surface-card:    #ffffff;
+  /* ── Ink ── */
+  --ink:       #1a1410;
+  --ink-soft:  #4a3f37;
+  --ink-mid:   #6e5f53;
+  --ink-light: #8a7a6e;
+
+  /* ── Accent (warm ochre / rust) ── */
+  --accent:    #c89456;
+  --accent-2:  #d6533c;
+  --accent-3:  #6d8268;   /* sage for variety */
+
+  /* ── Lines ── */
+  --line:      rgba(26, 20, 16, 0.18);
+  --line-soft: rgba(26, 20, 16, 0.10);
+
+  /* legacy tokens — kept so other shared CSS doesn't break */
+  --bg-1: var(--paper); --bg-2: var(--paper); --bg-3: var(--paper-2); --bg-4: var(--paper);
+  --surface-nav:    rgba(244, 234, 214, 0.85);
+  --surface-card:   #ffffff;
   --surface-sidebar: rgba(255, 255, 255, 0.75);
-  --surface-widget:  rgba(255, 255, 255, 0.70);
-  --surface-menu:    rgba(255, 255, 255, 0.96);
-  --surface-modal:   rgba(255, 255, 255, 0.96);
-  --surface-input:   #ffffff;
-  --surface-footer:  rgba(255, 255, 255, 0.28);
-
-  /* ── Borders ── */
+  --surface-widget: rgba(255, 255, 255, 0.70);
+  --surface-menu:   rgba(255, 255, 255, 0.96);
+  --surface-modal:  rgba(255, 255, 255, 0.96);
+  --surface-input:  #ffffff;
+  --surface-footer: rgba(244, 234, 214, 0.85);
   --border-glass:   rgba(255, 255, 255, 0.80);
-  --border-nav:     rgba(255, 255, 255, 0.60);
+  --border-nav:     rgba(26, 20, 16, 0.12);
   --border-subtle:  #e5e7eb;
-  --border-divider: rgba(0, 0, 0, 0.06);
-  --border-footer:  rgba(255, 255, 255, 0.45);
-
-  /* ── Text ── */
-  --text-light: #8A8A8A;
-  --text-mid:   #5A5A5A;
-  --text-dark:  #404040;
-  --charcoal:   #111827;
-
-  /* ── Accent ── */
-  --accent:      #a691c2;
-  --accent-warm: #e0bda5;
-
-  /* ── Semantic ── */
-  --color-danger:  #dc2626;
-  --color-rose:    #c97c8c;
-  --color-success: #16a34a;
-
-  /* ── Misc ── */
-  --pil-active: #e1e1e1;
+  --border-divider: rgba(26, 20, 16, 0.10);
+  --border-footer:  rgba(26, 20, 16, 0.12);
+  --text-light:     var(--ink-light);
+  --text-mid:       var(--ink-soft);
+  --text-dark:      var(--ink);
+  --charcoal:       var(--ink);
+  --color-danger:   #c0392b;
+  --color-rose:     #c97c8c;
+  --color-success:  #6d8268;
+  --pil-active:     #e1d5b9;
 }
 
+html { overflow-x: hidden; }
+
+body {
+  margin: 0;
+  font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+  background: var(--paper);
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* ── Subtle paper grain ── */
 body::before {
   content: "";
   position: fixed;
@@ -52,543 +74,1907 @@ body::before {
   pointer-events: none;
   z-index: 1;
   filter: url(#noise);
-  mix-blend-mode: soft-light;
-}
-
-body {
-  margin: 0;
-  font-family: "Ubuntu", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  color: #5A5A5A;
-  min-height: 100vh;
-  background: linear-gradient(135deg,
-    #edcfb6,
-    #e7c5b9,
-    #ded3f1,
-    #e6cfbb);
-  background-size: 400% 400%;
-  animation: warmFlow 20s ease-in-out infinite alternate;
-} 
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0) 55%,
-    rgba(0, 0, 0, 0.13) 100%
-  );
   mix-blend-mode: multiply;
+  opacity: 0.55;
 }
 
-  @keyframes warmFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 100%; }
-  }
+a { color: inherit; text-decoration: none; }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* ══════════════════════════════════════════════════════
+   NAVBAR — stripped, paper-feel
+   ══════════════════════════════════════════════════════ */
+/* ── Slim, minimalist navbar with micro-hover details ── */
+.top-info {
+  display: flex;
+  align-items: center;
+  padding: 13px 38px;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(244, 234, 214, 0.68);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 1px solid var(--line-soft);
+  animation: slideDown 0.6s ease-out;
+  transition: padding 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+              background 0.35s ease;
+}
+/* Shrink slightly when scrolled — adds polish */
+.top-info.is-scrolled {
+  padding: 9px 38px;
+  background: rgba(244, 234, 214, 0.82);
 }
 
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 26px;
+  white-space: nowrap;
+  color: var(--ink);
+  margin-right: auto;
+  letter-spacing: -0.015em;
+  position: relative;
+  transition: letter-spacing 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.logo:hover { letter-spacing: 0.04em; transform: translateY(-1px); }
+
+.logo::after {
+  content: "*";
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--accent-2);
+  font-size: 16px;
+  vertical-align: super;
+  font-weight: 400;
+  transform: rotate(-12deg);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.logo:hover::after { transform: rotate(12deg) scale(1.2); }
+
+.nav { display: flex; gap: 2px; margin-left: auto; align-items: center; }
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  padding-left: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-mid);
+  border-radius: 0;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  transition: color 0.25s ease,
+              transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  position: relative;
+}
+
+/* Animated underline pulse */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 16px; right: 12px; bottom: 4px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.6,0,0.2,1);
+}
+/* Mini accent dot that pops in on hover */
+.nav-link::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-link:hover { color: var(--ink); transform: translateY(-1px); }
+.nav-link:hover::after  { transform: scaleX(1); }
+.nav-link:hover::before { transform: translateY(-50%) scale(1); }
+
+.nav-link .icon {
+  width: 17px; height: 17px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-link:hover .icon { transform: rotate(-8deg) scale(1.1); }
+
+/* Login pill — primary CTA in nav */
+.nav-link--stack:last-child {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 999px;
+  padding: 9px 18px;
+  padding-left: 16px;
+  margin-left: 8px;
+}
+.nav-link--stack:last-child::after  { display: none; }
+.nav-link--stack:last-child::before { display: none; }
+.nav-link--stack:last-child:hover {
+  background: var(--accent-2);
+  color: var(--paper);
+  transform: translateY(-1px) rotate(-1.5deg);
+  box-shadow: 0 6px 14px rgba(214, 83, 60, 0.32);
+}
+.nav-link--stack:last-child:hover .icon { color: var(--paper); }
+
+/* ══════════════════════════════════════════════════════
+   BG MARQUEE WORDS — turned into faint ink-stamp band
+   ══════════════════════════════════════════════════════ */
 .bg_words {
   position: fixed;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  filter: blur(3px);
 }
 
 .row {
   position: absolute;
   display: flex;
-  gap: 120px;
+  gap: 80px;
   white-space: nowrap;
-  font-size: 120px;
-  font-weight: 600;
-  letter-spacing: 6px;
-  color: rgba(0, 0, 0, 0.06);
-  mix-blend-mode: soft-light;
+  font-size: 110px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  font-style: italic;
+  color: rgba(26, 20, 16, 0.04);
+  text-transform: lowercase;
 }
 
-.row:nth-child(1) { top: 10%; }
-.row:nth-child(2) { top: 28%; }
-.row:nth-child(3) { top: 46%; }
-.row:nth-child(4) { top: 64%; }
-.row:nth-child(5) { top: 82%; }
+.row:nth-child(1) { top: 8%; }
+.row:nth-child(2) { top: 30%; }
+.row:nth-child(3) { top: 52%; }
+.row:nth-child(4) { top: 72%; }
+.row:nth-child(5) { top: 90%; }
 
-.left {
-  animation: moveLeft 180s linear infinite;
+.left  { animation: moveLeft 220s linear infinite; }
+.right { animation: moveRight 260s linear infinite; }
+.slow    { animation-duration: 200s; }
+.slower  { animation-duration: 240s; }
+.slowest { animation-duration: 300s; }
+
+@keyframes moveLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes moveRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+/* ══════════════════════════════════════════════════════
+   DOODLES — hand-drawn SVG accents
+   ══════════════════════════════════════════════════════ */
+.doodle {
+  position: absolute;
+  pointer-events: none;
+  color: var(--ink);
+  z-index: 2;
+}
+.doodle--accent { color: var(--accent-2); }
+.doodle--ochre  { color: var(--accent); }
+.doodle--sage   { color: var(--accent-3); }
+.doodle svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.doodle--rotate { animation: doodleSpin 22s linear infinite; }
+@keyframes doodleSpin { to { transform: rotate(360deg); } }
+.doodle--bob { animation: doodleBob 4s ease-in-out infinite alternate; }
+@keyframes doodleBob { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
+
+/* draw-on animation for path doodles */
+.doodle path,
+.doodle line,
+.doodle polyline,
+.doodle circle,
+.doodle ellipse {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: drawOn 1.6s cubic-bezier(0.6,0,0.2,1) forwards;
+}
+.doodle--delay-1 path { animation-delay: 0.4s; }
+.doodle--delay-2 path { animation-delay: 0.8s; }
+.doodle--delay-3 path { animation-delay: 1.2s; }
+
+@keyframes drawOn {
+  to { stroke-dashoffset: 0; }
 }
 
-.right {
-  animation: moveRight 210s linear infinite;
-}
-
-.slow {
-  animation-duration: 165s;
-}
-
-.slower {
-  animation-duration: 195s;
-}
-
-.slowest {
-  animation-duration: 240s;
-}
-
-@keyframes moveLeft {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@keyframes moveRight {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
-}
-
-.top-info {
-  display: flex;
-  align-items: center;
-  padding: 16px 32px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.5);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 4px 30px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  animation: slideDown 0.6s ease-out;
-}
-
-  @keyframes slideDown {
-    from {
-      transform: translateY(-60%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-.logo {
-  font-weight: 700;
-  font-size: 28px;
-  white-space: nowrap;
-  color: var(--charcoal);
-  margin-right: auto;
-  color:#111827
-}
-
-.nav {
-  display: flex;
-  gap: 12px;
-  margin-left: auto;
-}
-
-.nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #404040;
-  border-radius: 999px;
-  color: var(--charcoal);
-  font-size: 14px;
-  transition: all 0.2s ease, color 0.2s ease;
-   transition: transform 0.5s ease, box-shadow 0.5s ease;
-  font-weight: 700;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.4), 
-    rgba(255, 255, 255, 0.1));
-  background: rgba(255,255,255,0.5);
-  transform: translateY(-1.5px);
-
-}
-
-.nav-link--stack:last-child {
-  background: #111827;
-  color: #ffffff;
-}
-
-.nav-link--stack:last-child:hover {
-  background: #0f172a;
-}
-
-.icon {
-  display: block; 
-}
-
+/* ══════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════ */
 .start-content {
   position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 120px 24px 80px;
-  z-index: 1;
-  animation: wordSlideUp 1s ease-out backwards;
+  padding: 140px 56px 100px;
+  z-index: 3;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
 }
 
+/* meta row */
+.hero-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 56px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.hero-index {
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-loc::before {
+  content: "•";
+  color: var(--accent-2);
+  font-size: 18px;
+}
+
+/* Title block */
 .title-wrapper {
   position: relative;
   display: inline-block;
-  margin-top: 0px;
-}
-
-.title-wrapper::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 70%;
-  height: 60%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0) 70%
-  );
-  filter: blur(18px);
-  z-index: -1;
-  pointer-events: none;
+  align-self: flex-start;
+  max-width: 100%;
 }
 
 .title {
-  font-size: clamp(64px, 12vw, 260px);
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: clamp(72px, 17vw, 300px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
   margin: 0;
-  text-align: center;
-  line-height: 1;
-  color: #404040;
+  text-align: left;
+  line-height: 0.86;
+  color: var(--ink);
   transition: text-shadow 0.7s ease;
+  text-transform: lowercase;
 }
 
-.title-gradient {
+.title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-2);
+  position: relative;
+}
+
+/* scribble circle around the italic word */
+.title-wrapper .scribble-circle {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  background: linear-gradient(120deg, #8f79ad 0%, #c69d77 50%, #8f79ad 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-  pointer-events: none;
-  animation: none;
+  right: -6%;
+  top: 8%;
+  width: 58%;
+  height: 90%;
+  color: var(--accent-2);
+  z-index: -1;
+  opacity: 0.85;
 }
 
-.title-wrapper:hover .title-gradient {
-  opacity: 1;
-  animation: shimmer 3s linear infinite;
+.title-gradient { display: none; }
+
+/* Hero bottom asymmetric two-col */
+.hero-bottom {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  margin-top: 72px;
+  align-items: end;
+  position: relative;
 }
 
-@keyframes shimmer {
-  from { background-position: 0% center; }
-  to   { background-position: 200% center; }
-}
-
-.title-wrapper:hover .title {
-  text-shadow: 0 8px 28px rgba(170, 140, 120, 0.22);
-}
-
-.hero-divider {
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(to right, #8776a3, #e0bda5);
-  border-radius: 999px;
-  margin: 0 auto 28px;
-}
+.hero-bottom-left { padding-top: 0; position: relative; }
+.hero-bottom-right { display: flex; flex-direction: column; gap: 36px; position: relative; }
 
 .subtitle {
-  font-size: clamp(20px, 3vw, 28px);
+  font-size: clamp(28px, 3.6vw, 48px);
   font-weight: 500;
-  color: #8A8A8A;
-  margin: 0 0 16px;
+  color: var(--ink);
+  margin: 0;
   letter-spacing: -0.02em;
+  line-height: 1.08;
+  position: relative;
 }
 
+.subtitle em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-2);
+  position: relative;
+  white-space: nowrap;
+}
+
+.subtitle em::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  bottom: -8px;
+  width: 104%;
+  height: 14px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'><path d='M2 8 Q 30 2, 60 6 T 120 7 T 198 5' fill='none' stroke='%23d6533c' stroke-width='2.4' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* ── Subtitle-2 — asymmetric scattered layout, breathy line-height ── */
 .subtitle-2 {
-  font-size: clamp(16px, 2vw, 18px);
-  color: #5A5A5A;
-  line-height: 1.7;
-  margin: 0 0 40px;
-  opacity: 0.9;
+  font-size: clamp(16px, 1.5vw, 19px);
+  color: var(--ink-soft);
+  line-height: 1.9;
+  margin: 0;
+  max-width: 540px;
+  display: block;
+  position: relative;
+}
+
+.subtitle-2 .s2-line {
+  display: block;
+  position: relative;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Indent each line differently → hand-arranged feel */
+.subtitle-2 .s2-line--1 { padding-left: 0;     font-style: italic; color: var(--ink-mid); }
+.subtitle-2 .s2-line--2 { padding-left: 60px;  font-size: 1.08em; color: var(--ink); letter-spacing: -0.005em; }
+.subtitle-2 .s2-line--3 { padding-left: 20px;  margin-top: 4px; font-weight: 500; color: var(--ink); }
+.subtitle-2 .s2-line--4 { padding-left: 100px; margin-top: -2px; font-style: italic; color: var(--ink-mid); }
+.subtitle-2 .s2-line--5 { padding-left: 30px;  margin-top: 6px; }
+.subtitle-2 .s2-line--6 { padding-left: 70px;  font-size: 1.05em; }
+
+.subtitle-2 .s2-line em {
+  font-style: italic;
+  color: var(--accent-2);
+  font-weight: 500;
+  position: relative;
+  white-space: nowrap;
+}
+.subtitle-2 .s2-line em::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  bottom: -4px;
+  width: 104%;
+  height: 8px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'><path d='M2 8 Q 30 2, 60 6 T 120 7 T 198 5' fill='none' stroke='%23d6533c' stroke-width='1.8' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.85;
+}
+
+/* Tiny ornamental dashes between asymmetric blocks */
+.subtitle-2 .s2-line--3::before,
+.subtitle-2 .s2-line--4::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 1px;
+  background: var(--ink-light);
+  opacity: 0.6;
+}
+.subtitle-2 .s2-line--3::before { left: -2px; }
+.subtitle-2 .s2-line--4::before { left: 78px; }
+
+/* Subtle reveal cascade for each line */
+.reveal.is-in .s2-line {
+  animation: s2Rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+.reveal.is-in .s2-line--1 { animation-delay: 0.05s; }
+.reveal.is-in .s2-line--2 { animation-delay: 0.15s; }
+.reveal.is-in .s2-line--3 { animation-delay: 0.25s; }
+.reveal.is-in .s2-line--4 { animation-delay: 0.35s; }
+.reveal.is-in .s2-line--5 { animation-delay: 0.45s; }
+.reveal.is-in .s2-line--6 { animation-delay: 0.55s; }
+@keyframes s2Rise {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
 }
 
 .butttons_on_start {
   display: flex;
-  gap: 16px;
-  justify-content: center;
+  gap: 14px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 16px 32px;
+  padding: 16px 28px;
   border-radius: 999px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s, color 0.3;
   border: none;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.2), 
-    transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.btn:hover::before {
-  opacity: 1;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  letter-spacing: 0.01em;
+  text-transform: lowercase;
 }
 
 .button_start_1 {
-  background: #35343d;
-  color: white;
-  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 4px 4px 0 0 var(--accent-2);
 }
-
 .button_start_1:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(17, 24, 39, 0.4);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--accent-2);
+  background: #2a221c;
 }
 
 .button_start_2 {
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  color: #5A5A5A;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
 }
-
 .button_start_2:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(17, 24, 39, 0.4);
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
 }
 
+.btn-arrow {
+  display: inline-block;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+.button_start_2:hover .btn-arrow { transform: translate(2px, -2px); }
+
+/* button doodle wrapping (for hero CTA) */
+.btn-with-doodle { position: relative; display: inline-block; }
+.btn-doodle-arrow {
+  position: absolute;
+  width: 90px; height: 70px;
+  left: -100px; top: 50%;
+  transform: translateY(-50%) rotate(-8deg);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+/* Scroll cue */
+.scroll-cue {
+  margin-top: 90px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+
+.scroll-cue-line {
+  width: 64px;
+  height: 1px;
+  background: currentColor;
+  position: relative;
+  overflow: hidden;
+}
+.scroll-cue-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent-2);
+  transform: translateX(-100%);
+  animation: scrollCue 2.4s ease-in-out infinite;
+}
+@keyframes scrollCue {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* hero-anchored doodles */
+.doodle-hero-arrow {
+  width: 120px; height: 90px;
+  top: 22%; right: 6%;
+  transform: rotate(18deg);
+}
+.doodle-hero-spark {
+  width: 70px; height: 70px;
+  top: 12%; left: 38%;
+  color: var(--accent-2);
+}
+.doodle-hero-squiggle {
+  width: 180px; height: 30px;
+  bottom: 20%; left: -2%;
+  color: var(--accent);
+}
+.doodle-hero-blob {
+  width: 90px; height: 90px;
+  bottom: 8%; right: 12%;
+  color: var(--accent-3);
+  opacity: 0.5;
+}
+
+/* ══════════════════════════════════════════════════════
+   STAMP BAND — repeating phrase between hero and features
+   ══════════════════════════════════════════════════════ */
+.stamp-band {
+  position: relative;
+  z-index: 3;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 22px 0;
+  overflow: hidden;
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  transform: rotate(-1.5deg);
+  margin: 60px -2vw 60px;
+  width: 104vw;
+}
+
+.stamp-track {
+  display: flex;
+  gap: 48px;
+  white-space: nowrap;
+  animation: stampMove 38s linear infinite;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+.stamp-track > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.stamp-track .stamp-sep {
+  color: var(--accent);
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  transform: rotate(-8deg);
+}
+
+@keyframes stampMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ══════════════════════════════════════════════════════
+   WHY SECTION
+   ══════════════════════════════════════════════════════ */
 .card-section {
   position: relative;
-  padding: 120px 24px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  z-index: 1;
+  padding: 120px 56px;
+  z-index: 3;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 72px;
+  max-width: 980px;
+  position: relative;
+}
+
+.section-eyebrow {
+  font-size: 13px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--ink-mid);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .card-section-title {
-  font-size: clamp(36px, 5vw, 48px);
-  font-weight: 700;
+  font-size: clamp(44px, 6.4vw, 96px);
+  font-weight: 800;
+  text-align: left;
+  margin: 0;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: var(--ink);
+  text-transform: lowercase;
+}
+
+.card-section-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-2);
+}
+
+/* doodle by section heading */
+.section-doodle-asterisk {
+  width: 70px; height: 70px;
+  top: -30px; right: 10%;
+  color: var(--accent);
+  transform: rotate(15deg);
+}
+
+/* ── Feature corkboard grid ── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 36px;
+  margin-top: 16px;
+}
+
+.feature-card {
+  --rot: 0deg;
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 44px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: rotate(var(--rot));
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  min-height: 280px;
+  z-index: 1;
+}
+
+/* ── Torn-paper card backgrounds ──
+   The PNG IS the paper (photographed real torn paper). Use it directly
+   as a background-image — no mask trickery, no weird grey shapes. */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: -18px -18px -14px -18px;
+  z-index: -1;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 10px 22px rgba(26, 20, 16, 0.16))
+          drop-shadow(0 2px 3px rgba(26, 20, 16, 0.08));
+  transition: filter 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Each card uses a different real torn-paper photograph */
+.feature-card:nth-child(1)::before {
+  background-image: url("../assets/paper-structions-torn-parts/12.png");
+}
+.feature-card:nth-child(2)::before {
+  background-image: url("../assets/paper-structions-torn-parts/34.png");
+}
+.feature-card:nth-child(3)::before {
+  background-image: url("../assets/paper-structions-torn-parts/48.png");
+}
+.feature-card:nth-child(4)::before {
+  background-image: url("../assets/paper-structions-torn-parts/63.png");
+}
+.feature-card:nth-child(5)::before {
+  background-image: url("../assets/paper-structions-torn-parts/82.png");
+}
+
+.feature-card:hover {
+  transform: rotate(0deg) translateY(-6px);
+  z-index: 10;
+}
+.feature-card:hover::before {
+  filter: drop-shadow(0 18px 32px rgba(26, 20, 16, 0.28))
+          drop-shadow(0 2px 4px rgba(26, 20, 16, 0.10));
+}
+
+.feature-card--wide {
+  grid-column: 1 / -1;
+  min-height: 220px;
+}
+
+/* Skotch tape pinning each card — small protrusion so hovering doesn't collide */
+.card-skotch {
+  height: 46px;
+  width: auto;
+  position: absolute;
+  z-index: 6;
+}
+.feature-card:nth-child(1) .card-skotch { top: -20px; left: 26%; transform: rotate(-4deg); }
+.feature-card:nth-child(2) .card-skotch { top: -20px; right: 22%; transform: rotate(3deg); }
+.feature-card:nth-child(3) .card-skotch { top: -20px; left: 30%; transform: rotate(5deg); }
+.feature-card:nth-child(4) .card-skotch { top: -20px; right: 26%; transform: rotate(-3deg); }
+
+/* Wide card (5th) — TWO skotch pieces, balanced left + right */
+.feature-card:nth-child(5) .card-skotch--l {
+  top: -20px; left: 16%; transform: rotate(-3deg);
+}
+.feature-card:nth-child(5) .card-skotch--r {
+  top: -20px; right: 16%; transform: rotate(3deg);
+}
+
+/* Extra scribbles inside the wide card — fills the empty right side */
+.card-extra {
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.card-extra--1 {
+  width: 110px; height: auto;
+  bottom: 28%;
+  right: 24%;
+  opacity: 0.5;
+  transform: rotate(-4deg);
+}
+.card-extra--2 {
+  width: 38px; height: auto;
+  top: 24%;
+  right: 12%;
+  opacity: 0.85;
+  transform: rotate(15deg);
+}
+.card-extra--3 {
+  width: 90px; height: auto;
+  bottom: 14%;
+  right: 6%;
+  opacity: 0.45;
+  transform: rotate(8deg);
+}
+.feature-card:hover .card-extra--1 { transform: rotate(2deg) translateX(-4px); }
+.feature-card:hover .card-extra--2 { transform: rotate(0deg) scale(1.1); }
+.feature-card:hover .card-extra--3 { transform: rotate(-2deg) translateX(-2px); }
+
+/* Big emotion icon at top of card */
+.card-emotion {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.card-emotion .d-img {
+  position: static;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.feature-card:hover .card-emotion .d-img {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+/* Number / category line */
+.feature-num {
+  font-size: 12px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--ink-mid);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.feature-card h3 {
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  transition: color 0.3s ease;
+  line-height: 1.1;
+}
+.feature-card:hover h3 { color: var(--accent-2); }
+
+.feature-card p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 540px;
+}
+
+/* Decorative accent doodle in corner of each card */
+.card-accent {
+  position: absolute;
+  width: 60px;
+  height: auto;
+  bottom: 18px;
+  right: 18px;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.4s ease;
+  pointer-events: none;
+}
+.feature-card:nth-child(odd) .card-accent { transform: rotate(-12deg); }
+.feature-card:nth-child(even) .card-accent { transform: rotate(10deg); }
+.feature-card:hover .card-accent {
+  opacity: 0.85;
+  transform: rotate(0deg) scale(1.1);
+}
+
+/* a doodle inside one of the feature rows for personality */
+.feature-row .row-doodle {
+  position: absolute;
+  width: 60px; height: 50px;
+  right: 18%;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+  transform: rotate(-15deg) scale(0.9);
+  pointer-events: none;
+}
+.feature-row:hover .row-doodle {
+  opacity: 0.7;
+  transform: rotate(-8deg) scale(1);
+}
+
+/* ══════════════════════════════════════════════════════
+   QUOTE BAND — small pull-quote with doodles
+   ══════════════════════════════════════════════════════ */
+.quote-band {
+  position: relative;
+  z-index: 3;
+  padding: 110px 56px 100px;
   text-align: center;
-  margin: 0 0 60px;
-  color: #404040;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(rgba(236, 221, 190, 0.65), rgba(236, 221, 190, 0.65)),
+    url("../assets/paper-textures/14.jpg") center/cover;
+  overflow: hidden;
+}
+.quote-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 12% 30%, rgba(26,20,16,0.04), transparent 50%),
+    radial-gradient(ellipse at 88% 70%, rgba(26,20,16,0.04), transparent 50%);
 }
 
-.card {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.quote-band-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  position: relative;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.11);
-}
-
-.card h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #111827;
-  margin: 16px 0 8px;
-}
-
-.card p {
-  font-size: 14px;
-  color: #5A5A5A;
-  line-height: 1.6;
+.quote-text {
+  font-size: clamp(24px, 3.2vw, 38px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px;
+.quote-text em {
+  font-style: normal;
+  color: var(--accent-2);
+  font-weight: 600;
 }
 
+.quote-cite {
+  display: block;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--ink-mid);
+  font-style: normal;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.doodle-quote-l {
+  width: 80px; height: 80px;
+  left: -20px; top: -30px;
+  transform: rotate(-15deg);
+  color: var(--accent);
+}
+.doodle-quote-r {
+  width: 80px; height: 80px;
+  right: -20px; bottom: -10px;
+  transform: rotate(20deg);
+  color: var(--accent-2);
+}
+
+/* ══════════════════════════════════════════════════════
+   JOIN / CTA SECTION
+   ══════════════════════════════════════════════════════ */
 .join-section {
-  padding: 120px 24px;
+  padding: 140px 56px 160px;
   position: relative;
-  z-index: 1;
-  background: rgba(17, 24, 39, 0.05);
-  backdrop-filter: blur(10px);
+  z-index: 3;
+}
+
+.join-meta { margin-bottom: 56px; }
+
+.join-content {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  position: relative;
 }
 
 .join-title {
-  font-size: clamp(48px, 12vw, 60px);
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: clamp(56px, 11vw, 180px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
   margin: 0;
-  line-height: 1;
-  color: #404040;
-  transition: text-shadow 0.7s ease;
+  line-height: 0.88;
+  color: var(--ink);
+  text-transform: lowercase;
+  position: relative;
+}
+
+.join-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-2);
+  position: relative;
+}
+
+.join-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px;
+  padding-top: 36px;
+  position: relative;
+}
+/* Replace harsh black border with a soft hand-drawn crayon line */
+.join-bottom::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: rgba(26, 20, 16, 0.16);
 }
 
 .join-description {
-  font-size: clamp(10px, 3vw, 20px);
-  font-weight: 500;
-  color: #8A8A8A;
-  margin: 0 0 16px;
-  letter-spacing: -0.02em;
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
 }
 
 .join-register {
-  background: #35343d;
-  color: white;
-  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 4px 4px 0 0 var(--accent-2);
+  align-self: end;
+  padding: 18px 32px;
+  font-size: 15px;
 }
-
 .join-register:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(17, 24, 39, 0.4);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--accent-2);
+  background: #2a221c;
 }
 
+.doodle-join-star {
+  width: 90px; height: 90px;
+  top: -40px; left: 38%;
+  color: var(--accent-2);
+}
+.doodle-join-spiral {
+  width: 110px; height: 110px;
+  bottom: 0; right: 0;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+/* ══════════════════════════════════════════════════════
+   FOOTER — paper-style
+   ══════════════════════════════════════════════════════ */
 .footer {
-  background: rgba(255,255,255,.28);
-  backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(255,255,255,.45);
-  padding: 64px 40px 32px;
+  background: var(--paper-2);
+  border-top: 1.5px solid var(--ink);
+  padding: 72px 40px 32px;
   position: relative;
-  z-index: 1;
+  z-index: 3;
+  color: var(--ink-soft);
 }
 
-.footer_content {
-  max-width: 1160px;
-  margin: 0 auto;
-}
+.footer_content { max-width: 1280px; margin: 0 auto; }
 
 .footer_main {
   display: flex;
   justify-content: space-between;
   gap: 64px;
-  margin-bottom: 48px;
-}
-
-.footer_social a:hover {
-  color: var(--charcoal);
-  transform: translateY(-2px);
+  margin-bottom: 56px;
+  flex-wrap: wrap;
 }
 
 .footer_logo p {
-  font-size: 20px;
-  font-weight: 700;
-  color: #111827;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
   margin: 0 0 8px;
+  letter-spacing: -0.01em;
 }
 
 .footer_subtitle {
   font-size: 13px;
-  color: #8A8A8A;
-  max-width: 220px;
-  line-height: 1.6;
+  color: var(--ink-mid);
+  max-width: 240px;
+  line-height: 1.55;
+  font-style: italic;
 }
 
 .footer_links {
   display: flex;
   gap: 56px;
+  flex-wrap: wrap;
 }
 
 .footer_links h3 {
-  font-size: 14px;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .08em;
-  color: #111827;
+  letter-spacing: 0.12em;
+  color: var(--ink);
   margin: 0 0 18px;
 }
 
 .footer_links ul {
   list-style: none;
-  padding: 0;
+  padding: 0; margin: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.footer a {
-  padding: 4px 0;
-  display: inline-block;
-}
-
 .footer_links a {
   font-size: 14px;
-  font-size: 15px;
-  color: #5A5A5A;
-  transition: color .2s;
+  color: var(--ink-soft);
+  transition: color 0.2s, transform 0.2s;
+  display: inline-block;
+  padding: 2px 0;
 }
-
-.footer_links a:hover { color: #111827; }
+.footer_links a:hover {
+  color: var(--accent-2);
+  transform: translateX(3px);
+}
 
 .footer_footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 24px;
-  border-top: 1px solid rgba(0,0,0,.07);
+  border-top: 1px solid var(--line);
   font-size: 13px;
-  color: #8A8A8A;
-}
-
-.footer_social {
-  display: flex;
+  color: var(--ink-mid);
+  flex-wrap: wrap;
   gap: 16px;
 }
 
+.footer_social { display: flex; gap: 14px; }
+
 .footer_social a {
-  color: #8A8A8A;
-  transition: color .2s, transform .2s;
+  color: var(--ink-mid);
+  transition: color 0.2s, transform 0.2s;
   display: flex;
+}
+
+.footer_social a:hover {
+  color: var(--accent-2);
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .start-content { padding: 120px 24px 60px; }
+  .hero-meta { font-size: 11px; flex-wrap: wrap; gap: 8px; }
+  .hero-bottom { grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
+  .doodle-hero-arrow, .doodle-hero-spark, .doodle-hero-squiggle, .doodle-hero-blob,
+  .section-doodle-asterisk, .doodle-quote-l, .doodle-quote-r,
+  .doodle-join-star, .doodle-join-spiral { display: none; }
+  .card-section, .join-section, .quote-band { padding: 80px 24px; }
+  .feature-grid { grid-template-columns: 1fr; gap: 28px; }
+  .feature-card { padding: 28px 22px 26px; min-height: 0; }
+  .feature-card--wide { grid-column: 1; min-height: 0; }
+  .card-emotion { width: 70px; height: 70px; }
+  .card-skotch { height: 42px !important; }
+  .card-accent { width: 40px; }
+  .feature-tag { display: none; }
+  .feature-row:hover { padding-left: 12px; padding-right: 12px; }
+  .section-head { margin-bottom: 48px; }
+  .join-bottom { grid-template-columns: 1fr; align-items: start; }
+  .stamp-track { font-size: 20px; gap: 28px; }
+  .stamp-track > span { gap: 28px; }
+  .top-info { padding: 14px 20px; }
+  .nav-link span { display: none; }
+}
+
+@media (max-width: 560px) {
+  .title { font-size: 64px; }
+  .row { font-size: 70px; }
+}
+
+/* ══════════════════════════════════════════════════════
+   PNG DOODLES — real hand-drawn marker scribbles
+   mix-blend-mode: multiply removes the white png bg
+   on the cream paper, leaving only the black ink
+   ══════════════════════════════════════════════════════ */
+.d-img {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  mix-blend-mode: multiply;
+  transition: transform 0.35s cubic-bezier(0.6, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Animations for doodles */
+.d-bob       { animation: dBob 4s ease-in-out infinite alternate; }
+.d-spin-slow { animation: dSpin 28s linear infinite; }
+.d-tilt      { animation: dTilt 6s ease-in-out infinite alternate; }
+
+@keyframes dBob  { from { transform: translateY(-6px); } to { transform: translateY(6px); } }
+@keyframes dSpin { to { transform: rotate(360deg); } }
+@keyframes dTilt { from { transform: rotate(-4deg); } to { transform: rotate(5deg); } }
+
+/* When parallax is active we don't want to override its inline transform */
+.d-parallax { transition: none; }
+
+/* ── HERO DOODLES — calm, anchored ── */
+
+/* Cloud — top right corner, gentle bob, never moves with mouse */
+.doodle-hero-cloud {
+  width: 220px; height: auto;
+  top: 16%;
+  right: 4%;
+  opacity: 0.45;
+  animation: dBobCloud 7s ease-in-out infinite alternate;
+}
+@keyframes dBobCloud {
+  from { transform: translateY(-8px) rotate(-1deg); }
+  to   { transform: translateY(8px)  rotate(1deg);  }
+}
+
+/* Star — between meta row ("01/Presence") and the title "still" */
+.doodle-hero-spark {
+  width: 36px; height: auto;
+  top: 24%;
+  left: 6%;
+  opacity: 0.8;
+}
+
+/* Wavy line — bottom-left calm accent (parallax, very subtle) */
+.doodle-hero-wave {
+  width: 160px; height: auto;
+  bottom: 16%;
+  left: 0;
+  opacity: 0.55;
+}
+
+/* ── Fog backdrops — ONLY used in card-section, softer than before ── */
+.section-fog {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+  filter: blur(3px) saturate(0.5);
+  user-select: none;
+}
+/* Hero-fog / quote-fog / join-fog rules removed — fog only lives in card-section */
+
+/* Star annotation pointing AT the "here" italic word — like a margin note */
+.title-star {
+  width: 60px; height: auto;
+  position: absolute;
+  bottom: -8%;
+  right: 6%;
+  opacity: 0.9;
+  z-index: 3;
+  transform: rotate(15deg);
+  pointer-events: none;
+}
+
+/* Legacy hero-letter / hero-asterisk styles — kept as no-op in case HTML still references them */
+.hero-letter, .hero-asterisk { display: none; }
+
+/* Right-side calm cat — moved leftward so it sits BEFORE the cloud, not under it */
+.doodle-hero-cat-r {
+  width: 74px; height: auto;
+  top: 14%;
+  right: 24%;
+  opacity: 0.75;
+  z-index: 2;
+  transform: rotate(-6deg);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.doodle-hero-cat-r:hover { transform: rotate(2deg) scale(1.05); }
+
+/* Heart — bigger, slightly left and lower than before */
+.doodle-hero-heart-r {
+  width: 72px; height: auto;
+  top: 44%;
+  right: 7%;
+  opacity: 0.55;
+  z-index: 2;
+  transform: rotate(-10deg);
+}
+
+/* Scribble swirl beside explore-stories — the "закарлючка" the user wants kept */
+.doodle-hero-swirl-r {
+  width: 110px; height: auto;
+  position: absolute;
+  bottom: 8%;
+  right: 6%;
+  opacity: 0.55;
+  z-index: 2;
+  transform: rotate(8deg);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Legacy: hand is now near the start-sharing button, not free-floating */
+.doodle-hero-hand { display: none; }
+
+/* ── Writing hand BESIDE the start-sharing button, with ink scribble ── */
+.start-hand-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-right: -4px;
+  pointer-events: none;
+}
+.start-hand {
+  width: 58px;
+  height: auto;
+  position: relative;
+  mix-blend-mode: multiply;
+  transform-origin: 70% 80%;
+  animation: handWrite 4.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes handWrite {
+  0%, 100% { transform: rotate(-16deg) translateY(0); }
+  25%      { transform: rotate(-22deg) translateY(2px); }
+  50%      { transform: rotate(-12deg) translateY(-1px); }
+  75%      { transform: rotate(-19deg) translateY(1px); }
+}
+.start-hand-ink {
+  position: absolute;
+  left: 42px;
+  bottom: 6px;
+  width: 90px;
+  height: 32px;
+  color: var(--accent-2);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.start-hand-ink path {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: handInk 4.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes handInk {
+  0%        { stroke-dashoffset: 220; opacity: 0; }
+  15%       { opacity: 0.9; }
+  60%       { stroke-dashoffset: 0; opacity: 0.9; }
+  85%       { opacity: 0.85; }
+  95%, 100% { stroke-dashoffset: 220; opacity: 0; }
+}
+
+/* ── Side-of-grid accents around feature grid ── */
+.grid-side {
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+.grid-side--l-top { width: 56px; top: 6%;  left: 2%;  opacity: 0.7; transform: rotate(-14deg); }
+.grid-side--l-mid { width: 64px; top: 38%; left: 1.5%; opacity: 0.55; transform: rotate(8deg); }
+.grid-side--l-bot { width: 80px; bottom: 14%; left: 2%; opacity: 0.75; transform: rotate(-6deg); }
+.grid-side--r-top { width: 64px; top: 10%;  right: 1.5%; opacity: 0.8; transform: rotate(12deg); }
+.grid-side--r-mid { width: 100px; top: 46%; right: 1.5%; opacity: 0.55; transform: rotate(-8deg); }
+.grid-side--r-bot { width: 70px; bottom: 12%; right: 2%; opacity: 0.6; transform: rotate(14deg); }
+
+/* Letter stickers — printed/cut-out cardstock look */
+.letter-sticker {
+  filter: drop-shadow(0 3px 5px rgba(26, 20, 16, 0.16));
+  mix-blend-mode: multiply;
+}
+
+/* ── Section fog ── */
+.section-fog--tl {
+  width: 50%; height: 55%;
+  top: -10%; left: -8%;
+  opacity: 0.14;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+          mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  transform: rotate(-6deg);
+}
+.section-fog--br {
+  width: 55%; height: 55%;
+  bottom: -10%; right: -8%;
+  opacity: 0.14;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+          mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  transform: rotate(6deg);
+}
+
+/* Quote-band fog removed — only section-fog (in card-section) remains */
+
+.quote-mark {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+  width: 140px;
+  height: auto;
+  user-select: none;
+}
+.quote-mark--open  { top: 8%;  left: 6%;  transform: rotate(-8deg); }
+.quote-mark--close { bottom: 8%; right: 6%; transform: rotate(8deg); }
+
+.quote-ambient {
+  z-index: 2;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.quote-ambient--1 { width: 38px; top: 14%; left: 18%; opacity: 0.7; transform: rotate(-14deg); }
+.quote-ambient--2 { width: 110px; top: 24%; right: 14%; opacity: 0.5; transform: rotate(8deg); }
+.quote-ambient--3 { width: 72px; bottom: 16%; left: 14%; opacity: 0.65; transform: rotate(-6deg); }
+.quote-ambient--4 { width: 50px; top: 16%; right: 26%; opacity: 0.55; transform: rotate(12deg); }
+.quote-ambient--5 { width: 80px; bottom: 22%; right: 20%; opacity: 0.75; transform: rotate(-4deg); }
+
+/* Join-fog removed. doodle-join-arrow (letters/_Shapes) removed — not in site style. */
+
+/* ── BIG writing-hand filling the persistent empty space to the right
+   of the card-section heading. The hand looks mid-stroke, with two
+   animated ink lines flowing toward the title. ── */
+.section-hand-wrap {
+  position: absolute;
+  top: 10%;
+  right: 4%;
+  width: 340px;
+  pointer-events: none;
+  z-index: 2;
+  transform: rotate(-8deg);
+}
+.section-hand {
+  width: 200px;
+  height: auto;
+  display: block;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 8px 16px rgba(26, 20, 16, 0.18));
+  animation: sectionHandWrite 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: 70% 80%;
+  position: relative;
+  z-index: 2;
+}
+@keyframes sectionHandWrite {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  30%      { transform: rotate(-12deg) translateY(3px); }
+  60%      { transform: rotate(0deg) translateY(-2px); }
+}
+.section-hand-ink {
+  position: absolute;
+  left: 130px;
+  bottom: 28px;
+  width: 260px;
+  height: 100px;
+  color: var(--accent-2);
+  opacity: 0.7;
+  z-index: 1;
+}
+.section-hand-ink path {
+  stroke-dasharray: 380;
+  stroke-dashoffset: 380;
+  animation: sectionHandInk 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.section-hand-ink path:nth-child(2) { animation-delay: 0.5s; opacity: 0.55; }
+@keyframes sectionHandInk {
+  0%        { stroke-dashoffset: 380; opacity: 0; }
+  15%       { opacity: 0.7; }
+  60%       { stroke-dashoffset: 0; opacity: 0.7; }
+  85%       { opacity: 0.6; }
+  95%, 100% { stroke-dashoffset: 380; opacity: 0; }
+}
+
+/* Join section wavy line as soft underline (replaces harsh crayon) */
+.doodle-join-wave {
+  width: 180px; height: auto;
+  position: absolute;
+  bottom: 8%;
+  right: 28%;
+  opacity: 0.55;
+  transform: rotate(-3deg);
+  z-index: 0;
+}
+
+/* ── Paper notes (torn paper + skotch + handwritten word) ── */
+.paper-note {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  filter: drop-shadow(0 6px 14px rgba(26, 20, 16, 0.18));
+}
+.paper-note-bg {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+}
+.paper-note-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  font-family: "Caveat", "Ubuntu", cursive;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  font-size: 26px;
+  letter-spacing: 0;
+  pointer-events: none;
+  text-align: center;
+}
+.paper-note-skotch {
+  position: absolute;
+  height: 38px !important;
+  top: -14px;
+  left: 32%;
+  transform: rotate(-4deg);
+  z-index: 1;
+}
+
+/* Hero "you matter" — lower, under the heart area */
+.paper-note--hero {
+  width: 155px;
+  top: 54%;
+  right: 10%;
+  left: auto;
+  transform: rotate(2deg);
+}
+.paper-note--hero .paper-note-text { font-size: 30px; }
+
+/* Companion star next to "you matter" */
+.doodle-hero-star2 {
+  width: 38px; height: auto;
+  top: 32%;
+  right: 9%;
+  opacity: 0.8;
+  z-index: 3;
+}
+
+/* Join "not alone" note — pinned to top-right CORNER, far above title */
+.paper-note--join {
+  width: 140px;
+  top: -42px;
+  right: 5%;
+  left: auto;
+  bottom: auto;
+  transform: rotate(3deg);
+  z-index: 5;
+}
+.paper-note--join .paper-note-text { font-size: 26px; }
+
+/* Section margins — balanced both sides */
+.section-doodle {
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+/* RIGHT side */
+.section-doodle--tr {
+  width: 120px; height: auto;
+  top: 60px; right: 3%;
+  transform: rotate(8deg);
+  opacity: 0.85;
+}
+.section-doodle--mr {
+  width: 60px; height: auto;
+  top: 42%; right: 7%;
+  opacity: 0.75;
+  transform: rotate(8deg);
+}
+.section-doodle--br {
+  width: 100px; height: auto;
+  bottom: 14%; right: 4%;
+  transform: rotate(-6deg);
+  opacity: 0.55;
+}
+/* LEFT side (filling the empty area opposite of title) */
+.section-doodle--ml {
+  width: 36px; height: auto;
+  top: 28%; left: 3%;
+  opacity: 0.75;
+  transform: rotate(-15deg);
+}
+.section-doodle--bl {
+  width: 56px; height: auto;
+  bottom: 22%; left: 4%;
+  opacity: 0.65;
+  transform: rotate(-12deg);
+}
+
+/* Crayon underline — anchored UNDER the heading, not floating */
+.section-underline {
+  width: 320px; height: auto;
+  position: absolute;
+  bottom: -16px;
+  left: -10px;
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transform: rotate(-2deg);
+}
+
+/* Extra join doodles — placed in true dead zones, never over text */
+.doodle-join-heart { display: none; } /* legacy scribble that covered "you" — gone */
+.doodle-join-wave {
+  width: 140px; height: auto;
+  bottom: 12%;
+  right: 4%;
+  left: auto;
+  opacity: 0.4;
+  transform: rotate(6deg);
+  z-index: 0;
+}
+.doodle-join-star2 {
+  width: 36px; height: auto;
+  bottom: 26%;
+  left: 14%;
+  top: auto;
+  right: auto;
+  opacity: 0.75;
+  transform: rotate(20deg);
+}
+.doodle-join-flower {
+  width: 40px; height: auto;
+  top: 4%;
+  left: 16%;
+  opacity: 0.7;
+  transform: rotate(-12deg);
+}
+
+/* Replacement for the cat that used to sit under "your feelings are valid":
+   an asterisk placed in the margin BELOW the description text */
+.doodle-join-margin-mark {
+  width: 32px; height: auto;
+  position: absolute;
+  bottom: -28px;
+  left: 8%;
+  opacity: 0.7;
+  transform: rotate(8deg);
+  z-index: 1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* (Hand moved out of button — see .doodle-hero-hand) */
+
+/* ── Section eyebrow micro-doodle ── */
+.eyebrow-doodle {
+  width: 18px; height: 18px;
+  display: inline-block;
+  vertical-align: middle;
+  mix-blend-mode: multiply;
+  transform: rotate(-10deg);
+}
+
+/* ── Why-section accent flower (small, off corner) ── */
+.section-flower {
+  width: 60px; height: auto;
+  top: -10px;
+  right: 4%;
+  opacity: 0.85;
+  z-index: 1;
+}
+
+/* ── Feature row LEFT emotion icon (always visible, semantic) ── */
+.row-emotion {
+  position: relative;
+  width: 44px; height: auto;
+  max-height: 48px;
+  object-fit: contain;
+  opacity: 0.75;
+  mix-blend-mode: multiply;
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.6, 0, 0.2, 1);
+  align-self: center;
+  justify-self: center;
+}
+.feature-row:hover .row-emotion {
+  opacity: 1;
+  transform: rotate(-6deg) scale(1.08);
+}
+
+/* ── SKOTCH (tape) — pinned-note feel, bigger and more present ── */
+.skotch {
+  position: absolute;
+  height: 70px;
+  width: auto;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.95;
+  z-index: 5;
+  filter: drop-shadow(0 4px 8px rgba(26,20,16,0.14));
+}
+
+/* Section heading skotch — pinned label feel */
+.section-skotch {
+  height: 80px;
+  position: absolute;
+  top: -34px;
+  left: 0;
+  transform: rotate(-4deg);
+  z-index: 1;
+}
+.section-head { padding-top: 24px; }
+
+/* Quote note (pinned card) */
+.quote-band-inner,
+.quote-note {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.quote-note {
+  position: relative;
+  padding: 72px 64px 64px;
+  text-align: center;
+  background: transparent;
+  transform: rotate(-0.5deg);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  margin: 0 auto;
+  max-width: 880px;
+}
+.quote-note:hover { transform: rotate(0.3deg) translateY(-2px); }
+
+/* Torn paper background — pseudo-element with clip-path so skotch stays visible */
+.quote-note::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255, 251, 240, 0.94), rgba(255, 251, 240, 0.94)),
+    url("../assets/paper-textures/02.jpg") center/cover;
+  filter: drop-shadow(0 14px 32px rgba(26, 20, 16, 0.20))
+          drop-shadow(0 2px 4px rgba(26, 20, 16, 0.06));
+  clip-path: polygon(
+    0% 2%, 6% 0%, 13% 1.6%, 21% 0.4%, 30% 1.5%, 38% 0.5%, 47% 1.4%,
+    56% 0.4%, 64% 1.5%, 73% 0.5%, 81% 1.6%, 90% 0.3%, 100% 1%,
+    99% 18%, 100% 36%, 99.4% 54%, 100% 72%, 99% 90%,
+    100% 99%, 90% 100%, 81% 98.4%, 73% 99.6%, 64% 98.5%, 56% 99.6%,
+    47% 98.6%, 38% 99.5%, 30% 98.5%, 21% 99.6%, 13% 98.4%, 6% 99.7%, 0% 99%,
+    0.5% 82%, 0% 64%, 0.7% 46%, 0% 28%, 0.6% 10%
+  );
+}
+
+.skotch-tl { top: -26px; left: 16%;  transform: rotate(-4deg); height: 78px; }
+.skotch-tr { top: -26px; right: 16%; transform: rotate(3deg);  height: 78px; }
+
+.quote-flower {
+  width: 48px; height: auto;
+  bottom: -28px;
+  right: 28px;
+  opacity: 0.9;
+  z-index: 6;
+}
+
+/* ── Join section — sleepy cat sits in BOTTOM margin, far below text + button ── */
+.doodle-join-cat {
+  width: 78px; height: auto;
+  bottom: -22px;
+  left: 8%;
+  right: auto;
+  top: auto;
+  opacity: 0.75;
+  transform: rotate(-10deg);
+  z-index: 1;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.doodle-join-cat:hover { transform: rotate(2deg) scale(1.05); }
+
+/* Crayon stroke — small accent on far right, well below button */
+.doodle-join-crayon {
+  width: 160px; height: auto;
+  position: absolute;
+  bottom: 4%;
+  right: 26%;
+  opacity: 0.4;
+  transform: rotate(-3deg);
+  z-index: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS
+   ══════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-row {
+  opacity: 0;
+  transform: translateX(-22px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal-row.is-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-row:nth-child(1).is-in { transition-delay: 0.0s; }
+.reveal-row:nth-child(2).is-in { transition-delay: 0.08s; }
+.reveal-row:nth-child(3).is-in { transition-delay: 0.16s; }
+.reveal-row:nth-child(4).is-in { transition-delay: 0.24s; }
+.reveal-row:nth-child(5).is-in { transition-delay: 0.32s; }
+
+/* Title — letter-by-letter slide-in via transform on .title */
+.reveal-stagger {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 1.1s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal-stagger.is-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Title em — independent tilt that responds to JS hover */
+.title-em { transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); display: inline-block; }
+
+/* Subtitle squiggle redraw on reveal */
+.reveal.is-in .subtitle em::after {
+  animation: squiggleDraw 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s both;
+}
+@keyframes squiggleDraw {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* Honour reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .d-bob, .d-spin-slow, .d-tilt { animation: none !important; }
+  .reveal, .reveal-row, .reveal-stagger { opacity: 1 !important; transform: none !important; }
+}
+
+/* Mobile — keep just enough decoration, no clutter */
+@media (max-width: 900px) {
+  .doodle-hero-cloud { width: 110px; top: 8%; right: 4%; opacity: 0.35; }
+  .doodle-hero-spark,
+  .doodle-hero-wave,
+  .doodle-hero-hand { display: none; }
+  .paper-note--hero { width: 130px; bottom: 4%; left: 3%; }
+  .paper-note--hero .paper-note-text { font-size: 16px; }
+
+  .section-doodle--tr,
+  .section-doodle--mr { display: none; }
+  .section-doodle--br { width: 60px; opacity: 0.45; bottom: 4%; right: 3%; }
+  .section-underline { width: 200px; bottom: -12px; }
+  .card-extra--1, .card-extra--2, .card-extra--3 { display: none; }
+  .section-skotch { height: 50px; top: -22px; }
+
+  .doodle-join-cat { width: 70px; bottom: -16px; left: 4%; opacity: 0.7; }
+  .doodle-join-crayon, .doodle-join-arrow, .doodle-join-star2,
+  .doodle-join-flower, .doodle-join-wave { display: none; }
+  .paper-note--join { width: 120px; top: -28px; right: 4%; left: auto; }
+  .paper-note--join .paper-note-text { font-size: 20px; }
+
+  /* Hide writing-hands on small screens — too cramped */
+  .start-hand-wrap, .section-hand-wrap { display: none !important; }
+
+  /* Hide heavy hero accents on mobile */
+  .doodle-hero-heart-r { display: none; }
+  .section-fog { opacity: 0.18; }
+
+  /* Subtitle-2 — straighten asymmetric indents on mobile */
+  .subtitle-2 { line-height: 1.7; }
+  .subtitle-2 .s2-line--1,
+  .subtitle-2 .s2-line--2,
+  .subtitle-2 .s2-line--3,
+  .subtitle-2 .s2-line--4,
+  .subtitle-2 .s2-line--5,
+  .subtitle-2 .s2-line--6 { padding-left: 0; }
+  .subtitle-2 .s2-line--3::before,
+  .subtitle-2 .s2-line--4::before { display: none; }
+
+  /* Side-of-grid accents — slim and fewer */
+  .grid-side--l-mid, .grid-side--r-mid,
+  .grid-side--l-bot, .grid-side--r-bot { display: none; }
+  .grid-side--l-top, .grid-side--r-top { width: 40px; opacity: 0.5; }
+
+  /* Quotation marks scaled down */
+  .quote-mark { width: 80px; opacity: 0.12; }
+  .quote-ambient--2, .quote-ambient--5 { display: none; }
+
+  .skotch-tl, .skotch-tr { height: 48px; }
+  .quote-note { padding: 44px 28px 36px; }
+
+  /* Slimmer nav on mobile */
+  .top-info { padding: 7px 14px; }
+  .nav-link { padding: 6px 8px 6px 12px; font-size: 11px; }
+  .nav-link::before { left: 3px; }
+  .nav-link::after { left: 12px; right: 8px; }
+}
+
+/* ══════════════════════════════════════════════════════
+   DARK MODE — invert PNG so cream-on-dark works
+   (override of mix-blend-mode for png doodles in dark)
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .d-img,
+html[data-theme="dark"] .eyebrow-doodle,
+html[data-theme="dark"] .row-emotion {
+  mix-blend-mode: screen;
+  filter: invert(1) brightness(1.05);
+}
+
+/* Skotch tape — keep coloured (don't fully invert), just dim slightly */
+html[data-theme="dark"] .skotch {
+  mix-blend-mode: lighten;
+  opacity: 0.7;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+}
+
+/* Quote note paper bg in dark */
+html[data-theme="dark"] .quote-note {
+  background: rgba(237, 225, 200, 0.04);
+  box-shadow: 0 12px 32px -16px rgba(0,0,0,0.6),
+              0 1px 2px rgba(237,225,200,0.05);
+}
+
+/* Paper notes invert nicely in dark */
+html[data-theme="dark"] .paper-note-bg {
+  filter: invert(1) brightness(0.85);
+  mix-blend-mode: screen;
+  opacity: 0.65;
+}
+html[data-theme="dark"] .paper-note-text {
+  color: var(--ink);
+}
+
+/* Feature cards in dark — keep paper texture but darken */
+html[data-theme="dark"] .feature-card {
+  background: rgba(40, 32, 25, 0.55) url("../assets/paper-textures/03.jpg");
+  background-size: cover;
+  background-blend-mode: multiply;
+  border-color: rgba(237, 225, 200, 0.10);
 }

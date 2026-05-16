@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StillHere — Statistics</title>
+  <link rel="stylesheet" href="CSS/stats-screen.css">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="JS/supabase-config.js"></script>
+  <script src="JS/theme.js"></script>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="main.html" class="logo">StillHere</a>
+    <div class="nav">
+      <a href="main.html" class="nav-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8H96a8,8,0,0,0,8-8V160h48v56a8,8,0,0,0,8,8h56a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68Z"/></svg>
+        Community
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══ PAGE ═════════════════════════════════════════════════ -->
+  <main class="stats-page">
+
+    <!-- ── Header ── -->
+    <header class="stats-header">
+      <div class="stats-header-left">
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          LIVE
+        </div>
+        <h1 class="stats-title">Platform Overview</h1>
+        <p class="stats-subtitle">Real-time stats from the StillHere community</p>
+      </div>
+      <div class="stats-header-right">
+        <span class="last-updated" id="lastUpdated">Loading…</span>
+      </div>
+    </header>
+
+    <!-- ── Stat Cards ── -->
+    <section class="stat-cards" aria-label="Key metrics">
+
+      <div class="stat-card stat-card--purple">
+        <div class="stat-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,16.34,116.7,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"/></svg>
+        </div>
+        <div class="stat-card-body">
+          <div class="stat-number" id="stat-users">—</div>
+          <div class="stat-label">Community Members</div>
+        </div>
+        <div class="stat-card-trend" id="trend-users"></div>
+      </div>
+
+      <div class="stat-card stat-card--peach">
+        <div class="stat-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"/></svg>
+        </div>
+        <div class="stat-card-body">
+          <div class="stat-number" id="stat-posts">—</div>
+          <div class="stat-label">Stories Shared</div>
+        </div>
+        <div class="stat-card-trend" id="trend-posts"></div>
+      </div>
+
+      <div class="stat-card stat-card--blue">
+        <div class="stat-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor"><path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Zm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64Z"/></svg>
+        </div>
+        <div class="stat-card-body">
+          <div class="stat-number" id="stat-comments">—</div>
+          <div class="stat-label">Support Responses</div>
+        </div>
+        <div class="stat-card-trend" id="trend-comments"></div>
+      </div>
+
+      <div class="stat-card stat-card--green">
+        <div class="stat-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor"><path d="M240,208a8,8,0,0,1-8,8H24a8,8,0,0,1,0-16H232A8,8,0,0,1,240,208ZM16,144a8,8,0,0,0,8,8H56v32a8,8,0,0,0,16,0V152H104v16a8,8,0,0,0,16,0V152h32v48a8,8,0,0,0,16,0V152h32v16a8,8,0,0,0,16,0V152h32a8,8,0,0,0,0-16H24A8,8,0,0,0,16,144ZM229.66,82.34l-48-48a8,8,0,0,0-11.32,0L128,86.69,105.66,64.34a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,57.66,123.66L104,77.37l22.34,22.29a8,8,0,0,0,11.32,0L184,53.37l42.34,42.29a8,8,0,0,0,11.32-11.32Z"/></svg>
+        </div>
+        <div class="stat-card-body">
+          <div class="stat-number" id="stat-week">—</div>
+          <div class="stat-label">Active This Week</div>
+        </div>
+        <div class="stat-card-trend" id="trend-week"></div>
+      </div>
+
+    </section>
+
+    <!-- ── Growth Chart ── -->
+    <section class="dash-card chart-card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Community Growth</h2>
+          <p class="card-desc">Posts &amp; responses over the last 30 days</p>
+        </div>
+        <div class="chart-legend" id="chart-legend"></div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="growthChart"></canvas>
+      </div>
+    </section>
+
+    <!-- ── Two column row ── -->
+    <div class="two-col">
+
+      <section class="dash-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Post Languages</h2>
+            <p class="card-desc">Last 30 days</p>
+          </div>
+        </div>
+        <div id="lang-bars" class="bars-list">
+          <div class="bars-skeleton"></div>
+        </div>
+      </section>
+
+      <section class="dash-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Top Topics</h2>
+            <p class="card-desc">Last 30 days</p>
+          </div>
+        </div>
+        <div id="topic-bars" class="bars-list">
+          <div class="bars-skeleton"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── Recent Posts ── -->
+    <section class="dash-card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Recent Stories</h2>
+          <p class="card-desc">Latest posts from the community</p>
+        </div>
+        <a href="main.html" class="card-link">View all →</a>
+      </div>
+      <div id="recent-posts" class="recent-list">
+        <div class="bars-skeleton"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="JS/stats.js"></script>
+</body>
+</html>

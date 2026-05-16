@@ -63,6 +63,27 @@
         profile = profileFull;
       }
 
+      /* ── Auto-create profile if missing ──────────────────────────
+         Happens when there's no DB trigger and the user registered
+         before the explicit insert was added to auth.js.
+         We read the username/display_name from Supabase auth metadata
+         (stored there during signUp) and upsert into profiles.
+      ────────────────────────────────────────────────────────────── */
+      if (!profile && session.user) {
+        var meta   = session.user.user_metadata || {};
+        var uname  = meta.username     || localStorage.getItem('sh_username') || ('user_' + session.user.id.slice(0, 8));
+        var dname  = meta.display_name || null;
+        try {
+          var upsertRes = await sb.from('profiles').upsert(
+            { id: session.user.id, username: uname, display_name: dname, avatar_url: null },
+            { onConflict: 'id' }
+          );
+          if (!upsertRes.error) {
+            profile = { username: uname, display_name: dname, avatar_url: null, created_at: session.user.created_at };
+          }
+        } catch (_) {}
+      }
+
       fire({
         id:          session.user.id,
         username:    profile ? profile.username     : (localStorage.getItem('sh_username') || 'user'),

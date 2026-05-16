@@ -100,6 +100,16 @@
 
   var db = window.supabase.createClient(sbUrl, sbKey);
 
+  /* ── current user + post author ─────────────────────────────
+     Populated when the post is fetched. Used to:
+       • show "Author" badge on comments by the post author
+       • hide the post-delete option for non-authors
+       • hide the comment-delete option on comments not yours
+     ─────────────────────────────────────────────────────────── */
+  var _currentUserId = null;
+  var _postAuthorId  = null;
+  var _postAuthorProfile = null; // { display_name, username, avatar_url }
+
   /* ── tag HTML ── */
 
   var NO_ADVICE_SVG =
@@ -166,17 +176,32 @@
       postedEl.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
     }
 
+    /* Show author name (or Anonymous if unattributed) */
+    var authorNameEl = document.querySelector('.post-author-name');
+    if (authorNameEl) {
+      var name = _postAuthorProfile
+        ? (_postAuthorProfile.display_name || _postAuthorProfile.username || 'Anonymous')
+        : 'Anonymous';
+      authorNameEl.textContent = name;
+    }
+
+    /* Only the author can delete their post — hide for everyone else */
     var deleteBtn = document.getElementById('deletePostBtn');
     if (deleteBtn) {
-      deleteBtn.addEventListener('click', function () {
-        if (optionsDropdown) optionsDropdown.classList.remove('is-open');
-        showConfirm(function () {
-          db.from('posts').delete().eq('id', postId).then(function (res) {
-            if (res.error) { showToast('Error: ' + res.error.message); return; }
-            window.location.href = 'main.html';
+      var canDelete = _currentUserId && _postAuthorId && _currentUserId === _postAuthorId;
+      if (!canDelete) {
+        deleteBtn.style.display = 'none';
+      } else {
+        deleteBtn.addEventListener('click', function () {
+          if (optionsDropdown) optionsDropdown.classList.remove('is-open');
+          showConfirm(function () {
+            db.from('posts').delete().eq('id', postId).then(function (res) {
+              if (res.error) { showToast('Error: ' + res.error.message); return; }
+              window.location.href = 'main.html';
+            });
           });
         });
-      });
+      }
     }
 
     var state = document.getElementById('post-state');
@@ -187,14 +212,78 @@
 
   /* ── fetch post ── */
 
-  db.from('posts').select('*').eq('id', postId).single().then(function (result) {
-    if (result.error || !result.data) {
-      showError('Post not found. It may have been deleted.');
-      return;
-    }
-    renderPost(result.data);
-    loadComments();
-  });
+  // Wait for both the auth check and the post fetch before rendering so we
+  // know whether to show the delete button.
+  // Uses a cascade of fallbacks in case the profiles join or other columns fail.
+  var _authRes = null;
+
+  var FETCH_PASSES = [
+    '*, profiles(username, display_name, avatar_url)',
+    '*, profiles(username, display_name)',
+    '*',
+  ];
+
+  function doFetchPost(pass) {
+    if (pass === undefined) pass = 0;
+    var selectStr = FETCH_PASSES[pass] || '*';
+
+    // Only call getUser once; reuse cached result on retries
+    var authProm = _authRes
+      ? Promise.resolve(_authRes)
+      : db.auth.getUser().catch(function () { return { data: { user: null } }; });
+
+    authProm.then(function (ar) {
+      _authRes = ar;
+      return db.from('posts').select(selectStr).eq('id', postId).single();
+    }).then(function (postRes) {
+      if (postRes.error) {
+        if (pass < FETCH_PASSES.length - 1) {
+          console.warn('Post fetch pass ' + pass + ' failed, retrying:', postRes.error.message);
+          doFetchPost(pass + 1);
+          return;
+        }
+        console.error('Post fetch failed on all passes:', postRes.error);
+        showError('Post not found. It may have been deleted.');
+        return;
+      }
+      if (!postRes.data) {
+        showError('Post not found. It may have been deleted.');
+        return;
+      }
+
+      _currentUserId = (_authRes && _authRes.data && _authRes.data.user) ? _authRes.data.user.id : null;
+      _postAuthorId  = postRes.data.user_id || null;
+
+      /* If the profiles join wasn't available (FK missing), fetch profile
+         separately so we still get the author name and avatar. */
+      if (postRes.data.profiles) {
+        _postAuthorProfile = postRes.data.profiles;
+        renderPost(postRes.data);
+        loadComments();
+      } else if (_postAuthorId) {
+        db.from('profiles')
+          .select('id, username, display_name, avatar_url')
+          .eq('id', _postAuthorId)
+          .maybeSingle()
+          .then(function (pr) {
+            _postAuthorProfile = (!pr.error && pr.data) ? pr.data : null;
+            if (_postAuthorProfile) postRes.data.profiles = _postAuthorProfile;
+            renderPost(postRes.data);
+            loadComments();
+          });
+      } else {
+        _postAuthorProfile = null;
+        renderPost(postRes.data);
+        loadComments();
+      }
+    }).catch(function (err) {
+      console.error('doFetchPost unexpected error:', err);
+      if (pass < FETCH_PASSES.length - 1) { doFetchPost(pass + 1); return; }
+      showError('Something went wrong. Please try again.');
+    });
+  }
+
+  doFetchPost(0);
 
   /* ── post options dropdown ── */
 
@@ -226,22 +315,148 @@
   if (copyBtn)  copyBtn.addEventListener('click',  copyLink);
   if (copyBtn2) copyBtn2.addEventListener('click', copyLink);
 
+  /* ────────────────────────────────────────────────
+     Liked + Saved posts — shared with main feed via localStorage
+     ──────────────────────────────────────────────── */
+
+  var _likedPosts = (function () {
+    try { return new Set(JSON.parse(localStorage.getItem('sh_liked_posts') || '[]')); }
+    catch (e) { return new Set(); }
+  })();
+  function _saveLiked() {
+    try { localStorage.setItem('sh_liked_posts', JSON.stringify([..._likedPosts])); }
+    catch (e) {}
+  }
+
+  var _savedPosts = (function () {
+    try { return new Set(JSON.parse(localStorage.getItem('sh_saved_posts') || '[]')); }
+    catch (e) { return new Set(); }
+  })();
+  function _saveSaved() {
+    try { localStorage.setItem('sh_saved_posts', JSON.stringify([..._savedPosts])); }
+    catch (e) {}
+  }
+
   /* ── heart ── */
 
   var heartBtn = document.getElementById('heartBtn');
   if (heartBtn) {
+    /* restore from localStorage */
+    if (_likedPosts.has(postId)) {
+      heartBtn.setAttribute('aria-pressed', 'true');
+      heartBtn.classList.add('is-active');
+    }
     heartBtn.addEventListener('click', function () {
       var pressed   = heartBtn.getAttribute('aria-pressed') === 'true';
       var nowActive = !pressed;
       heartBtn.setAttribute('aria-pressed', String(nowActive));
       heartBtn.classList.toggle('is-active', nowActive);
+      if (nowActive) _likedPosts.add(postId);
+      else           _likedPosts.delete(postId);
+      _saveLiked();
       db.rpc(nowActive ? 'increment_support' : 'decrement_support', { post_id: postId });
     });
   }
 
+  /* ── Save Post button (in options dropdown) ── */
+
+  var BOOKMARK_OUTLINE_SVG =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
+    '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/></svg>';
+  var BOOKMARK_FILLED_SVG =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
+    '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"/></svg>';
+
+  var savePostBtn = document.getElementById('savePostBtn');
+  function refreshSaveBtn() {
+    if (!savePostBtn) return;
+    var isSaved = _savedPosts.has(postId);
+    savePostBtn.classList.toggle('save-post-btn--saved', isSaved);
+    savePostBtn.innerHTML =
+      (isSaved ? BOOKMARK_FILLED_SVG : BOOKMARK_OUTLINE_SVG) +
+      (isSaved ? 'Saved' : 'Save Post');
+  }
+  if (savePostBtn) {
+    refreshSaveBtn();
+    savePostBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isSaved = _savedPosts.has(postId);
+      if (isSaved) {
+        _savedPosts.delete(postId);
+        showToast('Removed from saved');
+      } else {
+        _savedPosts.add(postId);
+        showToast('Post saved');
+      }
+      _saveSaved();
+      refreshSaveBtn();
+      /* close dropdown */
+      if (optionsDropdown) optionsDropdown.classList.remove('is-open');
+      if (optionsBtn)      optionsBtn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  /* ── Report (post) — visual only, matches main feed ── */
+  document.addEventListener('click', function (e) {
+    var rbtn = e.target.closest('[data-action-report]');
+    if (!rbtn) return;
+    /* Skip if it's a comment report (handled separately below) */
+    if (rbtn.hasAttribute('data-comment-report')) return;
+    showToast('Thanks — we\'ll review this post.');
+    if (optionsDropdown) optionsDropdown.classList.remove('is-open');
+    if (optionsBtn)      optionsBtn.setAttribute('aria-expanded', 'false');
+  });
+
   /* ═══════════════════════════════════════════
      COMMENTS — threaded, with inline reply form
      ═══════════════════════════════════════════ */
+
+  /* Track image URLs inserted into the main compose editor (used at submit
+     time for moderation, since Quill stores them inline in the HTML). */
+  var commentInlineImageUrls = [];
+
+  function uploadCommentImage(quill, urlList) {
+    var input = document.createElement('input');
+    input.type   = 'file';
+    input.accept = 'image/*';
+    input.onchange = function () {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      var bucket = db.storage.from('post-media');
+      var ext    = (file.name.split('.').pop() || 'png').toLowerCase();
+      var path   = 'comments/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+
+      var range = quill.getSelection(true);
+      quill.insertText(range.index, 'Uploading…', 'italic', true);
+
+      bucket.upload(path, file, { cacheControl: '3600', upsert: false }).then(function (res) {
+        quill.deleteText(range.index, 'Uploading…'.length);
+        if (res.error) { showToast('Upload failed: ' + res.error.message); return; }
+        var url = bucket.getPublicUrl(path).data.publicUrl;
+        if (urlList) urlList.push(url);
+        quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
+        quill.setSelection(range.index + 1, Quill.sources.SILENT);
+      });
+    };
+    input.click();
+  }
+
+  /* Scan a Quill editor for all embedded image URLs (used at submit time
+     as a backup in case the upload-time tracker missed something). */
+  function collectQuillImages(quill, tracked) {
+    var urls = (tracked || []).slice();
+    try {
+      quill.getContents().ops.forEach(function (op) {
+        if (op.insert && typeof op.insert === 'object') {
+          var src = op.insert.image;
+          if (typeof src === 'string' && src.indexOf('http') === 0 && urls.indexOf(src) === -1) {
+            urls.push(src);
+          }
+        }
+      });
+    } catch (_) {}
+    return urls;
+  }
 
   /* Main compose Quill */
   var commentQuill = null;
@@ -251,14 +466,22 @@
       theme: 'snow',
       placeholder: 'write here…',
       modules: {
-        toolbar: [
-          ['bold', 'italic'],
-          ['link', 'blockquote'],
-          [{ list: 'bullet' }]
-        ]
+        toolbar: {
+          container: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'bullet' }]
+          ],
+          handlers: {
+            image: function () { uploadCommentImage(commentQuill, commentInlineImageUrls); }
+          }
+        }
       }
     });
   }
+
+  /* Inline reply image-url tracking (cleared every time the form opens) */
+  var replyInlineImageUrls = [];
 
   /* ── SVG constants ── */
 
@@ -286,20 +509,45 @@
     'M96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>' +
     '</svg>';
 
+  var REPORT_SVG =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
+    '<path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9' +
+    'a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72' +
+    'L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z"/></svg>';
+
   /* ── build one comment <li> ── */
 
+  function escAttr(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
   function buildCommentLi(c, isReply) {
-    var cid = c.id;
+    var cid       = c.id;
+    var commenterId = c.user_id || null;
+    var isAuthor    = !!(commenterId && _postAuthorId && commenterId === _postAuthorId);
+    var canDelete   = !!(_currentUserId && commenterId && _currentUserId === commenterId);
+    var displayName = c.profiles
+      ? (c.profiles.display_name || c.profiles.username || 'Anonymous')
+      : 'Anonymous';
+
     var li  = document.createElement('li');
     li.className = 'comment-item' + (isReply ? ' comment-item--reply' : '');
     li.id = 'comment-' + cid;
 
+    var menuItems = '<li role="none"><button type="button" data-comment-copy="' + cid + '">' + COPY_SVG + 'Copy link</button></li>';
+    if (canDelete) {
+      menuItems +=
+        '<li role="none" class="post-menu-divider" aria-hidden="true"></li>' +
+        '<li role="none"><button type="button" class="menu-item-danger" data-comment-delete="' + cid + '">' + TRASH_SVG + 'Delete</button></li>';
+    }
+    menuItems += '<li role="none"><button type="button" class="menu-item-report" data-comment-report="' + cid + '">' + REPORT_SVG + 'Report</button></li>';
+
     li.innerHTML =
-      '<article class="comment-card' + (isReply ? ' comment-card--reply' : '') + '">' +
+      '<article class="comment-card' + (isReply ? ' comment-card--reply' : '') + (isAuthor ? ' comment-card--author' : '') + '">' +
         '<header class="comment-header">' +
           '<div class="comment-avatar comment-avatar--anon" aria-hidden="true">' + AVATAR_SVG + '</div>' +
           '<div class="comment-meta">' +
-            '<span class="comment-author">Anonymous</span>' +
+            '<span class="comment-author">' + escAttr(displayName) +
+              (isAuthor ? ' <span class="comment-author-badge" title="Original poster">Author</span>' : '') +
+            '</span>' +
             '<span class="comment-time">' + timeAgo(c.created_at) + '</span>' +
           '</div>' +
           '<div class="post-actions-menu">' +
@@ -307,9 +555,7 @@
               DOTS_SVG +
             '</button>' +
             '<ul class="post-menu-down" id="cdrop-' + cid + '" role="menu">' +
-              '<li role="none"><button type="button" data-comment-copy="' + cid + '">' + COPY_SVG + 'Copy link</button></li>' +
-              '<li role="none" class="post-menu-divider" aria-hidden="true"></li>' +
-              '<li role="none"><button type="button" class="menu-item-danger" data-comment-delete="' + cid + '">' + TRASH_SVG + 'Delete</button></li>' +
+              menuItems +
             '</ul>' +
           '</div>' +
         '</header>' +
@@ -419,10 +665,15 @@
       theme: 'snow',
       placeholder: 'Write a reply…',
       modules: {
-        toolbar: [
-          ['bold', 'italic'],
-          ['blockquote']
-        ]
+        toolbar: {
+          container: [
+            ['bold', 'italic'],
+            ['blockquote', 'image']
+          ],
+          handlers: {
+            image: function () { uploadCommentImage(_replyQuill, replyInlineImageUrls); }
+          }
+        }
       }
     });
 
@@ -455,6 +706,7 @@
     }
 
     _replyQuill.setContents([]);
+    replyInlineImageUrls.length = 0;
     _replyQuill.focus();
     form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
@@ -491,8 +743,10 @@
     btn.disabled    = true;
     btn.textContent = 'Checking…';
 
+    var replyImages = collectQuillImages(_replyQuill, replyInlineImageUrls);
+
     Promise.resolve(
-      window.SH_MOD ? window.SH_MOD.check(plainText, 'reply') : { allowed: true }
+      window.SH_MOD ? window.SH_MOD.check(plainText, 'reply', replyImages, _postAuthorId) : { allowed: true }
     ).then(function (mod) {
       if (!mod.allowed) {
         btn.disabled    = false;
@@ -507,7 +761,8 @@
       db.from('comments').insert({
         post_id:   postId,
         parent_id: parentCid,
-        content:   safeHtml(html)
+        content:   safeHtml(html),
+        user_id:   _currentUserId
       }).then(function (res) {
         btn.disabled    = false;
         btn.textContent = 'Post reply';
@@ -600,15 +855,36 @@
     });
   });
 
+  /* ── comment report — visual only ── */
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-comment-report]');
+    if (!btn) return;
+    closeAllCommentMenus();
+    showToast('Thanks — we\'ll review this comment.');
+  });
+
   /* ── load comments ── */
 
   function loadComments() {
     db.from('comments')
-      .select('*')
+      .select('*, profiles(username, display_name, avatar_url)')
       .eq('post_id', postId)
       .order('created_at', { ascending: true })
       .then(function (result) {
         if (result.error) {
+          // Older schema without profiles join — retry without it
+          if (result.error.message && /relation|column|profiles/.test(result.error.message)) {
+            db.from('comments')
+              .select('*')
+              .eq('post_id', postId)
+              .order('created_at', { ascending: true })
+              .then(function (r2) {
+                if (r2.error) { showToast('Could not load comments'); return; }
+                renderComments(r2.data || []);
+              });
+            return;
+          }
           console.error('Comments load error:', result.error);
           showToast('Could not load comments');
           return;
@@ -644,8 +920,10 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Checking…';
 
+      var commentImages = collectQuillImages(commentQuill, commentInlineImageUrls);
+
       Promise.resolve(
-        window.SH_MOD ? window.SH_MOD.check(plainText, 'comment') : { allowed: true }
+        window.SH_MOD ? window.SH_MOD.check(plainText, 'comment', commentImages, _postAuthorId) : { allowed: true }
       ).then(function (mod) {
         if (!mod.allowed) {
           submitBtn.disabled = false;
@@ -657,7 +935,7 @@
 
         submitBtn.textContent = 'Sending…';
 
-        db.from('comments').insert({ post_id: postId, content: html }).then(function (result) {
+        db.from('comments').insert({ post_id: postId, content: html, user_id: _currentUserId }).then(function (result) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = REPLY_ICON;
 
@@ -669,6 +947,7 @@
 
           db.rpc('increment_comment', { post_id: postId });
           commentQuill.setContents([]);
+          commentInlineImageUrls.length = 0;
           loadComments();
         });
       });
