@@ -1,462 +1,468 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community Guidelines – StillHere Docs</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="../css/guidelines.css">
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>community guidelines — StillHere</title>
+  <link rel="stylesheet" href="../../CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../CSS/nav-menu.css">
+  <link rel="stylesheet" href="../../CSS/dark-theme.css">
+  <link rel="stylesheet" href="../../CSS/docs.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../../JS/supabase-config.js"></script>
+  <script src="../../JS/session.js"></script>
+  <script src="../../JS/theme.js"></script>
+
+  <style>
+    /* No page-specific styles needed — see CSS/docs.css */
+    body { overflow-x: hidden; }
+  </style>
 </head>
 <body>
 
-    <nav class="topbar">
-        <a href="../../main.html" class="topbar-logo">StillHere</a>
+  <!-- Paper-grain noise filter -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
 
-        <div class="topbar-sep"></div>
-            <a href="privacy-policy.html" class="topbar-tab">Privacy Policy</a>
-            <a href="terms-of-service.html" class="topbar-tab">Terms of Service</a>
-            <a href="crisis-resources.html" class="topbar-tab">Crisis Resources</a>
-            <a href="guidelines.html" class="topbar-tab active">Guidelines</a>
+  <!-- Ambient background doodles -->
+  <img src="../../assets/doodles2/09_cloud.png"                       class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="../../assets/letters/_Special Characters/Asterisk_04.png" class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="../../assets/doodles2/06_double_heart.png"                class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="../../assets/letters/_Special Characters/Asterisk_02.png" class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
-        <div class="topbar-nav">
-            <a href="https://github.com/satisfied344/StillHere.git" class="topbar-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256" data-darkreader-inline-fill="" style="--darkreader-inline-fill: var(--darkreader-background-000000, #000000);"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"></path></svg>
-                GitHub
-            </a>
+    <nav class="doc-nav" aria-label="Docs navigation">
+    <div class="doc-nav-left">
+      <button type="button" class="doc-nav-back" onclick="(history.length>1)?history.back():(location.href='../../main.html');">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>
+        <span>back</span>
+      </button>
+      <a href="../../main.html" class="logo"><span>StillHere</span></a>
+    </div>
+    <div class="doc-nav-right">
+      <a href="guidelines.html" class="doc-nav-link doc-nav-link--active">guidelines</a>
+      <a href="privacy-policy.html" class="doc-nav-link">privacy</a>
+      <a href="terms-of-service.html" class="doc-nav-link">terms</a>
+      <a href="crisis-resources.html" class="doc-nav-link doc-nav-link--accent">crisis resources</a>
+    </div>
+  </nav>
 
-            <a href="../../main.html" class="topbar-back">← Back to StillHere</a>
+  <!-- ════════════════════ PAGE ════════════════════ -->
+  <main class="doc-page">
+
+    <!-- ─── HERO ─── -->
+    <section class="doc-hero">
+      <div class="doc-hero-left">
+        <span class="doc-eyebrow"><em>—</em> community guidelines</span>
+        <h1 class="doc-title">
+          the rules, <span class="doc-title-tail"><em>gently.</em><img src="../../assets/letters/_Special Characters/Asterisk_01.png" class="doc-title-star" alt="" aria-hidden="true"></span>
+      </h1>
+        <p class="doc-lede">
+          a few small things that keep this space <em>kind</em>. mostly common sense — but
+          written down so we can agree on what "kind" looks like here.
+        </p>
+      </div>
+      <div class="doc-meta">
+        <div class="doc-meta-row">
+          <span class="doc-meta-label">version</span>
+          <span class="doc-meta-value">1.0</span>
         </div>
+        <div class="doc-meta-row">
+          <span class="doc-meta-label">revised</span>
+          <span class="doc-meta-value">may 2026</span>
+        </div>
+        <div class="doc-meta-row">
+          <span class="doc-meta-label">read time</span>
+          <span class="doc-meta-value">~5 min</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── TOC ─── -->
+    <nav class="doc-toc" aria-label="Table of contents">
+      <div class="doc-toc-head">— contents</div>
+      <ol class="doc-toc-list">
+        <li><a href="#kind"><span>01</span><span>be kind &amp; respectful</span></a></li>
+        <li><a href="#noadvice"><span>02</span><span>respect "no advice"</span></a></li>
+        <li><a href="#anon"><span>03</span><span>protect anonymity</span></a></li>
+        <li><a href="#medical"><span>04</span><span>no medical advice</span></a></li>
+        <li><a href="#prohibited"><span>05</span><span>prohibited content</span></a></li>
+        <li><a href="#crisis"><span>06</span><span>self-harm &amp; crisis</span></a></li>
+        <li><a href="#respond"><span>07</span><span>how to respond well</span></a></li>
+        <li><a href="#reporting"><span>08</span><span>reporting &amp; consequences</span></a></li>
+      </ol>
     </nav>
 
-    <div class="layout">
+    <!-- ─── 01 ─── -->
+    <section class="doc-section" id="kind">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 01</span>
+        <h2 class="doc-section-title">be kind &amp; respectful</h2>
+        <span class="doc-section-hint">the only real rule</span>
+      </div>
+      <div class="doc-prose">
+        <p>
+          people come here when something hard is happening. treat every story like
+          it's the most courageous thing that person did this week — because often,
+          <strong>it is</strong>.
+        </p>
+        <p>that means:</p>
+        <ul>
+          <li><strong>no insults, mocking, or "well actually"-ing</strong> someone's pain.</li>
+          <li><strong>no minimizing</strong> ("it could be worse", "be grateful", "others have it harder") — even if true, it isn't useful.</li>
+          <li><strong>no debating</strong> someone's experience. you can disagree with an idea without invalidating a feeling.</li>
+        </ul>
+        <p>if you're not sure whether something would land well — <em>it probably won't</em>. ask yourself: would i say this to a friend at their kitchen table at 2am?</p>
+      </div>
+    </section>
 
-        <aside class="sidebar">
-            <div class="sidebar-version">
-                <span>Version 1.0</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    <!-- ─── 02 ─── -->
+    <section class="doc-section" id="noadvice">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 02</span>
+        <h2 class="doc-section-title">respect "no advice"</h2>
+      </div>
+      <div class="doc-prose">
+        <p>
+          when someone tags their post <strong>"no advice"</strong>, that's a request to
+          <em>be witnessed, not fixed</em>. respect it.
+        </p>
+        <h3>what counts as advice on a "no advice" post?</h3>
+        <ul>
+          <li>suggesting therapy, meditation, exercise, a book, a podcast.</li>
+          <li>recommending products, apps, supplements, breathing techniques.</li>
+          <li>"have you tried …" or "you should …"</li>
+          <li>silver-lining reframes ("at least you have …")</li>
+        </ul>
+        <h3>what's still okay</h3>
+        <ul>
+          <li>simply acknowledging: <em>"i hear you"</em>, <em>"that sounds really hard"</em>, <em>"thank you for sharing this"</em>.</li>
+          <li>sharing your own related experience without making it a lesson.</li>
+          <li>the heart / support button — always.</li>
+        </ul>
+        <div class="doc-note">
+          <strong>tip —</strong> if you have advice to give and someone didn't ask, you can write your own post about your strategies. people looking for tips will find them there.
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 03 ─── -->
+    <section class="doc-section" id="anon">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 03</span>
+        <h2 class="doc-section-title">protect anonymity</h2>
+        <span class="doc-section-hint">yours and others'</span>
+      </div>
+      <div class="doc-prose">
+        <p>
+          anonymity is the foundation of this place. don't break it for anyone.
+        </p>
+        <ul>
+          <li><strong>don't dox</strong> — no real names, addresses, workplaces, phone numbers, schools, or social-media handles. yours or anyone else's.</li>
+          <li><strong>don't link external profiles</strong> in posts or replies.</li>
+          <li><strong>don't ask</strong> "what's your real name?" / "where do you live?" — even gently.</li>
+          <li>if you screenshot a post (for crisis reporting only), <strong>blur or remove the handle</strong>.</li>
+        </ul>
+        <h3>a note on screenshots</h3>
+        <p>
+          please don't screenshot stories for jokes, "look at this" posts, or to share
+          outside the platform. <em>this is a closed circle on purpose</em>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── 04 ─── -->
+    <section class="doc-section" id="medical">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 04</span>
+        <h2 class="doc-section-title">no medical advice</h2>
+      </div>
+      <div class="doc-prose">
+        <p>
+          we're peers, not professionals.
+        </p>
+        <ul>
+          <li><strong>no diagnosing</strong> ("sounds like you have …").</li>
+          <li><strong>no prescribing</strong> medications, dosages, or supplement stacks.</li>
+          <li><strong>no advising people to stop or change their treatment.</strong> this one is serious — encouraging someone to drop their meds can cause real harm.</li>
+        </ul>
+        <p>you can share <em>your</em> experience with a diagnosis, treatment, or therapist — just don't extrapolate it into instructions for someone else.</p>
+      </div>
+    </section>
+
+    <!-- ─── 05 ─── -->
+    <section class="doc-section" id="prohibited">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 05</span>
+        <h2 class="doc-section-title">prohibited content</h2>
+      </div>
+      <div class="doc-prose">
+        <p>removed on sight, no warnings, no negotiation:</p>
+        <div class="doc-chips">
+          <span class="doc-chip doc-chip--bad">harassment</span>
+          <span class="doc-chip doc-chip--bad">hate speech</span>
+          <span class="doc-chip doc-chip--bad">slurs</span>
+          <span class="doc-chip doc-chip--bad">threats</span>
+          <span class="doc-chip doc-chip--bad">sexual content involving minors</span>
+          <span class="doc-chip doc-chip--bad">non-consensual nudity</span>
+          <span class="doc-chip doc-chip--bad">violent imagery</span>
+          <span class="doc-chip doc-chip--bad">illegal activity</span>
+          <span class="doc-chip doc-chip--bad">spam / promotion</span>
+          <span class="doc-chip doc-chip--bad">"sell me your e-book"</span>
+        </div>
+        <p>any of these will end your access. no second chances on this one.</p>
+      </div>
+    </section>
+
+    <!-- ─── 06 ─── -->
+    <section class="doc-section" id="crisis">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 06</span>
+        <h2 class="doc-section-title">self-harm &amp; crisis content</h2>
+      </div>
+
+      <div class="doc-alert">
+        <div class="doc-alert-head">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor"><path d="M236.8,188.09,149.35,36.22a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,76a12,12,0,1,1,12-12A12,12,0,0,1,128,180Z"/></svg>
+          this is the most important section
+        </div>
+        <div class="doc-prose">
+          <p>
+            <strong>StillHere is not an emergency service.</strong> if you or someone else is
+            in immediate danger, please call a trained crisis counselor —
+            <a href="crisis-resources.html">our crisis-resources page</a> has free 24/7 numbers
+            by country.
+          </p>
+        </div>
+      </div>
+
+      <div class="doc-prose">
+        <h3>what's specifically prohibited</h3>
+        <ul>
+          <li>any content <strong>encouraging</strong> self-harm or suicide.</li>
+          <li>step-by-step descriptions of methods.</li>
+          <li>"pact" posts looking for partners.</li>
+          <li>romanticizing self-harm.</li>
+        </ul>
+        <h3>what's okay (and even welcome)</h3>
+        <ul>
+          <li>sharing that you're struggling, without details about method or means.</li>
+          <li>asking for support, witnessing, presence.</li>
+          <li>talking about recovery, setbacks, what's helped or hurt.</li>
+        </ul>
+        <h3>if you see someone in crisis</h3>
+        <ul>
+          <li><strong>respond gently</strong> — even just "i'm here, i hear you" matters.</li>
+          <li><strong>share crisis resources</strong> — point them to <a href="crisis-resources.html">free 24/7 lines</a>.</li>
+          <li><strong>report the post</strong> using the report button — we'll look at it within hours, not days.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─── 07 ─── -->
+    <section class="doc-section" id="respond">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 07</span>
+        <h2 class="doc-section-title">how to respond well</h2>
+        <span class="doc-section-hint">a quick guide</span>
+      </div>
+      <div class="doc-prose">
+        <p>good responses don't have to be long, smart, or polished. some patterns that work:</p>
+        <h3>say what you noticed</h3>
+        <ul>
+          <li><em>"that sounds exhausting."</em></li>
+          <li><em>"the part about __ really landed for me."</em></li>
+        </ul>
+        <h3>share without making it about you</h3>
+        <ul>
+          <li><em>"i went through something similar last year — you're not the only one."</em></li>
+        </ul>
+        <h3>just be present</h3>
+        <ul>
+          <li><em>"i don't have words but i read it. thank you for sharing."</em></li>
+        </ul>
+        <h3>avoid</h3>
+        <ul>
+          <li><em>"have you tried …"</em></li>
+          <li><em>"it could be worse."</em></li>
+          <li><em>"everything happens for a reason."</em></li>
+          <li><em>"praying for you 🙏"</em> — unless the OP shared a faith.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─── 08 ─── -->
+    <section class="doc-section" id="reporting">
+      <div class="doc-section-head">
+        <span class="doc-section-eyebrow">— 08</span>
+        <h2 class="doc-section-title">reporting &amp; consequences</h2>
+      </div>
+      <div class="doc-prose">
+        <h3>how to report</h3>
+        <p>every post and comment has a three-dot menu with a <strong>report</strong> option. one click. we get a notification. reports are anonymous to the person being reported.</p>
+
+        <h3>what happens next</h3>
+        <ol>
+          <li>we look at it — usually within 24 hours, faster for crisis flags.</li>
+          <li>if it breaks a rule, it's removed.</li>
+          <li>for serious or repeated violations, the account is suspended or banned.</li>
+          <li>bans for prohibited content (section 05) are permanent.</li>
+        </ol>
+
+        <h3>appeals</h3>
+        <p>
+          if you think we got it wrong, write to
+          <a href="mailto:support@stillhere.app">support@stillhere.app</a> with what happened.
+          we read every email — this is a one-person project, not a queue, so a real
+          human will respond.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── CLOSING ─── -->
+    <section class="doc-closing">
+      <div class="doc-closing-title">these aren't <em>rules</em>, they're a request.</div>
+      <p class="doc-closing-text">
+        the platform works because most people, most of the time, choose to show up
+        kindly. thank you for being one of them.
+      </p>
+      <div class="doc-closing-actions">
+        <a href="../../main.html" class="doc-btn doc-btn--primary">back to feed</a>
+        <a href="../../nav-bar/contacts.html" class="doc-btn doc-btn--ghost">contact us</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+    <footer class="footer">
+    <div class="footer_content">
+        <div class="footer_main">
+            <div class="footer_stillhere">
+                <div class="footer_logo">
+                    <p>StillHere</p>
+                </div>
+                <p class="footer_subtitle">A project about presence, not solutions</p>
             </div>
 
-            <div class="sidebar-group-label">Overview</div>
-            <a href="#overview" class="sidebar-link active">
-                <i class="ph ph-house"></i>
-                Introduction
-            </a>
-            <a href="#spirit" class="sidebar-link">
-                <i class="ph ph-sparkle"></i>
-                The Spirit of StillHere
-            </a>
-
-            <div class="sidebar-group-label">Core Rules</div>
-            <a href="#kindness" class="sidebar-link">
-                <i class="ph ph-heart"></i>
-                Be Kind & Respectful
-            </a>
-            <a href="#no-advice" class="sidebar-link">
-                <i class="ph ph-shield"></i>
-                Respect No Advice Tags
-            </a>
-            <a href="#anonymity" class="sidebar-link">
-                <i class="ph ph-user-circle"></i>
-                Protect Anonymity
-            </a>
-            <a href="#medical" class="sidebar-link">
-                <i class="ph ph-first-aid-kit"></i>
-                No Medical Advice
-            </a>
-
-            <div class="sidebar-group-label">What's Not Allowed</div>
-            <a href="#prohibited" class="sidebar-link">
-                <i class="ph ph-prohibit"></i>
-                Prohibited Content
-            </a>
-            <a href="#self-harm" class="sidebar-link">
-                <i class="ph ph-warning"></i>
-                Self-Harm & Crisis Content
-            </a>
-
-            <div class="sidebar-group-label">Community</div>
-            <a href="#responding" class="sidebar-link">
-                <i class="ph ph-chat-circle"></i>
-                How to Respond Well
-            </a>
-            <a href="#reporting" class="sidebar-link">
-                <i class="ph ph-flag"></i>
-                Reporting Content
-            </a>
-            <a href="#consequences" class="sidebar-link">
-                <i class="ph ph-scales"></i>
-                Consequences
-            </a>
-            <a href="#contact" class="sidebar-link">
-                <i class="ph ph-envelope"></i>
-                Contact & Appeals
-            </a>
-        </aside>
-
-        <main class="content">
-
-            <div id="overview">
-                <div class="doc-badge">
-                    <i class="ph ph-users"></i>
-                    Community
+            <div class="footer_links">
+                <div class="footer_links_1">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="../main.html">Browse Stories</a></li>
+                        <li><a href="../create-post.html">Share Your Story</a></li>
+                        <li><a href="../../nav-bar/updates.html">Updates</a></li>
+                    </ul>
                 </div>
-                <h1 class="doc-title">Community Guidelines</h1>
-                <p class="doc-subtitle">StillHere exists so people can be heard – not fixed, not judged, not advised unless they ask. These guidelines protect that space.</p>
-                <div class="doc-meta">
-                    <span style="display:flex;align-items:center;gap:6px;">
-                        <i class="ph ph-calendar"></i>
-                        <span><strong>Effective date:</strong> April 13, 2026</span>
-                    </span>
-                    <span style="display:flex;align-items:center;gap:6px;">
-                        <i class="ph ph-arrows-clockwise"></i>
-                        <span><strong>Last updated:</strong> April 13, 2026</span>
-                    </span>
-                    <span style="display:flex;align-items:center;gap:6px;">
-                        <i class="ph ph-globe"></i>
-                        <span><strong>Applies to:</strong> all users</span>
-                    </span>
+
+                <div class="footer_links_2">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="../../nav-bar/about.html">About Us</a></li>
+                        <li><a href="../../nav-bar/contacts.html">Contacts</a></li>
+                        <li><a href="guidelines.html">Guidelines</a></li>
+                        <li><a href="crisis-resources.html">Crisis Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_3">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    </ul>
                 </div>
             </div>
+        </div>
 
-            <div class="callout callout-purple" id="spirit">
-                <span class="callout-icon"><i class="ph ph-heart"></i></span>
-                <div class="callout-body">
-                    <strong>The spirit of StillHere:</strong> This is a space for presence, not solutions. People come here to feel less alone – not to be saved, diagnosed, or advised. Everything in these guidelines flows from that one idea.
+        <div class="footer_footer">
+            <div class="footer_legal">
+                  <p>2026 StillHere.</p>
+                  <p class="implicit-consent">
+                    by being here, you accept our
+                    <a href="terms-of-service.html">terms</a>
+                    &amp; <a href="privacy-policy.html">privacy</a>.
+                  </p>
                 </div>
+            <div class="footer_social">
+                <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
+                    </svg>
+                </a>
             </div>
-
-            <div class="divider"></div>
-
-            <div class="doc-section" id="kindness">
-                <div class="section-heading">
-                    <div class="section-num">1</div>
-                    <h2>Be Kind & Respectful</h2>
-                </div>
-                <p>Every person who posts here is showing a kind of courage. They chose to say something, often for the first time. Treat that with care.</p>
-                <p>Kindness doesn't mean agreement. You can disagree, you can feel differently – but the way you express it matters.</p>
-
-                <div class="rule-grid">
-                    <div class="rule-card rule-do">
-                        <div class="rule-card-header">
-                            <i class="ph ph-check-circle"></i>
-                            <span>Do this</span>
-                        </div>
-                        <ul class="rule-list">
-                            <li>Acknowledge what someone shared before responding</li>
-                            <li>Use "I" statements when sharing your perspective</li>
-                            <li>Give people space to feel what they feel</li>
-                            <li>Be patient with people who are struggling to articulate</li>
-                            <li>Remember there's a real person behind every post</li>
-                        </ul>
-                    </div>
-                    <div class="rule-card rule-dont">
-                        <div class="rule-card-header">
-                            <i class="ph ph-x-circle"></i>
-                            <span>Avoid this</span>
-                        </div>
-                        <ul class="rule-list">
-                            <li>Dismissing or minimising someone's experience</li>
-                            <li>Comparing pain ("others have it worse")</li>
-                            <li>Tone-policing or telling people how to feel</li>
-                            <li>Sarcasm or irony that could be read as mockery</li>
-                            <li>Arguing about whether someone's feelings are valid</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="doc-section" id="no-advice">
-                <div class="section-heading">
-                    <div class="section-num">2</div>
-                    <h2>Respect "No Advice" Tags</h2>
-                </div>
-                <p>The <strong>No Advice</strong> tag is one of the most important features on StillHere. When someone tags their post with it, they are explicitly telling you what kind of support they need – which is presence, not solutions.</p>
-
-                <div class="callout callout-purple">
-                    <span class="callout-icon"><i class="ph ph-shield"></i></span>
-                    <div class="callout-body">
-                        <strong>Respecting this tag is not optional.</strong> Posting advice on a No Advice post – even if it's well-meaning, even if you genuinely think it would help – overrides the author's stated wishes. That is a violation of their trust and of these guidelines.
-                    </div>
-                </div>
-
-                <h3>What counts as advice?</h3>
-                <p>Advice includes suggestions, recommendations, solutions, therapeutic techniques, book references, medication mentions, "have you tried…", "you should…", "maybe consider…" – anything that implies the person needs to do something differently.</p>
-
-                <h3>What's still okay on a No Advice post?</h3>
-                <ul class="doc-list">
-                    <li>Saying "I hear you" or "thank you for sharing this"</li>
-                    <li>Sharing that you've felt similarly, without pivoting to how you fixed it</li>
-                    <li>Asking gentle questions that invite them to say more</li>
-                    <li>Simply being present in a comment</li>
-                </ul>
-            </div>
-
-            <div class="doc-section" id="anonymity">
-                <div class="section-heading">
-                    <div class="section-num">3</div>
-                    <h2>Protect Anonymity</h2>
-                </div>
-                <p>Anonymity is what makes StillHere possible. People share things here they wouldn't share anywhere else – precisely because they don't have to attach their name to it.</p>
-
-                <div class="callout callout-red">
-                    <span class="callout-icon"><i class="ph ph-prohibit"></i></span>
-                    <div class="callout-body">
-                        <strong>Never attempt to identify another user.</strong> Do not share, guess, or speculate about who someone is. Do not screenshot or share posts outside the platform in a way that could identify the author.
-                    </div>
-                </div>
-
-                <p>This also means protecting your own anonymity. Don't share combinations of personal details that could identify you if you don't want to be identified – even on an anonymous post, a very specific set of details can be recognisable to people who know you.</p>
-
-                <h3>A note on screenshots</h3>
-                <p>Sharing content from StillHere publicly – even if it seems anonymised – can harm the person who wrote it. People share here with the expectation of a contained, safe space. Please honour that.</p>
-            </div>
-
-            <div class="doc-section" id="medical">
-                <div class="section-heading">
-                    <div class="section-num">4</div>
-                    <h2>No Medical Advice</h2>
-                </div>
-                <p>StillHere is not a medical or clinical platform. Nobody here is your therapist, psychiatrist, or doctor – even if they happen to be one in real life.</p>
-                <ul class="doc-list">
-                    <li>Do not suggest specific medications, dosages, or treatments.</li>
-                    <li>Do not diagnose others or suggest they have a particular condition.</li>
-                    <li>Do not discourage someone from seeking professional help.</li>
-                    <li>Do not present personal experience with treatment as universal medical fact.</li>
-                </ul>
-                <p>You can absolutely share your own experience – "I've been through something similar and therapy helped me" is different from "you need therapy." The first is a story. The second is a prescription.</p>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="doc-section" id="prohibited">
-                <div class="section-heading">
-                    <div class="section-num">5</div>
-                    <h2>Prohibited Content</h2>
-                </div>
-                <p>The following content will be removed and may result in account suspension:</p>
-
-                <div class="prohibited-grid">
-                    <div class="prohibited-item">
-                        <div class="prohibited-icon"><i class="ph ph-user-minus"></i></div>
-                        <div class="prohibited-text">
-                            <strong>Harassment & targeting</strong>
-                            <span>Directing hostility, mockery, or threats at any user</span>
-                        </div>
-                    </div>
-
-                    <div class="prohibited-item">
-                        <div class="prohibited-icon"><i class="ph ph-warning-octagon"></i></div>
-                        <div class="prohibited-text">
-                            <strong>Hate speech</strong>
-                            <span>Content that degrades people based on identity</span>
-                        </div>
-                    </div>
-
-                    <div class="prohibited-item">
-                        <div class="prohibited-icon"><i class="ph ph-eye-slash"></i></div>
-                        <div class="prohibited-text">
-                            <strong>Doxxing</strong>
-                            <span>Sharing or attempting to uncover another person's identity</span>
-                        </div>
-                    </div>
-
-                    <div class="prohibited-item">
-                        <div class="prohibited-icon"><i class="ph ph-robot"></i></div>
-                        <div class="prohibited-text">
-                            <strong>Spam & automation</strong>
-                            <span>Repetitive, automated, or promotional posting</span>
-                        </div>
-                    </div>
-
-                    <div class="prohibited-item">
-                        <div class="prohibited-icon"><i class="ph ph-mask-sad"></i></div>
-                        <div class="prohibited-text">
-                            <strong>Impersonation</strong>
-                            <span>Pretending to be another user or StillHere staff</span>
-                        </div>
-                    </div>
-
-                    <div class="prohibited-item">
-                        <div class="prohibited-icon"><i class="ph ph-link-break"></i></div>
-                        <div class="prohibited-text">
-                            <strong>Harmful external links</strong>
-                            <span>Links to dangerous, illegal, or exploitative content</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="doc-section" id="self-harm">
-                <div class="section-heading">
-                    <div class="section-num">6</div>
-                    <h2>Self-Harm & Crisis Content</h2>
-                </div>
-                <p>This is one of the most sensitive areas of these guidelines. We want StillHere to be a space where people can talk about dark feelings – including suicidal thoughts, self-harm, and hopelessness – because keeping those feelings unspoken is often more dangerous than saying them.</p>
-                <p>At the same time, there's a difference between expressing pain and content that could actively harm someone else who reads it.</p>
-
-                <div class="callout callout-peach">
-                    <span class="callout-icon"><i class="ph ph-heart"></i></span>
-                    <div class="callout-body">
-                        <strong>Talking about struggle is allowed and encouraged.</strong> "I've been having thoughts of hurting myself" is a vulnerable, human statement. It belongs here. What doesn't belong is detailed method descriptions, content that glorifies or romanticises self-harm, or anything that could function as instructions.
-                    </div>
-                </div>
-
-                <h3>Specifically prohibited</h3>
-                <ul class="doc-list">
-                    <li>Detailed descriptions of self-harm methods or means</li>
-                    <li>Content that presents self-harm or suicide as romantic, heroic, or desirable</li>
-                    <li>Encouraging or facilitating another person's self-harm</li>
-                    <li>Pro-eating disorder content of any kind</li>
-                </ul>
-
-                <h3>If you see someone in crisis</h3>
-                <p>If a post suggests someone may be in immediate danger, please report it and encourage them to reach out to a crisis line. Our <a href="crisis-hotlines.html" class="inline-link">Crisis Hotlines</a> page has resources for every region.</p>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="doc-section" id="responding">
-                <div class="section-heading">
-                    <div class="section-num">7</div>
-                    <h2>How to Respond Well</h2>
-                </div>
-                <p>Responding to someone who is struggling is a skill. Here are some principles that tend to help:</p>
-
-                <div class="tip-list">
-                    <div class="tip-item">
-                        <div class="tip-num">01</div>
-                        <div class="tip-body">
-                            <strong>Read the whole post before responding.</strong> People often say the most important thing at the end, after building up to it.
-                        </div>
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip-num">02</div>
-                        <div class="tip-body">
-                            <strong>Reflect before redirecting.</strong> "That sounds really exhausting" before anything else. Let them know they've been heard.
-                        </div>
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip-num">03</div>
-                        <div class="tip-body">
-                            <strong>Ask, don't assume.</strong> "Do you want to talk more about this?" or "Would it help to hear how I dealt with something similar?" gives them the choice.
-                        </div>
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip-num">04</div>
-                        <div class="tip-body">
-                            <strong>Short responses can be powerful.</strong> "I see you. I'm glad you shared this." – sometimes that's exactly enough.
-                        </div>
-                    </div>
-                    <div class="tip-item">
-                        <div class="tip-num">05</div>
-                        <div class="tip-body">
-                            <strong>Take care of yourself too.</strong> Reading heavy content can affect you. It's okay to step back. You don't have to respond to everything.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="doc-section" id="reporting">
-                <div class="section-heading">
-                    <div class="section-num">8</div>
-                    <h2>Reporting Content</h2>
-                </div>
-                <p>If you see something that violates these guidelines, please report it using the <strong>···</strong> menu on any post or comment. Reports are anonymous – the person you report will not know it was you.</p>
-                <p>We review all reports. We're a small team, so response times may vary – but we take every report seriously, especially anything involving safety.</p>
-
-                <div class="callout callout-purple">
-                    <span class="callout-icon"><i class="ph ph-info"></i></span>
-                    <div class="callout-body">
-                        <strong>Please only report genuine violations.</strong> False or bad-faith reports make it harder for us to respond quickly to real ones. Disagreeing with someone's opinion or finding a post uncomfortable is not a reason to report it.
-                    </div>
-                </div>
-            </div>
-
-            <div class="doc-section" id="consequences">
-                <div class="section-heading">
-                    <div class="section-num">9</div>
-                    <h2>Consequences</h2>
-                </div>
-                <p>We approach moderation with proportionality. Most situations don't require a ban – they require a conversation or a warning. But some do.</p>
-
-                <div class="doc-table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Situation</th>
-                                <th>Likely outcome</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>First minor violation (e.g. advice on No Advice post)</td><td>Content removed, gentle notice</td></tr>
-                            <tr><td>Repeated minor violations</td><td>Warning, temporary posting restriction</td></tr>
-                            <tr><td>Harassment or targeted hostility</td><td>Content removed, account warning or suspension</td></tr>
-                            <tr><td>Doxxing or serious privacy violation</td><td>Immediate suspension, possible permanent ban</td></tr>
-                            <tr><td>Self-harm facilitation or dangerous content</td><td>Immediate removal, possible permanent ban</td></tr>
-                            <tr><td>Repeated severe violations</td><td>Permanent ban</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <p>We reserve the right to act immediately and without warning when user safety is at risk.</p>
-            </div>
-
-            <div class="doc-section" id="contact">
-                <div class="section-heading">
-                    <div class="section-num">10</div>
-                    <h2>Contact & Appeals</h2>
-                </div>
-                <p>If your content was removed or your account was actioned and you believe it was a mistake, you can appeal.</p>
-
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="ph ph-envelope"></i>
-                    </div>
-                    <div class="contact-info">
-                        <span class="contact-label">Moderation Appeals</span>
-                        <span class="contact-value">support@stillhere.global</span>
-                    </div>
-                </div>
-
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="ph ph-chat-teardrop-text"></i>
-                    </div>
-                    <div class="contact-info">
-                        <span class="contact-label">General Questions</span>
-                        <span class="contact-value">@still_here_global on Telegram</span>
-                    </div>
-                </div>
-
-                <p style="margin-top: 16px;">We aim to respond to appeals within <strong>7 business days</strong>. Please include the post or comment in question and a brief explanation of why you believe the moderation decision was incorrect.</p>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="doc-footer">
-                <span>© 2026 StillHere. A space for presence, not solutions.</span>
-                <span><a href="../../main.html">← Back to platform</a></span>
-            </div>
-
-        </main>
-
-        <nav class="toc">
-            <div class="toc-title">On this page</div>
-            <a href="#overview" class="toc-link active">Overview</a>
-            <a href="#kindness" class="toc-link">Be Kind & Respectful</a>
-            <a href="#no-advice" class="toc-link">No Advice Tags</a>
-            <a href="#anonymity" class="toc-link">Protect Anonymity</a>
-            <a href="#medical" class="toc-link">No Medical Advice</a>
-            <a href="#prohibited" class="toc-link">Prohibited Content</a>
-            <a href="#self-harm" class="toc-link">Self-Harm & Crisis</a>
-            <a href="#responding" class="toc-link">How to Respond Well</a>
-            <a href="#reporting" class="toc-link">Reporting Content</a>
-            <a href="#consequences" class="toc-link">Consequences</a>
-            <a href="#contact" class="toc-link">Contact & Appeals</a>
-        </nav>
-
+        </div>
     </div>
+</footer>
 
+  <script>
+    /* Nav dropdown + scroll-shrink */
+    (function () {
+      document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
+        var btn   = wrap.querySelector('.main-menu-trigger');
+        var panel = wrap.querySelector('.main-menu-panel');
+        if (!btn || !panel) return;
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          panel.classList.toggle('is-open');
+        });
+        panel.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) { p.classList.remove('is-open'); });
+      });
+      var navEl = document.querySelector('.top-info');
+      if (navEl) {
+        window.addEventListener('scroll', function () {
+          navEl.classList.toggle('is-scrolled', window.scrollY > 24);
+        }, { passive: true });
+      }
+    })();
+  </script>
 </body>
 </html>

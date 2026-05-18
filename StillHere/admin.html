@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>admin — StillHere</title>
+  <link rel="stylesheet" href="CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/nav-menu.css">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="JS/supabase-config.js"></script>
+  <script src="JS/session.js"></script>
+  <script src="JS/theme.js"></script>
+
+  <style>
+    body { overflow-x: hidden; }
+
+    .ad-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: calc(73px + 38px) 32px 80px;
+      position: relative; z-index: 2;
+    }
+    .ad-hero {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 32px;
+      padding-bottom: 22px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .ad-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--ink-light);
+      margin-bottom: 12px; display: inline-block;
+    }
+    .ad-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+    .ad-title {
+      font-family: "Caveat", cursive;
+      font-size: 64px; font-weight: 700; color: var(--ink);
+      line-height: 0.96; margin: 0 0 8px;
+    }
+    .ad-title em { color: var(--accent-2); font-style: italic; }
+    .ad-lede {
+      font-size: 15px; color: var(--ink-mid); line-height: 1.6; max-width: 540px;
+    }
+    .ad-stats {
+      background: #fffbf2; border: 1.5px solid var(--line); border-radius: 12px;
+      padding: 14px 18px; display: flex; gap: 18px; min-width: 240px;
+    }
+    .ad-stat-num {
+      font-family: "Caveat", cursive; font-size: 28px; font-weight: 700;
+      color: var(--accent-2); line-height: 1;
+    }
+    .ad-stat-label {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-light);
+    }
+
+    /* ── Tabs ── */
+    .ad-tabs {
+      display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap;
+    }
+    .ad-tab {
+      padding: 8px 16px; border-radius: 999px; cursor: pointer;
+      background: #fffbf2; border: 1.5px solid var(--line);
+      font-family: "Ubuntu", sans-serif; font-size: 13px;
+      font-weight: 600; color: var(--ink); user-select: none;
+      transition: all 0.2s ease;
+    }
+    .ad-tab:hover {
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+      transform: translateY(-1px);
+    }
+    .ad-tab.is-active {
+      background: var(--accent-2);
+      color: #fff;
+      border-color: var(--accent-2);
+      box-shadow: 0 3px 10px -3px rgba(214, 83, 60, 0.35);
+      transform: translateY(-1px);
+    }
+    .ad-tab .count {
+      display: inline-block; margin-left: 6px; padding: 0 6px;
+      border-radius: 999px; background: rgba(214, 83, 60, 0.18);
+      color: var(--accent-2); font-size: 11px; font-weight: 700;
+    }
+    .ad-tab.is-active .count {
+      background: rgba(255, 255, 255, 0.22); color: #fff;
+    }
+
+    /* ── Queue card ── */
+    .ad-list { display: flex; flex-direction: column; gap: 12px; }
+    .ad-card {
+      background: #fffbf2; border: 1.5px solid var(--line);
+      border-radius: 14px; padding: 18px 22px;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+    }
+    .ad-card-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .ad-badge {
+      display: inline-flex; align-items: center;
+      padding: 3px 10px; border-radius: 999px;
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+    }
+    .ad-badge--post    { background: rgba(214, 83, 60, 0.10); color: var(--accent-2); }
+    .ad-badge--comment { background: rgba(109, 130, 104, 0.14); color: #4d5e4a; }
+    .ad-badge--state   { background: rgba(26, 20, 16, 0.08);   color: var(--ink); }
+    .ad-state-ai_reviewing  { background: rgba(184, 162, 60, 0.18); color: #8a7a20; }
+    .ad-state-shadow        { background: rgba(107, 139, 175, 0.18); color: #4a6b8f; }
+    .ad-state-hidden        { background: rgba(214, 83, 60, 0.18); color: #b8462f; }
+    .ad-state-pending_manual{ background: rgba(214, 83, 60, 0.10); color: var(--accent-2); }
+
+    .ad-meta {
+      margin-left: auto; font-size: 12px; color: var(--ink-light);
+      font-variant-numeric: tabular-nums;
+    }
+    .ad-card-title {
+      font-family: "Ubuntu", sans-serif; font-size: 16px;
+      font-weight: 700; color: var(--ink); margin: 4px 0 6px;
+      letter-spacing: -0.005em;
+    }
+    .ad-card-content {
+      font-size: 13.5px; color: var(--ink-mid); line-height: 1.55;
+      padding: 12px 14px; background: var(--paper);
+      border: 1px dashed var(--line-soft); border-radius: 8px;
+      margin: 6px 0 10px; max-height: 200px; overflow: auto;
+      word-wrap: break-word; overflow-wrap: anywhere;
+    }
+    .ad-card-content img { max-width: 100%; max-height: 220px; border-radius: 6px; }
+    .ad-note {
+      font-size: 12px; font-style: italic; color: var(--ink-mid);
+      padding: 8px 12px; background: rgba(184, 162, 60, 0.10);
+      border-left: 3px solid #b8a23c; border-radius: 0 6px 6px 0;
+      margin: 6px 0 10px;
+    }
+
+    /* AI verdict callout — shows what the strict-review AI decided */
+    .ai-verdict-box {
+      margin: 10px 0;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ai-verdict-box--violation {
+      background: rgba(214, 83, 60, 0.08);
+      border-color: rgba(214, 83, 60, 0.32);
+    }
+    .ai-verdict-box--borderline {
+      background: rgba(184, 162, 60, 0.10);
+      border-color: rgba(184, 162, 60, 0.32);
+    }
+    .ai-verdict-box--clean {
+      background: rgba(109, 130, 104, 0.10);
+      border-color: rgba(109, 130, 104, 0.32);
+    }
+    .ai-verdict-box--pending {
+      background: rgba(26, 20, 16, 0.04);
+      border-color: var(--line);
+      border-style: dashed;
+    }
+    .ai-verdict-head {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .ai-verdict-box--violation  .ai-verdict-head { color: #b8462f; }
+    .ai-verdict-box--borderline .ai-verdict-head { color: #8a7a20; }
+    .ai-verdict-box--clean      .ai-verdict-head { color: #4d5e4a; }
+    .ai-verdict-box--pending    .ai-verdict-head { color: var(--ink-light); }
+    .ai-verdict-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+    }
+    .ai-verdict-box--violation  .ai-verdict-dot { background: #b8462f; }
+    .ai-verdict-box--borderline .ai-verdict-dot { background: #b8a23c; }
+    .ai-verdict-box--clean      .ai-verdict-dot { background: #6d8268; }
+    .ai-verdict-box--pending    .ai-verdict-dot {
+      background: var(--ink-light);
+      animation: aiPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes aiPulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.35); }
+    }
+    .ai-verdict-reason {
+      font-size: 13.5px; color: var(--ink); line-height: 1.5;
+      font-style: normal; font-weight: 400;
+    }
+    .ai-verdict-reason em { color: var(--accent-2); font-style: italic; }
+    .ai-verdict-meta {
+      font-size: 11.5px; color: var(--ink-light);
+      font-style: italic;
+    }
+    .ad-actions {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;
+    }
+    .ad-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; border-radius: 999px;
+      font-family: "Ubuntu", sans-serif; font-size: 12.5px;
+      font-weight: 600; cursor: pointer; border: 1.5px solid;
+      transition: all 0.2s ease;
+    }
+    .ad-btn--keep   { background: rgba(109, 130, 104, 0.10); color: #4d5e4a; border-color: rgba(109, 130, 104, 0.32); }
+    .ad-btn--keep:hover   { background: #6d8268; color: #fff; border-color: #6d8268; transform: translateY(-1px); }
+    .ad-btn--shadow { background: transparent; color: #4a6b8f; border-color: rgba(107, 139, 175, 0.40); }
+    .ad-btn--shadow:hover { background: #6b8baf; color: #fff; border-color: #6b8baf; transform: translateY(-1px); }
+    .ad-btn--remove { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
+    .ad-btn--remove:hover { background: #b8462f; border-color: #b8462f; transform: translateY(-1px); }
+    .ad-btn--review { background: transparent; color: var(--ink); border-color: var(--line); }
+    .ad-btn--review:hover { border-color: var(--ink-mid); transform: translateY(-1px); }
+    .ad-btn--ai { background: rgba(184, 162, 60, 0.10); color: #8a7a20; border-color: rgba(184, 162, 60, 0.32); }
+    .ad-btn--ai:hover { background: #b8a23c; color: #fff; border-color: #b8a23c; transform: translateY(-1px); }
+    .ad-btn--ai:disabled { opacity: 0.6; cursor: progress; }
+
+    /* ── Block dropdown ─────────────────────────────────────────── */
+    .ad-block-wrap { position: relative; display: inline-block; }
+    .ad-btn--block {
+      background: rgba(120, 40, 40, 0.08); color: #7a2828;
+      border-color: rgba(120, 40, 40, 0.32);
+    }
+    .ad-btn--block:hover { background: #7a2828; color: #fff; border-color: #7a2828; transform: translateY(-1px); }
+    .ad-block-menu {
+      position: absolute; top: calc(100% + 6px); left: 0;
+      min-width: 170px;
+      background: var(--paper, #fdf8ec);
+      border: 1px solid var(--line, rgba(0,0,0,0.12));
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      padding: 6px;
+      display: none; z-index: 50;
+    }
+    .ad-block-menu.is-open { display: block; }
+    .ad-block-menu button {
+      display: block; width: 100%; text-align: left;
+      padding: 8px 12px; font-size: 13px;
+      background: transparent; border: 0; border-radius: 6px;
+      cursor: pointer; font-family: inherit; color: var(--ink);
+    }
+    .ad-block-menu button:hover { background: rgba(120, 40, 40, 0.10); color: #7a2828; }
+    .ad-block-menu hr {
+      border: 0; border-top: 1px dashed var(--line-soft, rgba(0,0,0,0.10));
+      margin: 4px 0;
+    }
+    .ad-block-menu .label {
+      font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-light); padding: 6px 12px 2px;
+    }
+
+    .ad-empty, .ad-loading, .ad-forbidden {
+      text-align: center; padding: 60px 24px;
+      color: var(--ink-light); font-size: 14px;
+    }
+    .ad-forbidden { color: var(--accent-2); font-weight: 600; }
+
+    @media (max-width: 760px) {
+      .ad-hero { flex-direction: column; align-items: stretch; }
+      .ad-title { font-size: 48px; }
+      .ad-stats { min-width: 0; }
+      .ad-page { padding: calc(73px + 24px) 18px 50px; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
+
+  <img src="assets/doodles2/09_cloud.png"                       class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png" class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="main.html" class="logo"><span>StillHere</span></a>
+    <div class="nav">
+      <a href="main.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>
+        <span>feed</span>
+      </a>
+      <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Z"/></svg>
+        <span>profile</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="ad-page">
+    <section class="ad-hero">
+      <div>
+        <span class="ad-eyebrow"><em>—</em> moderation</span>
+        <h1 class="ad-title">admin <em>queue.</em></h1>
+        <p class="ad-lede">posts &amp; comments that need a human's eye. keep, downrank, or remove.</p>
+      </div>
+      <div class="ad-stats">
+        <div>
+          <div class="ad-stat-num" id="stat-total">—</div>
+          <div class="ad-stat-label">in queue</div>
+        </div>
+        <div>
+          <div class="ad-stat-num" id="stat-urgent">—</div>
+          <div class="ad-stat-label">hidden</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ad-tabs" id="tabs">
+      <span class="ad-tab is-active" data-filter="all">Pending decision <span class="count" id="cnt-all">0</span></span>
+      <span class="ad-tab" data-filter="pending_manual">Pending review <span class="count" id="cnt-pending_manual">0</span></span>
+      <span class="ad-tab" data-filter="hidden">Hidden (≥10 reports) <span class="count" id="cnt-hidden">0</span></span>
+      <span class="ad-tab" data-filter="shadow">Shadow <span class="count" id="cnt-shadow">0</span></span>
+      <span class="ad-tab" data-filter="ai_reviewing">AI reviewing <span class="count" id="cnt-ai_reviewing">0</span></span>
+    </div>
+
+    <div class="ad-list" id="queue">
+      <p class="ad-loading">loading queue…</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer_content">
+      <div class="footer_footer">
+        <div class="footer_legal">
+          <p>2026 StillHere.</p>
+          <p class="implicit-consent">
+            by being here, you accept our
+            <a href="docs/html/terms-of-service.html">terms</a>
+            &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      if (!window.SH_SUPABASE_URL || !window.supabase) return;
+      var db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+      var queueEl = document.getElementById('queue');
+      var allRows = [];
+      var currentFilter = 'all';
+
+      function escHtml(s) {
+        return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+      function timeAgo(iso) {
+        var d = Math.floor((Date.now() - new Date(iso)) / 1000);
+        if (d < 60)    return 'just now';
+        if (d < 3600)  return Math.floor(d / 60)   + 'm ago';
+        if (d < 86400) return Math.floor(d / 3600) + 'h ago';
+        return Math.floor(d / 86400) + 'd ago';
+      }
+
+      function render() {
+        var rows;
+        if (currentFilter === 'all') {
+          // "All" = items NOT yet acted on by an admin.
+          // Once an admin clicks keep/shadow/remove (moderated_by set),
+          // or the AI auto-resolved them, they leave the All tab and
+          // only appear in their specific state tab.
+          rows = allRows.filter(function (r) { return !r.moderated_by; });
+        } else {
+          rows = allRows.filter(function (r) { return r.moderation_state === currentFilter; });
+        }
+
+        if (!rows.length) {
+          queueEl.innerHTML = '<p class="ad-empty">nothing to review. the community is quiet today.</p>';
+          return;
+        }
+
+        queueEl.innerHTML = rows.map(function (r) {
+          var stateLabel = (r.moderation_state || '').replace(/_/g, ' ');
+          var typeBadge = r.target_type === 'post' ? 'post' : 'comment';
+          var titleHtml = r.title ? '<h3 class="ad-card-title">' + escHtml(r.title) + '</h3>' : '';
+
+          /* ── AI verdict box ──────────────────────────────────────
+             moderation_note format (set by strict-review edge fn):
+                "strict-AI: <verdict> (<category>) — <reason>"
+             If the note matches that pattern → render a verdict callout.
+             Otherwise show "AI hasn't reviewed yet" pending box.
+             ─────────────────────────────────────────────────────── */
+          var aiBox = '';
+          var m = r.moderation_note &&
+                  r.moderation_note.match(/^strict-AI:\s*(violation|borderline|clean)\s*\(([^)]+)\)\s*[—-]\s*(.*)$/i);
+          if (m) {
+            var verdict  = m[1].toLowerCase();
+            var category = m[2].trim();
+            var reason   = m[3].trim();
+            var label = verdict === 'violation'  ? 'AI says: violation — auto-removed'
+                      : verdict === 'borderline' ? 'AI says: borderline — downranked'
+                                                 : 'AI says: clean — sent to manual review';
+            aiBox =
+              '<div class="ai-verdict-box ai-verdict-box--' + verdict + '">' +
+                '<div class="ai-verdict-head">' +
+                  '<span class="ai-verdict-dot"></span>' + label +
+                  ' <span style="opacity:0.7;letter-spacing:0.08em;">· ' + escHtml(category) + '</span>' +
+                '</div>' +
+                '<div class="ai-verdict-reason">' + escHtml(reason) + '</div>' +
+                '<div class="ai-verdict-meta">strict-AI · review complete</div>' +
+              '</div>';
+          } else if (r.moderation_state === 'ai_reviewing') {
+            aiBox =
+              '<div class="ai-verdict-box ai-verdict-box--pending">' +
+                '<div class="ai-verdict-head">' +
+                  '<span class="ai-verdict-dot"></span>AI review pending' +
+                '</div>' +
+                '<div class="ai-verdict-meta">waiting for strict-review to run — click "↻ rerun AI" below to trigger it now.</div>' +
+              '</div>';
+          } else if (r.moderation_note) {
+            /* fallback for legacy notes that don't match the pattern */
+            aiBox = '<p class="ad-note">⚙ ' + escHtml(r.moderation_note) + '</p>';
+          }
+          var noteHtml = aiBox;
+          return (
+            '<article class="ad-card" data-target-type="' + r.target_type + '" data-target-id="' + escHtml(r.target_id) + '">' +
+              '<div class="ad-card-head">' +
+                '<span class="ad-badge ad-badge--' + r.target_type + '">' + typeBadge + '</span>' +
+                '<span class="ad-badge ad-badge--state ad-state-' + r.moderation_state + '">' + stateLabel + '</span>' +
+                '<span class="ad-meta">' + r.report_count + ' report' + (r.report_count === 1 ? '' : 's') +
+                  ' · weight ' + (r.report_weight || 0) +
+                  ' · ' + timeAgo(r.created_at) +
+                '</span>' +
+              '</div>' +
+              titleHtml +
+              '<div class="ad-card-content">' + (r.content || '') + '</div>' +
+              noteHtml +
+              '<div class="ad-actions">' +
+                '<button class="ad-btn ad-btn--keep"   data-action="keep">keep</button>' +
+                '<button class="ad-btn ad-btn--shadow" data-action="shadow">shadow (downrank)</button>' +
+                '<button class="ad-btn ad-btn--remove" data-action="remove">remove</button>' +
+                '<span class="ad-block-wrap">' +
+                  '<button class="ad-btn ad-btn--block" data-action="block-toggle">🚫 block author</button>' +
+                  '<div class="ad-block-menu">' +
+                    '<div class="label">Block this author for</div>' +
+                    '<button data-action="block" data-seconds="3600">1 hour</button>' +
+                    '<button data-action="block" data-seconds="10800">3 hours</button>' +
+                    '<button data-action="block" data-seconds="86400">24 hours</button>' +
+                    '<button data-action="block" data-seconds="604800">1 week</button>' +
+                  '</div>' +
+                '</span>' +
+                '<button class="ad-btn ad-btn--ai"     data-action="ai-rerun">↻ rerun AI</button>' +
+                (r.target_type === 'post'
+                  ? '<a class="ad-btn ad-btn--review" href="post.html?id=' + escHtml(r.target_id) + '" target="_blank">open</a>'
+                  : '') +
+              '</div>' +
+            '</article>'
+          );
+        }).join('');
+      }
+
+      function updateCounts() {
+        // "all" count = pending (not yet acted on)
+        var counts = {
+          all:            allRows.filter(function (r) { return !r.moderated_by; }).length,
+          pending_manual: 0,
+          hidden:         0,
+          shadow:         0,
+          ai_reviewing:   0
+        };
+        allRows.forEach(function (r) {
+          if (counts[r.moderation_state] !== undefined) counts[r.moderation_state]++;
+        });
+        Object.keys(counts).forEach(function (k) {
+          var el = document.getElementById('cnt-' + k);
+          if (el) el.textContent = counts[k];
+        });
+        document.getElementById('stat-total').textContent  = allRows.length;
+        document.getElementById('stat-urgent').textContent = counts.hidden;
+      }
+
+      async function load() {
+        // 1. Check admin status
+        var { data: { user } } = await db.auth.getUser();
+        if (!user) {
+          queueEl.innerHTML = '<p class="ad-forbidden">please sign in to access the admin queue.</p>';
+          return;
+        }
+        var { data: roleRow } = await db.from('admin_roles').select('role').eq('user_id', user.id).maybeSingle();
+        if (!roleRow) {
+          queueEl.innerHTML = '<p class="ad-forbidden">forbidden — your account is not an admin. ask a super_admin to grant access.</p>';
+          return;
+        }
+
+        // 2. Fetch queue
+        var { data, error } = await db.rpc('admin_queue_list');
+        if (error) {
+          queueEl.innerHTML = '<p class="ad-forbidden">error: ' + escHtml(error.message) + '</p>';
+          return;
+        }
+        allRows = (data || []).sort(function (a, b) {
+          // most-reported first, then most-recent
+          if ((b.report_weight || 0) !== (a.report_weight || 0)) return (b.report_weight || 0) - (a.report_weight || 0);
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+        updateCounts();
+        render();
+      }
+
+      // ── Tab clicks
+      document.getElementById('tabs').addEventListener('click', function (e) {
+        var tab = e.target.closest('.ad-tab');
+        if (!tab) return;
+        document.querySelectorAll('.ad-tab').forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        currentFilter = tab.dataset.filter;
+        render();
+      });
+
+      // ── Decision clicks (delegated)
+      queueEl.addEventListener('click', async function (e) {
+        var btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        var card = btn.closest('.ad-card');
+        if (!card) return;
+        var action = btn.dataset.action;
+        var t = card.dataset.targetType, id = card.dataset.targetId;
+
+        // ── "Rerun AI" branch — uses supabase client's functions.invoke
+        //    which handles CORS + auth headers automatically.
+        if (action === 'ai-rerun') {
+          btn.disabled = true;
+          btn.textContent = '↻ running…';
+          try {
+            var inv = await db.functions.invoke('strict-review', {
+              body: { target_type: t, target_id: id }
+            });
+            console.log('[admin] strict-review response:', inv);
+
+            if (inv.error) {
+              // Try to read the response body for a friendlier message
+              var ctx = inv.error.context;
+              var bodyTxt = '';
+              if (ctx && typeof ctx.text === 'function') {
+                try { bodyTxt = await ctx.text(); } catch (_) {}
+              }
+              alert('strict-review failed: ' + (inv.error.message || 'unknown')
+                    + (bodyTxt ? '\n\n' + bodyTxt.slice(0, 400) : ''));
+              btn.disabled = false;
+              btn.textContent = '↻ rerun AI';
+              return;
+            }
+            if (inv.data && inv.data.ok === false) {
+              alert('strict-review failed: ' + (inv.data.error || 'see console'));
+              btn.disabled = false;
+              btn.textContent = '↻ rerun AI';
+              return;
+            }
+            await load();
+          } catch (ex) {
+            console.error('[admin] rerun AI exception:', ex);
+            alert('rerun failed: ' + ex.message);
+            btn.disabled = false;
+            btn.textContent = '↻ rerun AI';
+          }
+          return;
+        }
+
+        // ── Block dropdown: toggle the menu open/closed
+        if (action === 'block-toggle') {
+          var wrap = btn.closest('.ad-block-wrap');
+          var menu = wrap && wrap.querySelector('.ad-block-menu');
+          // Close any other open menus first
+          document.querySelectorAll('.ad-block-menu.is-open').forEach(function (m) {
+            if (m !== menu) m.classList.remove('is-open');
+          });
+          if (menu) menu.classList.toggle('is-open');
+          return;
+        }
+
+        // ── Block: actually call the RPC
+        if (action === 'block') {
+          var seconds = parseInt(btn.dataset.seconds, 10);
+          var label   = btn.textContent.trim();
+          if (!confirm('Block this author for ' + label + '?\n\nThis blocks the account, device fingerprint, and IP. Anonymous authors can bypass by clearing browser data or switching network.')) return;
+
+          btn.disabled = true;
+          console.log('[admin] block_author RPC →', { t, id, seconds });
+          var blockRes = await db.rpc('admin_block_author', {
+            p_target_type: t,
+            p_target_id:   id,
+            p_seconds:     seconds,
+            p_reason:      null
+          });
+          btn.disabled = false;
+          console.log('[admin] block_author RPC ←', blockRes);
+
+          // Close the menu either way
+          var openMenu = btn.closest('.ad-block-menu');
+          if (openMenu) openMenu.classList.remove('is-open');
+
+          if (blockRes.error) {
+            var msg = blockRes.error.message || '';
+            if (msg.indexOf('no identifiers') !== -1) {
+              alert('Cannot block — this post was created before the block feature existed, so we have no fingerprint or IP for the author. New posts will work.');
+            } else if (msg.indexOf('forbidden') !== -1) {
+              alert('Forbidden — your account is not flagged as admin.');
+            } else {
+              alert('block failed: ' + msg + '\n\n(see browser console for details)');
+            }
+            return;
+          }
+          alert('Author blocked for ' + label + '.\n\nDetails: ' + JSON.stringify(blockRes.data, null, 2));
+          return;
+        }
+
+        if (!confirm('Apply "' + action + '" to this ' + t + '?')) return;
+
+        btn.disabled = true;
+        var { data, error } = await db.rpc('admin_decide', {
+          p_target_type: t,
+          p_target_id:   id,
+          p_decision:    action,
+          p_note:        null
+        });
+        if (error) {
+          alert('error: ' + error.message);
+          btn.disabled = false;
+          return;
+        }
+
+        // Refetch from server so:
+        //   • shadow → row moves from "All" / "AI reviewing" to the Shadow tab
+        //   • keep   → row disappears (state=active, report aggregates cleared)
+        //   • remove → row disappears (hard-deleted server-side by migration 005)
+        await load();
+      });
+
+      // Close block menus when clicking outside
+      document.addEventListener('click', function (e) {
+        if (e.target.closest('.ad-block-wrap')) return;
+        document.querySelectorAll('.ad-block-menu.is-open').forEach(function (m) {
+          m.classList.remove('is-open');
+        });
+      });
+
+      load();
+    })();
+  </script>
+</body>
+</html>

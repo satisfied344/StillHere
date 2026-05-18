@@ -169,7 +169,88 @@
       el.innerHTML = '';
       el.style.display = 'none';
     },
+
+    /* ── REPORTS ──────────────────────────────────────────────
+       Submit a user report. Calls the submit_report RPC which
+       handles uniqueness, weights, and escalation. If the new
+       state is 'ai_reviewing', triggers the strict-review fn.
+       Returns { ok, error?, total_weight?, new_state? }.
+
+       Note: we reuse the *same* supabase client instance across
+       calls so the user's session token is attached automatically.
+       (createClient() each time loses the auth context, and would
+       make every call look anonymous — bug fixed.)
+       ──────────────────────────────────────────────────────── */
+    report: async function (targetType, targetId, reason) {
+      if (targetType !== 'post' && targetType !== 'comment') {
+        return { ok: false, error: 'invalid_target' };
+      }
+      if (!targetId) return { ok: false, error: 'missing_id' };
+
+      var db = getSharedClient();
+      if (!db) return { ok: false, error: 'supabase_not_loaded' };
+
+      /* Anonymous fallback fingerprint — stable per device */
+      var fp = null;
+      try {
+        fp = localStorage.getItem('sh_anon_fp');
+        if (!fp) {
+          fp = 'anon_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+          localStorage.setItem('sh_anon_fp', fp);
+        }
+      } catch (_) {}
+
+      console.log('[SH_MOD.report] calling RPC', { targetType, targetId, fp: fp ? fp.slice(0, 10) + '…' : null });
+
+      var rpc;
+      try {
+        rpc = await db.rpc('submit_report', {
+          p_target_type: targetType,
+          p_target_id:   targetId,
+          p_reason:      reason || null,
+          p_fingerprint: fp
+        });
+      } catch (err) {
+        console.error('[SH_MOD.report] RPC threw:', err);
+        return { ok: false, error: 'network', detail: String(err) };
+      }
+      console.log('[SH_MOD.report] RPC raw:', rpc);
+      if (rpc.error) {
+        console.error('[SH_MOD.report] RPC error:', rpc.error);
+        return { ok: false, error: rpc.error.message || 'rpc_error', code: rpc.error.code, hint: rpc.error.hint };
+      }
+      var data = rpc.data || {};
+      if (data.ok === false) return data; // e.g. { ok:false, error:'already_reported' }
+
+      /* Fire-and-forget kick to strict-review whenever the server
+         tells us a review is warranted. Uses the supabase client's
+         functions.invoke() which handles CORS + auth headers
+         automatically — no manual fetch needed. */
+      if (data.should_review || data.new_state === 'ai_reviewing') {
+        db.functions.invoke('strict-review', {
+          body: { target_type: targetType, target_id: targetId }
+        }).then(function (r) {
+          console.log('[strict-review] response:', r);
+        }).catch(function (e) {
+          console.warn('[strict-review] kick failed (cron will retry):', e);
+        });
+      }
+
+      return data;
+    },
   };
+
+  /* Cache one shared client so the user's JWT is carried on every call. */
+  var _sharedClient = null;
+  function getSharedClient() {
+    if (_sharedClient) return _sharedClient;
+    if (!window.supabase || !window.SH_SUPABASE_URL || !window.SH_SUPABASE_KEY) return null;
+    _sharedClient = window.supabase.createClient(
+      window.SH_SUPABASE_URL,
+      window.SH_SUPABASE_KEY
+    );
+    return _sharedClient;
+  }
 
   /* ── Internal helpers ────────────────────────────────────── */
 

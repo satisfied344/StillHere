@@ -1,657 +1,562 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crisis Recources – StillHere</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="../css/crisis-resources.css">
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>crisis resources — StillHere</title>
+  <link rel="stylesheet" href="../../CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../CSS/nav-menu.css">
+  <link rel="stylesheet" href="../../CSS/dark-theme.css">
+  <link rel="stylesheet" href="../../CSS/docs.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../../JS/supabase-config.js"></script>
+  <script src="../../JS/session.js"></script>
+  <script src="../../JS/theme.js"></script>
 </head>
 <body>
- 
-    <nav class="topbar">
-    <a href="../../main.html" class="topbar-logo">StillHere</a>
-        <div class="topbar-sep"></div>
-            <a href="privacy-policy.html" class="topbar-tab">Privacy Policy</a>
-            <a href="terms-of-service.html" class="topbar-tab">Terms of Service</a>
-            <a href="crisis-resources.html" class="topbar-tab active">Crisis Resources</a>
-            <a href="guidelines.html" class="topbar-tab">Guidelines</a>
 
-            <div class="topbar-nav">
-                <a href="https://github.com/satisfied344/StillHere.git" class="topbar-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256" data-darkreader-inline-fill="" style="--darkreader-inline-fill: var(--darkreader-background-000000, #000000);"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"></path></svg>
-                        GitHub
-                </a>
-            <a href="../../main.html" class="topbar-back">← Back to StillHere</a>
-        </div>
-    </nav>
- 
-    <div class="layout">
- 
-        <aside class="sidebar">
-            <div class="sidebar-group-label">Emergency</div>
-            <a href="#emergency" class="sidebar-link active">
-                <i class="ph ph-warning"></i>
-                In Immediate Danger
-            </a>
- 
-            <div class="sidebar-group-label">By Region</div>
-            <a href="#europe" class="sidebar-link">
-                <i class="ph ph-globe"></i>
-                Europe
-            </a>
-            <a href="#north-america" class="sidebar-link">
-                <i class="ph ph-globe"></i>
-                North America
-            </a>
-            <a href="#asia" class="sidebar-link">   
-                <i class="ph ph-globe"></i>
-                Asia & Pacific
-            </a>
-            <a href="#latam" class="sidebar-link">
-                <i class="ph ph-globe"></i>
-                Latin America
-            </a>
-            <a href="#africa" class="sidebar-link">
-                <i class="ph ph-globe"></i>
-                Africa & Middle East
-            </a>
- 
-            <div class="sidebar-group-label">By Topic</div>
-            <a href="#mental-health" class="sidebar-link">
-                <i class="ph ph-brain"></i>
-                Mental Health
-            </a>
-            <a href="#youth" class="sidebar-link">
-                <i class="ph ph-user"></i>
-                Youth Support
-            </a>
-            <a href="#lgbtq" class="sidebar-link">
-                <i class="ph ph-heart"></i>
-                LGBTQ+
-            </a>
-            <a href="#grief" class="sidebar-link">
-                <i class="ph ph-flower"></i>
-                Grief & Loss
-            </a>
-            <a href="#online" class="sidebar-link">
-                <i class="ph ph-chat-circle"></i>
-                Online & Chat
-            </a>
- 
-            <div class="sidebar-group-label">Info</div>
-            <a href="#disclaimer" class="sidebar-link">
-                <i class="ph ph-info"></i>
-                Disclaimer
-            </a>
-        </aside>
- 
-        <main class="content">
- 
-            <div id="emergency">
-                <div class="page-badge">
-                    <i class="ph ph-first-aid-kit"></i>
-                    Crisis Resources
-                </div>
-                <h1 class="page-title">Crisis Resources</h1>
-                <p class="page-subtitle">You are not alone. If you are in pain right now – there are people ready to listen, right now, for free.</p>
- 
-                <div class="alert-banner">
-                    <div class="alert-icon"><i class="ph ph-warning"></i></div>
-                    <div class="alert-body">
-                        <strong>In immediate danger?</strong> Call your local emergency number – <strong>112</strong> (Europe), <strong>911</strong> (US/Canada), <strong>999</strong> (UK), <strong>103</strong> (Ukraine) – or ask someone nearby for help.
-                    </div>
-                </div>
-            </div>
- 
-            <div class="divider"></div>
- 
-            <div class="doc-section" id="europe">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-globe"></i></div>
-                    <h2>Europe</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇺🇦</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Ukraine</span>
-                            <span class="hotline-org">Lifeline Ukraine</span>
-                            <a href="tel:7333" class="hotline-number">7333</a>
-                            <span class="hotline-desc">Free, 24/7, Ukrainian & Russian</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇺🇦</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Ukraine</span>
-                            <span class="hotline-org">National Psychological Aid Line</span>
-                            <a href="tel:0800505201" class="hotline-number">0 800 505 201</a>
-                            <span class="hotline-desc">Free from all phones, psychological support</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇬🇧</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United Kingdom</span>
-                            <span class="hotline-org">Samaritans</span>
-                            <a href="tel:116123" class="hotline-number">116 123</a>
-                            <span class="hotline-desc">Free, 24/7, confidential</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇩🇪</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Germany</span>
-                            <span class="hotline-org">Telefonseelsorge</span>
-                            <a href="tel:08001110111" class="hotline-number">0800 111 0 111</a>
-                            <span class="hotline-desc">Free, 24/7, anonymous</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇫🇷</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">France</span>
-                            <span class="hotline-org">Numéro National de Prévention du Suicide</span>
-                            <a href="tel:3114" class="hotline-number">3114</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇵🇱</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Poland</span>
-                            <span class="hotline-org">Telefon Zaufania dla Dorosłych</span>
-                            <a href="tel:116123" class="hotline-number">116 123</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇳🇱</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Netherlands</span>
-                            <span class="hotline-org">113 Zelfmoordpreventie</span>
-                            <a href="tel:113" class="hotline-number">113</a>
-                            <span class="hotline-desc">Free, 24/7, also online chat</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                            <span class="htag htag-chat">Chat</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇪🇺</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Europe (all countries)</span>
-                            <span class="hotline-org">European Helpline – Befrienders Worldwide</span>
-                            <a href="https://www.befrienders.org" target="_blank" class="hotline-number">befrienders.org</a>
-                            <span class="hotline-desc">Find a hotline in any country</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-chat">Directory</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="north-america">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-globe"></i></div>
-                    <h2>North America</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇺🇸</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United States</span>
-                            <span class="hotline-org">988 Suicide & Crisis Lifeline</span>
-                            <a href="tel:988" class="hotline-number">988</a>
-                            <span class="hotline-desc">Free, 24/7, call or text</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇺🇸</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United States</span>
-                            <span class="hotline-org">Crisis Text Line</span>
-                            <span class="hotline-number">Text HOME to 741741</span>
-                            <span class="hotline-desc">Free, 24/7, text only</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                            <span class="htag htag-chat">Text</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇨🇦</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Canada</span>
-                            <span class="hotline-org">Talk Suicide Canada</span>
-                            <a href="tel:18334564566" class="hotline-number">1-833-456-4566</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="asia">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-globe"></i></div>
-                    <h2>Asia & Pacific</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇯🇵</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Japan</span>
-                            <span class="hotline-org">Inochi no Denwa</span>
-                            <a href="tel:120783556" class="hotline-number">0120-783-556</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇦🇺</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Australia</span>
-                            <span class="hotline-org">Lifeline Australia</span>
-                            <a href="tel:131114" class="hotline-number">13 11 14</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇮🇳</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">India</span>
-                            <span class="hotline-org">iCall</span>
-                            <a href="tel:9152987821" class="hotline-number">9152987821</a>
-                            <span class="hotline-desc">Mon–Sat, 8am–10pm IST</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="latam">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-globe"></i></div>
-                    <h2>Latin America</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇧🇷</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Brazil</span>
-                            <span class="hotline-org">CVV – Centro de Valorização da Vida</span>
-                            <a href="tel:188" class="hotline-number">188</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇲🇽</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Mexico</span>
-                            <span class="hotline-org">SAPTEL</span>
-                            <a href="tel:525555259090" class="hotline-number">55 5259-8121</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="africa">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-globe"></i></div>
-                    <h2>Africa & Middle East</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇿🇦</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">South Africa</span>
-                            <span class="hotline-org">SADAG</span>
-                            <a href="tel:0800456789" class="hotline-number">0800 456 789</a>
-                            <span class="hotline-desc">Free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇮🇱</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Israel</span>
-                            <span class="hotline-org">ERAN</span>
-                            <a href="tel:1201" class="hotline-number">1201</a>
-                            <span class="hotline-desc">Free, 24/7, multilingual</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="mental-health">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-brain"></i></div>
-                    <h2>Mental Health (Non-Emergency)</h2>
-                </div>
-                <p>These services offer ongoing psychological support – not only in acute crises.</p>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🌍</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">International</span>
-                            <span class="hotline-org">7 Cups</span>
-                            <a href="https://www.7cups.com" target="_blank" class="hotline-number">7cups.com</a>
-                            <span class="hotline-desc">Free online chat with trained listeners, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                            <span class="htag htag-chat">Chat</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🌍</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">International</span>
-                            <span class="hotline-org">Crisis Text Line</span>
-                            <a href="https://www.crisistextline.org" target="_blank" class="hotline-number">crisistextline.org</a>
-                            <span class="hotline-desc">Available in US, UK, Canada, Ireland</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-chat">Text</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🌍</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">International</span>
-                            <span class="hotline-org">Findahelpline.com</span>
-                            <a href="https://findahelpline.com" target="_blank" class="hotline-number">findahelpline.com</a>
-                            <span class="hotline-desc">Find a helpline in any country</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-chat">Directory</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="youth">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-user"></i></div>
-                    <h2>Youth Support</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇬🇧</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United Kingdom</span>
-                            <span class="hotline-org">Childline</span>
-                            <a href="tel:0800 1111" class="hotline-number">0800 1111</a>
-                            <span class="hotline-desc">For under 19s, free, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇺🇸</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United States</span>
-                            <span class="hotline-org">Teen Line</span>
-                            <a href="tel:18008523338" class="hotline-number">1-800-852-8336</a>
-                            <span class="hotline-desc">For teens, by teens. 6pm–10pm PT</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇺🇦</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">Ukraine</span>
-                            <span class="hotline-org">Дитяча лінія</span>
-                            <a href="tel:116111" class="hotline-number">116 111</a>
-                            <span class="hotline-desc">For children and youth, free</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="lgbtq">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-heart"></i></div>
-                    <h2>LGBTQ+ Support</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇺🇸</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United States</span>
-                            <span class="hotline-org">The Trevor Project</span>
-                            <a href="tel:18664887386" class="hotline-number">1-866-488-7386</a>
-                            <span class="hotline-desc">LGBTQ+ youth crisis support, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🌍</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">International</span>
-                            <span class="hotline-org">Trans Lifeline</span>
-                            <a href="https://translifeline.org" target="_blank" class="hotline-number">translifeline.org</a>
-                            <span class="hotline-desc">Peer support by and for trans people</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-chat">Chat</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="grief">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-flower"></i></div>
-                    <h2>Grief & Loss</h2>
-                </div>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🌍</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">International</span>
-                            <span class="hotline-org">GriefShare</span>
-                            <a href="https://www.griefshare.org" target="_blank" class="hotline-number">griefshare.org</a>
-                            <span class="hotline-desc">Support groups for grief and loss worldwide</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-chat">Directory</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇬🇧</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United Kingdom</span>
-                            <span class="hotline-org">Cruse Bereavement Support</span>
-                            <a href="tel:08088081677" class="hotline-number">0808 808 1677</a>
-                            <span class="hotline-desc">Free, bereavement counselling</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="doc-section" id="online">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-chat-circle"></i></div>
-                    <h2>Online & Chat Support</h2>
-                </div>
-                <p>If calling feels too hard – these services let you type instead.</p>
- 
-                <div class="hotline-grid">
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🌍</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">International</span>
-                            <span class="hotline-org">IMAlive</span>
-                            <a href="https://www.imalive.org" target="_blank" class="hotline-number">imalive.org</a>
-                            <span class="hotline-desc">Online crisis chat, 24/7</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-24">24/7</span>
-                            <span class="htag htag-chat">Chat</span>
-                        </div>
-                    </div>
- 
-                    <div class="hotline-card">
-                        <div class="hotline-flag">🇬🇧</div>
-                        <div class="hotline-info">
-                            <span class="hotline-country">United Kingdom</span>
-                            <span class="hotline-org">Samaritans Online</span>
-                            <a href="https://www.samaritans.org" target="_blank" class="hotline-number">samaritans.org</a>
-                            <span class="hotline-desc">Email support at jo@samaritans.org</span>
-                        </div>
-                        <div class="hotline-tags">
-                            <span class="htag htag-free">Free</span>
-                            <span class="htag htag-chat">Email</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
- 
-            <div class="divider"></div>
- 
-            <div class="doc-section" id="disclaimer">
-                <div class="section-heading">
-                    <div class="section-icon"><i class="ph ph-info"></i></div>
-                    <h2>Disclaimer</h2>
-                </div>
-                <p>StillHere provides this directory as a convenience resource. We do not operate, endorse, or take responsibility for any listed service. Phone numbers and availability may change – always verify with the service directly.</p>
-                <p>This page is not a substitute for emergency services. If someone's life is in immediate danger, call local emergency services first.</p>
-                <p>To suggest a resource or report an outdated listing, contact us at <strong>support@stillhere.global</strong>.</p>
-            </div>
- 
-            <div class="doc-footer">
-                <span>© 2026 StillHere. You are not alone.</span>
-                <span><a href="../../main.html">← Back to platform</a></span>
-            </div>
- 
-        </main>
- 
-        <nav class="toc">
-            <div class="toc-title">On this page</div>
-            <a href="#emergency" class="toc-link active">In Immediate Danger</a>
-            <a href="#europe" class="toc-link">Europe</a>
-            <a href="#north-america" class="toc-link">North America</a>
-            <a href="#asia" class="toc-link">Asia & Pacific</a>
-            <a href="#latam" class="toc-link">Latin America</a>
-            <a href="#africa" class="toc-link">Africa & Middle East</a>
-            <a href="#mental-health" class="toc-link">Mental Health</a>
-            <a href="#youth" class="toc-link">Youth Support</a>
-            <a href="#lgbtq" class="toc-link">LGBTQ+</a>
-            <a href="#grief" class="toc-link">Grief & Loss</a>
-            <a href="#online" class="toc-link">Online & Chat</a>
-            <a href="#disclaimer" class="toc-link">Disclaimer</a>
-        </nav>
- 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
+
+  <img src="../../assets/doodles2/09_cloud.png"                       class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="../../assets/letters/_Special Characters/Asterisk_04.png" class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="../../assets/doodles2/06_double_heart.png"                class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="../../assets/letters/_Special Characters/Asterisk_02.png" class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+
+    <nav class="doc-nav" aria-label="Docs navigation">
+    <div class="doc-nav-left">
+      <button type="button" class="doc-nav-back" onclick="(history.length>1)?history.back():(location.href='../../main.html');">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>
+        <span>back</span>
+      </button>
+      <a href="../../main.html" class="logo"><span>StillHere</span></a>
     </div>
- 
+    <div class="doc-nav-right">
+      <a href="guidelines.html" class="doc-nav-link">guidelines</a>
+      <a href="privacy-policy.html" class="doc-nav-link">privacy</a>
+      <a href="terms-of-service.html" class="doc-nav-link">terms</a>
+      <a href="crisis-resources.html" class="doc-nav-link doc-nav-link--accent doc-nav-link--active">crisis resources</a>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+
+    <section class="doc-hero">
+      <div class="doc-hero-left">
+        <span class="doc-eyebrow"><em>—</em> crisis resources</span>
+        <h1 class="doc-title">
+          if you need <em>help <span class="doc-title-tail">now.<img src="../../assets/letters/_Special Characters/Asterisk_01.png" class="doc-title-star" alt="" aria-hidden="true"></span></em>
+      </h1>
+        <p class="doc-lede">
+          this isn't a hotline — but here's a list of <em>free, 24/7 lines</em> by country,
+          plus specialized support for grief, youth, LGBTQ+, and chat-based help.
+        </p>
+      </div>
+      <div class="doc-meta">
+        <div class="doc-meta-row"><span class="doc-meta-label">updated</span><span class="doc-meta-value">may 2026</span></div>
+        <div class="doc-meta-row"><span class="doc-meta-label">free</span><span class="doc-meta-value">all of them</span></div>
+        <div class="doc-meta-row"><span class="doc-meta-label">24/7</span><span class="doc-meta-value">most of them</span></div>
+      </div>
+    </section>
+
+    <div class="doc-alert">
+      <div class="doc-alert-head">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/></svg>
+        if you are in immediate danger
+      </div>
+      <div class="doc-prose">
+        <p>
+          please <strong>call your local emergency number now</strong> —
+          <strong>112</strong> (most of europe), <strong>911</strong> (us / canada),
+          <strong>999</strong> (uk / hong kong), <strong>000</strong> (australia),
+          <strong>110 / 119</strong> (japan).
+        </p>
+        <p>if you're not in physical danger but need a trained human to talk to, the lines below are <em>free, anonymous, and 24/7</em> in most countries.</p>
+      </div>
+    </div>
+
+    <nav class="doc-toc" aria-label="Table of contents">
+      <div class="doc-toc-head">— jump to</div>
+      <ol class="doc-toc-list">
+        <li><a href="#europe"><span>01</span><span>europe</span></a></li>
+        <li><a href="#na"><span>02</span><span>north america</span></a></li>
+        <li><a href="#asia"><span>03</span><span>asia &amp; pacific</span></a></li>
+        <li><a href="#latam"><span>04</span><span>latin america</span></a></li>
+        <li><a href="#mea"><span>05</span><span>middle east &amp; africa</span></a></li>
+        <li><a href="#youth"><span>06</span><span>youth support</span></a></li>
+        <li><a href="#lgbtq"><span>07</span><span>lgbtq+ support</span></a></li>
+        <li><a href="#grief"><span>08</span><span>grief &amp; loss</span></a></li>
+        <li><a href="#chat"><span>09</span><span>online &amp; chat support</span></a></li>
+      </ol>
+    </nav>
+
+    <section class="doc-section" id="europe">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 01</span><h2 class="doc-section-title">europe</h2><span class="doc-section-hint">free 24/7 lines</span></div>
+      <div class="doc-resource-grid">
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇪🇺</div>
+          <div class="doc-resource-country">all eu — emergency &amp; common hotlines</div>
+          <ul class="doc-resource-lines">
+            <li><em>emergency</em><a href="tel:112">112</a></li>
+            <li><em>emotional support (samaritans-europe)</em><a href="tel:116123">116 123</a></li>
+            <li><em>missing / abused children</em><a href="tel:116111">116 111</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇬🇧</div>
+          <div class="doc-resource-country">united kingdom</div>
+          <ul class="doc-resource-lines">
+            <li><em>samaritans</em><a href="tel:116123">116 123</a></li>
+            <li><em>shout (text)</em><a>text 85258</a></li>
+            <li><em>childline</em><a href="tel:08001111">0800 1111</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇩🇪</div>
+          <div class="doc-resource-country">germany</div>
+          <ul class="doc-resource-lines">
+            <li><em>telefonseelsorge</em><a href="tel:08001110111">0800 111 0 111</a></li>
+            <li><em>kinder &amp; jugendtelefon</em><a href="tel:116111">116 111</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇫🇷</div>
+          <div class="doc-resource-country">france</div>
+          <ul class="doc-resource-lines">
+            <li><em>3114 (suicide nationwide)</em><a href="tel:3114">3114</a></li>
+            <li><em>SOS amitié</em><a href="tel:0972394050">09 72 39 40 50</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇪🇸</div>
+          <div class="doc-resource-country">spain</div>
+          <ul class="doc-resource-lines">
+            <li><em>línea de la vida</em><a href="tel:024">024</a></li>
+            <li><em>teléfono de la esperanza</em><a href="tel:717003717">717 003 717</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇮🇹</div>
+          <div class="doc-resource-country">italy</div>
+          <ul class="doc-resource-lines">
+            <li><em>telefono amico</em><a href="tel:0223272327">02 2327 2327</a></li>
+            <li><em>samaritans onlus</em><a href="tel:800860022">800 86 00 22</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇵🇱</div>
+          <div class="doc-resource-country">poland</div>
+          <ul class="doc-resource-lines">
+            <li><em>telefon zaufania (adults)</em><a href="tel:116123">116 123</a></li>
+            <li><em>telefon zaufania (youth)</em><a href="tel:116111">116 111</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇺🇦</div>
+          <div class="doc-resource-country">ukraine</div>
+          <ul class="doc-resource-lines">
+            <li><em>lifeline ukraine</em><a href="tel:7333">7333</a></li>
+            <li><em>la strada</em><a href="tel:116123">116 123</a></li>
+            <li><em>national helpline (free)</em><a href="tel:0800500225">0 800 500 225</a></li>
+          </ul>
+        </article>
+
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇷🇺</div>
+          <div class="doc-resource-country">russia (Russian-speaking)</div>
+          <ul class="doc-resource-lines">
+            <li><em>children's helpline (free)</em><a href="tel:88002000122">8 800 2000 122</a></li>
+            <li><em>moscow psychological support</em><a href="tel:051">051</a></li>
+            <li><em>ministry of health hotline</em><a href="tel:88002000389">8 800 2000 389</a></li>
+            <li><em>"yasnoye utro" — cancer support (free)</em><a href="tel:88001001191">8 800 100 0191</a></li>
+          </ul>
+        </article>
+
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇧🇾</div>
+          <div class="doc-resource-country">belarus</div>
+          <ul class="doc-resource-lines">
+            <li><em>helpline (minsk)</em><a href="tel:80173520303">8 (017) 352 03 03</a></li>
+            <li><em>emergency psychological help</em><a href="tel:170">170</a></li>
+          </ul>
+        </article>
+
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇰🇿</div>
+          <div class="doc-resource-country">kazakhstan</div>
+          <ul class="doc-resource-lines">
+            <li><em>national helpline (free)</em><a href="tel:150">150</a></li>
+            <li><em>youth helpline</em><a href="tel:111">111</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc-section" id="na">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 02</span><h2 class="doc-section-title">north america</h2></div>
+      <div class="doc-resource-grid">
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇺🇸</div>
+          <div class="doc-resource-country">united states</div>
+          <ul class="doc-resource-lines">
+            <li><em>988 suicide &amp; crisis</em><a href="tel:988">988</a></li>
+            <li><em>crisis text line</em><a>text 741741</a></li>
+            <li><em>SAMHSA</em><a href="tel:18006624357">1-800-662-4357</a></li>
+            <li><em>veterans crisis line</em><a href="tel:988">988 press 1</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇨🇦</div>
+          <div class="doc-resource-country">canada</div>
+          <ul class="doc-resource-lines">
+            <li><em>talk suicide canada</em><a href="tel:18334564566">1-833-456-4566</a></li>
+            <li><em>kids help phone</em><a href="tel:18006686868">1-800-668-6868</a></li>
+            <li><em>9-8-8 (nationwide)</em><a href="tel:988">988</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇲🇽</div>
+          <div class="doc-resource-country">mexico</div>
+          <ul class="doc-resource-lines">
+            <li><em>SAPTEL</em><a href="tel:5552598121">55 5259 8121</a></li>
+            <li><em>locatel (mexico city)</em><a href="tel:5556581111">55 5658 1111</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc-section" id="asia">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 03</span><h2 class="doc-section-title">asia &amp; pacific</h2></div>
+      <div class="doc-resource-grid">
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇯🇵</div>
+          <div class="doc-resource-country">japan</div>
+          <ul class="doc-resource-lines">
+            <li><em>tell lifeline (english)</em><a href="tel:0357740992">03-5774-0992</a></li>
+            <li><em>yorisoi hotline</em><a href="tel:0120279338">0120-279-338</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇰🇷</div>
+          <div class="doc-resource-country">south korea</div>
+          <ul class="doc-resource-lines">
+            <li><em>suicide prevention</em><a href="tel:1393">1393</a></li>
+            <li><em>youth counseling</em><a href="tel:1388">1388</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇨🇳</div>
+          <div class="doc-resource-country">china</div>
+          <ul class="doc-resource-lines">
+            <li><em>beijing crisis line</em><a href="tel:01082951332">010-8295-1332</a></li>
+            <li><em>shanghai mental health</em><a href="tel:02164387250">021-6438-7250</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇮🇳</div>
+          <div class="doc-resource-country">india</div>
+          <ul class="doc-resource-lines">
+            <li><em>iCall (TISS)</em><a href="tel:9152987821">9152987821</a></li>
+            <li><em>vandrevala</em><a href="tel:18602662345">1860-266-2345</a></li>
+            <li><em>AASRA</em><a href="tel:9820466726">9820466726</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇦🇺</div>
+          <div class="doc-resource-country">australia</div>
+          <ul class="doc-resource-lines">
+            <li><em>lifeline</em><a href="tel:131114">13 11 14</a></li>
+            <li><em>beyond blue</em><a href="tel:1300224636">1300 22 4636</a></li>
+            <li><em>kids helpline</em><a href="tel:1800551800">1800 55 1800</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇳🇿</div>
+          <div class="doc-resource-country">new zealand</div>
+          <ul class="doc-resource-lines">
+            <li><em>1737 — need to talk?</em><a href="tel:1737">1737</a></li>
+            <li><em>lifeline aotearoa</em><a href="tel:0800543354">0800 543 354</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc-section" id="latam">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 04</span><h2 class="doc-section-title">latin america</h2></div>
+      <div class="doc-resource-grid">
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇧🇷</div>
+          <div class="doc-resource-country">brazil</div>
+          <ul class="doc-resource-lines">
+            <li><em>CVV (centro de valorização da vida)</em><a href="tel:188">188</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇦🇷</div>
+          <div class="doc-resource-country">argentina</div>
+          <ul class="doc-resource-lines">
+            <li><em>centro de asistencia al suicida (caba)</em><a href="tel:135">135</a></li>
+            <li><em>fuera de caba</em><a href="tel:01152752085">011 5275-2085</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇨🇴</div>
+          <div class="doc-resource-country">colombia</div>
+          <ul class="doc-resource-lines">
+            <li><em>línea 106 (bogotá)</em><a href="tel:106">106</a></li>
+            <li><em>línea púrpura</em><a href="tel:018000112137">018000-112-137</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇨🇱</div>
+          <div class="doc-resource-country">chile</div>
+          <ul class="doc-resource-lines">
+            <li><em>fono salud responde</em><a href="tel:6003607777">600 360 7777</a></li>
+            <li><em>línea libre (niños)</em><a href="tel:1515">1515</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc-section" id="mea">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 05</span><h2 class="doc-section-title">middle east &amp; africa</h2></div>
+      <div class="doc-resource-grid">
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇮🇱</div>
+          <div class="doc-resource-country">israel</div>
+          <ul class="doc-resource-lines">
+            <li><em>ERAN</em><a href="tel:1201">1201</a></li>
+            <li><em>natal (trauma &amp; war)</em><a href="tel:180036363">1-800-363-363</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇦🇪</div>
+          <div class="doc-resource-country">UAE</div>
+          <ul class="doc-resource-lines">
+            <li><em>dubai 24/7 helpline</em><a href="tel:8004673">800-4673</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇿🇦</div>
+          <div class="doc-resource-country">south africa</div>
+          <ul class="doc-resource-lines">
+            <li><em>SADAG suicide line</em><a href="tel:0800567567">0800 567 567</a></li>
+            <li><em>lifeline national</em><a href="tel:0861322322">0861 322 322</a></li>
+          </ul>
+        </article>
+        <article class="doc-resource">
+          <div class="doc-resource-flag">🇰🇪</div>
+          <div class="doc-resource-country">kenya</div>
+          <ul class="doc-resource-lines">
+            <li><em>befrienders kenya</em><a href="tel:+254722178177">+254 722 178 177</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc-section" id="youth">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 06</span><h2 class="doc-section-title">youth support</h2></div>
+      <div class="doc-prose">
+        <p>specifically trained for people under 25:</p>
+        <ul>
+          <li><strong>116 111</strong> — europe-wide youth helpline.</li>
+          <li><strong>childline UK</strong> — <a href="tel:08001111">0800 1111</a>, also online chat.</li>
+          <li><strong>kids help phone (canada)</strong> — <a href="tel:18006686868">1-800-668-6868</a>.</li>
+          <li><strong>kids helpline (au)</strong> — <a href="tel:1800551800">1800 55 1800</a>, 5–25.</li>
+          <li><strong>youthline (nz)</strong> — <a href="tel:0800376633">0800 376 633</a> or text 234.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="doc-section" id="lgbtq">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 07</span><h2 class="doc-section-title">lgbtq+ support</h2></div>
+      <div class="doc-prose">
+        <ul>
+          <li><strong>the trevor project (us)</strong> — <a href="tel:18664887386">1-866-488-7386</a> · text START to 678678 · 24/7.</li>
+          <li><strong>trans lifeline (us/ca)</strong> — <a href="tel:18775658860">1-877-565-8860</a>.</li>
+          <li><strong>switchboard lgbt+ (uk)</strong> — <a href="tel:08000119100">0800 0119 100</a>.</li>
+          <li><strong>mindout (uk)</strong> — online chat &amp; email-based.</li>
+          <li><strong>qlife (au)</strong> — <a href="tel:1800184527">1800 184 527</a>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="doc-section" id="grief">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 08</span><h2 class="doc-section-title">grief &amp; loss</h2></div>
+      <div class="doc-prose">
+        <ul>
+          <li><strong>cruse bereavement (uk)</strong> — <a href="tel:08088081677">0808 808 1677</a>.</li>
+          <li><strong>griefshare (international)</strong> — online groups, free, in many countries.</li>
+          <li><strong>the dougy center</strong> — children &amp; teens, online resources.</li>
+          <li><strong>compassionate friends</strong> — support after losing a child, branches worldwide.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="doc-section" id="chat">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 09</span><h2 class="doc-section-title">online &amp; chat support</h2></div>
+      <div class="doc-prose">
+        <h3>if calling feels like too much:</h3>
+        <ul>
+          <li><strong><a href="https://www.imalive.org" target="_blank" rel="noopener">imalive.org</a></strong> — peer chat with trained volunteers (us).</li>
+          <li><strong><a href="https://www.crisistextline.org" target="_blank" rel="noopener">crisis text line</a></strong> — text-based, US/UK/Canada/Ireland.</li>
+          <li><strong><a href="https://www.7cups.com" target="_blank" rel="noopener">7 cups</a></strong> — free emotional support listeners, worldwide.</li>
+          <li><strong><a href="https://befrienders.org" target="_blank" rel="noopener">befrienders worldwide</a></strong> — directory of crisis lines in 32+ countries.</li>
+          <li><strong><a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a></strong> — search any country, any topic.</li>
+        </ul>
+        <p>russian-language resources:</p>
+        <ul>
+          <li><strong><a href="https://pomogi.org/" target="_blank" rel="noopener">pomogi.org</a></strong> — directory of free psychological help in Russian.</li>
+          <li><strong><a href="https://www.b17.ru/" target="_blank" rel="noopener">b17.ru</a></strong> — large psychologist directory; many offer a free first consultation.</li>
+          <li><strong><a href="https://your-territory.ru/" target="_blank" rel="noopener">"your territory"</a></strong> — free online chat &amp; calls for teens and young adults.</li>
+          <li><strong><a href="https://psymanyfound.ru/" target="_blank" rel="noopener">"we're near"</a></strong> — online psychological support with a live chat option.</li>
+          <li><strong><a href="https://teleminzdrav.ru/" target="_blank" rel="noopener">telemedicine — Russian Ministry of Health</a></strong> — official hotline &amp; online consultations.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="doc-note">
+      <strong>note —</strong> these numbers are checked carefully but can change. if a line
+      doesn't work, please use <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a>
+      to find a current one for your country, and please <a href="mailto:hello@stillhere.app">tell us</a>
+      so we can update this list.
+    </div>
+
+    <section class="doc-closing">
+      <div class="doc-closing-title">whatever brought you here — <em>we're glad you're still here.</em></div>
+      <p class="doc-closing-text">
+        you didn't have to look this up. you did. that matters.
+        <br>if calling a hotline feels too big, even just sitting with a glass of water for ten minutes is something. then maybe try one of the chat options above.
+      </p>
+      <div class="doc-closing-actions">
+        <a href="../../ai-chat.html" class="doc-btn doc-btn--primary">talk to ai companion</a>
+        <a href="../../main.html" class="doc-btn doc-btn--ghost">back to feed</a>
+      </div>
+    </section>
+
+  </main>
+
+    <footer class="footer">
+    <div class="footer_content">
+        <div class="footer_main">
+            <div class="footer_stillhere">
+                <div class="footer_logo">
+                    <p>StillHere</p>
+                </div>
+                <p class="footer_subtitle">A project about presence, not solutions</p>
+            </div>
+
+            <div class="footer_links">
+                <div class="footer_links_1">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="../main.html">Browse Stories</a></li>
+                        <li><a href="../create-post.html">Share Your Story</a></li>
+                        <li><a href="../../nav-bar/updates.html">Updates</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_2">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="../../nav-bar/about.html">About Us</a></li>
+                        <li><a href="../../nav-bar/contacts.html">Contacts</a></li>
+                        <li><a href="guidelines.html">Guidelines</a></li>
+                        <li><a href="crisis-resources.html">Crisis Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_3">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer_footer">
+            <div class="footer_legal">
+                  <p>2026 StillHere.</p>
+                  <p class="implicit-consent">
+                    by being here, you accept our
+                    <a href="terms-of-service.html">terms</a>
+                    &amp; <a href="privacy-policy.html">privacy</a>.
+                  </p>
+                </div>
+            <div class="footer_social">
+                <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+  <script>
+    (function () {
+      document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
+        var btn = wrap.querySelector('.main-menu-trigger');
+        var panel = wrap.querySelector('.main-menu-panel');
+        if (!btn || !panel) return;
+        btn.addEventListener('click', function (e) { e.stopPropagation(); panel.classList.toggle('is-open'); });
+        panel.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) { p.classList.remove('is-open'); });
+      });
+      var navEl = document.querySelector('.top-info');
+      if (navEl) { window.addEventListener('scroll', function () { navEl.classList.toggle('is-scrolled', window.scrollY > 24); }, { passive: true }); }
+    })();
+  </script>
 </body>
 </html>
- 

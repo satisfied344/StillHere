@@ -42,6 +42,11 @@ if (searchInput && searchClear) {
   searchClear.addEventListener('click', function () {
     searchInput.value = '';
     syncClearBtn();
+    /* Programmatic `value = ''` does NOT fire the `input` event, so the
+       feed-filter listener (which reads searchInput.value) never re-runs and
+       the previous query lingers. Dispatch a real `input` event so every
+       attached listener treats this exactly like a manual clear. */
+    searchInput.dispatchEvent(new Event('input', { bubbles: true }));
     searchInput.focus();
   });
 }
@@ -194,8 +199,45 @@ function showMainToast(msg) {
   if (!t) return;
   t.textContent = msg;
   t.classList.add('is-visible');
-  setTimeout(function () { t.classList.remove('is-visible'); }, 2200);
+  setTimeout(function () { t.classList.remove('is-visible'); }, 2800);
 }
+
+/* ── Report (post) — feed-level, calls SH_MOD.report ── */
+document.addEventListener('click', async function (e) {
+  var rbtn = e.target.closest('[data-action-report]');
+  if (!rbtn) return;
+  closeAllPostMenus();
+
+  var pid = rbtn.getAttribute('data-action-report');
+  console.log('[main-report] click', { pid, hasSHMOD: !!(window.SH_MOD && window.SH_MOD.report) });
+  if (!pid) { showMainToast('Cannot report — post id missing.'); return; }
+  if (!window.SH_MOD || !window.SH_MOD.report) {
+    showMainToast('Cannot report — moderation API not loaded.');
+    return;
+  }
+
+  showMainToast('Sending report…');
+  try {
+    var res = await window.SH_MOD.report('post', pid, null);
+    console.log('[main-report] response', res);
+
+    if (!res || res.ok === false) {
+      var err = (res && res.error) || 'unknown';
+      if (err === 'already_reported') showMainToast('You already reported this.');
+      else                            showMainToast('Could not send report — ' + err);
+      return;
+    }
+    var msg = 'Thanks — report counted (weight ' + (res.weight_added || 1) + ').';
+    if (res.new_state === 'ai_reviewing')   msg = 'Thanks — flagged for AI review.';
+    if (res.new_state === 'hidden')         msg = 'Thanks — hidden pending review.';
+    if (res.new_state === 'shadow')         msg = 'Thanks — downranked while we look.';
+    if (res.new_state === 'pending_manual') msg = 'Thanks — sent to manual review.';
+    showMainToast(msg);
+  } catch (ex) {
+    console.error('[main-report] exception:', ex);
+    showMainToast('Report failed: ' + (ex && ex.message ? ex.message : 'unknown'));
+  }
+});
 
 /* ─────────────────────────────────────────────
    Supabase — load posts from database
@@ -370,7 +412,7 @@ function showMainToast(msg) {
                   'M96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>' +
                   'Delete post</button></li>'
               : '') +
-            '<li role="menu-item"><button type="button" class="menu-item-report">' +
+            '<li role="menu-item"><button type="button" class="menu-item-report" data-action-report="' + id + '">' +
               '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9' +
               'a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72' +
@@ -430,18 +472,54 @@ function showMainToast(msg) {
   var searchQuery       = '';
   var activeSavedFilter = false; // true when "Saved" sidebar item is selected
 
-  /* ── infinite scroll state ── */
-  var PAGE_SIZE            = 12;
+  /* ── pagination state ── */
+  /* Progressive batches: first render shows 10, then each click reveals
+     10, 15, 15, 20, then 20 forever. */
+  var BATCH_SIZES          = [10, 10, 15, 15, 20];
+  var batchIndex           = 0;          // how many batches already rendered
   var currentFilteredPosts = [];
   var displayedCount       = 0;
   var _scrollObserver      = null;
 
+  function nextBatchSize() {
+    return batchIndex < BATCH_SIZES.length ? BATCH_SIZES[batchIndex] : 20;
+  }
+
+  /* ── "Load more" button — shown after the first batch ── */
+  var loadMoreBtn = document.createElement('button');
+  loadMoreBtn.type = 'button';
+  loadMoreBtn.id = 'feedLoadMoreBtn';
+  loadMoreBtn.className = 'feed-load-more-btn';
+  loadMoreBtn.innerHTML =
+    '<span>Show more stories</span>' +
+    '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+    '<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
+  loadMoreBtn.style.display = 'none';
+  loadMoreBtn.addEventListener('click', function () { renderBatch(); });
+  if (feed.parentNode) feed.parentNode.insertBefore(loadMoreBtn, feed.nextSibling);
+
+  function syncLoadMoreBtn() {
+    var hasMore = displayedCount < currentFilteredPosts.length;
+    loadMoreBtn.style.display = hasMore ? 'inline-flex' : 'none';
+    if (hasMore) {
+      var remaining = currentFilteredPosts.length - displayedCount;
+      var size      = nextBatchSize();
+      var label     = loadMoreBtn.querySelector('span');
+      if (label) {
+        label.textContent = 'Show more stories' +
+          (remaining > size ? ' (' + remaining + ' left)' : '');
+      }
+    }
+  }
+
   /* ── append next batch of posts ── */
 
   function renderBatch() {
-    var batch = currentFilteredPosts.slice(displayedCount, displayedCount + PAGE_SIZE);
+    var size  = nextBatchSize();
+    var batch = currentFilteredPosts.slice(displayedCount, displayedCount + size);
     if (!batch.length) {
       if (_scrollObserver) _scrollObserver.disconnect();
+      syncLoadMoreBtn();
       return;
     }
     var fragment = document.createDocumentFragment();
@@ -452,9 +530,11 @@ function showMainToast(msg) {
     });
     feed.insertBefore(fragment, loader);
     displayedCount += batch.length;
+    batchIndex++;
     if (displayedCount >= currentFilteredPosts.length && _scrollObserver) {
       _scrollObserver.disconnect();
     }
+    syncLoadMoreBtn();
   }
 
   function initScrollObserver() {
@@ -473,6 +553,7 @@ function showMainToast(msg) {
 
     currentFilteredPosts = posts || [];
     displayedCount = 0;
+    batchIndex     = 0;
 
     if (!currentFilteredPosts.length) {
       if (_scrollObserver) _scrollObserver.disconnect();
@@ -485,12 +566,15 @@ function showMainToast(msg) {
           : 'No stories yet. Be the first to share yours.');
       empty.style.cssText = 'text-align:center;color:#888;padding:40px 0;font-size:15px;';
       feed.insertBefore(empty, loader);
+      syncLoadMoreBtn();
       return;
     }
 
+    /* Render first page only — user clicks "Show more" for the rest.
+       (No IntersectionObserver — it fires immediately on attach if the
+       sentinel is already in view, which auto-loads everything.) */
     renderBatch();
-    if (currentFilteredPosts.length > PAGE_SIZE) initScrollObserver();
-    else if (_scrollObserver) _scrollObserver.disconnect();
+    if (_scrollObserver) _scrollObserver.disconnect();
   }
 
   /* ── client-side filter ── */
@@ -710,6 +794,10 @@ function showMainToast(msg) {
     if (loader) loader.style.display = 'flex';
     feed.querySelectorAll('.post-card, .feed-empty').forEach(function (el) { el.remove(); });
 
+    /* Hide the "Show more stories" button while we're reloading —
+       renderPosts() will re-show it if there are still more posts after the fetch. */
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+
     var refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) refreshBtn.classList.add('spinning');
 
@@ -746,12 +834,36 @@ function showMainToast(msg) {
         if (loader) loader.style.display = 'none';
         return;
       }
-      /* merge live comment count from the join */
+      /* merge live comment count from the join (may be 0 if RLS hides rows from anon) */
       var rawPosts = (result.data || []).map(function (p) {
         var liveCount = (p.comments && p.comments[0]) ? (p.comments[0].count || 0) : 0;
         p.comment_count = liveCount;
         return p;
       });
+
+      /* Robust fallback: always re-fetch comment counts via a separate query
+         and merge in. The nested `comments(count)` aggregate sometimes returns
+         0 even when comments exist (e.g. due to RLS visibility). Fetching the
+         raw post_id column and counting client-side is reliable. */
+      var visibleIds = rawPosts.map(function (p) { return p.id; }).filter(Boolean);
+      if (visibleIds.length) {
+        db.from('comments')
+          .select('post_id')
+          .in('post_id', visibleIds)
+          .then(function (cr) {
+            if (!cr.error && cr.data) {
+              var counts = {};
+              cr.data.forEach(function (c) {
+                counts[c.post_id] = (counts[c.post_id] || 0) + 1;
+              });
+              rawPosts.forEach(function (p) {
+                if (counts[p.id] !== undefined) p.comment_count = counts[p.id];
+              });
+              /* Re-render with corrected counts if posts already rendered */
+              if (typeof applyFilters === 'function') applyFilters();
+            }
+          });
+      }
 
       /* If any posts are missing profile data, fetch those profiles
          separately and merge them in before rendering. */
@@ -813,7 +925,10 @@ function showMainToast(msg) {
   /* ── topic counts (left sidebar) ── */
 
   function updateTopicCounts(posts) {
-    var counts = { anxiety: 0, depression: 0, relationships: 0, grief: 0, burnout: 0 };
+    var counts = {
+      anxiety: 0, depression: 0, relationships: 0, grief: 0, burnout: 0,
+      loneliness: 0, trauma: 0, other: 0
+    };
     posts.forEach(function (post) {
       (post.topics || []).forEach(function (t) {
         if (Object.prototype.hasOwnProperty.call(counts, t)) counts[t]++;
@@ -825,11 +940,22 @@ function showMainToast(msg) {
     });
   }
 
-  /* ── "This Week" stats (right sidebar) ── */
+  /* ── "This Week" stats (right sidebar) ──
+     Counts events since the start of the current calendar week (Monday 00:00 local).
+     This makes the widget visibly RESET every Monday — true "this week" meaning. */
+
+  function startOfCalendarWeek() {
+    var d = new Date();
+    d.setHours(0, 0, 0, 0);
+    var day = d.getDay();        // 0=Sun, 1=Mon, … 6=Sat
+    var back = day === 0 ? 6 : day - 1;
+    d.setDate(d.getDate() - back);
+    return d;
+  }
 
   function updateWeekStats(posts) {
-    var weekAgo  = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    var stories  = posts.filter(function (p) { return new Date(p.created_at) >= weekAgo; }).length;
+    var weekStart = startOfCalendarWeek();
+    var stories   = posts.filter(function (p) { return new Date(p.created_at) >= weekStart; }).length;
 
     var storiesEl = document.getElementById('stat-stories');
     var supportEl = document.getElementById('stat-support');
@@ -837,10 +963,10 @@ function showMainToast(msg) {
 
     if (storiesEl) storiesEl.textContent = String(stories);
 
-    /* Support given = total comments this week; also used for active members */
+    /* Support given = total comments since Monday; also used for active members */
     db.from('comments')
       .select('id', { count: 'exact', head: true })
-      .gte('created_at', weekAgo.toISOString())
+      .gte('created_at', weekStart.toISOString())
       .then(function (res) {
         var commentCount = res.error ? 0 : (res.count || 0);
         if (supportEl) supportEl.textContent = String(commentCount);

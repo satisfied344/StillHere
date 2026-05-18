@@ -1,174 +1,611 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Join – StillHere</title>
-  <link rel="stylesheet" href="CSS/register-screen.css">
+  <title>Join — StillHere</title>
+  <link rel="stylesheet" href="CSS/main-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="JS/theme.js"></script>
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       Auth (register) — paper aesthetic, matches login.html
+       ══════════════════════════════════════════════════════ */
+    body { overflow-x: hidden; }
+
+    .auth-page {
+      min-height: calc(100vh - 73px);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: calc(73px + 38px) 32px 60px;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 60px;
+      align-items: center;
+      animation: authIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes authIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-intro { min-width: 0; max-width: 520px; }
+    .auth-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+    .auth-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+
+    .auth-title {
+      font-family: "Caveat", cursive;
+      font-size: 70px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+    .auth-title em {
+      color: var(--accent-2);
+      font-style: italic;
+      font-weight: 700;
+    }
+    .auth-title-star {
+      display: inline-block;
+      width: 36px; height: 36px;
+      vertical-align: top;
+      margin-left: 6px;
+      margin-top: 14px;
+      transform: rotate(-12deg);
+      animation: authBob 4.5s ease-in-out infinite;
+    }
+    @keyframes authBob {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50%      { transform: rotate(-4deg)  translateY(-5px); }
+    }
+    .auth-lede {
+      font-size: 15px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      max-width: 460px;
+      margin-bottom: 20px;
+    }
+    .auth-lede em {
+      color: var(--accent-2);
+      font-style: italic;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+      padding-bottom: 1px;
+    }
+    .auth-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .auth-bullets li {
+      position: relative;
+      padding: 4px 0 4px 22px;
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+    }
+    .auth-bullets li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 13px;
+      width: 12px; height: 1px;
+      background: var(--accent-2);
+    }
+    .auth-bullets li strong { color: var(--ink); font-weight: 600; }
+
+    .auth-card {
+      background: var(--paper-soft);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 26px 30px 24px;
+      box-shadow: 0 12px 36px -16px rgba(26, 20, 16, 0.22), 0 1px 3px rgba(26, 20, 16, 0.04);
+      position: relative;
+      max-width: 460px;
+      width: 100%;
+      justify-self: end;
+    }
+    .auth-card::before {
+      content: "";
+      position: absolute;
+      top: -11px; left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 88px; height: 22px;
+      background: rgba(109, 130, 104, 0.32);
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(26, 20, 16, 0.08);
+    }
+
+    .auth-card-eyebrow {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 4px;
+    }
+    .auth-card-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .auth-card-sub {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .fields-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .field-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .field-optional {
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+    .field-hint {
+      font-size: 11.5px;
+      color: var(--ink-light);
+      font-style: italic;
+      margin-top: 2px;
+    }
+    .field-error {
+      font-size: 12px;
+      color: var(--accent-2);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .form-error {
+      font-size: 13px;
+      color: var(--accent-2);
+      background: rgba(214, 83, 60, 0.08);
+      border: 1px solid rgba(214, 83, 60, 0.28);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 4px 0 0;
+    }
+
+    .auth-form input[type="text"],
+    .auth-form input[type="password"] {
+      width: 100%;
+      padding: 11px 14px;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .auth-form input::placeholder { color: var(--ink-light); opacity: 0.65; }
+    .auth-form input:hover { border-color: var(--ink-mid); }
+    .auth-form input:focus {
+      outline: none;
+      border-color: var(--accent-2);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.12);
+    }
+
+    /* Username — segmented field (@ on the left, input on the right) */
+    .input-prefix-wrap {
+      display: flex;
+      align-items: stretch;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .input-prefix-wrap:hover { border-color: var(--ink-mid); }
+    .input-prefix-wrap:focus-within {
+      border-color: var(--accent-2);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.12);
+    }
+    .input-prefix {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 12px;
+      background: rgba(26, 20, 16, 0.05);
+      border-right: 1.5px solid var(--line);
+      font-family: "Ubuntu", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-light);
+      user-select: none;
+    }
+    .input-prefix-wrap input,
+    .input-prefix-wrap input:hover,
+    .input-prefix-wrap input:focus {
+      border: none !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 11px 14px !important;
+      outline: none !important;
+    }
+
+    .input-pw-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-pw-wrap input { padding-right: 60px; }
+    .pw-toggle {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: var(--ink-light);
+      font-family: "Ubuntu", sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 4px 6px;
+      transition: color 0.2s ease;
+    }
+    .pw-toggle:hover { color: var(--accent-2); }
+
+    .pw-strength-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .pw-strength-track {
+      width: 100%;
+      height: 4px;
+      background: rgba(26, 20, 16, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .pw-strength-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-2);
+      border-radius: 4px;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+    /* Strength color gradient: red → orange → amber → sage green */
+    .pw-strength-bar--weak   { background: #d6533c; }   /* red */
+    .pw-strength-bar--fair   { background: #d68a3c; }   /* orange */
+    .pw-strength-bar--good   { background: #b8a23c; }   /* amber */
+    .pw-strength-bar--strong { background: #6d8268; }   /* sage green */
+    .pw-strength-meta {
+      font-size: 11px;
+      color: var(--ink-light);
+      font-style: italic;
+      min-height: 14px;
+    }
+
+    .terms-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      cursor: pointer;
+      user-select: none;
+      margin-top: 2px;
+    }
+    .terms-check input {
+      flex-shrink: 0;
+      margin-top: 2px;
+      width: 16px; height: 16px;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+    }
+    .terms-check a {
+      color: var(--accent-2);
+      font-weight: 500;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+    }
+    .terms-check a:hover { border-bottom-style: solid; }
+
+    .auth-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      margin-top: 4px;
+      background: var(--accent-2);
+      color: #fff;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 999px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px -3px rgba(214, 83, 60, 0.40);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .auth-btn:hover:not(:disabled) {
+      background: #b8462f;
+      border-color: #b8462f;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px -5px rgba(214, 83, 60, 0.50);
+    }
+    .auth-btn:active:not(:disabled) { transform: translateY(0); }
+    .auth-btn:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+    .auth-btn svg { transition: transform 0.25s ease; }
+    .auth-btn:hover:not(:disabled) svg { transform: translateX(3px); }
+
+    .auth-switch {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--line-soft);
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--ink-mid);
+    }
+    .auth-switch a {
+      color: var(--accent-2);
+      font-weight: 600;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+      padding-bottom: 1px;
+      margin-left: 4px;
+    }
+    .auth-switch a:hover { border-bottom-style: solid; }
+
+    @media (max-width: 900px) {
+      .auth-page {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding: calc(73px + 28px) 24px 50px;
+      }
+      .auth-intro { max-width: none; }
+      .auth-card { justify-self: stretch; max-width: none; }
+      .auth-title { font-size: 64px; }
+    }
+    @media (max-width: 540px) {
+      .auth-page { padding: calc(73px + 18px) 18px 40px; }
+      .auth-title { font-size: 52px; }
+      .auth-lede  { font-size: 15px; }
+      .auth-card { padding: 26px 22px 22px; }
+      .auth-card-title { font-size: 30px; }
+      .fields-row { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
+  <!-- Paper-grain noise filter -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <filter id="noise">
-      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
-      <feComponentTransfer><feFuncA type="linear" slope="0.09"/></feComponentTransfer>
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
     </filter>
   </svg>
 
-  <div class="bg_words" aria-hidden="true">
-    <div class="row left">
-      <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
-      <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
-      <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
-      <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
-    </div>
-    <div class="row right">
-      <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
-      <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
-      <span>you are here</span><span>estás aquí</span><span>tu es ici</span><span>du bist hier</span><span>ти тут</span>
-      <span>sei qui</span><span>você está aqui</span><span>jesteś tutaj</span><span>你在这里</span><span>あなたはここにいる</span>
-    </div>
-    <div class="row left slow">
-      <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
-      <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
-      <span>it's okay</span><span>todo bien</span><span>ça va</span><span>alles gut</span><span>все добре</span>
-      <span>va bene</span><span>tudo bem</span><span>w porządku</span><span>괜찮아</span><span>没关系</span>
-    </div>
-    <div class="row right slower">
-      <span>you matter</span><span>importas</span><span>tu comptes</span><span>du bist wichtig</span><span>ти важливий</span>
-      <span>sei importante</span><span>você importa</span><span>jesteś ważny</span><span>あなたは大切</span><span>你很重要</span>
-      <span>you're not alone</span><span>no estás solo</span><span>pas seul</span><span>nicht allein</span><span>не один</span>
-      <span>non sei solo</span><span>não está sozinho</span><span>nie jesteś sam</span><span>혼자가 아니야</span><span>你并不孤单</span>
-    </div>
-    <div class="row left slowest">
-      <span>stay</span><span>quédate</span><span>reste</span><span>bleib</span><span>залишайся</span>
-      <span>rimani</span><span>fica</span><span>zostań</span><span>ابقَ</span><span>とどまって</span>
-      <span>listen</span><span>escucha</span><span>écoute</span><span>hör zu</span><span>слухай</span>
-      <span>ascolta</span><span>ouve</span><span>słuchaj</span><span>倾听</span><span>들어봐</span>
-    </div>
-  </div>
+  <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
   <nav class="top-info" aria-label="Primary navigation">
-    <a href="main.html" class="logo">StillHere</a>
+    <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>
         <span>about</span>
       </a>
       <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg>
         <span>contacts</span>
       </a>
       <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/></svg>
         <span>updates</span>
       </a>
-      <a href="login.html" class="nav-link nav-link--stack nav-link--cta">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
-          <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/>
-        </svg>
+      <a href="login.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/></svg>
         <span>sign in</span>
       </a>
+
+      <div class="main-menu-dropdown">
+        <button class="main-menu-trigger" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
+        </button>
+        <ul class="main-menu-panel" role="menu">
+          <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
+          <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
+          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>AI support</a></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg>Statistics</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <main class="auth-main">
+  <!-- ════════════════════ PAGE ════════════════════ -->
+  <main class="auth-page">
 
-    <div class="auth-left">
-      <span class="auth-eyebrow">New here</span>
-      <h1 class="auth-title">No intro<br><em>required.</em></h1>
-      <p class="auth-sub">A handle and a password.<br>That's genuinely all we need.</p>
-      <p class="auth-note">Your real name stays yours.</p>
-    </div>
+    <!-- ─── LEFT — intro ─── -->
+    <section class="auth-intro">
+      <span class="auth-eyebrow"><em>—</em> new here</span>
+      <h1 class="auth-title">
+        no intro <em>required.</em>
+        <img src="assets/letters/_Special Characters/Asterisk_01.png" class="auth-title-star" alt="" aria-hidden="true">
+      </h1>
+      <p class="auth-lede">
+        a handle and a password — that's <em>genuinely all we need</em>.
+        your real name stays yours. no email verification, no profile
+        photo, no nothing.
+      </p>
+      <ul class="auth-bullets">
+        <li><strong>anonymous by default</strong> — handle is just so you can find your own posts</li>
+        <li>no email, no phone, no social-sign-in tracking</li>
+        <li>your data is <strong>never sold, profiled, or trained on</strong></li>
+        <li>delete your account anytime — really, the button works</li>
+      </ul>
+    </section>
 
-    <div class="auth-right">
-      <div class="auth-card">
-        <p class="auth-card-label">create account</p>
+    <!-- ─── RIGHT — card / form ─── -->
+    <section class="auth-card">
+      <div class="auth-card-eyebrow">— create account</div>
+      <h2 class="auth-card-title" style="margin-bottom: 18px;">Create your account</h2>
 
-        <form class="auth-form" id="registerForm" action="#" method="post" novalidate>
+      <form class="auth-form" id="registerForm" action="#" method="post" novalidate>
 
-          <div class="fields-row">
-            <div class="field">
-              <label class="field-label" for="reg-firstname">
-                First name
-                <span class="field-optional">optional</span>
-              </label>
-              <input type="text" id="reg-firstname" name="firstname"
-                     placeholder="–" autocomplete="given-name">
+        <div class="fields-row">
+          <div class="field">
+            <label class="field-label" for="reg-firstname">
+              first name
+              <span class="field-optional">optional</span>
+            </label>
+            <input type="text" id="reg-firstname" name="firstname"
+                   placeholder="–" autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label class="field-label" for="reg-lastname">
+              last name
+              <span class="field-optional">optional</span>
+            </label>
+            <input type="text" id="reg-lastname" name="lastname"
+                   placeholder="–" autocomplete="family-name">
+          </div>
+        </div>
+
+        <div class="field" id="field-username">
+          <label class="field-label" for="reg-username">username</label>
+          <div class="input-prefix-wrap">
+            <span class="input-prefix">@</span>
+            <input type="text" id="reg-username" name="username"
+                   placeholder="yourhandle" autocomplete="username" autofocus required>
+          </div>
+          <span class="field-hint">letters, numbers, _ and - only. 3–30 characters.</span>
+        </div>
+
+        <div class="field" id="field-password">
+          <label class="field-label" for="reg-password">password</label>
+          <div class="input-pw-wrap">
+            <input type="password" id="reg-password" name="password"
+                   placeholder="••••••••" autocomplete="new-password" required>
+            <button type="button" class="pw-toggle" data-target="reg-password" aria-label="Show password">
+              <span class="pw-toggle-show">show</span>
+              <span class="pw-toggle-hide" hidden>hide</span>
+            </button>
+          </div>
+          <div class="pw-strength-wrap">
+            <div class="pw-strength-track">
+              <div class="pw-strength-bar" id="pwStrengthBar"></div>
             </div>
-            <div class="field">
-              <label class="field-label" for="reg-lastname">
-                Last name
-                <span class="field-optional">optional</span>
-              </label>
-              <input type="text" id="reg-lastname" name="lastname"
-                     placeholder="–" autocomplete="family-name">
+            <div class="pw-strength-meta">
+              <span id="pwStrengthText"></span>
             </div>
           </div>
+        </div>
 
-          <div class="field" id="field-username">
-            <label class="field-label" for="reg-username">Username</label>
-            <div class="input-prefix-wrap">
-              <span class="input-prefix">@</span>
-              <input type="text" id="reg-username" name="username"
-                     placeholder="yourhandle" autocomplete="username" autofocus required>
-            </div>
-            <span class="field-hint">Letters, numbers, _ and - only. 3–30 characters.</span>
-          </div>
+        <label class="terms-check">
+          <input type="checkbox" required>
+          <span class="terms-text">
+            i agree to the <a href="docs/html/terms-of-service.html">terms of service</a>
+            and <a href="docs/html/privacy-policy.html">privacy policy</a>
+          </span>
+        </label>
 
-          <div class="field" id="field-password">
-            <label class="field-label" for="reg-password">Password</label>
-            <div class="input-pw-wrap">
-              <input type="password" id="reg-password" name="password"
-                     placeholder="••••••••" autocomplete="new-password" required>
-              <button type="button" class="pw-toggle" data-target="reg-password" aria-label="Show password">
-                <span class="pw-toggle-show">show</span>
-                <span class="pw-toggle-hide" hidden>hide</span>
-              </button>
-            </div>
-            <div class="pw-strength-wrap">
-              <div class="pw-strength-track">
-                <div class="pw-strength-bar" id="pwStrengthBar"></div>
-              </div>
-              <div class="pw-strength-meta">
-                <span id="pwStrengthText"></span>
-              </div>
-            </div>
-          </div>
+        <button type="submit" class="auth-btn">
+          create account
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+        </button>
 
-          <label class="terms-check">
-            <input type="checkbox" required>
-            <span class="terms-text">
-              I agree to the <a href="/docs/html/terms-of-service.html">Terms of Service</a>
-            </span>
-          </label>
+      </form>
 
-          <button type="submit" class="auth-btn">
-            Create account
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
-            </svg>
-          </button>
-
-        </form>
-
-        <p class="auth-switch">Already have an account? <a href="login.html">Sign in</a></p>
-
-      </div>
-    </div>
+      <p class="auth-switch">already have an account? <a href="login.html">sign in</a></p>
+    </section>
 
   </main>
+
+  <script>
+    /* ── Nav menu toggle ── */
+    (function () {
+      document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
+        var btn   = wrap.querySelector('.main-menu-trigger');
+        var panel = wrap.querySelector('.main-menu-panel');
+        if (!btn || !panel) return;
+        btn.setAttribute('aria-haspopup', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = panel.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', String(open));
+        });
+        panel.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) {
+          p.classList.remove('is-open');
+          var b = p.closest('.main-menu-dropdown').querySelector('.main-menu-trigger');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      /* Navbar scroll-shrink */
+      var navEl = document.querySelector('.top-info');
+      if (navEl) {
+        var last = false;
+        window.addEventListener('scroll', function () {
+          var s = window.scrollY > 24;
+          if (s !== last) { navEl.classList.toggle('is-scrolled', s); last = s; }
+        }, { passive: true });
+      }
+    })();
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="JS/supabase-config.js"></script>
@@ -176,4 +613,3 @@
   <script src="JS/auth.js"></script>
 </body>
 </html>
-

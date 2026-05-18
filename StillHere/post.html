@@ -18,6 +18,202 @@
   <script src="JS/post-page.js" defer></script>
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="JS/theme.js"></script>
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       Post — unify sidebar widgets with main / create-post
+       ══════════════════════════════════════════════════════ */
+
+    /* The whole post-sidebar — slightly looser gap */
+    .post-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Existing "this post" sidebar-widget — round it up to 12px */
+    .sidebar-widget {
+      border-radius: 12px !important;
+    }
+
+    /* Unified .widget styling — identical to main.html + create-post */
+    .widget {
+      background: rgba(255, 250, 240, 0.65);
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      padding: 20px 22px;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+      transition: opacity 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+    .widget:hover { border-color: var(--line); }
+
+    /* Crisis — red glow tint */
+    .widget.support {
+      background: rgba(214, 83, 60, 0.07);
+      border-color: rgba(214, 83, 60, 0.25);
+    }
+    .widget.support:hover {
+      background: rgba(214, 83, 60, 0.09);
+      border-color: rgba(214, 83, 60, 0.35);
+    }
+
+    /* AI — calm paper */
+    .widget.support.ai {
+      background: rgba(255, 250, 240, 0.65);
+      border-color: var(--line-soft);
+    }
+
+    .widget-title {
+      font-family: "Caveat", cursive !important;
+      font-size: 23px !important;
+      font-weight: 600 !important;
+      color: var(--ink);
+      line-height: 1.15;
+      margin: 0 0 6px;
+    }
+    .widget-subtitle {
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+      margin: 0 0 12px;
+    }
+
+    /* Crisis button — solid red filled */
+    .widget-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--accent-2);
+      color: #fff;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+      text-decoration: none;
+    }
+    .widget-link:hover {
+      background: #b8462f;
+      border-color: #b8462f;
+      transform: translateY(-1px);
+    }
+
+    /* AI button — outlined ink, hover fills sage green */
+    .widgetai-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--ink-mid);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+    .widgetai-link:hover {
+      background: #6d8268;
+      color: #fff;
+      border-color: #6d8268;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px -3px rgba(109, 130, 104, 0.40);
+    }
+    .widget-link .icon, .widgetai-link .icon { width: 16px; height: 16px; }
+
+    /* ══════════════════════════════════════════════════════
+       Round all main post / comment / button elements
+       (match main page card design)
+       ══════════════════════════════════════════════════════ */
+    .post-card,
+    .compose-card,
+    .comment-card {
+      border-radius: 14px !important;
+    }
+
+    /* Soft padding tweak for nicer rounded look */
+    .post-card { box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04); }
+    .compose-card { box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04); }
+    .comment-card { box-shadow: 0 1px 3px rgba(26, 20, 16, 0.03); }
+
+    /* Buttons / interactive bits — pills or rounded */
+    .heart-btn,
+    .action-btn,
+    .compose-submit,
+    .button-icon,
+    .post-menu-trigger,
+    .save-post-btn,
+    #copyLinkBtn,
+    #copyLinkBtn2,
+    .menu-item-danger,
+    .menu-item-report {
+      border-radius: 999px !important;
+    }
+
+    /* Dropdown menu */
+    .post-menu-down {
+      border-radius: 12px !important;
+    }
+    .post-menu-down li button,
+    .post-menu-down li > * {
+      border-radius: 8px !important;
+    }
+
+    /* Tag pills */
+    .post-tags > *,
+    .sidebar-tags > * {
+      border-radius: 999px !important;
+    }
+
+    /* Comment input (Quill in compose-card) */
+    #comment-editor .ql-toolbar.ql-snow {
+      border-radius: 10px 10px 0 0 !important;
+    }
+    #comment-editor .ql-container.ql-snow {
+      border-radius: 0 0 10px 10px !important;
+    }
+    .comment-rich-editor,
+    .compose-form {
+      border-radius: 12px !important;
+      overflow: hidden;
+    }
+
+    /* Author avatar rounded full */
+    .post-avatar { border-radius: 50% !important; }
+
+    /* "Show more replies" button — below the comment list */
+    .comments-load-more-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 14px auto 8px;
+      padding: 11px 24px;
+      background: #fffbf2;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    }
+    .comments-load-more-btn:hover {
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px -4px rgba(214, 83, 60, 0.20);
+    }
+    .comments-load-more-btn svg { transition: transform 0.25s ease; }
+    .comments-load-more-btn:hover svg { transform: translateY(2px); }
+  </style>
 </head>
 <body>
 
@@ -79,7 +275,7 @@
             <span>updates</span>
         </a>
 
-        <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
+        <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     width="30" height="30"
                     viewBox="0 0 256 256"
@@ -104,14 +300,16 @@
             </button>
               
       <ul class="main-menu-panel" role="menu">
-        <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
-        <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-        <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
-        <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
-        <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
-        <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-        <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
-      </ul>
+          <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
+          <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
+          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>AI support</a></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg>Statistics</a></li>
+        </ul>
       </div>
           </div>
   </nav>
@@ -269,6 +467,17 @@
           </div>
         </div>
 
+        <div class="widget support">
+          <h3 class="widget-title">Need Immediate Help?</h3>
+          <p class="widget-subtitle">If you're in crisis, please call out:</p>
+          <a href="docs/html/crisis-resources.html" class="widget-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
+              <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/>
+            </svg>
+            Crisis Hotlines
+          </a>
+        </div>
+
         <div class="widget support ai">
           <h3 class="widget-title">Need support right now?</h3>
           <p class="widget-subtitle">If you're going through something difficult, you can talk to our AI support:</p>
@@ -326,7 +535,14 @@
         </div>
 
         <div class="footer_footer">
-            <p>2026 StillHere.</p>
+            <div class="footer_legal">
+                  <p>2026 StillHere.</p>
+                  <p class="implicit-consent">
+                    by being here, you accept our
+                    <a href="docs/html/terms-of-service.html">terms</a>
+                    &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
+                  </p>
+                </div>
             <div class="footer_social">
                 <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -377,6 +593,40 @@
 </footer>
 
   <div class="toast" id="toast" aria-live="polite">Link copied</div>
+
+  <!-- Block modal — shown when commenting is rejected by the
+       BEFORE-INSERT trigger because the author is in user_blocks.
+       Reuses the .del-modal styling from post-screen.css. -->
+  <div class="del-backdrop" id="blockBackdrop" aria-hidden="true">
+    <div class="del-modal" role="alertdialog" aria-modal="true" aria-labelledby="blockTitle" aria-describedby="blockDesc">
+      <div class="del-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M128,24A104,104,0,1,0,232,128,104.13,104.13,0,0,0,128,24Zm88,104a87.55,87.55,0,0,1-20.41,56.28L71.72,60.41A88,88,0,0,1,216,128ZM40,128A87.55,87.55,0,0,1,60.41,71.72L184.28,195.59A88,88,0,0,1,40,128Z"/>
+        </svg>
+      </div>
+      <h2 class="del-title" id="blockTitle">you're temporarily blocked</h2>
+      <p class="del-desc" id="blockDesc">a moderator paused your ability to comment for now. please try again later.</p>
+      <div class="del-actions">
+        <button class="del-btn del-btn--confirm" id="blockOk">okay</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.SH_showBlockModal = function () {
+      var bd = document.getElementById('blockBackdrop');
+      if (!bd) return;
+      bd.classList.add('is-open');
+      bd.setAttribute('aria-hidden', 'false');
+    };
+    (function () {
+      var bd = document.getElementById('blockBackdrop');
+      var ok = document.getElementById('blockOk');
+      function close() { if (bd) { bd.classList.remove('is-open'); bd.setAttribute('aria-hidden', 'true'); } }
+      if (ok) ok.addEventListener('click', close);
+      if (bd) bd.addEventListener('click', function (e) { if (e.target === bd) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    })();
+  </script>
 
   <!-- Delete confirmation modal -->
   <div class="del-backdrop" id="delBackdrop" aria-hidden="true">

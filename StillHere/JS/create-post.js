@@ -357,6 +357,18 @@
               );
             })() : Promise.resolve({ error: null });
 
+            /* Stable per-device fingerprint — same key as moderation.js.
+               Stored on every post so admins can block repeat offenders
+               (anonymous or otherwise) by device, not just by account. */
+            var anonFp = null;
+            try {
+              anonFp = localStorage.getItem('sh_anon_fp');
+              if (!anonFp) {
+                anonFp = 'anon_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+                localStorage.setItem('sh_anon_fp', anonFp);
+              }
+            } catch (_) {}
+
             profileStep.then(function () {
               db.from('posts').insert({
                 title:      title   || null,
@@ -365,13 +377,29 @@
                 topics:     topics,
                 mode:       mode,
                 media_urls: mediaUrls,
-                user_id:    userId
+                user_id:    userId,
+                anon_fp:    anonFp
               }).then(function (result) {
                 if (result.error) {
                   console.error('Supabase insert error:', result.error);
-                  alert('Could not publish: ' + result.error.message);
+                  /* The block trigger raises 42501 "author is blocked".
+                     Show a kinder message than the raw Postgres error. */
+                  if ((result.error.message || '').toLowerCase().indexOf('blocked') !== -1) {
+                    if (typeof window.SH_showBlockModal === 'function') {
+                      window.SH_showBlockModal();
+                    } else {
+                      alert('You are temporarily blocked from posting. Please try again later.');
+                    }
+                  } else {
+                    alert('Could not publish: ' + result.error.message);
+                  }
                   setLoading(false);
                   return;
+                }
+                /* Successful insert — clear the saved draft (hooked by the
+                   inline draft script in create-post.html). */
+                if (typeof window.__shClearPostDraft === 'function') {
+                  window.__shClearPostDraft();
                 }
                 window.location.href = 'main.html';
               });

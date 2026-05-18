@@ -1,1 +1,40 @@
+# ── Vercel / Supabase local state ─────────
 .vercel
+supabase/.temp/
+supabase/.branches/
+
+# ── Secrets / env vars ────────────────────
+# NEVER commit these. They contain API keys.
+.env
+.env.*
+!.env.example
+.envrc
+*.pem
+*.key
+
+# ── Node ──────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json.bak
+
+# ── Editor / OS junk ──────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# ── Build output ──────────────────────────
+dist/
+build/
+.next/
+out/
+
+# ── Logs ──────────────────────────────────
+*.log
+logs/

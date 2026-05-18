@@ -1,442 +1,388 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Policy – StillHere Docs</title>
-    <link rel="stylesheet" href="../css/privacy-policy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>privacy policy — StillHere</title>
+  <link rel="stylesheet" href="../../CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../CSS/nav-menu.css">
+  <link rel="stylesheet" href="../../CSS/dark-theme.css">
+  <link rel="stylesheet" href="../../CSS/docs.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../../JS/supabase-config.js"></script>
+  <script src="../../JS/session.js"></script>
+  <script src="../../JS/theme.js"></script>
 </head>
 <body>
 
-<nav class="topbar">
-    <a href="../../main.html" class="topbar-logo">StillHere</a>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
 
-    <div class="topbar-sep"></div>
-        <a href="privacy-policy.html" class="topbar-tab active">Privacy Policy</a>
-        <a href="terms-of-service.html" class="topbar-tab">Terms of Service</a>
-        <a href="crisis-resources.html" class="topbar-tab">Crisis Resources</a>
-        <a href="guidelines.html" class="topbar-tab">Guidelines</a>
+  <img src="../../assets/doodles2/09_cloud.png"                       class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="../../assets/letters/_Special Characters/Asterisk_04.png" class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="../../assets/doodles2/06_double_heart.png"                class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="../../assets/letters/_Special Characters/Asterisk_02.png" class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
-    <div class="topbar-nav">
-        <a href="https://github.com/satisfied344/StillHere.git" class="topbar-link">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256" data-darkreader-inline-fill="" style="--darkreader-inline-fill: var(--darkreader-background-000000, #000000);"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"></path></svg>
-            GitHub
-        </a>
-
-        <a href="../../main.html" class="topbar-back">
-            ← Back to StillHere
-        </a>
+    <nav class="doc-nav" aria-label="Docs navigation">
+    <div class="doc-nav-left">
+      <button type="button" class="doc-nav-back" onclick="(history.length>1)?history.back():(location.href='../../main.html');">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>
+        <span>back</span>
+      </button>
+      <a href="../../main.html" class="logo"><span>StillHere</span></a>
     </div>
-</nav>
-
-<div class="layout">
-
-    <aside class="sidebar">
-        <div class="sidebar-version">
-            <span>Version 1.0</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-
-        <div class="sidebar-group-label">Overview</div>
-            <a href="#overview" class="sidebar-link active">Introduction</a>
-            <a href="#principles" class="sidebar-link">Our Principles</a>
-
-        <div class="sidebar-group-label">Legal Documents</div>
-            <a href="#privacy" class="sidebar-link">Privacy Policy</a>
-            <a href="#terms" class="sidebar-link">Terms of Service</a>
-            <a href="#cookies" class="sidebar-link">Cookie Policy</a>
-
-        <div class="sidebar-group-label">Data</div>
-            <a href="#data-collected" class="sidebar-link">What We Collect</a>
-            <a href="#data-use" class="sidebar-link">How We Use Data</a>
-            <a href="#data-rights" class="sidebar-link">Your Rights</a>
-            <a href="#data-retention" class="sidebar-link">Data Retention</a>
-
-        <div class="sidebar-group-label">Security</div>
-            <a href="#anonymity" class="sidebar-link">Anonymity</a>
-            <a href="#security" class="sidebar-link">Security Measures</a>
-            <a href="#third-party" class="sidebar-link">Third Parties</a>
-
-        <div class="sidebar-group-label">Support</div>
-            <a href="#contact" class="sidebar-link">Contact & DPO</a>
-            <a href="#updates" class="sidebar-link">Policy Updates</a>
-    </aside>
-
-    <main class="content">
-
-        <div id="overview">
-            <div class="doc-badge">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM80,208H48V48H80Zm128,0H96V48H208V208Z"/></svg>
-                Legal Documentation
-            </div>
-
-            <h1 class="doc-title">Privacy Policy</h1>
-
-            <p class="doc-subtitle">How StillHere collects, protects, and respects your data – written in plain language, because you deserve to understand it.</p>
-
-            <div class="doc-meta">
-                <span style="display:flex;align-items:center;gap:6px;">
-                    <i class="ph ph-calendar"></i>
-                <span><strong>Effective date:</strong> April 13, 2026</span></span>
-
-                <span style="display:flex;align-items:center;gap:6px;">
-                    <i class="ph ph-arrows-clockwise"></i><strong>Last updated:</strong> April 13, 2026
-                </span>
-
-                <span style="display:flex;align-items:center;gap:6px;">
-                    <i class="ph ph-globe"></i><strong>Applies to:</strong> stillhere.global
-                </span>
-            </div>
-        </div>
-
-        <div class="callout callout-purple" id="principles">
-            <span style="display:flex;align-items:center;gap:6px;" class="callout-icon">
-                <i class="ph ph-heart"></i>
-            </span>
-
-            <div class="callout-body">
-                <strong>Our core promise:</strong> StillHere is a space for presence, not data collection. We only collect what's strictly necessary to run the platform. Your stories belong to you. Your identity is yours to protect.
-            </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="doc-section" id="privacy">
-            <div class="section-heading">
-                <div class="section-num">1</div>
-                <h2>Who We Are</h2>
-            </div>
-
-            <p>StillHere (<strong>stillhere.global</strong>) is a community platform where people can anonymously share stories, thoughts, feelings – from the deeply personal to the wonderfully absurd. We believe in the power of being heard without judgment.</p>
-            <p>This Privacy Policy explains what personal data we process, why, and what rights you have – in accordance with the <strong>General Data Protection Regulation (GDPR)</strong>, the <strong>UK GDPR</strong>, and other applicable privacy laws.</p>
-            <p>The data controller is the StillHere project team. You can reach us at the contact details in Section 12.</p>
-        </div>
-
-        <div class="doc-section" id="data-collected">
-            <div class="section-heading">
-                <div class="section-num">2</div>
-                <h2>What Data We Collect</h2>
-            </div>
-
-            <div class="callout callout-green">
-                <span style="display:flex;align-items:center;gap:6px;" class="callout-icon">
-                    <i class="ph ph-check-circle"></i>
-                </span>
-
-                <div class="callout-body"><strong>Anonymous by default.</strong> You don't need an account to read posts. Creating an account requires only an email – no real name, no phone number, no verification ID.</div>
-            </div>
-
-            <div class="doc-table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Data type</th>
-                            <th>When collected</th>
-                            <th>Why</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr><td>Email address</td><td>On voluntary registration</td><td>Account recovery &amp; critical notifications</td></tr>
-                        <tr><td>Username / display name</td><td>On registration (can be pseudonym)</td><td>Identity on the platform</td></tr>
-                        <tr><td>Post content &amp; comments</td><td>When you publish</td><td>Core platform functionality</td></tr>
-                        <tr><td>IP address</td><td>On every request</td><td>Security, abuse prevention, rate limiting</td></tr>
-                        <tr><td>Session tokens</td><td>On login</td><td>Authentication</td></tr>
-                        <tr><td>Browser / device info (UA)</td><td>On every request</td><td>Security &amp; analytics</td></tr>
-                        <tr><td>Language &amp; region preferences</td><td>When you set them</td><td>Personalisation</td></tr>
-                        <tr><td>Support messages</td><td>If you contact us</td><td>Responding to you</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="callout callout-peach">
-                <span style="display:flex;align-items:center;gap:6px;" class="callout-icon">
-                    <i class="ph ph-lock"></i>
-                </span>
-
-                <div class="callout-body"><strong>We never ask for:</strong> real name, phone number, date of birth, photo ID, credit card, location beyond country, or social media credentials.</div>
-            </div>
-        </div>
-
-        <div class="doc-section" id="data-use">
-            <div class="section-heading">
-                <div class="section-num">3</div>
-                <h2>How We Use Your Data</h2>
-            </div>
-
-            <p>We use the data collected for the following purposes, each grounded in a legal basis under GDPR:</p>
-
-            <ul class="doc-list">
-                <li><strong>Providing the service</strong> – operating the platform, displaying posts, managing accounts. (Legal basis: Contract)</li>
-                <li><strong>Safety &amp; abuse prevention</strong> – detecting spam, harassment, and content that violates our guidelines. (Legal basis: Legitimate Interest)</li>
-                <li><strong>Security</strong> – protecting accounts from unauthorised access, preventing DDOS attacks. (Legal basis: Legitimate Interest)</li>
-                <li><strong>Anonymous platform analytics</strong> – understanding how the platform is used in aggregate to improve it. No individual profiling. (Legal basis: Legitimate Interest)</li>
-                <li><strong>Notifying you</strong> – transactional emails only: password resets, moderation notices. No marketing without explicit consent. (Legal basis: Consent / Contract)</li>
-                <li><strong>Legal compliance</strong> – retaining data when required by law. (Legal basis: Legal Obligation)</li>
-            </ul>
-
-            <div class="callout callout-red">
-                <span style="display:flex;align-items:center;gap:6px;" class="callout-icon">
-                    <i class="ph ph-prohibit"></i>
-                </span>
-
-                <div class="callout-body"><strong>We never sell your data.</strong> We never share your data with advertisers. We never build advertising profiles. StillHere is ad-free.</div>
-            </div>
-        </div>
-
-        <div class="doc-section" id="anonymity">
-            <div class="section-heading">
-                <div class="section-num">4</div>
-                <h2>Anonymity on StillHere</h2>
-            </div>
-
-            <p>StillHere was built with anonymity as a core design principle, not an afterthought. Here's how it works in practice:</p>
-
-            <h3>Posts and comments</h3>
-            <p>When you publish a post or comment, your display name is shown – which can be a pseudonym. Your real identity (email, IP) is never attached to public posts or visible to other users.</p>
-
-            <h3>The "Anonymous" mode</h3>
-            <p>You can post in fully anonymous mode. In this case, no display name or account is linked to the post at all. Even other registered users cannot tell who posted it.</p>
-
-            <h3>Internal linkage</h3>
-            <p>For moderation purposes only, we maintain an internal technical log linking IP addresses to posts for 30 days. This is used exclusively to enforce our Community Guidelines and prevent abuse. This data is never shared.</p>
-
-            <div class="callout callout-purple">
-                <span style="display:flex;align-items:center;gap:6px;" class="callout-icon">
-                    <i class="ph ph-shield"></i>
-                </span>
-
-                <div class="callout-body"><strong>Important:</strong> No anonymity system is perfect. Please don't include information in your posts that could identify you if you don't want to be identified – such as a very specific combination of details about your life.</div>
-            </div>
-        </div>
-
-        <div class="doc-section" id="third-party">
-            <div class="section-heading">
-                <div class="section-num">5</div>
-                <h2>Crisis Resources &amp; Psychological Support</h2>
-            </div>
-            
-            <p>StillHere provides links to third-party crisis hotlines and psychological support services as a directory. When you click on an external crisis resource link:</p>
-            
-            <ul class="doc-list">
-                <li>You leave our platform and are subject to that service's own privacy policy.</li>
-                <li>We do not transmit any of your data to these services automatically.</li>
-                <li>We do not track whether or how you use external support resources.</li>
-                <li>Listings are provided in good faith; we do not endorse any specific service.</li>
-            </ul>
-
-            <p>For on-platform psychological support features (such as "Words of Support" and community responses), all data is governed by this policy.</p>
-        </div>
-
-        <div class="doc-section">
-            <div class="section-heading">
-                <div class="section-num">6</div>
-                <h2>Data Sharing &amp; Third Parties</h2>
-            </div>
-
-            <p>We share minimal data with a small number of trusted technical providers necessary to run the platform:</p>
-
-            <div class="doc-table-wrap">
-                <table>
-                    <thead>
-                        <tr><th>Provider type</th><th>Purpose</th><th>Data shared</th></tr>
-                    </thead>
-                    
-                    <tbody>
-                        <tr><td>Hosting / cloud provider</td><td>Infrastructure</td><td>All stored data (encrypted)</td></tr>
-                        <tr><td>Email delivery (transactional)</td><td>Password resets, alerts</td><td>Email address only</td></tr>
-                        <tr><td>Error monitoring</td><td>Debugging platform issues</td><td>Anonymised error logs</td></tr>
-                        <tr><td>CDN</td><td>Fast content delivery</td><td>IP address, request metadata</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <p>All third-party providers are bound by Data Processing Agreements (DPAs) and are required to process data only as instructed by us. We never share data with law enforcement unless compelled by a legally binding order, and we will notify affected users where legally permitted.</p>
-        </div>
-
-        <div class="doc-section" id="data-retention">
-            <div class="section-heading">
-                <div class="section-num">7</div>
-                <h2>Data Retention</h2>
-            </div>
-
-            <div class="doc-table-wrap">
-                <table>
-                    <thead>
-                        <tr><th>Data</th><th>Retention period</th></tr>
-                    </thead>
-
-                    <tbody>
-                        <tr><td>Account data (email, username)</td><td>Until you delete your account + 30 days</td></tr>
-                        <tr><td>Posts &amp; comments</td><td>Until you delete them, or your account</td></tr>
-                        <tr><td>IP logs (moderation)</td><td>30 days</td></tr>
-                        <tr><td>Session tokens</td><td>30 days of inactivity</td></tr>
-                        <tr><td>Support correspondence</td><td>2 years</td></tr>
-                        <tr><td>Aggregate analytics</td><td>Indefinitely (no personal data)</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <p>When an account is deleted, all posts and comments created under that account are either deleted or fully anonymised – your choice.</p>
-        </div>
-
-        <div class="doc-section" id="data-rights">
-            <div class="section-heading">
-                <div class="section-num">8</div>
-                <h2>Your Rights</h2>
-            </div>
-
-            <p>Under GDPR and applicable laws, you have the following rights:</p>
-
-            <ul class="doc-list">
-                <li><strong>Right of access</strong> – request a copy of all data we hold about you.</li>
-                <li><strong>Right to rectification</strong> – correct inaccurate data.</li>
-                <li><strong>Right to erasure</strong> ("right to be forgotten") – delete your account and all associated data.</li>
-                <li><strong>Right to restriction</strong> – ask us to stop processing your data in certain ways.</li>
-                <li><strong>Right to data portability</strong> – receive your data in a machine-readable format.</li>
-                <li><strong>Right to object</strong> – object to processing based on legitimate interest.</li>
-                <li><strong>Right to withdraw consent</strong> – at any time, for any consent-based processing.</li>
-                <li><strong>Right to lodge a complaint</strong> – with your national data protection authority.</li>
-            </ul>
-
-            <p>To exercise any of these rights, contact us at <strong>privacy@stillhere.global</strong>. We will respond within 30 days.</p>
-        </div>
-
-        <div class="doc-section" id="security">
-            <div class="section-heading">
-                <div class="section-num">9</div>
-                <h2>Security Measures</h2>
-            </div>
-
-            <p>We take security seriously, especially given the sensitive nature of the content shared on StillHere. Our measures include:</p>
-
-            <ul class="doc-list">
-                <li>TLS encryption in transit for all connections.</li>
-                <li>Passwords hashed using bcrypt with a per-user salt – we never store plain text passwords.</li>
-                <li>Database encryption at rest.</li>
-                <li>Access controls – only necessary team members can access production data.</li>
-                <li>Regular security audits and dependency updates.</li>
-                <li>Rate limiting and abuse detection to protect all users.</li>
-            </ul>
-
-            <div class="callout callout-peach">
-                <span style="display:flex;align-items:center;gap:6px;" class="callout-icon">
-                    <i class="ph ph-warning"></i>
-                </span>
-
-                <div class="callout-body">Despite our efforts, no system is 100% secure. In the event of a data breach affecting your personal data, we will notify you within 72 hours as required by GDPR.</div>
-            </div>
-        </div>
-
-        <div class="doc-section" id="cookies">
-            <div class="section-heading">
-                <div class="section-num">10</div>
-                <h2>Cookies</h2>
-            </div>
-
-            <p>We use a minimal set of cookies:</p>
-
-            <div class="doc-table-wrap">
-                <table>
-                    <thead><tr><th>Cookie</th><th>Type</th><th>Purpose</th><th>Duration</th></tr></thead>
-
-                    <tbody>
-                        <tr><td><code>sh_session</code></td><td>Strictly necessary</td><td>Keep you logged in</td><td>Session</td></tr>
-                        <tr><td><code>sh_lang</code></td><td>Functional</td><td>Remember language preference</td><td>1 year</td></tr>
-                        <tr><td><code>sh_theme</code></td><td>Functional</td><td>Remember theme preference</td><td>1 year</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <p>We do not use advertising cookies, tracking pixels, or third-party analytics cookies. No cookie consent banner is needed for strictly necessary cookies – but we inform you here.</p>
-        </div>
-
-        <div class="doc-section">
-            <div class="section-heading">
-                <div class="section-num">11</div>
-                <h2>Children's Privacy</h2>
-            </div>
-
-            <p>StillHere is not directed at children under the age of 16. We do not knowingly collect personal data from children. If you believe a child under 16 has registered, please contact us and we will delete their account promptly.</p>
-            <p>Given the sensitive nature of some content on the platform, we recommend that users under 18 use the platform with parental awareness.</p>
-        </div>
-
-        <div class="doc-section" id="contact">
-            <div class="section-heading">
-                <div class="section-num">12</div>
-                <h2>Contact &amp; Data Protection</h2>
-            </div>
-
-            <p>For any privacy-related questions, data requests, or concerns:</p>
-
-            <div class="contact-card">
-                <div class="contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.19v107.62Z"/></svg>
-                </div>
-
-                <div class="contact-info">
-                    <span class="contact-label">Privacy &amp; Data Protection</span>
-                    <span class="contact-value">####@stillhere.global</span>
-                </div>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Z"/></svg>
-                </div>
-
-                <div class="contact-info">
-                    <span class="contact-label">Telegram</span>
-                    <span class="contact-value">####</span>
-                </div>
-            </div>
-
-            <p style="margin-top:16px">We aim to respond to all privacy inquiries within <strong>5 business days</strong>, and to all formal data rights requests within <strong>30 calendar days</strong>.</p>
-        </div>
-
-        <div class="doc-section" id="updates">
-            <div class="section-heading">
-                <div class="section-num">13</div>
-                <h2>Policy Updates</h2>
-            </div>
-
-            <p>We may update this Privacy Policy from time to time. When we make significant changes, we will:</p>
-
-            <ul class="doc-list">
-                <li>Post a notice on the platform at least 14 days before changes take effect.</li>
-                <li>Send a notification email to registered users.</li>
-                <li>Update the "Last updated" date at the top of this document.</li>
-            </ul>
-
-            <p>For minor changes (typos, clarifications), we update the document without prior notice. The version history is available on our GitHub.</p>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="doc-footer">
-            <span>© 2026 StillHere. A space for presence, not solutions.</span>
-            <span><a href="main.html">← Back to platform</a></span>
-        </div>
-
-    </main>
-
-    <nav class="toc">
-        <div class="toc-title">On this page</div>
-
-        <a href="#overview" class="toc-link active">Overview</a>
-        <a href="#data-collected" class="toc-link">What We Collect</a>
-        <a href="#data-use" class="toc-link">How We Use Data</a>
-        <a href="#anonymity" class="toc-link">Anonymity</a>
-        <a href="#third-party" class="toc-link">Crisis Resources</a>
-        <a href="#data-retention" class="toc-link">Data Retention</a>
-        <a href="#data-rights" class="toc-link">Your Rights</a>
-        <a href="#security" class="toc-link">Security</a>
-        <a href="#cookies" class="toc-link">Cookies</a>
-        <a href="#contact" class="toc-link">Contact & DPO</a>
-        <a href="#updates" class="toc-link">Policy Updates</a>
+    <div class="doc-nav-right">
+      <a href="guidelines.html" class="doc-nav-link">guidelines</a>
+      <a href="privacy-policy.html" class="doc-nav-link doc-nav-link--active">privacy</a>
+      <a href="terms-of-service.html" class="doc-nav-link">terms</a>
+      <a href="crisis-resources.html" class="doc-nav-link doc-nav-link--accent">crisis resources</a>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+
+    <section class="doc-hero">
+      <div class="doc-hero-left">
+        <span class="doc-eyebrow"><em>—</em> privacy policy</span>
+        <h1 class="doc-title">
+          your data, <em>your <span class="doc-title-tail">call.<img src="../../assets/letters/_Special Characters/Asterisk_01.png" class="doc-title-star" alt="" aria-hidden="true"></span></em>
+      </h1>
+        <p class="doc-lede">
+          StillHere is one person's project. there's no ad team, no data buyer, no analytics empire.
+          <em>this is what we actually do with what you share</em>.
+        </p>
+      </div>
+      <div class="doc-meta">
+        <div class="doc-meta-row"><span class="doc-meta-label">version</span><span class="doc-meta-value">1.0</span></div>
+        <div class="doc-meta-row"><span class="doc-meta-label">revised</span><span class="doc-meta-value">may 2026</span></div>
+        <div class="doc-meta-row"><span class="doc-meta-label">read time</span><span class="doc-meta-value">~6 min</span></div>
+      </div>
+    </section>
+
+    <div class="doc-callout">
+      <div class="doc-callout-head">— the short version</div>
+      <div class="doc-prose">
+        <ul>
+          <li>your handle &amp; a hashed password are stored. <strong>no email, no phone, no real name.</strong></li>
+          <li>your posts, comments &amp; saves are stored so the site can show them back to you.</li>
+          <li>ai conversations live on <strong>your device only</strong> — we never see them.</li>
+          <li>nothing is sold, profiled, or used to train ai.</li>
+          <li>you can delete everything, anytime. the button works.</li>
+        </ul>
+      </div>
+    </div>
+
+    <nav class="doc-toc" aria-label="Table of contents">
+      <div class="doc-toc-head">— contents</div>
+      <ol class="doc-toc-list">
+        <li><a href="#who"><span>01</span><span>who we are</span></a></li>
+        <li><a href="#collect"><span>02</span><span>what we collect</span></a></li>
+        <li><a href="#dont"><span>03</span><span>what we don't collect</span></a></li>
+        <li><a href="#anon"><span>04</span><span>anonymity, on purpose</span></a></li>
+        <li><a href="#ai"><span>05</span><span>ai conversations</span></a></li>
+        <li><a href="#third"><span>06</span><span>third parties</span></a></li>
+        <li><a href="#retention"><span>07</span><span>data retention</span></a></li>
+        <li><a href="#rights"><span>08</span><span>your rights</span></a></li>
+        <li><a href="#security"><span>09</span><span>security</span></a></li>
+        <li><a href="#children"><span>10</span><span>children's privacy</span></a></li>
+        <li><a href="#changes"><span>11</span><span>changes to this policy</span></a></li>
+        <li><a href="#contact"><span>12</span><span>contact</span></a></li>
+      </ol>
     </nav>
-</div>
+
+    <section class="doc-section" id="who">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 01</span><h2 class="doc-section-title">who we are</h2></div>
+      <div class="doc-prose">
+        <p>StillHere is a <strong>solo project</strong> — one person making and maintaining a small mental-health platform. there's no parent company, no investors, no data-monetization model. when this policy says "we", that's mostly just one human.</p>
+        <p>that means the lawyer-grade vocabulary of typical privacy policies doesn't really fit, so the rest of this is plain language.</p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="collect">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 02</span><h2 class="doc-section-title">what we collect</h2><span class="doc-section-hint">the minimum to make the site work</span></div>
+      <div class="doc-prose">
+        <h3>account</h3>
+        <ul>
+          <li>your <strong>handle</strong> (the @name you picked).</li>
+          <li>your <strong>password</strong> — stored as an irreversible hash. we cannot read it, even if we wanted to.</li>
+          <li>optionally: a <strong>display name</strong>, <strong>avatar image</strong>, and any free-text bio you add.</li>
+          <li>the <strong>timestamp</strong> of when you joined.</li>
+        </ul>
+        <h3>activity</h3>
+        <ul>
+          <li>posts you write (title, body, language, topics, mode tag, attached images/videos).</li>
+          <li>comments you write.</li>
+          <li>the "support" hearts you give.</li>
+          <li>the posts you save (a per-account bookmark list).</li>
+        </ul>
+        <h3>technical</h3>
+        <ul>
+          <li>basic web-server logs from our host (request, time, IP) — kept short-term for security.</li>
+          <li>when you <strong>publish a post or comment</strong>, we store two extra fields alongside it: the request IP and a random per-browser identifier we put in your <code>localStorage</code>. these are only used to enforce a temporary block if a moderator pauses an account that's been breaking the guidelines. they are not used for tracking, profiling, or analytics.</li>
+          <li>no cookies are set by StillHere apart from the auth session token. no analytics scripts. no advanced fingerprinting (no canvas hashes, no font enumeration, no advertising ID).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="doc-section" id="dont">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 03</span><h2 class="doc-section-title">what we don't collect</h2></div>
+      <div class="doc-prose">
+        <ul>
+          <li><strong>no email or phone number.</strong> we don't ask for them. you don't have to give one.</li>
+          <li><strong>no real name.</strong> the handle is the only identifier.</li>
+          <li><strong>no precise location.</strong> we never geo-locate you — your IP is stored only as an opaque value for the block list described in section 02, and never resolved to a city or coordinates.</li>
+          <li><strong>no advanced device fingerprinting</strong> (no canvas hashes, no font enumeration, no advertising ID). the only "fingerprint" we keep is a random string we generated in your browser the first time you posted — you can wipe it any time by clearing site data.</li>
+          <li><strong>no third-party trackers.</strong> no facebook pixel, no google analytics, no segment.</li>
+          <li><strong>no behavioural profiling</strong> for advertising or "engagement". the feed is chronological by design.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="doc-section" id="anon">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 04</span><h2 class="doc-section-title">anonymity, on purpose</h2></div>
+      <div class="doc-prose">
+        <p>your handle is the only public thing about you, and it doesn't need to relate to your real identity. if you pick something neutral, you are <em>effectively anonymous</em> on the site.</p>
+        <p>that said — here's how we think about anonymity honestly:</p>
+        <ul>
+          <li>your posts are linked to your handle internally (so you can edit or delete them later).</li>
+          <li>if you put your real name in a post, that's public. we don't scan or hide it.</li>
+          <li>if you reuse the same handle elsewhere on the internet, someone could connect them. we can't prevent that.</li>
+          <li>if you screenshot your own post and share it, the screenshot exists outside this site. we have no control over it.</li>
+          <li>posting "anonymously" (without an account) is still tied to your request IP and a random browser identifier so that blocks can be enforced. those values stay inside our database and are not used to identify <em>who</em> you are — only to recognise the same device/connection across submissions.</li>
+        </ul>
+        <div class="doc-note"><strong>tip —</strong> if you really want maximum anonymity, use a fresh handle here that you don't use anywhere else, and post from a network you're comfortable with.</div>
+      </div>
+    </section>
+
+    <section class="doc-section" id="ai">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 05</span><h2 class="doc-section-title">ai conversations</h2><span class="doc-section-hint">kept on your device</span></div>
+      <div class="doc-prose">
+        <p>the ai companion is the most private feature on the site. how it works:</p>
+        <ol>
+          <li>your messages are sent through an edge function we host (it holds the model api key, so your browser never sees it).</li>
+          <li>the model provider receives your message <strong>without your handle, account id, or any identifier</strong>.</li>
+          <li>the conversation is stored <strong>in your browser's localStorage</strong> — not on our servers.</li>
+          <li>if you switch devices or clear your browser data, those conversations are gone. that's the trade-off — privacy over portability.</li>
+        </ol>
+        <p>we work with a model provider that operates under a <strong>zero data retention</strong> policy — they don't keep your prompts after responding.</p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="third">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 06</span><h2 class="doc-section-title">third parties</h2></div>
+      <div class="doc-prose">
+        <p>StillHere can't run on nothing. it relies on three vendors:</p>
+        <ul>
+          <li><strong>Supabase</strong> — our database &amp; authentication backend (where your handle, password hash, posts, comments live). they process this data on our behalf.</li>
+          <li><strong>An AI gateway</strong> — proxies ai chat requests with zero data retention. they see only your message text, not who you are.</li>
+          <li><strong>Vercel</strong> — hosts the website itself; their servers log standard request data for a few days.</li>
+        </ul>
+        <p>that's the full list. <em>nothing else</em>. no analytics vendor, no error-tracking saas, no email service, no advertising network.</p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="retention">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 07</span><h2 class="doc-section-title">data retention</h2></div>
+      <div class="doc-prose">
+        <p>simple rules:</p>
+        <ul>
+          <li>your account and content stay <strong>until you delete them</strong>. there's no automatic expiry.</li>
+          <li>deleted posts and comments are removed from the database within a few minutes (no soft-delete, no shadow copy).</li>
+          <li>when you delete your account, your profile row is anonymized; your posts become "anonymous". if you also click "delete all my posts" first, they're gone entirely.</li>
+          <li>web-server access logs are kept by our host for a few days for security, then purged.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="doc-section" id="rights">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 08</span><h2 class="doc-section-title">your rights</h2><span class="doc-section-hint">whatever the regulation</span></div>
+      <div class="doc-prose">
+        <p>no matter what country you're in or what acronym applies (GDPR / CCPA / LGPD / DPDP), you have these:</p>
+        <ul>
+          <li><strong>access</strong> — see what's stored. for now this is what you see in your profile + edit-profile pages; email us if you want a JSON export.</li>
+          <li><strong>correction</strong> — edit your profile and posts directly.</li>
+          <li><strong>deletion</strong> — delete posts individually, delete-all-posts from edit-profile, or delete the entire account. those buttons actually work.</li>
+          <li><strong>portability</strong> — email us, we'll send a JSON of your content.</li>
+          <li><strong>objection</strong> — there's nothing to object to (no profiling, no ads), but if there were, you could.</li>
+        </ul>
+        <p>to exercise any of these, click the appropriate button — or write to <a href="mailto:hello@stillhere.app">hello@stillhere.app</a>.</p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="security">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 09</span><h2 class="doc-section-title">security</h2></div>
+      <div class="doc-prose">
+        <ul>
+          <li><strong>passwords</strong> are hashed by Supabase using industry-standard algorithms — we can never read them in plaintext.</li>
+          <li><strong>all traffic</strong> is encrypted in transit over HTTPS.</li>
+          <li><strong>row-level security</strong> at the database means even if someone breaks in to our app code, they still can't query data they shouldn't.</li>
+          <li>this is a small project. we don't have a security team — but we follow standard hygiene and respond fast to any reports.</li>
+        </ul>
+        <p>found a vulnerability? please email <a href="mailto:hello@stillhere.app">hello@stillhere.app</a> before disclosing publicly. thank you.</p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="children">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 10</span><h2 class="doc-section-title">children's privacy</h2></div>
+      <div class="doc-prose">
+        <p>
+          StillHere is intended for users <strong>16 and older</strong>. the stories shared here often touch
+          on grief, depression, trauma, and adult themes; adult language is common. we don't knowingly
+          collect data from anyone under 16. if you believe a minor signed up, please
+          <a href="mailto:hello@stillhere.app">tell us</a> and we'll remove the account.
+        </p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="changes">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 11</span><h2 class="doc-section-title">changes to this policy</h2></div>
+      <div class="doc-prose">
+        <p>if anything material changes, we'll post a notice on the <a href="../../nav-bar/updates.html">updates page</a> and bump the version number above. the older versions stay archived in our git history.</p>
+      </div>
+    </section>
+
+    <section class="doc-section" id="contact">
+      <div class="doc-section-head"><span class="doc-section-eyebrow">— 12</span><h2 class="doc-section-title">contact</h2></div>
+      <div class="doc-prose">
+        <p>questions, requests, concerns — write to <a href="mailto:hello@stillhere.app">hello@stillhere.app</a>. this is a one-person project so a real human will respond, usually within a day or two.</p>
+      </div>
+    </section>
+
+    <section class="doc-closing">
+      <div class="doc-closing-title">your data is <em>only</em> here for you.</div>
+      <p class="doc-closing-text">
+        we built this for the moments when everything feels heavy — not to monetize them.
+        if you have any concern about how your data is handled, please reach out.
+      </p>
+      <div class="doc-closing-actions">
+        <a href="../../nav-bar/contacts.html" class="doc-btn doc-btn--primary">contact us</a>
+        <a href="terms-of-service.html" class="doc-btn doc-btn--ghost">terms of service</a>
+      </div>
+    </section>
+
+  </main>
+
+    <footer class="footer">
+    <div class="footer_content">
+        <div class="footer_main">
+            <div class="footer_stillhere">
+                <div class="footer_logo">
+                    <p>StillHere</p>
+                </div>
+                <p class="footer_subtitle">A project about presence, not solutions</p>
+            </div>
+
+            <div class="footer_links">
+                <div class="footer_links_1">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="../main.html">Browse Stories</a></li>
+                        <li><a href="../create-post.html">Share Your Story</a></li>
+                        <li><a href="../../nav-bar/updates.html">Updates</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_2">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="../../nav-bar/about.html">About Us</a></li>
+                        <li><a href="../../nav-bar/contacts.html">Contacts</a></li>
+                        <li><a href="guidelines.html">Guidelines</a></li>
+                        <li><a href="crisis-resources.html">Crisis Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_links_3">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer_footer">
+            <div class="footer_legal">
+                  <p>2026 StillHere.</p>
+                  <p class="implicit-consent">
+                    by being here, you accept our
+                    <a href="terms-of-service.html">terms</a>
+                    &amp; <a href="privacy-policy.html">privacy</a>.
+                  </p>
+                </div>
+            <div class="footer_social">
+                <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24"
+                        viewBox="0 0 256 256"
+                        fill="currentColor"
+                        class="icon"
+                        aria-hidden="true">
+                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+  <script>
+    (function () {
+      document.querySelectorAll('.main-menu-dropdown').forEach(function (wrap) {
+        var btn = wrap.querySelector('.main-menu-trigger');
+        var panel = wrap.querySelector('.main-menu-panel');
+        if (!btn || !panel) return;
+        btn.addEventListener('click', function (e) { e.stopPropagation(); panel.classList.toggle('is-open'); });
+        panel.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) { p.classList.remove('is-open'); });
+      });
+      var navEl = document.querySelector('.top-info');
+      if (navEl) { window.addEventListener('scroll', function () { navEl.classList.toggle('is-scrolled', window.scrollY > 24); }, { passive: true }); }
+    })();
+  </script>
 </body>
 </html>

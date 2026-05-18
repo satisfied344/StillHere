@@ -396,15 +396,48 @@
     });
   }
 
-  /* ── Report (post) — visual only, matches main feed ── */
-  document.addEventListener('click', function (e) {
+  /* ── Report (post) — real report submitted via SH_MOD.report ── */
+  document.addEventListener('click', async function (e) {
     var rbtn = e.target.closest('[data-action-report]');
     if (!rbtn) return;
     /* Skip if it's a comment report (handled separately below) */
     if (rbtn.hasAttribute('data-comment-report')) return;
-    showToast('Thanks — we\'ll review this post.');
+
+    /* Close the menu immediately so the toast is visible */
     if (optionsDropdown) optionsDropdown.classList.remove('is-open');
     if (optionsBtn)      optionsBtn.setAttribute('aria-expanded', 'false');
+
+    /* `postId` is defined at the top of the IIFE from URL params */
+    console.log('[report-post] click', { postId: postId, hasSHMOD: !!(window.SH_MOD && window.SH_MOD.report) });
+    if (!postId) { showToast('Cannot report — post id missing.'); return; }
+    if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report — moderation API not loaded.'); return; }
+
+    showToast('Sending report…');
+    try {
+      var res = await window.SH_MOD.report('post', postId, null);
+      console.log('[report-post] response', res);
+
+      if (!res || res.ok === false) {
+        var err = (res && res.error) || 'unknown';
+        if (err === 'already_reported') {
+          showToast('You already reported this.');
+        } else {
+          showToast('Could not send report — ' + err);
+          console.error('[report-post] full error response:', res);
+        }
+        return;
+      }
+
+      var msg = 'Thanks — report counted (weight ' + (res.weight_added || 1) + ').';
+      if (res.new_state === 'ai_reviewing') msg = 'Thanks — flagged for AI review.';
+      if (res.new_state === 'hidden')       msg = 'Thanks — hidden pending review.';
+      if (res.new_state === 'shadow')       msg = 'Thanks — downranked while we look.';
+      if (res.new_state === 'pending_manual') msg = 'Thanks — sent to manual review.';
+      showToast(msg);
+    } catch (ex) {
+      console.error('[report-post] exception:', ex);
+      showToast('Report failed: ' + (ex && ex.message ? ex.message : 'unknown error'));
+    }
   });
 
   /* ═══════════════════════════════════════════
@@ -572,6 +605,12 @@
 
   /* ── renderComments — builds threaded tree ── */
 
+  /* Progressive batch sizes for comments: 10, +10, +15, +15, +20, then +20 forever */
+  var COMMENTS_BATCH_SIZES = [10, 10, 15, 15, 20];
+  function commentsNextSize(batchIndex) {
+    return batchIndex < COMMENTS_BATCH_SIZES.length ? COMMENTS_BATCH_SIZES[batchIndex] : 20;
+  }
+
   function renderComments(comments) {
     var list      = document.getElementById('comment-list');
     var countEl   = document.getElementById('comments-count');
@@ -582,6 +621,9 @@
     if (_replyTarget) closeReplyForm();
 
     list.innerHTML = '';
+    /* remove any previous "show more" button below the list */
+    var prevBtn = document.getElementById('commentsLoadMoreBtn');
+    if (prevBtn && prevBtn.parentNode) prevBtn.parentNode.removeChild(prevBtn);
 
     var n = comments.length;
     if (countEl)   countEl.textContent   = String(n);
@@ -608,22 +650,63 @@
       }
     });
 
-    /* render top-level + their replies */
-    topLevel.forEach(function (c) {
-      var li = buildCommentLi(c, false);
+    /* ── Pagination of top-level comments ──
+       Progressive: first batch 10, then +10, +15, +15, +20, then +20 forever.
+       Revealed via explicit "Show more replies" click. */
+    var renderedCount = 0;
+    var batchIndex    = 0;
 
-      var children = childMap[c.id] || [];
-      if (children.length > 0) {
-        var ul = document.createElement('ul');
-        ul.className = 'replies-list';
-        children.forEach(function (child) {
-          ul.appendChild(buildCommentLi(child, true));
-        });
-        li.appendChild(ul);
+    function renderNextBatch() {
+      var size = commentsNextSize(batchIndex);
+      var end  = Math.min(renderedCount + size, topLevel.length);
+      for (var i = renderedCount; i < end; i++) {
+        var c = topLevel[i];
+        var li = buildCommentLi(c, false);
+        var children = childMap[c.id] || [];
+        if (children.length > 0) {
+          var ul = document.createElement('ul');
+          ul.className = 'replies-list';
+          children.forEach(function (child) {
+            ul.appendChild(buildCommentLi(child, true));
+          });
+          li.appendChild(ul);
+        }
+        list.appendChild(li);
       }
+      renderedCount = end;
+      batchIndex++;
+      syncBtn();
+    }
 
-      list.appendChild(li);
-    });
+    function syncBtn() {
+      var hasMore = renderedCount < topLevel.length;
+      if (!btn) return;
+      btn.style.display = hasMore ? 'inline-flex' : 'none';
+      if (hasMore) {
+        var remaining = topLevel.length - renderedCount;
+        var size      = commentsNextSize(batchIndex);
+        var label     = btn.querySelector('span');
+        if (label) {
+          label.textContent = 'Show more replies' +
+            (remaining > size ? ' (' + remaining + ' left)' : '');
+        }
+      }
+    }
+
+    /* "Show more replies" button below the list — explicit click only. */
+    var btn = document.createElement('button');
+    btn.id = 'commentsLoadMoreBtn';
+    btn.type = 'button';
+    btn.className = 'comments-load-more-btn';
+    btn.innerHTML =
+      '<span>Show more replies</span>' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+      '<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
+    btn.style.display = 'none';
+    btn.addEventListener('click', renderNextBatch);
+    if (list.parentNode) list.parentNode.insertBefore(btn, list.nextSibling);
+
+    renderNextBatch();
   }
 
   /* ═══════════════════════════════
@@ -758,18 +841,33 @@
 
       btn.textContent = 'Posting…';
 
+      var anonFpR = null;
+      try {
+        anonFpR = localStorage.getItem('sh_anon_fp');
+        if (!anonFpR) {
+          anonFpR = 'anon_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+          localStorage.setItem('sh_anon_fp', anonFpR);
+        }
+      } catch (_) {}
+
       db.from('comments').insert({
         post_id:   postId,
         parent_id: parentCid,
         content:   safeHtml(html),
-        user_id:   _currentUserId
+        user_id:   _currentUserId,
+        anon_fp:   anonFpR
       }).then(function (res) {
         btn.disabled    = false;
         btn.textContent = 'Post reply';
 
         if (res.error) {
           console.error('Reply insert error:', res.error);
-          showToast('Error: ' + (res.error.message || 'Could not post reply'));
+          if ((res.error.message || '').toLowerCase().indexOf('blocked') !== -1) {
+            if (typeof window.SH_showBlockModal === 'function') window.SH_showBlockModal();
+            else showToast('You are temporarily blocked from commenting.');
+          } else {
+            showToast('Error: ' + (res.error.message || 'Could not post reply'));
+          }
           return;
         }
 
@@ -855,13 +953,44 @@
     });
   });
 
-  /* ── comment report — visual only ── */
+  /* ── comment report — real report submitted via SH_MOD.report ── */
 
-  document.addEventListener('click', function (e) {
+  document.addEventListener('click', async function (e) {
     var btn = e.target.closest('[data-comment-report]');
     if (!btn) return;
     closeAllCommentMenus();
-    showToast('Thanks — we\'ll review this comment.');
+
+    var cid = btn.getAttribute('data-comment-report');
+    console.log('[report-comment] click', { cid, hasSHMOD: !!(window.SH_MOD && window.SH_MOD.report) });
+    if (!cid) { showToast('Cannot report — comment id missing.'); return; }
+    if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report — moderation API not loaded.'); return; }
+
+    showToast('Sending report…');
+    try {
+      var res = await window.SH_MOD.report('comment', cid, null);
+      console.log('[report-comment] response', res);
+
+      if (!res || res.ok === false) {
+        var err = (res && res.error) || 'unknown';
+        if (err === 'already_reported') {
+          showToast('You already reported this.');
+        } else {
+          showToast('Could not send report — ' + err);
+          console.error('[report-comment] full error response:', res);
+        }
+        return;
+      }
+
+      var msg = 'Thanks — report counted (weight ' + (res.weight_added || 1) + ').';
+      if (res.new_state === 'ai_reviewing') msg = 'Thanks — flagged for AI review.';
+      if (res.new_state === 'hidden')       msg = 'Thanks — hidden pending review.';
+      if (res.new_state === 'shadow')       msg = 'Thanks — downranked while we look.';
+      if (res.new_state === 'pending_manual') msg = 'Thanks — sent to manual review.';
+      showToast(msg);
+    } catch (ex) {
+      console.error('[report-comment] exception:', ex);
+      showToast('Report failed: ' + (ex && ex.message ? ex.message : 'unknown error'));
+    }
   });
 
   /* ── load comments ── */
@@ -935,13 +1064,27 @@
 
         submitBtn.textContent = 'Sending…';
 
-        db.from('comments').insert({ post_id: postId, content: html, user_id: _currentUserId }).then(function (result) {
+        var anonFpC = null;
+        try {
+          anonFpC = localStorage.getItem('sh_anon_fp');
+          if (!anonFpC) {
+            anonFpC = 'anon_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+            localStorage.setItem('sh_anon_fp', anonFpC);
+          }
+        } catch (_) {}
+
+        db.from('comments').insert({ post_id: postId, content: html, user_id: _currentUserId, anon_fp: anonFpC }).then(function (result) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = REPLY_ICON;
 
           if (result.error) {
             console.error('Comment insert error:', result.error);
-            showToast('Error: ' + (result.error.message || 'Could not post comment'));
+            if ((result.error.message || '').toLowerCase().indexOf('blocked') !== -1) {
+              if (typeof window.SH_showBlockModal === 'function') window.SH_showBlockModal();
+              else showToast('You are temporarily blocked from commenting.');
+            } else {
+              showToast('Error: ' + (result.error.message || 'Could not post comment'));
+            }
             return;
           }
 

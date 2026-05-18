@@ -5,7 +5,11 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; overflow-x: hidden; }
+/* overflow-x: clip (not hidden) — `hidden` makes the element a
+   scroll container, which breaks `position: sticky` for descendants
+   (left sidebar, right widgets). `clip` hides overflow without
+   creating that scroll context. */
+html { scroll-behavior: smooth; overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 :root {
@@ -62,7 +66,7 @@ body {
   color: var(--ink);
   min-height: 100vh;
   background: var(--paper);
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
 }
 
@@ -832,12 +836,42 @@ a { color: inherit; text-decoration: none; }
    RIGHT SIDEBAR — widgets
    ══════════════════════════════════════════════════════ */
 .right-sidebar {
-  position: sticky;
-  top: 92px;
-  height: fit-content;
+  /* align-self: start — without this the grid stretches the column
+     to match the (very tall) post-feed sibling, which means the
+     column's bottom is always far below the viewport and the
+     "scrolled past column" check never fires. With `start` the
+     column collapses to its natural content height (the 4 widgets). */
+  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+/* Same fix for the left sidebar so its sticky behaviour works as
+   intended (it was already declared sticky higher up). */
+.sidebar { align-self: start; }
+
+/* Wrapper for the first two widgets (Crisis + AI support).
+   At the top of the page it behaves like normal flow — all four
+   right-column widgets render naturally, no overlap.
+   Once the user has scrolled past the entire right column, JS
+   adds .is-floating, which lifts the pair into a fixed panel
+   anchored to the top-right with a soft fade-in. Scrolling back
+   up removes the class before widgets 3+4 come into view, so
+   nothing ever sits on top of anything. */
+.right-sticky {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.right-sticky.is-floating {
+  position: fixed;
+  top: 92px;
+  /* right + width + opacity + transform are driven by JS so the
+     fade is tied directly to scroll progress — no CSS animation,
+     no flicker at class-add, smooth in both directions. */
+  z-index: 50;
+  pointer-events: auto;
+  will-change: opacity, transform;
 }
 
 .widget {
@@ -1297,6 +1331,69 @@ a { color: inherit; text-decoration: none; }
   gap: 16px;
 }
 .footer_footer p { margin: 0; }
+
+/* ══════════════════════════════════════════════════════
+   Constrain oversized user-uploaded images everywhere
+   (feed cards + post detail + comments). Tall screenshots
+   stay readable instead of dominating the layout.
+   ══════════════════════════════════════════════════════ */
+.post-card img,
+.post-content img,
+.post-body img,
+.comment-card img,
+.comment-body img,
+.post-media-grid img,
+.post-media-grid video {
+  max-width: 100%;
+  max-height: 500px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+  margin: 10px auto;
+}
+
+/* Long-word break — prevent runaway text from expanding cards */
+.post-card,
+.post-content,
+.post-body,
+.comment-body,
+.post-title {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Copyright + implicit-consent line, side-by-side on the same row */
+.footer_legal {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.footer_legal > p:first-child { margin: 0; }
+.implicit-consent {
+  margin: 0;
+  padding: 0;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 10.5px;
+  color: var(--ink-light);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  opacity: 0.72;
+  transition: opacity 0.25s ease;
+}
+.implicit-consent:hover { opacity: 1; }
+.implicit-consent a {
+  color: var(--ink-mid);
+  border-bottom: 1px dotted var(--line);
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+.implicit-consent a:hover {
+  color: var(--accent-2);
+  border-bottom-color: var(--accent-2);
+}
 
 .footer_social { display: flex; gap: 14px; }
 

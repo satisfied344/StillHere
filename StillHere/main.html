@@ -11,6 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="JS/supabase-config.js"></script>
   <script src="JS/session.js"></script>
+  <script src="JS/moderation.js"></script>
   <script src="JS/main-page.js" defer></script>
   <script>
     /* ── Sidebar Home / Saved toggle ── */
@@ -27,6 +28,20 @@
 
       if (homeBtn)  homeBtn.addEventListener('click',  function (e) { e.preventDefault(); setSavedFilter(false); });
       if (savedBtn) savedBtn.addEventListener('click', function (e) { e.preventDefault(); setSavedFilter(true);  });
+
+      /* ── Show more / less topics ── */
+      var moreBtn = document.getElementById('sidebarMoreTopicsBtn');
+      if (moreBtn) {
+        moreBtn.addEventListener('click', function () {
+          var extras = document.querySelectorAll('.sidebar-topic-extra');
+          var hidden = extras.length && extras[0].hasAttribute('hidden');
+          extras.forEach(function (el) {
+            if (hidden) el.removeAttribute('hidden');
+            else        el.setAttribute('hidden', '');
+          });
+          moreBtn.textContent = hidden ? 'Show fewer topics' : 'Show more topics';
+        });
+      }
     });
 
     window.SH_SESSION.whenReady(function (user) {
@@ -52,9 +67,449 @@
         if (profileLink) profileLink.textContent = user.displayName || user.username;
       }
     });
+
+    /* ────────────────────────────────────────────────────────────
+       Right-sidebar "first two widgets" reappearance.
+       Behaviour:
+         • At top of page → all four widgets render normally in flow,
+           nothing is sticky, nothing overlaps.
+         • Once the whole right column has scrolled out of view, the
+           first two widgets fade in as a fixed-position panel at the
+           top-right, aligned with the column's geometry.
+         • Scrolling back up removes the floating state BEFORE
+           widgets 3+4 re-enter the viewport, so there's never two
+           copies on screen simultaneously.
+       ──────────────────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', function () {
+      var pair        = document.querySelector('.right-sticky');
+      var column      = document.querySelector('.right-sidebar');
+      var leftSidebar = document.querySelector('.sidebar');
+      var footer      = document.querySelector('.footer');
+      if (!pair || !column) return;
+      var TOP_BASE   = 92;   // fallback — matches left sidebar's sticky top
+      var FOOTER_GAP = 16;
+
+      /* ── Stable reference point ──
+         Document-coordinate Y of the column's bottom edge, measured
+         while the pair is still in flow. Without this cache, going
+         floating yanks the pair out of flow, the column collapses
+         by ~pair-height, and our threshold suddenly jumps — which
+         is why the panel "popped in" instead of fading. */
+      var columnDocBottom = 0;
+      function measureNaturalBottom() {
+        if (pair.classList.contains('is-floating')) return;
+        var r = column.getBoundingClientRect();
+        columnDocBottom = r.bottom + window.scrollY;
+      }
+
+      function syncPanelRect() {
+        if (pair.classList.contains('is-floating')) return;
+        var r = column.getBoundingClientRect();
+        pair.style.right = (window.innerWidth - r.right) + 'px';
+        pair.style.width = r.width + 'px';
+      }
+
+      /* Scroll-progress driven fade.
+         aboveBy = scrollY − columnDocBottom (positive when the
+         column's natural bottom is above the viewport top).
+         [START, END] maps linearly to opacity 0 → 1.
+         END is generous so the fade-in / fade-out feels gradual
+         rather than snappy. */
+      var START = 250;
+      var END   = 900;
+      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+      function update() {
+        // Re-measure ONLY while in flow; once floating, the cached
+        // value is the source of truth (the column's live rect lies).
+        if (!pair.classList.contains('is-floating')) {
+          measureNaturalBottom();
+        }
+        var aboveBy = window.scrollY - columnDocBottom;
+
+        if (aboveBy < START) {
+          if (pair.classList.contains('is-floating')) {
+            pair.classList.remove('is-floating');
+            pair.style.right = '';
+            pair.style.width = '';
+            pair.style.opacity = '';
+            pair.style.transform = '';
+            pair.style.top = '';
+            pair.style.pointerEvents = '';
+          }
+          return;
+        }
+
+        if (!pair.classList.contains('is-floating')) {
+          syncPanelRect();
+          pair.classList.add('is-floating');
+        }
+
+        // Base progress from the threshold range
+        var raw = (aboveBy - START) / (END - START);
+        if (raw < 0) raw = 0; else if (raw > 1) raw = 1;
+        var p = easeOutCubic(raw);
+
+        /* Vertical position — three constraints, lowest wins:
+           1. Default bottom = TOP_BASE + panelH (panel docked at top:92,
+              same top edge as the left sidebar).
+           2. Left sidebar bottom — once the left sidebar starts
+              scrolling up near the page end (its parent grid cell
+              has ended), we track its bottom so both columns finish
+              on the same horizontal line.
+           3. Footer guard — never let bottom pass `footer.top − GAP`.
+           The smallest of the three is the actual bottom; top = bottom − panelH. */
+        var panelH = pair.offsetHeight;
+        var bottom = TOP_BASE + panelH;
+        if (leftSidebar) {
+          var lb = leftSidebar.getBoundingClientRect().bottom;
+          if (lb < bottom) bottom = lb;
+        }
+        if (footer) {
+          var fcap = footer.getBoundingClientRect().top - FOOTER_GAP;
+          if (fcap < bottom) bottom = fcap;
+        }
+        var topPx = bottom - panelH;
+        if (topPx < 8) topPx = 8;
+        pair.style.top = topPx + 'px';
+
+        pair.style.opacity   = p.toFixed(3);
+        pair.style.transform = 'translateY(' + ((1 - p) * -12).toFixed(1) + 'px)';
+        pair.style.pointerEvents = p < 0.05 ? 'none' : '';
+      }
+
+      var raf;
+      window.addEventListener('scroll', function () {
+        if (raf) return;
+        raf = requestAnimationFrame(function () { raf = null; update(); });
+      }, { passive: true });
+      window.addEventListener('resize', function () {
+        if (pair.classList.contains('is-floating')) {
+          pair.classList.remove('is-floating');
+          pair.style.right = '';
+          pair.style.width = '';
+        }
+        measureNaturalBottom();
+        update();
+      });
+
+      // First measurement may be stale if the feed is still loading.
+      // Re-measure after a couple frames and once load fires.
+      measureNaturalBottom();
+      requestAnimationFrame(function () { requestAnimationFrame(measureNaturalBottom); });
+      window.addEventListener('load', measureNaturalBottom);
+      update();
+    });
   </script>
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="JS/theme.js"></script>
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       Main — unify widget / card design with create-post page
+       (rounded corners, paper bg, identical sidebar widgets)
+       ══════════════════════════════════════════════════════ */
+
+    /* ── Right sidebar widgets — identical to create-post ── */
+    .right-sidebar { gap: 14px; }
+
+    .widget {
+      background: rgba(255, 250, 240, 0.65);
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      padding: 20px 22px;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+      transition: opacity 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+    .widget:hover { border-color: var(--line); }
+
+    /* Crisis — keeps the red glow */
+    .widget.support {
+      background: rgba(214, 83, 60, 0.07);
+      border-color: rgba(214, 83, 60, 0.25);
+    }
+    .widget.support:hover {
+      background: rgba(214, 83, 60, 0.09);
+      border-color: rgba(214, 83, 60, 0.35);
+    }
+
+    /* AI — calm paper */
+    .widget.support.ai,
+    .widget.guidelines,
+    .widget.statistic {
+      background: rgba(255, 250, 240, 0.65);
+      border-color: var(--line-soft);
+    }
+
+    .widget-title {
+      font-family: "Caveat", cursive !important;
+      font-size: 23px !important;
+      font-weight: 600 !important;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .widget.statistic .widget-title,
+    .widget.guidelines .widget-title {
+      /* Match create-post's "Community Guidelines" / "Sharing Tips" — still Caveat */
+      font-family: "Caveat", cursive !important;
+    }
+    .widget-subtitle {
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    /* Crisis button — solid red */
+    .widget-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--accent-2);
+      color: #fff;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+      text-decoration: none;
+    }
+    .widget-link:hover {
+      background: #b8462f;
+      border-color: #b8462f;
+      transform: translateY(-1px);
+    }
+
+    /* AI button — outlined ink, hover fills with sage green */
+    .widgetai-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--ink-mid);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+    .widgetai-link:hover {
+      background: #6d8268;
+      color: #fff;
+      border-color: #6d8268;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px -3px rgba(109, 130, 104, 0.40);
+    }
+
+    /* Guidelines list — matches create-post */
+    .widget-list { gap: 0; margin-bottom: 10px; }
+    .widget-list li {
+      padding: 5px 0 5px 16px;
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .widget-list li:last-child { border-bottom: none; }
+    .widget-list li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 13px;
+      width: 7px; height: 1px;
+      background: var(--ink-light);
+      font-size: 0;
+    }
+    .widget-link-guidelines {
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line-soft);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink-light);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .widget-link-guidelines:hover { color: var(--accent-2); gap: 8px; }
+
+    /* Statistics — keep paper feel */
+    .statistic-row { padding: 8px 0; font-size: 12.5px; }
+    .statistic-title { color: var(--ink-mid); }
+    .statistic-value {
+      font-family: "Caveat", cursive;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-2);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       Filter panel — match create-post pill / chip design
+       ══════════════════════════════════════════════════════ */
+    .filter-panel {
+      border-radius: 12px !important;
+      border: 1.5px solid var(--line) !important;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+    }
+    .search-bar {
+      padding: 12px 16px !important;
+      border: 1.5px solid var(--line) !important;
+      background: #fffbf2 !important;
+      border-radius: 999px !important;
+    }
+    .search-input { font-size: 14px !important; }
+    /* Hide the browser's native clear "X" on type="search" — we have our own. */
+    .search-input::-webkit-search-cancel-button,
+    .search-input::-webkit-search-decoration {
+      -webkit-appearance: none;
+      appearance: none;
+      display: none;
+    }
+    .search-input::-ms-clear { display: none; width: 0; height: 0; }
+
+    .lang-strip-label,
+    .filter-title {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.16em !important;
+      color: var(--ink-light) !important;
+    }
+
+    /* Language pills — match create-post .cp-lang-pill */
+    .lang-pill {
+      padding: 8px 16px !important;
+      font-size: 13.5px !important;
+      font-weight: 600 !important;
+      color: var(--ink) !important;
+      background: #fffbf2 !important;
+      border: 1.5px solid var(--line) !important;
+      border-radius: 999px !important;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .lang-pill:hover {
+      transform: translateY(-1px) !important;
+      background: #fffbf2 !important;
+      border-color: var(--accent-2) !important;
+      color: var(--accent-2) !important;
+    }
+    .lang-pill.pill-active,
+    .lang-item input:checked + .lang-pill {
+      background: var(--accent-2) !important;
+      color: #fff !important;
+      border-color: var(--accent-2) !important;
+      box-shadow: 0 3px 10px -3px rgba(214, 83, 60, 0.35) !important;
+      transform: translateY(-1px) !important;
+    }
+    .lang-select-other {
+      padding: 9px 16px !important;
+      font-size: 13.5px !important;
+      font-weight: 600 !important;
+      background: #fffbf2 !important;
+      border: 1.5px solid var(--line) !important;
+      border-radius: 999px !important;
+      color: var(--ink-mid) !important;
+      transition: border-color 0.2s ease, color 0.2s ease !important;
+    }
+    .lang-select-other:hover,
+    .lang-select-other:focus {
+      outline: none !important;
+      border-color: var(--accent-2) !important;
+      color: var(--accent-2) !important;
+    }
+
+    /* Support-type / Sort pills (Need Support, No Advice etc.) */
+    .pill {
+      padding: 9px 16px !important;
+      font-size: 13.5px !important;
+      font-weight: 600 !important;
+      color: var(--ink) !important;
+      background: #fffbf2 !important;
+      border: 1.5px solid var(--line) !important;
+      border-radius: 999px !important;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .pill:hover {
+      transform: translateY(-1px) !important;
+      background: #fffbf2 !important;
+      border-color: var(--accent-2) !important;
+      color: var(--accent-2) !important;
+    }
+    .pill.pill-active {
+      background: var(--accent-2) !important;
+      color: #fff !important;
+      border-color: var(--accent-2) !important;
+      box-shadow: 0 3px 10px -3px rgba(214, 83, 60, 0.35) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .filter-select {
+      padding: 9px 16px !important;
+      font-size: 13.5px !important;
+      font-weight: 600 !important;
+      background: #fffbf2 !important;
+      border: 1.5px solid var(--line) !important;
+      border-radius: 999px !important;
+      color: var(--ink) !important;
+    }
+    .filter-select:hover,
+    .filter-select:focus {
+      outline: none !important;
+      border-color: var(--accent-2) !important;
+    }
+
+    /* ── More rounded corners across the page ── */
+    .post-card        { border-radius: 12px !important; }
+    .sidebar          { border-radius: 12px !important; }
+    .sidebar-item     { border-radius: 10px !important; }
+    .sidebar-create-post-button { border-radius: 999px !important; }
+    .filter-button,
+    .refresh-button   { border-radius: 999px !important; }
+    .post-meta-badge,
+    .topic-tag,
+    .mode-tag         { border-radius: 999px !important; }
+
+    /* ── Extra topic chips (sidebar dot colors) ── */
+    .topic-span.topic-loneliness { background: #6b8baf; }
+    .topic-span.topic-trauma     { background: #a55a5a; }
+    .topic-span.topic-other      { background: var(--ink-light); }
+
+    /* `.sidebar-item` uses display:flex which beats the browser default
+       `[hidden] { display:none }` — force the hide so the toggle works. */
+    .sidebar-topic-extra[hidden] { display: none !important; }
+
+    /* ── "Load more stories" button — below the feed ── */
+    .feed-load-more-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 18px auto 24px;
+      padding: 12px 26px;
+      background: #fffbf2;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    }
+    .feed-load-more-btn:hover {
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px -4px rgba(214, 83, 60, 0.20);
+    }
+    .feed-load-more-btn svg { transition: transform 0.25s ease; }
+    .feed-load-more-btn:hover svg { transform: translateY(2px); }
+  </style>
 </head>
 <body>
 <!-- Paper-grain noise filter (shared with startup-page) -->
@@ -116,7 +571,7 @@
                     <span>updates</span>
                 </a>
 
-                <a href="nav-bar/profile.html" class="nav-link nav-link--stack" aria-current="page">
+                <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="30" height="30"
                             viewBox="0 0 256 256"
@@ -143,12 +598,13 @@
         <ul class="main-menu-panel" role="menu">
           <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
           <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
-          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
+          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>AI support</a></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
-          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208a8,8,0,0,1-8,8H24a8,8,0,0,1,0-16H232A8,8,0,0,1,240,208ZM16,144a8,8,0,0,0,8,8H56v32a8,8,0,0,0,16,0V152H104v16a8,8,0,0,0,16,0V152h32v48a8,8,0,0,0,16,0V152h32v16a8,8,0,0,0,16,0V152h32a8,8,0,0,0,0-16H24A8,8,0,0,0,16,144ZM229.66,82.34l-48-48a8,8,0,0,0-11.32,0L128,86.69,105.66,64.34a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,57.66,123.66L104,77.37l22.34,22.29a8,8,0,0,0,11.32,0L184,53.37l42.34,42.29a8,8,0,0,0,11.32-11.32Z"/></svg>Statistics</a></li>
+          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg>Statistics</a></li>
         </ul>
         </div>
             </div>
@@ -220,7 +676,25 @@
                             <span class="topic-count" id="tc-burnout">0</span>
                         </a>
 
-                        <button class="sidebar-more">Show more topics</button>
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="loneliness" hidden>
+                            <span class="topic-span topic-loneliness"></span>
+                            <span>Loneliness</span>
+                            <span class="topic-count" id="tc-loneliness">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="trauma" hidden>
+                            <span class="topic-span topic-trauma"></span>
+                            <span>Trauma</span>
+                            <span class="topic-count" id="tc-trauma">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="other" hidden>
+                            <span class="topic-span topic-other"></span>
+                            <span>Other</span>
+                            <span class="topic-count" id="tc-other">0</span>
+                        </a>
+
+                        <button class="sidebar-more" id="sidebarMoreTopicsBtn" type="button">Show more topics</button>
 
                     </div>
                 </div>
@@ -409,6 +883,7 @@
         </main>
 
         <aside class="right-sidebar">
+            <div class="right-sticky">
             <div class="widget support">
                 <h3 class="widget-title">Need Immediate Help?</h3>
                 <p class="widget-subtitle">If you're in crisis, please call out:</p>
@@ -438,6 +913,7 @@
                     Talk to AI support
                 </a>
             </div>
+            </div><!-- /.right-sticky -->
 
             <div class="widget guidelines">
                 <h3 class="widget-title">Community Guidelines</h3>
@@ -515,7 +991,14 @@
         </div>
 
         <div class="footer_footer">
-            <p>2026 StillHere.</p>
+            <div class="footer_legal">
+                  <p>2026 StillHere.</p>
+                  <p class="implicit-consent">
+                    by being here, you accept our
+                    <a href="docs/html/terms-of-service.html">terms</a>
+                    &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
+                  </p>
+                </div>
             <div class="footer_social">
                 <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
                     <svg xmlns="http://www.w3.org/2000/svg"

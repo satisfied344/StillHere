@@ -5,39 +5,47 @@
    ═══════════════════════════════════════════════ */
 
 html[data-theme="dark"] {
-  /* ── Background gradient (warm-dark purples) ── */
-  --bg-1: #1d1520;
-  --bg-2: #1a1828;
-  --bg-3: #201a2c;
-  --bg-4: #1d1820;
+  /* ── Warm, neutral dark — no purple cast.
+     The palette is a darkened mirror of the paper/ink light theme:
+     instead of cream→ink, we go ink→warm-cream. Hues stay in the
+     orange/brown family so the salmon accent (--accent-2) still
+     reads as the same colour and doodles tint nicely. */
 
-  /* ── Glass surfaces ── */
-  --surface-nav:     rgba(20, 17, 30, 0.90);
-  --surface-card:    #1e1b2c;
-  --surface-sidebar: rgba(20, 17, 30, 0.85);
-  --surface-widget:  rgba(20, 17, 30, 0.80);
-  --surface-menu:    rgba(18, 15, 28, 0.97);
-  --surface-modal:   rgba(18, 15, 28, 0.97);
-  --surface-input:   #1a1728;
-  --surface-footer:  rgba(15, 13, 22, 0.75);
+  /* Background gradient — very dark warm-brown */
+  --bg-1: #1a1612;
+  --bg-2: #181410;
+  --bg-3: #1d1814;
+  --bg-4: #1a1612;
+
+  /* ── Glass surfaces ──
+     Hue locked to a clear warm-brown so the user never perceives
+     a blue/purple cast. RGB channels: R > G > B. */
+  --surface-nav:     rgba(22, 17, 13, 0.92);
+  --surface-card:    #2a221c;
+  --surface-sidebar: rgba(28, 22, 16, 0.88);
+  --surface-widget:  rgba(28, 22, 16, 0.85);
+  --surface-menu:    rgba(20, 15, 10, 0.97);
+  --surface-modal:   rgba(20, 15, 10, 0.97);
+  --surface-input:   #241d17;
+  --surface-footer:  rgba(15, 12, 9, 0.75);
 
   /* ── Borders ── */
-  --border-glass:   rgba(255, 255, 255, 0.08);
-  --border-nav:     rgba(255, 255, 255, 0.06);
-  --border-subtle:  #2e2a42;
-  --border-divider: rgba(255, 255, 255, 0.07);
-  --border-footer:  rgba(255, 255, 255, 0.10);
+  --border-glass:   rgba(255, 240, 220, 0.08);
+  --border-nav:     rgba(255, 240, 220, 0.06);
+  --border-subtle:  #2e2820;
+  --border-divider: rgba(255, 240, 220, 0.07);
+  --border-footer:  rgba(255, 240, 220, 0.10);
 
-  /* ── Text ── */
-  --text-light:     #52506a;
-  --text-mid:       #9a97b5;
-  --text-mid-light: #9a97b5;
-  --text-dark:      #c5c2da;
-  --charcoal:       #ede9f8;
+  /* ── Text ── warm cream tones, no purple cast */
+  --text-light:     #6b5d52;
+  --text-mid:       #a89a8a;
+  --text-mid-light: #a89a8a;
+  --text-dark:      #d4c5b3;
+  --charcoal:       #f0e4cf;
 
-  /* ── Accent ── */
-  --accent:      #b8a6d4;
-  --accent-warm: #c9a898;
+  /* ── Accent ── warm tan/copper instead of violet */
+  --accent:      #d6a273;
+  --accent-warm: #d6a273;
 
   /* ── Semantic ── */
   --color-danger:  #e05555;
@@ -45,17 +53,41 @@ html[data-theme="dark"] {
   --color-success: #4ade80;
 
   /* ── Misc ── */
-  --pil-active: #2d2a42;
+  --pil-active: #2e2820;
+
+  /* ── Ink palette inversion ──
+     Many pages (about, docs/*, edit-profile, login/register, etc.)
+     style text with --ink / --ink-soft / --ink-mid / --ink-light,
+     which were tuned for dark text on cream paper. In dark mode we
+     remap them to warm-cream tones so that text is actually readable
+     instead of dark-on-dark. */
+  --ink:       #f0e4cf;   /* primary headings */
+  --ink-soft:  #d4c5b3;   /* body emphasis */
+  --ink-mid:   #b8a89a;   /* body text */
+  --ink-light: #7a6c5e;   /* eyebrows, hints, captions */
+
+  /* ── Paper palette inversion ──
+     Some surfaces use --paper / --paper-soft directly. Map to the
+     same warm-dark surfaces so they don't paint cream on top of
+     the dark background. */
+  --paper:      #1a1612;
+  --paper-soft: #221d18;
+  --paper-2:    #1d1814;
+  --paper-3:    #221d18;
+
+  /* ── Lines / dividers ── */
+  --line:      rgba(255, 240, 220, 0.10);
+  --line-soft: rgba(255, 240, 220, 0.06);
 
   /* ── Coming-soon page tokens ── */
-  --cs-eyebrow:    #b8a6d4;
-  --cs-title:      #ede9f8;
-  --cs-lead:       #9a97b5;
-  --cs-card-bg:    rgba(255, 255, 255, 0.04);
-  --cs-card-title: #ede9f8;
-  --cs-card-desc:  #6b6880;
-  --cs-back-bg:    rgba(255, 255, 255, 0.07);
-  --cs-back-color: #ede9f8;
+  --cs-eyebrow:    #d6a273;
+  --cs-title:      #f0e4cf;
+  --cs-lead:       #a89a8a;
+  --cs-card-bg:    rgba(255, 240, 220, 0.04);
+  --cs-card-title: #f0e4cf;
+  --cs-card-desc:  #7a6c5e;
+  --cs-back-bg:    rgba(255, 240, 220, 0.07);
+  --cs-back-color: #f0e4cf;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -156,8 +188,15 @@ html[data-theme="dark"] .sidebar-item.active {
 }
 
 html[data-theme="dark"] .sidebar-create-post-button {
-  background: var(--accent);
-  color: #fff;
+  /* Solid warm-dark pill with cream content — matches the light
+     theme's intent (high-contrast solid CTA), no awkward
+     tan+black+white mix. */
+  background: #2a221c !important;
+  color: var(--charcoal) !important;
+  border: 1px solid var(--border-glass) !important;
+}
+html[data-theme="dark"] .sidebar-create-post-button .icon {
+  color: var(--charcoal) !important;
 }
 
 html[data-theme="dark"] .asidebar-divider {
@@ -165,15 +204,20 @@ html[data-theme="dark"] .asidebar-divider {
 }
 
 html[data-theme="dark"] .sidebar-create-post-button:hover {
-  background: #c9bae0;
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .sidebar-create-post-button:hover .icon {
+  color: #fff !important;
 }
 
 html[data-theme="dark"] .sidebar-more {
-  color: #52506a;
+  color: #6b5d52;
 }
 
 html[data-theme="dark"] .sidebar-more:hover {
-  color: #8b87a8;
+  color: #b8a89a;
 }
 
 /* ── Filter icon buttons (sort/filter toggles above feed) ── */
@@ -267,7 +311,7 @@ html[data-theme="dark"] .tag-lang {
 }
 
 html[data-theme="dark"] .tag-topic {
-  background: rgba(166, 145, 194, 0.18);
+  background: rgba(214, 162, 115, 0.18);
   color: var(--accent);
 }
 
@@ -344,6 +388,26 @@ html[data-theme="dark"] .create-post {
 }
 
 /* ── Widget ── */
+/* ══════════════════════════════════════════════════════
+   Right-sidebar widgets — the inline <style> on main.html
+   forces a cream `rgba(255,250,240,0.65)` background that
+   beats this stylesheet in the cascade. Use !important
+   so dark mode actually applies (and matches the post-card
+   surface). The .support widget keeps its salmon tint —
+   the accent reads correctly on warm-dark too.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .widget,
+html[data-theme="dark"] .widget.support.ai,
+html[data-theme="dark"] .widget.guidelines,
+html[data-theme="dark"] .widget.statistic {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .widget.support {
+  background: rgba(214, 83, 60, 0.10) !important;
+  border-color: rgba(214, 83, 60, 0.30) !important;
+}
+
 html[data-theme="dark"] .widget-title {
   color: var(--charcoal);
 }
@@ -511,9 +575,9 @@ html[data-theme="dark"] .entry-dot {
    ───────────────────────────────────── */
 html[data-theme="dark"] .profile-card {
   background: rgba(30, 27, 44, 0.72) !important;
-  border-color: rgba(166, 145, 194, 0.25) !important;
+  border-color: rgba(214, 162, 115, 0.25) !important;
   box-shadow:
-    0 0 32px rgba(166, 145, 194, 0.18),
+    0 0 32px rgba(214, 162, 115, 0.18),
     0 8px 32px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
@@ -558,7 +622,7 @@ html[data-theme="dark"] .action-card {
 /* Purple variant: Browse Stories, AI Helper */
 html[data-theme="dark"] .action-card--purple {
   background: rgba(145, 115, 185, 0.16) !important;
-  border-color: rgba(166, 145, 194, 0.28) !important;
+  border-color: rgba(214, 162, 115, 0.28) !important;
 }
 
 html[data-theme="dark"] .action-card--purple:hover {
@@ -568,7 +632,7 @@ html[data-theme="dark"] .action-card--purple:hover {
 /* Featured card: Share Something */
 html[data-theme="dark"] .action-card--featured {
   background: linear-gradient(135deg, rgba(110, 85, 155, 0.70), rgba(40, 32, 68, 0.90)) !important;
-  border-color: rgba(166, 145, 194, 0.35) !important;
+  border-color: rgba(214, 162, 115, 0.35) !important;
 }
 
 html[data-theme="dark"] .action-card--featured:hover {
@@ -1092,4 +1156,452 @@ html[data-theme="dark"] .footer_footer { border-top-color: rgba(237,225,200,0.10
 /* Subtitle squiggle underline — repaint to warm in dark */
 html[data-theme="dark"] .subtitle em::after {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'><path d='M2 8 Q 30 2, 60 6 T 120 7 T 198 5' fill='none' stroke='%23e8a87c' stroke-width='2.4' stroke-linecap='round'/></svg>") !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Inline-style overrides for main.html / post.html.
+   Both pages embed page-specific <style> blocks with
+   `!important` cream backgrounds (`#fffbf2`, rgba(255,250,240,...))
+   that beat the cascade. Match every one with an equally
+   forceful warm-dark surface so the page stops looking like
+   half-light / half-dark.
+   ══════════════════════════════════════════════════════ */
+
+/* — Filter panel container — */
+html[data-theme="dark"] .filter-panel {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+
+/* — Search bar — */
+html[data-theme="dark"] .search-bar {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .search-input {
+  background: transparent !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .search-input::placeholder {
+  color: var(--text-light) !important;
+}
+
+/* — Language pills — */
+html[data-theme="dark"] .lang-pill {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .lang-pill:hover {
+  background: var(--surface-input) !important;
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .lang-pill.pill-active,
+html[data-theme="dark"] .lang-item input:checked + .lang-pill {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .lang-select-other {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-mid) !important;
+}
+
+/* — Support-type / mode pills — */
+html[data-theme="dark"] .support-pill,
+html[data-theme="dark"] .mode-pill,
+html[data-theme="dark"] .pill,
+html[data-theme="dark"] .filter-pill {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+
+/* — Sort dropdown / native select — */
+html[data-theme="dark"] .sort-select,
+html[data-theme="dark"] .filter-select,
+html[data-theme="dark"] select {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+
+/* — Filter / refresh top buttons — */
+html[data-theme="dark"] .button-icon,
+html[data-theme="dark"] .feed-action-btn {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+
+/* — Post three-dot menu (the small dropdown opened from ⋯) — */
+html[data-theme="dark"] .main-menu-panel,
+html[data-theme="dark"] .post-menu-down,
+html[data-theme="dark"] .post-menu,
+html[data-theme="dark"] .pmenu,
+html[data-theme="dark"] [class*="post-menu"] {
+  background: var(--surface-menu) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .post-menu-trigger,
+html[data-theme="dark"] .post-menu-button {
+  background: var(--surface-card) !important;
+  color: var(--text-dark) !important;
+}
+
+/* — Reply / comment-compose form on post page — */
+html[data-theme="dark"] .reply-form,
+html[data-theme="dark"] .comment-form,
+html[data-theme="dark"] .ql-container,
+html[data-theme="dark"] .ql-editor,
+html[data-theme="dark"] .reply-box,
+html[data-theme="dark"] .comment-compose,
+html[data-theme="dark"] .post-reply {
+  background: var(--surface-card) !important;
+  color: var(--text-dark) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .ql-toolbar {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .ql-editor.ql-blank::before {
+  color: var(--text-light) !important;
+}
+
+/* — Stats numbers in "This Week" widget were already correct,
+     but reinforce so they don't tint red against the dark bg — */
+html[data-theme="dark"] .statistic-value,
+html[data-theme="dark"] .stat-value {
+  color: var(--charcoal) !important;
+}
+
+/* — "0 responses" / comment count near bottom of post page — */
+html[data-theme="dark"] .comment-count,
+html[data-theme="dark"] .responses-count,
+html[data-theme="dark"] .replies-count {
+  color: var(--text-mid) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   "Show more stories" load-more button — main.html inline
+   sets it to cream #fffbf2; override.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .feed-load-more-btn {
+  background: var(--surface-card) !important;
+  color: var(--text-dark) !important;
+  border-color: var(--border-glass) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30) !important;
+}
+html[data-theme="dark"] .feed-load-more-btn:hover {
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Post three-dot trigger button — main-screen.css uses
+   `background: none !important` but the global .button-icon
+   dark override painted it. Force transparent for triggers.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .button-icon.post-menu-trigger,
+html[data-theme="dark"] .post-menu-trigger {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .button-icon.post-menu-trigger:hover,
+html[data-theme="dark"] .post-menu-trigger:hover {
+  background: rgba(255, 240, 220, 0.06) !important;
+  color: var(--charcoal) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Toast (Link copied) — main-screen.css has light bg,
+   needs dark surface so the warm cream text reads.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .toast {
+  background: var(--surface-menu) !important;
+  color: var(--text-dark) !important;
+  border: 1px solid var(--border-glass) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Reply / submit button on post page — was cream in dark.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .btn-reply,
+html[data-theme="dark"] .reply-submit,
+html[data-theme="dark"] .btn-publish,
+html[data-theme="dark"] .post-reply-submit {
+  background: var(--charcoal) !important;
+  color: #1a1612 !important;
+  border: none !important;
+}
+html[data-theme="dark"] .btn-reply:hover,
+html[data-theme="dark"] .reply-submit:hover,
+html[data-theme="dark"] .post-reply-submit:hover {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Contacts page — .ct-card uses var(--paper-soft).
+   Light-theme path doesn't define --paper-soft anywhere
+   loaded by contacts.html, but the variable inversion in
+   :root above should now feed it. Belt-and-braces:
+   force a dark surface so the cream-on-cream issue can't
+   recur. Same for the rest of contact-specific tokens.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .ct-card,
+html[data-theme="dark"] .ct-hero-card,
+html[data-theme="dark"] .ct-faq {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .ct-card-icon {
+  background: rgba(255, 240, 220, 0.06) !important;
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .ct-card-value {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .ct-card-desc {
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .ct-card-label,
+html[data-theme="dark"] .ct-card-arrow {
+  color: var(--text-light) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Hamburger menu trigger.
+   Light theme: `background: var(--ink)` with `color: var(--paper)` —
+   dark pill, cream icon. After the --ink/--paper inversion above,
+   the bg flipped to cream and icon to dark. Force a dark warm pill
+   with cream icon to keep the intended look.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .main-menu-trigger {
+  background: #2a221c !important;
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .main-menu-trigger:hover {
+  background: var(--accent-2) !important;
+}
+html[data-theme="dark"] .main-menu-trigger .icon {
+  color: var(--charcoal) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   About page — paper cards. The inline <style> uses
+   `var(--paper-soft)` everywhere; the global inversion
+   should already feed it, but inline rules at end of cascade
+   can win in odd situations (caching, specificity). Pin
+   them explicitly.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .ab-hero-card,
+html[data-theme="dark"] .ab-pull-quote,
+html[data-theme="dark"] .ab-quote,
+html[data-theme="dark"] .ab-section-card,
+html[data-theme="dark"] .ab-feature-card,
+html[data-theme="dark"] .ab-paper-note {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  box-shadow: 0 14px 36px -18px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Create-post sidebar widgets — same family as main feed
+   widgets. Used inline styles also painted cream.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .cp-widget,
+html[data-theme="dark"] .cp-side-widget,
+html[data-theme="dark"] .cp-tips {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .cp-widget-title {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .cp-widget-list li {
+  color: var(--text-mid) !important;
+  border-bottom-color: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .cp-widget-link,
+html[data-theme="dark"] .cp-widget-foot {
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .cp-widget-link:hover,
+html[data-theme="dark"] .cp-widget-foot:hover {
+  color: var(--accent-2) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Post-page reply form — extra coverage for any wrapper
+   classes used around the Quill editor.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .post-reply-card,
+html[data-theme="dark"] .reply-card,
+html[data-theme="dark"] .comment-card,
+html[data-theme="dark"] .post-comment {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Post-page reply compose card.
+   post-screen.css defines a local `:root { --paper-soft:#fffaf0 }`
+   so the card looks cream in dark mode. Pin background directly.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .compose-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45) !important;
+}
+html[data-theme="dark"] .compose-label {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .compose-note {
+  color: var(--text-light) !important;
+}
+html[data-theme="dark"] .compose-submit {
+  background: var(--charcoal) !important;
+  color: #1a1612 !important;
+  border-color: transparent !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Main feed filter panel wrappers — there's an inner
+   container that also paints a cream/purple bg in some
+   pages. Pin both layers explicitly.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .filter-panel,
+html[data-theme="dark"] .filters-container,
+html[data-theme="dark"] .filters-wrap {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Create-post chips & pills.
+   The inline <style> uses `background: #fffbf2; color: var(--ink)`,
+   and after the --ink inversion --ink is now cream → cream text
+   on cream pill = invisible. Pin both bg and text in dark mode.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .cp-lang-pill,
+html[data-theme="dark"] .cp-topic-chip,
+html[data-theme="dark"] .cp-lang-other {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .cp-lang-pill:hover,
+html[data-theme="dark"] .cp-topic-chip:hover,
+html[data-theme="dark"] .cp-lang-other:hover {
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+/* Selected / active state — force the colored fill so the active
+   pill is clearly distinguishable from the inactive ones. */
+html[data-theme="dark"] .cp-lang-item input:checked + .cp-lang-pill {
+  background: var(--accent-2) !important;
+  border-color: var(--accent-2) !important;
+  color: #fff !important;
+  box-shadow: 0 3px 12px -3px rgba(214, 83, 60, 0.55) !important;
+}
+html[data-theme="dark"] .cp-topic-input:checked + .cp-topic-chip {
+  background: var(--chip-color, var(--accent-2)) !important;
+  border-color: var(--chip-color, var(--accent-2)) !important;
+  color: #fff !important;
+}
+/* Same for the main feed filter language pills (.lang-pill) — the
+   active state was disappearing into the dark surface. */
+html[data-theme="dark"] .lang-pill.pill-active,
+html[data-theme="dark"] .lang-item input:checked + .lang-pill {
+  background: var(--accent-2) !important;
+  border-color: var(--accent-2) !important;
+  color: #fff !important;
+  box-shadow: 0 3px 12px -3px rgba(214, 83, 60, 0.55) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Crisis Hotlines button — `.widget-link` has literal
+   `color: #fff` in the light theme, but reports of gray
+   text suggest something cascades. Pin pure white.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .widget-link {
+  color: #fff !important;
+}
+html[data-theme="dark"] .widget-link svg {
+  color: #fff !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Profile page — Anonymity callout + read-more cards.
+   .pf-anon uses var(--paper-soft); inversion should feed it,
+   but caching/specificity can lose. Pin explicitly.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .pf-anon,
+html[data-theme="dark"] .pf-card,
+html[data-theme="dark"] .pf-stat-card,
+html[data-theme="dark"] .pf-doc-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .pf-anon-title,
+html[data-theme="dark"] .pf-anon-link {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .pf-anon-title em {
+  color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .pf-anon-text,
+html[data-theme="dark"] .pf-doc-card-desc {
+  color: var(--text-mid) !important;
+}
+
+/* "read more" cards row at the bottom — same family across pages */
+html[data-theme="dark"] .ab-read-more-card,
+html[data-theme="dark"] .ab-doc-card,
+html[data-theme="dark"] .pf-doc-card,
+html[data-theme="dark"] .read-more-card,
+html[data-theme="dark"] .doc-card,
+html[data-theme="dark"] .doc-link-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Main feed Crisis Hotlines widget — `.widget.support` only,
+   NOT `.widget.support.ai` (AI is a different widget that
+   shares the `support` class but should look neutral).
+   Use :not(.ai) so the AI variant keeps the standard surface.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .widget.support:not(.ai),
+html[data-theme="dark"] .right-sticky .widget.support:not(.ai),
+html[data-theme="dark"] .right-sticky.is-floating .widget.support:not(.ai) {
+  background: rgba(214, 83, 60, 0.12) !important;
+  border-color: rgba(214, 83, 60, 0.32) !important;
+}
+/* Make absolutely sure the AI variant uses the neutral surface,
+   no red border bleeding in from the .support rule above. */
+html[data-theme="dark"] .widget.support.ai {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Background doodles fix.
+   In light mode .pg-doodle uses `mix-blend-mode: multiply`
+   so the brown PNG darkens against the paper bg. On dark
+   bg, multiply = invisible (dark on dark). Switch to
+   `screen` so the doodle lightens against the dark bg,
+   and bump opacity so it's actually noticeable.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .pg-doodle {
+  mix-blend-mode: screen;
+  opacity: 0.14;
+  filter: brightness(1.4);
 }

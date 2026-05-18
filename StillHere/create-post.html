@@ -105,39 +105,56 @@
       align-items: start;
     }
 
-    /* ── STEP CARDS ────────────────────────────────────── */
+    /* ── STEP CARDS — high contrast, definite ────────────── */
     .cp-card {
       background: var(--paper-soft);
-      border: 1px solid var(--line-soft);
-      border-radius: 10px;
-      padding: 22px 26px;
-      margin-bottom: 16px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 26px 30px;
+      margin-bottom: 18px;
       position: relative;
-      transition: border-color 0.25s ease;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
-    .cp-card:hover { border-color: var(--line); }
+    .cp-card:hover {
+      border-color: var(--ink-mid);
+      box-shadow: 0 4px 14px -4px rgba(26, 20, 16, 0.10);
+    }
+    .cp-card:focus-within {
+      border-color: var(--accent-2);
+      box-shadow: 0 4px 16px -4px rgba(214, 83, 60, 0.18);
+    }
+
+    /* DOMINANT story card — visually the heart of the page */
+    .cp-card--story {
+      padding: 30px 32px 32px;
+      border-width: 2px;
+    }
+    .cp-card--story .cp-card-title {
+      font-size: 20px;
+    }
 
     .cp-card-head {
       display: flex;
       align-items: baseline;
-      gap: 10px;
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed var(--line-soft);
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--line);
     }
     .cp-card-eyebrow {
-      font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--accent-2);
     }
     .cp-card-title {
       font-family: "Ubuntu", sans-serif;
-      font-size: 17px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
       color: var(--ink);
-      letter-spacing: -0.005em;
+      letter-spacing: -0.01em;
     }
     .cp-card-hint {
       font-size: 12.5px;
@@ -146,10 +163,10 @@
       font-style: italic;
     }
     .cp-card-sub {
-      font-size: 13px;
-      color: var(--ink-light);
-      line-height: 1.5;
-      margin: -6px 0 14px;
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+      margin: -4px 0 16px;
     }
 
     /* ── LANGUAGE CHIPS ───────────────────────────────── */
@@ -164,33 +181,36 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 14px;
-      background: var(--paper);
-      border: 1px solid var(--line-soft);
+      padding: 8px 16px;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
       border-radius: 999px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-mid);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
       cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
       user-select: none;
     }
     .cp-lang-pill:hover {
       border-color: var(--accent-2);
       color: var(--accent-2);
+      transform: translateY(-1px);
     }
     .cp-lang-item input:checked + .cp-lang-pill {
       background: var(--accent-2);
       border-color: var(--accent-2);
       color: #fff;
+      box-shadow: 0 3px 10px -3px rgba(214, 83, 60, 0.35);
       transform: translateY(-1px);
     }
     .cp-lang-other {
-      padding: 8px 14px;
-      background: var(--paper);
-      border: 1px solid var(--line-soft);
+      padding: 9px 16px;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
       border-radius: 999px;
-      font-size: 13px;
+      font-size: 13.5px;
+      font-weight: 600;
       color: var(--ink-mid);
       font-family: inherit;
       cursor: pointer;
@@ -205,26 +225,34 @@
     /* ── TITLE INPUT ──────────────────────────────────── */
     .cp-title-input {
       width: 100%;
-      padding: 14px 16px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 8px;
+      padding: 16px 18px;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      /* Typed text — clean Ubuntu */
+      font-family: "Ubuntu", sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+      line-height: 1.35;
+      resize: none;
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+    /* Placeholder — keeps the handwritten Caveat look */
+    .cp-title-input::placeholder {
       font-family: "Caveat", cursive;
       font-size: 26px;
       font-weight: 600;
-      color: var(--ink);
-      line-height: 1.2;
-      resize: none;
-      transition: border-color 0.25s ease, background 0.25s ease;
-    }
-    .cp-title-input::placeholder {
       color: var(--ink-light);
-      opacity: 0.7;
+      opacity: 0.75;
     }
+    .cp-title-input:hover { border-color: var(--ink-mid); }
     .cp-title-input:focus {
       outline: none;
       border-color: var(--accent-2);
-      background: var(--paper-soft);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.12);
     }
     .cp-title-meta {
       margin-top: 6px;
@@ -234,39 +262,76 @@
       text-align: right;
     }
 
-    /* ── QUILL EDITOR OVERRIDES ────────────────────────── */
+    /* ── QUILL EDITOR — the dominant element ──────────── */
     #post-editor {
-      min-height: 220px;
+      min-height: 360px;
     }
     .ql-toolbar.ql-snow {
-      border: 1px solid var(--line) !important;
+      border: 1.5px solid var(--line) !important;
       border-bottom: none !important;
-      border-radius: 8px 8px 0 0;
-      background: var(--paper);
-      padding: 8px 10px;
+      border-radius: 10px 10px 0 0;
+      background: #faf2dc;
+      padding: 10px 12px;
+      transition: border-color 0.25s ease, background 0.25s ease;
     }
     .ql-container.ql-snow {
-      border: 1px solid var(--line) !important;
-      border-radius: 0 0 8px 8px;
-      background: var(--paper);
+      border: 1.5px solid var(--line) !important;
+      border-radius: 0 0 10px 10px;
+      background: #fffbf2;
       font-family: "Ubuntu", sans-serif;
-      font-size: 15px;
+      font-size: 16px;
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     }
-    .ql-container.ql-snow:focus-within {
+    .cp-card--story:hover .ql-toolbar.ql-snow,
+    .cp-card--story:hover .ql-container.ql-snow {
+      border-color: var(--ink-mid) !important;
+    }
+    .cp-card--story:focus-within .ql-toolbar.ql-snow,
+    .cp-card--story:focus-within .ql-container.ql-snow {
       border-color: var(--accent-2) !important;
     }
-    .ql-toolbar.ql-snow:focus-within { border-color: var(--accent-2) !important; }
+    .cp-card--story:focus-within .ql-container.ql-snow {
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.12);
+    }
     .ql-editor {
-      min-height: 220px;
+      min-height: 360px;
       color: var(--ink);
-      line-height: 1.65;
-      padding: 16px 18px;
+      line-height: 1.7;
+      padding: 22px 24px;
+      /* Break runaway un-spaced words so a single super-long token
+         doesn't blow out the editor width */
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    /* Same protection for the Quill container itself */
+    .ql-container.ql-snow {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    /* Embedded images inside the editor — limit max size */
+    .ql-editor img {
+      max-width: 100%;
+      max-height: 420px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      margin: 10px auto;
+      border-radius: 8px;
+    }
+    /* Title input — break long words too */
+    .cp-title-input {
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
     }
     .ql-editor.ql-blank::before {
       color: var(--ink-light);
       font-style: italic;
       font-family: "Ubuntu", sans-serif;
-      font-size: 15px;
+      font-size: 16px;
+      left: 24px;
     }
     .ql-snow .ql-stroke { stroke: var(--ink-mid); }
     .ql-snow .ql-fill   { fill: var(--ink-mid); }
@@ -281,16 +346,22 @@
     /* ── MEDIA UPLOAD ──────────────────────────────────── */
     .cp-upload {
       position: relative;
-      border: 1.5px dashed var(--line);
-      border-radius: 10px;
-      background: var(--paper);
-      padding: 22px;
+      border: 2px dashed var(--ink-mid);
+      border-radius: 12px;
+      background: #fffbf2;
+      padding: 26px 22px;
       cursor: pointer;
-      transition: border-color 0.25s ease, background 0.25s ease;
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
     }
-    .cp-upload:hover, .cp-upload.drag-over {
+    .cp-upload:hover {
       border-color: var(--accent-2);
-      background: rgba(214, 83, 60, 0.04);
+      background: rgba(214, 83, 60, 0.05);
+      transform: translateY(-1px);
+    }
+    .cp-upload.drag-over {
+      border-color: var(--accent-2);
+      background: rgba(214, 83, 60, 0.10);
+      transform: scale(1.005);
     }
     .upload-prompt {
       display: flex;
@@ -370,20 +441,20 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 16px;
-      background: var(--paper);
-      border: 1px solid var(--line-soft);
+      padding: 10px 18px;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
       border-radius: 999px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-mid);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
       cursor: pointer;
       transition: all 0.2s ease;
       user-select: none;
     }
     .cp-topic-chip::before {
       content: "";
-      width: 8px; height: 8px;
+      width: 9px; height: 9px;
       border-radius: 50%;
       background: var(--chip-color, var(--ink-light));
       transition: transform 0.2s ease;
@@ -391,15 +462,18 @@
     .cp-topic-chip:hover {
       border-color: var(--chip-color, var(--accent-2));
       color: var(--ink);
+      transform: translateY(-1px);
     }
     .cp-topic-input:checked + .cp-topic-chip {
-      background: rgba(255, 255, 255, 0.55);
+      background: var(--chip-color, var(--accent-2));
       border-color: var(--chip-color, var(--accent-2));
-      color: var(--ink);
-      box-shadow: 0 2px 8px -3px rgba(26,20,16,0.10);
+      color: #fff;
+      box-shadow: 0 3px 10px -3px rgba(26,20,16,0.20);
+      transform: translateY(-1px);
     }
     .cp-topic-input:checked + .cp-topic-chip::before {
-      transform: scale(1.4);
+      background: rgba(255, 255, 255, 0.95);
+      transform: scale(1.3);
     }
     .chip-anxiety     { --chip-color: #d6533c; }
     .chip-depression  { --chip-color: #6d8268; }
@@ -420,23 +494,24 @@
     .cp-mode-card {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 16px 18px;
-      background: var(--paper);
-      border: 1px solid var(--line-soft);
-      border-radius: 10px;
+      gap: 14px;
+      padding: 18px 20px;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
       cursor: pointer;
-      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
       position: relative;
     }
     .cp-mode-card:hover {
-      border-color: var(--line);
+      border-color: var(--ink-mid);
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px -4px rgba(26, 20, 16, 0.12);
     }
     .cp-mode-input:checked + .cp-mode-card {
       border-color: var(--accent-2);
-      background: linear-gradient(135deg, rgba(214,83,60,0.08), rgba(214,83,60,0.02));
-      box-shadow: 0 4px 14px -6px rgba(214,83,60,0.20);
+      background: linear-gradient(135deg, rgba(214,83,60,0.12), rgba(214,83,60,0.04));
+      box-shadow: 0 6px 18px -6px rgba(214,83,60,0.28);
     }
     .cp-mode-icon {
       width: 38px; height: 38px;
@@ -504,46 +579,128 @@
       display: flex;
       gap: 10px;
       align-items: center;
+      justify-content: flex-end;
+      margin-left: auto;
     }
     .btn-cancel {
       display: inline-flex;
       align-items: center;
-      padding: 11px 20px;
+      padding: 12px 22px;
       background: transparent;
       color: var(--ink-mid);
-      border: 1px solid var(--line);
+      border: 1.5px solid var(--line);
       border-radius: 999px;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.01em;
-      transition: color 0.25s ease, border-color 0.25s ease;
+      transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
       cursor: pointer;
     }
     .btn-cancel:hover {
-      color: var(--accent-2);
-      border-color: var(--accent-2);
+      color: var(--ink);
+      border-color: var(--ink-mid);
+      background: rgba(26, 20, 16, 0.04);
     }
     .btn-publish {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 14px 28px;
       background: var(--accent-2);
       color: #fff;
-      border: 1px solid var(--accent-2);
+      border: 1.5px solid var(--accent-2);
       border-radius: 999px;
-      font-size: 13.5px;
-      font-weight: 600;
+      font-size: 14.5px;
+      font-weight: 700;
       letter-spacing: 0.01em;
       cursor: pointer;
-      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+      box-shadow: 0 4px 14px -3px rgba(214, 83, 60, 0.40);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
     .btn-publish:hover:not(:disabled) {
       background: #b8462f;
       border-color: #b8462f;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px -5px rgba(214, 83, 60, 0.50);
     }
-    .btn-publish:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-publish:active:not(:disabled) { transform: translateY(0); }
+    .btn-publish:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+
+    /* Delete-draft — outlined ghost (subtle, only appears when a draft exists) */
+    .btn-delete-draft {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 18px;
+      background: transparent;
+      color: var(--ink-mid);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn-delete-draft:hover {
+      background: rgba(214, 83, 60, 0.06);
+      color: var(--accent-2);
+      border-color: var(--accent-2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px -4px rgba(214, 83, 60, 0.22);
+    }
+    .btn-delete-draft:active { transform: translateY(0); }
+
+    /* Anonymous-user agreement — matches the styling of other cp-card sections.
+       Only the inner checkbox row carries its own visual weight. */
+    .cp-anon-agree-card.is-flash {
+      animation: cpAgreeFlash 0.6s ease;
+    }
+    @keyframes cpAgreeFlash {
+      0%, 100% { box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04); }
+      50%      { box-shadow: 0 0 0 4px rgba(214, 83, 60, 0.22); }
+    }
+    .cp-anon-agree-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #fffbf2;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .cp-anon-agree-row:hover { border-color: var(--ink-mid); }
+    .cp-anon-agree-card .cp-anon-agree-row.is-error {
+      border-color: var(--accent-2);
+      background: rgba(214, 83, 60, 0.05);
+    }
+    .cp-anon-agree-row input[type="checkbox"] {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+    }
+    .cp-anon-agree-row a {
+      color: var(--accent-2);
+      font-weight: 600;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+    }
+    .cp-anon-agree-row a:hover { border-bottom-style: solid; }
+    .cp-anon-agree-error {
+      margin: 10px 2px 0;
+      font-size: 12.5px;
+      color: var(--accent-2);
+      font-style: italic;
+    }
 
     .mod-error-wrap {
       margin-bottom: 14px;
@@ -556,71 +713,80 @@
       line-height: 1.5;
     }
 
-    /* ── SIDEBAR ──────────────────────────────────────── */
-    .cp-aside { position: sticky; top: 96px; }
+    /* ── SIDEBAR — quiet, secondary, matches main page ──── */
+    .cp-aside {
+      position: sticky;
+      top: 96px;
+      opacity: 0.96;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
     .cp-widget {
-      background: var(--paper-soft);
+      background: rgba(255, 250, 240, 0.65);
       border: 1px solid var(--line-soft);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 20px 22px;
-      margin-bottom: 14px;
-      transition: border-color 0.25s ease, transform 0.3s ease;
+      margin-bottom: 0;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+      transition: opacity 0.25s ease, border-color 0.25s ease, background 0.25s ease;
     }
     .cp-widget:hover {
+      opacity: 1;
       border-color: var(--line);
     }
+    /* Crisis — red glow tint (urgent, stands out) */
     .cp-widget--crisis {
-      background: linear-gradient(135deg, rgba(214,83,60,0.10), rgba(214,83,60,0.02));
-      border-color: rgba(214,83,60,0.30);
+      background: rgba(214, 83, 60, 0.07);
+      border-color: rgba(214, 83, 60, 0.25);
     }
+    .cp-widget--crisis:hover {
+      background: rgba(214, 83, 60, 0.09);
+      border-color: rgba(214, 83, 60, 0.35);
+    }
+    /* AI — calm, no tint */
     .cp-widget--ai {
-      background: linear-gradient(135deg, rgba(109,130,104,0.10), rgba(109,130,104,0.02));
-      border-color: rgba(109,130,104,0.30);
+      background: rgba(255, 250, 240, 0.65);
+      border-color: var(--line-soft);
     }
     .cp-widget-eyebrow {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--ink-light);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
-    .cp-widget--crisis .cp-widget-eyebrow { color: var(--accent-2); }
-    .cp-widget--ai .cp-widget-eyebrow { color: #6d8268; }
+    .cp-widget-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 3px; }
     .cp-widget-title {
       font-family: "Caveat", cursive;
-      font-size: 24px;
+      font-size: 23px;
       font-weight: 600;
       color: var(--ink);
-      margin-bottom: 8px;
-      line-height: 1.1;
+      margin: 0 0 6px;
+      line-height: 1.15;
     }
-    .cp-widget-title em { color: var(--accent-2); font-style: italic; }
+    /* In sidebar titles, em is plain ink (matches main page) */
+    .cp-widget-title em { color: var(--ink); font-style: normal; }
     .cp-widget-text {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--ink-mid);
       line-height: 1.55;
-      margin-bottom: 12px;
+      margin: 0 0 12px;
     }
     .cp-widget-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 16px;
-      background: var(--paper);
-      border: 1px solid var(--line);
+      padding: 10px 18px;
       border-radius: 999px;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 600;
-      color: var(--ink);
-      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;
+      letter-spacing: 0.01em;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+      border: 1.5px solid transparent;
     }
-    .cp-widget-link:hover {
-      background: var(--ink);
-      color: var(--paper-soft);
-      border-color: var(--ink);
-      gap: 11px;
-    }
+    /* Crisis — solid red filled (primary action in sidebar) */
     .cp-widget--crisis .cp-widget-link {
       background: var(--accent-2);
       border-color: var(--accent-2);
@@ -629,15 +795,30 @@
     .cp-widget--crisis .cp-widget-link:hover {
       background: #b8462f;
       border-color: #b8462f;
+      transform: translateY(-1px);
     }
+    /* AI — outlined ghost, hover fills with sage green */
     .cp-widget--ai .cp-widget-link {
-      background: #6d8268;
-      border-color: #6d8268;
-      color: #fff;
+      background: transparent;
+      border-color: var(--ink-mid);
+      color: var(--ink);
     }
     .cp-widget--ai .cp-widget-link:hover {
-      background: #58695a;
-      border-color: #58695a;
+      background: #6d8268;
+      color: #fff;
+      border-color: #6d8268;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px -3px rgba(109, 130, 104, 0.40);
+    }
+    /* Generic — outlined */
+    .cp-widget:not(.cp-widget--crisis):not(.cp-widget--ai) .cp-widget-link {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink-mid);
+    }
+    .cp-widget:not(.cp-widget--crisis):not(.cp-widget--ai) .cp-widget-link:hover {
+      border-color: var(--ink-mid);
+      color: var(--ink);
     }
     .cp-widget-list {
       list-style: none;
@@ -646,8 +827,8 @@
     }
     .cp-widget-list li {
       position: relative;
-      padding: 6px 0 6px 18px;
-      font-size: 13px;
+      padding: 5px 0 5px 16px;
+      font-size: 12.5px;
       color: var(--ink-mid);
       line-height: 1.5;
       border-bottom: 1px dashed var(--line-soft);
@@ -656,18 +837,18 @@
     .cp-widget-list li::before {
       content: "";
       position: absolute;
-      left: 0; top: 14px;
-      width: 8px; height: 1px;
-      background: var(--accent-2);
+      left: 0; top: 13px;
+      width: 7px; height: 1px;
+      background: var(--ink-light);
     }
     .cp-widget-foot {
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px dashed var(--line-soft);
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--ink-light);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
@@ -764,9 +945,11 @@
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
           <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
-          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></svg>AI support</a></li>
+          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>AI support</a></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
           <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
+          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg>Statistics</a></li>
         </ul>
       </div>
     </div>
@@ -870,8 +1053,8 @@
             <div class="cp-title-meta">max 120 characters</div>
           </div>
 
-          <!-- 03 — story -->
-          <div class="cp-card">
+          <!-- 03 — story (DOMINANT) -->
+          <div class="cp-card cp-card--story">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 03</span>
               <h2 class="cp-card-title">your story</h2>
@@ -977,6 +1160,30 @@
             </div>
           </div>
 
+          <!-- 07 — anonymous-user agreement (only shown when not logged in) -->
+          <div class="cp-card cp-anon-agree-card" id="cp-anon-agree-card" style="display:none;">
+            <div class="cp-card-head">
+              <span class="cp-card-eyebrow">— 07</span>
+              <h2 class="cp-card-title">agreement</h2>
+              <span class="cp-card-hint">since you're posting without an account</span>
+            </div>
+            <p class="cp-card-sub">
+              you don't need an account to share a story — but we still need to know you've
+              read the small print. it's short and human.
+            </p>
+            <label class="cp-anon-agree-row" for="cp-anon-agree-input">
+              <input type="checkbox" id="cp-anon-agree-input">
+              <span>
+                i've read and i agree to the
+                <a href="docs/html/terms-of-service.html" target="_blank">terms of service</a>
+                and the <a href="docs/html/privacy-policy.html" target="_blank">privacy policy</a>.
+              </span>
+            </label>
+            <p class="cp-anon-agree-error" id="cp-anon-agree-error" style="display:none;">
+              please tick the box above to confirm — then your story will publish.
+            </p>
+          </div>
+
           <!-- moderation error slot -->
           <div id="mod-error" class="mod-error-wrap" style="display:none"></div>
 
@@ -988,6 +1195,10 @@
             </p>
             <div class="cp-submit-actions">
               <a href="main.html" class="btn-cancel">cancel</a>
+              <button type="button" class="btn-delete-draft" id="btnDeleteDraft" style="display:none;" aria-label="Delete saved draft">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
+                delete draft
+              </button>
               <button type="submit" class="btn-publish">
                 publish story
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/></svg>
@@ -1001,39 +1212,34 @@
         <aside class="cp-aside">
 
           <div class="cp-widget cp-widget--crisis">
-            <div class="cp-widget-eyebrow">— urgent</div>
-            <h3 class="cp-widget-title">need help <em>right now?</em></h3>
+            <h3 class="cp-widget-title">Need Immediate Help?</h3>
             <p class="cp-widget-text">
-              if you're in crisis or unsafe, please reach a trained counselor —
-              they're free, 24/7, and trained for this exact moment.
+              If you're in crisis, please call out:
             </p>
             <a href="docs/html/crisis-resources.html" class="cp-widget-link">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/></svg>
-              crisis hotlines
+              Crisis Hotlines
             </a>
           </div>
 
           <div class="cp-widget cp-widget--ai">
-            <div class="cp-widget-eyebrow">— quiet companion</div>
-            <h3 class="cp-widget-title">talk to <em>ai support</em></h3>
+            <h3 class="cp-widget-title">Need support right now?</h3>
             <p class="cp-widget-text">
-              not a therapist — a quiet companion that listens, never rushes,
-              and won't give advice unless you ask.
+              If you're going through something difficult, you can talk to our AI support:
             </p>
             <a href="ai-chat.html" class="cp-widget-link">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>
-              open chat
+              Talk to AI support
             </a>
           </div>
 
           <div class="cp-widget">
-            <div class="cp-widget-eyebrow">— guidelines</div>
-            <h3 class="cp-widget-title">how we treat each other</h3>
+            <h3 class="cp-widget-title">Community Guidelines</h3>
             <ul class="cp-widget-list">
-              <li>be kind, especially when you disagree.</li>
-              <li>respect "no advice" tags.</li>
-              <li>no medical or legal advice.</li>
-              <li>protect anonymity — yours and others'.</li>
+              <li>Be kind and respectful</li>
+              <li>Respect "No Advice" tags</li>
+              <li>No medical advice</li>
+              <li>Protect anonymity</li>
             </ul>
             <a href="docs/html/guidelines.html" class="cp-widget-foot">
               read full guidelines
@@ -1042,13 +1248,12 @@
           </div>
 
           <div class="cp-widget">
-            <div class="cp-widget-eyebrow">— small tips</div>
-            <h3 class="cp-widget-title">if you're stuck starting</h3>
+            <h3 class="cp-widget-title">Sharing Tips</h3>
             <ul class="cp-widget-list">
-              <li>start with one sentence. it doesn't have to flow.</li>
-              <li>stay anonymous — no real name needed.</li>
-              <li>use "no advice" if you just need to vent.</li>
-              <li>brief is fine. one line is fine.</li>
+              <li>There's no wrong way to share your feelings</li>
+              <li>You can stay completely anonymous</li>
+              <li>Use "No Advice" if you just need to vent</li>
+              <li>Be as brief or detailed as you need</li>
             </ul>
           </div>
 
@@ -1109,7 +1314,14 @@
         </div>
 
         <div class="footer_footer">
-            <p>2026 StillHere.</p>
+            <div class="footer_legal">
+                  <p>2026 StillHere.</p>
+                  <p class="implicit-consent">
+                    by being here, you accept our
+                    <a href="docs/html/terms-of-service.html">terms</a>
+                    &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
+                  </p>
+                </div>
             <div class="footer_social">
                 <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -1204,9 +1416,56 @@
         autosize();
       }
 
-      /* Session: swap Login → Sign out in nav menu */
+      /* Session-driven UI:
+           – logged in:  hide the anonymous agreement section (already accepted at signup)
+           – anonymous:  show section 07 with an unchecked agreement; gate submit gently */
       if (window.SH_SESSION && window.SH_SESSION.whenReady) {
         window.SH_SESSION.whenReady(function (user) {
+          var agreeCard  = document.getElementById('cp-anon-agree-card');
+          var agreeRow   = agreeCard ? agreeCard.querySelector('.cp-anon-agree-row') : null;
+          var agreeInput = document.getElementById('cp-anon-agree-input');
+          var agreeError = document.getElementById('cp-anon-agree-error');
+          var form       = document.getElementById('postForm');
+
+          if (!user) {
+            /* Anonymous — show section 07. Unchecked by default = real consent. */
+            if (agreeCard) agreeCard.style.display = '';
+
+            /* Clear any error styling once user ticks the box */
+            if (agreeInput && agreeRow && agreeError) {
+              agreeInput.addEventListener('change', function () {
+                if (agreeInput.checked) {
+                  agreeRow.classList.remove('is-error');
+                  agreeError.style.display = 'none';
+                }
+              });
+            }
+
+            /* On submit: if not checked, stop submission, show error & scroll into view.
+               No button disabling — the form just refuses to send and tells the user why. */
+            if (form && agreeInput) {
+              form.addEventListener('submit', function (e) {
+                if (!agreeInput.checked) {
+                  e.preventDefault();
+                  e.stopImmediatePropagation();
+                  if (agreeRow)   agreeRow.classList.add('is-error');
+                  if (agreeError) agreeError.style.display = '';
+                  if (agreeCard) {
+                    agreeCard.classList.remove('is-flash');
+                    /* Re-trigger reflow so the flash animation replays */
+                    void agreeCard.offsetWidth;
+                    agreeCard.classList.add('is-flash');
+                    agreeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }
+              }, true /* capture: run before create-post.js's handler */);
+            }
+          } else {
+            /* Logged-in: terms were accepted at signup */
+            if (agreeCard) agreeCard.style.display = 'none';
+          }
+
+          /* Login → Sign out swap (only when logged in) */
           var loginItem = document.querySelector('.mmenu-item--login');
           if (!loginItem || !user) return;
           loginItem.innerHTML =
@@ -1222,6 +1481,315 @@
             window.location.href = 'login.html';
           });
         });
+      }
+    })();
+  </script>
+
+
+  <!-- ──────────────────────────────────────────────────────
+       Block modal — shown when the BEFORE-INSERT trigger
+       rejects a post because the author is in user_blocks.
+       Reuses the del-modal styling from post.html.
+       ────────────────────────────────────────────────────── -->
+  <div class="sh-modal-backdrop" id="blockBackdrop" aria-hidden="true">
+    <div class="sh-modal" role="alertdialog" aria-modal="true" aria-labelledby="blockTitle" aria-describedby="blockDesc">
+      <div class="sh-modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M128,24A104,104,0,1,0,232,128,104.13,104.13,0,0,0,128,24Zm88,104a87.55,87.55,0,0,1-20.41,56.28L71.72,60.41A88,88,0,0,1,216,128ZM40,128A87.55,87.55,0,0,1,60.41,71.72L184.28,195.59A88,88,0,0,1,40,128Z"/>
+        </svg>
+      </div>
+      <h2 class="sh-modal-title" id="blockTitle">you're temporarily blocked</h2>
+      <p class="sh-modal-desc" id="blockDesc">a moderator paused your ability to post for now. please try again later.</p>
+      <div class="sh-modal-actions">
+        <button class="sh-modal-btn sh-modal-btn--primary" id="blockOk">okay</button>
+      </div>
+    </div>
+  </div>
+  <style>
+    .sh-modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(26, 20, 16, 0.45);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .sh-modal-backdrop.is-open { display: flex; animation: shBackdropIn 0.22s ease; }
+    @keyframes shBackdropIn { from { opacity: 0; } to { opacity: 1; } }
+    .sh-modal {
+      background: var(--paper-soft, #fdf8ec);
+      border: 1px solid var(--line, rgba(0,0,0,0.12));
+      border-radius: 6px;
+      padding: 28px 28px 24px;
+      width: min(360px, calc(100% - 32px));
+      text-align: center;
+      box-shadow: 0 30px 60px -20px rgba(26, 20, 16, 0.30);
+      animation: shModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes shModalIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0)   scale(1); }
+    }
+    .sh-modal-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(214, 83, 60, 0.10);
+      color: var(--accent-2, #d6533c);
+      margin: 0 auto 12px;
+    }
+    .sh-modal-title {
+      margin: 0 0 8px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 17px; font-weight: 600;
+      color: var(--ink, #1a1410);
+    }
+    .sh-modal-desc {
+      margin: 0 0 18px;
+      font-size: 14px; line-height: 1.5;
+      color: var(--ink-mid, #5a4f47);
+    }
+    .sh-modal-actions { display: flex; gap: 10px; justify-content: center; }
+    .sh-modal-btn {
+      padding: 9px 18px; font: inherit; font-size: 13px; font-weight: 600;
+      border-radius: 4px; cursor: pointer;
+      border: 1px solid var(--line, rgba(0,0,0,0.12));
+      background: var(--paper, #f4ead6); color: var(--ink-soft, #4a3f37);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
+    }
+    .sh-modal-btn:hover { transform: rotate(-1deg); }
+    .sh-modal-btn--primary {
+      background: var(--accent-2, #d6533c);
+      color: var(--paper, #f4ead6);
+      border-color: var(--accent-2, #d6533c);
+    }
+    .sh-modal-btn--primary:hover { transform: rotate(1deg) translateY(-1px); }
+  </style>
+  <script>
+    window.SH_showBlockModal = function () {
+      var bd = document.getElementById('blockBackdrop');
+      if (!bd) return;
+      bd.classList.add('is-open');
+      bd.setAttribute('aria-hidden', 'false');
+    };
+    (function () {
+      var bd = document.getElementById('blockBackdrop');
+      var ok = document.getElementById('blockOk');
+      function close() {
+        if (bd) { bd.classList.remove('is-open'); bd.setAttribute('aria-hidden', 'true'); }
+      }
+      if (ok) ok.addEventListener('click', close);
+      if (bd) bd.addEventListener('click', function (e) { if (e.target === bd) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+
+  <!-- ──────────────────────────────────────────────────────
+       Draft auto-save / restore — saves on every keystroke,
+       on pagehide, and on visibilitychange. Restores after Quill
+       mounts. Cleared only by create-post.js on successful publish.
+       ────────────────────────────────────────────────────── -->
+  <script>
+    (function () {
+      'use strict';
+      /* Per-user draft key — without the suffix, two accounts on the
+         same browser see each other's drafts (bug 2026-05). The user
+         id is read once at startup from window.SH_SESSION (populated
+         by session.js); falls back to '_anon' so signed-out drafts
+         don't bleed into a signed-in account on the next visit. */
+      function currentUid() {
+        try {
+          var u = window.SH_SESSION && window.SH_SESSION.user;
+          if (u && u.id) return u.id;
+        } catch (_) {}
+        return '_anon';
+      }
+      function KEY() { return 'sh_post_draft_v3:' + currentUid(); }
+      var MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+
+      /* One-time migration: a draft saved under the legacy global key
+         belongs to whoever was signed in at the time. Safest move is
+         to drop it so it doesn't get attributed to the wrong user. */
+      try { localStorage.removeItem('sh_post_draft_v3'); } catch (_) {}
+
+      function t()  { return document.getElementById('post-title'); }
+      function f()  { return document.getElementById('postForm'); }
+      function ed() { return document.querySelector('#post-editor .ql-editor'); }
+
+      function snapshot() {
+        var form = f(); if (!form) return null;
+        var topics = [];
+        form.querySelectorAll('[name="topic"]:checked').forEach(function (el) {
+          topics.push(el.value);
+        });
+        var langR = form.querySelector('[name="lang"]:checked');
+        var langO = form.querySelector('[name="lang_other"]');
+        var modeR = form.querySelector('[name="mode"]:checked');
+        var ti = t(), e = ed();
+        return {
+          v: 3,
+          ts: Date.now(),
+          title: ti ? (ti.value || '') : '',
+          content: e ? e.innerHTML : '',
+          plain: e ? (e.textContent || '') : '',
+          lang: langR ? langR.value : '',
+          langOther: langO ? langO.value : '',
+          topics: topics,
+          mode: modeR ? modeR.value : ''
+        };
+      }
+
+      function isBlank(s) {
+        var emptyContent = !s.content || s.content === '<p><br></p>' || s.content === '<p></p>' || s.content === '<br>';
+        return !s.title.trim() && !(s.plain || '').trim() && emptyContent && !s.topics.length;
+      }
+
+      function save() {
+        var s = snapshot(); if (!s) return;
+        try {
+          if (isBlank(s)) localStorage.removeItem(KEY());
+          else            localStorage.setItem(KEY(), JSON.stringify(s));
+        } catch (e) {
+          console.warn('[draft] save error:', e);
+        }
+      }
+
+      function readDraft() {
+        try {
+          var raw = localStorage.getItem(KEY());
+          if (!raw) return null;
+          var d = JSON.parse(raw);
+          if (!d || d.v !== 3) return null;
+          if (Date.now() - (d.ts || 0) > MAX_AGE) {
+            localStorage.removeItem(KEY());
+            return null;
+          }
+          return d;
+        } catch (_) { return null; }
+      }
+
+      function applyMeta(d) {
+        var form = f(), ti = t();
+        if (!form || !ti) return;
+        if (d.title) {
+          ti.value = d.title;
+          ti.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        if (d.lang) {
+          var r = form.querySelector('[name="lang"][value="' + d.lang + '"]');
+          if (r) r.checked = true;
+        }
+        if (d.langOther) {
+          var sel = form.querySelector('[name="lang_other"]');
+          if (sel) sel.value = d.langOther;
+        }
+        (d.topics || []).forEach(function (topic) {
+          var cb = form.querySelector('[name="topic"][value="' + topic + '"]');
+          if (cb) cb.checked = true;
+        });
+        if (d.mode) {
+          var m = form.querySelector('[name="mode"][value="' + d.mode + '"]');
+          if (m) m.checked = true;
+        }
+      }
+
+      function restore() {
+        var d = readDraft(); if (!d) return;
+        applyMeta(d);
+        if (!d.content) return;
+
+        // Wait for Quill editor to mount, then paint its innerHTML.
+        var tries = 0;
+        var timer = setInterval(function () {
+          tries++;
+          var e = ed();
+          if (e) {
+            e.innerHTML = d.content;
+            clearInterval(timer);
+          } else if (tries > 240) {       // ~12s max
+            clearInterval(timer);
+          }
+        }, 50);
+      }
+
+      // ── Wire up save listeners as soon as we can ──
+      function wire() {
+        var ti = t(), form = f();
+        if (!ti || !form) { setTimeout(wire, 80); return; }
+
+        ti.addEventListener('input', save);
+        form.addEventListener('input',  save);
+        form.addEventListener('change', save);
+
+        // Editor — attach when it exists
+        var tries = 0;
+        var hook = setInterval(function () {
+          tries++;
+          var e = ed();
+          if (e) {
+            e.addEventListener('input', save);
+            new MutationObserver(save).observe(e, {
+              childList: true, characterData: true, subtree: true
+            });
+            clearInterval(hook);
+          } else if (tries > 240) {
+            clearInterval(hook);
+          }
+        }, 50);
+
+        // Belt-and-braces: save on tab hide / page hide
+        window.addEventListener('pagehide',          save);
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'hidden') save();
+        });
+
+        hookDeleteBtn();
+        restore();
+        updateDeleteBtn();
+      }
+
+      // ── Delete-draft button — visible only when a draft exists ──
+      function updateDeleteBtn() {
+        var btn = document.getElementById('btnDeleteDraft');
+        if (!btn) return;
+        var hasDraft = !!readDraft();
+        btn.style.display = hasDraft ? '' : 'none';
+      }
+      function hookDeleteBtn() {
+        var btn = document.getElementById('btnDeleteDraft');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          if (!confirm('Delete the saved draft? This cannot be undone.')) return;
+          try { localStorage.removeItem(KEY()); } catch (_) {}
+          /* clear visible fields too */
+          var ti = t(), form = f(), e = ed();
+          if (ti) { ti.value = ''; ti.dispatchEvent(new Event('input', { bubbles: true })); }
+          if (form) {
+            form.querySelectorAll('[name="topic"]:checked').forEach(function (cb) { cb.checked = false; });
+            var en = form.querySelector('[name="lang"][value="en"]');
+            if (en) en.checked = true;
+            var langOther = form.querySelector('[name="lang_other"]');
+            if (langOther) langOther.value = '';
+            var support = form.querySelector('[name="mode"][value="support"]');
+            if (support) support.checked = true;
+          }
+          if (e) e.innerHTML = '<p><br></p>';
+          updateDeleteBtn();
+        });
+      }
+      /* Re-check button visibility periodically (cheap) so it appears as
+         soon as the user starts typing and a draft gets written. */
+      setInterval(updateDeleteBtn, 1500);
+
+      // Public hook for create-post.js to call after a successful publish
+      window.__shClearPostDraft = function () {
+        try { localStorage.removeItem(KEY()); } catch (_) {}
+        updateDeleteBtn();
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', wire);
+      } else {
+        wire();
       }
     })();
   </script>
