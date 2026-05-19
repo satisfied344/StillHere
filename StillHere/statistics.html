@@ -3,19 +3,16 @@
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYNVXFF475"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-NYNVXFF475');
-</script>
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
+  <!-- Vercel Web Analytics -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>by the numbers — StillHere</title>
   <link rel="stylesheet" href="CSS/main-screen.css">
@@ -26,6 +23,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <script src="JS/supabase-config.js"></script>
+  <script src="JS/site-pings.js" defer></script>
   <script src="JS/session.js"></script>
   <script src="JS/theme.js"></script>
 
@@ -286,6 +284,80 @@
       letter-spacing: 0.10em;
       text-transform: uppercase;
       color: var(--ink-light);
+    }
+
+    /* ── LIVE PRESENCE CARDS (online / total visits) ─────── */
+    .st-presence {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 600px) {
+      .st-presence { grid-template-columns: 1fr; }
+    }
+    .st-presence-card {
+      position: relative;
+      background: var(--paper-soft);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 24px 28px 22px;
+      box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease;
+    }
+    .st-presence-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line);
+    }
+    .st-presence-card--live {
+      border-color: rgba(109, 130, 104, 0.32);
+      background:
+        radial-gradient(ellipse at top right, rgba(109, 130, 104, 0.08), transparent 60%),
+        var(--paper-soft);
+    }
+    .st-presence-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+    }
+    .st-presence-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #6d8268;
+      box-shadow: 0 0 0 0 rgba(109, 130, 104, 0.5);
+      animation: stPulse 2.2s ease-out infinite;
+    }
+    @keyframes stPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(109, 130, 104, 0.5); }
+      70%  { box-shadow: 0 0 0 10px rgba(109, 130, 104, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(109, 130, 104, 0); }
+    }
+    .st-presence-num {
+      font-family: "Caveat", cursive;
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .st-presence-card--live .st-presence-num { color: #4d5e4a; }
+    .st-presence-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 4px;
+    }
+    .st-presence-desc {
+      font-size: 12px;
+      color: var(--ink-light);
+      line-height: 1.5;
     }
 
     /* ── CHART CARD ───────────────────────────────────────── */
@@ -689,6 +761,25 @@
         <div class="st-live-time" id="st-last-updated">…</div>
       </div>
     </section>
+
+    <!-- ─── LIVE PRESENCE — two cards: online now / total visits ─── -->
+    <div class="st-presence" aria-label="Live presence">
+      <div class="st-presence-card st-presence-card--live">
+        <div class="st-presence-eyebrow">
+          <span class="st-presence-dot" aria-hidden="true"></span>
+          right now
+        </div>
+        <div class="st-presence-num" id="presence-online">—</div>
+        <div class="st-presence-label">people on the site</div>
+        <div class="st-presence-desc">anyone with the site open in the last 5 minutes. counted by anonymous timestamp pings — no IPs, no identifiers stored.</div>
+      </div>
+      <div class="st-presence-card">
+        <div class="st-presence-eyebrow">all-time</div>
+        <div class="st-presence-num" id="presence-total">—</div>
+        <div class="st-presence-label">total visits</div>
+        <div class="st-presence-desc">every page open since the counter started. one number, nothing else attached to it.</div>
+      </div>
+    </div>
 
     <!-- ─── KPI BIG NUMBERS ─── -->
     <section class="st-section">
@@ -1432,6 +1523,61 @@
         }).join('');
       }
     }
+  })();
+  </script>
+
+  <!-- ── Live presence loader: "online now" + "total visits" ── -->
+  <script>
+  (function () {
+    if (!window.SH_SUPABASE_URL || !window.supabase) return;
+    var db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+
+    var onlineEl = document.getElementById('presence-online');
+    var totalEl  = document.getElementById('presence-total');
+    if (!onlineEl || !totalEl) return;
+
+    /* Small int formatter matching the rest of the page. */
+    function fmt(n) {
+      if (n === null || n === undefined || isNaN(n)) return '—';
+      if (n >= 10000) return (n / 1000).toFixed(1).replace('.0','') + 'k';
+      return String(Math.round(n));
+    }
+
+    var lastOnline = null, lastTotal = null;
+
+    function tween(el, from, to) {
+      from = from || 0;
+      var dur = 600, start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.round(from + (to - from) * ease));
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function refresh() {
+      db.rpc('site_stats').then(function (res) {
+        if (res.error) { console.error('[presence]', res.error); return; }
+        var row = (res.data && res.data[0]) || res.data || {};
+        var online = Number(row.online || 0);
+        var total  = Number(row.total  || 0);
+        if (online !== lastOnline) { tween(onlineEl, lastOnline, online); lastOnline = online; }
+        if (total  !== lastTotal)  { tween(totalEl,  lastTotal,  total);  lastTotal  = total;  }
+      }).catch(function (e) { console.error('[presence]', e); });
+    }
+
+    refresh();
+    /* Refresh every 15 seconds while the tab is visible. */
+    setInterval(function () {
+      if (document.visibilityState === 'visible') refresh();
+    }, 15000);
+    /* And once immediately when returning to the tab. */
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') refresh();
+    });
   })();
   </script>
 </body>

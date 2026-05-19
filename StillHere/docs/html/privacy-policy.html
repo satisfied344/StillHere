@@ -3,19 +3,16 @@
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-NYNVXFF475"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-NYNVXFF475');
-</script>
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
+  <!-- Vercel Web Analytics -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>privacy policy — StillHere</title>
   <link rel="stylesheet" href="../../CSS/main-screen.css">
@@ -26,6 +23,7 @@
   <link rel="stylesheet" href="../../CSS/docs.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../../JS/supabase-config.js"></script>
+  <script src="../../JS/site-pings.js" defer></script>
   <script src="../../JS/session.js"></script>
   <script src="../../JS/theme.js"></script>
 </head>
@@ -139,9 +137,18 @@
         <h3>technical</h3>
         <ul>
           <li>basic web-server logs from our host (request, time, IP) — kept short-term for security.</li>
-          <li>when you <strong>publish a post or comment</strong>, we store two extra fields alongside it: the request IP and a random per-browser identifier we put in your <code>localStorage</code>. these are only used to enforce a temporary block if a moderator pauses an account that's been breaking the guidelines. they are not used for tracking, profiling, or analytics.</li>
-          <li>no cookies are set by StillHere apart from the auth session token. no analytics scripts. no advanced fingerprinting (no canvas hashes, no font enumeration, no advertising ID).</li>
+          <li>when you <strong>publish a post or comment</strong>, we store two extra fields alongside it: the request IP and a random per-browser identifier we put in your <code>localStorage</code>. these are only used to enforce a temporary block if a moderator pauses an account that's been breaking the guidelines. they are not used for tracking, profiling, or advertising.</li>
+          <li>no cookies are set by StillHere apart from the auth session token. no advanced fingerprinting (no canvas hashes, no font enumeration, no advertising ID).</li>
         </ul>
+
+        <h3>aggregate analytics</h3>
+        <p>we use three privacy-respecting counters to understand site traffic and keep the site fast. <strong>none of them see the content of your posts, your handle, your account id, or what you type.</strong> they only know that <em>a browser</em> opened <em>a page</em>.</p>
+        <ul>
+          <li><strong>Vercel Web Analytics</strong> — counts page views and unique visitors, aggregated to numbers like "this article had 200 reads this week". no cookies, no localStorage, no persistent identifiers. Vercel hashes the request to deduplicate visits within a 24-hour window and discards the hash afterwards.</li>
+          <li><strong>Vercel Speed Insights</strong> — collects only Core Web Vitals (page-load time, largest-contentful-paint, layout shift, interaction-to-next-paint) so we can tell when a page is slow. no cookies, no identifiers, performance numbers only.</li>
+          <li><strong>our own "<code>site_pings</code>" table</strong> in Supabase — powers the "X online right now / Y total visits" counters on the <a href="../../statistics.html">statistics page</a>. each ping inserts <em>only a server timestamp</em> (no IP, no fingerprint, no path, no user id). it is fundamentally impossible to reconstruct who visited or what they read from this table.</li>
+        </ul>
+        <p>we deliberately do <strong>not</strong> use Google Analytics, Facebook Pixel, Segment, Mixpanel, or any other behavioural analytics tool. a standard content-blocker (uBlock Origin, Brave shield, Firefox strict mode) blocks the Vercel scripts, and we don't try to circumvent that — the site works identically with or without them loaded.</p>
       </div>
     </section>
 
@@ -153,7 +160,7 @@
           <li><strong>no real name.</strong> the handle is the only identifier.</li>
           <li><strong>no precise location.</strong> we never geo-locate you — your IP is stored only as an opaque value for the block list described in section 02, and never resolved to a city or coordinates.</li>
           <li><strong>no advanced device fingerprinting</strong> (no canvas hashes, no font enumeration, no advertising ID). the only "fingerprint" we keep is a random string we generated in your browser the first time you posted — you can wipe it any time by clearing site data.</li>
-          <li><strong>no third-party trackers.</strong> no facebook pixel, no google analytics, no segment.</li>
+          <li><strong>no third-party trackers.</strong> no facebook pixel, no google analytics, no segment, no mixpanel. the only outbound telemetry is anonymous performance metrics described in section 02.</li>
           <li><strong>no behavioural profiling</strong> for advertising or "engagement". the feed is chronological by design.</li>
         </ul>
       </div>
@@ -196,9 +203,9 @@
         <ul>
           <li><strong>Supabase</strong> — our database &amp; authentication backend (where your handle, password hash, posts, comments live). they process this data on our behalf.</li>
           <li><strong>An AI gateway</strong> — proxies ai chat requests with zero data retention. they see only your message text, not who you are.</li>
-          <li><strong>Vercel</strong> — hosts the website itself; their servers log standard request data for a few days.</li>
+          <li><strong>Vercel</strong> — hosts the website itself and provides <em>Speed Insights</em> + <em>Web Analytics</em> (anonymous page-view counts and Core Web Vitals). their servers log standard request data for a few days; both analytics tools are described in section 02.</li>
         </ul>
-        <p>that's the full list. <em>nothing else</em>. no analytics vendor, no error-tracking saas, no email service, no advertising network.</p>
+        <p>that's the full list. <em>nothing else</em>. no behavioural analytics vendor, no error-tracking saas, no email service, no advertising network.</p>
       </div>
     </section>
 
