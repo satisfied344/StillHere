@@ -491,12 +491,20 @@ document.addEventListener('click', async function (e) {
   loadMoreBtn.id = 'feedLoadMoreBtn';
   loadMoreBtn.className = 'feed-load-more-btn';
   loadMoreBtn.innerHTML =
-    '<span>Show more stories</span>' +
+    '<span data-i18n="main.loadmore">Show more stories</span>' +
     '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
     '<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
   loadMoreBtn.style.display = 'none';
   loadMoreBtn.addEventListener('click', function () { renderBatch(); });
   if (feed.parentNode) feed.parentNode.insertBefore(loadMoreBtn, feed.nextSibling);
+  /* Translate the static label once (data-i18n inside innerHTML), and on
+     every subsequent language change. syncLoadMoreBtn() additionally
+     rewrites the dynamic "(N left)" suffix from SH_I18N.t each time. */
+  if (window.SH_I18N) window.SH_I18N.apply(loadMoreBtn);
+  document.addEventListener('sh:langchange', function () {
+    if (window.SH_I18N) window.SH_I18N.apply(loadMoreBtn);
+    syncLoadMoreBtn();
+  });
 
   function syncLoadMoreBtn() {
     var hasMore = displayedCount < currentFilteredPosts.length;
@@ -506,8 +514,8 @@ document.addEventListener('click', async function (e) {
       var size      = nextBatchSize();
       var label     = loadMoreBtn.querySelector('span');
       if (label) {
-        label.textContent = 'Show more stories' +
-          (remaining > size ? ' (' + remaining + ' left)' : '');
+        var base = (window.SH_I18N ? window.SH_I18N.t('main.loadmore') : 'Show more stories');
+        label.textContent = base + (remaining > size ? ' (' + remaining + ')' : '');
       }
     }
   }

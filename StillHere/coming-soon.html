@@ -4,294 +4,338 @@
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
   <!-- Vercel Speed Insights -->
-<script>
-  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
   <!-- Vercel Web Analytics -->
-<script>
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coming Soon – StillHere</title>
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <title>coming soon — StillHere</title>
   <link rel="stylesheet" href="CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="JS/supabase-config.js"></script>
   <script src="JS/site-pings.js" defer></script>
+  <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js"></script>
+  <script src="JS/theme.js"></script>
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ══════════════════════════════════════════════════════
+       Coming-soon page — paper aesthetic, matches startup /
+       main / about / contacts / docs.
+       ══════════════════════════════════════════════════════ */
+    body { overflow-x: clip; }
 
-    :root {
-      /* ── Background gradient ── */
-      --bg-1: #edcfb6;
-      --bg-2: #e7c5b9;
-      --bg-3: #ded3f1;
-      --bg-4: #e6cfbb;
-
-      /* ── Glass surfaces ── */
-      --surface-nav:    rgba(255, 255, 255, 0.70);
-      --surface-card:   #ffffff;
-      --surface-widget: rgba(255, 255, 255, 0.70);
-      --surface-menu:   rgba(255, 255, 255, 0.96);
-      --surface-modal:  rgba(255, 255, 255, 0.96);
-      --surface-input:  #ffffff;
-
-      /* ── Borders ── */
-      --border-glass:   rgba(255, 255, 255, 0.80);
-      --border-nav:     rgba(255, 255, 255, 0.60);
-      --border-subtle:  #e5e7eb;
-      --border-divider: rgba(0, 0, 0, 0.06);
-
-      /* ── Text ── */
-      --text-light: #8A8A8A;
-      --text-mid:   #5A5A5A;
-      --text-dark:  #404040;
-      --charcoal:   #111827;
-
-      /* ── Accent ── */
-      --accent:      #a691c2;
-      --accent-warm: #e0bda5;
-
-      /* ── Page-specific ── */
-      --cs-eyebrow:    #a691c2;
-      --cs-title:      #111827;
-      --cs-lead:       #6B7280;
-      --cs-card-bg:    rgba(255, 255, 255, 0.50);
-      --cs-card-title: #111827;
-      --cs-card-desc:  #9CA3AF;
-      --cs-back-bg:    rgba(255, 255, 255, 0.70);
-      --cs-back-color: #111827;
-    }
-
-    body {
-      font-family: "Ubuntu", system-ui, -apple-system, sans-serif;
-      color: var(--text-mid);
-      min-height: 100vh;
-      background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4));
-      background-size: 400% 400%;
-      animation: warmFlow 20s ease-in-out infinite alternate;
-      padding-top: 73px; /* fixed navbar height */
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.13) 100%);
-      mix-blend-mode: multiply;
-    }
-
-    @keyframes warmFlow {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 100%; }
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ── Page layout ── */
-    .cs-wrap {
+    .cs-page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: calc(73px + 48px) 32px 80px;
       position: relative;
       z-index: 2;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 72px 24px 80px;
+      animation: csIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes csIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero */
-    .cs-emoji {
-      font-size: 80px;
-      line-height: 1;
-      margin-bottom: 28px;
-      display: block;
-      user-select: none;
+    /* ── HERO ────────────────────────────────────────────── */
+    .cs-hero {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 56px;
+      align-items: end;
+      margin-bottom: 56px;
+      padding-bottom: 36px;
+      border-bottom: 1px dashed var(--line-soft);
+      position: relative;
     }
-
+    .cs-hero-left { min-width: 0; }
     .cs-eyebrow {
       font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+    .cs-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+    .cs-title {
+      font-family: "Caveat", cursive;
+      font-size: 80px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 16px;
+      position: relative;
+      display: inline-block;
+    }
+    .cs-title em {
+      color: var(--accent-2);
+      font-style: italic;
+      font-weight: 700;
+    }
+    .cs-title-star {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      vertical-align: top;
+      margin-left: 8px;
+      margin-top: 14px;
+      transform: rotate(-12deg);
+      animation: csBob 4.5s ease-in-out infinite;
+    }
+    @keyframes csBob {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50%      { transform: rotate(-4deg)  translateY(-5px); }
+    }
+    .cs-lede {
+      font-size: 17px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      max-width: 540px;
+    }
+    .cs-lede em {
+      color: var(--accent-2);
+      font-style: italic;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+      padding-bottom: 1px;
+    }
+
+    /* Hero right — paper note */
+    .cs-hero-right {
+      position: relative;
+      min-height: 180px;
+    }
+    .cs-paper-note {
+      background: var(--paper-soft, #fffaf0);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 24px 26px 22px;
+      box-shadow: 0 14px 30px -16px rgba(26, 20, 16, 0.18);
+      transform: rotate(-1.6deg);
+      position: relative;
+      /* static — no float animation; the slight rotation alone is enough */
+    }
+    .cs-paper-note::before {
+      content: "";
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%) rotate(3deg);
+      width: 64px; height: 20px;
+      background: rgba(214, 83, 60, 0.20);
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(26, 20, 16, 0.08);
+    }
+    .cs-paper-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 8px;
+    }
+    .cs-paper-title {
+      font-family: "Caveat", cursive;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.05;
+      margin-bottom: 6px;
+    }
+    .cs-paper-title em { color: var(--accent-2); font-style: italic; }
+    .cs-paper-text {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+
+    /* ── BODY SECTION ────────────────────────────────────── */
+    .cs-section { margin-bottom: 56px; }
+    .cs-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .cs-section-eyebrow {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-2);
+      letter-spacing: 0.08em;
+    }
+    .cs-section-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+      line-height: 1.2;
+    }
+    .cs-section-hint {
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink-light);
+      margin-left: auto;
+    }
+
+    /* Three feature cards */
+    .cs-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .cs-card {
+      background: var(--paper-soft, #fffaf0);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: 22px 24px 18px;
+      transition: border-color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .cs-card:hover {
+      transform: translateY(-3px) rotate(-0.3deg);
+      border-color: var(--line);
+    }
+    .cs-card-num {
+      font-size: 10.5px;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cs-eyebrow);
-      margin-bottom: 16px;
+      color: var(--accent-2);
+      margin-bottom: 10px;
     }
-
-    .cs-title {
-      font-size: 52px;
-      font-weight: 700;
-      color: var(--cs-title);
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
-
-    .cs-lead {
-      font-size: 18px;
-      line-height: 1.7;
-      color: var(--cs-lead);
-      max-width: 540px;
-      margin-bottom: 48px;
-    }
-
-    /* Feature cards row */
-    .cs-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 52px;
-    }
-
-    .cs-card {
-      background: rgba(255,255,255,0.5);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.7);
-      border-radius: 20px;
-      padding: 28px 22px;
-      text-align: left;
-    }
-
-    .cs-card-emoji {
-      font-size: 30px;
-      margin-bottom: 14px;
-      display: block;
-    }
-
     .cs-card-title {
-      font-size: 15px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 15.5px;
       font-weight: 700;
-      color: #111827;
-      margin-bottom: 6px;
+      color: var(--ink);
+      margin-bottom: 8px;
     }
-
     .cs-card-desc {
       font-size: 13px;
-      line-height: 1.55;
-      color: #9CA3AF;
+      line-height: 1.6;
+      color: var(--ink-mid);
     }
 
-    /* Progress strip */
-    .cs-progress {
-      background: rgba(255,255,255,0.45);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.65);
-      border-radius: 20px;
-      padding: 28px 32px;
-      margin-bottom: 44px;
+    /* ── ACTIONS ROW ─────────────────────────────────────── */
+    .cs-actions {
       display: flex;
-      align-items: center;
-      gap: 24px;
+      gap: 14px;
       flex-wrap: wrap;
+      margin-top: 12px;
     }
-
-    .cs-progress-text {
-      flex: 1;
-      min-width: 180px;
-    }
-
-    .cs-progress-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #a691c2;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 6px;
-    }
-
-    .cs-progress-desc {
-      font-size: 14px;
-      color: #6B7280;
-      line-height: 1.5;
-    }
-
-    .cs-bar-wrap {
-      flex: 1;
-      min-width: 160px;
-    }
-
-    .cs-bar-track {
-      height: 8px;
-      background: rgba(166,145,194,0.15);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .cs-bar-fill {
-      height: 100%;
-      width: 40%;
-      border-radius: 99px;
-      background: linear-gradient(90deg, #a691c2, #e0bda5);
-      animation: fillPulse 2.5s ease-in-out infinite alternate;
-    }
-
-    @keyframes fillPulse {
-      from { width: 35%; }
-      to   { width: 48%; }
-    }
-
-    .cs-bar-pct {
-      font-size: 12px;
-      color: #a691c2;
-      font-weight: 600;
-      margin-top: 6px;
-    }
-
-    /* Back button */
-    .cs-back {
+    .cs-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
+      padding: 12px 22px;
+      font-family: "Ubuntu", sans-serif;
       font-size: 14px;
       font-weight: 600;
-      color: var(--cs-back-color);
-      background: var(--cs-back-bg);
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 12px;
-      padding: 11px 24px;
-      transition: background 0.18s, transform 0.18s;
+      border-radius: 999px;
       text-decoration: none;
+      cursor: pointer;
+      border: 1.5px solid var(--line);
+      background: var(--paper-soft, #fffaf0);
+      color: var(--ink);
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
     }
-    .cs-back:hover { background: #fff; transform: translateY(-1px); }
+    .cs-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+    }
+    .cs-btn--primary {
+      background: var(--accent-2);
+      border-color: var(--accent-2);
+      color: #fff;
+    }
+    .cs-btn--primary:hover {
+      background: #b8462f;
+      border-color: #b8462f;
+      color: #fff;
+    }
+    .cs-btn svg { transition: transform 0.25s ease; }
+    .cs-btn:hover svg { transform: translateX(2px); }
+    .cs-btn--back:hover svg { transform: translateX(-2px); }
 
+    /* ── DOODLES (page-level decoration) ─────────────────── */
+    .cs-doodle {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.18;
+      z-index: 1;
+    }
+    .cs-doodle--1 { top: 12%;  left: 2%;  width: 100px; transform: rotate(-8deg); }
+    .cs-doodle--2 { top: 28%;  right: 3%; width: 70px;  transform: rotate(14deg); }
+    .cs-doodle--3 { bottom: 18%; left: 4%; width: 80px;  transform: rotate(-4deg); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 760px) {
+      .cs-page { padding: calc(73px + 32px) 22px 60px; }
+      .cs-hero { grid-template-columns: 1fr; gap: 36px; align-items: start; }
+      .cs-title { font-size: 56px; }
+      .cs-paper-note { transform: rotate(-1.6deg) scale(0.92); max-width: 360px; }
+    }
   </style>
-  <link rel="stylesheet" href="CSS/dark-theme.css">
-  <script src="JS/theme.js"></script>
 </head>
 <body>
 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
+
+  <!-- Ambient page doodles -->
+  <img src="assets/doodles2/09_cloud.png"                       class="cs-doodle cs-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png" class="cs-doodle cs-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                class="cs-doodle cs-doodle--3" alt="" aria-hidden="true">
+
   <nav class="top-info" aria-label="Primary navigation">
-    <a href="main.html" class="logo">StillHere</a>
+    <a href="main.html" class="logo"><span>StillHere</span></a>
+
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
           <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
         </svg>
-        <span>about</span>
+        <span data-i18n="nav.about">about</span>
       </a>
       <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
           <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
         </svg>
-        <span>contacts</span>
+        <span data-i18n="nav.contacts">contacts</span>
       </a>
       <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
           <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
         </svg>
-        <span>updates</span>
+        <span data-i18n="nav.updates">updates</span>
       </a>
       <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
           <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
         </svg>
-        <span>profile</span>
+        <span data-i18n="nav.profile">profile</span>
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger">
+        <button class="main-menu-trigger" aria-label="Open menu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
             <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
           </svg>
@@ -311,25 +355,99 @@
     </div>
   </nav>
 
-  <div class="cs-wrap">
+  <main class="cs-page">
 
-    <span class="cs-emoji">🛠️</span>
-    <p class="cs-eyebrow">Under construction</p>
-    <h1 class="cs-title">We're building<br>something good.</h1>
-    <p class="cs-lead">
-      This feature isn't ready yet – but it's on the way.
-      We're putting in the work so that when it arrives, it actually helps.
-      No filler, no rush. Just making it right.
-    </p>
+    <!-- ── HERO ────────────────────────────────────────── -->
+    <section class="cs-hero">
+      <div class="cs-hero-left">
+        <span class="cs-eyebrow" data-i18n="cs.eyebrow"><em>—</em> still in the making</span>
+        <h1 class="cs-title" data-i18n="cs.title">
+          coming <em>soon.</em><img src="assets/letters/_Special Characters/Asterisk_01.png" class="cs-title-star" alt="" aria-hidden="true">
+        </h1>
+        <p class="cs-lede" data-i18n="cs.lede">
+          this corner of StillHere isn't quite ready yet — we're <em>still here</em>, making it carefully.
+          nothing rushed, nothing filler. when it lands, it'll feel like the rest of the place.
+        </p>
+      </div>
 
-    <a href="javascript:history.back()" class="cs-back">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>
-      </svg>
-      Go back
-    </a>
+      <div class="cs-hero-right">
+        <div class="cs-paper-note">
+          <div class="cs-paper-eyebrow" data-i18n="cs.note.eyebrow">— a note</div>
+          <h2 class="cs-paper-title" data-i18n="cs.note.title">slow over <em>shiny.</em></h2>
+          <p class="cs-paper-text" data-i18n="cs.note.text">
+            we'd rather make one thing right than ship five things to seem busy. thanks for waiting.
+          </p>
+        </div>
+      </div>
+    </section>
 
-  </div>
+    <!-- ── WHAT WE'RE BUILDING ─────────────────────────── -->
+    <section class="cs-section">
+      <div class="cs-section-head">
+        <span class="cs-section-eyebrow">— 01</span>
+        <h2 class="cs-section-title" data-i18n="cs.building.title">what we're building</h2>
+        <span class="cs-section-hint" data-i18n="cs.building.hint">small, gentle, on purpose</span>
+      </div>
+
+      <div class="cs-cards">
+        <article class="cs-card">
+          <div class="cs-card-num" data-i18n="cs.card1.num">01 — language</div>
+          <h3 class="cs-card-title" data-i18n="cs.card1.title">more languages</h3>
+          <p class="cs-card-desc" data-i18n="cs.card1.desc">
+            right now the site speaks english and russian. ukrainian, spanish, french, german are next — translated by humans, not machines.
+          </p>
+        </article>
+        <article class="cs-card">
+          <div class="cs-card-num" data-i18n="cs.card2.num">02 — private chats</div>
+          <h3 class="cs-card-title" data-i18n="cs.card2.title">one-to-one private chats</h3>
+          <p class="cs-card-desc" data-i18n="cs.card2.desc">
+            tiny rooms where two people can talk away from the public feed. fully encrypted on this side, nothing logged, nothing replayable.
+          </p>
+        </article>
+        <article class="cs-card">
+          <div class="cs-card-num" data-i18n="cs.card3.num">03 — sessions</div>
+          <h3 class="cs-card-title" data-i18n="cs.card3.title">book a session</h3>
+          <p class="cs-card-desc" data-i18n="cs.card3.desc">
+            a way to schedule a quiet, private conversation with a real psychologist — affordable, opt-in, and never the only way to use the site.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── ACTIONS ─────────────────────────────────────── -->
+    <section class="cs-section">
+      <div class="cs-section-head">
+        <span class="cs-section-eyebrow">— 02</span>
+        <h2 class="cs-section-title" data-i18n="cs.next.title">in the meantime</h2>
+      </div>
+
+      <div class="cs-actions">
+        <a href="javascript:history.back()" class="cs-btn cs-btn--back">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>
+          </svg>
+          <span data-i18n="cs.btn.back">go back</span>
+        </a>
+        <a href="main.html" class="cs-btn cs-btn--primary">
+          <span data-i18n="cs.btn.feed">browse stories instead</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Floating theme toggle (same as main pages) ── -->
+  <button class="theme-fab" id="themeFab" aria-label="Toggle dark / light theme" style="position:fixed;bottom:28px;right:24px;z-index:9000;width:46px;height:46px;border-radius:50%;background:var(--paper-soft,#fffaf0);border:1px solid rgba(26,20,16,0.16);box-shadow:0 4px 18px -4px rgba(26,20,16,0.22);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink,#1a1410);">
+    <svg class="theme-fab-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+      <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM40,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H32A8,8,0,0,0,40,128Zm88,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H224a8,8,0,0,0,0,16h16a8,8,0,0,0,0-16Z"/>
+    </svg>
+    <svg class="theme-fab-moon" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" style="display:none;">
+      <path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23Z"/>
+    </svg>
+  </button>
 
   <script>
     /* Nav menu toggle */
@@ -360,11 +478,11 @@
     window.SH_SESSION.whenReady(function (user) {
       var loginItem = document.querySelector('.mmenu-item--login');
       if (!loginItem || !user) return;
-      loginItem.innerHTML =
-        '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+      var iconHtml = '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
         '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
-        'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
-        'Sign out';
+        'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>';
+      var label = '<span data-i18n="nav.signout">Sign out</span>';
+      loginItem.innerHTML = iconHtml + label;
       loginItem.removeAttribute('href');
       loginItem.style.cursor = 'pointer';
       loginItem.addEventListener('click', async function (e) {
@@ -372,6 +490,8 @@
         await window.SH_SESSION.signOut();
         window.location.href = 'login.html';
       });
+      /* Re-translate after innerHTML swap so the span picks up its key. */
+      if (window.SH_I18N) window.SH_I18N.apply(loginItem);
 
       var profileLink = document.querySelector('.nav-link[href="nav-bar/profile.html"] span');
       if (profileLink) profileLink.textContent = user.displayName || user.username;

@@ -240,16 +240,18 @@
     },
   };
 
-  /* Cache one shared client so the user's JWT is carried on every call. */
-  var _sharedClient = null;
+  /* Cache one shared client so the user's JWT is carried on every call.
+     Also expose it on window so other modules (site-pings.js, etc.)
+     can reuse instead of spawning a second GoTrueClient — silences the
+     "Multiple GoTrueClient instances detected" warning. */
   function getSharedClient() {
-    if (_sharedClient) return _sharedClient;
+    if (window.__shSharedSupabase) return window.__shSharedSupabase;
     if (!window.supabase || !window.SH_SUPABASE_URL || !window.SH_SUPABASE_KEY) return null;
-    _sharedClient = window.supabase.createClient(
+    window.__shSharedSupabase = window.supabase.createClient(
       window.SH_SUPABASE_URL,
       window.SH_SUPABASE_KEY
     );
-    return _sharedClient;
+    return window.__shSharedSupabase;
   }
 
   /* ── Internal helpers ────────────────────────────────────── */

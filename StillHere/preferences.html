@@ -23,6 +23,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="JS/supabase-config.js"></script>
   <script src="JS/site-pings.js" defer></script>
+  <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js"></script>
   <script src="JS/theme.js"></script>
   <style>
@@ -576,25 +577,14 @@
       <div class="pref-section-header">
         <span class="pref-section-eyebrow">— 02</span>
         <h2 class="pref-section-title">language</h2>
-        <span class="pref-section-hint">coming soon</span>
+        <span class="pref-section-hint">choose how the site speaks to you</span>
       </div>
 
-      <div class="lang-wrap">
-        <button type="button" class="lang-btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
-          <span class="lang-flag" aria-hidden="true">EN</span>
-          <span class="lang-text">
-            <span class="lang-name" id="langName">English</span>
-            <span class="lang-native" id="langNative">english · default</span>
-          </span>
-          <svg class="lang-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-            <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
-          </svg>
-        </button>
+      <div id="sh-lang-mount" style="margin-top: 18px;"></div>
 
-        <ul class="lang-menu" id="langMenu" role="listbox" aria-labelledby="langBtn">
-          <!-- Languages populated by JS -->
-        </ul>
-      </div>
+      <p style="margin: 14px 0 0; font-size: 13px; line-height: 1.6; color: var(--ink-light);">
+        Your choice is remembered on this device. Other places — the names you see in posts, comments and AI replies — stay in whichever language people wrote them in.
+      </p>
     </section>
 
     <!-- ════════ BACK ════════ -->
@@ -754,87 +744,9 @@
       });
     })();
 
-    /* ────────────────────────────────────────────────
-       Language selector — visual only, not yet active
-       ──────────────────────────────────────────────── */
-    (function () {
-      var LANGUAGES = [
-        { code: 'en', flag: 'EN', name: 'English',    native: 'english',    available: true  },
-        { code: 'ru', flag: 'RU', name: 'Russian',    native: 'русский',    available: false },
-        { code: 'uk', flag: 'UA', name: 'Ukrainian',  native: 'українська', available: false },
-        { code: 'es', flag: 'ES', name: 'Spanish',    native: 'español',    available: false },
-        { code: 'fr', flag: 'FR', name: 'French',     native: 'français',   available: false },
-        { code: 'de', flag: 'DE', name: 'German',     native: 'deutsch',    available: false },
-        { code: 'it', flag: 'IT', name: 'Italian',    native: 'italiano',   available: false },
-        { code: 'pt', flag: 'PT', name: 'Portuguese', native: 'português',  available: false },
-        { code: 'pl', flag: 'PL', name: 'Polish',     native: 'polski',     available: false },
-        { code: 'nl', flag: 'NL', name: 'Dutch',      native: 'nederlands', available: false },
-        { code: 'tr', flag: 'TR', name: 'Turkish',    native: 'türkçe',     available: false },
-        { code: 'zh', flag: '中',  name: 'Chinese',    native: '中文',        available: false },
-        { code: 'ja', flag: '日',  name: 'Japanese',   native: '日本語',      available: false },
-        { code: 'ko', flag: '한',  name: 'Korean',     native: '한국어',      available: false },
-        { code: 'ar', flag: 'ع',  name: 'Arabic',     native: 'العربية',     available: false },
-        { code: 'hi', flag: 'हि',  name: 'Hindi',      native: 'हिन्दी',       available: false },
-      ];
-
-      var langBtn    = document.getElementById('langBtn');
-      var langMenu   = document.getElementById('langMenu');
-      var langName   = document.getElementById('langName');
-      var langNative = document.getElementById('langNative');
-      var langFlag   = langBtn ? langBtn.querySelector('.lang-flag') : null;
-      if (!langBtn || !langMenu) return;
-
-      /* Render options */
-      langMenu.innerHTML = LANGUAGES.map(function (l, i) {
-        return '<li class="lang-option' + (i === 0 ? ' is-active' : '') + '" role="option" data-code="' + l.code + '" tabindex="0" aria-selected="' + (i === 0 ? 'true' : 'false') + '">' +
-          '<span class="lang-option-flag" aria-hidden="true">' + l.flag + '</span>' +
-          '<span class="lang-option-text">' +
-            '<span class="lang-option-name">' + l.name + (l.available ? '' : '<span class="lang-soon-badge">soon</span>') + '</span>' +
-            '<span class="lang-option-native">' + l.native + '</span>' +
-          '</span>' +
-          '<svg class="lang-option-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
-        '</li>';
-      }).join('');
-
-      /* Toggle menu */
-      function setOpen(open) {
-        langMenu.classList.toggle('is-open', open);
-        langBtn.classList.toggle('is-open', open);
-        langBtn.setAttribute('aria-expanded', String(open));
-      }
-      langBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        setOpen(!langMenu.classList.contains('is-open'));
-      });
-      langMenu.addEventListener('click', function (e) { e.stopPropagation(); });
-      document.addEventListener('click', function () { setOpen(false); });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') setOpen(false);
-      });
-
-      /* Option click — visual selection only; nothing actually changes */
-      langMenu.querySelectorAll('.lang-option').forEach(function (opt) {
-        opt.addEventListener('click', function () {
-          var code = opt.getAttribute('data-code');
-          var lang = LANGUAGES.find(function (l) { return l.code === code; });
-          if (!lang) return;
-
-          /* Always allow visual selection, but for unavailable show a brief hint */
-          langMenu.querySelectorAll('.lang-option').forEach(function (o) {
-            o.classList.remove('is-active');
-            o.setAttribute('aria-selected', 'false');
-          });
-          opt.classList.add('is-active');
-          opt.setAttribute('aria-selected', 'true');
-
-          if (langFlag)   langFlag.textContent   = lang.flag;
-          if (langName)   langName.textContent   = lang.name;
-          if (langNative) langNative.textContent = lang.native + (lang.available ? ' · default' : ' · coming soon');
-
-          setOpen(false);
-        });
-      });
-    })();
+    /* Language switcher lives in the navbar (injected by JS/i18n.js).
+       The old 16-language cosmetic selector was removed in favour of
+       a real EN ⇄ RU toggle that actually translates the page. */
   </script>
 
 </body>

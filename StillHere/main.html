@@ -21,6 +21,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="JS/supabase-config.js"></script>
   <script src="JS/site-pings.js" defer></script>
+  <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js"></script>
   <script src="JS/moderation.js"></script>
   <script src="JS/main-page.js" defer></script>
@@ -50,7 +51,10 @@
             if (hidden) el.removeAttribute('hidden');
             else        el.setAttribute('hidden', '');
           });
-          moreBtn.textContent = hidden ? 'Show fewer topics' : 'Show more topics';
+          /* Use i18n if available so the label matches the user's language */
+          moreBtn.textContent = window.SH_I18N
+            ? window.SH_I18N.t(hidden ? 'main.side.fewer' : 'main.side.more')
+            : (hidden ? 'Show fewer topics' : 'Show more topics');
         });
       }
     });
@@ -634,7 +638,7 @@
                             aria-hidden="true">
                             <path d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,120l80-80,80,80v88H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48Zm96,88H112V160h32Z"/>
                         </svg>
-                        <span>Home</span>
+                        <span data-i18n="main.side.home">Home</span>
                     </a>
 
                     <a href="#" class="sidebar-item" id="sidebarSaved">
@@ -646,7 +650,7 @@
                             aria-hidden="true">
                             <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/>
                         </svg>
-                        <span>Saved</span>
+                        <span data-i18n="main.side.saved">Saved</span>
                     </a>
                 </div>
 
@@ -655,57 +659,57 @@
                 <div class="sidebar-secondary-navigation">
                     <div class="sidebar-section">
 
-                        <h3 class="sidebar-top">Topics</h3>
+                        <h3 class="sidebar-top" data-i18n="main.side.topics">Topics</h3>
 
                         <a href="#" class="sidebar-item small" data-topic-filter="anxiety">
                             <span class="topic-span topic-anxiety"></span>
-                            <span>Anxiety</span>
+                            <span data-i18n="main.side.topic.anxiety">Anxiety</span>
                             <span class="topic-count" id="tc-anxiety">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small" data-topic-filter="depression">
                             <span class="topic-span topic-depression"></span>
-                            <span>Depression</span>
+                            <span data-i18n="main.side.topic.depression">Depression</span>
                             <span class="topic-count" id="tc-depression">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small" data-topic-filter="relationships">
                             <span class="topic-span topic-relationships"></span>
-                            <span>Relationships</span>
+                            <span data-i18n="main.side.topic.relationships">Relationships</span>
                             <span class="topic-count" id="tc-relationships">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small" data-topic-filter="grief">
                             <span class="topic-span topic-grief"></span>
-                            <span>Grief & Loss</span>
+                            <span data-i18n="main.side.topic.grief">Grief & Loss</span>
                             <span class="topic-count" id="tc-grief">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small" data-topic-filter="burnout">
                             <span class="topic-span topic-burnout"></span>
-                            <span>Burnout</span>
+                            <span data-i18n="main.side.topic.burnout">Burnout</span>
                             <span class="topic-count" id="tc-burnout">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="loneliness" hidden>
                             <span class="topic-span topic-loneliness"></span>
-                            <span>Loneliness</span>
+                            <span data-i18n="main.side.topic.loneliness">Loneliness</span>
                             <span class="topic-count" id="tc-loneliness">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="trauma" hidden>
                             <span class="topic-span topic-trauma"></span>
-                            <span>Trauma</span>
+                            <span data-i18n="main.side.topic.trauma">Trauma</span>
                             <span class="topic-count" id="tc-trauma">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="other" hidden>
                             <span class="topic-span topic-other"></span>
-                            <span>Other</span>
+                            <span data-i18n="main.side.topic.other">Other</span>
                             <span class="topic-count" id="tc-other">0</span>
                         </a>
 
-                        <button class="sidebar-more" id="sidebarMoreTopicsBtn" type="button">Show more topics</button>
+                        <button class="sidebar-more" id="sidebarMoreTopicsBtn" type="button" data-i18n="main.side.more">Show more topics</button>
 
                     </div>
                 </div>
@@ -721,7 +725,7 @@
                         aria-hidden="true">
                         <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/>
                     </svg>
-                    <span>Share Your Story</span>
+                    <span data-i18n="main.side.share">Share Your Story</span>
                 </a>
             </nav>
         </aside>
@@ -731,8 +735,8 @@
 
             <div class="feed-head">
                 <h1 class="feed-title">
-                    <span class="feed-title-eyebrow">— stories shared here</span>
-                    <span class="feed-title-line">community feed
+                    <span class="feed-title-eyebrow" data-i18n="main.feed.eyebrow">— stories shared here</span>
+                    <span class="feed-title-line"><span data-i18n="main.feed.title">community feed</span>
                         <img src="assets/letters/_Special Characters/Asterisk_05.png"
                              class="feed-title-star" alt="" aria-hidden="true">
                     </span>
@@ -769,6 +773,7 @@
                             class="search-input"
                             type="search"
                             placeholder="Search by topic, mood, or keywords..."
+                            data-i18n-attr-placeholder="main.search.placeholder"
                         />
 
                         <button class="search-clear" type="button" id="searchClear" >
@@ -786,13 +791,13 @@
 
                     <div class="lang-strip">
 
-                        <div class="lang-strip-label">
+                        <div class="lang-strip-label" data-i18n="main.filter.language">
                             Language
                         </div>
 
                         <div class="lang-select-row">
                             <div class="lang-popular">
-                                <button class="lang-pill lang-pill--all pill-active" id="langAll" type="button">All</button>
+                                <button class="lang-pill lang-pill--all pill-active" id="langAll" type="button" data-i18n="main.filter.all">All</button>
                                 <label class="lang-item"><input type="checkbox" name="lang" value="en" class="lang-radio"><span class="lang-pill">🇬🇧 EN</span></label>
                                 <label class="lang-item"><input type="checkbox" name="lang" value="ru" class="lang-radio"><span class="lang-pill">🇷🇺 RU</span></label>
                                 <label class="lang-item"><input type="checkbox" name="lang" value="uk" class="lang-radio"><span class="lang-pill">🇺🇦 UK</span></label>
@@ -805,7 +810,7 @@
                             </div>
 
                             <select name="lang_other" class="lang-select-other">
-                                <option value="">More languages…</option>
+                                <option value="" data-i18n="main.filter.morelang">More languages…</option>
                                 <option value="pt">🇧🇷 PT – Português</option>
                                 <option value="it">🇮🇹 IT – Italiano</option>
                                 <option value="pl">🇵🇱 PL – Polski</option>
@@ -842,7 +847,7 @@
                     </div>
 
                     <div class="filter-group">
-                        <label class="filter-title">Support Type</label>
+                        <label class="filter-title" data-i18n="main.filter.support">Support Type</label>
 
                         <div class="pill-group">
                             <button class="pill" type="button" data-value="need-support" data-filter="support">
@@ -854,7 +859,7 @@
                                     aria-hidden="true">
                                     <path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/>
                                 </svg>
-                                Need Support
+                                <span data-i18n="main.filter.need">Need Support</span>
                             </button>
 
                             <button class="pill" data-filter="support" data-value="no-advice" type="button">
@@ -866,17 +871,17 @@
                                     aria-hidden="true">
                                     <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/>
                                 </svg>
-                                No Advice
-                            </button>  
+                                <span data-i18n="main.filter.noadvice">No Advice</span>
+                            </button>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <label class="filter-title">Sort by</label>
+                        <label class="filter-title" data-i18n="main.filter.sort">Sort by</label>
 
                         <select class="filter-select" id="sortSelect">
-                            <option value="recent">Most Recent</option>
-                            <option value="popular">Most Supported</option>
+                            <option value="recent" data-i18n="main.filter.recent">Most Recent</option>
+                            <option value="popular" data-i18n="main.filter.popular">Most Supported</option>
                             <option value="discussed">Most Discussed</option>
                             <option value="unanswered">Needs Support</option>
                         </select>
@@ -896,8 +901,8 @@
         <aside class="right-sidebar">
             <div class="right-sticky">
             <div class="widget support">
-                <h3 class="widget-title">Need Immediate Help?</h3>
-                <p class="widget-subtitle">If you're in crisis, please call out:</p>
+                <h3 class="widget-title" data-i18n="main.widget.crisis.title">Need Immediate Help?</h3>
+                <p class="widget-subtitle" data-i18n="main.widget.crisis.sub">If you're in crisis, please call out:</p>
                 <a href="docs/html/crisis-resources.html" class="widget-link">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20"
@@ -912,48 +917,48 @@
             </div>
 
             <div class="widget support ai">
-                <h3 class="widget-title">Need support right now?</h3>
-                <p class="widget-subtitle">If you're going through something difficult, you can talk to our AI support:</p>
+                <h3 class="widget-title" data-i18n="main.widget.ai.title">Need support right now?</h3>
+                <p class="widget-subtitle" data-i18n="main.widget.ai.sub">If you're going through something difficult, you can talk to our AI support:</p>
                 <a href="ai-chat.html" class="widgetai-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                        width="20" height="20" fill="currentColor" 
-                        viewBox="0 0 256 256" data-darkreader-inline-fill="" 
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="20" height="20" fill="currentColor"
+                        viewBox="0 0 256 256" data-darkreader-inline-fill=""
                         style="--darkreader-inline-fill: var(--darkreader-background-000000, #000000);">
                         <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
                     </svg>
-                    Talk to AI support
+                    <span data-i18n="main.widget.ai.btn">Talk to AI support</span>
                 </a>
             </div>
             </div><!-- /.right-sticky -->
 
             <div class="widget guidelines">
-                <h3 class="widget-title">Community Guidelines</h3>
+                <h3 class="widget-title" data-i18n="main.widget.guidelines.title">Community Guidelines</h3>
 
                 <ul class="widget-list">
-                    <li>Be kind and respectful</li>
-                    <li>Respect "No Advice" tags</li>
-                    <li>No medical advice</li>
-                    <li>Protect anonymity</li>
+                    <li data-i18n="main.widget.guidelines.1">Be kind and respectful</li>
+                    <li data-i18n="main.widget.guidelines.2">Respect "No Advice" tags</li>
+                    <li data-i18n="main.widget.guidelines.3">No medical advice</li>
+                    <li data-i18n="main.widget.guidelines.4">Protect anonymity</li>
                 </ul>
 
-                <a href="docs/html/guidelines.html" class="widget-link-guidelines">Read full guidelines →</a>
+                <a href="docs/html/guidelines.html" class="widget-link-guidelines" data-i18n="main.widget.guidelines.link">Read full guidelines →</a>
             </div>
 
             <div class="widget statistic">
-                <h3 class="widget-title">This Week</h3>
+                <h3 class="widget-title" data-i18n="main.widget.week.title">This Week</h3>
 
                 <div class="statistic-row">
-                    <span class="statistic-title">Stories shared</span>
+                    <span class="statistic-title" data-i18n="main.widget.week.stories">Stories shared</span>
                     <span class="statistic-value" id="stat-stories">0</span>
                 </div>
 
                 <div class="statistic-row">
-                    <span class="statistic-title">Support given</span>
+                    <span class="statistic-title" data-i18n="main.widget.week.support">Support given</span>
                     <span class="statistic-value" id="stat-support">0</span>
                 </div>
 
                 <div class="statistic-row">
-                    <span class="statistic-title">Active members</span>
+                    <span class="statistic-title" data-i18n="main.widget.week.members">Active members</span>
                     <span class="statistic-value" id="stat-members">0</span>
                 </div>
             </div>
@@ -973,29 +978,29 @@
 
             <div class="footer_links">
                 <div class="footer_links_1">
-                    <h3>Platform</h3>
+                    <h3 data-i18n="footer.platform">Platform</h3>
                     <ul>
-                        <li><a href="main.html">Browse Stories</a></li>
-                        <li><a href="create-post.html">Share Your Story</a></li>
-                        <li><a href="nav-bar/updates.html">Updates</a></li>
+                        <li><a href="main.html" data-i18n="footer.browse">Browse Stories</a></li>
+                        <li><a href="create-post.html" data-i18n="footer.share">Share Your Story</a></li>
+                        <li><a href="nav-bar/updates.html" data-i18n="footer.updates">Updates</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_2">
-                    <h3>Support</h3>
+                    <h3 data-i18n="footer.support">Support</h3>
                     <ul>
-                        <li><a href="nav-bar/about.html">About Us</a></li>
-                        <li><a href="nav-bar/contacts.html">Contacts</a></li>
-                        <li><a href="docs/html/guidelines.html">Guidelines</a></li>
-                        <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
+                        <li><a href="nav-bar/about.html" data-i18n="footer.about">About Us</a></li>
+                        <li><a href="nav-bar/contacts.html" data-i18n="footer.contacts">Contacts</a></li>
+                        <li><a href="docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
+                        <li><a href="docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_3">
-                    <h3>Legal</h3>
+                    <h3 data-i18n="footer.legal">Legal</h3>
                     <ul>
-                        <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -1004,7 +1009,7 @@
         <div class="footer_footer">
             <div class="footer_legal">
                   <p>2026 StillHere.</p>
-                  <p class="implicit-consent">
+                  <p class="implicit-consent" data-i18n="footer.consent">
                     by being here, you accept our
                     <a href="docs/html/terms-of-service.html">terms</a>
                     &amp; <a href="docs/html/privacy-policy.html">privacy</a>.

@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="JS/supabase-config.js"></script>
   <script src="JS/site-pings.js" defer></script>
+  <script src="JS/i18n.js" defer></script>
     <script src="JS/session.js"></script>
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <script src="JS/theme.js"></script>
@@ -106,7 +107,7 @@
   </style>
 </head>
 <body>
-    <nav class="top-info" aria-label="Primary navigation">
+    <nav class="top-info" data-i18n-attr-aria-label="aria.primaryNav" aria-label="Primary navigation">
         <a href="main.html" class="logo">
             <span>StillHere</span>
         </a>
@@ -116,28 +117,28 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
                     </svg>
-                <span>about</span>
+                <span data-i18n="nav.about">about</span>
             </a>
 
             <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" stroke-width="22" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
                     </svg>
-                <span>contacts</span>
+                <span data-i18n="nav.contacts">contacts</span>
             </a>
 
             <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/>
                     </svg>
-                <span>updates</span>
+                <span data-i18n="nav.updates">updates</span>
             </a>
 
             <a href="login.html" class="nav-link nav-link--stack" id="navLoginLink">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
                         <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"/>
                     </svg>
-                <span>login</span>
+                <span data-i18n="nav.login">login</span>
             </a>
         </div>
     </nav>
@@ -196,10 +197,10 @@
 
 
         <div class="hero-meta reveal">
-            <span class="hero-index">
+            <span class="hero-index" data-i18n="idx.hero.eyebrow">
                 <em>—</em> 01 / Presence, not solutions
             </span>
-            <span class="hero-loc">Global · Anonymous · Free</span>
+            <span class="hero-loc" data-i18n="idx.hero.location">Global · Anonymous · Free</span>
         </div>
 
         <div class="start-content-1">
@@ -217,14 +218,14 @@
 
         <div class="hero-bottom">
             <div class="hero-bottom-left reveal">
-                <p class="subtitle">
+                <p class="subtitle" data-i18n="idx.hero.subtitle">
                     a space for <em>presence</em>,<br>
                     not solutions.
                 </p>
             </div>
 
             <div class="hero-bottom-right reveal" data-reveal-delay="200">
-                <p class="subtitle-2">
+                <p class="subtitle-2" data-i18n="idx.hero.subtitle2">
                     when everything feels heavy — slow down,<br>
                     breathe, and find a quiet place that <em>feels like yours.</em>
                 </p>
@@ -240,14 +241,14 @@
                     </div>
 
                     <a href="create-post.html" class="btn button_start_1" id="startSharingBtn">
-                        <span>start sharing</span>
+                        <span data-i18n="idx.btn.share">start sharing</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
                             <path d="M6 12l4-4-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
 
                     <a href="main.html" class="btn button_start_2">
-                        <span>explore stories</span>
+                        <span data-i18n="idx.btn.explore">explore stories</span>
                         <span class="btn-arrow">↗</span>
                     </a>
                 </div>
@@ -255,7 +256,7 @@
         </div>
 
         <a href="#why-section" class="scroll-cue" aria-label="Scroll to next section">
-            <span>scroll</span>
+            <span data-i18n="idx.btn.scroll">scroll</span>
             <span class="scroll-cue-line"></span>
             <span class="scroll-cue-dot">↓</span>
         </a>
@@ -323,9 +324,9 @@
             <div class="section-head reveal">
                 <span class="section-eyebrow">
                     <img src="assets/doodles2/02_asterisk_flower.png" class="eyebrow-doodle" alt="" aria-hidden="true">
-                    02 / why stillhere
+                    <span data-i18n="idx.why.eyebrow">02 / why stillhere</span>
                 </span>
-                <h2 class="card-section-title">built for <em>quiet</em>,<br>not for noise.</h2>
+                <h2 class="card-section-title" data-i18n="idx.why.title">built for <em>quiet</em>,<br>not for noise.</h2>
 
                 <img src="assets/crayon-textures/045.png" class="d-img section-underline" alt="" aria-hidden="true">
             </div>
@@ -336,9 +337,9 @@
                     <div class="card-emotion">
                         <img src="assets/cats_named/sneaking.png" class="d-img" alt="" aria-hidden="true">
                     </div>
-                    <span class="feature-num">01 — privacy</span>
-                    <h3>anonymous &amp; safe</h3>
-                    <p>share without showing your face or your name. your presence is enough.</p>
+                    <span class="feature-num" data-i18n="idx.c1.num">01 — privacy</span>
+                    <h3 data-i18n="idx.c1.title">anonymous &amp; safe</h3>
+                    <p data-i18n="idx.c1.desc">share without showing your face or your name. your presence is enough.</p>
                 </article>
 
                 <article class="feature-card reveal-row" style="--rot: 1.4deg;">
@@ -346,9 +347,9 @@
                     <div class="card-emotion">
                         <img src="assets/cats_named/calm.png" class="d-img" alt="" aria-hidden="true">
                     </div>
-                    <span class="feature-num">02 — care</span>
-                    <h3>no-advice mode</h3>
-                    <p>a toggle that protects your story from unsolicited advice — only listening, only company.</p>
+                    <span class="feature-num" data-i18n="idx.c2.num">02 — care</span>
+                    <h3 data-i18n="idx.c2.title">no-advice mode</h3>
+                    <p data-i18n="idx.c2.desc">a toggle that protects your story from unsolicited advice — only listening, only company.</p>
                 </article>
 
                 <article class="feature-card reveal-row" style="--rot: -0.8deg;">
@@ -356,9 +357,9 @@
                     <div class="card-emotion">
                         <img src="assets/cats_named/happy.png" class="d-img" alt="" aria-hidden="true">
                     </div>
-                    <span class="feature-num">03 — together</span>
-                    <h3>a quiet community</h3>
-                    <p>1,000+ people already showed up here, in their own languages, at their own pace.</p>
+                    <span class="feature-num" data-i18n="idx.c3.num">03 — together</span>
+                    <h3 data-i18n="idx.c3.title">a quiet community</h3>
+                    <p data-i18n="idx.c3.desc">1,000+ people already showed up here, in their own languages, at their own pace.</p>
                 </article>
 
                 <article class="feature-card reveal-row" style="--rot: 1.0deg;">
@@ -366,9 +367,9 @@
                     <div class="card-emotion">
                         <img src="assets/cats_named/surprised.png" class="d-img" alt="" aria-hidden="true">
                     </div>
-                    <span class="feature-num">04 — trust</span>
-                    <h3>moderated, with care</h3>
-                    <p>sensitive content can be flagged. humans review every report — slowly, gently.</p>
+                    <span class="feature-num" data-i18n="idx.c4.num">04 — trust</span>
+                    <h3 data-i18n="idx.c4.title">moderated, with care</h3>
+                    <p data-i18n="idx.c4.desc">sensitive content can be flagged. humans review every report — slowly, gently.</p>
                 </article>
 
                 <article class="feature-card feature-card--wide reveal-row" style="--rot: -0.6deg;">
@@ -377,9 +378,9 @@
                     <div class="card-emotion">
                         <img src="assets/cats_named/confused.png" class="d-img" alt="" aria-hidden="true">
                     </div>
-                    <span class="feature-num">05 — human</span>
-                    <h3>real people, real words</h3>
-                    <p>no bots, no performance — mindful, honest conversation, in any language.</p>
+                    <span class="feature-num" data-i18n="idx.c5.num">05 — human</span>
+                    <h3 data-i18n="idx.c5.title">real people, real words</h3>
+                    <p data-i18n="idx.c5.desc">no bots, no performance — mindful, honest conversation, in any language.</p>
                     <img src="assets/doodles2/08_wavy_line.png" class="d-img card-extra card-extra--1" alt="" aria-hidden="true">
                     <img src="assets/doodles2/01_star.png" class="d-img card-extra card-extra--2" alt="" aria-hidden="true">
                     <img src="assets/doodles/wave-mmmm.png" class="d-img card-extra card-extra--3" alt="" aria-hidden="true">
@@ -403,11 +404,11 @@
             <img src="assets/skotch/14.png" class="skotch skotch-tl" alt="" aria-hidden="true">
             <img src="assets/skotch/22.png" class="skotch skotch-tr" alt="" aria-hidden="true">
 
-            <p class="quote-text">
+            <p class="quote-text" data-i18n="idx.quote.text">
                 "you don't always need to be <em>fixed.</em><br>
                 sometimes you just need to be <em>witnessed.</em>"
             </p>
-            <span class="quote-cite">— a stillhere note</span>
+            <span class="quote-cite" data-i18n="idx.quote.cite">— a stillhere note</span>
 
             <img src="assets/doodles2/02_asterisk_flower.png" class="d-img quote-flower d-bob" alt="" aria-hidden="true">
         </div>
@@ -418,7 +419,7 @@
             <div class="join-meta reveal">
                 <span class="section-eyebrow">
                     <img src="assets/doodles2/01_star.png" class="eyebrow-doodle" alt="" aria-hidden="true">
-                    03 / invitation
+                    <span data-i18n="idx.join.eyebrow">03 / invitation</span>
                 </span>
             </div>
 
@@ -426,20 +427,20 @@
                 <!-- "not alone" note — pinned to FAR top-right corner of section, well above title -->
                 <div class="paper-note paper-note--join d-mouse" data-px="0.014" aria-hidden="true">
                     <img src="assets/paper-structions-torn-parts/27.png" class="paper-note-bg" alt="">
-                    <span class="paper-note-text">not&nbsp;alone</span>
+                    <span class="paper-note-text" data-i18n="idx.join.note">not&nbsp;alone</span>
                     <img src="assets/skotch/17.png" class="skotch paper-note-skotch" alt="">
                 </div>
 
-                <h2 class="join-title reveal">you don't have<br>to carry it <em>alone</em>.</h2>
+                <h2 class="join-title reveal" data-i18n="idx.join.title">you don't have<br>to carry it <em>alone</em>.</h2>
 
                 <div class="join-bottom">
-                    <p class="join-description">
+                    <p class="join-description" data-i18n="idx.join.desc">
                         your story matters.<br>
                         your feelings are valid.
                     </p>
 
                     <a href="create-post.html" class="btn join-register" id="joinRegisterBtn">
-                        <span>start sharing</span>
+                        <span data-i18n="idx.btn.share">start sharing</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
                             <path d="M6 12l4-4-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -462,34 +463,34 @@
                     <div class="footer_logo">
                         <p>StillHere</p>
                     </div>
-                    <p class="footer_subtitle">A project about presence, not solutions</p>
+                    <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
                 </div>
 
                 <div class="footer_links">
                     <div class="footer_links_1">
-                        <h3>Platform</h3>
+                        <h3 data-i18n="footer.platform">Platform</h3>
                         <ul>
-                            <li><a href="main.html">Browse Stories</a></li>
-                            <li><a href="create-post.html">Share Your Story</a></li>
-                            <li><a href="nav-bar/updates.html">Updates</a></li>
+                            <li><a href="main.html" data-i18n="footer.browse">Browse Stories</a></li>
+                            <li><a href="create-post.html" data-i18n="footer.share">Share Your Story</a></li>
+                            <li><a href="nav-bar/updates.html" data-i18n="footer.updates">Updates</a></li>
                         </ul>
                     </div>
 
                     <div class="footer_links_2">
-                        <h3>Support</h3>
+                        <h3 data-i18n="footer.support">Support</h3>
                         <ul>
-                            <li><a href="nav-bar/about.html">About Us</a></li>
-                            <li><a href="nav-bar/contacts.html">Contacts</a></li>
-                            <li><a href="docs/html/guidelines.html">Guidelines</a></li>
-                            <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
+                            <li><a href="nav-bar/about.html" data-i18n="footer.about">About Us</a></li>
+                            <li><a href="nav-bar/contacts.html" data-i18n="footer.contacts">Contacts</a></li>
+                            <li><a href="docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
+                            <li><a href="docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
                         </ul>
                     </div>
 
                     <div class="footer_links_3">
-                        <h3>Legal</h3>
+                        <h3 data-i18n="footer.legal">Legal</h3>
                         <ul>
-                            <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
-                            <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
+                            <li><a href="docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+                            <li><a href="docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
                         </ul>
                     </div>
                 </div>
@@ -498,7 +499,7 @@
             <div class="footer_footer">
                 <div class="footer_legal">
                   <p>2026 StillHere.</p>
-                  <p class="implicit-consent">
+                  <p class="implicit-consent" data-i18n="footer.consent">
                     by being here, you accept our
                     <a href="docs/html/terms-of-service.html">terms</a>
                     &amp; <a href="docs/html/privacy-policy.html">privacy</a>.

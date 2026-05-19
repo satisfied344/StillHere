@@ -850,13 +850,26 @@
         }
       } catch (_) {}
 
-      db.from('comments').insert({
+      /* Defensive profile upsert — guarantees the join in loadComments
+         can resolve, so the user's handle shows instead of "Anonymous". */
+      var profileStep = _currentUserId ? (function () {
+        var u = window.SH_SESSION && window.SH_SESSION.user;
+        var uname = (u && u.username)    || ('user_' + _currentUserId.slice(0, 8));
+        var dname = (u && u.displayName) || null;
+        var aurl  = (u && u.avatarUrl)   || null;
+        return db.from('profiles').upsert(
+          { id: _currentUserId, username: uname, display_name: dname, avatar_url: aurl },
+          { onConflict: 'id' }
+        );
+      })() : Promise.resolve({ error: null });
+
+      profileStep.then(function () { return db.from('comments').insert({
         post_id:   postId,
         parent_id: parentCid,
         content:   safeHtml(html),
         user_id:   _currentUserId,
         anon_fp:   anonFpR
-      }).then(function (res) {
+      }); }).then(function (res) {
         btn.disabled    = false;
         btn.textContent = 'Post reply';
 
@@ -1010,7 +1023,7 @@
               .order('created_at', { ascending: true })
               .then(function (r2) {
                 if (r2.error) { showToast('Could not load comments'); return; }
-                renderComments(r2.data || []);
+                hydrateProfilesAndRender(r2.data || []);
               });
             return;
           }
@@ -1018,7 +1031,39 @@
           showToast('Could not load comments');
           return;
         }
-        renderComments(result.data || []);
+        hydrateProfilesAndRender(result.data || []);
+      });
+  }
+
+  /* The PostgREST embedding `profiles(...)` only works when a foreign
+     key from comments.user_id to profiles.id is registered in the schema
+     cache. In this project it isn't, so the join silently returns null
+     and every authored comment renders as "Anonymous". Fix: after the
+     initial fetch, collect distinct user_ids whose .profiles came back
+     null, do one batch SELECT against profiles, and inject the rows
+     back into each comment. */
+  function hydrateProfilesAndRender(rows) {
+    var missing = {};
+    (rows || []).forEach(function (c) {
+      if (!c.profiles && c.user_id) missing[c.user_id] = true;
+    });
+    var ids = Object.keys(missing);
+    if (!ids.length) { renderComments(rows); return; }
+
+    db.from('profiles')
+      .select('id, username, display_name, avatar_url')
+      .in('id', ids)
+      .then(function (pr) {
+        if (!pr.error && Array.isArray(pr.data)) {
+          var byId = {};
+          pr.data.forEach(function (p) { byId[p.id] = p; });
+          rows.forEach(function (c) {
+            if (!c.profiles && c.user_id && byId[c.user_id]) {
+              c.profiles = byId[c.user_id];
+            }
+          });
+        }
+        renderComments(rows);
       });
   }
 
@@ -1073,7 +1118,19 @@
           }
         } catch (_) {}
 
-        db.from('comments').insert({ post_id: postId, content: html, user_id: _currentUserId, anon_fp: anonFpC }).then(function (result) {
+        /* Same defensive profile upsert as the reply path above. */
+        var profileStepC = _currentUserId ? (function () {
+          var u = window.SH_SESSION && window.SH_SESSION.user;
+          var uname = (u && u.username)    || ('user_' + _currentUserId.slice(0, 8));
+          var dname = (u && u.displayName) || null;
+          var aurl  = (u && u.avatarUrl)   || null;
+          return db.from('profiles').upsert(
+            { id: _currentUserId, username: uname, display_name: dname, avatar_url: aurl },
+            { onConflict: 'id' }
+          );
+        })() : Promise.resolve({ error: null });
+
+        profileStepC.then(function () { return db.from('comments').insert({ post_id: postId, content: html, user_id: _currentUserId, anon_fp: anonFpC }); }).then(function (result) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = REPLY_ICON;
 
