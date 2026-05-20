@@ -1951,27 +1951,30 @@ html[data-theme="dark"] .skotch {
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
 }
 
-/* Quote note paper bg in dark */
+/* Quote note paper bg in dark — the cream paper is drawn by the
+   ::before pseudo (hardcoded #fffbf0), so we MUST override that,
+   not just .quote-note. */
 html[data-theme="dark"] .quote-note {
-  background: rgba(237, 225, 200, 0.04);
-  box-shadow: 0 12px 32px -16px rgba(0,0,0,0.6),
-              0 1px 2px rgba(237,225,200,0.05);
+  background: transparent !important;
+}
+html[data-theme="dark"] .quote-note::before {
+  background: #25201a !important;       /* matches --surface-card */
+  filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.50))
+          drop-shadow(0 2px 4px rgba(0, 0, 0, 0.30)) !important;
 }
 
-/* Paper notes invert nicely in dark */
+/* Paper notes (small "not alone" sticker) — drop the PNG bg
+   in dark, keep just the warm-dark surface. */
 html[data-theme="dark"] .paper-note-bg {
-  filter: invert(1) brightness(0.85);
-  mix-blend-mode: screen;
-  opacity: 0.65;
+  display: none !important;
 }
 html[data-theme="dark"] .paper-note-text {
-  color: var(--ink);
+  color: var(--charcoal, #f0e4cf) !important;
 }
 
-/* Feature cards in dark — keep paper texture but darken */
+/* Feature cards in dark — clean warm-dark surface, no heavy JPG. */
 html[data-theme="dark"] .feature-card {
-  background: rgba(40, 32, 25, 0.55) url("../assets/paper-textures/03.jpg");
-  background-size: cover;
-  background-blend-mode: multiply;
-  border-color: rgba(237, 225, 200, 0.10);
+  background: #25201a !important;
+  background-image: none !important;
+  border-color: rgba(237, 225, 200, 0.10) !important;
 }

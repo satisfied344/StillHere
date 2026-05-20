@@ -1704,8 +1704,28 @@
         }
       }
 
-      function restore() {
-        var d = readDraft(); if (!d) return;
+      /* Clear form fields + editor — used when switching accounts so
+         we don't leak the previous account's (or anon's) content into
+         the new view. */
+      function clearForm() {
+        var form = f(), ti = t(), e = ed();
+        if (ti) { ti.value = ''; ti.dispatchEvent(new Event('input', { bubbles: true })); }
+        if (form) {
+          form.querySelectorAll('[name="topic"]:checked').forEach(function (cb) { cb.checked = false; });
+          var l = form.querySelector('[name="lang"]:checked'); if (l) l.checked = false;
+          var lo = form.querySelector('[name="lang_other"]'); if (lo) lo.value = '';
+          var m = form.querySelector('[name="mode"]:checked'); if (m) m.checked = false;
+        }
+        if (e) e.innerHTML = '';
+      }
+
+      function restoreNow() {
+        var d = readDraft();
+        /* If no draft exists for the current identity (anon vs. user),
+           wipe the form so the previous identity's content doesn't
+           bleed through. */
+        if (!d) { clearForm(); return; }
+        clearForm();
         applyMeta(d);
         if (!d.content) return;
 
@@ -1721,6 +1741,18 @@
             clearInterval(timer);
           }
         }, 50);
+      }
+
+      /* Wait for SH_SESSION to finish loading (it reads auth.user async)
+         so KEY() resolves to the correct per-user namespace before we
+         pull a draft from localStorage. Otherwise we'd read the anon
+         draft into a logged-in view. */
+      function restore() {
+        if (window.SH_SESSION && typeof window.SH_SESSION.whenReady === 'function') {
+          window.SH_SESSION.whenReady(function () { restoreNow(); });
+        } else {
+          restoreNow();
+        }
       }
 
       // ── Wire up save listeners as soon as we can ──
@@ -1757,6 +1789,17 @@
         hookDeleteBtn();
         restore();
         updateDeleteBtn();
+
+        /* React to in-page login / logout. SH_SESSION dispatches
+           'sh:session' on every state transition; on each, we
+           re-restore from whichever key is now current. This is what
+           gives anon → account a clean separation: anon's draft stays
+           saved under its key, account opens to its own draft (or
+           blank), and back to anon restores the anon draft. */
+        document.addEventListener('sh:session', function () {
+          restoreNow();
+          updateDeleteBtn();
+        });
       }
 
       // ── Delete-draft button — visible only when a draft exists ──

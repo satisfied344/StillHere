@@ -31,9 +31,6 @@
   whenSupabaseReady(function () {
     var db;
     try {
-      /* Prefer the cached shared client if other modules made one,
-         otherwise create a lightweight one. Either way the call is
-         anonymous from the server's perspective. */
       if (window.__shSharedSupabase) {
         db = window.__shSharedSupabase;
       } else {
@@ -41,8 +38,25 @@
       }
     } catch (_) { return; }
 
+    /* Stable per-tab session id (lives in sessionStorage). Distinct
+       across tabs but constant for one tab — so the "online" counter
+       in site_stats() can COUNT DISTINCT and reflect actual unique
+       sessions, not raw pings. Closing the tab forgets the id; opening
+       a new one mints a fresh one. */
+    var sessionId = null;
+    try {
+      sessionId = sessionStorage.getItem('sh_ping_sid');
+      if (!sessionId) {
+        sessionId = 's_' + Date.now().toString(36) + '_' +
+                    Math.random().toString(36).slice(2, 10);
+        sessionStorage.setItem('sh_ping_sid', sessionId);
+      }
+    } catch (_) {
+      sessionId = 's_' + Math.random().toString(36).slice(2, 10);
+    }
+
     function ping() {
-      try { db.rpc('site_ping'); } catch (_) {}
+      try { db.rpc('site_ping', { p_session: sessionId }); } catch (_) {}
     }
 
     /* Initial ping on load */

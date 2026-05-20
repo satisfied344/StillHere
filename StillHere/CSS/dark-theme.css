@@ -11,22 +11,24 @@ html[data-theme="dark"] {
      orange/brown family so the salmon accent (--accent-2) still
      reads as the same colour and doodles tint nicely. */
 
-  /* Background gradient — very dark warm-brown */
+  /* Background gradient — neutral dark with the faintest warm tint.
+     Keep R≥G≥B (no blue dominance → no purple cast) but small deltas
+     so the page reads as "dark" first, "brown" only on close look. */
   --bg-1: #1a1612;
   --bg-2: #181410;
   --bg-3: #1d1814;
   --bg-4: #1a1612;
 
   /* ── Glass surfaces ──
-     Hue locked to a clear warm-brown so the user never perceives
-     a blue/purple cast. RGB channels: R > G > B. */
-  --surface-nav:     rgba(22, 17, 13, 0.92);
-  --surface-card:    #2a221c;
-  --surface-sidebar: rgba(28, 22, 16, 0.88);
-  --surface-widget:  rgba(28, 22, 16, 0.85);
-  --surface-menu:    rgba(20, 15, 10, 0.97);
-  --surface-modal:   rgba(20, 15, 10, 0.97);
-  --surface-input:   #241d17;
+     Subtle warm tint, no purple. Small R/G/B deltas so cards read
+     as "dark" first, not "brown chunk on the page". */
+  --surface-nav:     rgba(22, 18, 14, 0.92);
+  --surface-card:    #25201a;
+  --surface-sidebar: rgba(26, 22, 18, 0.88);
+  --surface-widget:  rgba(26, 22, 18, 0.85);
+  --surface-menu:    rgba(20, 16, 12, 0.97);
+  --surface-modal:   rgba(20, 16, 12, 0.97);
+  --surface-input:   #221d17;
   --surface-footer:  rgba(15, 12, 9, 0.75);
 
   /* ── Borders ── */
@@ -1167,7 +1169,15 @@ html[data-theme="dark"] .subtitle em::after {
    half-light / half-dark.
    ══════════════════════════════════════════════════════ */
 
-/* — Filter panel container — */
+/* — Filter panel container + every nested strip — */
+html[data-theme="dark"] .filter-panel,
+html[data-theme="dark"] .filter-panel .lang-strip,
+html[data-theme="dark"] .filter-panel .lang-popular,
+html[data-theme="dark"] .filter-panel .lang-select-row,
+html[data-theme="dark"] .filter-panel .filter-group,
+html[data-theme="dark"] .filter-panel .pill-group {
+  background: transparent !important;
+}
 html[data-theme="dark"] .filter-panel {
   background: var(--surface-card) !important;
   border-color: var(--border-glass) !important;
@@ -1605,3 +1615,477 @@ html[data-theme="dark"] .pg-doodle {
   opacity: 0.14;
   filter: brightness(1.4);
 }
+
+/* ══════════════════════════════════════════════════════
+   PAGE-SPECIFIC FIXES (round 2)
+   Inline <style> blocks on contacts / updates / profile use
+   cream backgrounds and ink-coloured text that becomes cream
+   on cream in dark mode after the --ink inversion. Force
+   warm-dark surfaces + readable text on each.
+   ══════════════════════════════════════════════════════ */
+
+/* — Contacts "a few quick things" strip — */
+html[data-theme="dark"] .ct-strip {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .ct-strip-cell { border-color: var(--border-subtle) !important; }
+html[data-theme="dark"] .ct-strip-label {
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .ct-strip-value {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .ct-strip-note {
+  color: var(--text-mid) !important;
+}
+
+/* — Contacts closing block — */
+html[data-theme="dark"] .ct-closing-text { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ct-closing-sub  { color: var(--text-light) !important; }
+
+/* — Updates page: meta card (version / last updated / brewing) — */
+html[data-theme="dark"] .up-meta-card,
+html[data-theme="dark"] .up-meta {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .up-meta-row,
+html[data-theme="dark"] .up-meta-label {
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .up-meta-value {
+  color: var(--charcoal) !important;
+}
+
+/* — Updates timeline cards — */
+html[data-theme="dark"] .up-entry-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .up-entry-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .up-entry-lede  { color: var(--text-mid) !important; }
+html[data-theme="dark"] .up-entry-list li { color: var(--text-mid) !important; }
+html[data-theme="dark"] .up-entry-list li strong { color: var(--charcoal) !important; }
+html[data-theme="dark"] .up-entry-date { color: var(--text-light) !important; }
+
+/* — Updates "follow on telegram" subscribe card — */
+html[data-theme="dark"] .up-subscribe,
+html[data-theme="dark"] .up-subscribe-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .up-subscribe-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .up-subscribe-title em { color: var(--accent-2) !important; }
+html[data-theme="dark"] .up-subscribe-text  { color: var(--text-mid) !important; }
+
+/* — Profile "where to next" action cards (4-up grid) — */
+html[data-theme="dark"] .pf-action {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .pf-action-icon {
+  background: rgba(255, 240, 220, 0.07) !important;
+  color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .pf-action-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .pf-action-desc  { color: var(--text-mid) !important; }
+html[data-theme="dark"] .pf-action-arrow { color: var(--text-light) !important; }
+html[data-theme="dark"] .pf-action:hover { border-color: var(--accent-2) !important; }
+
+/* — Profile "so far" stats strip — */
+html[data-theme="dark"] .pf-stats,
+html[data-theme="dark"] .pf-stat {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .pf-stat-label { color: var(--text-mid) !important; }
+
+/* — Profile section headings + hints — */
+html[data-theme="dark"] .pf-section-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .pf-section-hint  { color: var(--text-light) !important; }
+html[data-theme="dark"] .pf-section-eyebrow { color: var(--text-mid) !important; }
+
+/* ══════════════════════════════════════════════════════
+   Main-feed filter / refresh buttons.
+   `.button-icon` uses var(--ink) bg + var(--paper) text. After
+   the --ink / --paper inversion, that becomes cream-bg / dark-text
+   (the "filter" button looks completely out of place against
+   the dark feed). Force a warm-dark pill with cream text so it
+   matches the ghost-style refresh button.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .button-icon:not(.button-icon--ghost):not(.post-menu-trigger) {
+  background: #2a221c !important;
+  color: var(--charcoal) !important;
+  border: 1px solid var(--border-glass) !important;
+}
+html[data-theme="dark"] .button-icon:not(.button-icon--ghost):not(.post-menu-trigger):hover {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] .button-icon--ghost {
+  background: transparent !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .button-icon--ghost:hover {
+  background: rgba(255, 240, 220, 0.05) !important;
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   PAGE-SPECIFIC FIXES (round 3)
+   ══════════════════════════════════════════════════════ */
+
+/* — Profile "read more" doc cards (community guidelines / privacy /
+     crisis resources / terms of service) — */
+html[data-theme="dark"] .pf-doc {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .pf-doc:hover { border-color: var(--accent-2) !important; }
+html[data-theme="dark"] .pf-doc-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .pf-doc-sub   { color: var(--text-mid) !important; }
+html[data-theme="dark"] .pf-doc-arrow { color: var(--text-light) !important; }
+
+/* — Profile closing strip — */
+html[data-theme="dark"] .pf-closing-text { color: var(--charcoal) !important; }
+html[data-theme="dark"] .pf-closing-sub  { color: var(--text-light) !important; }
+
+/* — Updates: hero stats card (version / last updated / brewing) — */
+html[data-theme="dark"] .up-hero-stats {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  box-shadow: 0 14px 30px -16px rgba(0,0,0,0.55) !important;
+}
+html[data-theme="dark"] .up-stat-row { border-bottom-color: var(--border-subtle) !important; }
+html[data-theme="dark"] .up-stat-label {
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .up-stat-value {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .up-stat-value em {
+  color: var(--accent-2) !important;
+}
+/* Inline `style="color:var(--ink-light)"` on "paper" subtext — the
+   token is now light too, so it pops; nudge to actual mid-tone. */
+html[data-theme="dark"] .up-stat-value span[style*="--ink-light"] {
+  color: var(--text-mid) !important;
+}
+
+/* — Startup-page (index.html) feature cards
+     The 5-card grid (anonymous & safe / no-advice mode / a quiet
+     community / moderated, with care / real people, real words)
+     uses `--paper-soft` which is now dark, but the page-level
+     overrides in startup-screen.css for `html[data-theme=dark]
+     .feature-card` painted a flat #28-ish gray that doesn't match
+     the rest. Repaint warm-dark + cream text. */
+html[data-theme="dark"] .feature-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .feature-card h3 { color: var(--charcoal) !important; }
+html[data-theme="dark"] .feature-card p  { color: var(--text-mid) !important; }
+html[data-theme="dark"] .feature-num     { color: var(--accent-2) !important; }
+
+/* — Index quote-note (big "you don't always need to be fixed") — */
+html[data-theme="dark"] .quote-note {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-glass) !important;
+  box-shadow: 0 20px 40px -18px rgba(0,0,0,0.60) !important;
+}
+html[data-theme="dark"] .quote-text { color: var(--charcoal) !important; }
+html[data-theme="dark"] .quote-text em { color: var(--accent-2) !important; }
+html[data-theme="dark"] .quote-cite { color: var(--text-light) !important; }
+/* Quote-band (background behind the note) — keep visible but dark */
+html[data-theme="dark"] .quote-band::before,
+html[data-theme="dark"] .quote-band::after { opacity: 0.18 !important; }
+
+/* — Index "not alone" paper-note (small torn-paper sticker) —
+     It uses a PNG bg + cream text. In dark mode the PNG looks like
+     a bright sticker. Override to warm-dark surface, drop the PNG. */
+html[data-theme="dark"] .paper-note .paper-note-bg {
+  display: none !important;
+}
+html[data-theme="dark"] .paper-note {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 18px -8px rgba(0,0,0,0.50) !important;
+}
+html[data-theme="dark"] .paper-note-text {
+  color: var(--charcoal) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   ABOUT PAGE (round 4) — large block fixes
+   ══════════════════════════════════════════════════════ */
+
+/* — Origin mock (TikTok-style comment thread) — */
+html[data-theme="dark"] .ab-origin-mock {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  box-shadow: 0 14px 30px -16px rgba(0,0,0,0.55) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-bar {
+  background: rgba(255, 240, 220, 0.04) !important;
+  border-bottom-color: var(--border-subtle) !important;
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-dot {
+  background: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-video {
+  background: rgba(255, 240, 220, 0.03) !important;
+  border-bottom-color: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-video-icon {
+  background: rgba(255, 240, 220, 0.06) !important;
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-video-text {
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-avatar {
+  background: rgba(255, 240, 220, 0.10) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-comment-user {
+  color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-comment-text {
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .ab-origin-mock-comment--reply {
+  border-left-color: var(--border-subtle) !important;
+}
+
+/* — Origin text + pull-quote — */
+html[data-theme="dark"] .ab-origin-text { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-origin-text strong { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ab-origin-text em { color: var(--accent-2) !important; }
+html[data-theme="dark"] .ab-origin-pull {
+  color: var(--charcoal) !important;
+  border-left-color: var(--accent-2) !important;
+}
+
+/* — How it works: feature cards (`.ab-card`) — */
+html[data-theme="dark"] .ab-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .ab-card:hover { border-color: var(--accent-2) !important; }
+html[data-theme="dark"] .ab-card-icon {
+  background: rgba(255, 240, 220, 0.06) !important;
+  color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .ab-card-label { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-card-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ab-card-desc  { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-card-desc strong { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ab-card-link  { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-card-link:hover { color: var(--accent-2) !important; }
+
+/* — "What we believe" principles row (01/02/03/04) — */
+html[data-theme="dark"] .ab-principles {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .ab-principle { border-right-color: var(--border-subtle) !important; }
+html[data-theme="dark"] .ab-principle:hover { background: rgba(214, 83, 60, 0.06) !important; }
+html[data-theme="dark"] .ab-principle-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ab-principle-desc  { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-principle-desc strong { color: var(--charcoal) !important; }
+
+/* — "Who's behind this" story block — */
+html[data-theme="dark"] .ab-story {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .ab-story-art-paper {
+  /* Slight contrast against the outer card — looks like a real
+     paper sketch on a slightly darker desk. */
+  background: #1f1812 !important;
+  border-color: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .ab-story-art-line {
+  background: rgba(255, 240, 220, 0.12) !important;
+}
+html[data-theme="dark"] .ab-story-art-line--accent {
+  background: var(--accent-2) !important;
+  opacity: 0.5 !important;
+}
+html[data-theme="dark"] .ab-story-eyebrow { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-story-heading { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ab-story-heading em { color: var(--accent-2) !important; }
+html[data-theme="dark"] .ab-story-body { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-story-body strong { color: var(--charcoal) !important; }
+
+/* — Section eyebrows / titles / hints on about page (broad) — */
+html[data-theme="dark"] .ab-section-eyebrow { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-section-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ab-section-hint { color: var(--text-light) !important; }
+
+/* — "In numbers" stats strip — */
+html[data-theme="dark"] .ab-stats {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .ab-stat { border-color: var(--border-subtle) !important; }
+html[data-theme="dark"] .ab-stat-label { color: var(--text-mid) !important; }
+
+/* — Reinforce earlier fixes with higher-priority selectors so any
+     page-level inline <style> can't beat them through specificity. */
+html[data-theme="dark"] .quote-band .quote-note {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-glass) !important;
+}
+html[data-theme="dark"] .quote-band .quote-text { color: var(--charcoal) !important; }
+html[data-theme="dark"] .quote-band .quote-text em { color: var(--accent-2) !important; }
+html[data-theme="dark"] .quote-band .quote-cite { color: var(--text-light) !important; }
+
+html[data-theme="dark"] .paper-note.paper-note--join {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 6px !important;
+}
+html[data-theme="dark"] .paper-note.paper-note--join .paper-note-bg { display: none !important; }
+html[data-theme="dark"] .paper-note.paper-note--join .paper-note-text { color: var(--charcoal) !important; }
+
+/* ══════════════════════════════════════════════════════
+   DOCS NAVBAR (round 5)
+   `.doc-nav` in docs.css uses a hardcoded cream rgba background.
+   In dark mode that turned into a glaring cream band at the top
+   of every legal page. Repaint warm-dark + cream content.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .doc-nav {
+  background: rgba(20, 16, 12, 0.92) !important;
+  border-bottom-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .doc-nav .logo {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .doc-nav-back {
+  background: transparent !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .doc-nav-back:hover {
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .doc-nav-link {
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .doc-nav-link:hover {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .doc-nav-link--active {
+  background: rgba(255, 240, 220, 0.06) !important;
+  color: var(--charcoal) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .doc-nav-link--accent {
+  background: rgba(214, 83, 60, 0.12) !important;
+  color: var(--accent-2) !important;
+  border-color: rgba(214, 83, 60, 0.40) !important;
+}
+html[data-theme="dark"] .doc-nav-link--accent:hover,
+html[data-theme="dark"] .doc-nav-link--accent.doc-nav-link--active {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border-color: var(--accent-2) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   DOCS PAGE BODY — all the cream cards still showing in dark
+   ══════════════════════════════════════════════════════ */
+
+/* — "the short version" callout — */
+html[data-theme="dark"] .doc-callout {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .doc-callout-head { color: var(--accent-2) !important; }
+html[data-theme="dark"] .doc-callout .doc-prose,
+html[data-theme="dark"] .doc-callout .doc-prose li {
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .doc-callout .doc-prose strong {
+  color: var(--charcoal) !important;
+}
+
+/* — Table of contents / "jump to" — */
+html[data-theme="dark"] .doc-toc {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .doc-toc-head { color: var(--accent-2) !important; }
+html[data-theme="dark"] .doc-toc-list a { color: var(--text-dark) !important; }
+html[data-theme="dark"] .doc-toc-list a:hover { color: var(--accent-2) !important; }
+html[data-theme="dark"] .doc-toc-list a span:first-child {
+  color: var(--accent-2) !important;
+}
+
+/* — Document body sections — */
+html[data-theme="dark"] .doc-section-eyebrow { color: var(--accent-2) !important; }
+html[data-theme="dark"] .doc-section-title   { color: var(--charcoal) !important; }
+html[data-theme="dark"] .doc-section-hint    { color: var(--text-light) !important; }
+html[data-theme="dark"] .doc-prose,
+html[data-theme="dark"] .doc-prose p,
+html[data-theme="dark"] .doc-prose li,
+html[data-theme="dark"] .doc-prose h3 { color: var(--text-dark) !important; }
+html[data-theme="dark"] .doc-prose strong { color: var(--charcoal) !important; }
+html[data-theme="dark"] .doc-prose a { color: var(--accent-2) !important; }
+
+/* — Closing card ("your data is only here for you" etc) — */
+html[data-theme="dark"] .doc-closing {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .doc-closing-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .doc-closing-title em { color: var(--accent-2) !important; }
+html[data-theme="dark"] .doc-closing-text  { color: var(--text-mid) !important; }
+html[data-theme="dark"] .doc-closing-actions .doc-btn,
+html[data-theme="dark"] .doc-closing .doc-btn--ghost {
+  background: transparent !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .doc-closing-actions .doc-btn--primary,
+html[data-theme="dark"] .doc-closing .doc-btn--primary {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border-color: var(--accent-2) !important;
+}
+
+/* — Crisis-resources country/hotline cards — */
+html[data-theme="dark"] .doc-resource {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .doc-resource-flag    { opacity: 1 !important; }
+html[data-theme="dark"] .doc-resource-country { color: var(--charcoal) !important; }
+html[data-theme="dark"] .doc-resource-lines li { color: var(--text-mid) !important; }
+html[data-theme="dark"] .doc-resource-lines li em { color: var(--text-light) !important; }
+html[data-theme="dark"] .doc-resource-lines li a { color: var(--accent-2) !important; }
+
+/* — Doc note callouts (info / warn boxes inside prose) — */
+html[data-theme="dark"] .doc-note {
+  background: rgba(255, 240, 220, 0.05) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .doc-note strong { color: var(--charcoal) !important; }
+
+/* — Hero block on doc pages (the right-side version/revised card) —
+     I overrode `.doc-meta` rows by relying on token inversion, but
+     in case the inline <style> pinned values I'll do an explicit
+     override too. */
+html[data-theme="dark"] .doc-meta {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .doc-meta-label { color: var(--text-mid) !important; }
+html[data-theme="dark"] .doc-meta-value { color: var(--charcoal) !important; }
