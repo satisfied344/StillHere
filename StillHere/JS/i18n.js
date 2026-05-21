@@ -395,28 +395,44 @@
     if (!mount) return;
     if (mount.querySelector('.sh-lang-cards')) return;
 
-    var html =
-      '<div class="sh-lang-cards" role="radiogroup" aria-label="Site language">' +
-        '<button type="button" class="sh-lang-card" data-lang="en" role="radio" aria-checked="false">' +
-          '<span class="sh-lang-flag" aria-hidden="true">EN</span>' +
+    /* Available + planned languages. Adding a new one is just adding
+       an entry — the grid auto-fits. */
+    var LANGS = [
+      { code: 'en', name: 'English',    native: 'english',    available: true  },
+      { code: 'ru', name: 'Russian',    native: 'русский',    available: true  },
+      { code: 'uk', name: 'Ukrainian',  native: 'українська', available: false },
+      { code: 'es', name: 'Spanish',    native: 'español',    available: false },
+      { code: 'fr', name: 'French',     native: 'français',   available: false },
+      { code: 'de', name: 'German',     native: 'deutsch',    available: false }
+    ];
+    var CHECK_SVG = '<svg class="sh-lang-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>';
+
+    var html = '<div class="sh-lang-cards" role="radiogroup" aria-label="Site language">';
+    LANGS.forEach(function (L) {
+      var dis = L.available ? '' : ' is-disabled" aria-disabled="true';
+      html +=
+        '<button type="button" class="sh-lang-card' + dis + '" data-lang="' + L.code + '" data-available="' + (L.available ? '1' : '0') + '" role="radio" aria-checked="false">' +
+          '<span class="sh-lang-flag" aria-hidden="true">' + L.code.toUpperCase() + '</span>' +
           '<span class="sh-lang-text">' +
-            '<span class="sh-lang-name">English</span>' +
-            '<span class="sh-lang-native">english</span>' +
+            '<span class="sh-lang-name">' + L.name + (L.available ? '' : '<span class="sh-lang-soon">soon</span>') + '</span>' +
+            '<span class="sh-lang-native">' + L.native + '</span>' +
           '</span>' +
-          '<svg class="sh-lang-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
-        '</button>' +
-        '<button type="button" class="sh-lang-card" data-lang="ru" role="radio" aria-checked="false">' +
-          '<span class="sh-lang-flag" aria-hidden="true">RU</span>' +
-          '<span class="sh-lang-text">' +
-            '<span class="sh-lang-name">Russian</span>' +
-            '<span class="sh-lang-native">русский</span>' +
-          '</span>' +
-          '<svg class="sh-lang-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
-        '</button>' +
-      '</div>';
+          CHECK_SVG +
+        '</button>';
+    });
+    html += '</div>';
     mount.insertAdjacentHTML('beforeend', html);
     mount.querySelectorAll('.sh-lang-card').forEach(function (card) {
       card.addEventListener('click', function () {
+        if (card.getAttribute('data-available') !== '1') {
+          /* Tiny shake — feedback that the language isn't ready yet */
+          card.animate(
+            [{ transform: 'translateX(0)' }, { transform: 'translateX(-3px)' },
+             { transform: 'translateX(3px)' }, { transform: 'translateX(0)' }],
+            { duration: 220, easing: 'ease-in-out' }
+          );
+          return;
+        }
         setLang(card.getAttribute('data-lang'));
       });
     });
@@ -426,12 +442,11 @@
       style.id = 'sh-lang-toggle-style';
       style.textContent =
         '.sh-lang-cards{' +
-          'display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;' +
+          'display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;' +
         '}' +
-        '@media(max-width:520px){.sh-lang-cards{grid-template-columns:1fr;}}' +
         '.sh-lang-card{' +
           'display:flex;align-items:center;gap:14px;' +
-          'padding:16px 18px;' +
+          'padding:14px 16px;' +
           'background:var(--paper-soft,#fffaf0);' +
           'border:1.5px solid var(--line-soft,#d0c4a4);' +
           'border-radius:10px;' +
@@ -449,18 +464,32 @@
           'background:rgba(214,83,60,0.06);' +
           'box-shadow:0 0 0 3px rgba(214,83,60,0.10);' +
         '}' +
+        '.sh-lang-card.is-disabled{' +
+          'opacity:0.55;cursor:not-allowed;' +
+        '}' +
+        '.sh-lang-card.is-disabled:hover{' +
+          'transform:none;border-color:var(--line-soft,#d0c4a4);background:var(--paper-soft,#fffaf0);' +
+        '}' +
         '.sh-lang-flag{' +
-          'width:38px;height:38px;border-radius:50%;' +
+          'width:36px;height:36px;border-radius:50%;' +
           'background:var(--paper-3,#e6d2ad);' +
           'display:inline-flex;align-items:center;justify-content:center;' +
-          'font-family:"Ubuntu",sans-serif;font-weight:700;font-size:13px;' +
+          'font-family:"Ubuntu",sans-serif;font-weight:700;font-size:12px;' +
           'letter-spacing:0.05em;color:var(--ink,#1a1410);flex-shrink:0;' +
         '}' +
         '.sh-lang-card.is-active .sh-lang-flag{' +
           'background:var(--accent-2,#d6533c);color:#fff;' +
         '}' +
         '.sh-lang-text{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;}' +
-        '.sh-lang-name{font-size:15px;font-weight:600;color:var(--ink,#1a1410);letter-spacing:0.01em;}' +
+        '.sh-lang-name{' +
+          'font-size:14.5px;font-weight:600;color:var(--ink,#1a1410);letter-spacing:0.01em;' +
+          'display:inline-flex;align-items:center;gap:6px;' +
+        '}' +
+        '.sh-lang-soon{' +
+          'display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:0.10em;' +
+          'text-transform:uppercase;padding:2px 6px;border-radius:99px;' +
+          'background:rgba(214,83,60,0.12);color:var(--accent-2,#d6533c);' +
+        '}' +
         '.sh-lang-native{font-size:12px;color:var(--ink-light,#a89e8c);font-style:italic;}' +
         '.sh-lang-check{' +
           'width:18px;height:18px;color:var(--accent-2,#d6533c);' +

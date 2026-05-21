@@ -547,149 +547,206 @@
 
       <div class="up-timeline">
 
-        <!-- May 2026 — paper-redesign sweep -->
+        <!-- May 20, 2026 — dark-theme fixes + session-stable presence -->
         <article class="up-entry">
           <div class="up-entry-card">
             <div class="up-entry-meta">
-              <span class="up-entry-date">may 2026</span>
+              <span class="up-entry-date">may 20, 2026</span>
               <span class="up-tag up-tag--design">design</span>
-              <span class="up-tag up-tag--new">new</span>
+              <span class="up-tag up-tag--fix">fix</span>
             </div>
-            <h3 class="up-entry-title">paper aesthetic, everywhere</h3>
+            <h3 class="up-entry-title">darker, calmer, more readable</h3>
             <p class="up-entry-lede">
-              the whole site moved from glass-and-gradient to <em>warm cream + ink doodles</em> —
-              calmer, slower, easier to sit with. one visual language, every page.
+              refined the warm-dark palette across every page, killed the last cream-on-cream
+              leftovers, and rebuilt the live-presence counter on <em>stable per-tab session ids</em>
+              so the "online right now" number reflects actual humans.
             </p>
             <ul class="up-entry-list">
-              <li><strong>contacts &amp; updates</strong> — rebuilt from scratch in the new style</li>
-              <li><strong>preferences</strong> — language selector preview added</li>
-              <li><strong>post page</strong> — full redesign, dropdown menus unified with the feed</li>
-              <li><strong>doodles</strong> — ambient cloud / heart / asterisk drift on every page</li>
+              <li>warm-neutral token sweep — cards visibly elevated above the page bg</li>
+              <li><strong>secondary text</strong> bumped lighter for legibility</li>
+              <li>borders + dividers nudged up to opacity 0.14–0.16</li>
+              <li>create-post drafts now scope per identity — anon &harr; account no longer leak</li>
+              <li>about/landing copy refreshed — solo-developer voice, one origin story</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 2026 — AI support live -->
+        <!-- May 19, 2026 — i18n + analytics + index rename -->
         <article class="up-entry">
           <div class="up-entry-card">
             <div class="up-entry-meta">
-              <span class="up-entry-date">may 2026</span>
+              <span class="up-entry-date">may 19, 2026</span>
+              <span class="up-tag up-tag--new">new</span>
+              <span class="up-tag up-tag--comm">community</span>
+            </div>
+            <h3 class="up-entry-title">two languages, live presence, privacy-only analytics</h3>
+            <p class="up-entry-lede">
+              client-side i18n in english &amp; russian, a quiet on-site visitor counter, and analytics
+              that don't track you. <em>nothing about you, only that the page was opened.</em>
+            </p>
+            <ul class="up-entry-list">
+              <li><strong>SH_I18N</strong> — full EN/RU dictionary + toggle in preferences</li>
+              <li><strong>site_pings</strong> — supabase table that stores only timestamps + session-id; powers "x online now / y total" on /statistics</li>
+              <li><strong>Vercel Speed Insights + Web Analytics</strong> — no cookies, no profiling, no IP geolocation</li>
+              <li>shared supabase client to silence multiple-GoTrueClient warnings</li>
+              <li>landing page renamed to <code>index.html</code> + vercel.json cleaned up</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- May 18, 2026 — dark theme overhaul + moderation system -->
+        <article class="up-entry">
+          <div class="up-entry-card">
+            <div class="up-entry-meta">
+              <span class="up-entry-date">may 18, 2026</span>
+              <span class="up-tag up-tag--design">design</span>
+              <span class="up-tag up-tag--security">security</span>
+            </div>
+            <h3 class="up-entry-title">warm dark mode + the moderation backbone</h3>
+            <p class="up-entry-lede">
+              biggest backend change so far. dark theme rewritten from scratch as a warm,
+              neutral palette; new docs styling for the legal pages; and a full moderation
+              system landed in supabase — reports, weight, AI escalation, admin queue.
+            </p>
+            <ul class="up-entry-list">
+              <li><strong>dark-theme.css</strong> — palette rewritten, hundreds of overrides for cream-bg leftovers</li>
+              <li><strong>docs.css</strong> — guidelines / privacy / terms / crisis pages styled consistently</li>
+              <li>SQL migrations: <code>reports</code>, <code>admin_roles</code>, <code>moderation_log</code>, <code>user_blocks</code></li>
+              <li><strong>strict-review</strong> edge function — re-checks flagged content with a stricter AI prompt</li>
+              <li>admin queue page with keep / shadow / remove + block-author duration picker</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- May 16, 2026 — AI chat companion -->
+        <article class="up-entry">
+          <div class="up-entry-card">
+            <div class="up-entry-meta">
+              <span class="up-entry-date">may 16, 2026</span>
               <span class="up-tag up-tag--ai">ai support</span>
               <span class="up-tag up-tag--new">new</span>
             </div>
-            <h3 class="up-entry-title">stillhere is listening — privately.</h3>
+            <h3 class="up-entry-title">a quiet companion, for the hours when nobody else is around</h3>
             <p class="up-entry-lede">
-              a quiet companion you can talk to when the room is full of nothing. powered by GPT-5.4 mini,
-              keyed server-side — the browser <em>never sees the key</em>.
+              the AI chat landed — paper aesthetic, no-advice toggle, soft mood tags. the
+              key lives in a supabase edge function, the browser <em>never sees it</em>.
             </p>
             <ul class="up-entry-list">
-              <li><strong>no-advice mode</strong> — toggle to make the AI just listen, no suggestions</li>
-              <li><strong>mood tags</strong> — 8 feelings to quietly shape tone (anxious, tired, lonely…)</li>
-              <li><strong>chat history</strong> — saved locally, scrollable, deletable</li>
-              <li><strong>supabase edge function</strong> — proxies OpenRouter, holds the secret</li>
+              <li><strong>ai-chat-screen.css</strong> — full layout: navbar, sidebar, messages, doodles, transitions</li>
+              <li><strong>no-advice mode</strong> + 8 mood tags (sad / anxious / lonely / tired / …)</li>
+              <li>chat history kept on your device, never uploaded</li>
+              <li><strong>supabase/functions/ai-chat</strong> — server proxy that holds the OpenRouter key</li>
+              <li><code>statistics.html</code> added — transparent project counts</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 2026 — fixes -->
-        <article class="up-entry">
+        <!-- May 5-9, 2026 — supabase foundation + vercel deploy -->
+        <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
-              <span class="up-entry-date">may 2026</span>
+              <span class="up-entry-date">may 5–9, 2026</span>
+              <span class="up-tag up-tag--new">new</span>
               <span class="up-tag up-tag--fix">fix</span>
-              <span class="up-tag up-tag--comm">community</span>
             </div>
-            <h3 class="up-entry-title">no more "deleted account" ghosts</h3>
+            <h3 class="up-entry-title">supabase wired into everything</h3>
             <p class="up-entry-lede">
-              when you registered, your profile wasn't always created in the database — so your posts
-              showed as <em>deleted account</em>. fixed at three layers.
+              the static site became a real app — auth, posts, comments, filters, counters
+              all running on supabase. first dark-theme pass shipped with AI moderation.
             </p>
             <ul class="up-entry-list">
-              <li>profile row inserted on signup (was relying on a missing trigger)</li>
-              <li>session loader auto-creates a missing profile from auth metadata</li>
-              <li>feed re-fetches missing profiles instead of giving up</li>
-              <li>anonymous posting works again — no login redirect</li>
+              <li>supabase auth + profiles schema</li>
+              <li>comments persist server-side; counters increment correctly</li>
+              <li>language &amp; support-type filters actually filter the feed</li>
+              <li><strong>moderate</strong> client function — AI checks on every post submit</li>
+              <li>vercel.json routing for the landing page</li>
             </ul>
           </div>
         </article>
 
-        <!-- April 2026 — saved posts + heart persistence -->
+        <!-- May 2-3, 2026 — nav-bar pages + AI chat draft -->
+        <article class="up-entry up-entry--past">
+          <div class="up-entry-card">
+            <div class="up-entry-meta">
+              <span class="up-entry-date">may 2–3, 2026</span>
+              <span class="up-tag up-tag--design">design</span>
+              <span class="up-tag up-tag--new">new</span>
+            </div>
+            <h3 class="up-entry-title">about, contacts, updates, profile — all online</h3>
+            <p class="up-entry-lede">
+              the supporting pages went live. first sketch of the AI support chat. several
+              rounds of design polish across posts, comments, and the create-post flow.
+            </p>
+            <ul class="up-entry-list">
+              <li>about / contacts / updates / profile / edit-profile pages</li>
+              <li>first AI chat UI mock</li>
+              <li>comments section rebuilt with better threading</li>
+              <li>small fixes across post menus and headers</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- April 2026 — create-post v2 + docs scaffold -->
         <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
               <span class="up-entry-date">april 2026</span>
+              <span class="up-tag up-tag--design">design</span>
               <span class="up-tag up-tag--new">new</span>
-              <span class="up-tag up-tag--comm">community</span>
             </div>
-            <h3 class="up-entry-title">save posts, keep your hearts</h3>
+            <h3 class="up-entry-title">create-post got real</h3>
             <p class="up-entry-lede">
-              little remembered things — supports and saved posts now persist across reloads and
-              sync between the feed and individual post pages.
+              full redesign of the post-creation flow — rich-text editor, media upload,
+              topic chips, mode picker, anonymous toggle. project docs scaffolded.
             </p>
             <ul class="up-entry-list">
-              <li>liked posts stored locally — survive refresh</li>
-              <li><strong>save post</strong> in dropdown menu — bookmark filled on click</li>
-              <li>sidebar "saved" filter — your private reading list</li>
+              <li>Quill editor for the body</li>
+              <li>media upload (up to 6 attachments, drag &amp; drop)</li>
+              <li>topic chips + open-to-support / no-advice mode cards</li>
+              <li>docs pages (guidelines, privacy, terms) — placeholder content</li>
             </ul>
           </div>
         </article>
 
-        <!-- March 2026 — comments + threading -->
+        <!-- Feb-Mar 2026 — visual identity & layout -->
         <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
-              <span class="up-entry-date">march 2026</span>
-              <span class="up-tag up-tag--new">new</span>
+              <span class="up-entry-date">feb–mar 2026</span>
+              <span class="up-tag up-tag--design">design</span>
             </div>
-            <h3 class="up-entry-title">threaded replies</h3>
+            <h3 class="up-entry-title">finding the paper aesthetic</h3>
             <p class="up-entry-lede">
-              comments became conversations — one level of replies, inline form, rich text with images.
+              a couple of months bouncing between layouts to find the right tone — landed
+              on warm cream, ink doodles, and a Caveat-cursive accent. swapped icon set.
             </p>
             <ul class="up-entry-list">
-              <li>inline reply form with Quill editor</li>
-              <li><strong>author badge</strong> when the OP replies in their own thread</li>
-              <li>copy-link to a specific comment</li>
-              <li>delete &amp; report on every reply</li>
+              <li>new background, text, and animations on the startup page</li>
+              <li>Phosphor icons replaced Heroicons across the site</li>
+              <li>main feed: left + right sidebars, filters, footer</li>
+              <li>base CSS reorganised into a <code>CSS/</code> folder</li>
+              <li>create panel + post menu rebuilt</li>
             </ul>
           </div>
         </article>
 
-        <!-- February 2026 — moderation -->
-        <article class="up-entry up-entry--past">
-          <div class="up-entry-card">
-            <div class="up-entry-meta">
-              <span class="up-entry-date">february 2026</span>
-              <span class="up-tag up-tag--security">security</span>
-            </div>
-            <h3 class="up-entry-title">gentle moderation, quietly</h3>
-            <p class="up-entry-lede">
-              a soft layer of AI moderation on posts, comments and usernames — protects the space
-              without slowing anyone down.
-            </p>
-            <ul class="up-entry-list">
-              <li>text + image moderation on submit</li>
-              <li>blocked-content message shown inline, never alarming</li>
-              <li>username check on registration</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- January 2026 — first launch -->
+        <!-- January 2026 — first public version -->
         <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
               <span class="up-entry-date">january 2026</span>
               <span class="up-tag up-tag--comm">community</span>
             </div>
-            <h3 class="up-entry-title">the first public version</h3>
+            <h3 class="up-entry-title">the very first version</h3>
             <p class="up-entry-lede">
-              a basic structure went online — community feed, anonymous sharing, the idea of
-              <em>presence, not solutions</em>. small, but it was alive.
+              a basic structure went online — community feed, anonymous sharing, the idea
+              of <em>presence, not solutions</em>. small and rough, but it was alive.
             </p>
             <ul class="up-entry-list">
-              <li>community feed with language &amp; mode filters</li>
-              <li>create-post with rich text + media</li>
-              <li>basic auth (anonymous-friendly)</li>
+              <li>community feed (no backend yet — static mock data)</li>
+              <li>profile + contacts pages</li>
+              <li>create-post first draft + post menu</li>
+              <li>register flow with user-agreement checkbox</li>
             </ul>
           </div>
         </article>

@@ -1951,25 +1951,42 @@ html[data-theme="dark"] .skotch {
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
 }
 
-/* Quote note paper bg in dark — the cream paper is drawn by the
-   ::before pseudo (hardcoded #fffbf0), so we MUST override that,
-   not just .quote-note. */
+/* Quote note in dark — the cream paper is drawn by the ::before
+   pseudo via clip-path. We KEEP the clip-path (so the torn-paper
+   silhouette stays identical to light theme), but recolour the
+   pseudo with a noticeably lighter warm-dark so the ragged edges
+   read clearly against the page background.
+   Light theme:  #fffbf0 cream paper on cream-ish page → soft edges
+   Dark theme:   #322a22 paper on #1a1612 page         → same effect */
 html[data-theme="dark"] .quote-note {
   background: transparent !important;
 }
 html[data-theme="dark"] .quote-note::before {
-  background: #25201a !important;       /* matches --surface-card */
-  filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.50))
-          drop-shadow(0 2px 4px rgba(0, 0, 0, 0.30)) !important;
+  background: #322a22 !important;
+  filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.55))
+          drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35)) !important;
 }
 
-/* Paper notes (small "not alone" sticker) — drop the PNG bg
-   in dark, keep just the warm-dark surface. */
+/* Paper-note "not alone" sticker — KEEP the torn-paper PNG image
+   from light theme, but apply a filter so it darkens into a brown
+   torn paper that matches the warm-dark surface palette. This
+   preserves the irregular edges + skotch composition. */
 html[data-theme="dark"] .paper-note-bg {
-  display: none !important;
+  display: block !important;
+  filter: brightness(0.18) sepia(0.5) hue-rotate(-10deg) saturate(0.7) !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
 }
 html[data-theme="dark"] .paper-note-text {
   color: var(--charcoal, #f0e4cf) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+/* The PNG above already includes the skotch corners, so the
+   ".paper-note-skotch" img (a separate red tape PNG) tends to
+   look heavy on the small dark sticker. Soften it. */
+html[data-theme="dark"] .paper-note-skotch {
+  opacity: 0.65 !important;
+  mix-blend-mode: screen !important;
 }
 
 /* Feature cards in dark — clean warm-dark surface, no heavy JPG. */

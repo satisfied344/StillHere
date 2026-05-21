@@ -11,39 +11,41 @@ html[data-theme="dark"] {
      orange/brown family so the salmon accent (--accent-2) still
      reads as the same colour and doodles tint nicely. */
 
-  /* Background gradient — neutral dark with the faintest warm tint.
-     Keep R≥G≥B (no blue dominance → no purple cast) but small deltas
-     so the page reads as "dark" first, "brown" only on close look. */
-  --bg-1: #1a1612;
-  --bg-2: #181410;
-  --bg-3: #1d1814;
-  --bg-4: #1a1612;
+  /* Background gradient — pushed ~5% darker so cards visibly sit
+     on top of the page rather than blending into it. Still R≥G≥B
+     (no purple cast). */
+  --bg-1: #14110d;
+  --bg-2: #12100c;
+  --bg-3: #17130e;
+  --bg-4: #14110d;
 
   /* ── Glass surfaces ──
-     Subtle warm tint, no purple. Small R/G/B deltas so cards read
-     as "dark" first, not "brown chunk on the page". */
-  --surface-nav:     rgba(22, 18, 14, 0.92);
-  --surface-card:    #25201a;
-  --surface-sidebar: rgba(26, 22, 18, 0.88);
-  --surface-widget:  rgba(26, 22, 18, 0.85);
-  --surface-menu:    rgba(20, 16, 12, 0.97);
-  --surface-modal:   rgba(20, 16, 12, 0.97);
+     Cards are now ~7% brighter than the page background, so the
+     elevation reads clearly. Page bg around #14, cards around #25. */
+  --surface-nav:     rgba(28, 24, 19, 0.92);
+  --surface-card:    #261f18;
+  --surface-sidebar: rgba(34, 28, 22, 0.88);
+  --surface-widget:  rgba(34, 28, 22, 0.85);
+  --surface-menu:    rgba(24, 19, 14, 0.97);
+  --surface-modal:   rgba(24, 19, 14, 0.97);
   --surface-input:   #221d17;
-  --surface-footer:  rgba(15, 12, 9, 0.75);
+  --surface-footer:  rgba(14, 11, 8, 0.75);
 
-  /* ── Borders ── */
-  --border-glass:   rgba(255, 240, 220, 0.08);
-  --border-nav:     rgba(255, 240, 220, 0.06);
-  --border-subtle:  #2e2820;
-  --border-divider: rgba(255, 240, 220, 0.07);
-  --border-footer:  rgba(255, 240, 220, 0.10);
+  /* ── Borders ── more visible so card edges read clearly */
+  --border-glass:   rgba(255, 240, 220, 0.14);
+  --border-nav:     rgba(255, 240, 220, 0.10);
+  --border-subtle:  #3a3328;
+  --border-divider: rgba(255, 240, 220, 0.12);
+  --border-footer:  rgba(255, 240, 220, 0.16);
 
-  /* ── Text ── warm cream tones, no purple cast */
-  --text-light:     #6b5d52;
-  --text-mid:       #a89a8a;
-  --text-mid-light: #a89a8a;
-  --text-dark:      #d4c5b3;
-  --charcoal:       #f0e4cf;
+  /* ── Text ── warm cream tones, secondary nudged lighter.
+     Secondary went from ~#a89a8a (≈#AFAFAF perceived) to #c2b6a4
+     (≈#C2C2C2 perceived) for better legibility against dark cards. */
+  --text-light:     #847569;
+  --text-mid:       #c2b6a4;
+  --text-mid-light: #c2b6a4;
+  --text-dark:      #e0d3bf;
+  --charcoal:       #f4e9d5;
 
   /* ── Accent ── warm tan/copper instead of violet */
   --accent:      #d6a273;
@@ -63,10 +65,10 @@ html[data-theme="dark"] {
      which were tuned for dark text on cream paper. In dark mode we
      remap them to warm-cream tones so that text is actually readable
      instead of dark-on-dark. */
-  --ink:       #f0e4cf;   /* primary headings */
-  --ink-soft:  #d4c5b3;   /* body emphasis */
-  --ink-mid:   #b8a89a;   /* body text */
-  --ink-light: #7a6c5e;   /* eyebrows, hints, captions */
+  --ink:       #f4e9d5;   /* primary headings */
+  --ink-soft:  #e0d3bf;   /* body emphasis */
+  --ink-mid:   #c2b6a4;   /* body text (was too dark, now ≈#C2C2C2) */
+  --ink-light: #847569;   /* eyebrows, hints, captions */
 
   /* ── Paper palette inversion ──
      Some surfaces use --paper / --paper-soft directly. Map to the
@@ -77,9 +79,9 @@ html[data-theme="dark"] {
   --paper-2:    #1d1814;
   --paper-3:    #221d18;
 
-  /* ── Lines / dividers ── */
-  --line:      rgba(255, 240, 220, 0.10);
-  --line-soft: rgba(255, 240, 220, 0.06);
+  /* ── Lines / dividers ── more visible, but still soft. */
+  --line:      rgba(255, 240, 220, 0.16);
+  --line-soft: rgba(255, 240, 220, 0.10);
 
   /* ── Coming-soon page tokens ── */
   --cs-eyebrow:    #d6a273;
@@ -190,15 +192,21 @@ html[data-theme="dark"] .sidebar-item.active {
 }
 
 html[data-theme="dark"] .sidebar-create-post-button {
-  /* Solid warm-dark pill with cream content — matches the light
-     theme's intent (high-contrast solid CTA), no awkward
-     tan+black+white mix. */
-  background: #2a221c !important;
-  color: var(--charcoal) !important;
-  border: 1px solid var(--border-glass) !important;
+  /* Solid accent-red pill — clearly the primary CTA in the sidebar.
+     Soft warm glow so it stands out from the surrounding warm-dark
+     surfaces without feeling out of palette. */
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border: none !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  box-shadow:
+    0 6px 18px -6px rgba(214, 83, 60, 0.55),
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 }
 html[data-theme="dark"] .sidebar-create-post-button .icon {
-  color: var(--charcoal) !important;
+  color: #fff !important;
 }
 
 html[data-theme="dark"] .asidebar-divider {
@@ -206,9 +214,13 @@ html[data-theme="dark"] .asidebar-divider {
 }
 
 html[data-theme="dark"] .sidebar-create-post-button:hover {
-  background: var(--accent-2) !important;
+  background: #b8462f !important;
   color: #fff !important;
-  border-color: var(--accent-2) !important;
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 10px 24px -6px rgba(214, 83, 60, 0.65),
+    0 3px 6px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
 }
 html[data-theme="dark"] .sidebar-create-post-button:hover .icon {
   color: #fff !important;
@@ -1425,25 +1437,85 @@ html[data-theme="dark"] .ab-paper-note {
    Create-post sidebar widgets — same family as main feed
    widgets. Used inline styles also painted cream.
    ══════════════════════════════════════════════════════ */
+/* Create-post sidebar widgets — match main feed's .widget cards. */
 html[data-theme="dark"] .cp-widget,
+html[data-theme="dark"] .cp-widget--ai,
 html[data-theme="dark"] .cp-side-widget,
 html[data-theme="dark"] .cp-tips {
   background: var(--surface-card) !important;
   border-color: var(--border-glass) !important;
   color: var(--text-dark) !important;
 }
+html[data-theme="dark"] .cp-widget:hover,
+html[data-theme="dark"] .cp-widget--ai:hover {
+  border-color: var(--line) !important;
+  background: var(--surface-card) !important;
+}
+
+/* Crisis variant — same red wash as the main-feed .widget.support. */
+html[data-theme="dark"] .cp-widget--crisis {
+  background: linear-gradient(
+    180deg,
+    rgba(214, 83, 60, 0.18),
+    rgba(214, 83, 60, 0.08)
+  ), var(--surface-card) !important;
+  border-color: rgba(214, 83, 60, 0.45) !important;
+  box-shadow: 0 4px 18px -6px rgba(214, 83, 60, 0.30) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .cp-widget--crisis:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(214, 83, 60, 0.22),
+    rgba(214, 83, 60, 0.10)
+  ), var(--surface-card) !important;
+  border-color: rgba(214, 83, 60, 0.55) !important;
+}
+html[data-theme="dark"] .cp-widget-eyebrow {
+  color: var(--text-light) !important;
+}
 html[data-theme="dark"] .cp-widget-title {
   color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .cp-widget-title em {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .cp-widget-text {
+  color: var(--text-mid) !important;
 }
 html[data-theme="dark"] .cp-widget-list li {
   color: var(--text-mid) !important;
   border-bottom-color: var(--border-subtle) !important;
 }
-html[data-theme="dark"] .cp-widget-link,
+
+/* Crisis button — solid red, like on main */
+html[data-theme="dark"] .cp-widget--crisis .cp-widget-link {
+  background: var(--accent-2) !important;
+  border-color: var(--accent-2) !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] .cp-widget--crisis .cp-widget-link:hover {
+  background: #b8462f !important;
+  border-color: #b8462f !important;
+  color: #fff !important;
+}
+
+/* AI button — outlined ghost, like on main */
+html[data-theme="dark"] .cp-widget--ai .cp-widget-link {
+  background: transparent !important;
+  border-color: var(--border-glass) !important;
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .cp-widget--ai .cp-widget-link:hover {
+  background: rgba(255, 240, 220, 0.06) !important;
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+
+/* Generic widget bottom-link (read full guidelines / sharing tips footer) */
 html[data-theme="dark"] .cp-widget-foot {
   color: var(--text-mid) !important;
 }
-html[data-theme="dark"] .cp-widget-link:hover,
 html[data-theme="dark"] .cp-widget-foot:hover {
   color: var(--accent-2) !important;
 }
@@ -1584,22 +1656,55 @@ html[data-theme="dark"] .doc-link-card {
 }
 
 /* ══════════════════════════════════════════════════════
-   Main feed Crisis Hotlines widget — `.widget.support` only,
-   NOT `.widget.support.ai` (AI is a different widget that
-   shares the `support` class but should look neutral).
-   Use :not(.ai) so the AI variant keeps the standard surface.
+   Main feed widgets — Crisis Hotlines + AI support.
+   Both use warm-dark surface (matching the rest of the cards).
+   Crisis card has a subtle red tint + red left-border so it's
+   still visually prioritised; the action button is the solid red
+   one (default .widget-link). AI variant is fully neutral.
    ══════════════════════════════════════════════════════ */
 html[data-theme="dark"] .widget.support:not(.ai),
 html[data-theme="dark"] .right-sticky .widget.support:not(.ai),
 html[data-theme="dark"] .right-sticky.is-floating .widget.support:not(.ai) {
-  background: rgba(214, 83, 60, 0.12) !important;
-  border-color: rgba(214, 83, 60, 0.32) !important;
+  /* Stronger warm-red wash + red border + soft red halo so the
+     Crisis card visibly belongs to the same family as the red
+     button, without being a solid red block. */
+  background: linear-gradient(
+    180deg,
+    rgba(214, 83, 60, 0.18),
+    rgba(214, 83, 60, 0.08)
+  ), var(--surface-card) !important;
+  border-color: rgba(214, 83, 60, 0.45) !important;
+  box-shadow: 0 4px 18px -6px rgba(214, 83, 60, 0.30) !important;
 }
-/* Make absolutely sure the AI variant uses the neutral surface,
-   no red border bleeding in from the .support rule above. */
+html[data-theme="dark"] .widget.support:not(.ai) .widget-title {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .widget.support:not(.ai) .widget-subtitle {
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .widget.support:not(.ai) .widget-link {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .widget.support:not(.ai) .widget-link:hover {
+  background: #b8462f !important;
+  border-color: #b8462f !important;
+}
+html[data-theme="dark"] .widget.support:not(.ai) .widget-link svg {
+  color: #fff !important;
+}
+
+/* AI support widget — neutral surface, white body text. */
 html[data-theme="dark"] .widget.support.ai {
   background: var(--surface-card) !important;
   border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .widget.support.ai .widget-title {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .widget.support.ai .widget-subtitle {
+  color: var(--text-mid) !important;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1791,10 +1896,14 @@ html[data-theme="dark"] .feature-card p  { color: var(--text-mid) !important; }
 html[data-theme="dark"] .feature-num     { color: var(--accent-2) !important; }
 
 /* — Index quote-note (big "you don't always need to be fixed") — */
+/* .quote-note bg + torn shape are handled in startup-screen.css
+   via the ::before pseudo (clip-path stays the same as light theme).
+   Here we only override text colours. The earlier rect surface
+   override is removed because it killed the torn edges. */
 html[data-theme="dark"] .quote-note {
-  background: var(--surface-card) !important;
-  border: 1px solid var(--border-glass) !important;
-  box-shadow: 0 20px 40px -18px rgba(0,0,0,0.60) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 html[data-theme="dark"] .quote-text { color: var(--charcoal) !important; }
 html[data-theme="dark"] .quote-text em { color: var(--accent-2) !important; }
@@ -1804,19 +1913,14 @@ html[data-theme="dark"] .quote-band::before,
 html[data-theme="dark"] .quote-band::after { opacity: 0.18 !important; }
 
 /* — Index "not alone" paper-note (small torn-paper sticker) —
-     It uses a PNG bg + cream text. In dark mode the PNG looks like
-     a bright sticker. Override to warm-dark surface, drop the PNG. */
-html[data-theme="dark"] .paper-note .paper-note-bg {
-  display: none !important;
-}
+     KEEP the original PNG (it has the torn silhouette + skotch).
+     Recolouring is handled in startup-screen.css via a filter; here
+     we just make sure no surrounding rectangle is painted, so the
+     torn edges are visible. */
 html[data-theme="dark"] .paper-note {
-  background: var(--surface-card) !important;
-  border: 1px solid var(--border-glass) !important;
-  border-radius: 6px !important;
-  box-shadow: 0 8px 18px -8px rgba(0,0,0,0.50) !important;
-}
-html[data-theme="dark"] .paper-note-text {
-  color: var(--charcoal) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1927,6 +2031,19 @@ html[data-theme="dark"] .ab-section-eyebrow { color: var(--text-mid) !important;
 html[data-theme="dark"] .ab-section-title { color: var(--charcoal) !important; }
 html[data-theme="dark"] .ab-section-hint { color: var(--text-light) !important; }
 
+/* — About "the only rule" callout quote — was still cream because
+     its inline style uses `--paper-soft` which is set on .ab-premise-quote
+     directly. Force warm-dark surface. */
+html[data-theme="dark"] .ab-premise-quote {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  border-left-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .ab-premise-quote-text { color: var(--charcoal) !important; }
+html[data-theme="dark"] .ab-premise-quote-attr { color: var(--text-light) !important; }
+html[data-theme="dark"] .ab-premise-text p { color: var(--text-mid) !important; }
+html[data-theme="dark"] .ab-premise-text strong { color: var(--charcoal) !important; }
+
 /* — "In numbers" stats strip — */
 html[data-theme="dark"] .ab-stats {
   background: var(--surface-card) !important;
@@ -1937,21 +2054,23 @@ html[data-theme="dark"] .ab-stat-label { color: var(--text-mid) !important; }
 
 /* — Reinforce earlier fixes with higher-priority selectors so any
      page-level inline <style> can't beat them through specificity. */
+/* .quote-band wrapper — transparent so the ::before torn shape on
+   .quote-note is what reads as the paper, not a flat rectangle. */
 html[data-theme="dark"] .quote-band .quote-note {
-  background: var(--surface-card) !important;
-  border: 1px solid var(--border-glass) !important;
+  background: transparent !important;
+  border: none !important;
 }
 html[data-theme="dark"] .quote-band .quote-text { color: var(--charcoal) !important; }
 html[data-theme="dark"] .quote-band .quote-text em { color: var(--accent-2) !important; }
 html[data-theme="dark"] .quote-band .quote-cite { color: var(--text-light) !important; }
 
+/* paper-note--join uses the same torn PNG, same darkening filter
+   applied in startup-screen.css. Just make sure no extra rectangle
+   surface is painted over it. */
 html[data-theme="dark"] .paper-note.paper-note--join {
-  background: var(--surface-card) !important;
-  border: 1px solid var(--border-glass) !important;
-  border-radius: 6px !important;
+  background: transparent !important;
+  border: none !important;
 }
-html[data-theme="dark"] .paper-note.paper-note--join .paper-note-bg { display: none !important; }
-html[data-theme="dark"] .paper-note.paper-note--join .paper-note-text { color: var(--charcoal) !important; }
 
 /* ══════════════════════════════════════════════════════
    DOCS NAVBAR (round 5)
@@ -1960,8 +2079,13 @@ html[data-theme="dark"] .paper-note.paper-note--join .paper-note-text { color: v
    of every legal page. Repaint warm-dark + cream content.
    ══════════════════════════════════════════════════════ */
 html[data-theme="dark"] .doc-nav {
-  background: rgba(20, 16, 12, 0.92) !important;
-  border-bottom-color: var(--border-glass) !important;
+  /* Same color token as the .top-info nav on main/index/etc.
+     Identical alpha + same backdrop-filter so the docs feel like
+     "the same site" when you cross between sections. */
+  background: var(--surface-nav) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  border-bottom-color: var(--border-nav) !important;
 }
 html[data-theme="dark"] .doc-nav .logo {
   color: var(--charcoal) !important;
@@ -2089,3 +2213,253 @@ html[data-theme="dark"] .doc-meta {
 }
 html[data-theme="dark"] .doc-meta-label { color: var(--text-mid) !important; }
 html[data-theme="dark"] .doc-meta-value { color: var(--charcoal) !important; }
+
+/* ══════════════════════════════════════════════════════
+   AI-CHAT — full dark coverage
+   ══════════════════════════════════════════════════════ */
+
+html[data-theme="dark"] .chat-sidebar {
+  background: var(--surface-sidebar) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .new-chat-btn {
+  background: var(--surface-card) !important;
+  color: var(--charcoal) !important;
+  border: 1px solid var(--border-glass) !important;
+}
+html[data-theme="dark"] .new-chat-btn:hover {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .sidebar-search input {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .sidebar-search input:focus {
+  background: var(--surface-input) !important;
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .sidebar-search input::placeholder { color: var(--text-light) !important; }
+
+/* Composer (input area at bottom of chat) */
+html[data-theme="dark"] .composer-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+}
+html[data-theme="dark"] .composer-card:focus-within {
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .composer-input {
+  background: transparent !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .composer-input::placeholder {
+  color: var(--text-light) !important;
+}
+
+/* Tool pills: no-advice mode + mood */
+html[data-theme="dark"] .ctool {
+  background: var(--surface-input) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .ctool[aria-pressed="true"] {
+  background: rgba(214, 83, 60, 0.14) !important;
+  border-color: rgba(214, 83, 60, 0.40) !important;
+  color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .ctool:hover {
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+
+html[data-theme="dark"] .send-btn {
+  background: var(--charcoal) !important;
+  color: #1a1612 !important;
+  border: none !important;
+}
+html[data-theme="dark"] .send-btn:hover:not(:disabled) {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] .send-btn:disabled {
+  background: var(--surface-input) !important;
+  color: var(--text-light) !important;
+  opacity: 0.6 !important;
+}
+
+html[data-theme="dark"] .composer-foot {
+  color: var(--text-light) !important;
+}
+html[data-theme="dark"] .composer-foot a {
+  color: var(--accent-2) !important;
+  border-bottom-color: rgba(214, 83, 60, 0.4) !important;
+}
+
+/* Mood dropdown */
+html[data-theme="dark"] .mood-menu {
+  background: var(--surface-menu) !important;
+  border-color: var(--border-glass) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55) !important;
+}
+html[data-theme="dark"] .mood-opt {
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .mood-opt:hover {
+  background: rgba(255, 240, 220, 0.06) !important;
+  color: var(--charcoal) !important;
+}
+
+/* Hero "hi, we're listening" zone */
+html[data-theme="dark"] .chat-hero-eyebrow { color: var(--text-mid) !important; }
+html[data-theme="dark"] .chat-hero-title { color: var(--charcoal) !important; }
+html[data-theme="dark"] .chat-hero-sub { color: var(--text-mid) !important; }
+
+/* Sidebar eyebrow + title + empty state */
+html[data-theme="dark"] .chat-sidebar-eyebrow { color: var(--text-mid) !important; }
+html[data-theme="dark"] .chat-sidebar-title   { color: var(--charcoal) !important; }
+html[data-theme="dark"] .sidebar-empty {
+  color: var(--text-light) !important;
+}
+html[data-theme="dark"] .sidebar-collapse-btn {
+  background: var(--surface-card) !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+
+/* Privacy footnote at bottom of sidebar */
+html[data-theme="dark"] .sidebar-privacy {
+  color: var(--text-light) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   CREATE-POST — full dark coverage
+   ══════════════════════════════════════════════════════ */
+
+/* Media upload drop-zone */
+html[data-theme="dark"] .cp-upload {
+  background: var(--surface-card) !important;
+  border-color: rgba(214, 83, 60, 0.35) !important;
+  color: var(--text-mid) !important;
+}
+html[data-theme="dark"] .cp-upload:hover,
+html[data-theme="dark"] .cp-upload.drag-over {
+  background: rgba(214, 83, 60, 0.06) !important;
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .cp-upload .upload-prompt,
+html[data-theme="dark"] .cp-upload .upload-prompt strong {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .cp-upload .upload-hint {
+  color: var(--text-mid) !important;
+}
+
+/* Section containers (each numbered block).
+   Bumped one step brighter than --surface-card so each numbered
+   section visibly stands out from the page background — especially
+   sections 03 (your story), 04 (media), 05 (topics), 06 (mode). */
+html[data-theme="dark"] .cp-section {
+  background: #2a221b !important;
+  border: 1.5px solid var(--line) !important;
+  box-shadow: 0 1px 0 rgba(255, 240, 220, 0.04) inset !important;
+}
+html[data-theme="dark"] .cp-section-eyebrow {
+  color: var(--accent-2) !important;
+  font-weight: 700 !important;
+}
+html[data-theme="dark"] .cp-section-title {
+  color: var(--charcoal) !important;
+}
+html[data-theme="dark"] .cp-section-hint {
+  color: var(--text-mid) !important;
+  /* slightly lighter than --text-light so the right-aligned hint
+     ("optional", "pick what fits — or skip" etc.) doesn't fade out */
+}
+
+/* Mode cards (open to support / no advice) */
+html[data-theme="dark"] .cp-mode-card {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .cp-mode-card:hover {
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .cp-mode-input:checked + .cp-mode-card {
+  background: rgba(214, 83, 60, 0.10) !important;
+  border-color: var(--accent-2) !important;
+}
+html[data-theme="dark"] .cp-mode-icon {
+  background: rgba(255, 240, 220, 0.08) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .cp-mode-input:checked + .cp-mode-card .cp-mode-icon {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] .cp-mode-text strong { color: var(--charcoal) !important; }
+html[data-theme="dark"] .cp-mode-text span   { color: var(--text-mid) !important; }
+
+/* Title input + textarea */
+html[data-theme="dark"] .cp-title-input,
+html[data-theme="dark"] .cp-textarea,
+html[data-theme="dark"] .cp-section input[type="text"],
+html[data-theme="dark"] .cp-section textarea {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .cp-title-input::placeholder,
+html[data-theme="dark"] .cp-textarea::placeholder {
+  color: var(--text-light) !important;
+}
+
+/* Publish + cancel buttons — make them clearly buttons */
+html[data-theme="dark"] .btn-publish {
+  background: var(--accent-2) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 14px -4px rgba(214, 83, 60, 0.45) !important;
+}
+html[data-theme="dark"] .btn-publish:hover:not(:disabled) {
+  background: #c44432 !important;
+  box-shadow: 0 6px 18px -4px rgba(214, 83, 60, 0.55) !important;
+}
+html[data-theme="dark"] .btn-publish:disabled {
+  background: var(--surface-input) !important;
+  color: var(--text-light) !important;
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .btn-cancel,
+html[data-theme="dark"] .btn-delete-draft {
+  background: transparent !important;
+  border-color: var(--border-glass) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .btn-cancel:hover,
+html[data-theme="dark"] .btn-delete-draft:hover {
+  border-color: var(--accent-2) !important;
+  color: var(--accent-2) !important;
+}
+
+/* Anonymous consent note (section 07) */
+html[data-theme="dark"] .cp-anon-note {
+  background: rgba(214, 83, 60, 0.06) !important;
+  border-color: rgba(214, 83, 60, 0.30) !important;
+  color: var(--text-dark) !important;
+}
+
+/* Quill toolbar inside create-post editor */
+html[data-theme="dark"] .cp-section .ql-toolbar {
+  background: var(--surface-input) !important;
+  border-color: var(--border-subtle) !important;
+}
+html[data-theme="dark"] .cp-section .ql-editor {
+  background: var(--surface-input) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .cp-section .ql-editor.ql-blank::before {
+  color: var(--text-light) !important;
+}
