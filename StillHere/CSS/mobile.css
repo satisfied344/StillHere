@@ -1,0 +1,938 @@
+/* ══════════════════════════════════════════════════════
+   MOBILE — global responsive layer (≤ 768px)
+   Activated only on small screens. Desktop unaffected.
+   Strategy: keep the top navbar visible but compact;
+   no bottom FAB.
+   ══════════════════════════════════════════════════════ */
+
+/* ════ GLOBAL LOGO unification — every page should show the
+   logo identically to the main feed: small asterisk,
+   superscript, rotated, accent-2 colour. Outside the media
+   query so it applies on desktop too. ════ */
+.logo::after {
+  content: "*" !important;
+  display: inline-block !important;
+  margin-left: 4px !important;
+  color: var(--accent-2) !important;
+  font-size: 16px !important;
+  vertical-align: super !important;
+  font-weight: 400 !important;
+  transform: rotate(-12deg) !important;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.logo:hover::after { transform: rotate(12deg) scale(1.2) !important; }
+
+
+/* ════════════════════════════════════════════════════════
+   ULTRA-SPECIFIC overrides — force the layout regardless
+   of source order or inline `<style>` blocks on each page.
+   ════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  html body .main-main,
+  html body div.main-main {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+  }
+  html body aside.sidebar,
+  html body .main-main > .sidebar {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    order: 1 !important;
+  }
+  html body .main-main > .main-feed,
+  html body main.main-feed {
+    width: 100% !important;
+    min-width: 0 !important;
+    order: 2 !important;
+  }
+  html body aside.right-sidebar,
+  html body .main-main > .right-sidebar {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    order: 3 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-top: 18px !important;
+  }
+  html body .right-sticky { display: none !important; }
+
+  html body .hero-bottom {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+  html body .start-content-1 {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 900px) {
+
+  /* ── Page-level safety ─────────────────────────────── */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  body { font-size: 15px; }
+  img, svg, video { max-width: 100%; height: auto; }
+
+  /* ══════════════════════════════════════════════════
+     TOP NAVBAR — compact on mobile
+     ══════════════════════════════════════════════════ */
+  .top-info {
+    padding: 8px 12px !important;
+    gap: 6px;
+  }
+  .top-info .logo span,
+  .top-info .logo p {
+    font-size: 18px !important;
+  }
+  .top-info .nav {
+    gap: 4px !important;
+  }
+  /* Hide text labels under nav icons — icons-only */
+  .nav-link--stack span,
+  .nav-link span:not(.icon) {
+    display: none !important;
+  }
+  .nav-link, .nav-link--stack {
+    padding: 6px !important;
+    gap: 0 !important;
+  }
+  .nav-link svg, .nav-link .icon {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  /* Burger / overflow menu — perfect circle, matches other icon-only links */
+  .main-menu-trigger {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    aspect-ratio: 1 / 1 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0;
+    background: var(--ink) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  html[data-theme="dark"] .main-menu-trigger {
+    background: var(--accent-2, #d6533c) !important;
+  }
+  .main-menu-trigger svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  /* Dropdown panel — fit small screens */
+  .main-menu-panel {
+    right: 0 !important;
+    left: auto !important;
+    width: 220px !important;
+    max-width: 92vw !important;
+  }
+
+  /* Content area — comfortable space below the navbar so
+     the eyebrow line breathes, without leaving a huge gap
+     between the eyebrow and the title that follows it. */
+  main, .up-page, .ab-page, .ct-page, .pf-page, .ep-page,
+  .auth-page, .ai-page, .pref-page, .stats-page,
+  .post-page, .cp-page, .main-main, .docs-page,
+  .chat-page {
+    padding-top: 84px !important;
+  }
+
+  /* Tighten the eyebrow→title gap on every page. Desktop
+     uses big margin-bottom (16–22px) because the titles
+     are huge; on mobile that gap reads as wasted space. */
+  .ab-eyebrow, .ct-eyebrow, .pf-eyebrow, .up-eyebrow,
+  .ep-eyebrow, .auth-eyebrow, .docs-eyebrow,
+  .page-eyebrow {
+    margin-bottom: 8px !important;
+  }
+
+  /* ══════════════════════════════════════════════════
+     LANDING / INDEX
+     Mobile-first redesign: tall hero, one column,
+     content stacked in a clear vertical rhythm.
+     ══════════════════════════════════════════════════ */
+  .start-content {
+    grid-template-columns: 1fr !important;
+    padding: 90px 20px 40px !important;
+    gap: 0 !important;
+    min-height: auto !important;
+    display: block !important;
+  }
+  .start-content-1 {
+    grid-template-columns: 1fr !important;
+    display: block !important;
+    text-align: left;
+  }
+  .start-left, .title-wrapper {
+    display: block !important;
+    align-self: start !important;
+    text-align: left !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  /* Title — large, but bound to viewport so it never overflows */
+  .title, .start-title, .start-name, .stillhere-name {
+    font-size: clamp(56px, 18vw, 96px) !important;
+    line-height: 0.95 !important;
+    text-align: left !important;
+    word-break: break-word;
+  }
+  .title-word, .title-em, .title em { font-size: inherit !important; }
+  /* Hero "meta" row (— 01 / Presence, not solutions + GLOBAL · ANONYMOUS · FREE)
+     stack one above the other instead of two columns */
+  .hero-meta, .start-meta-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-bottom: 18px !important;
+  }
+  /* Bottom row — tagline + CTAs in one column, full-width buttons */
+  .hero-bottom {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 22px !important;
+    margin-top: 28px !important;
+  }
+  .hero-bottom-left  { padding: 0 !important; }
+  .hero-bottom-right { gap: 14px !important; }
+  .subtitle, .start-tagline, .start-sub, .hero-tagline {
+    font-size: clamp(22px, 5.5vw, 32px) !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .lede, .hero-lede {
+    font-size: 14.5px !important;
+    line-height: 1.55 !important;
+  }
+  .start-cta-row, .start-actions, .cta-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .start-cta, .start-cta--ghost,
+  .btn-primary, .btn-ghost {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 14px 22px !important;
+    font-size: 15px !important;
+  }
+  /* Scroll hint — hide on mobile (no room) */
+  .scroll-hint { display: none !important; }
+
+  /* Sections below the hero */
+  .stamp-band, .quote-band {
+    padding: 30px 18px !important;
+  }
+  .why-section, .card-section, .join-section {
+    padding: 36px 18px !important;
+  }
+  /* Background ambient words — barely visible on mobile */
+  .ambient-word, .bg-word, .stamp-letter, .quote-band-letter {
+    opacity: 0.03 !important;
+    font-size: 28vw !important;
+  }
+  /* Hero side doodles — small, don't crowd the title */
+  .doodle-hero-wave, .doodle-hero-heart-r,
+  .d-img.doodle-hero-wave, .d-img.doodle-hero-heart-r,
+  .d-img.doodle-hero-cloud, .d-img.doodle-hero-cloud-r {
+    width: 42px !important;
+    height: auto !important;
+  }
+  .scribble-circle { display: none !important; }
+  .title-star { width: 26px !important; height: 26px !important; }
+
+  /* ══════════════════════════════════════════════════
+     MAIN FEED (main.html)
+     Mobile redesign:
+       1) Feed first (posts)
+       2) RIGHT widgets stacked under the feed
+          (Crisis / AI / Guidelines / This Week)
+       3) LEFT sidebar (Home / Saved / Topics) collapsed
+          into a horizontal topic-pill strip ABOVE the feed
+       4) Floating "+" FAB for create-post in bottom-right
+     ══════════════════════════════════════════════════ */
+  .page-wrapper { padding: 0 !important; }
+  .main-main {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    padding: 70px 14px 100px !important;  /* extra bottom for FAB */
+    gap: 14px !important;
+  }
+  /* Order: sidebar (topics strip) → feed → widgets */
+  .sidebar       { order: 1; }
+  .main-feed     { order: 2; }
+  .right-sidebar { order: 3; }
+  .right-sticky  { display: none !important; }
+
+  .main-feed {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* ── LEFT SIDEBAR → horizontal topic strip ── */
+  .sidebar {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 4px 0 !important;
+    box-shadow: none !important;
+  }
+  .sidebar-nav { gap: 10px !important; }
+  /* Home / Saved buttons → row pills */
+  .sidebar-primary-navigation {
+    display: flex !important;
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+  }
+  .sidebar-primary-navigation .sidebar-item {
+    flex: 1 1 0 !important;
+    justify-content: center !important;
+    padding: 9px 10px !important;
+    font-size: 13.5px !important;
+    border-radius: 999px !important;
+    background: rgba(26, 20, 16, 0.05) !important;
+  }
+  html[data-theme="dark"] .sidebar-primary-navigation .sidebar-item {
+    background: rgba(255, 240, 220, 0.05) !important;
+  }
+  .sidebar-primary-navigation .sidebar-item.active {
+    background: var(--ink) !important;
+    color: var(--paper) !important;
+  }
+  html[data-theme="dark"] .sidebar-primary-navigation .sidebar-item.active {
+    background: var(--accent-2) !important;
+    color: #fff !important;
+  }
+  /* Hide section headings (TOPICS) on the strip */
+  .sidebar-section-title, .sidebar-top { display: none !important; }
+  .asidebar-divider { display: none !important; }
+  /* Topics — horizontal scrolling pills */
+  .sidebar-topics, .sidebar-secondary-navigation {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 0 6px 0 !important;
+    margin: 0 -14px !important;  /* bleed to viewport edge */
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    scrollbar-width: none;
+  }
+  .sidebar-topics::-webkit-scrollbar,
+  .sidebar-secondary-navigation::-webkit-scrollbar { display: none; }
+  .sidebar-topics .sidebar-item,
+  .sidebar-secondary-navigation .sidebar-item {
+    flex: 0 0 auto !important;
+    padding: 7px 12px !important;
+    font-size: 12.5px !important;
+    border-radius: 999px !important;
+    background: rgba(26, 20, 16, 0.05) !important;
+    white-space: nowrap !important;
+  }
+  html[data-theme="dark"] .sidebar-topics .sidebar-item,
+  html[data-theme="dark"] .sidebar-secondary-navigation .sidebar-item {
+    background: rgba(255, 240, 220, 0.05) !important;
+  }
+  .sidebar-topics .sidebar-item::before,
+  .sidebar-secondary-navigation .sidebar-item::before { display: none !important; }
+  .topic-count { font-size: 10.5px !important; }
+  .sidebar-more {
+    flex: 0 0 auto !important;
+    font-size: 11.5px !important;
+    padding: 7px 12px !important;
+  }
+  /* The "Share Your Story" button inside the sidebar is duplicated
+     by our FAB, so hide it on mobile to avoid two CTAs. */
+  .sidebar-create-post-button { display: none !important; }
+
+  /* ── RIGHT SIDEBAR (widgets) — under the feed ── */
+  .right-sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    gap: 12px !important;
+    margin-top: 18px !important;
+    padding: 0 !important;
+  }
+
+  /* ── Floating "+" FAB for new post ── */
+  .feed-fab {
+    position: fixed;
+    right: 18px;
+    bottom: 22px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 26px -6px rgba(26, 20, 16, 0.45),
+                0 2px 6px rgba(26, 20, 16, 0.18);
+    z-index: 500;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .feed-fab:active { transform: scale(0.92); }
+  .feed-fab svg { width: 26px; height: 26px; }
+  html[data-theme="dark"] .feed-fab {
+    background: var(--accent-2);
+    color: #fff;
+    box-shadow: 0 10px 26px -6px rgba(214, 83, 60, 0.55),
+                0 2px 6px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Feed head — eyebrow + title stacked clean */
+  .feed-head, .feed-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+  }
+  .feed-head h1, .feed-title, .community-feed-title {
+    font-size: clamp(32px, 8vw, 44px) !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+  /* Feed action row (filter + refresh) — sits below the title */
+  .feed-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .feed-actions button, .feed-actions a,
+  .filter-toggle, .refresh-btn {
+    flex: 1 1 auto;
+    justify-content: center !important;
+    font-size: 13px !important;
+    padding: 9px 14px !important;
+  }
+
+  /* Filter panel — collapses into a compact wrapping row */
+  .filter-panel {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    margin-bottom: 14px !important;
+  }
+  .filter-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .filter-select, .filter-pill, .lang-pill, .pill {
+    font-size: 12.5px !important;
+    padding: 6px 11px !important;
+  }
+
+  /* Post cards — comfortable mobile-app feel */
+  .feed { display: flex !important; flex-direction: column !important; gap: 12px !important; }
+  .post-card {
+    padding: 16px !important;
+    border-radius: 14px !important;
+    margin: 0 !important;
+  }
+  .post-header {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+  .post-header .post-author { font-size: 14px !important; }
+  .post-header .post-meta, .post-date { font-size: 11.5px !important; }
+  .post-content h2, .post-title { font-size: 18px !important; margin-bottom: 6px !important; }
+  .post-body, .post-content p { font-size: 14.5px !important; line-height: 1.55 !important; }
+  .post-tags { gap: 6px !important; flex-wrap: wrap !important; }
+  .post-tags .tag, .post-tags .post-tag { font-size: 11.5px !important; padding: 3px 9px !important; }
+
+  /* Post action bar — evenly spaced */
+  .post-actions {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+    padding-top: 10px !important;
+    border-top: 1px dashed var(--line-soft, rgba(26,20,16,0.10)) !important;
+    margin-top: 12px !important;
+  }
+  .post-action, .post-action-btn {
+    flex: 1 1 0;
+    font-size: 12px !important;
+    padding: 8px 4px !important;
+    justify-content: center;
+  }
+  .post-menu-btn { flex: 0 0 auto; }
+
+  /* Load-more button full width */
+  .feed-load-more-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    margin-top: 14px !important;
+  }
+
+  /* ══════════════════════════════════════════════════
+     CREATE POST (create-post.html)
+     ══════════════════════════════════════════════════ */
+  .cp-page, .create-post-page {
+    grid-template-columns: 1fr !important;
+    padding: 84px 14px 30px !important;
+    gap: 14px !important;
+  }
+  .cp-main { width: 100% !important; min-width: 0 !important; }
+  .cp-sidebar { display: none !important; }
+  .cp-card, .cp-card--story, .card {
+    padding: 16px !important;
+    border-radius: 12px !important;
+  }
+  .cp-title-input, .title-input {
+    font-size: 20px !important;
+  }
+  .cp-mode-grid, .mode-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .cp-topics, .cp-topic-row {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .cp-topic-chip {
+    font-size: 12px !important;
+    padding: 5px 11px !important;
+  }
+  .cp-lang-strip, .lang-strip {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    padding: 10px !important;
+  }
+  .cp-actions, .actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .btn-publish, .btn-cancel, .btn-delete-draft {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .cp-upload, .media-upload-area {
+    padding: 22px 16px !important;
+  }
+
+  /* ══════════════════════════════════════════════════
+     POST PAGE (post.html)
+     ══════════════════════════════════════════════════ */
+  .post-page, .post-detail {
+    grid-template-columns: 1fr !important;
+    padding: 84px 14px 30px !important;
+  }
+  .post-detail-card { padding: 18px !important; }
+  .comments-section { padding: 14px !important; }
+  .comment-card, .reply-card { padding: 12px !important; }
+
+  /* ══════════════════════════════════════════════════
+     ABOUT (nav-bar/about.html)
+     ══════════════════════════════════════════════════ */
+  .ab-page { padding: 84px 18px 60px !important; }
+  .ab-hero {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .ab-title { font-size: 56px !important; }
+  .ab-section { margin-bottom: 36px !important; }
+  .ab-section-title { font-size: 20px !important; }
+  .ab-grid, .ab-cards, .ab-values {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ══════════════════════════════════════════════════
+     CONTACTS (nav-bar/contacts.html)
+     ══════════════════════════════════════════════════ */
+  .ct-page { padding: 84px 18px 60px !important; }
+  .ct-hero {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .ct-title { font-size: 56px !important; }
+  .ct-cards, .ct-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .ct-section-head {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .ct-section-hint { margin-left: 0 !important; width: 100%; }
+
+  /* ══════════════════════════════════════════════════
+     UPDATES (nav-bar/updates.html)
+     ══════════════════════════════════════════════════ */
+  .up-page { padding: 84px 18px 60px !important; }
+  .up-hero {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .up-hero-stats { transform: none !important; max-width: 100% !important; }
+  .up-title { font-size: 56px !important; }
+  .up-section-head {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .up-section-hint { margin-left: 0 !important; width: 100%; }
+  .up-entry-card { padding: 16px !important; }
+  .up-roadmap { grid-template-columns: 1fr !important; }
+  .up-subscribe {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 22px !important;
+    text-align: center;
+  }
+  .up-subscribe-btn { justify-content: center; }
+
+  /* ══════════════════════════════════════════════════
+     PROFILE (nav-bar/profile.html)
+     ══════════════════════════════════════════════════ */
+  .pf-page { padding: 84px 18px 60px !important; }
+  .pf-hero, .pf-header {
+    grid-template-columns: 1fr !important;
+    text-align: left !important;
+    gap: 22px !important;
+  }
+  .pf-hero-left, .pf-hero-right { text-align: left !important; }
+  .pf-avatar { margin: 0 !important; }
+  .pf-card-head { justify-content: flex-start !important; }
+  .pf-card-id, .pf-name, .pf-handle { text-align: left !important; }
+  .pf-meta { justify-content: flex-start !important; }
+  .pf-card-actions { justify-content: flex-start !important; }
+  .pf-card { text-align: left !important; }
+  .pf-stats {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+  .pf-tabs {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pf-grid, .pf-posts {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ══════════════════════════════════════════════════
+     EDIT PROFILE (edit-profile.html)
+     ══════════════════════════════════════════════════ */
+  .ep-page {
+    grid-template-columns: 1fr !important;
+    padding: 84px 18px 60px !important;
+    gap: 18px !important;
+  }
+  .ep-side, .ep-aside { order: -1; }
+  .ep-form-card, .ep-card { padding: 18px !important; }
+  .ep-row, .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .ep-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .ep-actions button, .ep-actions a { width: 100% !important; justify-content: center; }
+
+  /* ══════════════════════════════════════════════════
+     AUTH (login.html, register.html)
+     Layout on mobile (top → bottom):
+       1) eyebrow ("— welcome back")
+       2) title ("you're still here.")
+       3) lede ("your space hasn't gone anywhere…")
+       4) sign-in CARD (form)
+       5) bullets ("no real name…")
+     Trick: the section wrappers use `display: contents` so
+     their children become direct grid items we can order.
+     ══════════════════════════════════════════════════ */
+  .auth-page {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    padding: 84px 18px 60px !important;
+    gap: 0 !important;
+    min-height: auto !important;
+    align-items: stretch !important;
+  }
+  .auth-intro, .auth-left {
+    display: contents !important;
+  }
+
+  .auth-eyebrow      { order: 1 !important; margin-bottom: 8px !important; font-size: 11px !important; }
+  .auth-title        { order: 2 !important; font-size: 42px !important; line-height: 1.05 !important; margin: 0 0 12px !important; text-align: left !important; }
+  .auth-title-star   { order: 2 !important; }
+  .auth-lede         { order: 3 !important; font-size: 14.5px !important; line-height: 1.55 !important; margin: 0 0 28px !important; }
+  .auth-card         { order: 4 !important; margin-bottom: 28px !important; }
+  .auth-bullets      { order: 5 !important; margin: 0 !important; padding-left: 18px !important; }
+
+  .auth-card {
+    padding: 26px 20px 22px !important;
+    max-width: 100% !important;
+    justify-self: stretch !important;
+    width: 100% !important;
+  }
+  .auth-card-title { font-size: 26px !important; }
+  .auth-card-eyebrow { font-size: 10.5px !important; }
+  .auth-headline { font-size: 42px !important; }
+  .fields-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ══════════════════════════════════════════════════
+     AI CHAT (ai-chat.html)
+     • Sidebar slides from the left, CLOSED by default.
+     • Composer is PINNED to the bottom of the viewport.
+     • Welcome / messages scroll between navbar & composer.
+     ══════════════════════════════════════════════════ */
+  .chat-page, .ai-page, .ai-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    padding: 0 !important;
+    min-height: 100vh;
+  }
+  .chat-sidebar, .ai-sidebar {
+    position: fixed !important;
+    left: -110% !important;
+    top: 56px !important;
+    bottom: 0 !important;
+    width: 86% !important;
+    max-width: 320px !important;
+    height: auto !important;
+    z-index: 8500;
+    transition: left 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+  }
+  .chat-sidebar.is-open, .ai-sidebar.is-open { left: 0 !important; }
+
+  /* Hide the page's built-in sidebar reopen arrow on mobile —
+     we use our own .ai-sidebar-toggle pill instead. */
+  .sidebar-reopen, .sidebar-toggle { display: none !important; }
+
+  .chat-area, .ai-main, .ai-chat-area {
+    width: 100% !important;
+    padding: 56px 0 130px !important;  /* leave space for fixed composer */
+    margin-left: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  .chat-welcome {
+    padding: 16px !important;
+    flex: 0 0 auto;
+  }
+  .chat-messages, .ai-messages, .ai-stream {
+    padding: 12px !important;
+    flex: 1 1 auto;
+  }
+
+  /* ── Composer — fixed to the bottom of the viewport ── */
+  .chat-composer, .ai-input-area, .ai-composer {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom)) !important;
+    background: var(--paper, #f4ead6) !important;
+    border-top: 1px solid var(--line, rgba(26,20,16,0.12)) !important;
+    z-index: 200;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.08);
+    margin: 0 !important;
+  }
+  html[data-theme="dark"] .chat-composer,
+  html[data-theme="dark"] .ai-input-area {
+    background: #1a1410 !important;
+    border-top-color: rgba(255, 240, 220, 0.10) !important;
+  }
+  .composer-card { padding: 8px 10px !important; }
+  .composer-input, .ai-textarea, textarea.chat-input {
+    font-size: 16px !important;
+    min-height: 36px !important;
+    max-height: 110px !important;
+  }
+  .composer-row { flex-wrap: wrap !important; gap: 8px !important; }
+  .composer-tools { flex-wrap: wrap !important; gap: 6px !important; }
+  .composer-foot {
+    font-size: 11px !important;
+    text-align: center;
+    margin: 6px 0 0 !important;
+  }
+
+  .ai-mood-tags, .chat-mood-tags {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .ai-mood-tag, .chat-mood-tag {
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+  }
+
+  /* Backdrop — soft tint, NO blur (so the sidebar stays legible) */
+  .ai-sidebar-backdrop {
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: rgba(0, 0, 0, 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 8400;
+  }
+  .ai-sidebar-backdrop.is-open { opacity: 1; pointer-events: auto; }
+
+  /* Sidebar toggle for AI chat — small pill anchored below
+     the navbar, on the left. Disappears when the sidebar
+     is open (the sidebar's own close arrow handles close). */
+  .ai-sidebar-toggle {
+    position: fixed;
+    top: 60px; left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px 7px 9px;
+    border-radius: 999px;
+    background: var(--paper-soft, #fffaf0);
+    border: 1px solid var(--line, rgba(26,20,16,0.18));
+    color: var(--ink, #1a1410);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    z-index: 8600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .ai-sidebar-toggle::after {
+    content: "history";
+  }
+  .ai-sidebar-toggle svg { width: 16px; height: 16px; }
+  html[data-theme="dark"] .ai-sidebar-toggle {
+    background: #1a1410;
+    border-color: rgba(255,240,220,0.18);
+    color: var(--charcoal, #f4e9d5);
+  }
+  /* Hide the toggle while the sidebar is open — the
+     sidebar carries its own close arrow. */
+  .chat-sidebar.is-open ~ .ai-sidebar-toggle,
+  body.chat-sidebar-open .ai-sidebar-toggle {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-8px);
+  }
+
+  /* ══════════════════════════════════════════════════
+     PREFERENCES (preferences.html)
+     ══════════════════════════════════════════════════ */
+  .pref-page { padding: 84px 18px 60px !important; }
+  .pref-section, .pref-card { padding: 16px !important; }
+  .pref-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  /* ══════════════════════════════════════════════════
+     STATISTICS (statistics.html)
+     ══════════════════════════════════════════════════ */
+  .stats-page { padding: 84px 18px 60px !important; }
+  .stats-grid, .stats-cards {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .stat-card { padding: 18px !important; }
+  .stat-number, .stat-value { font-size: 36px !important; }
+
+  /* ══════════════════════════════════════════════════
+     DOCS pages (guidelines, privacy, terms, crisis)
+     ══════════════════════════════════════════════════ */
+  .docs-page, .docs-content {
+    padding: 84px 18px 60px !important;
+    max-width: 100% !important;
+  }
+  .docs-page h1 { font-size: 32px !important; }
+  .docs-page h2 { font-size: 22px !important; }
+  .docs-page h3 { font-size: 18px !important; }
+  .docs-page p, .docs-page li { font-size: 14.5px !important; }
+
+  /* ══════════════════════════════════════════════════
+     COMING SOON / ADMIN
+     ══════════════════════════════════════════════════ */
+  .coming-soon-page { padding: 60px 18px 30px !important; text-align: center; }
+  .admin-page { padding: 84px 14px 30px !important; }
+  .admin-table { font-size: 13px !important; }
+  .admin-table th, .admin-table td { padding: 8px !important; }
+
+  /* ══════════════════════════════════════════════════
+     FOOTER — stack vertically
+     ══════════════════════════════════════════════════ */
+  .footer { padding: 28px 18px !important; }
+  .footer_content { gap: 24px !important; }
+  .footer_main {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+  .footer_links {
+    flex-direction: column !important;
+    gap: 18px !important;
+    width: 100% !important;
+  }
+  .footer_links_1, .footer_links_2, .footer_links_3 { width: 100% !important; }
+  .footer_footer {
+    flex-direction: column !important;
+    gap: 16px !important;
+    text-align: center;
+  }
+  .footer_social { justify-content: center; }
+
+  /* ══════════════════════════════════════════════════
+     UNIVERSAL touch-target boost
+     ══════════════════════════════════════════════════ */
+  button, .btn, a.btn, input[type="submit"], input[type="button"] {
+    min-height: 40px;
+  }
+
+  /* Prevent iOS auto-zoom on input focus */
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+
+  /* The bottom FAB / sheet are no longer used — hide if present */
+  .mobile-nav-trigger,
+  .mobile-nav-sheet,
+  .mobile-nav-backdrop { display: none !important; }
+}
+
+/* (Old tablet-narrow tweak removed — the main breakpoint now
+   covers everything up to 900px so the mobile layout kicks in
+   at the awkward middle widths too.) */

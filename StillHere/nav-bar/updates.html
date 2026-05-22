@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../CSS/nav-menu.css">
   <link rel="stylesheet" href="../CSS/dark-theme.css">
+  <link rel="stylesheet" href="../CSS/mobile.css?v=1779483937">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../JS/supabase-config.js"></script>
   <script src="../JS/site-pings.js" defer></script>
@@ -447,6 +448,7 @@
       box-shadow: 0 10px 26px -10px rgba(26, 20, 16, 0.20);
     }
   </style>
+  <script src="../JS/mobile-nav.js?v=1779483937" defer></script>
 </head>
 <body>
 
@@ -524,15 +526,15 @@
       <div class="up-hero-stats" role="status" aria-label="Project status">
         <div class="up-stat-row">
           <span class="up-stat-label">version</span>
-          <span class="up-stat-value"><em>v0.4.0</em> &middot; <span style="color:var(--ink-light);font-weight:400">paper</span></span>
+          <span class="up-stat-value"><em>v0.5.0</em> &middot; <span style="color:var(--ink-light);font-weight:400">paper</span></span>
         </div>
         <div class="up-stat-row">
           <span class="up-stat-label">last updated</span>
-          <span class="up-stat-value">may 2026</span>
+          <span class="up-stat-value">may 21, 2026</span>
         </div>
         <div class="up-stat-row">
-          <span class="up-stat-label">brewing</span>
-          <span class="up-stat-value" style="color:var(--accent-3)">multi-language &middot; 4 langs</span>
+          <span class="up-stat-label">commits</span>
+          <span class="up-stat-value" style="color:var(--accent-3)">38 on main</span>
         </div>
       </div>
     </section>
@@ -547,7 +549,29 @@
 
       <div class="up-timeline">
 
-        <!-- May 20, 2026 — dark-theme fixes + session-stable presence -->
+        <!-- May 21, 2026 — dark theme overhaul + i18n UI -->
+        <article class="up-entry">
+          <div class="up-entry-card">
+            <div class="up-entry-meta">
+              <span class="up-entry-date">may 21, 2026</span>
+              <span class="up-tag up-tag--design">design</span>
+              <span class="up-tag up-tag--fix">fix</span>
+            </div>
+            <h3 class="up-entry-title">warmer dark, stronger cards, language toggle visible</h3>
+            <p class="up-entry-lede">
+              another pass on the dark palette — cards now stand noticeably above the background,
+              secondary text is lighter, borders more visible. the language toggle in preferences
+              actually shows up in dark mode now.
+            </p>
+            <ul class="up-entry-list">
+              <li>dark-theme.css reworked — card elevation, text contrast, border opacity</li>
+              <li>i18n toggle visible + working in dark mode</li>
+              <li>changelog and about-page copy edited</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- May 20, 2026 — dark-theme fixes + session-aware pings -->
         <article class="up-entry">
           <div class="up-entry-card">
             <div class="up-entry-meta">
@@ -555,18 +579,16 @@
               <span class="up-tag up-tag--design">design</span>
               <span class="up-tag up-tag--fix">fix</span>
             </div>
-            <h3 class="up-entry-title">darker, calmer, more readable</h3>
+            <h3 class="up-entry-title">dark mode fixes across every page</h3>
             <p class="up-entry-lede">
-              refined the warm-dark palette across every page, killed the last cream-on-cream
-              leftovers, and rebuilt the live-presence counter on <em>stable per-tab session ids</em>
-              so the "online right now" number reflects actual humans.
+              fixed theme-breaking inline colors and textures left over from the light design,
+              and rebuilt the live-presence counter so "online right now" reflects
+              <em>actual per-tab sessions</em>, not stale counts.
             </p>
             <ul class="up-entry-list">
-              <li>warm-neutral token sweep — cards visibly elevated above the page bg</li>
-              <li><strong>secondary text</strong> bumped lighter for legibility</li>
-              <li>borders + dividers nudged up to opacity 0.14–0.16</li>
-              <li>create-post drafts now scope per identity — anon &harr; account no longer leak</li>
-              <li>about/landing copy refreshed — solo-developer voice, one origin story</li>
+              <li>inline color overrides removed — dark theme now applies cleanly everywhere</li>
+              <li>session-aware site_pings — stable per-tab id, no duplicates</li>
+              <li>several hardcoded cream/white values replaced with CSS tokens</li>
             </ul>
           </div>
         </article>
@@ -585,11 +607,11 @@
               that don't track you. <em>nothing about you, only that the page was opened.</em>
             </p>
             <ul class="up-entry-list">
-              <li><strong>SH_I18N</strong> — full EN/RU dictionary + toggle in preferences</li>
-              <li><strong>site_pings</strong> — supabase table that stores only timestamps + session-id; powers "x online now / y total" on /statistics</li>
-              <li><strong>Vercel Speed Insights + Web Analytics</strong> — no cookies, no profiling, no IP geolocation</li>
-              <li>shared supabase client to silence multiple-GoTrueClient warnings</li>
-              <li>landing page renamed to <code>index.html</code> + vercel.json cleaned up</li>
+              <li><strong>JS/i18n.js</strong> — full EN/RU dictionary + toggle in preferences</li>
+              <li><strong>site_pings</strong> — supabase table: timestamps + session-id only; powers the "x online now" counter on /statistics</li>
+              <li><strong>Vercel Speed Insights + Web Analytics</strong> — no cookies, no profiling</li>
+              <li>shared supabase client — silences duplicate GoTrueClient warnings</li>
+              <li>startup-page.html renamed to <code>index.html</code>, vercel.json simplified</li>
             </ul>
           </div>
         </article>
@@ -604,16 +626,16 @@
             </div>
             <h3 class="up-entry-title">warm dark mode + the moderation backbone</h3>
             <p class="up-entry-lede">
-              biggest backend change so far. dark theme rewritten from scratch as a warm,
-              neutral palette; new docs styling for the legal pages; and a full moderation
-              system landed in supabase — reports, weight, AI escalation, admin queue.
+              biggest update so far. dark theme rewritten from scratch as a warm neutral palette;
+              new consistent styling for all legal/docs pages; and a full moderation system
+              built into supabase — reports, weights, AI escalation, admin queue.
             </p>
             <ul class="up-entry-list">
-              <li><strong>dark-theme.css</strong> — palette rewritten, hundreds of overrides for cream-bg leftovers</li>
+              <li><strong>dark-theme.css</strong> — completely rewritten, warm-neutral tokens</li>
               <li><strong>docs.css</strong> — guidelines / privacy / terms / crisis pages styled consistently</li>
               <li>SQL migrations: <code>reports</code>, <code>admin_roles</code>, <code>moderation_log</code>, <code>user_blocks</code></li>
-              <li><strong>strict-review</strong> edge function — re-checks flagged content with a stricter AI prompt</li>
-              <li>admin queue page with keep / shadow / remove + block-author duration picker</li>
+              <li><strong>strict-review</strong> supabase edge function — re-checks flagged content with stricter AI prompt</li>
+              <li>admin queue page: keep / shadow / remove + block-author duration picker</li>
             </ul>
           </div>
         </article>
@@ -626,22 +648,22 @@
               <span class="up-tag up-tag--ai">ai support</span>
               <span class="up-tag up-tag--new">new</span>
             </div>
-            <h3 class="up-entry-title">a quiet companion, for the hours when nobody else is around</h3>
+            <h3 class="up-entry-title">a quiet companion — for the hours when nobody else is around</h3>
             <p class="up-entry-lede">
-              the AI chat landed — paper aesthetic, no-advice toggle, soft mood tags. the
-              key lives in a supabase edge function, the browser <em>never sees it</em>.
+              the AI chat page went in — paper aesthetic, no-advice toggle, mood tags. the
+              API key lives in a supabase edge function; <em>the browser never sees it</em>.
             </p>
             <ul class="up-entry-list">
-              <li><strong>ai-chat-screen.css</strong> — full layout: navbar, sidebar, messages, doodles, transitions</li>
-              <li><strong>no-advice mode</strong> + 8 mood tags (sad / anxious / lonely / tired / …)</li>
-              <li>chat history kept on your device, never uploaded</li>
-              <li><strong>supabase/functions/ai-chat</strong> — server proxy that holds the OpenRouter key</li>
-              <li><code>statistics.html</code> added — transparent project counts</li>
+              <li>full AI chat UI: navbar, sidebar, messages, doodle assets, transitions</li>
+              <li><strong>no-advice mode</strong> + mood tags (sad / anxious / lonely / tired / …)</li>
+              <li>chat history kept on your device only — never uploaded</li>
+              <li><strong>supabase/functions/ai-chat</strong> — server proxy holding the OpenRouter key</li>
+              <li><code>statistics.html</code> added — transparent project numbers</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 5-9, 2026 — supabase foundation + vercel deploy -->
+        <!-- May 5-9, 2026 — supabase integration -->
         <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
@@ -651,20 +673,20 @@
             </div>
             <h3 class="up-entry-title">supabase wired into everything</h3>
             <p class="up-entry-lede">
-              the static site became a real app — auth, posts, comments, filters, counters
-              all running on supabase. first dark-theme pass shipped with AI moderation.
+              the static prototype became a real app — auth, posts, comments, filters and
+              counters all running on supabase. first dark-theme draft shipped alongside AI moderation.
             </p>
             <ul class="up-entry-list">
-              <li>supabase auth + profiles schema</li>
-              <li>comments persist server-side; counters increment correctly</li>
+              <li>supabase auth + profiles connected</li>
+              <li>comments persist server-side; like/save counters work correctly</li>
               <li>language &amp; support-type filters actually filter the feed</li>
-              <li><strong>moderate</strong> client function — AI checks on every post submit</li>
-              <li>vercel.json routing for the landing page</li>
+              <li><strong>AI moderation</strong> — checks every post on submit</li>
+              <li>vercel.json routing added; startup page returned to previous design</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 2-3, 2026 — nav-bar pages + AI chat draft -->
+        <!-- May 2-3, 2026 — nav-bar pages + design -->
         <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
@@ -672,15 +694,15 @@
               <span class="up-tag up-tag--design">design</span>
               <span class="up-tag up-tag--new">new</span>
             </div>
-            <h3 class="up-entry-title">about, contacts, updates, profile — all online</h3>
+            <h3 class="up-entry-title">about, contacts, updates, profile — all built</h3>
             <p class="up-entry-lede">
-              the supporting pages went live. first sketch of the AI support chat. several
-              rounds of design polish across posts, comments, and the create-post flow.
+              the supporting pages came together. first sketch of the AI support chat UI.
+              comments section rebuilt, post menus polished.
             </p>
             <ul class="up-entry-list">
               <li>about / contacts / updates / profile / edit-profile pages</li>
-              <li>first AI chat UI mock</li>
-              <li>comments section rebuilt with better threading</li>
+              <li>first AI chat UI mock (design only, no backend yet)</li>
+              <li>comments section reworked with better layout</li>
               <li>small fixes across post menus and headers</li>
             </ul>
           </div>
@@ -694,21 +716,21 @@
               <span class="up-tag up-tag--design">design</span>
               <span class="up-tag up-tag--new">new</span>
             </div>
-            <h3 class="up-entry-title">create-post got real</h3>
+            <h3 class="up-entry-title">create-post redesigned, docs scaffolded</h3>
             <p class="up-entry-lede">
-              full redesign of the post-creation flow — rich-text editor, media upload,
-              topic chips, mode picker, anonymous toggle. project docs scaffolded.
+              full redesign of the post creation flow — rich-text editor, media upload,
+              topic chips, mode picker, anonymous toggle. project docs pages scaffolded.
             </p>
             <ul class="up-entry-list">
-              <li>Quill editor for the body</li>
-              <li>media upload (up to 6 attachments, drag &amp; drop)</li>
-              <li>topic chips + open-to-support / no-advice mode cards</li>
-              <li>docs pages (guidelines, privacy, terms) — placeholder content</li>
+              <li>Quill rich-text editor for the post body</li>
+              <li>media upload — up to 6 attachments, drag &amp; drop</li>
+              <li>topic chips + open-to-support / no-advice mode selection</li>
+              <li>docs pages (guidelines, privacy, terms) — example content added</li>
             </ul>
           </div>
         </article>
 
-        <!-- Feb-Mar 2026 — visual identity & layout -->
+        <!-- Feb-Mar 2026 — visual identity -->
         <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
@@ -717,36 +739,37 @@
             </div>
             <h3 class="up-entry-title">finding the paper aesthetic</h3>
             <p class="up-entry-lede">
-              a couple of months bouncing between layouts to find the right tone — landed
-              on warm cream, ink doodles, and a Caveat-cursive accent. swapped icon set.
+              several weeks of iteration to land the right visual tone — warm cream, ink
+              doodles, Caveat cursive as an accent. swapped the icon set completely.
             </p>
             <ul class="up-entry-list">
-              <li>new background, text, and animations on the startup page</li>
+              <li>new background, text animations on the startup page</li>
               <li>Phosphor icons replaced Heroicons across the site</li>
               <li>main feed: left + right sidebars, filters, footer</li>
-              <li>base CSS reorganised into a <code>CSS/</code> folder</li>
-              <li>create panel + post menu rebuilt</li>
+              <li>CSS reorganised into a <code>CSS/</code> folder</li>
+              <li>create panel and post menu rebuilt from scratch</li>
             </ul>
           </div>
         </article>
 
-        <!-- January 2026 — first public version -->
+        <!-- January 2026 — very beginning -->
         <article class="up-entry up-entry--past">
           <div class="up-entry-card">
             <div class="up-entry-meta">
               <span class="up-entry-date">january 2026</span>
               <span class="up-tag up-tag--comm">community</span>
             </div>
-            <h3 class="up-entry-title">the very first version</h3>
+            <h3 class="up-entry-title">the first lines of code</h3>
             <p class="up-entry-lede">
-              a basic structure went online — community feed, anonymous sharing, the idea
-              of <em>presence, not solutions</em>. small and rough, but it was alive.
+              first commits — a basic structure taking shape locally. main page, icons,
+              a profile page, the create-post draft, and a rough idea of
+              <em>presence, not solutions</em>. nothing deployed yet, just figuring it out.
             </p>
             <ul class="up-entry-list">
-              <li>community feed (no backend yet — static mock data)</li>
-              <li>profile + contacts pages</li>
+              <li>main page + basic navigation</li>
+              <li>profile page + contacts page</li>
               <li>create-post first draft + post menu</li>
-              <li>register flow with user-agreement checkbox</li>
+              <li>register page with user-agreement checkbox</li>
             </ul>
           </div>
         </article>

@@ -134,15 +134,17 @@ html[data-theme="dark"] .mmenu-item:hover {
   color: var(--charcoal);
 }
 
-/* Sign out — reddish so it's visually distinct */
-html[data-theme="dark"] .mmenu-item--login {
-  color: #e07070 !important;
-  background: rgba(220, 80, 80, 0.08) !important;
+/* Login / Sign out — neutral, matches the other menu items */
+html[data-theme="dark"] .mmenu-item--login,
+html[data-theme="dark"] .mmenu-item--login:not([href]) {
+  color: var(--text-dark) !important;
+  background: rgba(255, 240, 220, 0.05) !important;
 }
 
-html[data-theme="dark"] .mmenu-item--login:hover {
-  background: rgba(220, 80, 80, 0.16) !important;
-  color: #f08080 !important;
+html[data-theme="dark"] .mmenu-item--login:hover,
+html[data-theme="dark"] .mmenu-item--login:not([href]):hover {
+  background: rgba(255, 240, 220, 0.10) !important;
+  color: var(--charcoal) !important;
 }
 
 html[data-theme="dark"] .mmenu-divider {
@@ -236,7 +238,7 @@ html[data-theme="dark"] .sidebar-more:hover {
 
 /* ── Filter icon buttons (sort/filter toggles above feed) ── */
 html[data-theme="dark"] .button-icon {
-  background: rgba(30, 27, 44, 0.80) !important;
+  background: rgba(38, 31, 24, 0.80) !important;
   border-color: var(--border-glass) !important;
   color: var(--text-dark);
 }
@@ -439,12 +441,12 @@ html[data-theme="dark"] .statistic-row {
    CONTACTS PAGE
    ───────────────────────────────────── */
 html[data-theme="dark"] .contact-block {
-  background: rgba(30, 27, 44, 0.72);
+  background: rgba(38, 31, 24, 0.72);
   border-color: var(--border-glass);
 }
 
 html[data-theme="dark"] .contact-block:hover {
-  background: rgba(35, 32, 52, 0.90);
+  background: rgba(45, 37, 28, 0.90);
 }
 
 html[data-theme="dark"] .contact-block-label {
@@ -464,12 +466,12 @@ html[data-theme="dark"] .contact-cta {
 }
 
 html[data-theme="dark"] .social-card {
-  background: rgba(30, 27, 44, 0.65);
+  background: rgba(38, 31, 24, 0.65);
   border-color: var(--border-glass);
 }
 
 html[data-theme="dark"] .social-card:hover {
-  background: rgba(35, 32, 52, 0.90);
+  background: rgba(45, 37, 28, 0.90);
 }
 
 html[data-theme="dark"] .social-card-name {
@@ -487,7 +489,7 @@ html[data-theme="dark"] .hero-eyebrow {
 }
 
 html[data-theme="dark"] .note-inner {
-  background: rgba(30, 27, 44, 0.65);
+  background: rgba(38, 31, 24, 0.65);
   border-color: var(--border-glass);
 }
 
@@ -495,13 +497,13 @@ html[data-theme="dark"] .note-inner {
    ABOUT PAGE
    ───────────────────────────────────── */
 html[data-theme="dark"] .hero-meta-item {
-  background: rgba(30, 27, 44, 0.65);
+  background: rgba(38, 31, 24, 0.65);
   border-color: var(--border-glass);
   color: var(--text-mid);
 }
 
 html[data-theme="dark"] .tiktok-card {
-  background: rgba(30, 27, 44, 0.80);
+  background: rgba(38, 31, 24, 0.80);
   border-color: var(--border-glass);
 }
 
@@ -515,21 +517,21 @@ html[data-theme="dark"] .tiktok-user {
 }
 
 html[data-theme="dark"] .value-row {
-  background: rgba(30, 27, 44, 0.55);
+  background: rgba(38, 31, 24, 0.55);
   border-color: var(--border-glass);
 }
 
 html[data-theme="dark"] .value-row:hover {
-  background: rgba(35, 32, 52, 0.80);
+  background: rgba(45, 37, 28, 0.80);
 }
 
 html[data-theme="dark"] .doc-link {
-  background: rgba(30, 27, 44, 0.65);
+  background: rgba(38, 31, 24, 0.65);
   border-color: var(--border-glass);
 }
 
 html[data-theme="dark"] .doc-link:hover {
-  background: rgba(35, 32, 52, 0.90);
+  background: rgba(45, 37, 28, 0.90);
 }
 
 html[data-theme="dark"] .origin-lead,
@@ -541,12 +543,12 @@ html[data-theme="dark"] .origin-text-col p {
    UPDATES PAGE
    ───────────────────────────────────── */
 html[data-theme="dark"] .entry-body {
-  background: rgba(30, 27, 44, 0.65);
+  background: rgba(38, 31, 24, 0.65);
   border-color: var(--border-glass);
 }
 
 html[data-theme="dark"] .entry-body:hover {
-  background: rgba(35, 32, 52, 0.88);
+  background: rgba(45, 37, 28, 0.88);
 }
 
 html[data-theme="dark"] .entry-title {
@@ -558,12 +560,12 @@ html[data-theme="dark"] .entry-lead {
 }
 
 html[data-theme="dark"] .entry-detail {
-  background: rgba(30, 27, 44, 0.55);
+  background: rgba(38, 31, 24, 0.55);
   border-color: var(--border-glass);
 }
 
 html[data-theme="dark"] .entry-detail[open] {
-  background: rgba(35, 32, 52, 0.80);
+  background: rgba(45, 37, 28, 0.80);
 }
 
 html[data-theme="dark"] .entry-detail summary {
@@ -588,7 +590,7 @@ html[data-theme="dark"] .entry-dot {
    PROFILE PAGE
    ───────────────────────────────────── */
 html[data-theme="dark"] .profile-card {
-  background: rgba(30, 27, 44, 0.72) !important;
+  background: rgba(38, 31, 24, 0.72) !important;
   border-color: rgba(214, 162, 115, 0.25) !important;
   box-shadow:
     0 0 32px rgba(214, 162, 115, 0.18),
@@ -616,7 +618,7 @@ html[data-theme="dark"] .btn-edit:hover {
 }
 
 html[data-theme="dark"] .stat-block {
-  background: rgba(30, 27, 44, 0.65) !important;
+  background: rgba(38, 31, 24, 0.65) !important;
   border-color: var(--border-glass) !important;
 }
 
@@ -665,7 +667,7 @@ html[data-theme="dark"] .action-card--peach:hover {
 
 /* Generic fallback (cards without a color variant) */
 html[data-theme="dark"] .action-card:not([class*="action-card--"]) {
-  background: rgba(30, 27, 44, 0.65) !important;
+  background: rgba(38, 31, 24, 0.65) !important;
 }
 
 html[data-theme="dark"] .action-title {
@@ -716,7 +718,7 @@ html[data-theme="dark"] .actions-label {
    EDIT PROFILE PAGE
    ───────────────────────────────────── */
 html[data-theme="dark"] .edit-card {
-  background: rgba(30, 27, 44, 0.72) !important;
+  background: rgba(38, 31, 24, 0.72) !important;
   border-color: var(--border-glass) !important;
 }
 
@@ -808,7 +810,7 @@ html[data-theme="dark"] .post-body p {
 }
 
 html[data-theme="dark"] .comment-card {
-  background: rgba(30, 27, 44, 0.65) !important;
+  background: rgba(38, 31, 24, 0.65) !important;
   border-color: var(--border-glass) !important;
 }
 
@@ -843,7 +845,7 @@ html[data-theme="dark"] .heart-btn {
 
 /* post-screen.css hardcodes compose-card background */
 html[data-theme="dark"] .compose-card {
-  background: rgba(30, 27, 44, 0.72) !important;
+  background: rgba(38, 31, 24, 0.72) !important;
   border-color: var(--border-glass) !important;
 }
 
@@ -866,7 +868,7 @@ html[data-theme="dark"] .auth-card,
 html[data-theme="dark"] .login-card,
 html[data-theme="dark"] .register-card,
 html[data-theme="dark"] .form-card {
-  background: rgba(30, 27, 44, 0.80) !important;
+  background: rgba(38, 31, 24, 0.80) !important;
   border-color: var(--border-glass) !important;
 }
 
@@ -889,7 +891,7 @@ html[data-theme="dark"] textarea::placeholder {
    CREATE POST PAGE
    ───────────────────────────────────── */
 html[data-theme="dark"] .card {
-  background: rgba(30, 27, 44, 0.72) !important;
+  background: rgba(38, 31, 24, 0.72) !important;
   border-color: var(--border-glass) !important;
 }
 
@@ -898,7 +900,7 @@ html[data-theme="dark"] .card:focus-within {
 }
 
 html[data-theme="dark"] .lang-strip {
-  background: rgba(30, 27, 44, 0.65) !important;
+  background: rgba(38, 31, 24, 0.65) !important;
   border-color: var(--border-glass) !important;
 }
 
@@ -914,12 +916,12 @@ html[data-theme="dark"] .content-area::placeholder {
 }
 
 html[data-theme="dark"] .mode-card {
-  background: rgba(30, 27, 44, 0.65) !important;
+  background: rgba(38, 31, 24, 0.65) !important;
   border-color: var(--border-glass) !important;
 }
 
 html[data-theme="dark"] .mode-card:hover {
-  background: rgba(35, 32, 52, 0.90) !important;
+  background: rgba(45, 37, 28, 0.90) !important;
 }
 
 html[data-theme="dark"] .mode-card.is-selected {
@@ -931,7 +933,7 @@ html[data-theme="dark"] .field-label {
 }
 
 html[data-theme="dark"] .media-upload-area {
-  background: rgba(30, 27, 44, 0.55) !important;
+  background: rgba(38, 31, 24, 0.55) !important;
   border-color: var(--border-subtle) !important;
 }
 
@@ -942,7 +944,7 @@ html[data-theme="dark"] .btn-cancel {
 }
 
 html[data-theme="dark"] .rich-editor .ql-toolbar.ql-snow {
-  background: rgba(30, 27, 44, 0.80) !important;
+  background: rgba(38, 31, 24, 0.80) !important;
   border-color: var(--border-subtle) !important;
 }
 
@@ -979,7 +981,7 @@ html[data-theme="dark"] .mod-ban {
    AI CHAT PAGE
    ───────────────────────────────────── */
 html[data-theme="dark"] .chat-bubble--ai {
-  background: rgba(30, 27, 44, 0.80) !important;
+  background: rgba(38, 31, 24, 0.80) !important;
   border-color: var(--border-glass) !important;
   color: var(--text-dark);
 }
@@ -1446,12 +1448,6 @@ html[data-theme="dark"] .cp-tips {
   border-color: var(--border-glass) !important;
   color: var(--text-dark) !important;
 }
-html[data-theme="dark"] .cp-widget:hover,
-html[data-theme="dark"] .cp-widget--ai:hover {
-  border-color: var(--line) !important;
-  background: var(--surface-card) !important;
-}
-
 /* Crisis variant — same red wash as the main-feed .widget.support. */
 html[data-theme="dark"] .cp-widget--crisis {
   background: linear-gradient(
@@ -1462,14 +1458,6 @@ html[data-theme="dark"] .cp-widget--crisis {
   border-color: rgba(214, 83, 60, 0.45) !important;
   box-shadow: 0 4px 18px -6px rgba(214, 83, 60, 0.30) !important;
   color: var(--text-dark) !important;
-}
-html[data-theme="dark"] .cp-widget--crisis:hover {
-  background: linear-gradient(
-    180deg,
-    rgba(214, 83, 60, 0.22),
-    rgba(214, 83, 60, 0.10)
-  ), var(--surface-card) !important;
-  border-color: rgba(214, 83, 60, 0.55) !important;
 }
 html[data-theme="dark"] .cp-widget-eyebrow {
   color: var(--text-light) !important;
@@ -1507,9 +1495,10 @@ html[data-theme="dark"] .cp-widget--ai .cp-widget-link {
   color: var(--charcoal) !important;
 }
 html[data-theme="dark"] .cp-widget--ai .cp-widget-link:hover {
-  background: rgba(255, 240, 220, 0.06) !important;
-  border-color: var(--accent-2) !important;
-  color: var(--accent-2) !important;
+  background: #6d8268 !important;
+  border-color: #6d8268 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px -3px rgba(109, 130, 104, 0.40) !important;
 }
 
 /* Generic widget bottom-link (read full guidelines / sharing tips footer) */
@@ -2223,15 +2212,17 @@ html[data-theme="dark"] .chat-sidebar {
   border-color: var(--border-glass) !important;
 }
 html[data-theme="dark"] .new-chat-btn {
-  background: var(--surface-card) !important;
-  color: var(--charcoal) !important;
-  border: 1px solid var(--border-glass) !important;
-}
-html[data-theme="dark"] .new-chat-btn:hover {
   background: var(--accent-2) !important;
   color: #fff !important;
-  border-color: var(--accent-2) !important;
+  border: 1px solid var(--accent-2) !important;
+  box-shadow: 0 4px 14px -4px rgba(214, 83, 60, 0.45) !important;
 }
+html[data-theme="dark"] .new-chat-btn:hover {
+  background: #b8462f !important;
+  border-color: #b8462f !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] .new-chat-btn svg { color: #fff !important; }
 html[data-theme="dark"] .sidebar-search input {
   background: var(--surface-input) !important;
   border-color: var(--border-subtle) !important;
