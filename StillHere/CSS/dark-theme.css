@@ -134,17 +134,25 @@ html[data-theme="dark"] .mmenu-item:hover {
   color: var(--charcoal);
 }
 
-/* Login / Sign out — neutral, matches the other menu items */
-html[data-theme="dark"] .mmenu-item--login,
-html[data-theme="dark"] .mmenu-item--login:not([href]) {
+/* "Login" (has href) — neutral, matches other menu items */
+html[data-theme="dark"] .mmenu-item--login {
   color: var(--text-dark) !important;
   background: rgba(255, 240, 220, 0.05) !important;
 }
-
-html[data-theme="dark"] .mmenu-item--login:hover,
-html[data-theme="dark"] .mmenu-item--login:not([href]):hover {
+html[data-theme="dark"] .mmenu-item--login:hover {
   background: rgba(255, 240, 220, 0.10) !important;
   color: var(--charcoal) !important;
+}
+
+/* Signed-in "Sign out" (no href) — clearly red so it reads as a
+   destructive action even in dark mode. */
+html[data-theme="dark"] .mmenu-item--login:not([href]) {
+  color: #ff6f5b !important;
+  background: rgba(214, 83, 60, 0.12) !important;
+}
+html[data-theme="dark"] .mmenu-item--login:not([href]):hover {
+  background: var(--accent-2) !important;
+  color: #fff !important;
 }
 
 html[data-theme="dark"] .mmenu-divider {
@@ -1706,8 +1714,8 @@ html[data-theme="dark"] .widget.support.ai .widget-subtitle {
    ══════════════════════════════════════════════════════ */
 html[data-theme="dark"] .pg-doodle {
   mix-blend-mode: screen;
-  opacity: 0.14;
-  filter: brightness(1.4);
+  opacity: 0.42;
+  filter: invert(1) brightness(1.05);
 }
 
 /* ══════════════════════════════════════════════════════

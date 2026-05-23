@@ -72,11 +72,14 @@
     var loginItem = document.querySelector('.mmenu-item--login');
     if (loginItem && user && !loginItem.dataset.shAuthSwapped) {
       loginItem.dataset.shAuthSwapped = '1';
+      var signoutLabel = (window.SH_I18N && window.SH_I18N.t)
+        ? window.SH_I18N.t('menu.signout')
+        : 'Sign out';
       loginItem.innerHTML =
         '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
         '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
         'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
-        'Sign out';
+        '<span data-i18n="menu.signout">' + signoutLabel + '</span>';
       loginItem.removeAttribute('href');
       loginItem.style.cursor = 'pointer';
       loginItem.addEventListener('click', async function (e) {

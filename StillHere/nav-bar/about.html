@@ -129,6 +129,8 @@
       position: relative;
     }
     .ab-hero-card::before {
+      /* Top-center tape that protrudes slightly above the card —
+         same pattern as the Contacts "we read every message" card. */
       content: "";
       position: absolute;
       top: -10px; left: 50%;
@@ -808,19 +810,19 @@
     <div class="nav">
       <a href="about.html" class="nav-link nav-link--stack" aria-current="page">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>
-        <span>about</span>
+        <span data-i18n="nav.about">about</span>
       </a>
       <a href="contacts.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg>
-        <span>contacts</span>
+        <span data-i18n="nav.contacts">contacts</span>
       </a>
       <a href="updates.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/></svg>
-        <span>updates</span>
+        <span data-i18n="nav.updates">updates</span>
       </a>
       <a href="profile.html" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>
-        <span>profile</span>
+        <span data-i18n="nav.profile">profile</span>
       </a>
 
       <div class="main-menu-dropdown">
@@ -828,15 +830,16 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
         </button>
         <ul class="main-menu-panel" role="menu">
-          <li role="none"><a href="../login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>Login</a></li>
+          <li role="none"><a href="../login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg><span data-i18n="menu.login">Login</span></a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="../main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>Community feed</a></li>
-          <li role="none"><a href="../preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg>Preferences</a></li>
-          <li role="none"><a href="../ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>AI support</a></li>
-          <li role="none"><a href="../coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg>Private support</a></li>
+          <li role="none"><a href="../main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg><span data-i18n="menu.feed">Community feed</span></a></li>
+          <li role="none"><a href="../letters.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,40H56A16,16,0,0,0,40,56V216a16,16,0,0,0,16,16h120a8,8,0,0,0,5.66-2.34l40-40A8,8,0,0,0,224,184V56A16,16,0,0,0,216,40ZM56,56H216v120H168a8,8,0,0,0-8,8v32H56Zm120,160V192h27.31Z"/></svg><span data-i18n="menu.letters">Quiet letters</span></a></li>
+          <li role="none"><a href="../preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg><span data-i18n="menu.preferences">Preferences</span></a></li>
+          <li role="none"><a href="../ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg><span data-i18n="menu.ai">AI support</span></a></li>
+          <li role="none"><a href="../coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span data-i18n="menu.private">Private support</span></a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="../coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg>Book a session</a></li>
-          <li role="none"><a href="../statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg>Statistics</a></li>
+          <li role="none"><a href="../coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
+          <li role="none"><a href="../statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg><span data-i18n="menu.statistics">Statistics</span></a></li>
         </ul>
       </div>
     </div>
@@ -848,12 +851,12 @@
     <!-- ─── HERO ─── -->
     <section class="ab-hero">
       <div class="ab-hero-left">
-        <span class="ab-eyebrow"><em>—</em> a quiet space, made on purpose</span>
+        <span class="ab-eyebrow" data-i18n="ab.hero.eyebrow"><em>—</em> a quiet space, made on purpose</span>
         <h1 class="ab-title">
-          about <em>StillHere.</em>
+          <span data-i18n="ab.hero.title">about <em>StillHere.</em></span>
           <img src="../assets/letters/_Special Characters/Asterisk_01.png" class="ab-title-star" alt="" aria-hidden="true">
         </h1>
-        <p class="ab-lede">
+        <p class="ab-lede" data-i18n="ab.hero.lede">
           we built this for the moments when everything feels heavy and you don't know
           where to put it. not a clinic, not a forum — a <em>small, soft place</em> on the
           internet where presence matters more than answers.
@@ -862,9 +865,9 @@
 
       <div class="ab-hero-right">
         <div class="ab-hero-card">
-          <div class="ab-hero-card-eyebrow">— our one-line</div>
-          <div class="ab-hero-card-title">presence, not solutions.</div>
-          <p class="ab-hero-card-text">
+          <div class="ab-hero-card-eyebrow" data-i18n="ab.hero.card.eyebrow">— our one-line</div>
+          <div class="ab-hero-card-title" data-i18n="ab.hero.card.title">presence, not solutions.</div>
+          <p class="ab-hero-card-text" data-i18n="ab.hero.card.text">
             you don't always need to be fixed. sometimes you just need to be
             <strong>heard</strong> — and to know someone, somewhere, gets it.
           </p>
@@ -876,23 +879,23 @@
     <section class="ab-section">
       <div class="ab-section-head">
         <span class="ab-section-eyebrow">— 01</span>
-        <h2 class="ab-section-title">why this exists</h2>
-        <span class="ab-section-hint">the short version</span>
+        <h2 class="ab-section-title" data-i18n="ab.sec.01.title">why this exists</h2>
+        <span class="ab-section-hint" data-i18n="ab.sec.01.hint">the short version</span>
       </div>
 
       <div class="ab-premise">
         <div class="ab-premise-text">
-          <p>
+          <p data-i18n="ab.premise.p1">
             most of the internet is loud. it wants your attention, your reaction, your hot take.
             mental-health spaces aren't always better — they push <strong>productivity</strong>,
             <strong>positivity</strong>, <strong>five-step plans</strong>.
           </p>
-          <p>
+          <p data-i18n="ab.premise.p2">
             sometimes none of that fits. sometimes you just need somewhere
             <em>slower</em>. somewhere a stranger can read what you wrote and not try to
             sell you anything, fix you, or rush you toward "better."
           </p>
-          <p>
+          <p data-i18n="ab.premise.p3">
             so we made one. it's small on purpose. it's anonymous on purpose. and it stays
             free, because the people who need it most can rarely afford one more subscription.
           </p>
@@ -900,10 +903,10 @@
 
         <aside class="ab-premise-quote">
           <span class="ab-premise-quote-mark">"</span>
-          <p class="ab-premise-quote-text">
+          <p class="ab-premise-quote-text" data-i18n="ab.premise.quote">
             you don't have to be okay. <em>you just have to be here.</em>
           </p>
-          <div class="ab-premise-quote-attr">— the only rule</div>
+          <div class="ab-premise-quote-attr" data-i18n="ab.premise.quote.attr">— the only rule</div>
         </aside>
       </div>
     </section>
@@ -911,9 +914,9 @@
     <!-- ─── ORIGIN: TIKTOK STORY ─── -->
     <section class="ab-section">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow">— the origin</span>
-        <h2 class="ab-section-title">it started in a comment section</h2>
-        <span class="ab-section-hint">not a startup idea</span>
+        <span class="ab-section-eyebrow" data-i18n="ab.sec.origin.eyebrow">— the origin</span>
+        <h2 class="ab-section-title" data-i18n="ab.sec.origin.title">it started in a comment section</h2>
+        <span class="ab-section-hint" data-i18n="ab.sec.origin.hint">not a startup idea</span>
       </div>
 
       <div class="ab-origin">
@@ -924,13 +927,13 @@
             <span class="ab-origin-mock-dot"></span>
             <span class="ab-origin-mock-dot"></span>
             <span class="ab-origin-mock-dot"></span>
-            <span class="ab-origin-mock-label">someone else's post — comments</span>
+            <span class="ab-origin-mock-label" data-i18n="ab.mock.label">someone else's post — comments</span>
           </div>
           <div class="ab-origin-mock-video">
             <div class="ab-origin-mock-video-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,64H56a8,8,0,0,1,0-16H216a8,8,0,0,1,0,16Zm8,40a8,8,0,0,0-8-8H56a8,8,0,0,0,0,16H216A8,8,0,0,0,224,104Zm0,48a8,8,0,0,0-8-8H56a8,8,0,0,0,0,16H216A8,8,0,0,0,224,152Zm0,48a8,8,0,0,0-8-8H56a8,8,0,0,0,0,16H216A8,8,0,0,0,224,200Z"/></svg>
             </div>
-            <div class="ab-origin-mock-video-text">
+            <div class="ab-origin-mock-video-text" data-i18n="ab.mock.video">
               a video about pretending you're fine when you're not.<br>
               <span style="font-size:11px;opacity:0.7;">you'd never repost it. everyone you know would see you're not okay.</span>
             </div>
@@ -940,14 +943,14 @@
               <div class="ab-origin-mock-avatar"></div>
               <div>
                 <span class="ab-origin-mock-comment-user">@someone_quiet</span>
-                <p class="ab-origin-mock-comment-text">i don't know why i'm writing this here.<br>i just don't have anywhere else to say it.<br>everyone around me thinks i'm doing fine and i'm too tired to explain that i'm not.<br>i don't want advice. i think i just needed one place where i didn't have to pretend for a minute.</p>
+                <p class="ab-origin-mock-comment-text" data-i18n="ab.mock.c1">i don't know why i'm writing this here.<br>i just don't have anywhere else to say it.<br>everyone around me thinks i'm doing fine and i'm too tired to explain that i'm not.<br>i don't want advice. i think i just needed one place where i didn't have to pretend for a minute.</p>
               </div>
             </div>
             <div class="ab-origin-mock-comment ab-origin-mock-comment--reply">
               <div class="ab-origin-mock-avatar ab-origin-mock-avatar--sm"></div>
               <div>
                 <span class="ab-origin-mock-comment-user">@quiet_reader</span>
-                <p class="ab-origin-mock-comment-text">i read every word.<br>you don't have to be the strong one here.<br>i'm sitting with you for a minute. that's all.</p>
+                <p class="ab-origin-mock-comment-text" data-i18n="ab.mock.c2">i read every word.<br>you don't have to be the strong one here.<br>i'm sitting with you for a minute. that's all.</p>
               </div>
             </div>
           </div>
@@ -955,31 +958,31 @@
 
         <!-- Origin story text -->
         <div class="ab-origin-text">
-          <p>
+          <p data-i18n="ab.origin.p1">
             people kept writing honest things in places never meant for them — comment sections,
             random posts, late-night threads. not because they wanted attention. because they
             needed somewhere to put what they couldn't say out loud.
           </p>
-          <p>
+          <p data-i18n="ab.origin.p2">
             <em>(i noticed it most on TikTok, but it's everywhere.)</em>
           </p>
-          <p>
+          <p data-i18n="ab.origin.p3">
             the pattern was always the same: someone writing the most honest thing they'd said
             in months, sideways, under content that had nothing to do with them — and hoping
             a single stranger would notice.
           </p>
-          <p>
+          <p data-i18n="ab.origin.p4">
             sometimes one did. and the only thing they said back was something like
             <em>"i read every word."</em> — and that was the only place all week the person
             who wrote it felt heard. <strong>someone actually stopped and listened.</strong>
           </p>
-          <p>
+          <p data-i18n="ab.origin.p5">
             <strong>StillHere is that — on purpose.</strong> not buried under a video your friends
             might see. not borrowed from someone else's thread. a quiet feed where you can write
             what you couldn't say out loud, and someone who's been there too can sit with you
             for a minute.
           </p>
-          <div class="ab-origin-pull">
+          <div class="ab-origin-pull" data-i18n="ab.origin.pull">
             you shouldn't have to look <em>strong</em><br>to be allowed to say <em>something true.</em>
           </div>
         </div>
@@ -991,8 +994,8 @@
     <section class="ab-section">
       <div class="ab-section-head">
         <span class="ab-section-eyebrow">— 02</span>
-        <h2 class="ab-section-title">how it works</h2>
-        <span class="ab-section-hint">four small things, no more</span>
+        <h2 class="ab-section-title" data-i18n="ab.sec.02.title">how it works</h2>
+        <span class="ab-section-hint" data-i18n="ab.sec.02.hint">four small things, no more</span>
       </div>
 
       <div class="ab-grid">
@@ -1005,16 +1008,16 @@
               </svg>
             </span>
             <div>
-              <div class="ab-card-label">— feature 01</div>
-              <div class="ab-card-title">community feed</div>
+              <div class="ab-card-label" data-i18n="ab.feat.01.label">— feature 01</div>
+              <div class="ab-card-title" data-i18n="ab.feat.01.title">community feed</div>
             </div>
           </div>
-          <p class="ab-card-desc">
+          <p class="ab-card-desc" data-i18n="ab.feat.01.desc">
             a slow scroll of stories — no likes, no clout. people share what they're carrying;
             others respond gently. tag <strong>"no advice"</strong> if you only want presence.
           </p>
           <a href="../main.html" class="ab-card-link">
-            visit feed
+            <span data-i18n="ab.feat.01.link">visit feed</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
           </a>
         </article>
@@ -1027,17 +1030,17 @@
               </svg>
             </span>
             <div>
-              <div class="ab-card-label">— feature 02</div>
-              <div class="ab-card-title">ai companion</div>
+              <div class="ab-card-label" data-i18n="ab.feat.02.label">— feature 02</div>
+              <div class="ab-card-title" data-i18n="ab.feat.02.title">ai companion</div>
             </div>
           </div>
-          <p class="ab-card-desc">
+          <p class="ab-card-desc" data-i18n="ab.feat.02.desc">
             a quiet companion for the hours when nobody else is around. <strong>no diagnosis,
             no scripts, no pressure</strong> to feel better by the end of the conversation —
             it just stays with you for as long as you want it to.
           </p>
           <a href="../ai-chat.html" class="ab-card-link">
-            open chat
+            <span data-i18n="ab.feat.02.link">open chat</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
           </a>
         </article>
@@ -1050,16 +1053,16 @@
               </svg>
             </span>
             <div>
-              <div class="ab-card-label">— feature 03</div>
-              <div class="ab-card-title">anonymous by default</div>
+              <div class="ab-card-label" data-i18n="ab.feat.03.label">— feature 03</div>
+              <div class="ab-card-title" data-i18n="ab.feat.03.title">anonymous by default</div>
             </div>
           </div>
-          <p class="ab-card-desc">
+          <p class="ab-card-desc" data-i18n="ab.feat.03.desc">
             no real name, no photo, no profile to maintain. you can post fully anonymously,
             or pick any name you want. <strong>nothing is sold to anyone, ever.</strong>
           </p>
           <a href="../docs/html/privacy-policy.html" class="ab-card-link">
-            read privacy
+            <span data-i18n="ab.feat.03.link">read privacy</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
           </a>
         </article>
@@ -1094,30 +1097,30 @@
     <section class="ab-section">
       <div class="ab-section-head">
         <span class="ab-section-eyebrow">— 03</span>
-        <h2 class="ab-section-title">what we believe</h2>
-        <span class="ab-section-hint">our four quiet rules</span>
+        <h2 class="ab-section-title" data-i18n="ab.sec.03.title">what we believe</h2>
+        <span class="ab-section-hint" data-i18n="ab.sec.03.hint">our four quiet rules</span>
       </div>
 
       <div class="ab-principles">
         <div class="ab-principle">
           <div class="ab-principle-num">01</div>
-          <div class="ab-principle-title">presence over fixing</div>
-          <div class="ab-principle-desc">listening is the work. solutions are optional.</div>
+          <div class="ab-principle-title" data-i18n="ab.princ.01.title">presence over fixing</div>
+          <div class="ab-principle-desc" data-i18n="ab.princ.01.desc">listening is the work. solutions are optional.</div>
         </div>
         <div class="ab-principle">
           <div class="ab-principle-num">02</div>
-          <div class="ab-principle-title">slow over viral</div>
-          <div class="ab-principle-desc">no streaks, no notifications begging for return.</div>
+          <div class="ab-principle-title" data-i18n="ab.princ.02.title">slow over viral</div>
+          <div class="ab-principle-desc" data-i18n="ab.princ.02.desc">no streaks, no notifications begging for return.</div>
         </div>
         <div class="ab-principle">
           <div class="ab-principle-num">03</div>
-          <div class="ab-principle-title">private over public</div>
-          <div class="ab-principle-desc">your story is yours. we don't sell, profile, or train on it.</div>
+          <div class="ab-principle-title" data-i18n="ab.princ.03.title">private over public</div>
+          <div class="ab-principle-desc" data-i18n="ab.princ.03.desc">your story is yours. we don't sell, profile, or train on it.</div>
         </div>
         <div class="ab-principle">
           <div class="ab-principle-num">04</div>
-          <div class="ab-principle-title">human over algorithm</div>
-          <div class="ab-principle-desc">the feed is chronological. no engagement scoring.</div>
+          <div class="ab-principle-title" data-i18n="ab.princ.04.title">human over algorithm</div>
+          <div class="ab-principle-desc" data-i18n="ab.princ.04.desc">the feed is chronological. no engagement scoring.</div>
         </div>
       </div>
     </section>
@@ -1126,13 +1129,13 @@
     <section class="ab-section">
       <div class="ab-section-head">
         <span class="ab-section-eyebrow">— 04</span>
-        <h2 class="ab-section-title">what we're not</h2>
-        <span class="ab-section-hint">honest about the edges</span>
+        <h2 class="ab-section-title" data-i18n="ab.sec.04.title">what we're not</h2>
+        <span class="ab-section-hint" data-i18n="ab.sec.04.hint">honest about the edges</span>
       </div>
 
       <div class="ab-not">
-        <h3 class="ab-not-title">we're <em>not</em> a replacement for —</h3>
-        <p class="ab-not-sub">
+        <h3 class="ab-not-title" data-i18n="ab.not.title">we're <em>not</em> a replacement for —</h3>
+        <p class="ab-not-sub" data-i18n="ab.not.sub">
           StillHere is a soft place, but it has limits. please know them, and
           please don't carry serious things alone.
         </p>
@@ -1142,25 +1145,25 @@
             <span class="ab-not-item-mark">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
             </span>
-            <span><strong>a therapist or psychiatrist.</strong> we can't diagnose, prescribe, or treat clinical conditions.</span>
+            <span data-i18n="ab.not.01"><strong>a therapist or psychiatrist.</strong> we can't diagnose, prescribe, or treat clinical conditions.</span>
           </div>
           <div class="ab-not-item">
             <span class="ab-not-item-mark">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
             </span>
-            <span><strong>a crisis line.</strong> if you're unsafe right now, please call a trained counselor — they're 24/7 and free.</span>
+            <span data-i18n="ab.not.02"><strong>a crisis line.</strong> if you're unsafe right now, please call a trained counselor — they're 24/7 and free.</span>
           </div>
           <div class="ab-not-item">
             <span class="ab-not-item-mark">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
             </span>
-            <span><strong>a debate forum.</strong> unkindness and "well actually" replies get removed.</span>
+            <span data-i18n="ab.not.03"><strong>a debate forum.</strong> unkindness and "well actually" replies get removed.</span>
           </div>
           <div class="ab-not-item">
             <span class="ab-not-item-mark">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
             </span>
-            <span><strong>a place for promotion.</strong> no products, no programs, no "DM me my e-book."</span>
+            <span data-i18n="ab.not.04"><strong>a place for promotion.</strong> no products, no programs, no "DM me my e-book."</span>
           </div>
         </div>
       </div>
@@ -1170,8 +1173,8 @@
     <section class="ab-section">
       <div class="ab-section-head">
         <span class="ab-section-eyebrow">— 05</span>
-        <h2 class="ab-section-title">who's behind this</h2>
-        <span class="ab-section-hint">just one person</span>
+        <h2 class="ab-section-title" data-i18n="ab.sec.05.title">who's behind this</h2>
+        <span class="ab-section-hint" data-i18n="ab.sec.05.hint">just one person</span>
       </div>
 
       <div class="ab-story">
@@ -1189,25 +1192,25 @@
         </div>
 
         <div class="ab-story-text">
-          <div class="ab-story-eyebrow">— the person</div>
-          <h3 class="ab-story-heading">one person, <em>working quietly.</em></h3>
+          <div class="ab-story-eyebrow" data-i18n="ab.story.eyebrow">— the person</div>
+          <h3 class="ab-story-heading" data-i18n="ab.story.heading">one person, <em>working quietly.</em></h3>
           <div class="ab-story-body">
-            <p>
+            <p data-i18n="ab.story.p1">
               StillHere is a <strong>solo project</strong>. one developer, building and
               maintaining the whole thing — the site, the database, the moderation, the
               writing on these pages, all of it. no team, no investors, no growth deck.
             </p>
-            <p>
+            <p data-i18n="ab.story.p2">
               the reason it exists is personal. burnout, grief, the kind of nights where
               the internet only made it worse. nothing felt right — so this place is an
               attempt to make one that <strong>doesn't shout</strong>.
             </p>
-            <p>
+            <p data-i18n="ab.story.p3">
               everything is open-source. no ads, no data sales, no quarterly numbers to
               hit. running costs come out of one person's pocket; if it ever grows, it'll
               grow slowly and only as much as it needs to.
             </p>
-            <p>
+            <p data-i18n="ab.story.p4">
               if you want to help — share your story, send a kind reply, point out a bug,
               or just exist here quietly — you already are.
             </p>
@@ -1216,31 +1219,54 @@
       </div>
     </section>
 
-    <!-- ─── BY THE NUMBERS ─── -->
+    <section class="ab-section ab-section--inspire" style="margin-top:64px; padding:32px 0 0; border-top:1px dashed var(--line-soft);">
+      <div class="ab-section-head">
+        <span class="ab-section-eyebrow">— 06</span>
+        <h2 class="ab-section-title" data-i18n="ab.sec.06.title">inspirations &amp; honest credit</h2>
+        <span class="ab-section-hint" data-i18n="ab.sec.06.hint">we didn't invent quiet</span>
+      </div>
+      <p class="ab-section-lede" style="font-size:15px; color:var(--ink-mid); line-height:1.7; max-width:720px;" data-i18n="ab.insp.p1">
+        StillHere stands on the shoulders of projects that figured out something tender
+        long before we did. <em>quiet letters</em>, our wall of unsent messages, is openly
+        inspired by <a href="https://theunsentproject.com" target="_blank" rel="noopener" style="color:var(--accent-2); border-bottom:1px dashed rgba(214,83,60,0.45);"><strong>The Unsent Project</strong></a>
+        by <em>Rora Blue</em> — a years-running collection of messages to first loves,
+        sorted by colour. it's a quiet, generous piece of internet, and the format
+        clicked into what we were already building.
+      </p>
+      <p class="ab-section-lede" style="font-size:14.5px; color:var(--ink-mid); line-height:1.7; max-width:720px; margin-top:16px;" data-i18n="ab.insp.p2">
+        we kept what mattered — no replies, just colour and short honesty — and shaped
+        it toward this place's purpose: not only first loves, but the parent who can't
+        hear it anymore, the version of you that didn't make it through, the dog you
+        forgot to thank. if you've never been there, go. it's worth your evening.
+      </p>
+    </section>
 
 
     <!-- ─── CLOSING ─── -->
     <section class="ab-closing">
-      <p class="ab-closing-text">
+      <p class="ab-closing-text" data-i18n="ab.closing.text">
         wherever you are tonight — <em>we're glad you found this.</em>
       </p>
-      <p class="ab-closing-sub">— still here, always</p>
+      <p class="ab-closing-sub" data-i18n="ab.closing.sub">— still here, always</p>
 
       <div class="ab-closing-actions">
         <a href="../create-post.html" class="ab-cta ab-cta--primary">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/>
           </svg>
-          start sharing
+          <span data-i18n="ab.cta.share">start sharing</span>
         </a>
         <a href="../ai-chat.html" class="ab-cta ab-cta--ghost">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/>
           </svg>
-          talk to ai support
+          <span data-i18n="ab.cta.ai">talk to ai support</span>
         </a>
       </div>
     </section>
+
+    <!-- ─── INSPIRATIONS — open credit to projects we learned from ─── -->
+    
 
   </main>
 
@@ -1387,7 +1413,7 @@
           '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
           '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
           'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
-          'Sign out';
+          (window.SH_I18N ? window.SH_I18N.t('menu.signout') : 'Sign out');
         loginItem.removeAttribute('href');
         loginItem.style.cursor = 'pointer';
         loginItem.addEventListener('click', async function (e) {
