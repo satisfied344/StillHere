@@ -3,6 +3,10 @@
 <head>
   <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -15,17 +19,15 @@
 <script defer src="/_vercel/insights/script.js"></script>
     <title>StillHere</title>
     <link rel="stylesheet" href="CSS/startup-screen.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-    <script src="JS/supabase-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
-    <script src="JS/session.js"></script>
+    <script src="JS/session.js" defer></script>
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <link rel="stylesheet" href="CSS/mobile.css?v=1779483937">
-  <script src="JS/theme.js"></script>
+  <script src="JS/theme.js" defer></script>
 
   <style>
     /* ── Floating theme toggle (sun / moon) ── */
@@ -296,18 +298,18 @@
 
     <section class="card-section" id="why-section">
         <!-- Soft fog at corners — ties this section into the page rhythm -->
-        <img src="assets/fog/77.jpg" class="section-fog section-fog--tl" alt="" aria-hidden="true">
-        <img src="assets/fog/152.jpg" class="section-fog section-fog--br" alt="" aria-hidden="true">
+        <img src="assets/fog/77.jpg" class="section-fog section-fog--tl" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/fog/152.jpg" class="section-fog section-fog--br" alt="" aria-hidden="true" loading="lazy">
 
         <!-- Subtle corner accents — light, never heavy black scribbles -->
-        <img src="assets/doodles2/06_double_heart.png" class="d-img section-doodle section-doodle--mr d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true">
-        <img src="assets/doodles2/01_star.png" class="d-img section-doodle section-doodle--ml d-mouse" data-px="0.020" alt="" aria-hidden="true">
-        <img src="assets/doodles2/02_asterisk_flower.png" class="d-img section-doodle section-doodle--bl d-bob d-mouse" data-px="0.016" alt="" aria-hidden="true">
+        <img src="assets/doodles2/06_double_heart.png" class="d-img section-doodle section-doodle--mr d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/doodles2/01_star.png" class="d-img section-doodle section-doodle--ml d-mouse" data-px="0.020" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/doodles2/02_asterisk_flower.png" class="d-img section-doodle section-doodle--bl d-bob d-mouse" data-px="0.016" alt="" aria-hidden="true" loading="lazy">
 
         <!-- BIG writing-hand filling the persistent "empty right side" next to title.
              Animated ink scribble flows toward the heading. -->
         <div class="section-hand-wrap" aria-hidden="true">
-            <img src="assets/emotions/hand-with-pen.png" class="d-img section-hand">
+            <img src="assets/emotions/hand-with-pen.png" class="d-img section-hand" loading="lazy">
             <svg class="section-hand-ink" viewBox="0 0 220 90" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
                 <path d="M8 62 Q 36 36, 70 48 T 140 44 T 212 52"/>
                 <path d="M18 78 Q 48 62, 86 70 T 160 66"/>
@@ -315,29 +317,29 @@
         </div>
 
         <!-- Side-of-grid accents — asterisks + abstract doodles, all quiet -->
-        <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img grid-side grid-side--l-top d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true">
-        <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img grid-side grid-side--l-mid d-mouse" data-px="0.020" alt="" aria-hidden="true">
-        <img src="assets/doodles2/06_double_heart.png" class="d-img grid-side grid-side--l-bot d-mouse" data-px="0.012" alt="" aria-hidden="true">
-        <img src="assets/letters/_Special Characters/Asterisk_02.png" class="d-img grid-side grid-side--r-top d-mouse" data-px="0.016" alt="" aria-hidden="true">
-       
-        <img src="assets/doodles/wave-swirl.png" class="d-img grid-side grid-side--r-bot d-mouse" data-px="0.014" alt="" aria-hidden="true">
+        <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img grid-side grid-side--l-top d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img grid-side grid-side--l-mid d-mouse" data-px="0.020" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/doodles2/06_double_heart.png" class="d-img grid-side grid-side--l-bot d-mouse" data-px="0.012" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/letters/_Special Characters/Asterisk_02.png" class="d-img grid-side grid-side--r-top d-mouse" data-px="0.016" alt="" aria-hidden="true" loading="lazy">
+
+        <img src="assets/doodles/wave-swirl.png" class="d-img grid-side grid-side--r-bot d-mouse" data-px="0.014" alt="" aria-hidden="true" loading="lazy">
 
         <div class="container">
             <div class="section-head reveal">
                 <span class="section-eyebrow">
-                    <img src="assets/doodles2/02_asterisk_flower.png" class="eyebrow-doodle" alt="" aria-hidden="true">
+                    <img src="assets/doodles2/02_asterisk_flower.png" class="eyebrow-doodle" alt="" aria-hidden="true" loading="lazy">
                     <span data-i18n="idx.why.eyebrow">02 / why stillhere</span>
                 </span>
                 <h2 class="card-section-title" data-i18n="idx.why.title">built for <em>quiet</em>,<br>not for noise.</h2>
 
-                <img src="assets/crayon-textures/045.png" class="d-img section-underline" alt="" aria-hidden="true">
+                <img src="assets/crayon-textures/045.png" class="d-img section-underline" alt="" aria-hidden="true" loading="lazy">
             </div>
 
             <div class="feature-grid">
                 <article class="feature-card reveal-row" style="--rot: -1.2deg;">
-                    <img src="assets/skotch/03.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <img src="assets/skotch/03.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
                     <div class="card-emotion">
-                        <img src="assets/cats_named/sneaking.png" class="d-img" alt="" aria-hidden="true">
+                        <img src="assets/cats_named/sneaking.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
                     </div>
                     <span class="feature-num" data-i18n="idx.c1.num">01 — privacy</span>
                     <h3 data-i18n="idx.c1.title">anonymous &amp; safe</h3>
@@ -345,9 +347,9 @@
                 </article>
 
                 <article class="feature-card reveal-row" style="--rot: 1.4deg;">
-                    <img src="assets/skotch/11.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <img src="assets/skotch/11.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
                     <div class="card-emotion">
-                        <img src="assets/cats_named/calm.png" class="d-img" alt="" aria-hidden="true">
+                        <img src="assets/cats_named/calm.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
                     </div>
                     <span class="feature-num" data-i18n="idx.c2.num">02 — care</span>
                     <h3 data-i18n="idx.c2.title">no-advice mode</h3>
@@ -355,9 +357,9 @@
                 </article>
 
                 <article class="feature-card reveal-row" style="--rot: -0.8deg;">
-                    <img src="assets/skotch/19.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <img src="assets/skotch/19.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
                     <div class="card-emotion">
-                        <img src="assets/cats_named/happy.png" class="d-img" alt="" aria-hidden="true">
+                        <img src="assets/cats_named/happy.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
                     </div>
                     <span class="feature-num" data-i18n="idx.c3.num">03 — together</span>
                     <h3 data-i18n="idx.c3.title">a quiet community</h3>
@@ -365,9 +367,9 @@
                 </article>
 
                 <article class="feature-card reveal-row" style="--rot: 1.0deg;">
-                    <img src="assets/skotch/24.png" class="skotch card-skotch" alt="" aria-hidden="true">
+                    <img src="assets/skotch/24.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
                     <div class="card-emotion">
-                        <img src="assets/cats_named/surprised.png" class="d-img" alt="" aria-hidden="true">
+                        <img src="assets/cats_named/surprised.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
                     </div>
                     <span class="feature-num" data-i18n="idx.c4.num">04 — trust</span>
                     <h3 data-i18n="idx.c4.title">moderated, with care</h3>
@@ -375,17 +377,17 @@
                 </article>
 
                 <article class="feature-card feature-card--wide reveal-row" style="--rot: -0.6deg;">
-                    <img src="assets/skotch/06.png" class="skotch card-skotch card-skotch--l" alt="" aria-hidden="true">
-                    <img src="assets/skotch/27.png" class="skotch card-skotch card-skotch--r" alt="" aria-hidden="true">
+                    <img src="assets/skotch/06.png" class="skotch card-skotch card-skotch--l" alt="" aria-hidden="true" loading="lazy">
+                    <img src="assets/skotch/27.png" class="skotch card-skotch card-skotch--r" alt="" aria-hidden="true" loading="lazy">
                     <div class="card-emotion">
-                        <img src="assets/cats_named/confused.png" class="d-img" alt="" aria-hidden="true">
+                        <img src="assets/cats_named/confused.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
                     </div>
                     <span class="feature-num" data-i18n="idx.c5.num">05 — human</span>
                     <h3 data-i18n="idx.c5.title">real people, real words</h3>
                     <p data-i18n="idx.c5.desc">no bots, no performance — mindful, honest conversation, in any language.</p>
-                    <img src="assets/doodles2/08_wavy_line.png" class="d-img card-extra card-extra--1" alt="" aria-hidden="true">
-                    <img src="assets/doodles2/01_star.png" class="d-img card-extra card-extra--2" alt="" aria-hidden="true">
-                    <img src="assets/doodles/wave-mmmm.png" class="d-img card-extra card-extra--3" alt="" aria-hidden="true">
+                    <img src="assets/doodles2/08_wavy_line.png" class="d-img card-extra card-extra--1" alt="" aria-hidden="true" loading="lazy">
+                    <img src="assets/doodles2/01_star.png" class="d-img card-extra card-extra--2" alt="" aria-hidden="true" loading="lazy">
+                    <img src="assets/doodles/wave-mmmm.png" class="d-img card-extra card-extra--3" alt="" aria-hidden="true" loading="lazy">
                 </article>
             </div>
         </div>
@@ -394,17 +396,17 @@
     <!-- ── Quote band — framed by giant quotation marks + ambient doodles ── -->
     <section class="quote-band reveal">
         <!-- Hand-drawn quotation marks — quiet, not pretentious -->
-        <img src="assets/letters/_Special Characters/Quotation_Mark_06.png" class="quote-mark quote-mark--open" alt="" aria-hidden="true">
-        <img src="assets/letters/_Special Characters/Quotation_Mark_06.png" class="quote-mark quote-mark--close" alt="" aria-hidden="true">
+        <img src="assets/letters/_Special Characters/Quotation_Mark_06.png" class="quote-mark quote-mark--open" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/letters/_Special Characters/Quotation_Mark_06.png" class="quote-mark quote-mark--close" alt="" aria-hidden="true" loading="lazy">
 
         <!-- Floating ambient companions — asterisks + abstract doodles tie the note in -->
-        <img src="assets/letters/_Special Characters/Asterisk_02.png" class="d-img quote-ambient quote-ambient--1 d-mouse" data-px="0.022" alt="" aria-hidden="true">
-        <img src="assets/doodles2/08_wavy_line.png" class="d-img quote-ambient quote-ambient--2 d-mouse" data-px="0.018" alt="" aria-hidden="true">
-        
+        <img src="assets/letters/_Special Characters/Asterisk_02.png" class="d-img quote-ambient quote-ambient--1 d-mouse" data-px="0.022" alt="" aria-hidden="true" loading="lazy">
+        <img src="assets/doodles2/08_wavy_line.png" class="d-img quote-ambient quote-ambient--2 d-mouse" data-px="0.018" alt="" aria-hidden="true" loading="lazy">
+
 
         <div class="quote-note">
-            <img src="assets/skotch/14.png" class="skotch skotch-tl" alt="" aria-hidden="true">
-            <img src="assets/skotch/22.png" class="skotch skotch-tr" alt="" aria-hidden="true">
+            <img src="assets/skotch/14.png" class="skotch skotch-tl" alt="" aria-hidden="true" loading="lazy">
+            <img src="assets/skotch/22.png" class="skotch skotch-tr" alt="" aria-hidden="true" loading="lazy">
 
             <p class="quote-text" data-i18n="idx.quote.text">
                 "you don't always need to be <em>fixed.</em><br>
@@ -412,7 +414,7 @@
             </p>
             <span class="quote-cite" data-i18n="idx.quote.cite">— a stillhere note</span>
 
-            <img src="assets/doodles2/02_asterisk_flower.png" class="d-img quote-flower d-bob" alt="" aria-hidden="true">
+            <img src="assets/doodles2/02_asterisk_flower.png" class="d-img quote-flower d-bob" alt="" aria-hidden="true" loading="lazy">
         </div>
     </section>
 
@@ -420,7 +422,7 @@
         <div class="container">
             <div class="join-meta reveal">
                 <span class="section-eyebrow">
-                    <img src="assets/doodles2/01_star.png" class="eyebrow-doodle" alt="" aria-hidden="true">
+                    <img src="assets/doodles2/01_star.png" class="eyebrow-doodle" alt="" aria-hidden="true" loading="lazy">
                     <span data-i18n="idx.join.eyebrow">03 / invitation</span>
                 </span>
             </div>
@@ -428,9 +430,9 @@
             <div class="join-content">
                 <!-- "not alone" note — pinned to FAR top-right corner of section, well above title -->
                 <div class="paper-note paper-note--join d-mouse" data-px="0.014" aria-hidden="true">
-                    <img src="assets/paper-structions-torn-parts/27.png" class="paper-note-bg" alt="">
+                    <img src="assets/paper-structions-torn-parts/27.png" class="paper-note-bg" alt="" loading="lazy">
                     <span class="paper-note-text" data-i18n="idx.join.note">not&nbsp;alone</span>
-                    <img src="assets/skotch/17.png" class="skotch paper-note-skotch" alt="">
+                    <img src="assets/skotch/17.png" class="skotch paper-note-skotch" alt="" loading="lazy">
                 </div>
 
                 <h2 class="join-title reveal" data-i18n="idx.join.title">you don't have<br>to carry it <em>alone</em>.</h2>
@@ -450,10 +452,10 @@
                 </div>
 
                 <!-- Decorative accents — asterisks + soft wave, placed in true dead zones -->
-                <img src="assets/doodles2/08_wavy_line.png" class="d-img doodle-join-wave d-mouse" data-px="0.012" alt="" aria-hidden="true">
-                <img src="assets/letters/_Special Characters/Asterisk_03.png" class="d-img doodle-join-flower d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true">
-                <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img doodle-join-star2 d-mouse" data-px="0.018" alt="" aria-hidden="true">
-                <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img doodle-join-margin-mark d-mouse" data-px="0.014" alt="" aria-hidden="true">
+                <img src="assets/doodles2/08_wavy_line.png" class="d-img doodle-join-wave d-mouse" data-px="0.012" alt="" aria-hidden="true" loading="lazy">
+                <img src="assets/letters/_Special Characters/Asterisk_03.png" class="d-img doodle-join-flower d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true" loading="lazy">
+                <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img doodle-join-star2 d-mouse" data-px="0.018" alt="" aria-hidden="true" loading="lazy">
+                <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img doodle-join-margin-mark d-mouse" data-px="0.014" alt="" aria-hidden="true" loading="lazy">
             </div>
         </div>
     </section>
@@ -545,21 +547,7 @@
     </svg>
   </button>
 
-  <script>
-    window.SH_SESSION.whenReady(function (user) {
-      if (!user) return;
-      /* already pointing at create-post.html — nothing to swap */
-      var loginLink = document.getElementById('navLoginLink');
-      if (loginLink) {
-        loginLink.href = 'nav-bar/profile.html';
-        loginLink.innerHTML =
-          '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
-          '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>' +
-          '</svg>' +
-          '<span>' + (user.displayName || user.username) + '</span>';
-      }
-    });
-  </script>
+  <script src="JS/index-init.js" defer></script>
 
   <!-- Scroll reveal + parallax + global mouse-tracking -->
   <script>
@@ -735,26 +723,6 @@
     })();
   </script>
 
-  <!-- Theme FAB logic -->
-  <script>
-    (function () {
-      var fab = document.getElementById('themeFab');
-      if (!fab || !window.SH_THEME) return;
 
-      fab.addEventListener('click', function () {
-        window.SH_THEME.toggle();
-
-        /* Brief spin-and-pop on click */
-        fab.style.transition = 'none';
-        fab.style.transform  = 'scale(0.88) rotate(-15deg)';
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            fab.style.transition = 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            fab.style.transform  = 'scale(1) rotate(0deg)';
-          });
-        });
-      });
-    })();
-  </script>
 </body>
 </html>

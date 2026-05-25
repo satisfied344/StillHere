@@ -734,18 +734,18 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex; align-items: center; gap: 4px;
   padding: 3px 10px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--ink-soft);
-  background: var(--paper-2);
-  border: 1px solid var(--line-soft);
+  color: #3a2f24;
+  background: rgba(26, 20, 16, 0.06);
+  border: 1px solid rgba(26, 20, 16, 0.18);
   border-radius: 999px;
   text-transform: lowercase;
 }
-.tag-lang { background: var(--paper-3); }
-.tag-topic { background: rgba(214,83,60,0.10); color: var(--accent-2); border-color: rgba(214,83,60,0.18); }
-.tag-no-advice { background: rgba(109,130,104,0.14); color: var(--accent-3); border-color: rgba(109,130,104,0.22); }
-.tag-need-support { background: rgba(200,148,86,0.16); color: #8a5a20; border-color: rgba(200,148,86,0.30); }
+.tag-lang { background: rgba(26, 20, 16, 0.08); color: #2a2118; border-color: rgba(26, 20, 16, 0.22); }
+.tag-topic { background: rgba(214,83,60,0.16); color: #9c3a26; border-color: rgba(214,83,60,0.38); }
+.tag-no-advice { background: rgba(85, 115, 80, 0.18); color: #3d5a36; border-color: rgba(85, 115, 80, 0.40); }
+.tag-need-support { background: rgba(200,148,86,0.22); color: #6e4416; border-color: rgba(200,148,86,0.45); }
 .tag .icon { width: 11px; height: 11px; }
 
 .post-preview {

@@ -1967,26 +1967,23 @@ html[data-theme="dark"] .quote-note::before {
           drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35)) !important;
 }
 
-/* Paper-note "not alone" sticker — KEEP the torn-paper PNG image
-   from light theme, but apply a filter so it darkens into a brown
-   torn paper that matches the warm-dark surface palette. This
-   preserves the irregular edges + skotch composition. */
+/* Paper-note "not alone" sticker — KEEP the cream torn-paper look
+   identical to light theme. The cream paper reads well against the
+   warm-dark page and feels like a real sticker pinned on top. */
 html[data-theme="dark"] .paper-note-bg {
   display: block !important;
-  filter: brightness(0.18) sepia(0.5) hue-rotate(-10deg) saturate(0.7) !important;
+  filter: none !important;
   mix-blend-mode: normal !important;
   opacity: 1 !important;
 }
 html[data-theme="dark"] .paper-note-text {
-  color: var(--charcoal, #f0e4cf) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: #1a1410 !important;
+  text-shadow: none;
 }
-/* The PNG above already includes the skotch corners, so the
-   ".paper-note-skotch" img (a separate red tape PNG) tends to
-   look heavy on the small dark sticker. Soften it. */
 html[data-theme="dark"] .paper-note-skotch {
-  opacity: 0.65 !important;
-  mix-blend-mode: screen !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  filter: none !important;
 }
 
 /* Feature cards in dark — clean warm-dark surface, no heavy JPG. */

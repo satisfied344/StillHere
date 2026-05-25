@@ -328,15 +328,37 @@ html[data-theme="dark"] .filter-select {
   color: var(--text-dark);
 }
 
-/* ── Tags ── */
+/* ── Tags ──
+   Brighter foregrounds + stronger background tints so pills are
+   clearly readable on the warm-dark page. */
+html[data-theme="dark"] .tag {
+  background: rgba(255, 255, 255, 0.09);
+  color: #f0e4cf;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
 html[data-theme="dark"] .tag-lang {
-  background: rgba(255, 255, 255, 0.07);
-  color: var(--text-mid);
+  background: rgba(255, 255, 255, 0.10);
+  color: #f4ead6;
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 html[data-theme="dark"] .tag-topic {
-  background: rgba(214, 162, 115, 0.18);
-  color: var(--accent);
+  background: rgba(232, 168, 124, 0.22);
+  color: #f3b88f;
+  border-color: rgba(232, 168, 124, 0.40);
+}
+
+html[data-theme="dark"] .tag-no-advice {
+  background: rgba(155, 179, 154, 0.22);
+  color: #c9dbc4;
+  border-color: rgba(155, 179, 154, 0.42);
+}
+
+html[data-theme="dark"] .tag-need-support {
+  background: rgba(214, 160, 106, 0.22);
+  color: #e8c084;
+  border-color: rgba(214, 160, 106, 0.42);
 }
 
 /* ── Modal ── */
@@ -1716,6 +1738,38 @@ html[data-theme="dark"] .pg-doodle {
   mix-blend-mode: screen;
   opacity: 0.42;
   filter: invert(1) brightness(1.05);
+}
+
+/* ══════════════════════════════════════════════════════
+   DARK MODE — universal monochrome doodle inversion.
+   Source PNGs are dark ink scribbles on cream paper.
+   In light mode .d-img / .wd / .cs-doodle use
+   `mix-blend-mode: multiply` so the dark strokes darken
+   against paper. On the dark page bg, multiply = invisible.
+   Flip to `screen` + invert so they read as soft light
+   chalk-style strokes. Covers every page.
+   ══════════════════════════════════════════════════════ */
+html[data-theme="dark"] .d-img,
+html[data-theme="dark"] .wd,
+html[data-theme="dark"] .cs-doodle,
+html[data-theme="dark"] .eyebrow-doodle,
+html[data-theme="dark"] .quote-mark {
+  mix-blend-mode: screen;
+  filter: invert(1) brightness(1.05);
+}
+
+/* Exceptions — full-colour or pre-treated assets that must
+   NOT be inverted (skotch tape, paper notes, fog).
+   These already have their own dark-mode handling or are
+   meant to stay colourful. Cats are line-art and DO invert
+   (they read as faint outlines without it). */
+html[data-theme="dark"] .skotch.d-img,
+html[data-theme="dark"] .card-skotch,
+html[data-theme="dark"] .paper-note-bg,
+html[data-theme="dark"] .paper-note-skotch,
+html[data-theme="dark"] .section-fog {
+  mix-blend-mode: normal;
+  filter: none;
 }
 
 /* ══════════════════════════════════════════════════════
