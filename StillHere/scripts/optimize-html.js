@@ -55,6 +55,26 @@ function ensureViewport(html) {
     `$1\n    <meta name="viewport" content="width=device-width, initial-scale=1">`);
 }
 
+/* Tell Dark Reader to back off — we have our own native dark theme.
+   Combined with the upgraded theme bootstrap below, users with the
+   extension (or system dark-mode) get the site's own warm-dark palette
+   instead of Dark Reader's generic inversion. */
+function ensureDarkReaderLock(html) {
+  if (/<meta[^>]+name=["']darkreader-lock["']/i.test(html)) return html;
+  return html.replace(/(<meta\s+charset=["'][^"']+["']\s*\/?>)/i,
+    `$1\n    <meta name="darkreader-lock">\n    <meta name="color-scheme" content="light dark">`);
+}
+
+/* Upgrade the theme-bootstrap inline script to also honour the OS
+   prefers-color-scheme when the user has no saved preference. This is
+   how a Dark Reader / system-dark user lands on the site's own dark
+   theme automatically. */
+function upgradeThemeBootstrap(html) {
+  const OLD = `<script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>`;
+  const NEW = `<script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>`;
+  return html.includes(OLD) ? html.replace(OLD, NEW) : html;
+}
+
 function mergeGoogleFonts(html) {
   // Merge Ubuntu + Caveat (the two patterns used site-wide) into one request.
   const ubuntu = /<link\s+href=["']https:\/\/fonts\.googleapis\.com\/css2\?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap["']\s+rel=["']stylesheet["']\s*\/?>\s*/i;
@@ -109,6 +129,8 @@ for (const f of files) {
   const orig = fs.readFileSync(f, 'utf8');
   let next = orig;
   next = ensureViewport(next);
+  next = ensureDarkReaderLock(next);
+  next = upgradeThemeBootstrap(next);
   next = mergeGoogleFonts(next);
   next = ensurePreconnect(next);
   next = addDeferToScripts(next);
