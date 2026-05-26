@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -840,7 +841,7 @@
           <li role="none"><a href="../ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg><span data-i18n="menu.ai">AI support</span></a></li>
           <li role="none"><a href="../coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span data-i18n="menu.private">Private support</span></a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="../coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
+          <li role="none"><a href="../therapists.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
           <li role="none"><a href="../statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg><span data-i18n="menu.statistics">Statistics</span></a></li>
         </ul>
       </div>

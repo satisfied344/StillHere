@@ -724,12 +724,12 @@ a { color: inherit; text-decoration: none; }
   top: calc(100% + 6px);
   right: 0;
   background: var(--surface-menu);
-  padding: 6px;
+  padding: 5px;
   list-style: none;
   margin: 0;
   border: 1px solid var(--line);
   border-radius: 12px;
-  min-width: 190px;
+  min-width: 210px;
   box-shadow:
     0 2px 8px rgba(26, 20, 16, 0.08),
     0 18px 40px -10px rgba(26, 20, 16, 0.16);
@@ -751,20 +751,22 @@ a { color: inherit; text-decoration: none; }
 .post-menu-down a {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   width: 100%;
-  padding: 9px 12px;
+  padding: 7px 11px;
   background: none;
   border: none;
   color: var(--ink-soft);
   font: inherit;
-  font-size: 13.5px;
+  font-size: 13px;
+  line-height: 1.25;
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
   text-decoration: none;
   letter-spacing: 0.005em;
   transition: background 0.18s ease, color 0.18s ease;
+  white-space: nowrap;
 }
 .post-menu-down button:hover,
 .post-menu-down a:hover {

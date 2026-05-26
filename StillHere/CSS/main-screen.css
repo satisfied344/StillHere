@@ -669,11 +669,11 @@ a { color: inherit; text-decoration: none; }
   top: calc(100% + 6px);
   right: 0;
   list-style: none;
-  margin: 0; padding: 6px;
+  margin: 0; padding: 5px;
   background: var(--surface-menu);
   border: 1px solid var(--line);
   border-radius: 12px;
-  min-width: 190px;
+  min-width: 210px;
   box-shadow:
     0 2px 8px rgba(26,20,16,0.08),
     0 18px 40px -10px rgba(26,20,16,0.16);
@@ -682,7 +682,7 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-6px) scale(0.97);
   transform-origin: top right;
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  z-index: 20;
+  z-index: 50;
 }
 .post-menu-down.show {
   opacity: 1;
@@ -691,19 +691,21 @@ a { color: inherit; text-decoration: none; }
 }
 .post-menu-down button,
 .post-menu-down a {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 9px;
   width: 100%;
-  padding: 9px 12px;
+  padding: 7px 11px;
   background: none;
   border: none;
   color: #4a3f37;
   font: inherit;
-  font-size: 13.5px;
+  font-size: 13px;
+  line-height: 1.25;
   border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.18s ease, color 0.18s ease;
   letter-spacing: 0.005em;
+  white-space: nowrap;
 }
 .post-menu-down button:hover,
 .post-menu-down a:hover { background: rgba(244, 234, 214, 0.9); color: var(--ink); }

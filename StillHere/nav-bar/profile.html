@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -624,7 +625,7 @@
           <li role="none"><a href="../ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg><span data-i18n="menu.ai">AI support</span></a></li>
           <li role="none"><a href="../coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span data-i18n="menu.private">Private support</span></a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="../coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
+          <li role="none"><a href="../therapists.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
           <li role="none"><a href="../statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg><span data-i18n="menu.statistics">Statistics</span></a></li>
         </ul>
       </div>
@@ -637,13 +638,13 @@
     <!-- ─── HERO ─── -->
     <section class="pf-hero">
       <div class="pf-hero-left">
-        <span class="pf-eyebrow"><em>—</em> your quiet corner</span>
+        <span class="pf-eyebrow" data-i18n="pf.hero.eyebrow"><em>—</em> your quiet corner</span>
         <h1 class="pf-title">
-          welcome,<br>
-          <em id="hero-username">stranger.</em>
+          <span data-i18n="pf.hero.welcome">welcome,</span><br>
+          <em id="hero-username" data-i18n="pf.hero.stranger">stranger.</em>
           <img src="../assets/letters/_Special Characters/Asterisk_01.png" class="pf-title-star" alt="" aria-hidden="true">
         </h1>
-        <p class="pf-lede">
+        <p class="pf-lede" data-i18n="pf.hero.lede">
           no name needed, no backstory required. just <em>show up</em> however you are right now —
           your space, your pace.
         </p>
@@ -656,32 +657,32 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>
             </div>
             <div class="pf-card-id">
-              <p class="pf-name" id="display-name">Someone here</p>
+              <p class="pf-name" id="display-name" data-i18n="pf.card.someone">Someone here</p>
               <p class="pf-handle" id="username">@anonymous</p>
             </div>
           </div>
           <div class="pf-meta">
             <span id="joined-date">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48Zm136,160H48V96H208V208Z"/></svg>
-              Joined recently
+              <span data-i18n="pf.card.joined">Joined recently</span>
             </span>
             <span>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></svg>
-              Anonymous
+              <span data-i18n="pf.card.anon">Anonymous</span>
             </span>
           </div>
           <div class="pf-card-actions">
             <a href="../edit-profile.html" class="pf-btn pf-btn--primary">
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/></svg>
-              Edit profile
+              <span data-i18n="pf.btn.edit">Edit profile</span>
             </a>
             <a href="../login.html" class="pf-btn pf-btn--ghost" id="signOutBtn" style="display:none">
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Zm106.83-86.83-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,129.17Z"/></svg>
-              Sign out
+              <span data-i18n="pf.btn.signout">Sign out</span>
             </a>
             <a href="../login.html" class="pf-btn pf-btn--primary" id="signInBtn" style="display:none">
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg>
-              Sign in
+              <span data-i18n="pf.btn.signin">Sign in</span>
             </a>
           </div>
         </div>
@@ -692,22 +693,22 @@
     <section class="pf-section">
       <div class="pf-section-head">
         <span class="pf-section-eyebrow">— 01</span>
-        <h2 class="pf-section-title">so far</h2>
-        <span class="pf-section-hint">honest counts, not vanity metrics</span>
+        <h2 class="pf-section-title" data-i18n="pf.stats.title">so far</h2>
+        <span class="pf-section-hint" data-i18n="pf.stats.hint">honest counts, not vanity metrics</span>
       </div>
 
       <div class="pf-stats">
         <div class="pf-stat">
           <div class="pf-stat-num" id="posts-count">0</div>
-          <div class="pf-stat-label">stories shared</div>
+          <div class="pf-stat-label" data-i18n="pf.stats.shared">stories shared</div>
         </div>
         <div class="pf-stat">
           <div class="pf-stat-num" id="reactions-count">0</div>
-          <div class="pf-stat-label">reactions received</div>
+          <div class="pf-stat-label" data-i18n="pf.stats.reactions">reactions received</div>
         </div>
         <div class="pf-stat">
           <div class="pf-stat-num" id="days-count">1</div>
-          <div class="pf-stat-label">days on StillHere</div>
+          <div class="pf-stat-label" data-i18n="pf.stats.days">days on StillHere</div>
         </div>
       </div>
     </section>
@@ -716,8 +717,8 @@
     <section class="pf-section">
       <div class="pf-section-head">
         <span class="pf-section-eyebrow">— 02</span>
-        <h2 class="pf-section-title">where to next</h2>
-        <span class="pf-section-hint">small doors, gently</span>
+        <h2 class="pf-section-title" data-i18n="pf.next.title">where to next</h2>
+        <span class="pf-section-hint" data-i18n="pf.next.hint">small doors, gently</span>
       </div>
 
       <div class="pf-grid">
@@ -729,8 +730,8 @@
             </span>
             <svg class="pf-action-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
           </div>
-          <h3 class="pf-action-title">browse stories</h3>
-          <p class="pf-action-desc">see what people are carrying today.</p>
+          <h3 class="pf-action-title" data-i18n="pf.act.browse">browse stories</h3>
+          <p class="pf-action-desc" data-i18n="pf.act.browse.desc">see what people are carrying today.</p>
         </a>
 
         <a href="../create-post.html" class="pf-action pf-action--feature">
@@ -740,8 +741,8 @@
             </span>
             <svg class="pf-action-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
           </div>
-          <h3 class="pf-action-title">share something</h3>
-          <p class="pf-action-desc">something on your mind? put it somewhere.</p>
+          <h3 class="pf-action-title" data-i18n="pf.act.share">share something</h3>
+          <p class="pf-action-desc" data-i18n="pf.act.share.desc">something on your mind? put it somewhere.</p>
         </a>
 
         <a href="../ai-chat.html" class="pf-action">
@@ -751,8 +752,8 @@
             </span>
             <svg class="pf-action-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
           </div>
-          <h3 class="pf-action-title">ai companion</h3>
-          <p class="pf-action-desc">not a therapist — but it listens carefully.</p>
+          <h3 class="pf-action-title" data-i18n="pf.act.ai">ai companion</h3>
+          <p class="pf-action-desc" data-i18n="pf.act.ai.desc">not a therapist — but it listens carefully.</p>
         </a>
 
         <a href="../edit-profile.html" class="pf-action">
@@ -762,8 +763,8 @@
             </span>
             <svg class="pf-action-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
           </div>
-          <h3 class="pf-action-title">edit profile</h3>
-          <p class="pf-action-desc">tweak how you show up — or don't.</p>
+          <h3 class="pf-action-title" data-i18n="pf.act.edit">edit profile</h3>
+          <p class="pf-action-desc" data-i18n="pf.act.edit.desc">tweak how you show up — or don't.</p>
         </a>
 
       </div>
@@ -773,21 +774,21 @@
     <section class="pf-section">
       <div class="pf-section-head">
         <span class="pf-section-eyebrow">— 03</span>
-        <h2 class="pf-section-title">on staying invisible</h2>
-        <span class="pf-section-hint">anonymity is the default</span>
+        <h2 class="pf-section-title" data-i18n="pf.anon.title">on staying invisible</h2>
+        <span class="pf-section-hint" data-i18n="pf.anon.hint">anonymity is the default</span>
       </div>
 
       <div class="pf-anon">
         <div>
-          <span class="pf-anon-tag">anonymity first</span>
-          <h3 class="pf-anon-title">you don't owe anyone <em>your name.</em></h3>
-          <p class="pf-anon-text">
+          <span class="pf-anon-tag" data-i18n="pf.anon.tag">anonymity first</span>
+          <h3 class="pf-anon-title" data-i18n="pf.anon.h">you don't owe anyone <em>your name.</em></h3>
+          <p class="pf-anon-text" data-i18n="pf.anon.text">
             StillHere doesn't need it. what you share is yours — no real identity attached,
             no profile photo, nothing public unless you choose it. your handle is just so
             you can find your own posts. that's genuinely all it is.
           </p>
           <a href="../docs/html/privacy-policy.html" class="pf-anon-link">
-            read privacy policy
+            <span data-i18n="pf.anon.link">read privacy policy</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
           </a>
         </div>
@@ -795,15 +796,15 @@
         <div class="pf-anon-stats">
           <div class="pf-anon-stat">
             <div class="pf-anon-stat-num">0</div>
-            <div class="pf-anon-stat-label">data sold, ever</div>
+            <div class="pf-anon-stat-label" data-i18n="pf.anon.s1">data sold, ever</div>
           </div>
           <div class="pf-anon-stat">
             <div class="pf-anon-stat-num">∞</div>
-            <div class="pf-anon-stat-label">ways to be yourself</div>
+            <div class="pf-anon-stat-label" data-i18n="pf.anon.s2">ways to be yourself</div>
           </div>
           <div class="pf-anon-stat">
             <div class="pf-anon-stat-num">1</div>
-            <div class="pf-anon-stat-label">rule — be human</div>
+            <div class="pf-anon-stat-label" data-i18n="pf.anon.s3">rule — be human</div>
           </div>
         </div>
       </div>
@@ -813,36 +814,36 @@
     <section class="pf-section">
       <div class="pf-section-head">
         <span class="pf-section-eyebrow">— 04</span>
-        <h2 class="pf-section-title">read more</h2>
-        <span class="pf-section-hint">the small print, gently</span>
+        <h2 class="pf-section-title" data-i18n="pf.docs.title">read more</h2>
+        <span class="pf-section-hint" data-i18n="pf.docs.hint">the small print, gently</span>
       </div>
 
       <div class="pf-docs">
         <a href="../docs/html/guidelines.html" class="pf-doc">
           <div class="pf-doc-text">
-            <div class="pf-doc-title">community guidelines</div>
-            <div class="pf-doc-sub">how we treat each other here</div>
+            <div class="pf-doc-title" data-i18n="pf.docs.guidelines">community guidelines</div>
+            <div class="pf-doc-sub" data-i18n="pf.docs.guidelines.sub">how we treat each other here</div>
           </div>
           <svg class="pf-doc-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
         </a>
         <a href="../docs/html/privacy-policy.html" class="pf-doc">
           <div class="pf-doc-text">
-            <div class="pf-doc-title">privacy policy</div>
-            <div class="pf-doc-sub">what we collect and why</div>
+            <div class="pf-doc-title" data-i18n="pf.docs.privacy">privacy policy</div>
+            <div class="pf-doc-sub" data-i18n="pf.docs.privacy.sub">what we collect and why</div>
           </div>
           <svg class="pf-doc-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
         </a>
         <a href="../docs/html/crisis-resources.html" class="pf-doc">
           <div class="pf-doc-text">
-            <div class="pf-doc-title">crisis resources</div>
-            <div class="pf-doc-sub">if you need immediate support</div>
+            <div class="pf-doc-title" data-i18n="pf.docs.crisis">crisis resources</div>
+            <div class="pf-doc-sub" data-i18n="pf.docs.crisis.sub">if you need immediate support</div>
           </div>
           <svg class="pf-doc-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
         </a>
         <a href="../docs/html/terms-of-service.html" class="pf-doc">
           <div class="pf-doc-text">
-            <div class="pf-doc-title">terms of service</div>
-            <div class="pf-doc-sub">rules of the platform</div>
+            <div class="pf-doc-title" data-i18n="pf.docs.terms">terms of service</div>
+            <div class="pf-doc-sub" data-i18n="pf.docs.terms.sub">rules of the platform</div>
           </div>
           <svg class="pf-doc-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
         </a>
@@ -851,10 +852,10 @@
 
     <!-- ─── CLOSING ─── -->
     <section class="pf-closing">
-      <p class="pf-closing-text">
+      <p class="pf-closing-text" data-i18n="pf.closing.text">
         you're <em>here.</em> that's enough.
       </p>
-      <p class="pf-closing-sub">— still, always</p>
+      <p class="pf-closing-sub" data-i18n="pf.closing.sub">— still, always</p>
     </section>
 
   </main>
@@ -867,34 +868,34 @@
                 <div class="footer_logo">
                     <p>StillHere</p>
                 </div>
-                <p class="footer_subtitle">A project about presence, not solutions</p>
+                <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
             </div>
 
             <div class="footer_links">
                 <div class="footer_links_1">
-                    <h3>Platform</h3>
+                    <h3 data-i18n="footer.platform">Platform</h3>
                     <ul>
-                        <li><a href="../main.html">Browse Stories</a></li>
-                        <li><a href="../create-post.html">Share Your Story</a></li>
-                        <li><a href="updates.html">Updates</a></li>
+                        <li><a href="../main.html" data-i18n="footer.browse">Browse Stories</a></li>
+                        <li><a href="../create-post.html" data-i18n="footer.share">Share Your Story</a></li>
+                        <li><a href="updates.html" data-i18n="footer.updates">Updates</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_2">
-                    <h3>Support</h3>
+                    <h3 data-i18n="footer.support">Support</h3>
                     <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="contacts.html">Contacts</a></li>
-                        <li><a href="../docs/html/guidelines.html">Guidelines</a></li>
-                        <li><a href="../docs/html/crisis-resources.html">Crisis Resources</a></li>
+                        <li><a href="about.html" data-i18n="footer.about">About Us</a></li>
+                        <li><a href="contacts.html" data-i18n="footer.contacts">Contacts</a></li>
+                        <li><a href="../docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
+                        <li><a href="../docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_3">
-                    <h3>Legal</h3>
+                    <h3 data-i18n="footer.legal">Legal</h3>
                     <ul>
-                        <li><a href="../docs/html/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="../docs/html/terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="../docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="../docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -903,7 +904,7 @@
         <div class="footer_footer">
             <div class="footer_legal">
                   <p>2026 StillHere.</p>
-                  <p class="implicit-consent">
+                  <p class="implicit-consent" data-i18n="footer.consent.subdir">
                     by being here, you accept our
                     <a href="../docs/html/terms-of-service.html">terms</a>
                     &amp; <a href="../docs/html/privacy-policy.html">privacy</a>.
@@ -1028,14 +1029,24 @@ document.addEventListener('DOMContentLoaded', function () {
         profileAvatarEl.innerHTML = '<img src="' + user.avatarUrl + '" alt="Avatar">';
       }
 
-      /* Joined date */
+      /* Joined date — locale-aware label + month/year. Re-renders if the
+         user switches languages so the prefix and the month form update. */
       var joinedEl = document.getElementById('joined-date');
-      if (joinedEl && user.createdAt) {
-        var d = new Date(user.createdAt);
-        var mo = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      function renderJoined() {
+        if (!joinedEl || !user.createdAt) return;
+        var lang = (window.SH_I18N && SH_I18N.getLang && SH_I18N.getLang()) || 'en';
+        var locale = lang === 'ru' ? 'ru-RU' : 'en-US';
+        var prefix = (window.SH_I18N && SH_I18N.t)
+          ? SH_I18N.t('pf.card.joined.prefix')
+          : 'Joined';
+        var mo = new Date(user.createdAt)
+          .toLocaleDateString(locale, { month: 'short', year: 'numeric' });
         joinedEl.innerHTML =
-          '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48Zm136,160H48V96H208V208Z"/></svg> Joined ' + mo;
+          '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48Zm136,160H48V96H208V208Z"/></svg> ' +
+          prefix + ' ' + mo;
       }
+      renderJoined();
+      document.addEventListener('sh:langchange', renderJoined);
 
       /* Days on StillHere */
       var daysEl = document.getElementById('days-count');

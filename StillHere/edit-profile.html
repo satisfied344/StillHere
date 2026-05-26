@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -588,12 +589,12 @@
 
     <!-- ─── HERO ─── -->
     <section class="ep-hero">
-      <span class="ep-eyebrow"><em>—</em> settings, gently</span>
+      <span class="ep-eyebrow" data-i18n="ep.hero.eyebrow"><em>—</em> settings, gently</span>
       <h1 class="ep-title">
-        your <em>profile.</em>
+        <span data-i18n="ep.hero.title">your <em>profile.</em></span>
         <img src="assets/letters/_Special Characters/Asterisk_01.png" class="ep-title-star" alt="" aria-hidden="true">
       </h1>
-      <p class="ep-sub">
+      <p class="ep-sub" data-i18n="ep.hero.sub">
         change what others see — or <em>don't.</em> none of it is required, and none of it has to be real.
       </p>
     </section>
@@ -605,8 +606,8 @@
         <aside class="ep-aside">
           <div class="ep-card ep-avatar-card">
             <div class="ep-card-head">
-              <div class="ep-card-label">how you show up</div>
-              <div class="ep-card-title">your face here</div>
+              <div class="ep-card-label" data-i18n="ep.avatar.label">how you show up</div>
+              <div class="ep-card-title" data-i18n="ep.avatar.title">your face here</div>
             </div>
 
             <div class="ep-avatar-wrap">
@@ -617,17 +618,17 @@
               </div>
             </div>
 
-            <p class="avatar-name">Someone here</p>
+            <p class="avatar-name" data-i18n="pf.card.someone">Someone here</p>
             <p class="avatar-handle">@anonymous</p>
 
             <label class="btn-upload" for="avatar_input">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                 <path d="M240,136v64a16,16,0,0,1-16,16H32a16,16,0,0,1-16-16V136a16,16,0,0,1,16-16H80a8,8,0,0,1,0,16H32v64H224V136H176a8,8,0,0,1,0-16h48A16,16,0,0,1,240,136ZM88.57,68.57,120,37.13V136a8,8,0,0,0,16,0V37.13l31.43,31.44a8,8,0,0,0,11.31-11.32l-45.66-45.65a8,8,0,0,0-11.32,0L76.1,57.25A8,8,0,0,0,87.41,68.57Z"/>
               </svg>
-              Upload photo
+              <span data-i18n="ep.avatar.upload">Upload photo</span>
             </label>
             <input id="avatar_input" name="avatar" type="file" accept="image/*">
-            <button type="button" class="btn-ghost">Remove photo</button>
+            <button type="button" class="btn-ghost" data-i18n="ep.avatar.remove">Remove photo</button>
           </div>
         </aside>
 
@@ -637,49 +638,49 @@
           <!-- About you -->
           <div class="ep-card">
             <div class="ep-card-head">
-              <div class="ep-card-label">— 01 about you</div>
-              <div class="ep-card-title">how others see you</div>
-              <p class="ep-card-desc">none of it has to be real. you can leave any of it blank.</p>
+              <div class="ep-card-label" data-i18n="ep.about.label">— 01 about you</div>
+              <div class="ep-card-title" data-i18n="ep.about.title">how others see you</div>
+              <p class="ep-card-desc" data-i18n="ep.about.desc">none of it has to be real. you can leave any of it blank.</p>
             </div>
 
             <div class="fields-row" style="margin-bottom:14px;">
               <div class="field">
-                <label class="field-label" for="display_name_input">First name or nickname</label>
-                <input type="text" id="display_name_input" name="display_name" placeholder="e.g. Alex" maxlength="40" autocomplete="given-name">
+                <label class="field-label" for="display_name_input" data-i18n="ep.about.first">First name or nickname</label>
+                <input type="text" id="display_name_input" name="display_name" placeholder="e.g. Alex" data-i18n-attr-placeholder="ep.about.first.ph" maxlength="40" autocomplete="given-name">
               </div>
               <div class="field">
                 <label class="field-label" for="display_last_name_input">
-                  Last name <span class="field-optional">optional</span>
+                  <span data-i18n="ep.about.last">Last name</span> <span class="field-optional" data-i18n="ep.about.optional">optional</span>
                 </label>
-                <input type="text" id="display_last_name_input" name="display_last_name" placeholder="e.g. K." maxlength="60" autocomplete="family-name">
+                <input type="text" id="display_last_name_input" name="display_last_name" placeholder="e.g. K." data-i18n-attr-placeholder="ep.about.last.ph" maxlength="60" autocomplete="family-name">
               </div>
             </div>
 
             <div class="field">
-              <label class="field-label" for="username_input">Username</label>
+              <label class="field-label" for="username_input" data-i18n="ep.about.username">Username</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">@</span>
-                <input type="text" id="username_input" name="username" placeholder="yourhandle" maxlength="24" autocomplete="username">
+                <input type="text" id="username_input" name="username" placeholder="yourhandle" data-i18n-attr-placeholder="ep.about.username.ph" maxlength="24" autocomplete="username">
               </div>
-              <p class="field-hint">letters, numbers, and _ only — this is how you find your own posts.</p>
+              <p class="field-hint" data-i18n="ep.about.username.hint">letters, numbers, and _ only — this is how you find your own posts.</p>
             </div>
           </div>
 
           <!-- Password -->
           <div class="ep-card">
             <div class="ep-card-head">
-              <div class="ep-card-label">— 02 password</div>
-              <div class="ep-card-title">change it, or leave it</div>
-              <p class="ep-card-desc">leave blank to keep your current password.</p>
+              <div class="ep-card-label" data-i18n="ep.pass.label">— 02 password</div>
+              <div class="ep-card-title" data-i18n="ep.pass.title">change it, or leave it</div>
+              <p class="ep-card-desc" data-i18n="ep.pass.desc">leave blank to keep your current password.</p>
             </div>
 
             <div class="fields-row">
               <div class="field">
-                <label class="field-label" for="pass_new">New password</label>
+                <label class="field-label" for="pass_new" data-i18n="ep.pass.new">New password</label>
                 <input type="password" id="pass_new" name="password_new" placeholder="••••••••">
               </div>
               <div class="field">
-                <label class="field-label" for="pass_confirm">Confirm</label>
+                <label class="field-label" for="pass_confirm" data-i18n="ep.pass.confirm">Confirm</label>
                 <input type="password" id="pass_confirm" name="password_confirm" placeholder="••••••••">
               </div>
             </div>
@@ -691,17 +692,17 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                 <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/>
               </svg>
-              Save changes
+              <span data-i18n="ep.actions.save">Save changes</span>
             </button>
-            <a href="nav-bar/profile.html" class="btn-cancel">Cancel</a>
+            <a href="nav-bar/profile.html" class="btn-cancel" data-i18n="ep.actions.cancel">Cancel</a>
           </div>
 
           <!-- Danger zone -->
           <div class="ep-card ep-card--danger">
             <div class="ep-card-head">
-              <div class="ep-card-label">— 03 danger zone</div>
-              <div class="ep-card-title">careful — these can't be undone</div>
-              <p class="ep-card-desc">
+              <div class="ep-card-label" data-i18n="ep.danger.label">— 03 danger zone</div>
+              <div class="ep-card-title" data-i18n="ep.danger.title">careful — these can't be undone</div>
+              <p class="ep-card-desc" data-i18n="ep.danger.desc">
                 delete all your posts at once, or close your account. closing keeps your posts up
                 (shown as "deleted account") so the conversations they started stay intact.
               </p>
@@ -712,13 +713,13 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                   <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V216a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,176H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
                 </svg>
-                Delete all my posts
+                <span data-i18n="ep.danger.delete">Delete all my posts</span>
               </button>
               <button type="button" class="btn-danger btn-delete">
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                   <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V216a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,176H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
                 </svg>
-                Close my account
+                <span data-i18n="ep.danger.close">Close my account</span>
               </button>
             </div>
           </div>
@@ -737,34 +738,34 @@
                 <div class="footer_logo">
                     <p>StillHere</p>
                 </div>
-                <p class="footer_subtitle">A project about presence, not solutions</p>
+                <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
             </div>
 
             <div class="footer_links">
                 <div class="footer_links_1">
-                    <h3>Platform</h3>
+                    <h3 data-i18n="footer.platform">Platform</h3>
                     <ul>
-                        <li><a href="main.html">Browse Stories</a></li>
-                        <li><a href="create-post.html">Share Your Story</a></li>
-                        <li><a href="nav-bar/updates.html">Updates</a></li>
+                        <li><a href="main.html" data-i18n="footer.browse">Browse Stories</a></li>
+                        <li><a href="create-post.html" data-i18n="footer.share">Share Your Story</a></li>
+                        <li><a href="nav-bar/updates.html" data-i18n="footer.updates">Updates</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_2">
-                    <h3>Support</h3>
+                    <h3 data-i18n="footer.support">Support</h3>
                     <ul>
-                        <li><a href="nav-bar/about.html">About Us</a></li>
-                        <li><a href="nav-bar/contacts.html">Contacts</a></li>
-                        <li><a href="docs/html/guidelines.html">Guidelines</a></li>
-                        <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
+                        <li><a href="nav-bar/about.html" data-i18n="footer.about">About Us</a></li>
+                        <li><a href="nav-bar/contacts.html" data-i18n="footer.contacts">Contacts</a></li>
+                        <li><a href="docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
+                        <li><a href="docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_3">
-                    <h3>Legal</h3>
+                    <h3 data-i18n="footer.legal">Legal</h3>
                     <ul>
-                        <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -773,7 +774,7 @@
         <div class="footer_footer">
             <div class="footer_legal">
                   <p>2026 StillHere.</p>
-                  <p class="implicit-consent">
+                  <p class="implicit-consent" data-i18n="footer.consent">
                     by being here, you accept our
                     <a href="docs/html/terms-of-service.html">terms</a>
                     &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
@@ -836,15 +837,15 @@
           <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
         </svg>
       </div>
-      <h2 class="del-title" id="delAccTitle">close your account?</h2>
-      <p class="del-desc" id="delAccDesc">
+      <h2 class="del-title" id="delAccTitle" data-i18n="ep.delmod.title">close your account?</h2>
+      <p class="del-desc" id="delAccDesc" data-i18n="ep.delmod.desc">
         your account will be closed and your name removed. the posts and comments you wrote
         will stay on the platform, shown as posted by "deleted account" — this keeps the
         conversations they started intact for everyone who replied.
       </p>
       <div class="del-actions">
-        <button class="del-btn del-btn--cancel" id="delAccCancel">cancel</button>
-        <button class="del-btn del-btn--confirm" id="delAccConfirm">yes, close account</button>
+        <button class="del-btn del-btn--cancel" id="delAccCancel" data-i18n="ep.delmod.cancel">cancel</button>
+        <button class="del-btn del-btn--confirm" id="delAccConfirm" data-i18n="ep.delmod.confirm">yes, close account</button>
       </div>
     </div>
   </div>

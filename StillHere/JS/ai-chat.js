@@ -202,10 +202,17 @@
   function deleteChat(id) {
     saveAll(loadAll().filter(function (c) { return c.id !== id; }));
   }
+  /* Translation helper — falls back to the English default if i18n
+     hasn't loaded yet (deferred script ordering can race the first
+     `createChat` call from very-early page state). */
+  function tI(key, fallback) {
+    return (window.SH_I18N && SH_I18N.t) ? SH_I18N.t(key) : fallback;
+  }
+
   function createChat() {
     var chat = {
       id: uid(),
-      title: 'new conversation',
+      title: tI('ac.chat.new', 'new conversation'),
       createdAt: nowIso(),
       updatedAt: nowIso(),
       messages: []
@@ -226,8 +233,15 @@
     var dayMs = 86400000;
     var diff = (now - d) / dayMs;
     if (diff < 1 && d.getDate() === now.getDate()) return 'today';
-    if (diff < 7) return 'this week';
+    if (diff < 7) return 'thisweek';
     return 'earlier';
+  }
+  /* Translated label for a bucket key — kept separate so the bucket
+     key stays stable (used as an object key + i18n lookup). */
+  function bucketLabelI18n(key) {
+    if (key === 'today')    return tI('ac.bucket.today',    'today');
+    if (key === 'thisweek') return tI('ac.bucket.thisweek', 'this week');
+    return tI('ac.bucket.earlier', 'earlier');
   }
 
   function renderHistory() {
@@ -239,12 +253,12 @@
       historyEl.innerHTML =
         '<div class="history-empty" id="historyEmpty">' +
         '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.05,16.05,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78L82.5,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48Zm0,144H82.5a16,16,0,0,0-10.25,3.78L40,224V64H216Z"/></svg>' +
-        '<p>no conversations yet.<br>start one above.</p></div>';
+        '<p>' + tI('ac.side.empty', 'no conversations yet.<br>start one above.') + '</p></div>';
       return;
     }
 
-    /* Group by bucket */
-    var buckets = { 'today': [], 'this week': [], 'earlier': [] };
+    /* Group by bucket. Keys are stable (used for i18n lookup). */
+    var buckets = { 'today': [], 'thisweek': [], 'earlier': [] };
     chats.forEach(function (c) { buckets[bucketLabel(c.updatedAt)].push(c); });
 
     Object.keys(buckets).forEach(function (label) {
@@ -252,7 +266,7 @@
       if (!items.length) return;
       var section = document.createElement('div');
       section.className = 'history-section';
-      section.innerHTML = '<span class="history-label">' + label + '</span><ul class="history-list"></ul>';
+      section.innerHTML = '<span class="history-label">' + bucketLabelI18n(label) + '</span><ul class="history-list"></ul>';
       var ul = section.querySelector('.history-list');
 
       items.forEach(function (c) {
@@ -266,7 +280,7 @@
         li.innerHTML =
           '<svg class="history-dot" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="3"/></svg>' +
           '<div class="history-meat">' +
-            '<span class="history-title">' + escapeHtml(c.title || 'untitled') + '</span>' +
+            '<span class="history-title">' + escapeHtml(c.title || tI('ac.chat.untitled', 'untitled')) + '</span>' +
             '<span class="history-snippet">' + escapeHtml(snippet || '…') + '</span>' +
           '</div>' +
           '<button class="history-menu" aria-label="Delete">×</button>';
@@ -570,6 +584,11 @@
       });
     });
   }
+
+  /* Re-render the sidebar history when the language changes — bucket
+     labels ("today" / "this week" / "earlier") and the "untitled"
+     fallback need to switch with it. */
+  document.addEventListener('sh:langchange', function () { renderHistory(); });
 
   /* ────────────────────────────────────────────────
      11. Init

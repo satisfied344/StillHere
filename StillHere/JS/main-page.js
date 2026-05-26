@@ -202,6 +202,17 @@ function showMainToast(msg) {
   setTimeout(function () { t.classList.remove('is-visible'); }, 2800);
 }
 
+/* ── Edit post — only shown for authors. Send them to create-post in
+   edit mode; the page detects ?edit=<id> and loads the existing data. */
+document.addEventListener('click', function (e) {
+  var ebtn = e.target.closest('[data-action-edit]');
+  if (!ebtn) return;
+  closeAllPostMenus();
+  var pid = ebtn.getAttribute('data-action-edit');
+  if (!pid) return;
+  window.location.href = 'create-post.html?edit=' + encodeURIComponent(pid);
+});
+
 /* ── Report (post) — feed-level, calls SH_MOD.report ── */
 document.addEventListener('click', async function (e) {
   var rbtn = e.target.closest('[data-action-report]');
@@ -405,7 +416,11 @@ document.addEventListener('click', async function (e) {
               'a54.65,54.65,0,0,0-77.27,0L32,130.75A54.62,54.62,0,0,0,70.56,224h0a54.28,54.28,0,0,0,38.64-16l11-11A8,8,0,0,0,109,185.66Z"/></svg>' +
               (window.SH_I18N ? window.SH_I18N.t('main.post.menu.copy') : 'Copy Link') + '</button></li>' +
             (canDelete
-              ? '<li role="none" class="post-menu-divider" aria-hidden="true"></li>' +
+              ? '<li role="menu-item"><button type="button" data-action-edit="' + id + '">' +
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
+                  '<path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96A16,16,0,0,0,227.31,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.32,64l24-24L216,84.68Z"/></svg>' +
+                  (window.SH_I18N ? window.SH_I18N.t('main.post.menu.edit') : 'Edit post') + '</button></li>' +
+                '<li role="none" class="post-menu-divider" aria-hidden="true"></li>' +
                 '<li role="menu-item"><button type="button" class="menu-item-danger" data-action-delete="' + id + '">' +
                   '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
                   '<path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16Z' +

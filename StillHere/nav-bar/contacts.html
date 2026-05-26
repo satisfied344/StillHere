@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -481,7 +482,7 @@
           <li role="none"><a href="../ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg><span data-i18n="menu.ai">AI support</span></a></li>
           <li role="none"><a href="../coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span data-i18n="menu.private">Private support</span></a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="../coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
+          <li role="none"><a href="../therapists.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
           <li role="none"><a href="../statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg><span data-i18n="menu.statistics">Statistics</span></a></li>
         </ul>
       </div>
@@ -494,12 +495,12 @@
     <!-- ─── HERO ─── -->
     <section class="ct-hero">
       <div class="ct-hero-left">
-        <span class="ct-eyebrow"><em>—</em> reach out, anytime</span>
+        <span class="ct-eyebrow" data-i18n="ct.hero.eyebrow"><em>—</em> reach out, anytime</span>
         <h1 class="ct-title">
-          say <em>hello.</em>
+          <span data-i18n="ct.hero.title">say <em>hello.</em></span>
           <img src="../assets/letters/_Special Characters/Asterisk_01.png" class="ct-title-star" alt="" aria-hidden="true">
         </h1>
-        <p class="ct-lede">
+        <p class="ct-lede" data-i18n="ct.hero.lede">
           questions, ideas, kind words, partnership requests — we read everything.
           we're a <em>small team</em> running this quietly, so replies may take a day or two.
           if you're in crisis, please scroll down first.
@@ -508,9 +509,9 @@
 
       <div class="ct-hero-right">
         <div class="ct-hero-card">
-          <div class="ct-hero-card-eyebrow">— note from us</div>
-          <div class="ct-hero-card-title">we read every message.</div>
-          <p class="ct-hero-card-text">
+          <div class="ct-hero-card-eyebrow" data-i18n="ct.hero.card.eyebrow">— note from us</div>
+          <div class="ct-hero-card-title" data-i18n="ct.hero.card.title">we read every message.</div>
+          <p class="ct-hero-card-text" data-i18n="ct.hero.card.text">
             no bots, no support tickets. just one human reading email between coffee.
             <strong>thank you for taking time to write.</strong>
           </p>
@@ -522,8 +523,8 @@
     <section class="ct-section">
       <div class="ct-section-head">
         <span class="ct-section-eyebrow">— 01</span>
-        <h2 class="ct-section-title">in crisis right now?</h2>
-        <span class="ct-section-hint">please reach a real person</span>
+        <h2 class="ct-section-title" data-i18n="ct.crisis.title">in crisis right now?</h2>
+        <span class="ct-section-hint" data-i18n="ct.crisis.hint">please reach a real person</span>
       </div>
 
       <div class="ct-crisis">
@@ -533,8 +534,8 @@
           </svg>
         </div>
         <div class="ct-crisis-text">
-          <h3 class="ct-crisis-title">we're not an emergency service.</h3>
-          <p class="ct-crisis-desc">
+          <h3 class="ct-crisis-title" data-i18n="ct.crisis.subtitle">we're not an emergency service.</h3>
+          <p class="ct-crisis-desc" data-i18n="ct.crisis.desc">
             if you're feeling unsafe or in immediate distress, please call a trained crisis counselor — they're available 24/7, free, in most countries.
           </p>
         </div>
@@ -542,7 +543,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/>
           </svg>
-          crisis hotlines
+          <span data-i18n="ct.crisis.btn">crisis hotlines</span>
         </a>
       </div>
     </section>
@@ -551,8 +552,8 @@
     <section class="ct-section">
       <div class="ct-section-head">
         <span class="ct-section-eyebrow">— 02</span>
-        <h2 class="ct-section-title">write to us</h2>
-        <span class="ct-section-hint">usually within 1–2 days</span>
+        <h2 class="ct-section-title" data-i18n="ct.email.title">write to us</h2>
+        <span class="ct-section-hint" data-i18n="ct.email.hint">usually within 1–2 days</span>
       </div>
 
       <div class="ct-grid">
@@ -564,10 +565,10 @@
                 <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Zm44.49-64L128,131.74,54.22,64Z"/>
               </svg>
             </span>
-            <span class="ct-card-label">general</span>
+            <span class="ct-card-label" data-i18n="ct.email.general">general</span>
           </div>
           <p class="ct-card-value">hello@stillhere.global</p>
-          <p class="ct-card-desc">questions, feedback, kind words, partnerships — anything, really.</p>
+          <p class="ct-card-desc" data-i18n="ct.email.general.desc">questions, feedback, kind words, partnerships — anything, really.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -580,10 +581,10 @@
                 <path d="M232,72v48a40,40,0,0,1-40,40h-8a16,16,0,0,1-16-16V112a16,16,0,0,1,16-16h24a16,16,0,0,1,8,2.15V72a88.1,88.1,0,0,0-86.27-88c-1.16-.05-2.32,0-3.48,0A88,88,0,0,0,40,72V98.15A16,16,0,0,1,48,96H72a16,16,0,0,1,16,16v32a16,16,0,0,1-16,16H64A40,40,0,0,1,24,120V72a104,104,0,0,1,103.95-104h.1c1.27,0,2.55,0,3.83.05A104.18,104.18,0,0,1,232,72Z"/>
               </svg>
             </span>
-            <span class="ct-card-label">support</span>
+            <span class="ct-card-label" data-i18n="ct.email.support">support</span>
           </div>
           <p class="ct-card-value">support@stillhere.global</p>
-          <p class="ct-card-desc">account issues, bugs, accessibility concerns, content moderation.</p>
+          <p class="ct-card-desc" data-i18n="ct.email.support.desc">account issues, bugs, accessibility concerns, content moderation.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -596,10 +597,10 @@
                 <path d="M240,56v40a8,8,0,0,1-8,8H136v96h32a8,8,0,0,1,0,16H88a8,8,0,0,1,0-16h32V104H24a8,8,0,0,1-8-8V56A16,16,0,0,1,32,40H224A16,16,0,0,1,240,56ZM32,88H224V56H32ZM72,176H40a16,16,0,0,0-16,16v24a16,16,0,0,0,16,16H72a16,16,0,0,0,16-16V192A16,16,0,0,0,72,176Zm0,40H40V192H72v24Zm144-40H184a16,16,0,0,0-16,16v24a16,16,0,0,0,16,16h32a16,16,0,0,0,16-16V192A16,16,0,0,0,216,176Zm0,40H184V192h32Z"/>
               </svg>
             </span>
-            <span class="ct-card-label">press & media</span>
+            <span class="ct-card-label" data-i18n="ct.email.press">press & media</span>
           </div>
           <p class="ct-card-value">media@stillhere.global</p>
-          <p class="ct-card-desc">interview requests, article features, brand assets.</p>
+          <p class="ct-card-desc" data-i18n="ct.email.press.desc">interview requests, article features, brand assets.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -612,8 +613,8 @@
     <section class="ct-section">
       <div class="ct-section-head">
         <span class="ct-section-eyebrow">— 03</span>
-        <h2 class="ct-section-title">find us elsewhere</h2>
-        <span class="ct-section-hint">smaller updates, the same calm tone</span>
+        <h2 class="ct-section-title" data-i18n="ct.social.title">find us elsewhere</h2>
+        <span class="ct-section-hint" data-i18n="ct.social.hint">smaller updates, the same calm tone</span>
       </div>
 
       <div class="ct-grid">
@@ -628,7 +629,7 @@
             <span class="ct-card-label">telegram</span>
           </div>
           <p class="ct-card-value">@still_here_global</p>
-          <p class="ct-card-desc">our quietest channel — gentle reminders, small updates.</p>
+          <p class="ct-card-desc" data-i18n="ct.social.tg.desc">our quietest channel — gentle reminders, small updates.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -644,7 +645,7 @@
             <span class="ct-card-label">instagram</span>
           </div>
           <p class="ct-card-value">@stillhere.global</p>
-          <p class="ct-card-desc">paper notes, tiny stories, sometimes a soft poem.</p>
+          <p class="ct-card-desc" data-i18n="ct.social.ig.desc">paper notes, tiny stories, sometimes a soft poem.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -660,7 +661,7 @@
             <span class="ct-card-label">tiktok</span>
           </div>
           <p class="ct-card-value">@stillhere.global</p>
-          <p class="ct-card-desc">short voice notes, breathing reminders, real people.</p>
+          <p class="ct-card-desc" data-i18n="ct.social.tt.desc">short voice notes, breathing reminders, real people.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -676,7 +677,7 @@
             <span class="ct-card-label">github</span>
           </div>
           <p class="ct-card-value">satisfied344/StillHere</p>
-          <p class="ct-card-desc">open-source. file an issue, star us, send a PR — we read those too.</p>
+          <p class="ct-card-desc" data-i18n="ct.social.gh.desc">open-source. file an issue, star us, send a PR — we read those too.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -689,35 +690,35 @@
     <section class="ct-section">
       <div class="ct-section-head">
         <span class="ct-section-eyebrow">— 04</span>
-        <h2 class="ct-section-title">a few quick things</h2>
-        <span class="ct-section-hint">the boring but useful bits</span>
+        <h2 class="ct-section-title" data-i18n="ct.facts.title">a few quick things</h2>
+        <span class="ct-section-hint" data-i18n="ct.facts.hint">the boring but useful bits</span>
       </div>
 
       <div class="ct-strip">
         <div class="ct-strip-cell">
-          <div class="ct-strip-label">response time</div>
-          <div class="ct-strip-value">1–2 business days</div>
-          <div class="ct-strip-note">we're a small team — thanks for patience.</div>
+          <div class="ct-strip-label" data-i18n="ct.facts.response">response time</div>
+          <div class="ct-strip-value" data-i18n="ct.facts.response.value">1–2 business days</div>
+          <div class="ct-strip-note" data-i18n="ct.facts.response.note">we're a small team — thanks for patience.</div>
         </div>
         <div class="ct-strip-cell">
-          <div class="ct-strip-label">based in</div>
-          <div class="ct-strip-value">online · everywhere</div>
-          <div class="ct-strip-note">no office, no zip code — just the internet.</div>
+          <div class="ct-strip-label" data-i18n="ct.facts.based">based in</div>
+          <div class="ct-strip-value" data-i18n="ct.facts.based.value">online · everywhere</div>
+          <div class="ct-strip-note" data-i18n="ct.facts.based.note">no office, no zip code — just the internet.</div>
         </div>
         <div class="ct-strip-cell">
-          <div class="ct-strip-label">languages</div>
-          <div class="ct-strip-value">english · more coming</div>
-          <div class="ct-strip-note">write in any language — we'll translate.</div>
+          <div class="ct-strip-label" data-i18n="ct.facts.lang">languages</div>
+          <div class="ct-strip-value" data-i18n="ct.facts.lang.value">english · more coming</div>
+          <div class="ct-strip-note" data-i18n="ct.facts.lang.note">write in any language — we'll translate.</div>
         </div>
       </div>
     </section>
 
     <!-- ─── CLOSING ─── -->
     <section class="ct-closing">
-      <p class="ct-closing-text">
+      <p class="ct-closing-text" data-i18n="ct.closing.text">
         whatever you write — <em>we'll read it carefully.</em>
       </p>
-      <p class="ct-closing-sub">— still here, always</p>
+      <p class="ct-closing-sub" data-i18n="ct.closing.sub">— still here, always</p>
     </section>
 
   </main>
@@ -730,32 +731,32 @@
           <div class="footer_logo">
             <p>StillHere</p>
           </div>
-          <p class="footer_subtitle">A project about presence, not solutions</p>
+          <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
         </div>
 
         <div class="footer_links">
           <div class="footer_links_1">
-            <h3>Platform</h3>
+            <h3 data-i18n="footer.platform">Platform</h3>
             <ul>
-              <li><a href="../main.html">Browse Stories</a></li>
-              <li><a href="../create-post.html">Share Your Story</a></li>
-              <li><a href="updates.html">Updates</a></li>
+              <li><a href="../main.html" data-i18n="footer.browse">Browse Stories</a></li>
+              <li><a href="../create-post.html" data-i18n="footer.share">Share Your Story</a></li>
+              <li><a href="updates.html" data-i18n="footer.updates">Updates</a></li>
             </ul>
           </div>
           <div class="footer_links_2">
-            <h3>Support</h3>
+            <h3 data-i18n="footer.support">Support</h3>
             <ul>
-              <li><a href="about.html">About Us</a></li>
-              <li><a href="contacts.html">Contacts</a></li>
-              <li><a href="../docs/html/guidelines.html">Guidelines</a></li>
-              <li><a href="../docs/html/crisis-resources.html">Crisis Resources</a></li>
+              <li><a href="about.html" data-i18n="footer.about">About Us</a></li>
+              <li><a href="contacts.html" data-i18n="footer.contacts">Contacts</a></li>
+              <li><a href="../docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
+              <li><a href="../docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
             </ul>
           </div>
           <div class="footer_links_3">
-            <h3>Legal</h3>
+            <h3 data-i18n="footer.legal">Legal</h3>
             <ul>
-              <li><a href="../docs/html/privacy-policy.html">Privacy Policy</a></li>
-              <li><a href="../docs/html/terms-of-service.html">Terms of Service</a></li>
+              <li><a href="../docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+              <li><a href="../docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
             </ul>
           </div>
         </div>
@@ -764,7 +765,7 @@
       <div class="footer_footer">
         <div class="footer_legal">
                   <p>2026 StillHere.</p>
-                  <p class="implicit-consent">
+                  <p class="implicit-consent" data-i18n="footer.consent.subdir">
                     by being here, you accept our
                     <a href="../docs/html/terms-of-service.html">terms</a>
                     &amp; <a href="../docs/html/privacy-policy.html">privacy</a>.

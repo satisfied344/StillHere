@@ -185,13 +185,23 @@
       authorNameEl.textContent = name;
     }
 
-    /* Only the author can delete their post — hide for everyone else */
+    /* Only the author can edit or delete their post — hide both for everyone else. */
     var deleteBtn = document.getElementById('deletePostBtn');
-    if (deleteBtn) {
-      var canDelete = _currentUserId && _postAuthorId && _currentUserId === _postAuthorId;
-      if (!canDelete) {
-        deleteBtn.style.display = 'none';
-      } else {
+    var editBtn   = document.getElementById('editPostBtn');
+    var ownerDiv  = document.getElementById('postOwnerDivider');
+    var canEdit = _currentUserId && _postAuthorId && _currentUserId === _postAuthorId;
+    if (!canEdit) {
+      if (deleteBtn) deleteBtn.style.display = 'none';
+      if (editBtn)   editBtn.style.display = 'none';
+      if (ownerDiv)  ownerDiv.style.display = 'none';
+    } else {
+      if (editBtn) {
+        editBtn.addEventListener('click', function () {
+          if (optionsDropdown) optionsDropdown.classList.remove('is-open');
+          window.location.href = 'create-post.html?edit=' + encodeURIComponent(postId);
+        });
+      }
+      if (deleteBtn) {
         deleteBtn.addEventListener('click', function () {
           if (optionsDropdown) optionsDropdown.classList.remove('is-open');
           showConfirm(function () {

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +18,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+  <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/theme.js" defer></script>
 
@@ -796,12 +798,12 @@
       <!-- HERO -->
       <section class="ql-hero">
         <div class="ql-hero-left">
-          <span class="ql-eyebrow"><em>—</em> things you couldn't say</span>
+          <span class="ql-eyebrow" data-i18n="ql.hero.eyebrow"><em>—</em> things you couldn't say</span>
           <h1 class="ql-title">
-            quiet <em>letters.</em>
+            <span data-i18n="ql.hero.title">quiet <em>letters.</em></span>
             <img src="assets/letters/_Special Characters/Asterisk_01.png" class="ql-title-doodle" alt="" aria-hidden="true">
           </h1>
-          <p class="ql-lede">
+          <p class="ql-lede" data-i18n="ql.hero.lede">
             short notes to people who'll never read them. an ex, a parent, the version
             of you that didn't make it through. write what you couldn't send, choose a
             colour for the weight of it, and <em>leave it here</em>.
@@ -809,14 +811,14 @@
         </div>
 
         <aside class="ql-hero-card">
-          <div class="ql-hero-card-eyebrow">— how this works</div>
-          <p class="ql-hero-card-text">no replies. no support count. no responses. just somewhere to put it down.</p>
+          <div class="ql-hero-card-eyebrow" data-i18n="ql.hero.card.eyebrow">— how this works</div>
+          <p class="ql-hero-card-text" data-i18n="ql.hero.card.text">no replies. no support count. no responses. just somewhere to put it down.</p>
           <ul class="ql-hero-card-rules">
-            <li>name or word, not a full name</li>
-            <li>kept anonymous, like everything else here</li>
-            <li>read others when you need to feel less alone</li>
+            <li data-i18n="ql.hero.card.r1">name or word, not a full name</li>
+            <li data-i18n="ql.hero.card.r2">kept anonymous, like everything else here</li>
+            <li data-i18n="ql.hero.card.r3">read others when you need to feel less alone</li>
           </ul>
-          <p class="ql-hero-card-inspire">
+          <p class="ql-hero-card-inspire" data-i18n="ql.hero.card.inspire">
             inspired by <a href="https://theunsentproject.com" target="_blank" rel="noopener">The Unsent Project</a> by Rora Blue — a project we love and learned from.
           </p>
         </aside>
@@ -825,7 +827,7 @@
       <!-- CONTROLS -->
       <div class="ql-controls">
         <div class="ql-controls-left">
-          <button class="ql-pill is-active" data-filter="all">all colours</button>
+          <button class="ql-pill is-active" data-filter="all" data-i18n="ql.controls.all">all colours</button>
           <button class="ql-pill" data-filter="c-dust"><span class="ql-pill-dot" style="background:#f1c8c8"></span></button>
           <button class="ql-pill" data-filter="c-sage"><span class="ql-pill-dot" style="background:#c5d4b8"></span></button>
           <button class="ql-pill" data-filter="c-lavender"><span class="ql-pill-dot" style="background:#d8c8e0"></span></button>
@@ -839,15 +841,15 @@
           <button class="ql-pill" data-filter="c-rose"><span class="ql-pill-dot" style="background:#e0a8b0"></span></button>
           <button class="ql-pill" data-filter="c-peach"><span class="ql-pill-dot" style="background:#f4cea8"></span></button>
         </div>
-        <span class="ql-count"><strong id="letterCount">0</strong> letters &middot; <em>shuffle on reload</em></span>
+        <span class="ql-count"><strong id="letterCount">0</strong> <span data-i18n="ql.count.suffix">letters &middot; <em>shuffle on reload</em></span></span>
       </div>
 
       <!-- GRID -->
       <div class="ql-grid" id="lettersGrid">
         <!-- letters are loaded from Supabase. Empty state below. -->
         <div class="ql-empty" id="lettersEmpty">
-          <p class="ql-empty-title">no letters yet.</p>
-          <p class="ql-empty-sub">be the first to put something down. tap <em>+</em> in the corner.</p>
+          <p class="ql-empty-title" data-i18n="ql.empty.title">no letters yet.</p>
+          <p class="ql-empty-sub" data-i18n="ql.empty.sub">be the first to put something down. tap <em>+</em> in the corner.</p>
         </div>
       
 
@@ -857,7 +859,7 @@
     <!-- ════════════════════ FAB ════════════════════ -->
     <button class="ql-fab" id="qlFab" aria-label="Write a quiet letter" title="Write a letter">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/></svg>
-      <span>write a letter</span>
+      <span data-i18n="ql.fab">write a letter</span>
     </button>
 
     <!-- ════════════════════ COMPOSER ════════════════════ -->
@@ -865,24 +867,24 @@
 
     <div class="ql-composer" id="qlComposer" role="dialog" aria-modal="true" aria-labelledby="qlComposerTitle">
       <div class="ql-composer-head">
-        <h2 class="ql-composer-title" id="qlComposerTitle">a letter to&hellip;</h2>
+        <h2 class="ql-composer-title" id="qlComposerTitle" data-i18n="ql.composer.title">a letter to&hellip;</h2>
         <button class="ql-composer-close" id="qlClose" aria-label="Close">&times;</button>
       </div>
-      <p class="ql-composer-sub">short. honest. nobody will reply. that's the point.</p>
+      <p class="ql-composer-sub" data-i18n="ql.composer.sub">short. honest. nobody will reply. that's the point.</p>
 
       <div class="ql-field">
-        <label class="ql-field-label" for="qlRecipient">— to</label>
-        <input type="text" id="qlRecipient" class="ql-input" placeholder="a name, an initial, or just a word" maxlength="32">
+        <label class="ql-field-label" for="qlRecipient" data-i18n="ql.composer.to">— to</label>
+        <input type="text" id="qlRecipient" class="ql-input" placeholder="a name, an initial, or just a word" data-i18n-attr-placeholder="ql.composer.to.ph" maxlength="32">
       </div>
 
       <div class="ql-field">
-        <label class="ql-field-label" for="qlBody">— what you couldn't say</label>
-        <textarea id="qlBody" class="ql-textarea" placeholder="just write it." maxlength="240"></textarea>
+        <label class="ql-field-label" for="qlBody" data-i18n="ql.composer.body.label">— what you couldn't say</label>
+        <textarea id="qlBody" class="ql-textarea" placeholder="just write it." data-i18n-attr-placeholder="ql.composer.body.ph" maxlength="240"></textarea>
         <div class="ql-counter"><span id="qlCounter">0</span> / 240</div>
       </div>
 
       <div class="ql-field">
-        <label class="ql-field-label">— a colour for it</label>
+        <label class="ql-field-label" data-i18n="ql.composer.color">— a colour for it</label>
         <div class="ql-palette" id="qlPalette">
           <button class="ql-swatch is-selected" data-color="c-dust"       style="--swatch-color:#f1c8c8" aria-label="dust"></button>
           <button class="ql-swatch" data-color="c-sage"       style="--swatch-color:#c5d4b8" aria-label="sage"></button>
@@ -900,12 +902,12 @@
       </div>
 
       <div class="ql-composer-foot">
-        <button class="ql-btn ql-btn--ghost" id="qlCancel" type="button">cancel</button>
-        <button class="ql-btn" id="qlSubmit" type="button" disabled>let it go &nbsp;&rarr;</button>
+        <button class="ql-btn ql-btn--ghost" id="qlCancel" type="button" data-i18n="ql.composer.cancel">cancel</button>
+        <button class="ql-btn" id="qlSubmit" type="button" disabled><span data-i18n="ql.composer.send">let it go</span> &nbsp;&rarr;</button>
       </div>
     </div>
 
-    <div class="ql-toast" id="qlToast">your letter is on the wall.</div>
+    <div class="ql-toast" id="qlToast" data-i18n="ql.toast.sent">your letter is on the wall.</div>
 
   </div><!-- /.page-wrapper -->
 
@@ -1078,14 +1080,19 @@ document.addEventListener('DOMContentLoaded', function () {
       ? window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY)
       : null;
 
+    /* Localised relative-time. Reads units from SH_I18N so a language
+       switch reflows the wall correctly. */
+    function tI(key, fallback) {
+      return (window.SH_I18N && SH_I18N.t) ? SH_I18N.t(key) : fallback;
+    }
     function timeAgo(iso) {
       var t = new Date(iso).getTime();
       var diff = Math.max(0, (Date.now() - t) / 1000);
-      if (diff < 60)      return 'just now';
-      if (diff < 3600)    return Math.floor(diff / 60)    + 'm ago';
-      if (diff < 86400)   return Math.floor(diff / 3600)  + 'h ago';
-      if (diff < 86400*30)return Math.floor(diff / 86400) + 'd ago';
-      return Math.floor(diff / (86400*30)) + 'mo ago';
+      if (diff < 60)      return tI('ql.time.now', 'just now');
+      if (diff < 3600)    return Math.floor(diff / 60)    + tI('ql.time.m', 'm ago');
+      if (diff < 86400)   return Math.floor(diff / 3600)  + tI('ql.time.h', 'h ago');
+      if (diff < 86400*30)return Math.floor(diff / 86400) + tI('ql.time.d', 'd ago');
+      return Math.floor(diff / (86400*30)) + tI('ql.time.mo', 'mo ago');
     }
 
     function detectLang(s) {
@@ -1129,7 +1136,7 @@ document.addEventListener('DOMContentLoaded', function () {
          .letter can stay overflow:visible for the tape. */
       article.innerHTML =
         '<div class="letter-card">' +
-          '<p class="letter-to">— to</p>' +
+          '<p class="letter-to">' + tI('ql.card.to', '— to') + '</p>' +
           '<p class="letter-name"></p>' +
           '<p class="letter-body"></p>' +
           '<p class="letter-foot"><span></span><span></span></p>' +
@@ -1137,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', function () {
       article.querySelector('.letter-name').textContent = row.recipient || '';
       article.querySelector('.letter-body').textContent = row.body || '';
       var foots = article.querySelectorAll('.letter-foot span');
-      foots[0].textContent = row.created_at ? timeAgo(row.created_at) : 'just now';
+      foots[0].textContent = row.created_at ? timeAgo(row.created_at) : tI('ql.time.now', 'just now');
       foots[1].textContent = row.language || detectLang((row.body || '') + ' ' + (row.recipient || ''));
       if (prepend) grid.insertBefore(article, grid.firstChild);
       else         grid.appendChild(article);
@@ -1206,7 +1213,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       submitBtn.disabled = true;
       var prevText = submitBtn.innerHTML;
-      submitBtn.innerHTML = 'sending&hellip;';
+      submitBtn.innerHTML = tI('ql.composer.sending', 'sending') + '&hellip;';
 
       try {
         var lang = detectLang(msg + ' ' + name);

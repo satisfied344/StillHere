@@ -55,14 +55,15 @@ function ensureViewport(html) {
     `$1\n    <meta name="viewport" content="width=device-width, initial-scale=1">`);
 }
 
-/* Tell Dark Reader to back off — we have our own native dark theme.
-   Combined with the upgraded theme bootstrap below, users with the
-   extension (or system dark-mode) get the site's own warm-dark palette
-   instead of Dark Reader's generic inversion. */
-function ensureDarkReaderLock(html) {
-  if (/<meta[^>]+name=["']darkreader-lock["']/i.test(html)) return html;
+/* color-scheme meta tells the browser the site supports both palettes
+   (affects scrollbars and native form-control rendering). Standards-
+   based — no extension-specific tags. */
+function ensureColorScheme(html) {
+  // Drop any stale extension-lock metas from earlier iterations.
+  html = html.replace(/\s*<meta\s+name=["'](?:darkreader-lock|nighteye|midnight-lizard-status)["'][^>]*>\s*\n?/gi, '\n    ');
+  if (/<meta[^>]+name=["']color-scheme["']/i.test(html)) return html;
   return html.replace(/(<meta\s+charset=["'][^"']+["']\s*\/?>)/i,
-    `$1\n    <meta name="darkreader-lock">\n    <meta name="color-scheme" content="light dark">`);
+    `$1\n    <meta name="color-scheme" content="light dark">`);
 }
 
 /* Upgrade the theme-bootstrap inline script to also honour the OS
@@ -70,9 +71,15 @@ function ensureDarkReaderLock(html) {
    how a Dark Reader / system-dark user lands on the site's own dark
    theme automatically. */
 function upgradeThemeBootstrap(html) {
-  const OLD = `<script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>`;
+  /* Inline <head> bootstrap. Runs synchronously, BEFORE any other
+     resource. Two responsibilities:
+       1. Apply localStorage.sh_theme (explicit user choice via FAB).
+       2. Otherwise honour matchMedia('(prefers-color-scheme: dark)')
+          — i.e. the user's OS / browser-level color preference.
+     Idempotent: matches any prior inline bootstrap shape and overwrites. */
   const NEW = `<script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>`;
-  return html.includes(OLD) ? html.replace(OLD, NEW) : html;
+  const RE = /<script>\s*\(function\(\)[\s\S]*?localStorage\.getItem\(["']sh_theme["']\)[\s\S]*?<\/script>/;
+  return RE.test(html) ? html.replace(RE, NEW) : html;
 }
 
 function mergeGoogleFonts(html) {
@@ -129,7 +136,7 @@ for (const f of files) {
   const orig = fs.readFileSync(f, 'utf8');
   let next = orig;
   next = ensureViewport(next);
-  next = ensureDarkReaderLock(next);
+  next = ensureColorScheme(next);
   next = upgradeThemeBootstrap(next);
   next = mergeGoogleFonts(next);
   next = ensurePreconnect(next);

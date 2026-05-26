@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -17,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>AI support — StillHere</title>
+  <title data-i18n="ac.title">AI support — StillHere</title>
   <link rel="stylesheet" href="CSS/ai-chat-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
@@ -123,22 +124,22 @@
       </button>
 
       <div class="sidebar-head">
-        <span class="sidebar-eyebrow">— a quiet space</span>
-        <h2 class="sidebar-title">your conversations</h2>
+        <span class="sidebar-eyebrow" data-i18n="ac.side.eyebrow">— a quiet space</span>
+        <h2 class="sidebar-title" data-i18n="ac.side.title">your conversations</h2>
       </div>
 
       <button class="new-chat-btn" id="newChatBtn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
           <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96A16,16,0,0,0,227.31,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"/>
         </svg>
-        <span>start a new conversation</span>
+        <span data-i18n="ac.side.new">start a new conversation</span>
       </button>
 
       <div class="sidebar-search">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
           <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/>
         </svg>
-        <input type="text" id="sidebarSearch" placeholder="search past chats…" autocomplete="off">
+        <input type="text" id="sidebarSearch" placeholder="search past chats…" data-i18n-attr-placeholder="ac.side.search" autocomplete="off">
       </div>
 
       <div class="chat-history" id="chatHistory">
@@ -147,7 +148,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.05,16.05,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78L82.5,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48Zm0,144H82.5a16,16,0,0,0-10.25,3.78L40,224V64H216Z"/>
           </svg>
-          <p>no conversations yet.<br>start one above.</p>
+          <p data-i18n="ac.side.empty">no conversations yet.<br>start one above.</p>
         </div>
       </div>
 
@@ -156,7 +157,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
           <path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96Zm112,152H48V96H208V208Z"/>
         </svg>
-        <span>private &amp; anonymous</span>
+        <span data-i18n="ac.side.priv">private &amp; anonymous</span>
       </div>
     </aside>
 
@@ -174,14 +175,14 @@
       <!-- WELCOME STATE — calming, almost a postcard -->
       <div class="chat-welcome" id="chatWelcome">
 
-        <div class="welcome-eyebrow">— a place to slow down</div>
+        <div class="welcome-eyebrow" data-i18n="ac.welcome.eyebrow">— a place to slow down</div>
 
         <h1 class="welcome-title">
-          hi, <em>we're listening.</em>
+          <span data-i18n="ac.welcome.title">hi, <em>we're listening.</em></span>
           <img src="assets/letters/_Special Characters/Asterisk_01.png" class="welcome-star" alt="" aria-hidden="true">
         </h1>
 
-        <p class="welcome-lede">
+        <p class="welcome-lede" data-i18n="ac.welcome.lede">
           not a therapist. not a script. <br>
           a quiet companion that listens, gently — at your pace,
           in your words, for as long as you need.
@@ -201,17 +202,19 @@
             id="chatInput"
             class="composer-input"
             placeholder="say anything — even just a feeling, half a thought, a word…"
+            data-i18n-attr-placeholder="ac.input.ph"
             rows="1"
             aria-label="Message"></textarea>
 
           <div class="composer-row">
             <div class="composer-tools">
               <button class="ctool" type="button" id="toolNoAdvice" aria-pressed="false"
-                      title="no-advice mode — i'll just listen, no suggestions">
+                      title="no-advice mode — i'll just listen, no suggestions"
+                      data-i18n-attr-title="ac.tool.noadvice.title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                   <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"/>
                 </svg>
-                <span>no-advice mode</span>
+                <span data-i18n="ac.tool.noadvice">no-advice mode</span>
                 <svg class="ctool-check" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                   <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/>
                 </svg>
@@ -219,28 +222,29 @@
 
               <div class="mood-wrap">
                 <button class="ctool" type="button" id="toolMood" aria-pressed="false"
-                        title="how are you feeling?">
+                        title="how are you feeling?"
+                        data-i18n-attr-title="ac.tool.mood.title">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                     <path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68A16,16,0,0,0,243.31,136ZM84,96a12,12,0,1,1,12-12A12,12,0,0,1,84,96Z"/>
                   </svg>
-                  <span id="moodLabel">mood</span>
+                  <span id="moodLabel" data-i18n="ac.tool.mood">mood</span>
                 </button>
                 <ul class="mood-menu" id="moodMenu" role="menu" hidden>
-                  <li><button data-mood="" class="mood-opt"><em>none</em></button></li>
-                  <li><button data-mood="sad"      class="mood-opt">sad</button></li>
-                  <li><button data-mood="anxious"  class="mood-opt">anxious</button></li>
-                  <li><button data-mood="angry"    class="mood-opt">angry</button></li>
-                  <li><button data-mood="numb"     class="mood-opt">numb</button></li>
-                  <li><button data-mood="tired"    class="mood-opt">tired</button></li>
-                  <li><button data-mood="lonely"   class="mood-opt">lonely</button></li>
-                  <li><button data-mood="ok"       class="mood-opt">ok</button></li>
-                  <li><button data-mood="hopeful"  class="mood-opt">hopeful</button></li>
+                  <li><button data-mood="" class="mood-opt"><em data-i18n="ac.mood.none">none</em></button></li>
+                  <li><button data-mood="sad"      class="mood-opt" data-i18n="ac.mood.sad">sad</button></li>
+                  <li><button data-mood="anxious"  class="mood-opt" data-i18n="ac.mood.anxious">anxious</button></li>
+                  <li><button data-mood="angry"    class="mood-opt" data-i18n="ac.mood.angry">angry</button></li>
+                  <li><button data-mood="numb"     class="mood-opt" data-i18n="ac.mood.numb">numb</button></li>
+                  <li><button data-mood="tired"    class="mood-opt" data-i18n="ac.mood.tired">tired</button></li>
+                  <li><button data-mood="lonely"   class="mood-opt" data-i18n="ac.mood.lonely">lonely</button></li>
+                  <li><button data-mood="ok"       class="mood-opt" data-i18n="ac.mood.ok">ok</button></li>
+                  <li><button data-mood="hopeful"  class="mood-opt" data-i18n="ac.mood.hopeful">hopeful</button></li>
                 </ul>
               </div>
             </div>
 
             <button class="send-btn" id="sendBtn" type="button" disabled aria-label="Send">
-              <span class="send-label">send</span>
+              <span class="send-label" data-i18n="ac.send">send</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                 <path d="M223.87,114,89.87,34A16,16,0,0,0,66.4,53.65L88,128,66.4,202.35A16,16,0,0,0,82.13,224a16.06,16.06,0,0,0,7.77-2L223.87,142a16,16,0,0,0,0-28ZM82.12,208,103.66,134.4l63.49.07a8,8,0,0,0,0-16l-63.49.07L82,53.94,216,128Z"/>
               </svg>
@@ -248,7 +252,7 @@
           </div>
         </div>
 
-        <p class="composer-foot">
+        <p class="composer-foot" data-i18n="ac.foot">
           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M128,24A104,104,0,1,0,232,128,104.13,104.13,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm12-80a12,12,0,1,1-12-12A12,12,0,0,1,140,136Zm-4-44v8a8,8,0,0,1-16,0V92a8,8,0,0,1,16,0Z"/>
           </svg>
@@ -268,11 +272,11 @@
           <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
         </svg>
       </div>
-      <h2 class="del-title" id="chatDelTitle">delete this conversation?</h2>
-      <p class="del-desc" id="chatDelDesc">this can't be undone.</p>
+      <h2 class="del-title" id="chatDelTitle" data-i18n="ac.delmod.title">delete this conversation?</h2>
+      <p class="del-desc" id="chatDelDesc" data-i18n="ac.delmod.desc">this can't be undone.</p>
       <div class="del-actions">
-        <button class="del-btn del-btn--cancel" id="chatDelCancel">cancel</button>
-        <button class="del-btn del-btn--confirm" id="chatDelConfirm">yes, delete</button>
+        <button class="del-btn del-btn--cancel" id="chatDelCancel" data-i18n="ac.delmod.cancel">cancel</button>
+        <button class="del-btn del-btn--confirm" id="chatDelConfirm" data-i18n="ac.delmod.confirm">yes, delete</button>
       </div>
     </div>
   </div>

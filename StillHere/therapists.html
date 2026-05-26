@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
+  <!-- Vercel Speed Insights -->
+  <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <!-- Vercel Web Analytics -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <title data-i18n="th.title">Talk to a real person — StillHere</title>
+  <link rel="stylesheet" href="CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/nav-menu.css">
+  <link rel="stylesheet" href="CSS/dark-theme.css">
+  <link rel="stylesheet" href="CSS/mobile.css?v=1779483937">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+  <script src="JS/supabase-config.js" defer></script>
+  <script src="JS/site-pings.js" defer></script>
+  <script src="JS/i18n.js" defer></script>
+  <script src="JS/session.js" defer></script>
+  <script src="JS/theme.js" defer></script>
+  <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       Therapists directory — paper aesthetic, in the spirit
+       of contacts.html. Uses the global CSS variables so
+       dark theme just works.
+       ══════════════════════════════════════════════════════ */
+
+    body { overflow-x: hidden; }
+
+    .th-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: calc(73px + 38px) 32px 80px;
+      position: relative;
+      z-index: 2;
+      animation: thIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes thIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .th-hero {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 56px;
+      padding-bottom: 36px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .th-hero-left { min-width: 0; }
+    .th-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+    .th-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+
+    .th-title {
+      font-family: "Caveat", cursive;
+      font-size: 80px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+    .th-title em { color: var(--accent-2); font-style: italic; font-weight: 700; }
+    .th-title-star {
+      display: inline-block;
+      width: 38px; height: 38px;
+      vertical-align: top;
+      margin-left: 8px;
+      margin-top: 14px;
+      transform: rotate(-12deg);
+      animation: thBob 4.5s ease-in-out infinite;
+    }
+    @keyframes thBob {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50%      { transform: rotate(-4deg)  translateY(-5px); }
+    }
+
+    .th-lede {
+      font-size: 17px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+    .th-lede em {
+      color: var(--accent-2);
+      font-style: italic;
+      border-bottom: 1px dashed rgba(214, 83, 60, 0.45);
+      padding-bottom: 1px;
+    }
+
+    .th-hero-right { position: relative; min-height: 200px; }
+    .th-hero-card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 30px -15px rgba(26, 20, 16, 0.16);
+      transform: rotate(1.2deg);
+      position: relative;
+    }
+    .th-hero-card::before {
+      content: "";
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      width: 70px; height: 22px;
+      background: rgba(214, 83, 60, 0.18);
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(26, 20, 16, 0.08);
+    }
+    .th-hero-card-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 6px;
+    }
+    .th-hero-card-title {
+      font-family: "Caveat", cursive;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .th-hero-card-text {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+    .th-hero-card-text strong { color: var(--ink); font-weight: 600; }
+
+    /* ── SECTION HEADERS ────────────────────────────────── */
+    .th-section { margin-bottom: 56px; }
+    .th-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .th-section-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .th-section-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .th-section-hint {
+      font-size: 13px;
+      color: var(--ink-light);
+      margin-left: auto;
+      font-style: italic;
+    }
+
+    /* ── CRISIS CALLOUT ─────────────────────────────────── */
+    .th-crisis {
+      background: linear-gradient(135deg, rgba(214, 83, 60, 0.10), rgba(214, 83, 60, 0.04));
+      border: 1px solid rgba(214, 83, 60, 0.28);
+      border-radius: 8px;
+      padding: 22px 26px;
+      display: grid;
+      grid-template-columns: 50px 1fr auto;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 56px;
+    }
+    .th-crisis-icon {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      background: rgba(214, 83, 60, 0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-2);
+      flex-shrink: 0;
+    }
+    .th-crisis-text { min-width: 0; }
+    .th-crisis-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -0.005em;
+    }
+    .th-crisis-desc {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+    }
+    .th-crisis-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--accent-2);
+      color: var(--paper-soft);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
+      white-space: nowrap;
+    }
+    .th-crisis-btn:hover {
+      background: #b8462f;
+      transform: translateY(-1px) rotate(-0.5deg);
+    }
+
+    /* ── HOW IT WORKS ───────────────────────────────────── */
+    .th-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .th-step {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 20px 22px 22px;
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease;
+    }
+    .th-step:hover { transform: translateY(-3px); border-color: var(--line); }
+    .th-step-num {
+      font-family: "Caveat", cursive;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--accent-2);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .th-step-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .th-step-desc {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
+    /* ── THERAPIST CARDS ────────────────────────────────── */
+    .th-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 18px;
+    }
+
+    .th-card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      padding: 22px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    .th-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--line);
+      box-shadow: 0 14px 30px -14px rgba(26, 20, 16, 0.20);
+    }
+
+    .th-card-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .th-card-avatar {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(214, 83, 60, 0.14), rgba(214, 83, 60, 0.04));
+      color: var(--accent-2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Caveat", cursive;
+      font-size: 26px;
+      font-weight: 700;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+    .th-card-id { min-width: 0; flex: 1; }
+    .th-card-name {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+      margin-bottom: 2px;
+    }
+    .th-card-role {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      letter-spacing: 0.01em;
+    }
+    .th-card-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(85, 115, 80, 0.14);
+      color: #3d5a36;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .th-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .th-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #3a2f24;
+      background: rgba(26, 20, 16, 0.06);
+      border: 1px solid rgba(26, 20, 16, 0.14);
+    }
+    .th-tag--lang {
+      background: rgba(214, 83, 60, 0.12);
+      color: #9c3a26;
+      border-color: rgba(214, 83, 60, 0.28);
+    }
+
+    .th-card-bio {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
+    .th-card-foot {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line-soft);
+    }
+    .th-card-price {
+      font-size: 12.5px;
+      color: var(--ink-light);
+    }
+    .th-card-price strong {
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 13.5px;
+    }
+    .th-card-btn {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      background: var(--accent-2);
+      color: var(--paper-soft);
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease;
+      white-space: nowrap;
+    }
+    .th-card-btn:hover {
+      background: #b8462f;
+      transform: translateY(-1px) rotate(-0.5deg);
+    }
+
+    /* ── TRUST STRIP ────────────────────────────────────── */
+    .th-trust {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      background: var(--paper-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .th-trust-cell {
+      padding: 22px 24px;
+      border-right: 1px dashed var(--line-soft);
+    }
+    .th-trust-cell:last-child { border-right: none; }
+    .th-trust-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 8px;
+    }
+    .th-trust-title {
+      font-family: "Ubuntu", sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .th-trust-text {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
+    /* ── CLOSING ────────────────────────────────────────── */
+    .th-closing {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px dashed var(--line-soft);
+      margin-top: 16px;
+    }
+    .th-closing-text {
+      font-family: "Caveat", cursive;
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .th-closing-text em { color: var(--accent-2); font-style: italic; }
+    .th-closing-sub {
+      font-size: 12px;
+      color: var(--ink-light);
+      font-style: italic;
+      letter-spacing: 0.04em;
+      margin-top: 6px;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 880px) {
+      .th-hero { grid-template-columns: 1fr; gap: 28px; }
+      .th-title { font-size: 64px; }
+      .th-trust { grid-template-columns: 1fr; }
+      .th-trust-cell { border-right: none; border-bottom: 1px dashed var(--line-soft); }
+      .th-trust-cell:last-child { border-bottom: none; }
+    }
+    @media (max-width: 540px) {
+      .th-page { padding: calc(73px + 24px) 18px 60px; }
+      .th-title { font-size: 50px; }
+      .th-crisis { grid-template-columns: 1fr; text-align: center; gap: 12px; }
+      .th-crisis-icon { margin: 0 auto; }
+      .th-card-foot { flex-wrap: wrap; }
+      .th-card-btn { margin-left: 0; width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background ink/noise filter -->
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="noise">
+      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
+    </filter>
+  </svg>
+
+  <!-- Ambient background doodles -->
+  <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+
+  <!-- ════════════════════ NAV ════════════════════ -->
+  <nav class="top-info" aria-label="Primary navigation">
+    <a href="main.html" class="logo"><span>StillHere</span></a>
+    <div class="nav">
+      <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>
+        <span data-i18n="nav.about">about</span>
+      </a>
+      <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg>
+        <span data-i18n="nav.contacts">contacts</span>
+      </a>
+      <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"/></svg>
+        <span data-i18n="nav.updates">updates</span>
+      </a>
+      <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>
+        <span data-i18n="nav.profile">profile</span>
+      </a>
+
+      <div class="main-menu-dropdown">
+        <button class="main-menu-trigger" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
+        </button>
+        <ul class="main-menu-panel" role="menu">
+          <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg><span data-i18n="menu.login">Login</span></a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg><span data-i18n="menu.feed">Community feed</span></a></li>
+          <li role="none"><a href="letters.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,40H56A16,16,0,0,0,40,56V216a16,16,0,0,0,16,16h120a8,8,0,0,0,5.66-2.34l40-40A8,8,0,0,0,224,184V56A16,16,0,0,0,216,40ZM56,56H216v120H168a8,8,0,0,0-8,8v32H56Zm120,160V192h27.31Z"/></svg><span data-i18n="menu.letters">Quiet letters</span></a></li>
+          <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg><span data-i18n="menu.preferences">Preferences</span></a></li>
+          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg><span data-i18n="menu.ai">AI support</span></a></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span data-i18n="menu.private">Private support</span></a></li>
+          <li role="none" class="mmenu-divider" aria-hidden="true"></li>
+          <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
+          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg><span data-i18n="menu.statistics">Statistics</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════ PAGE ════════════════════ -->
+  <main class="th-page">
+
+    <!-- ─── HERO ─── -->
+    <section class="th-hero">
+      <div class="th-hero-left">
+        <span class="th-eyebrow" data-i18n="th.hero.eyebrow"><em>—</em> talk to a real person</span>
+        <h1 class="th-title">
+          <span data-i18n="th.hero.title">find someone <em>to listen.</em></span>
+          <img src="assets/letters/_Special Characters/Asterisk_01.png" class="th-title-star" alt="" aria-hidden="true">
+        </h1>
+        <p class="th-lede" data-i18n="th.hero.lede">
+          a handful of <em>trusted partners</em> who do this for a living — counselors, psychologists,
+          peer listeners. book directly with them, on their schedule, in their tone. StillHere
+          doesn't sit in the middle: no fees, no booking system to fight, no data handled by us.
+        </p>
+      </div>
+
+      <div class="th-hero-right">
+        <div class="th-hero-card">
+          <div class="th-hero-card-eyebrow" data-i18n="th.hero.card.eyebrow">— what this is</div>
+          <div class="th-hero-card-title" data-i18n="th.hero.card.title">a referral, not a marketplace.</div>
+          <p class="th-hero-card-text" data-i18n="th.hero.card.text">
+            <strong>we don't process payments, run video calls, or store sessions.</strong>
+            each partner has their own scheduling and policies — clicking «book» opens their calendar in a new tab.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CRISIS CALLOUT ─── -->
+    <div class="th-crisis">
+      <div class="th-crisis-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/>
+        </svg>
+      </div>
+      <div class="th-crisis-text">
+        <h3 class="th-crisis-title" data-i18n="th.crisis.title">in crisis right now? please don't wait.</h3>
+        <p class="th-crisis-desc" data-i18n="th.crisis.desc">
+          partner therapists schedule days in advance. if it feels urgent — please call a hotline that can talk to you in the next few minutes, free, 24/7.
+        </p>
+      </div>
+      <a href="docs/html/crisis-resources.html" class="th-crisis-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/>
+        </svg>
+        <span data-i18n="th.crisis.btn">crisis hotlines</span>
+      </a>
+    </div>
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="th-section">
+      <div class="th-section-head">
+        <span class="th-section-eyebrow">— 01</span>
+        <h2 class="th-section-title" data-i18n="th.how.title">how it works</h2>
+        <span class="th-section-hint" data-i18n="th.how.hint">three steps, no account needed</span>
+      </div>
+
+      <div class="th-steps">
+        <div class="th-step">
+          <div class="th-step-num">01</div>
+          <div class="th-step-title" data-i18n="th.how.s1.title">pick someone</div>
+          <p class="th-step-desc" data-i18n="th.how.s1.desc">
+            read the short bios below. look at the languages they speak and what they help with most. trust your first instinct — you can always try a different partner.
+          </p>
+        </div>
+        <div class="th-step">
+          <div class="th-step-num">02</div>
+          <div class="th-step-title" data-i18n="th.how.s2.title">book on their site</div>
+          <p class="th-step-desc" data-i18n="th.how.s2.desc">
+            their «book» button opens their own scheduling page (Calendly, Doxy.me, or similar). you pick a slot, pay them directly, and they confirm via email.
+          </p>
+        </div>
+        <div class="th-step">
+          <div class="th-step-num">03</div>
+          <div class="th-step-title" data-i18n="th.how.s3.title">meet them, calmly</div>
+          <p class="th-step-desc" data-i18n="th.how.s3.desc">
+            video, voice, or text — whatever they offer. no recording, no notes shared with us. it's between you and them.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── THERAPISTS GRID ─── -->
+    <!-- ══════════════════════════════════════════════════════
+         REPLACE THE 6 PROFILES BELOW WITH REAL PARTNERS.
+         For each card:
+           • update the name, role, languages, specialties, bio, price
+           • replace the «href» on .th-card-btn with the partner's
+             real Calendly / Doxy / scheduling link
+           • avatar initials are picked from the first letters of name
+         ══════════════════════════════════════════════════════ -->
+    <section class="th-section">
+      <div class="th-section-head">
+        <span class="th-section-eyebrow">— 02</span>
+        <h2 class="th-section-title" data-i18n="th.list.title">trusted partners</h2>
+        <span class="th-section-hint" data-i18n="th.list.hint">verified by us, paid directly to them</span>
+      </div>
+
+      <div class="th-grid">
+
+        <!-- ── Partner 1 ── -->
+        <article class="th-card">
+          <div class="th-card-head">
+            <div class="th-card-avatar" aria-hidden="true">A.K</div>
+            <div class="th-card-id">
+              <p class="th-card-name" data-i18n="th.p1.name">Anna K.</p>
+              <p class="th-card-role" data-i18n="th.p1.role">licensed psychologist · gestalt</p>
+            </div>
+            <span class="th-card-verified" data-i18n="th.verified">verified</span>
+          </div>
+          <div class="th-card-tags">
+            <span class="th-tag th-tag--lang">RU</span>
+            <span class="th-tag th-tag--lang">UK</span>
+            <span class="th-tag th-tag--lang">EN</span>
+            <span class="th-tag" data-i18n="th.tag.anxiety">anxiety</span>
+            <span class="th-tag" data-i18n="th.tag.burnout">burnout</span>
+            <span class="th-tag" data-i18n="th.tag.relationships">relationships</span>
+          </div>
+          <p class="th-card-bio" data-i18n="th.p1.bio">
+            seven years of practice. soft, curious, doesn't lecture. works best with people who feel stuck in their own head and want to slowly unstick.
+          </p>
+          <div class="th-card-foot">
+            <span class="th-card-price"><span data-i18n="th.price.from">from</span> <strong>$45</strong> · <span data-i18n="th.price.scale">sliding scale</span></span>
+            <a class="th-card-btn" href="https://calendly.com/example-anna-k" target="_blank" rel="noopener">
+              <span data-i18n="th.book">book</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- ── Partner 2 ── -->
+        <article class="th-card">
+          <div class="th-card-head">
+            <div class="th-card-avatar" aria-hidden="true">M.S</div>
+            <div class="th-card-id">
+              <p class="th-card-name" data-i18n="th.p2.name">Mikhail S.</p>
+              <p class="th-card-role" data-i18n="th.p2.role">psychotherapist · CBT</p>
+            </div>
+            <span class="th-card-verified" data-i18n="th.verified">verified</span>
+          </div>
+          <div class="th-card-tags">
+            <span class="th-tag th-tag--lang">RU</span>
+            <span class="th-tag th-tag--lang">EN</span>
+            <span class="th-tag" data-i18n="th.tag.depression">depression</span>
+            <span class="th-tag" data-i18n="th.tag.ocd">OCD</span>
+            <span class="th-tag" data-i18n="th.tag.anxiety">anxiety</span>
+          </div>
+          <p class="th-card-bio" data-i18n="th.p2.bio">
+            structured, evidence-based, but not clinical. comfortable with intrusive thoughts and the kinds of fears that make less sense the more you think about them.
+          </p>
+          <div class="th-card-foot">
+            <span class="th-card-price"><span data-i18n="th.price.from">from</span> <strong>$55</strong></span>
+            <a class="th-card-btn" href="https://calendly.com/example-mikhail-s" target="_blank" rel="noopener">
+              <span data-i18n="th.book">book</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- ── Partner 3 ── -->
+        <article class="th-card">
+          <div class="th-card-head">
+            <div class="th-card-avatar" aria-hidden="true">S.R</div>
+            <div class="th-card-id">
+              <p class="th-card-name" data-i18n="th.p3.name">Sofia R.</p>
+              <p class="th-card-role" data-i18n="th.p3.role">clinical psychologist · trauma-informed</p>
+            </div>
+            <span class="th-card-verified" data-i18n="th.verified">verified</span>
+          </div>
+          <div class="th-card-tags">
+            <span class="th-tag th-tag--lang">UK</span>
+            <span class="th-tag th-tag--lang">RU</span>
+            <span class="th-tag th-tag--lang">EN</span>
+            <span class="th-tag" data-i18n="th.tag.trauma">trauma</span>
+            <span class="th-tag" data-i18n="th.tag.lgbtq">LGBTQ+</span>
+            <span class="th-tag" data-i18n="th.tag.grief">grief</span>
+          </div>
+          <p class="th-card-bio" data-i18n="th.p3.bio">
+            slow-paced, body-aware sessions. specializes in displacement, war-related trauma, and identity. has a quiet voice and a lot of patience.
+          </p>
+          <div class="th-card-foot">
+            <span class="th-card-price"><span data-i18n="th.price.from">from</span> <strong>$50</strong> · <span data-i18n="th.price.scale">sliding scale</span></span>
+            <a class="th-card-btn" href="https://calendly.com/example-sofia-r" target="_blank" rel="noopener">
+              <span data-i18n="th.book">book</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- ── Partner 4 ── -->
+        <article class="th-card">
+          <div class="th-card-head">
+            <div class="th-card-avatar" aria-hidden="true">D.T</div>
+            <div class="th-card-id">
+              <p class="th-card-name" data-i18n="th.p4.name">Daniel T.</p>
+              <p class="th-card-role" data-i18n="th.p4.role">counselor · somatic experiencing</p>
+            </div>
+            <span class="th-card-verified" data-i18n="th.verified">verified</span>
+          </div>
+          <div class="th-card-tags">
+            <span class="th-tag th-tag--lang">EN</span>
+            <span class="th-tag" data-i18n="th.tag.grief">grief</span>
+            <span class="th-tag" data-i18n="th.tag.relationships">relationships</span>
+            <span class="th-tag" data-i18n="th.tag.loneliness">loneliness</span>
+          </div>
+          <p class="th-card-bio" data-i18n="th.p4.bio">
+            works mostly with adults navigating loss — death, breakups, the slow kind that doesn't have a name. focuses on what the body is holding, not just the story.
+          </p>
+          <div class="th-card-foot">
+            <span class="th-card-price"><span data-i18n="th.price.from">from</span> <strong>$70</strong></span>
+            <a class="th-card-btn" href="https://calendly.com/example-daniel-t" target="_blank" rel="noopener">
+              <span data-i18n="th.book">book</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- ── Partner 5 ── -->
+        <article class="th-card">
+          <div class="th-card-head">
+            <div class="th-card-avatar" aria-hidden="true">O.M</div>
+            <div class="th-card-id">
+              <p class="th-card-name" data-i18n="th.p5.name">Olha M.</p>
+              <p class="th-card-role" data-i18n="th.p5.role">family psychologist · systems</p>
+            </div>
+            <span class="th-card-verified" data-i18n="th.verified">verified</span>
+          </div>
+          <div class="th-card-tags">
+            <span class="th-tag th-tag--lang">UK</span>
+            <span class="th-tag th-tag--lang">RU</span>
+            <span class="th-tag" data-i18n="th.tag.relationships">relationships</span>
+            <span class="th-tag" data-i18n="th.tag.couples">couples</span>
+            <span class="th-tag" data-i18n="th.tag.family">family</span>
+          </div>
+          <p class="th-card-bio" data-i18n="th.p5.bio">
+            works with couples and families. fluent in the kind of silence that fills a kitchen. helps people name what's been unnamed for years — gently, never as a verdict.
+          </p>
+          <div class="th-card-foot">
+            <span class="th-card-price"><span data-i18n="th.price.from">from</span> <strong>$60</strong></span>
+            <a class="th-card-btn" href="https://calendly.com/example-olha-m" target="_blank" rel="noopener">
+              <span data-i18n="th.book">book</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- ── Partner 6 ── -->
+        <article class="th-card">
+          <div class="th-card-head">
+            <div class="th-card-avatar" aria-hidden="true">L.B</div>
+            <div class="th-card-id">
+              <p class="th-card-name" data-i18n="th.p6.name">Lukas B.</p>
+              <p class="th-card-role" data-i18n="th.p6.role">psychotherapist · teens & young adults</p>
+            </div>
+            <span class="th-card-verified" data-i18n="th.verified">verified</span>
+          </div>
+          <div class="th-card-tags">
+            <span class="th-tag th-tag--lang">EN</span>
+            <span class="th-tag th-tag--lang">DE</span>
+            <span class="th-tag" data-i18n="th.tag.teens">teens</span>
+            <span class="th-tag" data-i18n="th.tag.identity">identity</span>
+            <span class="th-tag" data-i18n="th.tag.anxiety">anxiety</span>
+          </div>
+          <p class="th-card-bio" data-i18n="th.p6.bio">
+            specializes in 15–25 year olds. doesn't talk down. doesn't assume. helps you say the thing that everyone around you keeps brushing off as a phase.
+          </p>
+          <div class="th-card-foot">
+            <span class="th-card-price"><span data-i18n="th.price.from">from</span> <strong>$50</strong> · <span data-i18n="th.price.scale">sliding scale</span></span>
+            <a class="th-card-btn" href="https://calendly.com/example-lukas-b" target="_blank" rel="noopener">
+              <span data-i18n="th.book">book</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ─── TRUST STRIP ─── -->
+    <section class="th-section">
+      <div class="th-section-head">
+        <span class="th-section-eyebrow">— 03</span>
+        <h2 class="th-section-title" data-i18n="th.trust.title">how we choose them</h2>
+        <span class="th-section-hint" data-i18n="th.trust.hint">small list, on purpose</span>
+      </div>
+
+      <div class="th-trust">
+        <div class="th-trust-cell">
+          <div class="th-trust-label" data-i18n="th.trust.t1.label">credentials</div>
+          <div class="th-trust-title" data-i18n="th.trust.t1.title">verified license</div>
+          <p class="th-trust-text" data-i18n="th.trust.t1.text">we check certificates, registry numbers, and references before listing anyone. no «life coaches», no unsupervised practice.</p>
+        </div>
+        <div class="th-trust-cell">
+          <div class="th-trust-label" data-i18n="th.trust.t2.label">privacy</div>
+          <div class="th-trust-title" data-i18n="th.trust.t2.title">we don't see your session</div>
+          <p class="th-trust-text" data-i18n="th.trust.t2.text">booking, payment, and the conversation itself happen on their side. StillHere doesn't store, log, or sit in the middle.</p>
+        </div>
+        <div class="th-trust-cell">
+          <div class="th-trust-label" data-i18n="th.trust.t3.label">pricing</div>
+          <div class="th-trust-title" data-i18n="th.trust.t3.title">no platform fee</div>
+          <p class="th-trust-text" data-i18n="th.trust.t3.text">you pay them directly. we take nothing. most partners offer a sliding scale — ask if cost is a concern.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CLOSING ─── -->
+    <section class="th-closing">
+      <p class="th-closing-text" data-i18n="th.closing.text">
+        a real person can listen <em>differently.</em><br>that's the whole point.
+      </p>
+      <p class="th-closing-sub" data-i18n="th.closing.sub">— still here, while you find them.</p>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+  <footer class="footer">
+    <div class="footer_content">
+      <div class="footer_main">
+        <div class="footer_stillhere">
+          <div class="footer_logo"><p>StillHere</p></div>
+          <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
+        </div>
+
+        <div class="footer_links">
+          <div class="footer_links_1">
+            <h3 data-i18n="footer.platform">Platform</h3>
+            <ul>
+              <li><a href="main.html" data-i18n="footer.browse">Browse Stories</a></li>
+              <li><a href="create-post.html" data-i18n="footer.share">Share Your Story</a></li>
+              <li><a href="nav-bar/updates.html" data-i18n="footer.updates">Updates</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_2">
+            <h3 data-i18n="footer.support">Support</h3>
+            <ul>
+              <li><a href="nav-bar/about.html" data-i18n="footer.about">About Us</a></li>
+              <li><a href="nav-bar/contacts.html" data-i18n="footer.contacts">Contacts</a></li>
+              <li><a href="docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
+              <li><a href="docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_3">
+            <h3 data-i18n="footer.legal">Legal</h3>
+            <ul>
+              <li><a href="docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+              <li><a href="docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer_footer">
+        <div class="footer_legal">
+          <p>2026 StillHere.</p>
+          <p class="implicit-consent" data-i18n="footer.consent">
+            by being here, you accept our
+            <a href="docs/html/terms-of-service.html">terms</a>
+            &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
+          </p>
+        </div>
+        <div class="footer_social">
+          <a href="https://t.me/still_here_global" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/></svg>
+          </a>
+          <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -5,6 +5,24 @@
   if (!form) return;
 
   /* ─────────────────────────────────────────────
+     Edit mode — when URL has ?edit=<post-id>, we
+     load the existing post into the form and the
+     submit handler runs UPDATE instead of INSERT.
+     Author-only: ownership is verified after the
+     post is fetched (if mismatch we redirect away).
+     ───────────────────────────────────────────── */
+  var EDIT_ID = (function () {
+    try {
+      var p = new URLSearchParams(window.location.search);
+      return p.get('edit') || null;
+    } catch (_) { return null; }
+  })();
+  /* URLs of media that were already attached to the post and the user
+     chose to keep. Filled in load step; trimmed by the per-item remove
+     buttons. On submit they are concatenated with newly uploaded URLs. */
+  var existingMediaUrls = [];
+
+  /* ─────────────────────────────────────────────
      Rich text editor (Quill)
      ───────────────────────────────────────────── */
 
@@ -82,7 +100,7 @@
   function addFiles(fileList) {
     Array.from(fileList).forEach(function (file) {
       if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) return;
-      if (selectedFiles.length >= MAX_FILES) return;
+      if (selectedFiles.length + existingMediaUrls.length >= MAX_FILES) return;
       selectedFiles.push(file);
       renderPreview(file, selectedFiles.length - 1);
     });
@@ -144,7 +162,56 @@
 
   function syncPrompt() {
     if (!uploadPrompt) return;
-    uploadPrompt.style.display = selectedFiles.length > 0 ? 'none' : '';
+    var total = selectedFiles.length + existingMediaUrls.length;
+    uploadPrompt.style.display = total > 0 ? 'none' : '';
+  }
+
+  /* Render a preview tile for media that's already on the server
+     (edit mode). The remove button drops it from existingMediaUrls. */
+  function renderExistingPreview(url) {
+    var item = document.createElement('div');
+    item.className = 'media-preview-item';
+    item.dataset.existingUrl = url;
+
+    var isVideo = /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
+    if (isVideo) {
+      var vid = document.createElement('video');
+      vid.src = url;
+      vid.preload = 'metadata';
+      vid.muted = true;
+      vid.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+      item.appendChild(vid);
+      var playBadge = document.createElement('div');
+      playBadge.setAttribute('aria-hidden', 'true');
+      playBadge.style.cssText =
+        'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;' +
+        'color:#fff;font-size:22px;text-shadow:0 1px 6px rgba(0,0,0,0.55);pointer-events:none;';
+      playBadge.textContent = '▶';
+      item.appendChild(playBadge);
+    } else {
+      var img = document.createElement('img');
+      img.alt = '';
+      img.src = url;
+      item.appendChild(img);
+    }
+
+    var removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'media-remove';
+    removeBtn.setAttribute('aria-label', 'Remove');
+    removeBtn.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor">' +
+      '<path d="M202.83,197.17a4,4,0,0,1-5.66,5.66L128,133.66,58.83,202.83a4,4,0,0,1-5.66-5.66' +
+      'L122.34,128,53.17,58.83a4,4,0,0,1,5.66-5.66L128,122.34l69.17-69.17a4,4,0,1,1,5.66,5.66L133.66,128Z"/></svg>';
+    removeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      existingMediaUrls = existingMediaUrls.filter(function (u) { return u !== url; });
+      item.remove();
+      syncPrompt();
+    });
+
+    item.appendChild(removeBtn);
+    if (previewGrid) previewGrid.appendChild(item);
   }
 
   if (uploadArea && mediaInput) {
@@ -315,16 +382,22 @@
         return;
       }
 
-      // ── Passed → upload media then insert ────────────────────
-      setLoading(true, selectedFiles.length > 0 ? 'Uploading…' : 'Publishing…');
+      // ── Passed → upload media then insert/update ────────────
+      var busyLabel = selectedFiles.length > 0
+        ? 'Uploading…'
+        : (EDIT_ID ? 'Saving…' : 'Publishing…');
+      setLoading(true, busyLabel);
 
-      uploadAll(selectedFiles, function (mediaUrls) {
+      uploadAll(selectedFiles, function (newMediaUrls) {
         // Always resolve user ID fresh from the auth API so we never
         // accidentally insert a post with user_id = null.
         db.auth.getUser().then(function (authRes) {
           var userId = (authRes && authRes.data && authRes.data.user)
             ? authRes.data.user.id : null;
 
+          /* In edit mode the final media list is whatever the user kept
+             from the original post + whatever they newly uploaded. */
+          var mediaUrls    = existingMediaUrls.concat(newMediaUrls);
           // Combine attachment URLs + editor-embedded image URLs
           var allImageUrls = mediaUrls.concat(editorImageUrls);
 
@@ -370,18 +443,34 @@
             } catch (_) {}
 
             profileStep.then(function () {
-              db.from('posts').insert({
+              /* Build the payload once; only the operation (insert vs
+                 update) differs between create and edit. */
+              var payload = {
                 title:      title   || null,
                 content:    content,
                 lang:       lang,
                 topics:     topics,
                 mode:       mode,
-                media_urls: mediaUrls,
-                user_id:    userId,
-                anon_fp:    anonFp
-              }).then(function (result) {
+                media_urls: mediaUrls
+              };
+
+              var op;
+              if (EDIT_ID) {
+                /* UPDATE — scope to id + user_id so a malicious actor
+                   can't edit someone else's post by spoofing the URL.
+                   We DON'T touch user_id / anon_fp / created_at. */
+                op = db.from('posts').update(payload)
+                  .eq('id', EDIT_ID)
+                  .eq('user_id', userId);
+              } else {
+                payload.user_id = userId;
+                payload.anon_fp = anonFp;
+                op = db.from('posts').insert(payload);
+              }
+
+              op.then(function (result) {
                 if (result.error) {
-                  console.error('Supabase insert error:', result.error);
+                  console.error('Supabase ' + (EDIT_ID ? 'update' : 'insert') + ' error:', result.error);
                   /* The block trigger raises 42501 "author is blocked".
                      Show a kinder message than the raw Postgres error. */
                   if ((result.error.message || '').toLowerCase().indexOf('blocked') !== -1) {
@@ -391,17 +480,23 @@
                       alert('You are temporarily blocked from posting. Please try again later.');
                     }
                   } else {
-                    alert('Could not publish: ' + result.error.message);
+                    alert(EDIT_ID
+                      ? 'Could not save changes: ' + result.error.message
+                      : 'Could not publish: ' + result.error.message);
                   }
                   setLoading(false);
                   return;
                 }
-                /* Successful insert — clear the saved draft (hooked by the
+                /* Successful write — clear the saved draft (hooked by the
                    inline draft script in create-post.html). */
                 if (typeof window.__shClearPostDraft === 'function') {
                   window.__shClearPostDraft();
                 }
-                window.location.href = 'main.html';
+                /* After edit, send the user back to the post they edited;
+                   after create, send to the main feed. */
+                window.location.href = EDIT_ID
+                  ? ('post.html?id=' + encodeURIComponent(EDIT_ID))
+                  : 'main.html';
               });
             });
 
@@ -411,5 +506,125 @@
 
     });
   });
+
+  /* ─────────────────────────────────────────────
+     Edit mode — load existing post into the form.
+     Triggered by ?edit=<id> in the URL.
+     ───────────────────────────────────────────── */
+  function loadPostForEdit(postId) {
+    if (!window.supabase || !window.SH_SUPABASE_URL) {
+      /* Supabase isn't ready yet — poll fast (20ms) so we don't add
+         a visible delay once the deferred CDN script lands. */
+      setTimeout(function () { loadPostForEdit(postId); }, 20);
+      return;
+    }
+    var db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+
+    /* Flip the UI to "edit mode" copy immediately — no need to wait
+       for the network. Cheaper visually than seeing "publish story"
+       briefly before the post loads. */
+    applyEditModeChrome(postId);
+
+    /* Run BOTH requests in parallel and populate the form as soon as
+       the post arrives. Ownership is verified independently — if it
+       fails we redirect. This avoids waiting for the slower of the
+       two before showing any data. */
+    var authPromise = db.auth.getUser();
+    var postPromise = db.from('posts').select('*').eq('id', postId).single();
+
+    postPromise.then(function (postRes) {
+      if (postRes.error || !postRes.data) {
+        alert('Post not found — it may have been deleted.');
+        window.location.href = 'main.html';
+        return;
+      }
+      populateFormFromPost(postRes.data);
+
+      /* Verify ownership after populating. The post is publicly
+         readable anyway, so showing the form briefly before the auth
+         check resolves doesn't leak anything new. */
+      authPromise.then(function (authRes) {
+        var userId = (authRes && authRes.data && authRes.data.user) ? authRes.data.user.id : null;
+        if (!userId || postRes.data.user_id !== userId) {
+          alert('You can only edit your own posts.');
+          window.location.href = 'post.html?id=' + encodeURIComponent(postId);
+        }
+      });
+    });
+  }
+
+  /* Flip page chrome to edit mode — button label, tab title, cancel
+     link. Pure DOM, no network — safe to run before the post lands. */
+  function applyEditModeChrome(postId) {
+    var publishBtn = form.querySelector('.btn-publish');
+    if (publishBtn) {
+      publishBtn.innerHTML =
+        'save changes' +
+        ' <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+        '<path d="M219.31,80,176,36.69A15.86,15.86,0,0,0,164.69,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V91.31A15.86,15.86,0,0,0,219.31,80ZM168,208H88V152h80Zm40,0H184V152a16,16,0,0,0-16-16H88a16,16,0,0,0-16,16v56H48V48h116.69L208,91.31ZM160,72a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h56A8,8,0,0,1,160,72Z"/></svg>';
+    }
+    var cancelLink = document.querySelector('a.btn-cancel');
+    if (cancelLink) cancelLink.href = 'post.html?id=' + encodeURIComponent(postId);
+    document.title = 'Edit post · StillHere';
+    var draftBtn = document.getElementById('btnDeleteDraft');
+    if (draftBtn) draftBtn.style.display = 'none';
+  }
+
+  function populateFormFromPost(post) {
+    // Title
+    var titleEl = document.getElementById('post-title');
+    if (titleEl) {
+      titleEl.value = post.title || '';
+      titleEl.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    // Rich-text content
+    if (post.content) {
+      try {
+        quill.root.innerHTML = post.content;
+        /* Track editor images so image moderation sees them on save. */
+        quill.getContents().ops.forEach(function (op) {
+          if (op.insert && typeof op.insert === 'object') {
+            var src = op.insert.image;
+            if (typeof src === 'string' && src.indexOf('http') === 0 &&
+                inlineImageUrls.indexOf(src) === -1) {
+              inlineImageUrls.push(src);
+            }
+          }
+        });
+      } catch (_) {}
+    }
+
+    // Language — match a radio, else fall back to lang_other select
+    var langRadios = form.querySelectorAll('[name="lang"]');
+    var matched = false;
+    langRadios.forEach(function (r) {
+      if (r.value === post.lang) { r.checked = true; matched = true; }
+      else r.checked = false;
+    });
+    if (!matched && post.lang) {
+      var langOther = form.querySelector('[name="lang_other"]');
+      if (langOther) langOther.value = post.lang;
+    }
+
+    // Topics
+    (post.topics || []).forEach(function (t) {
+      var cb = form.querySelector('[name="topic"][value="' + t + '"]');
+      if (cb) cb.checked = true;
+    });
+
+    // Mode
+    var modeRadio = form.querySelector('[name="mode"][value="' + (post.mode || 'support') + '"]');
+    if (modeRadio) modeRadio.checked = true;
+
+    // Existing media — previews + remove buttons
+    if (Array.isArray(post.media_urls) && post.media_urls.length) {
+      existingMediaUrls = post.media_urls.slice();
+      existingMediaUrls.forEach(function (url) { renderExistingPreview(url); });
+      syncPrompt();
+    }
+  }
+
+  if (EDIT_ID) loadPostForEdit(EDIT_ID);
 
 })();

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -1600,10 +1601,17 @@ document.addEventListener('DOMContentLoaded', function () {
        Draft auto-save / restore — saves on every keystroke,
        on pagehide, and on visibilitychange. Restores after Quill
        mounts. Cleared only by create-post.js on successful publish.
+       Skipped entirely in edit mode (?edit=…) — create-post.js is
+       loading the real post into the form there, and we don't want
+       to overwrite it with whatever the user last drafted.
        ────────────────────────────────────────────────────── -->
   <script>
     (function () {
       'use strict';
+      /* Bail out in edit mode — create-post.js owns the form contents. */
+      try {
+        if (new URLSearchParams(window.location.search).get('edit')) return;
+      } catch (_) {}
       /* Per-user draft key — without the suffix, two accounts on the
          same browser see each other's drafts (bug 2026-05). The user
          id is read once at startup from window.SH_SESSION (populated
