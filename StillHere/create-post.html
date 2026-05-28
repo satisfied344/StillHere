@@ -970,12 +970,12 @@
 
     <!-- ─── HERO ─── -->
     <section class="cp-hero">
-      <span class="cp-eyebrow"><em>—</em> share, anonymously</span>
+      <span class="cp-eyebrow" data-i18n="cp.hero.eyebrow"><em>—</em> share, anonymously</span>
       <h1 class="cp-title">
-        say it, <em>gently.</em>
+        <span data-i18n="cp.hero.title">say it, <em>gently.</em></span>
         <img src="assets/letters/_Special Characters/Asterisk_01.png" class="cp-title-star" alt="" aria-hidden="true">
       </h1>
-      <p class="cp-lede">
+      <p class="cp-lede" data-i18n="cp.hero.lede">
         no perfect words, no need to wrap it up neatly. somebody out there is going through
         something almost <em>just like this</em> — and seeing yours might be the reason they
         finally write theirs too.
@@ -992,8 +992,8 @@
           <div class="cp-card">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 01</span>
-              <h2 class="cp-card-title">language</h2>
-              <span class="cp-card-hint">write in whatever feels native</span>
+              <h2 class="cp-card-title" data-i18n="cp.c1.title">language</h2>
+              <span class="cp-card-hint" data-i18n="cp.c1.hint">write in whatever feels native</span>
             </div>
 
             <div class="cp-lang-row">
@@ -1047,30 +1047,31 @@
           <div class="cp-card">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 02</span>
-              <h2 class="cp-card-title">a title, if it helps</h2>
-              <span class="cp-card-hint">optional</span>
+              <h2 class="cp-card-title" data-i18n="cp.c2.title">a title, if it helps</h2>
+              <span class="cp-card-hint" data-i18n="cp.optional">optional</span>
             </div>
-            <p class="cp-card-sub">a few words, like a margin note. you can skip this.</p>
+            <p class="cp-card-sub" data-i18n="cp.c2.sub">a few words, like a margin note. you can skip this.</p>
 
             <textarea
               id="post-title"
               name="title"
               class="cp-title-input"
               placeholder="what's on your mind…"
+              data-i18n-attr-placeholder="cp.c2.ph"
               maxlength="120"
               rows="1"
             ></textarea>
-            <div class="cp-title-meta">max 120 characters</div>
+            <div class="cp-title-meta" data-i18n="cp.c2.meta">max 120 characters</div>
           </div>
 
           <!-- 03 — story (DOMINANT) -->
           <div class="cp-card cp-card--story">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 03</span>
-              <h2 class="cp-card-title">your story</h2>
-              <span class="cp-card-hint">brief or long — both are okay</span>
+              <h2 class="cp-card-title" data-i18n="cp.c3.title">your story</h2>
+              <span class="cp-card-hint" data-i18n="cp.c3.hint">brief or long — both are okay</span>
             </div>
-            <p class="cp-card-sub">there's no wrong way to say what you're feeling. write like nobody's grading it.</p>
+            <p class="cp-card-sub" data-i18n="cp.c3.sub">there's no wrong way to say what you're feeling. write like nobody's grading it.</p>
 
             <div id="post-editor" class="rich-editor"></div>
             <textarea id="post-content" name="content" style="display:none" aria-hidden="true"></textarea>
@@ -1080,10 +1081,10 @@
           <div class="cp-card">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 04</span>
-              <h2 class="cp-card-title">images or video</h2>
-              <span class="cp-card-hint">optional</span>
+              <h2 class="cp-card-title" data-i18n="cp.c4.title">images or video</h2>
+              <span class="cp-card-hint" data-i18n="cp.optional">optional</span>
             </div>
-            <p class="cp-card-sub">add up to 6 things — drawings, photos, a song clip. up to 50MB each.</p>
+            <p class="cp-card-sub" data-i18n="cp.c4.sub">add up to 6 things — drawings, photos, a song clip. up to 50MB each.</p>
 
             <div class="cp-upload" id="mediaUploadArea">
               <input type="file" id="mediaInput" name="media" multiple accept="image/*,video/*" hidden>
@@ -1093,8 +1094,8 @@
                   <circle cx="8.5" cy="8.5" r="1.5"/>
                   <polyline points="21 15 16 10 5 21"/>
                 </svg>
-                <p class="upload-text">click to upload, or drag &amp; drop</p>
-                <p class="upload-hint">images or video · up to 50MB each · max 6</p>
+                <p class="upload-text" data-i18n="cp.c4.upload">click to upload, or drag &amp; drop</p>
+                <p class="upload-hint" data-i18n="cp.c4.uphint">images or video · up to 50MB each · max 6</p>
               </div>
               <div class="media-preview-grid" id="mediaPreview"></div>
             </div>
@@ -1104,34 +1105,34 @@
           <div class="cp-card">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 05</span>
-              <h2 class="cp-card-title">what does it touch on?</h2>
-              <span class="cp-card-hint">pick what fits — or skip</span>
+              <h2 class="cp-card-title" data-i18n="cp.c5.title">what does it touch on?</h2>
+              <span class="cp-card-hint" data-i18n="cp.c5.hint">pick what fits — or skip</span>
             </div>
 
             <div class="cp-topics">
               <input type="checkbox" name="topic" value="anxiety"       id="t-anxiety"    class="cp-topic-input">
-              <label for="t-anxiety"    class="cp-topic-chip chip-anxiety">anxiety</label>
+              <label for="t-anxiety"    class="cp-topic-chip chip-anxiety" data-i18n="cp.topic.anxiety">anxiety</label>
 
               <input type="checkbox" name="topic" value="depression"    id="t-depression" class="cp-topic-input">
-              <label for="t-depression" class="cp-topic-chip chip-depression">depression</label>
+              <label for="t-depression" class="cp-topic-chip chip-depression" data-i18n="cp.topic.depression">depression</label>
 
               <input type="checkbox" name="topic" value="relationships" id="t-relations"  class="cp-topic-input">
-              <label for="t-relations"  class="cp-topic-chip chip-relations">relationships</label>
+              <label for="t-relations"  class="cp-topic-chip chip-relations" data-i18n="cp.topic.relationships">relationships</label>
 
               <input type="checkbox" name="topic" value="grief"         id="t-grief"      class="cp-topic-input">
-              <label for="t-grief"      class="cp-topic-chip chip-grief">grief &amp; loss</label>
+              <label for="t-grief"      class="cp-topic-chip chip-grief" data-i18n="cp.topic.grief">grief &amp; loss</label>
 
               <input type="checkbox" name="topic" value="burnout"       id="t-burnout"    class="cp-topic-input">
-              <label for="t-burnout"    class="cp-topic-chip chip-burnout">burnout</label>
+              <label for="t-burnout"    class="cp-topic-chip chip-burnout" data-i18n="cp.topic.burnout">burnout</label>
 
               <input type="checkbox" name="topic" value="loneliness"    id="t-loneliness" class="cp-topic-input">
-              <label for="t-loneliness" class="cp-topic-chip chip-loneliness">loneliness</label>
+              <label for="t-loneliness" class="cp-topic-chip chip-loneliness" data-i18n="cp.topic.loneliness">loneliness</label>
 
               <input type="checkbox" name="topic" value="trauma"        id="t-trauma"     class="cp-topic-input">
-              <label for="t-trauma"     class="cp-topic-chip chip-trauma">trauma</label>
+              <label for="t-trauma"     class="cp-topic-chip chip-trauma" data-i18n="cp.topic.trauma">trauma</label>
 
               <input type="checkbox" name="topic" value="other"         id="t-other"      class="cp-topic-input">
-              <label for="t-other"      class="cp-topic-chip chip-other">other</label>
+              <label for="t-other"      class="cp-topic-chip chip-other" data-i18n="cp.topic.other">other</label>
             </div>
           </div>
 
@@ -1139,8 +1140,8 @@
           <div class="cp-card">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 06</span>
-              <h2 class="cp-card-title">what kind of response feels okay?</h2>
-              <span class="cp-card-hint">tell people in advance</span>
+              <h2 class="cp-card-title" data-i18n="cp.c6.title">what kind of response feels okay?</h2>
+              <span class="cp-card-hint" data-i18n="cp.c6.hint">tell people in advance</span>
             </div>
 
             <div class="cp-modes">
@@ -1150,8 +1151,8 @@
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></svg>
                 </span>
                 <span class="cp-mode-text">
-                  <strong>open to support</strong>
-                  <span>warm words, perspective, a "me too" — all welcome.</span>
+                  <strong data-i18n="cp.mode.support">open to support</strong>
+                  <span data-i18n="cp.mode.support.desc">warm words, perspective, a "me too" — all welcome.</span>
                 </span>
                 <span class="cp-mode-dot"></span>
               </label>
@@ -1162,8 +1163,8 @@
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/></svg>
                 </span>
                 <span class="cp-mode-text">
-                  <strong>no advice</strong>
-                  <span>just presence. no fixes, no tips, no "have you tried…"</span>
+                  <strong data-i18n="cp.mode.noadvice">no advice</strong>
+                  <span data-i18n="cp.mode.noadvice.desc">just presence. no fixes, no tips, no "have you tried…"</span>
                 </span>
                 <span class="cp-mode-dot"></span>
               </label>
@@ -1174,22 +1175,22 @@
           <div class="cp-card cp-anon-agree-card" id="cp-anon-agree-card" style="display:none;">
             <div class="cp-card-head">
               <span class="cp-card-eyebrow">— 07</span>
-              <h2 class="cp-card-title">agreement</h2>
-              <span class="cp-card-hint">since you're posting without an account</span>
+              <h2 class="cp-card-title" data-i18n="cp.c7.title">agreement</h2>
+              <span class="cp-card-hint" data-i18n="cp.c7.hint">since you're posting without an account</span>
             </div>
-            <p class="cp-card-sub">
+            <p class="cp-card-sub" data-i18n="cp.c7.sub">
               you don't need an account to share a story — but we still need to know you've
               read the small print. it's short and human.
             </p>
             <label class="cp-anon-agree-row" for="cp-anon-agree-input">
               <input type="checkbox" id="cp-anon-agree-input">
-              <span>
+              <span data-i18n="cp.c7.agree">
                 i've read and i agree to the
                 <a href="docs/html/terms-of-service.html" target="_blank">terms of service</a>
                 and the <a href="docs/html/privacy-policy.html" target="_blank">privacy policy</a>.
               </span>
             </label>
-            <p class="cp-anon-agree-error" id="cp-anon-agree-error" style="display:none;">
+            <p class="cp-anon-agree-error" id="cp-anon-agree-error" style="display:none;" data-i18n="cp.c7.error">
               please tick the box above to confirm — then your story will publish.
             </p>
           </div>
@@ -1199,18 +1200,18 @@
 
           <!-- submit -->
           <div class="cp-submit-row">
-            <p class="cp-submit-hint">
+            <p class="cp-submit-hint" data-i18n="cp.submit.hint">
               everything goes through a gentle moderation pass before it's published —
               this keeps the space soft for everyone.
             </p>
             <div class="cp-submit-actions">
-              <a href="main.html" class="btn-cancel">cancel</a>
+              <a href="main.html" class="btn-cancel" data-i18n="cp.submit.cancel">cancel</a>
               <button type="button" class="btn-delete-draft" id="btnDeleteDraft" style="display:none;" aria-label="Delete saved draft">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
-                delete draft
+                <span data-i18n="cp.submit.draft">delete draft</span>
               </button>
               <button type="submit" class="btn-publish">
-                publish story
+                <span data-i18n="cp.submit.publish">publish story</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/></svg>
               </button>
             </div>
@@ -1222,48 +1223,48 @@
         <aside class="cp-aside">
 
           <div class="cp-widget cp-widget--crisis">
-            <h3 class="cp-widget-title">Need Immediate Help?</h3>
-            <p class="cp-widget-text">
+            <h3 class="cp-widget-title" data-i18n="cp.w.crisis.title">Need Immediate Help?</h3>
+            <p class="cp-widget-text" data-i18n="cp.w.crisis.text">
               If you're in crisis, please call out:
             </p>
             <a href="docs/html/crisis-resources.html" class="cp-widget-link">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/></svg>
-              Crisis Hotlines
+              <span data-i18n="cp.w.crisis.btn">Crisis Hotlines</span>
             </a>
           </div>
 
           <div class="cp-widget cp-widget--ai">
-            <h3 class="cp-widget-title">Need support right now?</h3>
-            <p class="cp-widget-text">
+            <h3 class="cp-widget-title" data-i18n="cp.w.ai.title">Need support right now?</h3>
+            <p class="cp-widget-text" data-i18n="cp.w.ai.text">
               If you're going through something difficult, you can talk to our AI support:
             </p>
             <a href="ai-chat.html" class="cp-widget-link">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg>
-              Talk to AI support
+              <span data-i18n="cp.w.ai.btn">Talk to AI support</span>
             </a>
           </div>
 
           <div class="cp-widget">
-            <h3 class="cp-widget-title">Community Guidelines</h3>
+            <h3 class="cp-widget-title" data-i18n="cp.w.guide.title">Community Guidelines</h3>
             <ul class="cp-widget-list">
-              <li>Be kind and respectful</li>
-              <li>Respect "No Advice" tags</li>
-              <li>No medical advice</li>
-              <li>Protect anonymity</li>
+              <li data-i18n="cp.w.guide.l1">Be kind and respectful</li>
+              <li data-i18n="cp.w.guide.l2">Respect "No Advice" tags</li>
+              <li data-i18n="cp.w.guide.l3">No medical advice</li>
+              <li data-i18n="cp.w.guide.l4">Protect anonymity</li>
             </ul>
             <a href="docs/html/guidelines.html" class="cp-widget-foot">
-              read full guidelines
+              <span data-i18n="cp.w.guide.btn">read full guidelines</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
             </a>
           </div>
 
           <div class="cp-widget">
-            <h3 class="cp-widget-title">Sharing Tips</h3>
+            <h3 class="cp-widget-title" data-i18n="cp.w.tips.title">Sharing Tips</h3>
             <ul class="cp-widget-list">
-              <li>There's no wrong way to share your feelings</li>
-              <li>You can stay completely anonymous</li>
-              <li>Use "No Advice" if you just need to vent</li>
-              <li>Be as brief or detailed as you need</li>
+              <li data-i18n="cp.w.tips.l1">There's no wrong way to share your feelings</li>
+              <li data-i18n="cp.w.tips.l2">You can stay completely anonymous</li>
+              <li data-i18n="cp.w.tips.l3">Use "No Advice" if you just need to vent</li>
+              <li data-i18n="cp.w.tips.l4">Be as brief or detailed as you need</li>
             </ul>
           </div>
 
@@ -1271,10 +1272,10 @@
 
         <!-- ─── CLOSING ─── -->
         <section class="cp-closing">
-          <p class="cp-closing-text">
+          <p class="cp-closing-text" data-i18n="cp.closing.text">
             whatever you write, <em>it counts.</em>
           </p>
-          <p class="cp-closing-sub">— take your time</p>
+          <p class="cp-closing-sub" data-i18n="cp.closing.sub">— take your time</p>
         </section>
 
       </div>
@@ -1290,34 +1291,34 @@
                 <div class="footer_logo">
                     <p>StillHere</p>
                 </div>
-                <p class="footer_subtitle">A project about presence, not solutions</p>
+                <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
             </div>
 
             <div class="footer_links">
                 <div class="footer_links_1">
-                    <h3>Platform</h3>
+                    <h3 data-i18n="footer.platform">Platform</h3>
                     <ul>
-                        <li><a href="main.html">Browse Stories</a></li>
-                        <li><a href="create-post.html">Share Your Story</a></li>
-                        <li><a href="nav-bar/updates.html">Updates</a></li>
+                        <li><a href="main.html" data-i18n="footer.browse">Browse Stories</a></li>
+                        <li><a href="create-post.html" data-i18n="footer.share">Share Your Story</a></li>
+                        <li><a href="nav-bar/updates.html" data-i18n="footer.updates">Updates</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_2">
-                    <h3>Support</h3>
+                    <h3 data-i18n="footer.support">Support</h3>
                     <ul>
-                        <li><a href="nav-bar/about.html">About Us</a></li>
-                        <li><a href="nav-bar/contacts.html">Contacts</a></li>
-                        <li><a href="docs/html/guidelines.html">Guidelines</a></li>
-                        <li><a href="docs/html/crisis-resources.html">Crisis Resources</a></li>
+                        <li><a href="nav-bar/about.html" data-i18n="footer.about">About Us</a></li>
+                        <li><a href="nav-bar/contacts.html" data-i18n="footer.contacts">Contacts</a></li>
+                        <li><a href="docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
+                        <li><a href="docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_3">
-                    <h3>Legal</h3>
+                    <h3 data-i18n="footer.legal">Legal</h3>
                     <ul>
-                        <li><a href="docs/html/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="docs/html/terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -1326,7 +1327,7 @@
         <div class="footer_footer">
             <div class="footer_legal">
                   <p>2026 StillHere.</p>
-                  <p class="implicit-consent">
+                  <p class="implicit-consent" data-i18n="footer.consent">
                     by being here, you accept our
                     <a href="docs/html/terms-of-service.html">terms</a>
                     &amp; <a href="docs/html/privacy-policy.html">privacy</a>.

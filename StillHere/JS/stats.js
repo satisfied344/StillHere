@@ -107,7 +107,10 @@
 
     /* ── Last-updated stamp ── */
     var el = document.getElementById('lastUpdated');
-    if (el) el.textContent = 'Updated ' + new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    if (el) {
+      var pfx = (window.SH_I18N && SH_I18N.t) ? SH_I18N.t('st.updated.prefix') : 'Updated';
+      el.textContent = pfx + ' ' + new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    }
   });
 
   /* ── Trend label ─────────────────────────────────────── */
@@ -152,7 +155,8 @@
       .slice(0, 6);
 
     if (!sorted.length) {
-      container.innerHTML = '<p style="color:var(--text-light);font-size:13px;text-align:center;padding:24px 0">No data yet</p>';
+      var msg = (window.SH_I18N && SH_I18N.t) ? SH_I18N.t('st.empty.data') : 'No data yet';
+      container.innerHTML = '<p style="color:var(--text-light);font-size:13px;text-align:center;padding:24px 0">' + msg + '</p>';
       return;
     }
 
@@ -190,7 +194,8 @@
     if (!container) return;
 
     if (!posts.length) {
-      container.innerHTML = '<p style="color:var(--text-light);font-size:13px;text-align:center;padding:24px 0">No stories yet</p>';
+      var msg = (window.SH_I18N && SH_I18N.t) ? SH_I18N.t('st.empty.stories') : 'No stories yet';
+      container.innerHTML = '<p style="color:var(--text-light);font-size:13px;text-align:center;padding:24px 0">' + msg + '</p>';
       return;
     }
 

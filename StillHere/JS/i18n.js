@@ -269,7 +269,7 @@
     'footer.about':        { en: 'About Us',              ru: 'О нас' },
     'footer.contacts':     { en: 'Contacts',              ru: 'Контакты' },
     'footer.guidelines':   { en: 'Guidelines',            ru: 'Правила' },
-    'footer.crisis':       { en: 'Crisis Resources',      ru: 'Кризисные ресурсы' },
+    'footer.crisis':       { en: 'Crisis Resources',      ru: 'Где найти помощь' },
     'footer.legal':        { en: 'Legal',                 ru: 'Правовое' },
     'footer.privacy':      { en: 'Privacy Policy',        ru: 'Политика конфиденциальности' },
     'footer.terms':        { en: 'Terms of Service',      ru: 'Условия использования' },
@@ -615,7 +615,7 @@
     'pf.docs.guidelines.sub':{ en: 'how we treat each other here',    ru: 'как мы относимся друг к другу здесь' },
     'pf.docs.privacy':     { en: 'privacy policy',                    ru: 'политика конфиденциальности' },
     'pf.docs.privacy.sub': { en: 'what we collect and why',           ru: 'что мы собираем и зачем' },
-    'pf.docs.crisis':      { en: 'crisis resources',                  ru: 'кризисные ресурсы' },
+    'pf.docs.crisis':      { en: 'crisis resources',                  ru: 'где найти помощь' },
     'pf.docs.crisis.sub':  { en: 'if you need immediate support',     ru: 'если нужна срочная поддержка' },
     'pf.docs.terms':       { en: 'terms of service',                  ru: 'условия использования' },
     'pf.docs.terms.sub':   { en: 'rules of the platform',             ru: 'правила платформы' },
@@ -846,6 +846,1310 @@
     'th.closing.text':     { en: 'a real person can listen <em>differently.</em><br>that\'s the whole point.',
                              ru: 'живой человек слушает <em>по-другому.</em><br>в этом весь смысл.' },
     'th.closing.sub':      { en: '— still here, while you find them.', ru: '— мы здесь, пока ты ищешь.' },
+
+    /* ── create-post.html ────────────────────────────────── */
+    'cp.hero.eyebrow':     { en: '<em>—</em> share, anonymously',     ru: '<em>—</em> поделись, анонимно' },
+    'cp.hero.title':       { en: 'say it, <em>gently.</em>',          ru: 'скажи это, <em>мягко.</em>' },
+    'cp.hero.lede':        { en: 'no perfect words, no need to wrap it up neatly. somebody out there is going through something almost <em>just like this</em> — and seeing yours might be the reason they finally write theirs too.',
+                             ru: 'не нужно идеальных слов, не надо ровно завершать. кто-то прямо сейчас проходит через что-то <em>почти такое же</em> — и твоя история может стать причиной, по которой он наконец напишет свою.' },
+
+    'cp.optional':         { en: 'optional',                          ru: 'необязательно' },
+
+    'cp.c1.title':         { en: 'language',                          ru: 'язык' },
+    'cp.c1.hint':          { en: 'write in whatever feels native',    ru: 'пиши на том языке, который тебе родной' },
+
+    'cp.c2.title':         { en: 'a title, if it helps',              ru: 'заголовок, если поможет' },
+    'cp.c2.sub':           { en: 'a few words, like a margin note. you can skip this.',
+                             ru: 'пара слов, как заметка на полях. можно пропустить.' },
+    'cp.c2.ph':            { en: 'what\'s on your mind…',             ru: 'что у тебя на душе…' },
+    'cp.c2.meta':          { en: 'max 120 characters',                ru: 'максимум 120 символов' },
+
+    'cp.c3.title':         { en: 'your story',                        ru: 'твоя история' },
+    'cp.c3.hint':          { en: 'brief or long — both are okay',     ru: 'коротко или подробно — и так и так нормально' },
+    'cp.c3.sub':           { en: 'there\'s no wrong way to say what you\'re feeling. write like nobody\'s grading it.',
+                             ru: 'нет неправильного способа сказать о том, что чувствуешь. пиши так, будто никто не оценивает.' },
+
+    'cp.c4.title':         { en: 'images or video',                   ru: 'фото или видео' },
+    'cp.c4.sub':           { en: 'add up to 6 things — drawings, photos, a song clip. up to 50MB each.',
+                             ru: 'до 6 файлов — рисунки, фото, отрывок песни. до 50МБ каждый.' },
+    'cp.c4.upload':        { en: 'click to upload, or drag &amp; drop',ru: 'нажми чтобы загрузить, или перетащи' },
+    'cp.c4.uphint':        { en: 'images or video · up to 50MB each · max 6',
+                             ru: 'фото или видео · до 50МБ каждое · максимум 6' },
+
+    'cp.c5.title':         { en: 'what does it touch on?',            ru: 'о чём это?' },
+    'cp.c5.hint':          { en: 'pick what fits — or skip',          ru: 'выбери что подходит — или пропусти' },
+    'cp.topic.anxiety':    { en: 'anxiety',                           ru: 'тревога' },
+    'cp.topic.depression': { en: 'depression',                        ru: 'депрессия' },
+    'cp.topic.relationships':{ en: 'relationships',                   ru: 'отношения' },
+    'cp.topic.grief':      { en: 'grief &amp; loss',                  ru: 'горе и утрата' },
+    'cp.topic.burnout':    { en: 'burnout',                           ru: 'выгорание' },
+    'cp.topic.loneliness': { en: 'loneliness',                        ru: 'одиночество' },
+    'cp.topic.trauma':     { en: 'trauma',                            ru: 'травма' },
+    'cp.topic.other':      { en: 'other',                             ru: 'другое' },
+
+    'cp.c6.title':         { en: 'what kind of response feels okay?', ru: 'какой ответ тебе подойдёт?' },
+    'cp.c6.hint':          { en: 'tell people in advance',            ru: 'предупреди заранее' },
+    'cp.mode.support':     { en: 'open to support',                   ru: 'открыт(а) к поддержке' },
+    'cp.mode.support.desc':{ en: 'warm words, perspective, a "me too" — all welcome.',
+                             ru: 'тёплые слова, взгляд со стороны, «я тоже» — всё подойдёт.' },
+    'cp.mode.noadvice':    { en: 'no advice',                         ru: 'без советов' },
+    'cp.mode.noadvice.desc':{ en: 'just presence. no fixes, no tips, no "have you tried…"',
+                              ru: 'просто присутствие. без починок, без подсказок, без «а ты пробовал…»' },
+
+    'cp.c7.title':         { en: 'agreement',                         ru: 'соглашение' },
+    'cp.c7.hint':          { en: 'since you\'re posting without an account', ru: 'раз ты публикуешь без аккаунта' },
+    'cp.c7.sub':           { en: 'you don\'t need an account to share a story — but we still need to know you\'ve read the small print. it\'s short and human.',
+                             ru: 'не нужно аккаунта, чтобы поделиться историей — но нам всё же важно знать, что ты прочитал(а) мелкий шрифт. он короткий и человеческий.' },
+    'cp.c7.agree':         { en: 'i\'ve read and i agree to the <a href="docs/html/terms-of-service.html" target="_blank">terms of service</a> and the <a href="docs/html/privacy-policy.html" target="_blank">privacy policy</a>.',
+                             ru: 'я прочитал(а) и согласен(а) с <a href="docs/html/terms-of-service.html" target="_blank">условиями использования</a> и <a href="docs/html/privacy-policy.html" target="_blank">политикой конфиденциальности</a>.' },
+    'cp.c7.error':         { en: 'please tick the box above to confirm — then your story will publish.',
+                             ru: 'пожалуйста, поставь галочку выше — и твоя история опубликуется.' },
+
+    'cp.submit.hint':      { en: 'everything goes through a gentle moderation pass before it\'s published — this keeps the space soft for everyone.',
+                             ru: 'всё проходит через мягкую модерацию перед публикацией — это сохраняет пространство добрым для всех.' },
+    'cp.submit.cancel':    { en: 'cancel',                            ru: 'отмена' },
+    'cp.submit.draft':     { en: 'delete draft',                      ru: 'удалить черновик' },
+    'cp.submit.publish':   { en: 'publish story',                     ru: 'опубликовать историю' },
+
+    /* Sidebar widgets */
+    'cp.w.crisis.title':   { en: 'Need Immediate Help?',              ru: 'Нужна срочная помощь?' },
+    'cp.w.crisis.text':    { en: 'If you\'re in crisis, please call out:',
+                             ru: 'Если ты в кризисе, пожалуйста, обратись:' },
+    'cp.w.crisis.btn':     { en: 'Crisis Hotlines',                   ru: 'Кризисные линии' },
+
+    'cp.w.ai.title':       { en: 'Need support right now?',           ru: 'Нужна поддержка прямо сейчас?' },
+    'cp.w.ai.text':        { en: 'If you\'re going through something difficult, you can talk to our AI support:',
+                             ru: 'Если переживаешь что-то трудное, можно поговорить с нашей AI-поддержкой:' },
+    'cp.w.ai.btn':         { en: 'Talk to AI support',                ru: 'Открыть AI-поддержку' },
+
+    'cp.w.guide.title':    { en: 'Community Guidelines',              ru: 'Правила сообщества' },
+    'cp.w.guide.l1':       { en: 'Be kind and respectful',            ru: 'Будь добрым и уважительным' },
+    'cp.w.guide.l2':       { en: 'Respect "No Advice" tags',          ru: 'Уважай тег «без советов»' },
+    'cp.w.guide.l3':       { en: 'No medical advice',                 ru: 'Без медицинских советов' },
+    'cp.w.guide.l4':       { en: 'Protect anonymity',                 ru: 'Береги анонимность' },
+    'cp.w.guide.btn':      { en: 'read full guidelines',              ru: 'читать полные правила' },
+
+    'cp.w.tips.title':     { en: 'Sharing Tips',                      ru: 'Советы по публикации' },
+    'cp.w.tips.l1':        { en: 'There\'s no wrong way to share your feelings',
+                             ru: 'Нет неправильного способа поделиться чувствами' },
+    'cp.w.tips.l2':        { en: 'You can stay completely anonymous', ru: 'Можно остаться полностью анонимным' },
+    'cp.w.tips.l3':        { en: 'Use "No Advice" if you just need to vent',
+                             ru: 'Используй «без советов», если просто хочется выговориться' },
+    'cp.w.tips.l4':        { en: 'Be as brief or detailed as you need',
+                             ru: 'Будь настолько коротким или подробным, насколько нужно' },
+
+    'cp.closing.text':     { en: 'whatever you write, <em>it counts.</em>',
+                             ru: 'что бы ты ни написал(а), <em>это важно.</em>' },
+    'cp.closing.sub':      { en: '— take your time',                  ru: '— не торопись' },
+
+    /* Dynamic strings from JS/create-post.js — submit button states */
+    'cp.btn.checking':     { en: 'Checking…',                         ru: 'Проверяем…' },
+    'cp.btn.uploading':    { en: 'Uploading…',                        ru: 'Загружаем…' },
+    'cp.btn.publishing':   { en: 'Publishing…',                       ru: 'Публикуем…' },
+    'cp.btn.saving':       { en: 'Saving…',                           ru: 'Сохраняем…' },
+
+    /* ── statistics.html ────────────────────────────────── */
+    'st.hero.eyebrow':     { en: '<em>—</em> the platform, transparently',
+                             ru: '<em>—</em> платформа, прозрачно' },
+    'st.hero.title':       { en: 'by the <em>numbers.</em>',           ru: 'в <em>цифрах.</em>' },
+    'st.hero.lede':        { en: 'a transparent look at what\'s happening on StillHere — stories shared, support given, languages spoken, topics carried. <em>nothing personal</em>, just totals.',
+                             ru: 'прозрачный взгляд на то, что происходит на StillHere — истории, поддержка, языки, темы. <em>ничего личного</em>, только общие числа.' },
+    'st.live':             { en: 'live',                              ru: 'в реальном времени' },
+    'st.live.label':       { en: 'last refreshed',                    ru: 'обновлено' },
+
+    'st.pres.now':         { en: 'right now',                         ru: 'прямо сейчас' },
+    'st.pres.now.label':   { en: 'people on the site',                ru: 'человек на сайте' },
+    'st.pres.now.desc':    { en: 'anyone with the site open in the last 5 minutes. counted by anonymous timestamp pings — no IPs, no identifiers stored.',
+                             ru: 'все, у кого сайт открыт за последние 5 минут. считаем по анонимным timestamp-пингам — никаких IP, никаких идентификаторов.' },
+    'st.pres.total':       { en: 'all-time',                          ru: 'за всё время' },
+    'st.pres.total.label': { en: 'total visits',                      ru: 'всего визитов' },
+    'st.pres.total.desc':  { en: 'every page open since the counter started. one number, nothing else attached to it.',
+                             ru: 'каждое открытие страницы с момента запуска счётчика. одно число, без привязки к чему-либо.' },
+
+    'st.kpi.title':        { en: 'at a glance',                       ru: 'в общем виде' },
+    'st.kpi.hint':         { en: 'all-time totals',                   ru: 'за всё время' },
+    'st.kpi.members':      { en: 'community members',                 ru: 'участников сообщества' },
+    'st.kpi.members.desc': { en: 'people who joined, plus anonymous contributors',
+                             ru: 'кто зарегистрировался, плюс анонимные авторы' },
+    'st.kpi.stories':      { en: 'stories shared',                    ru: 'историй опубликовано' },
+    'st.kpi.stories.desc': { en: 'posts published since launch — each one heard',
+                             ru: 'постов с момента запуска — каждый услышан' },
+    'st.kpi.responses':    { en: 'support responses',                 ru: 'ответов поддержки' },
+    'st.kpi.responses.desc':{ en: 'replies, "me too"s, gentle words back',
+                              ru: 'ответы, «я тоже», мягкие слова в ответ' },
+    'st.kpi.ai':           { en: 'ai companion sessions',             ru: 'сессий с AI-спутником' },
+    'st.kpi.ai.desc':      { en: 'private chats kept on each device — counted here from yours',
+                             ru: 'приватные чаты хранятся на каждом устройстве — здесь считаем с твоего' },
+
+    'st.week.title':       { en: 'this week\'s activity',             ru: 'активность за неделю' },
+    'st.week.hint':        { en: 'last 7 days',                       ru: 'последние 7 дней' },
+    'st.week.posts':       { en: 'new stories',                       ru: 'новых историй' },
+    'st.week.comments':    { en: 'new responses',                     ru: 'новых ответов' },
+    'st.week.people':      { en: 'new members',                       ru: 'новых участников' },
+    'st.week.active':      { en: 'active contributors',               ru: 'активных авторов' },
+
+    'st.growth.title':     { en: 'community growth',                  ru: 'рост сообщества' },
+    'st.growth.hint':      { en: 'stories &amp; responses, last 30 days',
+                             ru: 'истории и ответы, последние 30 дней' },
+    'st.growth.card.title':{ en: 'daily rhythm',                      ru: 'дневной ритм' },
+    'st.growth.card.desc': { en: 'when people show up to share &amp; respond',
+                             ru: 'когда люди приходят делиться и отвечать' },
+
+    'st.share.title':      { en: 'what people share',                 ru: 'чем делятся люди' },
+    'st.share.hint':       { en: 'last 30 days',                      ru: 'последние 30 дней' },
+    'st.share.langs':      { en: 'languages',                         ru: 'языки' },
+    'st.share.langs.desc': { en: 'people write in whatever feels native',
+                             ru: 'каждый пишет на том языке, который ему родной' },
+    'st.share.topics':     { en: 'topics',                            ru: 'темы' },
+    'st.share.topics.desc':{ en: 'what people most often carry',      ru: 'что люди чаще всего несут' },
+    'st.loading':          { en: 'loading…',                          ru: 'загрузка…' },
+
+    'st.who.title':        { en: 'who\'s posting',                    ru: 'кто публикует' },
+    'st.who.hint':         { en: 'registered &amp; anonymous',        ru: 'зарегистрированные и анонимные' },
+    'st.who.split.title':  { en: 'registered vs anonymous',           ru: 'зарегистрированные vs анонимные' },
+    'st.who.split.desc':   { en: 'posts by signed-in members vs anonymous contributions',
+                             ru: 'посты от зареганых участников vs анонимные публикации' },
+    'st.who.registered':   { en: 'registered',                        ru: 'зарегистрированные' },
+    'st.who.anonymous':    { en: 'anonymous',                         ru: 'анонимные' },
+    'st.who.note':         { en: 'both paths are first-class — you can post without ever creating an account. this split shows how the community actually uses StillHere.',
+                             ru: 'оба пути равноценны — можно публиковать вообще не создавая аккаунт. это распределение показывает, как сообщество реально использует StillHere.' },
+
+    'st.ai.eyebrow':       { en: '— ai companion',                    ru: '— AI-спутник' },
+    'st.ai.label':         { en: 'conversations on this device',      ru: 'разговоров на этом устройстве' },
+    'st.ai.note':          { en: 'ai conversations are stored privately on each device, not on our servers — a deliberate privacy choice. this number is what\'s stored locally where you\'re reading this.',
+                             ru: 'AI-разговоры хранятся приватно на каждом устройстве, не на наших серверах — осознанный выбор в пользу приватности. это число — то, что хранится локально на устройстве, с которого ты это читаешь.' },
+
+    'st.engage.title':     { en: 'how the community responds',        ru: 'как сообщество отвечает' },
+    'st.engage.hint':      { en: 'engagement signals',                ru: 'сигналы вовлечённости' },
+    'st.engage.avg':       { en: 'avg. responses per story',          ru: 'в среднем ответов на историю' },
+    'st.engage.avg.desc':  { en: 'how often someone replies when you share',
+                             ru: 'как часто кто-то отвечает, когда ты делишься' },
+    'st.engage.rate':      { en: 'stories that got a response',       ru: 'историй с ответом' },
+    'st.engage.rate.desc': { en: 'share of posts with at least one reply',
+                             ru: 'доля постов хотя бы с одним ответом' },
+    'st.engage.langs':     { en: 'languages spoken',                  ru: 'языков в использовании' },
+    'st.engage.langs.desc':{ en: 'distinct languages used in the last 30 days',
+                             ru: 'разных языков за последние 30 дней' },
+
+    'st.closing.text':     { en: 'every number here is <em>someone</em>.',
+                             ru: 'каждое число здесь — это <em>кто-то</em>.' },
+    'st.closing.sub':      { en: '— that\'s the only thing we count',
+                             ru: '— это единственное, что мы считаем' },
+
+    /* Dynamic strings from JS/stats.js */
+    'st.updated.prefix':   { en: 'Updated',                           ru: 'Обновлено' },
+    'st.empty.data':       { en: 'No data yet',                       ru: 'Пока нет данных' },
+    'st.empty.stories':    { en: 'No stories yet',                    ru: 'Пока нет историй' },
+
+    /* ── docs/html — shared chrome ──────────────────────── */
+    'dc.meta.version':     { en: 'version',                           ru: 'версия' },
+    'dc.meta.revised':     { en: 'revised',                           ru: 'обновлено' },
+    'dc.meta.read':        { en: 'read time',                         ru: 'время чтения' },
+    'dc.meta.may2026':     { en: 'may 2026',                          ru: 'май 2026' },
+    'dc.toc.head':         { en: '— contents',                        ru: '— содержание' },
+    'dc.closing.feed':     { en: 'back to feed',                      ru: 'к ленте' },
+    'dc.closing.contact':  { en: 'contact us',                        ru: 'связаться с нами' },
+    /* Cross-link buttons that appear in closing sections (lowercase
+       to match the doc tone — distinct from sentence-cased footer keys). */
+    'dc.btn.guidelines':   { en: 'community guidelines',              ru: 'правила сообщества' },
+    'dc.btn.privacy':      { en: 'privacy policy',                    ru: 'политика конфиденциальности' },
+    'dc.btn.terms':        { en: 'terms of service',                  ru: 'условия использования' },
+
+    /* ── docs/html/guidelines.html ──────────────────────── */
+    'dc.gl.eyebrow':       { en: '<em>—</em> community guidelines',   ru: '<em>—</em> правила сообщества' },
+    'dc.gl.title':         { en: 'the rules, <span class="doc-title-tail"><em>gently.</em></span>',
+                             ru: 'правила, <span class="doc-title-tail"><em>мягко.</em></span>' },
+    'dc.gl.lede':          { en: 'a few small things that keep this space <em>kind</em>. mostly common sense — but written down so we can agree on what "kind" looks like here.',
+                             ru: 'несколько маленьких вещей, которые делают это место <em>добрым</em>. в основном здравый смысл — но записано, чтобы мы все понимали, что «доброе» означает здесь.' },
+    'dc.gl.read.value':    { en: '~5 min',                            ru: '~5 мин' },
+    'dc.gl.s1.title':      { en: 'be kind &amp; respectful',          ru: 'будь добрым и уважительным' },
+    'dc.gl.s1.hint':       { en: 'the only real rule',                ru: 'единственное настоящее правило' },
+    'dc.gl.s2.title':      { en: 'respect "no advice"',               ru: 'уважай «без советов»' },
+    'dc.gl.s3.title':      { en: 'protect anonymity',                 ru: 'оберегай анонимность' },
+    'dc.gl.s3.hint':       { en: 'yours and others\'',                ru: 'свою и чужую' },
+    'dc.gl.s4.title':      { en: 'no medical advice',                 ru: 'без медицинских советов' },
+    'dc.gl.s5.title':      { en: 'prohibited content',                ru: 'запрещённый контент' },
+    'dc.gl.s6.title':      { en: 'self-harm &amp; crisis',            ru: 'самоповреждение и кризис' },
+    'dc.gl.s7.title':      { en: 'how to respond well',               ru: 'как хорошо отвечать' },
+    'dc.gl.s7.hint':       { en: 'a quick guide',                     ru: 'краткое руководство' },
+    'dc.gl.s8.title':      { en: 'reporting &amp; consequences',      ru: 'жалобы и последствия' },
+
+    /* ── Guidelines — full prose bodies. Each value contains the
+       complete content of that section's `.doc-prose` block (rich HTML
+       allowed via innerHTML). EN values mirror the original; RU is
+       the translation. ───────────────────────────────────────────── */
+    'dc.gl.s1.body':       {
+      en: '<p>people come here when something hard is happening. treat every story like it\'s the most courageous thing that person did this week — because often, <strong>it is</strong>.</p>' +
+          '<p>that means:</p>' +
+          '<ul>' +
+            '<li><strong>no insults, mocking, or "well actually"-ing</strong> someone\'s pain.</li>' +
+            '<li><strong>no minimizing</strong> ("it could be worse", "be grateful", "others have it harder") — even if true, it isn\'t useful.</li>' +
+            '<li><strong>no debating</strong> someone\'s experience. you can disagree with an idea without invalidating a feeling.</li>' +
+          '</ul>' +
+          '<p>if you\'re not sure whether something would land well — <em>it probably won\'t</em>. ask yourself: would i say this to a friend at their kitchen table at 2am?</p>',
+      ru: '<p>люди приходят сюда, когда происходит что-то тяжёлое. относись к каждой истории как к самому смелому, что этот человек сделал за неделю — потому что часто <strong>так и есть</strong>.</p>' +
+          '<p>это значит:</p>' +
+          '<ul>' +
+            '<li><strong>никаких оскорблений, насмешек или «вообще-то…»</strong> по поводу чужой боли.</li>' +
+            '<li><strong>никаких «могло быть хуже»</strong> («скажи спасибо», «у других тяжелее») — даже если это правда, это не помогает.</li>' +
+            '<li><strong>никаких споров</strong> о чужом опыте. можно не соглашаться с мыслью, не обесценивая чувство.</li>' +
+          '</ul>' +
+          '<p>если не уверен, зайдёт ли — <em>скорее всего нет</em>. спроси себя: сказал бы я это другу за кухонным столом в 2 ночи?</p>'
+    },
+    'dc.gl.s2.body':       {
+      en: '<p>when someone tags their post <strong>"no advice"</strong>, that\'s a request to <em>be witnessed, not fixed</em>. respect it.</p>' +
+          '<h3>what counts as advice on a "no advice" post?</h3>' +
+          '<ul>' +
+            '<li>suggesting therapy, meditation, exercise, a book, a podcast.</li>' +
+            '<li>recommending products, apps, supplements, breathing techniques.</li>' +
+            '<li>"have you tried …" or "you should …"</li>' +
+            '<li>silver-lining reframes ("at least you have …")</li>' +
+          '</ul>' +
+          '<h3>what\'s still okay</h3>' +
+          '<ul>' +
+            '<li>simply acknowledging: <em>"i hear you"</em>, <em>"that sounds really hard"</em>, <em>"thank you for sharing this"</em>.</li>' +
+            '<li>sharing your own related experience without making it a lesson.</li>' +
+            '<li>the heart / support button — always.</li>' +
+          '</ul>' +
+          '<div class="doc-note"><strong>tip —</strong> if you have advice to give and someone didn\'t ask, you can write your own post about your strategies. people looking for tips will find them there.</div>',
+      ru: '<p>когда кто-то ставит на пост тег <strong>«без советов»</strong>, это просьба <em>быть услышанным, а не починенным</em>. уважай её.</p>' +
+          '<h3>что считается советом на посте «без советов»?</h3>' +
+          '<ul>' +
+            '<li>предлагать терапию, медитацию, спорт, книгу, подкаст.</li>' +
+            '<li>рекомендовать товары, приложения, добавки, дыхательные техники.</li>' +
+            '<li>«а ты пробовал…» или «тебе стоит…»</li>' +
+            '<li>переформулировать в «зато…» («у тебя хотя бы есть…»)</li>' +
+          '</ul>' +
+          '<h3>что всё ещё подходит</h3>' +
+          '<ul>' +
+            '<li>просто признать: <em>«я слышу тебя»</em>, <em>«это звучит правда тяжело»</em>, <em>«спасибо, что поделился»</em>.</li>' +
+            '<li>поделиться своим похожим опытом, не превращая его в урок.</li>' +
+            '<li>кнопка «поддержать» / сердечко — всегда.</li>' +
+          '</ul>' +
+          '<div class="doc-note"><strong>совет —</strong> если у тебя есть советы, а тебя не просили, напиши свой пост со своими стратегиями. те, кто ищет советы, найдут его там.</div>'
+    },
+    'dc.gl.s3.body':       {
+      en: '<p>anonymity is the foundation of this place. don\'t break it for anyone.</p>' +
+          '<ul>' +
+            '<li><strong>don\'t dox</strong> — no real names, addresses, workplaces, phone numbers, schools, or social-media handles. yours or anyone else\'s.</li>' +
+            '<li><strong>don\'t link external profiles</strong> in posts or replies.</li>' +
+            '<li><strong>don\'t ask</strong> "what\'s your real name?" / "where do you live?" — even gently.</li>' +
+            '<li>if you screenshot a post (for crisis reporting only), <strong>blur or remove the handle</strong>.</li>' +
+          '</ul>' +
+          '<h3>a note on screenshots</h3>' +
+          '<p>please don\'t screenshot stories for jokes, "look at this" posts, or to share outside the platform. <em>this is a closed circle on purpose</em>.</p>',
+      ru: '<p>анонимность — фундамент этого места. не нарушай её ни для кого.</p>' +
+          '<ul>' +
+            '<li><strong>никакого доксинга</strong> — никаких настоящих имён, адресов, мест работы, телефонов, школ или ссылок на соцсети. ни своих, ни чужих.</li>' +
+            '<li><strong>не давай ссылки</strong> на внешние профили в постах или ответах.</li>' +
+            '<li><strong>не спрашивай</strong> «как тебя на самом деле зовут?» / «где ты живёшь?» — даже мягко.</li>' +
+            '<li>если делаешь скриншот поста (только для жалобы в кризисной ситуации), <strong>замажь или вырежи ник</strong>.</li>' +
+          '</ul>' +
+          '<h3>про скриншоты</h3>' +
+          '<p>пожалуйста, не делай скриншоты историй ради шутки, постов «вот посмотри» или чтобы поделиться вне платформы. <em>это закрытый круг по замыслу</em>.</p>'
+    },
+    'dc.gl.s4.body':       {
+      en: '<p>we\'re peers, not professionals.</p>' +
+          '<ul>' +
+            '<li><strong>no diagnosing</strong> ("sounds like you have …").</li>' +
+            '<li><strong>no prescribing</strong> medications, dosages, or supplement stacks.</li>' +
+            '<li><strong>no advising people to stop or change their treatment.</strong> this one is serious — encouraging someone to drop their meds can cause real harm.</li>' +
+          '</ul>' +
+          '<p>you can share <em>your</em> experience with a diagnosis, treatment, or therapist — just don\'t extrapolate it into instructions for someone else.</p>',
+      ru: '<p>мы — равные, не профессионалы.</p>' +
+          '<ul>' +
+            '<li><strong>никаких диагнозов</strong> («похоже, у тебя…»).</li>' +
+            '<li><strong>никаких назначений</strong> лекарств, дозировок, схем добавок.</li>' +
+            '<li><strong>не советуй людям бросать или менять лечение.</strong> это серьёзно — уговорить кого-то бросить таблетки может реально навредить.</li>' +
+          '</ul>' +
+          '<p>можно делиться <em>своим</em> опытом с диагнозом, лечением или терапевтом — просто не превращай это в инструкцию для другого.</p>'
+    },
+    'dc.gl.s5.body':       {
+      en: '<p>removed on sight, no warnings, no negotiation:</p>' +
+          '<div class="doc-chips">' +
+            '<span class="doc-chip doc-chip--bad">harassment</span>' +
+            '<span class="doc-chip doc-chip--bad">hate speech</span>' +
+            '<span class="doc-chip doc-chip--bad">slurs</span>' +
+            '<span class="doc-chip doc-chip--bad">threats</span>' +
+            '<span class="doc-chip doc-chip--bad">sexual content involving minors</span>' +
+            '<span class="doc-chip doc-chip--bad">non-consensual nudity</span>' +
+            '<span class="doc-chip doc-chip--bad">violent imagery</span>' +
+            '<span class="doc-chip doc-chip--bad">illegal activity</span>' +
+            '<span class="doc-chip doc-chip--bad">spam / promotion</span>' +
+            '<span class="doc-chip doc-chip--bad">"sell me your e-book"</span>' +
+          '</div>' +
+          '<p>any of these will end your access. no second chances on this one.</p>',
+      ru: '<p>удаляется сразу, без предупреждений, без переговоров:</p>' +
+          '<div class="doc-chips">' +
+            '<span class="doc-chip doc-chip--bad">травля</span>' +
+            '<span class="doc-chip doc-chip--bad">язык ненависти</span>' +
+            '<span class="doc-chip doc-chip--bad">оскорбления</span>' +
+            '<span class="doc-chip doc-chip--bad">угрозы</span>' +
+            '<span class="doc-chip doc-chip--bad">сексуальный контент с несовершеннолетними</span>' +
+            '<span class="doc-chip doc-chip--bad">обнажение без согласия</span>' +
+            '<span class="doc-chip doc-chip--bad">сцены насилия</span>' +
+            '<span class="doc-chip doc-chip--bad">незаконная деятельность</span>' +
+            '<span class="doc-chip doc-chip--bad">спам / реклама</span>' +
+            '<span class="doc-chip doc-chip--bad">«купи мою книгу»</span>' +
+          '</div>' +
+          '<p>что-то из этого — и доступ заканчивается. без вторых шансов в этом пункте.</p>'
+    },
+    'dc.gl.s6.alert.head': { en: 'this is the most important section',
+                             ru: 'это самый важный раздел' },
+    'dc.gl.s6.alert':      {
+      en: '<p><strong>StillHere is not an emergency service.</strong> if you or someone else is in immediate danger, please call a trained crisis counselor — <a href="crisis-resources.html">our crisis-resources page</a> has free 24/7 numbers by country.</p>',
+      ru: '<p><strong>StillHere — не служба экстренной помощи.</strong> если ты или кто-то рядом в непосредственной опасности, пожалуйста, позвони обученному кризисному консультанту — <a href="crisis-resources.html">наша страница кризисных ресурсов</a> содержит бесплатные номера 24/7 по странам.</p>'
+    },
+    'dc.gl.s6.body':       {
+      en: '<h3>what\'s specifically prohibited</h3>' +
+          '<ul>' +
+            '<li>any content <strong>encouraging</strong> self-harm or suicide.</li>' +
+            '<li>step-by-step descriptions of methods.</li>' +
+            '<li>"pact" posts looking for partners.</li>' +
+            '<li>romanticizing self-harm.</li>' +
+          '</ul>' +
+          '<h3>what\'s okay (and even welcome)</h3>' +
+          '<ul>' +
+            '<li>sharing that you\'re struggling, without details about method or means.</li>' +
+            '<li>asking for support, witnessing, presence.</li>' +
+            '<li>talking about recovery, setbacks, what\'s helped or hurt.</li>' +
+          '</ul>' +
+          '<h3>if you see someone in crisis</h3>' +
+          '<ul>' +
+            '<li><strong>respond gently</strong> — even just "i\'m here, i hear you" matters.</li>' +
+            '<li><strong>share crisis resources</strong> — point them to <a href="crisis-resources.html">free 24/7 lines</a>.</li>' +
+            '<li><strong>report the post</strong> using the report button — we\'ll look at it within hours, not days.</li>' +
+          '</ul>',
+      ru: '<h3>что конкретно запрещено</h3>' +
+          '<ul>' +
+            '<li>любой контент, <strong>побуждающий</strong> к самоповреждению или суициду.</li>' +
+            '<li>пошаговые описания способов.</li>' +
+            '<li>посты-«пакты» в поисках напарника.</li>' +
+            '<li>романтизация самоповреждения.</li>' +
+          '</ul>' +
+          '<h3>что подходит (и даже приветствуется)</h3>' +
+          '<ul>' +
+            '<li>рассказать, что тебе тяжело — без подробностей о способах и средствах.</li>' +
+            '<li>попросить о поддержке, свидетеле, присутствии.</li>' +
+            '<li>говорить о восстановлении, срывах, что помогало или ранило.</li>' +
+          '</ul>' +
+          '<h3>если видишь кого-то в кризисе</h3>' +
+          '<ul>' +
+            '<li><strong>ответь мягко</strong> — даже «я здесь, я слышу тебя» — это уже важно.</li>' +
+            '<li><strong>поделись кризисными ресурсами</strong> — направь к <a href="crisis-resources.html">бесплатным линиям 24/7</a>.</li>' +
+            '<li><strong>пожалуйся на пост</strong> через кнопку report — мы посмотрим в течение часов, не дней.</li>' +
+          '</ul>'
+    },
+    'dc.gl.s7.body':       {
+      en: '<p>good responses don\'t have to be long, smart, or polished. some patterns that work:</p>' +
+          '<h3>say what you noticed</h3>' +
+          '<ul>' +
+            '<li><em>"that sounds exhausting."</em></li>' +
+            '<li><em>"the part about __ really landed for me."</em></li>' +
+          '</ul>' +
+          '<h3>share without making it about you</h3>' +
+          '<ul>' +
+            '<li><em>"i went through something similar last year — you\'re not the only one."</em></li>' +
+          '</ul>' +
+          '<h3>just be present</h3>' +
+          '<ul>' +
+            '<li><em>"i don\'t have words but i read it. thank you for sharing."</em></li>' +
+          '</ul>' +
+          '<h3>avoid</h3>' +
+          '<ul>' +
+            '<li><em>"have you tried …"</em></li>' +
+            '<li><em>"it could be worse."</em></li>' +
+            '<li><em>"everything happens for a reason."</em></li>' +
+            '<li><em>"praying for you 🙏"</em> — unless the OP shared a faith.</li>' +
+          '</ul>',
+      ru: '<p>хорошие ответы не должны быть длинными, умными или отточенными. вот рабочие шаблоны:</p>' +
+          '<h3>скажи что заметил</h3>' +
+          '<ul>' +
+            '<li><em>«это звучит изматывающе.»</em></li>' +
+            '<li><em>«часть про __ меня правда зацепила.»</em></li>' +
+          '</ul>' +
+          '<h3>поделись, не делая это про себя</h3>' +
+          '<ul>' +
+            '<li><em>«я проходил через похожее в прошлом году — ты не один.»</em></li>' +
+          '</ul>' +
+          '<h3>просто будь рядом</h3>' +
+          '<ul>' +
+            '<li><em>«у меня нет слов, но я прочитал. спасибо что поделился.»</em></li>' +
+          '</ul>' +
+          '<h3>избегай</h3>' +
+          '<ul>' +
+            '<li><em>«а ты пробовал…»</em></li>' +
+            '<li><em>«могло быть и хуже.»</em></li>' +
+            '<li><em>«всё происходит по какой-то причине.»</em></li>' +
+            '<li><em>«молюсь за тебя 🙏»</em> — если только автор сам не упомянул веру.</li>' +
+          '</ul>'
+    },
+    'dc.gl.s8.body':       {
+      en: '<h3>how to report</h3>' +
+          '<p>every post and comment has a three-dot menu with a <strong>report</strong> option. one click. we get a notification. reports are anonymous to the person being reported.</p>' +
+          '<h3>what happens next</h3>' +
+          '<ol>' +
+            '<li>we look at it — usually within 24 hours, faster for crisis flags.</li>' +
+            '<li>if it breaks a rule, it\'s removed.</li>' +
+            '<li>for serious or repeated violations, the account is suspended or banned.</li>' +
+            '<li>bans for prohibited content (section 05) are permanent.</li>' +
+          '</ol>' +
+          '<h3>appeals</h3>' +
+          '<p>if you think we got it wrong, write to <a href="mailto:support@stillhere.app">support@stillhere.app</a> with what happened. we read every email — this is a one-person project, not a queue, so a real human will respond.</p>',
+      ru: '<h3>как пожаловаться</h3>' +
+          '<p>у каждого поста и комментария есть меню три-точки с пунктом <strong>«пожаловаться»</strong>. один клик. мы получаем уведомление. жалобы анонимны для того, на кого жалуются.</p>' +
+          '<h3>что будет дальше</h3>' +
+          '<ol>' +
+            '<li>мы смотрим — обычно в течение 24 часов, быстрее для кризисных меток.</li>' +
+            '<li>если нарушает правило — удаляется.</li>' +
+            '<li>при серьёзных или повторяющихся нарушениях аккаунт приостанавливается или банится.</li>' +
+            '<li>баны за запрещённый контент (раздел 05) — постоянные.</li>' +
+          '</ol>' +
+          '<h3>апелляции</h3>' +
+          '<p>если думаешь, что мы ошиблись, напиши на <a href="mailto:support@stillhere.app">support@stillhere.app</a> с тем, что произошло. мы читаем каждое письмо — это проект одного человека, не очередь, поэтому ответит живой человек.</p>'
+    },
+
+    'dc.gl.closing.title': { en: 'these aren\'t <em>rules</em>, they\'re a request.',
+                             ru: 'это не <em>правила</em>, это просьба.' },
+    'dc.gl.closing.text':  { en: 'the platform works because most people, most of the time, choose to show up kindly. thank you for being one of them.',
+                             ru: 'платформа работает, потому что большинство людей, в большинстве случаев, выбирают приходить сюда по-доброму. спасибо, что ты один из них.' },
+
+    /* ── docs/html/privacy-policy.html ──────────────────── */
+    'dc.pp.eyebrow':       { en: '<em>—</em> privacy policy',         ru: '<em>—</em> политика конфиденциальности' },
+    'dc.pp.title':         { en: 'your data, <em>your <span class="doc-title-tail">call.</span></em>',
+                             ru: 'твои данные, <em>твоё <span class="doc-title-tail">решение.</span></em>' },
+    'dc.pp.lede':          { en: 'StillHere is one person\'s project. there\'s no ad team, no data buyer, no analytics empire. <em>this is what we actually do with what you share</em>.',
+                             ru: 'StillHere — проект одного человека. нет рекламной команды, нет покупателей данных, нет аналитической империи. <em>вот что мы реально делаем с тем, чем ты делишься</em>.' },
+
+    /* "Short version" callout at the top */
+    'dc.pp.callout.head':  { en: '— the short version',               ru: '— коротко' },
+    'dc.pp.callout.body':  {
+      en: '<ul>' +
+            '<li>your handle &amp; a hashed password are stored. <strong>no email, no phone, no real name.</strong></li>' +
+            '<li>your posts, comments &amp; saves are stored so the site can show them back to you.</li>' +
+            '<li>ai conversations live on <strong>your device only</strong> — we never see them.</li>' +
+            '<li>nothing is sold, profiled, or used to train ai.</li>' +
+            '<li>you can delete everything, anytime. the button works.</li>' +
+          '</ul>',
+      ru: '<ul>' +
+            '<li>сохраняются твой ник и хэш пароля. <strong>никакого email, телефона, настоящего имени.</strong></li>' +
+            '<li>твои посты, комментарии и сохранения хранятся, чтобы сайт мог показать их тебе обратно.</li>' +
+            '<li>AI-разговоры живут <strong>только на твоём устройстве</strong> — мы их никогда не видим.</li>' +
+            '<li>ничего не продаётся, не профилируется, не используется для обучения AI.</li>' +
+            '<li>можно удалить всё в любой момент. кнопка реально работает.</li>' +
+          '</ul>'
+    },
+
+    /* Section 01 — who we are */
+    'dc.pp.s1.body':       {
+      en: '<p>StillHere is a <strong>solo project</strong> — one person making and maintaining a small mental-health platform. there\'s no parent company, no investors, no data-monetization model. when this policy says "we", that\'s mostly just one human.</p>' +
+          '<p>that means the lawyer-grade vocabulary of typical privacy policies doesn\'t really fit, so the rest of this is plain language.</p>',
+      ru: '<p>StillHere — <strong>сольный проект</strong>: один человек делает и поддерживает небольшую платформу про ментальное здоровье. нет материнской компании, нет инвесторов, нет модели монетизации данных. когда этот документ говорит «мы» — это в основном один живой человек.</p>' +
+          '<p>значит, юридический язык типичных политик здесь не подходит. всё остальное — нормальным языком.</p>'
+    },
+
+    /* Section 02 — what we collect */
+    'dc.pp.s2.body':       {
+      en: '<h3>account</h3>' +
+          '<ul>' +
+            '<li>your <strong>handle</strong> (the @name you picked).</li>' +
+            '<li>your <strong>password</strong> — stored as an irreversible hash. we cannot read it, even if we wanted to.</li>' +
+            '<li>optionally: a <strong>display name</strong>, <strong>avatar image</strong>, and any free-text bio you add.</li>' +
+            '<li>the <strong>timestamp</strong> of when you joined.</li>' +
+          '</ul>' +
+          '<h3>activity</h3>' +
+          '<ul>' +
+            '<li>posts you write (title, body, language, topics, mode tag, attached images/videos).</li>' +
+            '<li>comments you write.</li>' +
+            '<li>the "support" hearts you give.</li>' +
+            '<li>the posts you save (a per-account bookmark list).</li>' +
+          '</ul>' +
+          '<h3>technical</h3>' +
+          '<ul>' +
+            '<li>basic web-server logs from our host (request, time, IP) — kept short-term for security.</li>' +
+            '<li>when you <strong>publish a post or comment</strong>, we store two extra fields alongside it: the request IP and a random per-browser identifier we put in your <code>localStorage</code>. these are only used to enforce a temporary block if a moderator pauses an account that\'s been breaking the guidelines. they are not used for tracking, profiling, or advertising.</li>' +
+            '<li>no cookies are set by StillHere apart from the auth session token. no advanced fingerprinting (no canvas hashes, no font enumeration, no advertising ID).</li>' +
+          '</ul>' +
+          '<h3>aggregate analytics</h3>' +
+          '<p>we use three privacy-respecting counters to understand site traffic and keep the site fast. <strong>none of them see the content of your posts, your handle, your account id, or what you type.</strong> they only know that <em>a browser</em> opened <em>a page</em>.</p>' +
+          '<ul>' +
+            '<li><strong>Vercel Web Analytics</strong> — counts page views and unique visitors, aggregated to numbers like "this article had 200 reads this week". no cookies, no localStorage, no persistent identifiers. Vercel hashes the request to deduplicate visits within a 24-hour window and discards the hash afterwards.</li>' +
+            '<li><strong>Vercel Speed Insights</strong> — collects only Core Web Vitals (page-load time, largest-contentful-paint, layout shift, interaction-to-next-paint) so we can tell when a page is slow. no cookies, no identifiers, performance numbers only.</li>' +
+            '<li><strong>our own "<code>site_pings</code>" table</strong> in Supabase — powers the "X online right now / Y total visits" counters on the <a href="../../statistics.html">statistics page</a>. each ping inserts <em>only a server timestamp</em> (no IP, no fingerprint, no path, no user id). it is fundamentally impossible to reconstruct who visited or what they read from this table.</li>' +
+          '</ul>' +
+          '<p>we deliberately do <strong>not</strong> use Google Analytics, Facebook Pixel, Segment, Mixpanel, or any other behavioural analytics tool. a standard content-blocker (uBlock Origin, Brave shield, Firefox strict mode) blocks the Vercel scripts, and we don\'t try to circumvent that — the site works identically with or without them loaded.</p>',
+      ru: '<h3>аккаунт</h3>' +
+          '<ul>' +
+            '<li>твой <strong>ник</strong> (@-имя, которое ты выбрал).</li>' +
+            '<li>твой <strong>пароль</strong> — хранится как необратимый хэш. мы не можем его прочитать, даже если бы захотели.</li>' +
+            '<li>опционально: <strong>отображаемое имя</strong>, <strong>аватар</strong> и свободное био, если ты добавил.</li>' +
+            '<li><strong>метка времени</strong> когда ты зарегистрировался.</li>' +
+          '</ul>' +
+          '<h3>активность</h3>' +
+          '<ul>' +
+            '<li>посты, которые ты пишешь (заголовок, текст, язык, темы, тег режима, прикреплённые фото/видео).</li>' +
+            '<li>комментарии, которые ты пишешь.</li>' +
+            '<li>сердечки «поддержать», которые ты ставишь.</li>' +
+            '<li>посты, которые ты сохраняешь (список закладок по аккаунту).</li>' +
+          '</ul>' +
+          '<h3>технические данные</h3>' +
+          '<ul>' +
+            '<li>базовые логи веб-сервера от нашего хостинга (запрос, время, IP) — хранятся кратко, ради безопасности.</li>' +
+            '<li>когда ты <strong>публикуешь пост или комментарий</strong>, рядом сохраняются два дополнительных поля: IP запроса и случайный per-browser идентификатор в твоём <code>localStorage</code>. они нужны только для того, чтобы временный бан реально работал, если модератор приостанавливает аккаунт за нарушения. не используются для отслеживания, профилирования или рекламы.</li>' +
+            '<li>StillHere не ставит cookies кроме токена сессии. никакого продвинутого фингерпринтинга (нет canvas-хэшей, перечисления шрифтов, рекламного ID).</li>' +
+          '</ul>' +
+          '<h3>агрегированная аналитика</h3>' +
+          '<p>используем три privacy-respecting счётчика, чтобы понимать трафик и держать сайт быстрым. <strong>ни один из них не видит содержание твоих постов, твой ник, ID аккаунта или то, что ты печатаешь.</strong> они знают только, что <em>браузер</em> открыл <em>страницу</em>.</p>' +
+          '<ul>' +
+            '<li><strong>Vercel Web Analytics</strong> — считает просмотры страниц и уникальных посетителей, агрегирует в числа типа «эту статью прочитали 200 раз за неделю». без cookies, без localStorage, без постоянных идентификаторов. Vercel хэширует запрос для дедупликации в окне 24 часа и потом этот хэш выбрасывает.</li>' +
+            '<li><strong>Vercel Speed Insights</strong> — собирает только Core Web Vitals (время загрузки, LCP, layout shift, interaction-to-next-paint), чтобы видеть когда страница тормозит. без cookies, без идентификаторов, только перфоманс-метрики.</li>' +
+            '<li><strong>наша таблица «<code>site_pings</code>»</strong> в Supabase — питает счётчики «X сейчас онлайн / Y всего визитов» на <a href="../../statistics.html">странице статистики</a>. каждый пинг записывает <em>только серверную метку времени</em> (без IP, без фингерпринта, без пути, без user_id). по этой таблице принципиально невозможно восстановить кто заходил и что читал.</li>' +
+          '</ul>' +
+          '<p>мы намеренно <strong>не используем</strong> Google Analytics, Facebook Pixel, Segment, Mixpanel или любой другой инструмент поведенческой аналитики. стандартный блокировщик контента (uBlock Origin, Brave shield, Firefox strict mode) блокирует скрипты Vercel — мы не пытаемся это обойти, сайт работает одинаково с ними и без них.</p>'
+    },
+
+    /* Section 03 — what we don't collect */
+    'dc.pp.s3.body':       {
+      en: '<ul>' +
+            '<li><strong>no email or phone number.</strong> we don\'t ask for them. you don\'t have to give one.</li>' +
+            '<li><strong>no real name.</strong> the handle is the only identifier.</li>' +
+            '<li><strong>no precise location.</strong> we never geo-locate you — your IP is stored only as an opaque value for the block list described in section 02, and never resolved to a city or coordinates.</li>' +
+            '<li><strong>no advanced device fingerprinting</strong> (no canvas hashes, no font enumeration, no advertising ID). the only "fingerprint" we keep is a random string we generated in your browser the first time you posted — you can wipe it any time by clearing site data.</li>' +
+            '<li><strong>no third-party trackers.</strong> no facebook pixel, no google analytics, no segment, no mixpanel. the only outbound telemetry is anonymous performance metrics described in section 02.</li>' +
+            '<li><strong>no behavioural profiling</strong> for advertising or "engagement". the feed is chronological by design.</li>' +
+          '</ul>',
+      ru: '<ul>' +
+            '<li><strong>никакого email или телефона.</strong> мы их не спрашиваем. ты не обязан давать.</li>' +
+            '<li><strong>никакого настоящего имени.</strong> ник — единственный идентификатор.</li>' +
+            '<li><strong>никакой точной геолокации.</strong> мы никогда не определяем твоё местоположение — IP хранится только как opaque-значение для блок-листа из раздела 02 и никогда не превращается в город или координаты.</li>' +
+            '<li><strong>никакого продвинутого фингерпринтинга устройства</strong> (нет canvas-хэшей, перечисления шрифтов, рекламного ID). единственный «фингерпринт», который мы храним — случайная строка, сгенерированная в твоём браузере при первой публикации; стереть её можно очисткой данных сайта.</li>' +
+            '<li><strong>никаких сторонних трекеров.</strong> ни facebook pixel, ни google analytics, ни segment, ни mixpanel. единственная исходящая телеметрия — анонимные перфоманс-метрики из раздела 02.</li>' +
+            '<li><strong>никакого поведенческого профилирования</strong> ради рекламы или «вовлечённости». лента — хронологическая, by design.</li>' +
+          '</ul>'
+    },
+
+    /* Section 04 — anonymity, on purpose */
+    'dc.pp.s4.body':       {
+      en: '<p>your handle is the only public thing about you, and it doesn\'t need to relate to your real identity. if you pick something neutral, you are <em>effectively anonymous</em> on the site.</p>' +
+          '<p>that said — here\'s how we think about anonymity honestly:</p>' +
+          '<ul>' +
+            '<li>your posts are linked to your handle internally (so you can edit or delete them later).</li>' +
+            '<li>if you put your real name in a post, that\'s public. we don\'t scan or hide it.</li>' +
+            '<li>if you reuse the same handle elsewhere on the internet, someone could connect them. we can\'t prevent that.</li>' +
+            '<li>if you screenshot your own post and share it, the screenshot exists outside this site. we have no control over it.</li>' +
+            '<li>posting "anonymously" (without an account) is still tied to your request IP and a random browser identifier so that blocks can be enforced. those values stay inside our database and are not used to identify <em>who</em> you are — only to recognise the same device/connection across submissions.</li>' +
+          '</ul>' +
+          '<div class="doc-note"><strong>tip —</strong> if you really want maximum anonymity, use a fresh handle here that you don\'t use anywhere else, and post from a network you\'re comfortable with.</div>',
+      ru: '<p>твой ник — единственное, что публично; он не обязан быть связан с твоей реальной личностью. если выберешь нейтральное — на сайте ты <em>фактически анонимен</em>.</p>' +
+          '<p>тем не менее, вот честный взгляд на анонимность:</p>' +
+          '<ul>' +
+            '<li>твои посты внутри привязаны к твоему нику (чтобы ты потом мог их редактировать или удалять).</li>' +
+            '<li>если в пост ты напишешь своё настоящее имя — оно станет публичным. мы не сканируем и не прячем такое.</li>' +
+            '<li>если используешь один и тот же ник где-то ещё в интернете, кто-то может связать. мы не можем это предотвратить.</li>' +
+            '<li>если делаешь скриншот собственного поста и где-то его публикуешь — скриншот живёт вне сайта, мы за него не отвечаем.</li>' +
+            '<li>публикация «анонимно» (без аккаунта) всё равно привязана к IP запроса и случайному идентификатору браузера, чтобы баны работали. эти значения живут внутри нашей БД и не используются чтобы понять <em>кто</em> ты — только чтобы распознать то же устройство/соединение между публикациями.</li>' +
+          '</ul>' +
+          '<div class="doc-note"><strong>совет —</strong> если хочешь максимальной анонимности — заведи здесь свежий ник, который нигде больше не использовал, и публикуй из сети, в которой тебе спокойно.</div>'
+    },
+
+    /* Section 05 — AI conversations */
+    'dc.pp.s5.body':       {
+      en: '<p>the ai companion is the most private feature on the site. how it works:</p>' +
+          '<ol>' +
+            '<li>your messages are sent through an edge function we host (it holds the model api key, so your browser never sees it).</li>' +
+            '<li>the model provider receives your message <strong>without your handle, account id, or any identifier</strong>.</li>' +
+            '<li>the conversation is stored <strong>in your browser\'s localStorage</strong> — not on our servers.</li>' +
+            '<li>if you switch devices or clear your browser data, those conversations are gone. that\'s the trade-off — privacy over portability.</li>' +
+          '</ol>' +
+          '<p>we work with a model provider that operates under a <strong>zero data retention</strong> policy — they don\'t keep your prompts after responding.</p>',
+      ru: '<p>AI-спутник — самая приватная функция на сайте. как она работает:</p>' +
+          '<ol>' +
+            '<li>твои сообщения идут через нашу edge-функцию (она держит ключ API модели, в браузере ключа нет).</li>' +
+            '<li>провайдер модели получает твоё сообщение <strong>без твоего ника, ID аккаунта или любого идентификатора</strong>.</li>' +
+            '<li>разговор хранится <strong>в localStorage твоего браузера</strong> — не на наших серверах.</li>' +
+            '<li>если сменишь устройство или очистишь данные браузера — эти разговоры пропадут. это компромисс: приватность вместо переносимости.</li>' +
+          '</ol>' +
+          '<p>мы работаем с провайдером модели, у которого политика <strong>zero data retention</strong> — они не хранят твои запросы после ответа.</p>'
+    },
+
+    /* Section 06 — third parties */
+    'dc.pp.s6.body':       {
+      en: '<p>StillHere can\'t run on nothing. it relies on three vendors:</p>' +
+          '<ul>' +
+            '<li><strong>Supabase</strong> — our database &amp; authentication backend (where your handle, password hash, posts, comments live). they process this data on our behalf.</li>' +
+            '<li><strong>An AI gateway</strong> — proxies ai chat requests with zero data retention. they see only your message text, not who you are.</li>' +
+            '<li><strong>Vercel</strong> — hosts the website itself and provides <em>Speed Insights</em> + <em>Web Analytics</em> (anonymous page-view counts and Core Web Vitals). their servers log standard request data for a few days; both analytics tools are described in section 02.</li>' +
+          '</ul>' +
+          '<p>that\'s the full list. <em>nothing else</em>. no behavioural analytics vendor, no error-tracking saas, no email service, no advertising network.</p>',
+      ru: '<p>StillHere не может работать на пустом месте. он опирается на три сервиса:</p>' +
+          '<ul>' +
+            '<li><strong>Supabase</strong> — наш бэкенд для БД и авторизации (там живут твой ник, хэш пароля, посты, комментарии). они обрабатывают эти данные от нашего имени.</li>' +
+            '<li><strong>AI-шлюз</strong> — проксирует AI-чат с zero data retention. видит только текст твоего сообщения, не знает кто ты.</li>' +
+            '<li><strong>Vercel</strong> — хостит сам сайт и даёт <em>Speed Insights</em> + <em>Web Analytics</em> (анонимные счётчики просмотров и Core Web Vitals). их серверы логируют стандартные запросы несколько дней; оба инструмента описаны в разделе 02.</li>' +
+          '</ul>' +
+          '<p>это полный список. <em>больше ничего</em>. ни поведенческой аналитики, ни SaaS для трекинга ошибок, ни email-сервиса, ни рекламной сети.</p>'
+    },
+
+    /* Section 07 — data retention */
+    'dc.pp.s7.body':       {
+      en: '<p>simple rules:</p>' +
+          '<ul>' +
+            '<li>your account and content stay <strong>until you delete them</strong>. there\'s no automatic expiry.</li>' +
+            '<li>deleted posts and comments are removed from the database within a few minutes (no soft-delete, no shadow copy).</li>' +
+            '<li>when you delete your account, your profile row is anonymized; your posts become "anonymous". if you also click "delete all my posts" first, they\'re gone entirely.</li>' +
+            '<li>web-server access logs are kept by our host for a few days for security, then purged.</li>' +
+          '</ul>',
+      ru: '<p>простые правила:</p>' +
+          '<ul>' +
+            '<li>твой аккаунт и контент живут <strong>пока ты их не удалишь</strong>. автоматического срока нет.</li>' +
+            '<li>удалённые посты и комментарии уходят из БД за несколько минут (без soft-delete, без shadow-копий).</li>' +
+            '<li>когда ты удаляешь аккаунт, твоя строка профиля анонимизируется; посты становятся «анонимными». если перед этим нажмёшь «удалить все мои посты» — их не будет вообще.</li>' +
+            '<li>access-логи веб-сервера наш хостинг хранит несколько дней для безопасности, потом удаляет.</li>' +
+          '</ul>'
+    },
+
+    /* Section 08 — your rights */
+    'dc.pp.s8.body':       {
+      en: '<p>no matter what country you\'re in or what acronym applies (GDPR / CCPA / LGPD / DPDP), you have these:</p>' +
+          '<ul>' +
+            '<li><strong>access</strong> — see what\'s stored. for now this is what you see in your profile + edit-profile pages; email us if you want a JSON export.</li>' +
+            '<li><strong>correction</strong> — edit your profile and posts directly.</li>' +
+            '<li><strong>deletion</strong> — delete posts individually, delete-all-posts from edit-profile, or delete the entire account. those buttons actually work.</li>' +
+            '<li><strong>portability</strong> — email us, we\'ll send a JSON of your content.</li>' +
+            '<li><strong>objection</strong> — there\'s nothing to object to (no profiling, no ads), but if there were, you could.</li>' +
+          '</ul>' +
+          '<p>to exercise any of these, click the appropriate button — or write to <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.</p>',
+      ru: '<p>не важно в какой ты стране и какой акроним применим (GDPR / CCPA / LGPD / DPDP), у тебя есть эти права:</p>' +
+          '<ul>' +
+            '<li><strong>доступ</strong> — видеть, что сохранено. пока это то, что показано в твоём профиле + на странице редактирования; напиши нам если нужен JSON-экспорт.</li>' +
+            '<li><strong>исправление</strong> — редактируй профиль и посты напрямую.</li>' +
+            '<li><strong>удаление</strong> — удалить посты по одному, удалить все посты из edit-profile, или удалить весь аккаунт. эти кнопки реально работают.</li>' +
+            '<li><strong>переносимость</strong> — напиши нам, мы пришлём JSON с твоим контентом.</li>' +
+            '<li><strong>возражение</strong> — против чего тут возражать (нет профилирования, нет рекламы), но если бы было — ты мог бы.</li>' +
+          '</ul>' +
+          '<p>чтобы воспользоваться любым из этих прав — нажми соответствующую кнопку или напиши на <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.</p>'
+    },
+
+    /* Section 09 — security */
+    'dc.pp.s9.body':       {
+      en: '<ul>' +
+            '<li><strong>passwords</strong> are hashed by Supabase using industry-standard algorithms — we can never read them in plaintext.</li>' +
+            '<li><strong>all traffic</strong> is encrypted in transit over HTTPS.</li>' +
+            '<li><strong>row-level security</strong> at the database means even if someone breaks in to our app code, they still can\'t query data they shouldn\'t.</li>' +
+            '<li>this is a small project. we don\'t have a security team — but we follow standard hygiene and respond fast to any reports.</li>' +
+          '</ul>' +
+          '<p>found a vulnerability? please email <a href="mailto:hello@stillhere.global">hello@stillhere.global</a> before disclosing publicly. thank you.</p>',
+      ru: '<ul>' +
+            '<li><strong>пароли</strong> хэшируются Supabase индустриальными алгоритмами — мы никогда не прочитаем их в открытом виде.</li>' +
+            '<li><strong>весь трафик</strong> шифруется при передаче через HTTPS.</li>' +
+            '<li><strong>row-level security</strong> в БД значит: даже если кто-то ворвётся в код приложения, он всё равно не сможет запросить данные, которые ему не положены.</li>' +
+            '<li>это маленький проект. у нас нет security-команды — но мы следуем базовой гигиене и быстро реагируем на сообщения о проблемах.</li>' +
+          '</ul>' +
+          '<p>нашёл уязвимость? пожалуйста, напиши на <a href="mailto:hello@stillhere.global">hello@stillhere.global</a> до публичного раскрытия. спасибо.</p>'
+    },
+
+    /* Section 10 — children's privacy */
+    'dc.pp.s10.body':      {
+      en: '<p>StillHere is intended for users <strong>16 and older</strong>. the stories shared here often touch on grief, depression, trauma, and adult themes; adult language is common. we don\'t knowingly collect data from anyone under 16. if you believe a minor signed up, please <a href="mailto:hello@stillhere.global">tell us</a> and we\'ll remove the account.</p>',
+      ru: '<p>StillHere предназначен для пользователей <strong>16+ лет</strong>. истории здесь часто касаются горя, депрессии, травмы, взрослых тем; взрослая лексика — обычное дело. мы сознательно не собираем данные от тех, кому меньше 16. если есть подозрение, что зарегистрировался несовершеннолетний — <a href="mailto:hello@stillhere.global">напиши нам</a>, мы удалим аккаунт.</p>'
+    },
+
+    /* Section 11 — changes to this policy */
+    'dc.pp.s11.body':      {
+      en: '<p>if anything material changes, we\'ll post a notice on the <a href="../../nav-bar/updates.html">updates page</a> and bump the version number above. the older versions stay archived in our git history.</p>',
+      ru: '<p>если что-то существенное изменится — опубликуем уведомление на <a href="../../nav-bar/updates.html">странице обновлений</a> и повысим номер версии вверху. старые версии останутся в нашей git-истории.</p>'
+    },
+
+    /* Section 12 — contact */
+    'dc.pp.s12.body':      {
+      en: '<p>questions, requests, concerns — write to <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>. this is a one-person project so a real human will respond, usually within a day or two.</p>',
+      ru: '<p>вопросы, запросы, беспокойства — пиши на <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>. это проект одного человека — ответит живой человек, обычно за день-два.</p>'
+    },
+    'dc.pp.s1.title':      { en: 'who we are',                        ru: 'кто мы' },
+    'dc.pp.s2.title':      { en: 'what we collect',                   ru: 'что мы собираем' },
+    'dc.pp.s2.hint':       { en: 'the minimum to make the site work', ru: 'минимум, чтобы сайт работал' },
+    'dc.pp.s3.title':      { en: 'what we don\'t collect',            ru: 'что мы не собираем' },
+    'dc.pp.s4.title':      { en: 'anonymity, on purpose',             ru: 'анонимность намеренно' },
+    'dc.pp.s5.title':      { en: 'ai conversations',                  ru: 'AI-разговоры' },
+    'dc.pp.s5.hint':       { en: 'kept on your device',               ru: 'хранятся на твоём устройстве' },
+    'dc.pp.s6.title':      { en: 'third parties',                     ru: 'третьи стороны' },
+    'dc.pp.s7.title':      { en: 'data retention',                    ru: 'хранение данных' },
+    'dc.pp.s8.title':      { en: 'your rights',                       ru: 'твои права' },
+    'dc.pp.s8.hint':       { en: 'whatever the regulation',           ru: 'независимо от регуляции' },
+    'dc.pp.s9.title':      { en: 'security',                          ru: 'безопасность' },
+    'dc.pp.s10.title':     { en: 'children\'s privacy',               ru: 'приватность детей' },
+    'dc.pp.s11.title':     { en: 'changes to this policy',            ru: 'изменения в этой политике' },
+    'dc.pp.s12.title':     { en: 'contact',                           ru: 'контакты' },
+    'dc.pp.closing.title': { en: 'your data is <em>only</em> here for you.',
+                             ru: 'твои данные здесь <em>только</em> ради тебя.' },
+    'dc.pp.closing.text':  { en: 'we built StillHere so people could share what\'s hard without anyone watching. that doesn\'t work unless we keep our word — and we do.',
+                             ru: 'мы построили StillHere, чтобы люди могли делиться тяжёлым без чужих глаз. это не работает, если мы не держим слово — а мы его держим.' },
+
+    /* ── docs/html/terms-of-service.html ────────────────── */
+    'dc.tos.eyebrow':      { en: '<em>—</em> terms of service',       ru: '<em>—</em> условия использования' },
+    'dc.tos.title':        { en: 'the agreement, <em>plain &amp; <span class="doc-title-tail">short.</span></em>',
+                             ru: 'соглашение, <em>просто и <span class="doc-title-tail">коротко.</span></em>' },
+    'dc.tos.lede':         { en: 'no legalese where we can help it. these terms describe how StillHere works, what you agree to by using it, and what we owe each other.',
+                             ru: 'без юридического жаргона, где это возможно. эти условия описывают как работает StillHere, с чем ты соглашаешься используя его, и что мы должны друг другу.' },
+    'dc.tos.s1.title':     { en: 'what stillhere is',                 ru: 'что такое StillHere' },
+    'dc.tos.s2.title':     { en: 'using the site = accepting these',  ru: 'использование сайта = согласие с этим' },
+    'dc.tos.s3.title':     { en: 'eligibility',                       ru: 'кто может пользоваться' },
+    'dc.tos.s4.title':     { en: 'your account',                      ru: 'твой аккаунт' },
+    'dc.tos.s5.title':     { en: 'how to behave',                     ru: 'как себя вести' },
+    'dc.tos.s5.hint':      { en: 'the gentle floor',                  ru: 'мягкий минимум' },
+    'dc.tos.s6.title':     { en: 'your content',                      ru: 'твой контент' },
+    'dc.tos.s7.title':     { en: 'no-advice mode',                    ru: 'режим без советов' },
+    'dc.tos.s8.title':     { en: 'mental-health disclaimer',          ru: 'дисклеймер о ментальном здоровье' },
+    'dc.tos.s9.title':     { en: 'moderation',                        ru: 'модерация' },
+    'dc.tos.s10.title':    { en: 'termination',                       ru: 'прекращение использования' },
+    'dc.tos.s11.title':    { en: 'limitation of liability',           ru: 'ограничение ответственности' },
+    'dc.tos.s12.title':    { en: 'changes to these terms',            ru: 'изменения этих условий' },
+    'dc.tos.closing.title':{ en: 'that\'s <em>it.</em>',              ru: 'и <em>всё.</em>' },
+    'dc.tos.closing.text': { en: 'no 80-page enterprise sentence-soup, no arbitration ambush, no surprise data clauses. questions? <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.',
+                             ru: 'без 80-страничного корпоративного супа из предложений, без арбитражной засады, без сюрпризов в data-clauses. вопросы? <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.' },
+
+    /* ── Terms of Service — full prose bodies ─────────── */
+    'dc.tos.s1.body':      {
+      en: '<p>StillHere is a <strong>small, anonymous mental-health space</strong> — a community feed of stories, a kind ai listener, and the gentlest moderation we can manage. it\'s free to use. it\'s a solo project, not a company.</p>' +
+          '<p>it is <em>not</em> a substitute for therapy, medicine, or emergency services. it is a place to <em>feel less alone</em>.</p>',
+      ru: '<p>StillHere — это <strong>маленькое анонимное пространство для ментального здоровья</strong>: лента историй сообщества, добрый AI-слушатель и максимально мягкая модерация. бесплатно. сольный проект, не компания.</p>' +
+          '<p>это <em>не</em> замена терапии, медицины или экстренных служб. это место, где можно <em>почувствовать себя менее одиноким</em>.</p>'
+    },
+
+    'dc.tos.s2.body':      {
+      en: '<p>by creating an account, posting, commenting, or even just browsing, you agree to follow these terms and our <a href="guidelines.html">community guidelines</a>. if you can\'t agree, please don\'t use the site.</p>',
+      ru: '<p>создавая аккаунт, публикуя посты, комментируя — или даже просто читая — ты соглашаешься следовать этим условиям и нашим <a href="guidelines.html">правилам сообщества</a>. если не можешь согласиться — пожалуйста, не пользуйся сайтом.</p>'
+    },
+
+    'dc.tos.s3.body':      {
+      en: '<ul>' +
+            '<li>you must be at least <strong>16</strong> (or the minimum digital-consent age in your country, whichever is higher).</li>' +
+            '<li>we set 16+ because stories here often touch on heavy topics — grief, depression, trauma — and adult language is common.</li>' +
+            '<li>if you\'re 13–15, you may read with a trusted adult, but please don\'t post or sign up.</li>' +
+            '<li>if you\'re under 18, please use the site with care and tell a trusted adult if anything feels off.</li>' +
+            '<li>you may not use the site if a previous account was banned for serious violations.</li>' +
+          '</ul>',
+      ru: '<ul>' +
+            '<li>тебе должно быть не меньше <strong>16</strong> (или минимальный возраст digital-consent в твоей стране, если он выше).</li>' +
+            '<li>мы поставили 16+ потому что истории здесь часто касаются тяжёлых тем — горе, депрессия, травма — и взрослая лексика встречается часто.</li>' +
+            '<li>если тебе 13–15, можно читать вместе со взрослым, которому доверяешь, но, пожалуйста, не публикуй и не регистрируйся.</li>' +
+            '<li>если тебе меньше 18, пожалуйста, пользуйся сайтом аккуратно и расскажи доверенному взрослому, если что-то ощущается не так.</li>' +
+            '<li>нельзя пользоваться сайтом, если предыдущий аккаунт был забанен за серьёзные нарушения.</li>' +
+          '</ul>'
+    },
+
+    'dc.tos.s4.body':      {
+      en: '<ul>' +
+            '<li>pick a handle and a password. that\'s the entire signup. <strong>don\'t share your password.</strong></li>' +
+            '<li>you are responsible for everything posted from your account.</li>' +
+            '<li>you can delete the account whenever — from <strong>edit profile → delete account</strong>. it removes your profile data; if you also delete all your posts first, that content goes too.</li>' +
+            '<li>we may delete an account that violates rules (see section 09).</li>' +
+          '</ul>',
+      ru: '<ul>' +
+            '<li>выбери ник и пароль. это вся регистрация. <strong>не давай свой пароль никому.</strong></li>' +
+            '<li>ты несёшь ответственность за всё, что публикуется с твоего аккаунта.</li>' +
+            '<li>удалить аккаунт можно в любой момент — через <strong>edit profile → delete account</strong>. это уберёт данные профиля; если перед этим удалишь все свои посты, контент уйдёт тоже.</li>' +
+            '<li>мы можем удалить аккаунт, нарушающий правила (см. раздел 09).</li>' +
+          '</ul>'
+    },
+
+    'dc.tos.s5.body':      {
+      en: '<p>the full version lives in the <a href="guidelines.html">community guidelines</a>. the short version:</p>' +
+          '<div class="doc-chips">' +
+            '<span class="doc-chip doc-chip--good">be kind</span>' +
+            '<span class="doc-chip doc-chip--good">respect "no advice"</span>' +
+            '<span class="doc-chip doc-chip--good">protect anonymity</span>' +
+            '<span class="doc-chip doc-chip--good">honesty</span>' +
+            '<span class="doc-chip doc-chip--bad">no harassment</span>' +
+            '<span class="doc-chip doc-chip--bad">no hate</span>' +
+            '<span class="doc-chip doc-chip--bad">no medical advice</span>' +
+            '<span class="doc-chip doc-chip--bad">no promotion / spam</span>' +
+            '<span class="doc-chip doc-chip--bad">no doxxing</span>' +
+          '</div>',
+      ru: '<p>полная версия — в <a href="guidelines.html">правилах сообщества</a>. короткая:</p>' +
+          '<div class="doc-chips">' +
+            '<span class="doc-chip doc-chip--good">будь добрым</span>' +
+            '<span class="doc-chip doc-chip--good">уважай «без советов»</span>' +
+            '<span class="doc-chip doc-chip--good">береги анонимность</span>' +
+            '<span class="doc-chip doc-chip--good">честность</span>' +
+            '<span class="doc-chip doc-chip--bad">без травли</span>' +
+            '<span class="doc-chip doc-chip--bad">без ненависти</span>' +
+            '<span class="doc-chip doc-chip--bad">без медицинских советов</span>' +
+            '<span class="doc-chip doc-chip--bad">без рекламы / спама</span>' +
+            '<span class="doc-chip doc-chip--bad">без доксинга</span>' +
+          '</div>'
+    },
+
+    'dc.tos.s6.body':      {
+      en: '<h3>you own what you write</h3>' +
+          '<p>your posts and comments are <strong>yours</strong>. you keep all rights to them.</p>' +
+          '<h3>what you grant us</h3>' +
+          '<p>by posting here you give StillHere a <em>non-exclusive, non-transferable, royalty-free</em> licence to store, display, and back up your content — only for the purpose of running the site. nothing more. we don\'t use your content for marketing, fine-tuning models, or anything outside the site.</p>' +
+          '<h3>what we don\'t do</h3>' +
+          '<ul>' +
+            '<li>we don\'t sell your content.</li>' +
+            '<li>we don\'t train AI on your content.</li>' +
+            '<li>we don\'t repost it elsewhere.</li>' +
+          '</ul>',
+      ru: '<h3>тебе принадлежит то, что ты пишешь</h3>' +
+          '<p>твои посты и комментарии — <strong>твои</strong>. все права на них остаются у тебя.</p>' +
+          '<h3>что ты даёшь нам</h3>' +
+          '<p>публикуя здесь, ты даёшь StillHere <em>неэксклюзивную, непередаваемую, безвозмездную</em> лицензию хранить, показывать и резервировать твой контент — только для работы сайта. больше ничего. мы не используем твой контент для маркетинга, дообучения моделей или чего-то вне сайта.</p>' +
+          '<h3>чего мы не делаем</h3>' +
+          '<ul>' +
+            '<li>не продаём твой контент.</li>' +
+            '<li>не обучаем на нём AI.</li>' +
+            '<li>не перепубликовываем его где-либо ещё.</li>' +
+          '</ul>'
+    },
+
+    'dc.tos.s7.body':      {
+      en: '<p>when a post is tagged <strong>"no advice"</strong>, the author is asking only for presence — not suggestions, not therapy recommendations, not "have you tried…". replies that ignore this tag may be removed.</p>' +
+          '<p>the ai companion also has a <strong>no-advice toggle</strong> that switches its tone from a gentle helper to a quiet listener. it doesn\'t keep notes between sessions.</p>',
+      ru: '<p>когда пост помечен <strong>«без советов»</strong>, автор просит только присутствия — не предложений, не рекомендаций терапии, не «а ты пробовал…». ответы, игнорирующие этот тег, могут быть удалены.</p>' +
+          '<p>у AI-спутника тоже есть <strong>переключатель «без советов»</strong>, который меняет его тон с мягкого помощника на тихого слушателя. он не ведёт заметок между сессиями.</p>'
+    },
+
+    'dc.tos.s8.alert.head':{ en: 'please read this carefully',         ru: 'пожалуйста, прочитай внимательно' },
+    'dc.tos.s8.alert':     {
+      en: '<p><strong>StillHere is not a therapist, doctor, counselor, or emergency service.</strong> the ai companion is a language model — it\'s empathetic, but it is not qualified to diagnose, treat, or save your life.</p>' +
+          '<p>if you are in crisis, please call a real human. see our <a href="crisis-resources.html">crisis resources</a> page for free 24/7 numbers in your country.</p>',
+      ru: '<p><strong>StillHere — не терапевт, не врач, не консультант и не служба экстренной помощи.</strong> AI-спутник — это языковая модель. он эмпатичен, но не квалифицирован ставить диагнозы, лечить или спасти твою жизнь.</p>' +
+          '<p>если ты в кризисе — пожалуйста, позвони живому человеку. на странице <a href="crisis-resources.html">где найти помощь</a> есть бесплатные номера 24/7 по странам.</p>'
+    },
+    'dc.tos.s8.body':      {
+      en: '<p>by using the site you understand that other users are <strong>peers, not professionals</strong>. their stories and replies are their personal experiences — not medical advice.</p>',
+      ru: '<p>используя сайт, ты понимаешь, что другие пользователи — это <strong>такие же люди, не профессионалы</strong>. их истории и ответы — это их личный опыт, а не медицинский совет.</p>'
+    },
+
+    'dc.tos.s9.body':      {
+      en: '<p>we moderate. that means:</p>' +
+          '<ul>' +
+            '<li>posts and comments pass a basic automated check at submit time.</li>' +
+            '<li>users can <strong>report</strong> content; we review reports — usually within 24 hours.</li>' +
+            '<li>content that breaks the guidelines gets <strong>removed</strong>.</li>' +
+            '<li>serious or repeated violations lead to <strong>account suspension or ban</strong>. some violations are zero-tolerance.</li>' +
+            '<li>to enforce a temporary block, we store your request IP and a random browser identifier on the post or comment you submit. these are only consulted when a moderator pauses someone — they are not used for tracking. full detail in the <a href="privacy-policy.html">privacy policy</a>.</li>' +
+            '<li>if you think we got it wrong, appeal by emailing <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.</li>' +
+          '</ul>',
+      ru: '<p>мы модерируем. это значит:</p>' +
+          '<ul>' +
+            '<li>посты и комментарии проходят базовую автоматическую проверку при отправке.</li>' +
+            '<li>пользователи могут <strong>жаловаться</strong> на контент; мы рассматриваем жалобы — обычно в течение 24 часов.</li>' +
+            '<li>контент, нарушающий правила, <strong>удаляется</strong>.</li>' +
+            '<li>серьёзные или повторяющиеся нарушения ведут к <strong>приостановке или бану аккаунта</strong>. для некоторых нарушений — zero-tolerance.</li>' +
+            '<li>чтобы временный бан реально работал, мы сохраняем IP запроса и случайный идентификатор браузера рядом с твоим постом или комментарием. их смотрят только когда модератор приостанавливает кого-то — для трекинга они не используются. подробности в <a href="privacy-policy.html">политике конфиденциальности</a>.</li>' +
+            '<li>если думаешь, что мы ошиблись — апелляция по адресу <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.</li>' +
+          '</ul>'
+    },
+
+    'dc.tos.s10.body':     {
+      en: '<ul>' +
+            '<li><strong>you can leave anytime</strong> — delete your account from edit profile.</li>' +
+            '<li><strong>we can terminate</strong> an account that violates these terms or the guidelines.</li>' +
+            '<li>we may stop operating StillHere if the project is no longer sustainable; we\'ll give as much warning as possible and offer data export.</li>' +
+          '</ul>',
+      ru: '<ul>' +
+            '<li><strong>ты можешь уйти в любой момент</strong> — удали аккаунт через edit profile.</li>' +
+            '<li><strong>мы можем закрыть</strong> аккаунт, нарушающий эти условия или правила.</li>' +
+            '<li>мы можем прекратить работу StillHere, если проект перестанет быть устойчивым; постараемся предупредить максимально заранее и предложим экспорт данных.</li>' +
+          '</ul>'
+    },
+
+    'dc.tos.s11.body':     {
+      en: '<p>StillHere is provided <strong>"as is"</strong>, without warranty of any kind. we do our best, but we cannot guarantee the site will be available, error-free, or that any content here is accurate, complete, or healing.</p>' +
+          '<p>to the maximum extent permitted by law, StillHere and its operator(s) are not liable for indirect, incidental, or consequential damages arising from your use of the site. this includes content posted by other users.</p>' +
+          '<p>nothing in these terms limits liability that cannot be limited by law (e.g. gross negligence, willful misconduct).</p>',
+      ru: '<p>StillHere предоставляется <strong>«как есть»</strong>, без каких-либо гарантий. мы стараемся, но не можем гарантировать, что сайт всегда будет доступен, без ошибок, или что любой контент здесь точен, полон или целителен.</p>' +
+          '<p>в максимально допустимой законом степени StillHere и его оператор(ы) не несут ответственности за косвенный, побочный или последующий ущерб, связанный с использованием сайта. это включает контент, опубликованный другими пользователями.</p>' +
+          '<p>ничто в этих условиях не ограничивает ответственность, которая не может быть ограничена по закону (например, грубая небрежность, умышленные действия).</p>'
+    },
+
+    'dc.tos.s12.body':     {
+      en: '<p>if we update these terms materially, we\'ll post a notice on the <a href="../../nav-bar/updates.html">updates page</a> and bump the version number above. continued use after a change means you accept the new version.</p>',
+      ru: '<p>если мы существенно обновим эти условия, разместим уведомление на <a href="../../nav-bar/updates.html">странице обновлений</a> и повысим номер версии вверху. продолжение использования после изменения означает согласие с новой версией.</p>'
+    },
+
+    /* ── docs nav (shared across all 4 docs pages) ───── */
+    'dc.nav.guidelines':   { en: 'guidelines',                        ru: 'правила' },
+    'dc.nav.privacy':      { en: 'privacy',                           ru: 'приватность' },
+    'dc.nav.terms':        { en: 'terms',                             ru: 'условия' },
+    'dc.nav.crisis':       { en: 'crisis resources',                  ru: 'где найти помощь' },
+
+    /* ── docs/html/crisis-resources.html ────────────────── */
+    'dc.cr.eyebrow':       { en: '<em>—</em> crisis resources',       ru: '<em>—</em> где найти помощь' },
+    'dc.cr.title':         { en: 'if you need <em>help <span class="doc-title-tail">now.</span></em>',
+                             ru: 'если нужна <em>помощь <span class="doc-title-tail">сейчас.</span></em>' },
+    'dc.cr.lede':          { en: 'this isn\'t a hotline — but here\'s a list of <em>free, 24/7 lines</em> by country, plus specialized support for grief, youth, LGBTQ+, and chat-based help.',
+                             ru: 'это не горячая линия — но здесь список <em>бесплатных линий 24/7</em> по странам, плюс специализированная поддержка для горя, молодёжи, ЛГБТК+ и помощь через чат.' },
+
+    'dc.cr.meta.updated':  { en: 'updated',                           ru: 'обновлено' },
+    'dc.cr.meta.free':     { en: 'free',                              ru: 'бесплатно' },
+    'dc.cr.meta.free.val': { en: 'all of them',                       ru: 'все линии' },
+    'dc.cr.meta.247.val':  { en: 'most of them',                      ru: 'большинство' },
+
+    'dc.cr.alert.head':    { en: 'if you are in immediate danger',    ru: 'если опасность прямо сейчас' },
+    'dc.cr.alert.body':    {
+      en: '<p>please <strong>call your local emergency number now</strong> — <strong>112</strong> (most of europe), <strong>911</strong> (us / canada), <strong>999</strong> (uk / hong kong), <strong>000</strong> (australia), <strong>110 / 119</strong> (japan).</p>' +
+          '<p>if you\'re not in physical danger but need a trained human to talk to, the lines below are <em>free, anonymous, and 24/7</em> in most countries.</p>',
+      ru: '<p>пожалуйста, <strong>позвони на местный номер экстренных служб</strong> — <strong>112</strong> (большая часть Европы), <strong>911</strong> (США / Канада), <strong>999</strong> (Великобритания / Гонконг), <strong>000</strong> (Австралия), <strong>110 / 119</strong> (Япония).</p>' +
+          '<p>если физической опасности нет, но нужен обученный человек, с которым можно поговорить — линии ниже <em>бесплатные, анонимные, 24/7</em> в большинстве стран.</p>'
+    },
+
+    'dc.cr.toc.head':      { en: '— jump to',                         ru: '— перейти к' },
+
+    'dc.cr.s6.body':       {
+      en: '<p>specifically trained for people under 25:</p>' +
+          '<ul>' +
+            '<li><strong>116 111</strong> — europe-wide youth helpline.</li>' +
+            '<li><strong>childline UK</strong> — <a href="tel:08001111">0800 1111</a>, also online chat.</li>' +
+            '<li><strong>kids help phone (canada)</strong> — <a href="tel:18006686868">1-800-668-6868</a>.</li>' +
+            '<li><strong>kids helpline (au)</strong> — <a href="tel:1800551800">1800 55 1800</a>, 5–25.</li>' +
+            '<li><strong>youthline (nz)</strong> — <a href="tel:0800376633">0800 376 633</a> or text 234.</li>' +
+          '</ul>',
+      ru: '<p>специально обучены для людей до 25 лет:</p>' +
+          '<ul>' +
+            '<li><strong>116 111</strong> — общеевропейская линия для молодёжи.</li>' +
+            '<li><strong>childline UK</strong> — <a href="tel:08001111">0800 1111</a>, также онлайн-чат.</li>' +
+            '<li><strong>kids help phone (Канада)</strong> — <a href="tel:18006686868">1-800-668-6868</a>.</li>' +
+            '<li><strong>kids helpline (Австралия)</strong> — <a href="tel:1800551800">1800 55 1800</a>, 5–25 лет.</li>' +
+            '<li><strong>youthline (Новая Зеландия)</strong> — <a href="tel:0800376633">0800 376 633</a> или SMS 234.</li>' +
+          '</ul>'
+    },
+    'dc.cr.s7.body':       {
+      en: '<ul>' +
+            '<li><strong>the trevor project (us)</strong> — <a href="tel:18664887386">1-866-488-7386</a> · text START to 678678 · 24/7.</li>' +
+            '<li><strong>trans lifeline (us/ca)</strong> — <a href="tel:18775658860">1-877-565-8860</a>.</li>' +
+            '<li><strong>switchboard lgbt+ (uk)</strong> — <a href="tel:08000119100">0800 0119 100</a>.</li>' +
+            '<li><strong>mindout (uk)</strong> — online chat &amp; email-based.</li>' +
+            '<li><strong>qlife (au)</strong> — <a href="tel:1800184527">1800 184 527</a>.</li>' +
+          '</ul>',
+      ru: '<ul>' +
+            '<li><strong>the trevor project (США)</strong> — <a href="tel:18664887386">1-866-488-7386</a> · SMS START на 678678 · 24/7.</li>' +
+            '<li><strong>trans lifeline (США/Канада)</strong> — <a href="tel:18775658860">1-877-565-8860</a>.</li>' +
+            '<li><strong>switchboard lgbt+ (Великобритания)</strong> — <a href="tel:08000119100">0800 0119 100</a>.</li>' +
+            '<li><strong>mindout (Великобритания)</strong> — онлайн-чат и email.</li>' +
+            '<li><strong>qlife (Австралия)</strong> — <a href="tel:1800184527">1800 184 527</a>.</li>' +
+          '</ul>'
+    },
+    'dc.cr.s8.body':       {
+      en: '<ul>' +
+            '<li><strong>cruse bereavement (uk)</strong> — <a href="tel:08088081677">0808 808 1677</a>.</li>' +
+            '<li><strong>griefshare (international)</strong> — online groups, free, in many countries.</li>' +
+            '<li><strong>the dougy center</strong> — children &amp; teens, online resources.</li>' +
+            '<li><strong>compassionate friends</strong> — support after losing a child, branches worldwide.</li>' +
+          '</ul>',
+      ru: '<ul>' +
+            '<li><strong>cruse bereavement (Великобритания)</strong> — <a href="tel:08088081677">0808 808 1677</a>.</li>' +
+            '<li><strong>griefshare (международная)</strong> — онлайн-группы, бесплатно, во многих странах.</li>' +
+            '<li><strong>the dougy center</strong> — дети и подростки, онлайн-ресурсы.</li>' +
+            '<li><strong>compassionate friends</strong> — поддержка после потери ребёнка, отделения по всему миру.</li>' +
+          '</ul>'
+    },
+    'dc.cr.s9.body':       {
+      en: '<h3>if calling feels like too much:</h3>' +
+          '<ul>' +
+            '<li><strong><a href="https://www.imalive.org" target="_blank" rel="noopener">imalive.org</a></strong> — peer chat with trained volunteers (us).</li>' +
+            '<li><strong><a href="https://www.crisistextline.org" target="_blank" rel="noopener">crisis text line</a></strong> — text-based, US/UK/Canada/Ireland.</li>' +
+            '<li><strong><a href="https://www.7cups.com" target="_blank" rel="noopener">7 cups</a></strong> — free emotional support listeners, worldwide.</li>' +
+            '<li><strong><a href="https://befrienders.org" target="_blank" rel="noopener">befrienders worldwide</a></strong> — directory of crisis lines in 32+ countries.</li>' +
+            '<li><strong><a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a></strong> — search any country, any topic.</li>' +
+          '</ul>' +
+          '<p>russian-language resources:</p>' +
+          '<ul>' +
+            '<li><strong><a href="https://pomogi.org/" target="_blank" rel="noopener">pomogi.org</a></strong> — directory of free psychological help in Russian.</li>' +
+            '<li><strong><a href="https://www.b17.ru/" target="_blank" rel="noopener">b17.ru</a></strong> — large psychologist directory; many offer a free first consultation.</li>' +
+            '<li><strong><a href="https://your-territory.ru/" target="_blank" rel="noopener">"your territory"</a></strong> — free online chat &amp; calls for teens and young adults.</li>' +
+            '<li><strong><a href="https://psymanyfound.ru/" target="_blank" rel="noopener">"we\'re near"</a></strong> — online psychological support with a live chat option.</li>' +
+            '<li><strong><a href="https://teleminzdrav.ru/" target="_blank" rel="noopener">telemedicine — Russian Ministry of Health</a></strong> — official hotline &amp; online consultations.</li>' +
+          '</ul>',
+      ru: '<h3>если позвонить — это слишком:</h3>' +
+          '<ul>' +
+            '<li><strong><a href="https://www.imalive.org" target="_blank" rel="noopener">imalive.org</a></strong> — peer-чат с обученными волонтёрами (США).</li>' +
+            '<li><strong><a href="https://www.crisistextline.org" target="_blank" rel="noopener">crisis text line</a></strong> — текстовая помощь, США/Великобритания/Канада/Ирландия.</li>' +
+            '<li><strong><a href="https://www.7cups.com" target="_blank" rel="noopener">7 cups</a></strong> — бесплатные слушатели эмоциональной поддержки, по всему миру.</li>' +
+            '<li><strong><a href="https://befrienders.org" target="_blank" rel="noopener">befrienders worldwide</a></strong> — каталог кризисных линий в 32+ странах.</li>' +
+            '<li><strong><a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a></strong> — поиск по любой стране, любой теме.</li>' +
+          '</ul>' +
+          '<p>русскоязычные ресурсы:</p>' +
+          '<ul>' +
+            '<li><strong><a href="https://pomogi.org/" target="_blank" rel="noopener">pomogi.org</a></strong> — каталог бесплатной психологической помощи на русском.</li>' +
+            '<li><strong><a href="https://www.b17.ru/" target="_blank" rel="noopener">b17.ru</a></strong> — большой каталог психологов; многие предлагают бесплатную первую консультацию.</li>' +
+            '<li><strong><a href="https://your-territory.ru/" target="_blank" rel="noopener">«твоя территория»</a></strong> — бесплатный онлайн-чат и звонки для подростков и молодых взрослых.</li>' +
+            '<li><strong><a href="https://psymanyfound.ru/" target="_blank" rel="noopener">«мы рядом»</a></strong> — онлайн-психологическая поддержка с живым чатом.</li>' +
+            '<li><strong><a href="https://teleminzdrav.ru/" target="_blank" rel="noopener">телемедицина — Минздрав России</a></strong> — официальная горячая линия и онлайн-консультации.</li>' +
+          '</ul>'
+    },
+
+    'dc.cr.note':          {
+      en: '<strong>note —</strong> these numbers are checked carefully but can change. if a line doesn\'t work, please use <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a> to find a current one for your country, and please <a href="mailto:hello@stillhere.global">tell us</a> so we can update this list.',
+      ru: '<strong>примечание —</strong> эти номера проверены, но могут меняться. если линия не работает — пожалуйста, найди актуальную для своей страны на <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a> и <a href="mailto:hello@stillhere.global">напиши нам</a>, чтобы мы обновили список.'
+    },
+
+    'dc.cr.closing.ai':    { en: 'talk to ai companion',              ru: 'поговорить с AI-спутником' },
+
+    /* ── Country names + per-card line labels ────────────
+       Each card's <ul class="doc-resource-lines"> is one key
+       containing the full list HTML with phone <a> links and
+       translated <em> labels. Phone numbers don't translate. */
+
+    /* Europe — 11 countries */
+    'dc.cr.country.eu':    { en: 'all eu — emergency &amp; common hotlines',
+                             ru: 'вся ЕС — экстренные и общие линии' },
+    'dc.cr.lines.eu':      {
+      en: '<li><em>emergency</em><a href="tel:112">112</a></li>' +
+          '<li><em>emotional support (samaritans-europe)</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>missing / abused children</em><a href="tel:116111">116 111</a></li>',
+      ru: '<li><em>экстренный вызов</em><a href="tel:112">112</a></li>' +
+          '<li><em>эмоциональная поддержка (samaritans-europe)</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>пропавшие / пострадавшие дети</em><a href="tel:116111">116 111</a></li>'
+    },
+
+    'dc.cr.country.uk':    { en: 'united kingdom',                    ru: 'Великобритания' },
+    'dc.cr.lines.uk':      {
+      en: '<li><em>samaritans</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>shout (text)</em><a>text 85258</a></li>' +
+          '<li><em>childline</em><a href="tel:08001111">0800 1111</a></li>',
+      ru: '<li><em>samaritans</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>shout (SMS)</em><a>SMS 85258</a></li>' +
+          '<li><em>childline — для детей</em><a href="tel:08001111">0800 1111</a></li>'
+    },
+
+    'dc.cr.country.de':    { en: 'germany',                           ru: 'Германия' },
+    'dc.cr.lines.de':      {
+      en: '<li><em>telefonseelsorge</em><a href="tel:08001110111">0800 111 0 111</a></li>' +
+          '<li><em>kinder &amp; jugendtelefon</em><a href="tel:116111">116 111</a></li>',
+      ru: '<li><em>telefonseelsorge — служба духовной поддержки</em><a href="tel:08001110111">0800 111 0 111</a></li>' +
+          '<li><em>детский и молодёжный телефон</em><a href="tel:116111">116 111</a></li>'
+    },
+
+    'dc.cr.country.fr':    { en: 'france',                            ru: 'Франция' },
+    'dc.cr.lines.fr':      {
+      en: '<li><em>3114 (suicide nationwide)</em><a href="tel:3114">3114</a></li>' +
+          '<li><em>SOS amitié</em><a href="tel:0972394050">09 72 39 40 50</a></li>',
+      ru: '<li><em>3114 — общенациональная линия по суициду</em><a href="tel:3114">3114</a></li>' +
+          '<li><em>SOS amitié — дружеская поддержка</em><a href="tel:0972394050">09 72 39 40 50</a></li>'
+    },
+
+    'dc.cr.country.es':    { en: 'spain',                             ru: 'Испания' },
+    'dc.cr.lines.es':      {
+      en: '<li><em>línea de la vida</em><a href="tel:024">024</a></li>' +
+          '<li><em>teléfono de la esperanza</em><a href="tel:717003717">717 003 717</a></li>',
+      ru: '<li><em>línea de la vida — линия жизни</em><a href="tel:024">024</a></li>' +
+          '<li><em>teléfono de la esperanza — телефон надежды</em><a href="tel:717003717">717 003 717</a></li>'
+    },
+
+    'dc.cr.country.it':    { en: 'italy',                             ru: 'Италия' },
+    'dc.cr.lines.it':      {
+      en: '<li><em>telefono amico</em><a href="tel:0223272327">02 2327 2327</a></li>' +
+          '<li><em>samaritans onlus</em><a href="tel:800860022">800 86 00 22</a></li>',
+      ru: '<li><em>telefono amico — телефон друга</em><a href="tel:0223272327">02 2327 2327</a></li>' +
+          '<li><em>samaritans onlus</em><a href="tel:800860022">800 86 00 22</a></li>'
+    },
+
+    'dc.cr.country.pl':    { en: 'poland',                            ru: 'Польша' },
+    'dc.cr.lines.pl':      {
+      en: '<li><em>telefon zaufania (adults)</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>telefon zaufania (youth)</em><a href="tel:116111">116 111</a></li>',
+      ru: '<li><em>telefon zaufania — для взрослых</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>telefon zaufania — для молодёжи</em><a href="tel:116111">116 111</a></li>'
+    },
+
+    'dc.cr.country.ua':    { en: 'ukraine',                           ru: 'Украина' },
+    'dc.cr.lines.ua':      {
+      en: '<li><em>lifeline ukraine</em><a href="tel:7333">7333</a></li>' +
+          '<li><em>la strada</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>national helpline (free)</em><a href="tel:0800500225">0 800 500 225</a></li>',
+      ru: '<li><em>lifeline ukraine</em><a href="tel:7333">7333</a></li>' +
+          '<li><em>la strada</em><a href="tel:116123">116 123</a></li>' +
+          '<li><em>национальная линия (бесплатно)</em><a href="tel:0800500225">0 800 500 225</a></li>'
+    },
+
+    'dc.cr.country.ru':    { en: 'russia (Russian-speaking)',         ru: 'Россия (русскоязычные)' },
+    'dc.cr.lines.ru':      {
+      en: '<li><em>children\'s helpline (free)</em><a href="tel:88002000122">8 800 2000 122</a></li>' +
+          '<li><em>moscow psychological support</em><a href="tel:051">051</a></li>' +
+          '<li><em>ministry of health hotline</em><a href="tel:88002000389">8 800 2000 389</a></li>' +
+          '<li><em>"yasnoye utro" — cancer support (free)</em><a href="tel:88001001191">8 800 100 0191</a></li>',
+      ru: '<li><em>детский телефон доверия (бесплатно)</em><a href="tel:88002000122">8 800 2000 122</a></li>' +
+          '<li><em>московская психологическая помощь</em><a href="tel:051">051</a></li>' +
+          '<li><em>горячая линия Минздрава</em><a href="tel:88002000389">8 800 2000 389</a></li>' +
+          '<li><em>«ясное утро» — поддержка при онкологии (бесплатно)</em><a href="tel:88001001191">8 800 100 0191</a></li>'
+    },
+
+    'dc.cr.country.by':    { en: 'belarus',                           ru: 'Беларусь' },
+    'dc.cr.lines.by':      {
+      en: '<li><em>helpline (minsk)</em><a href="tel:80173520303">8 (017) 352 03 03</a></li>' +
+          '<li><em>emergency psychological help</em><a href="tel:170">170</a></li>',
+      ru: '<li><em>линия доверия (Минск)</em><a href="tel:80173520303">8 (017) 352 03 03</a></li>' +
+          '<li><em>экстренная психологическая помощь</em><a href="tel:170">170</a></li>'
+    },
+
+    'dc.cr.country.kz':    { en: 'kazakhstan',                        ru: 'Казахстан' },
+    'dc.cr.lines.kz':      {
+      en: '<li><em>national helpline (free)</em><a href="tel:150">150</a></li>' +
+          '<li><em>youth helpline</em><a href="tel:111">111</a></li>',
+      ru: '<li><em>национальная линия (бесплатно)</em><a href="tel:150">150</a></li>' +
+          '<li><em>линия для молодёжи</em><a href="tel:111">111</a></li>'
+    },
+
+    /* North America */
+    'dc.cr.country.us':    { en: 'united states',                     ru: 'США' },
+    'dc.cr.lines.us':      {
+      en: '<li><em>988 suicide &amp; crisis</em><a href="tel:988">988</a></li>' +
+          '<li><em>crisis text line</em><a>text 741741</a></li>' +
+          '<li><em>SAMHSA</em><a href="tel:18006624357">1-800-662-4357</a></li>' +
+          '<li><em>veterans crisis line</em><a href="tel:988">988 press 1</a></li>',
+      ru: '<li><em>988 — линия суицида и кризиса</em><a href="tel:988">988</a></li>' +
+          '<li><em>crisis text line — SMS-чат</em><a>SMS 741741</a></li>' +
+          '<li><em>SAMHSA — психиатрическая помощь</em><a href="tel:18006624357">1-800-662-4357</a></li>' +
+          '<li><em>кризисная линия для ветеранов</em><a href="tel:988">988, нажать 1</a></li>'
+    },
+
+    'dc.cr.country.ca':    { en: 'canada',                            ru: 'Канада' },
+    'dc.cr.lines.ca':      {
+      en: '<li><em>talk suicide canada</em><a href="tel:18334564566">1-833-456-4566</a></li>' +
+          '<li><em>kids help phone</em><a href="tel:18006686868">1-800-668-6868</a></li>' +
+          '<li><em>9-8-8 (nationwide)</em><a href="tel:988">988</a></li>',
+      ru: '<li><em>talk suicide canada</em><a href="tel:18334564566">1-833-456-4566</a></li>' +
+          '<li><em>kids help phone — для детей</em><a href="tel:18006686868">1-800-668-6868</a></li>' +
+          '<li><em>9-8-8 (национальная линия)</em><a href="tel:988">988</a></li>'
+    },
+
+    'dc.cr.country.mx':    { en: 'mexico',                            ru: 'Мексика' },
+    'dc.cr.lines.mx':      {
+      en: '<li><em>SAPTEL</em><a href="tel:5552598121">55 5259 8121</a></li>' +
+          '<li><em>locatel (mexico city)</em><a href="tel:5556581111">55 5658 1111</a></li>',
+      ru: '<li><em>SAPTEL — психологическая помощь</em><a href="tel:5552598121">55 5259 8121</a></li>' +
+          '<li><em>locatel (Мехико)</em><a href="tel:5556581111">55 5658 1111</a></li>'
+    },
+
+    /* Asia & Pacific */
+    'dc.cr.country.jp':    { en: 'japan',                             ru: 'Япония' },
+    'dc.cr.lines.jp':      {
+      en: '<li><em>tell lifeline (english)</em><a href="tel:0357740992">03-5774-0992</a></li>' +
+          '<li><em>yorisoi hotline</em><a href="tel:0120279338">0120-279-338</a></li>',
+      ru: '<li><em>tell lifeline (на английском)</em><a href="tel:0357740992">03-5774-0992</a></li>' +
+          '<li><em>yorisoi — горячая линия</em><a href="tel:0120279338">0120-279-338</a></li>'
+    },
+
+    'dc.cr.country.kr':    { en: 'south korea',                       ru: 'Южная Корея' },
+    'dc.cr.lines.kr':      {
+      en: '<li><em>suicide prevention</em><a href="tel:1393">1393</a></li>' +
+          '<li><em>youth counseling</em><a href="tel:1388">1388</a></li>',
+      ru: '<li><em>профилактика суицида</em><a href="tel:1393">1393</a></li>' +
+          '<li><em>консультации для молодёжи</em><a href="tel:1388">1388</a></li>'
+    },
+
+    'dc.cr.country.cn':    { en: 'china',                             ru: 'Китай' },
+    'dc.cr.lines.cn':      {
+      en: '<li><em>beijing crisis line</em><a href="tel:01082951332">010-8295-1332</a></li>' +
+          '<li><em>shanghai mental health</em><a href="tel:02164387250">021-6438-7250</a></li>',
+      ru: '<li><em>пекинская кризисная линия</em><a href="tel:01082951332">010-8295-1332</a></li>' +
+          '<li><em>шанхайский центр психического здоровья</em><a href="tel:02164387250">021-6438-7250</a></li>'
+    },
+
+    'dc.cr.country.in':    { en: 'india',                             ru: 'Индия' },
+    'dc.cr.lines.in':      {
+      en: '<li><em>iCall (TISS)</em><a href="tel:9152987821">9152987821</a></li>' +
+          '<li><em>vandrevala</em><a href="tel:18602662345">1860-266-2345</a></li>' +
+          '<li><em>AASRA</em><a href="tel:9820466726">9820466726</a></li>',
+      ru: '<li><em>iCall (TISS)</em><a href="tel:9152987821">9152987821</a></li>' +
+          '<li><em>vandrevala</em><a href="tel:18602662345">1860-266-2345</a></li>' +
+          '<li><em>AASRA</em><a href="tel:9820466726">9820466726</a></li>'
+    },
+
+    'dc.cr.country.au':    { en: 'australia',                         ru: 'Австралия' },
+    'dc.cr.lines.au':      {
+      en: '<li><em>lifeline</em><a href="tel:131114">13 11 14</a></li>' +
+          '<li><em>beyond blue</em><a href="tel:1300224636">1300 22 4636</a></li>' +
+          '<li><em>kids helpline</em><a href="tel:1800551800">1800 55 1800</a></li>',
+      ru: '<li><em>lifeline</em><a href="tel:131114">13 11 14</a></li>' +
+          '<li><em>beyond blue</em><a href="tel:1300224636">1300 22 4636</a></li>' +
+          '<li><em>kids helpline — для детей</em><a href="tel:1800551800">1800 55 1800</a></li>'
+    },
+
+    'dc.cr.country.nz':    { en: 'new zealand',                       ru: 'Новая Зеландия' },
+    'dc.cr.lines.nz':      {
+      en: '<li><em>1737 — need to talk?</em><a href="tel:1737">1737</a></li>' +
+          '<li><em>lifeline aotearoa</em><a href="tel:0800543354">0800 543 354</a></li>',
+      ru: '<li><em>1737 — нужно поговорить?</em><a href="tel:1737">1737</a></li>' +
+          '<li><em>lifeline aotearoa</em><a href="tel:0800543354">0800 543 354</a></li>'
+    },
+
+    /* Latin America */
+    'dc.cr.country.br':    { en: 'brazil',                            ru: 'Бразилия' },
+    'dc.cr.lines.br':      {
+      en: '<li><em>CVV (centro de valorização da vida)</em><a href="tel:188">188</a></li>',
+      ru: '<li><em>CVV — центр сохранения жизни</em><a href="tel:188">188</a></li>'
+    },
+
+    'dc.cr.country.ar':    { en: 'argentina',                         ru: 'Аргентина' },
+    'dc.cr.lines.ar':      {
+      en: '<li><em>centro de asistencia al suicida (caba)</em><a href="tel:135">135</a></li>' +
+          '<li><em>fuera de caba</em><a href="tel:01152752085">011 5275-2085</a></li>',
+      ru: '<li><em>центр помощи при суицидах (Буэнос-Айрес)</em><a href="tel:135">135</a></li>' +
+          '<li><em>вне Буэнос-Айреса</em><a href="tel:01152752085">011 5275-2085</a></li>'
+    },
+
+    'dc.cr.country.co':    { en: 'colombia',                          ru: 'Колумбия' },
+    'dc.cr.lines.co':      {
+      en: '<li><em>línea 106 (bogotá)</em><a href="tel:106">106</a></li>' +
+          '<li><em>línea púrpura</em><a href="tel:018000112137">018000-112-137</a></li>',
+      ru: '<li><em>линия 106 (Богота)</em><a href="tel:106">106</a></li>' +
+          '<li><em>línea púrpura — пурпурная линия</em><a href="tel:018000112137">018000-112-137</a></li>'
+    },
+
+    'dc.cr.country.cl':    { en: 'chile',                             ru: 'Чили' },
+    'dc.cr.lines.cl':      {
+      en: '<li><em>fono salud responde</em><a href="tel:6003607777">600 360 7777</a></li>' +
+          '<li><em>línea libre (niños)</em><a href="tel:1515">1515</a></li>',
+      ru: '<li><em>fono salud responde — линия здоровья</em><a href="tel:6003607777">600 360 7777</a></li>' +
+          '<li><em>línea libre — для детей</em><a href="tel:1515">1515</a></li>'
+    },
+
+    /* Middle East & Africa */
+    'dc.cr.country.il':    { en: 'israel',                            ru: 'Израиль' },
+    'dc.cr.lines.il':      {
+      en: '<li><em>ERAN</em><a href="tel:1201">1201</a></li>' +
+          '<li><em>natal (trauma &amp; war)</em><a href="tel:180036363">1-800-363-363</a></li>',
+      ru: '<li><em>ERAN — кризисная линия</em><a href="tel:1201">1201</a></li>' +
+          '<li><em>natal — травма и война</em><a href="tel:180036363">1-800-363-363</a></li>'
+    },
+
+    'dc.cr.country.ae':    { en: 'UAE',                               ru: 'ОАЭ' },
+    'dc.cr.lines.ae':      {
+      en: '<li><em>dubai 24/7 helpline</em><a href="tel:8004673">800-4673</a></li>',
+      ru: '<li><em>линия Дубая 24/7</em><a href="tel:8004673">800-4673</a></li>'
+    },
+
+    'dc.cr.country.za':    { en: 'south africa',                      ru: 'ЮАР' },
+    'dc.cr.lines.za':      {
+      en: '<li><em>SADAG suicide line</em><a href="tel:0800567567">0800 567 567</a></li>' +
+          '<li><em>lifeline national</em><a href="tel:0861322322">0861 322 322</a></li>',
+      ru: '<li><em>SADAG — линия суицида</em><a href="tel:0800567567">0800 567 567</a></li>' +
+          '<li><em>lifeline — национальная линия</em><a href="tel:0861322322">0861 322 322</a></li>'
+    },
+
+    'dc.cr.country.ke':    { en: 'kenya',                             ru: 'Кения' },
+    'dc.cr.lines.ke':      {
+      en: '<li><em>befrienders kenya</em><a href="tel:+254722178177">+254 722 178 177</a></li>',
+      ru: '<li><em>befrienders kenya</em><a href="tel:+254722178177">+254 722 178 177</a></li>'
+    },
+    'dc.cr.s1.title':      { en: 'europe',                            ru: 'европа' },
+    'dc.cr.s1.hint':       { en: 'free 24/7 lines',                   ru: 'бесплатно 24/7' },
+    'dc.cr.s2.title':      { en: 'north america',                     ru: 'северная америка' },
+    'dc.cr.s3.title':      { en: 'asia &amp; pacific',                ru: 'азия и тихоокеанский регион' },
+    'dc.cr.s4.title':      { en: 'latin america',                     ru: 'латинская америка' },
+    'dc.cr.s5.title':      { en: 'middle east &amp; africa',          ru: 'ближний восток и африка' },
+    'dc.cr.s6.title':      { en: 'youth support',                     ru: 'поддержка молодых' },
+    'dc.cr.s7.title':      { en: 'lgbtq+ support',                    ru: 'ЛГБТК+ поддержка' },
+    'dc.cr.s8.title':      { en: 'grief &amp; loss',                  ru: 'горе и утрата' },
+    'dc.cr.s9.title':      { en: 'online &amp; chat support',         ru: 'онлайн и чат-поддержка' },
+    'dc.cr.closing.title': { en: 'whatever brought you here — <em>we\'re glad you\'re still here.</em>',
+                             ru: 'что бы тебя сюда ни привело — <em>мы рады, что ты ещё здесь.</em>' },
+    'dc.cr.closing.text':  { en: 'you didn\'t have to look this up. you did. that matters.<br>if calling a hotline feels too big, even just sitting with a glass of water for ten minutes is something. then maybe try one of the chat options above.',
+                             ru: 'ты не обязан(а) был(а) это искать. но искал(а). это важно.<br>если позвонить кажется слишком большим — даже просто посидеть со стаканом воды десять минут уже что-то. потом попробуй один из чатов выше.' },
 
     /* ── ai-chat.html ────────────────────────────────────── */
     'ac.title':            { en: 'AI support — StillHere',           ru: 'AI-поддержка — StillHere' },

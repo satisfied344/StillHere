@@ -366,7 +366,8 @@
     } catch (_) {}
 
     // ── Moderation check ──────────────────────────────────────
-    setLoading(true, 'Checking…');
+    var tI = function (k, f) { return (window.SH_I18N && SH_I18N.t) ? SH_I18N.t(k) : f; };
+    setLoading(true, tI('cp.btn.checking', 'Checking…'));
 
     var textToCheck = (title ? title + '\n' : '') + plainText;
 
@@ -384,8 +385,8 @@
 
       // ── Passed → upload media then insert/update ────────────
       var busyLabel = selectedFiles.length > 0
-        ? 'Uploading…'
-        : (EDIT_ID ? 'Saving…' : 'Publishing…');
+        ? tI('cp.btn.uploading', 'Uploading…')
+        : (EDIT_ID ? tI('cp.btn.saving', 'Saving…') : tI('cp.btn.publishing', 'Publishing…'));
       setLoading(true, busyLabel);
 
       uploadAll(selectedFiles, function (newMediaUrls) {

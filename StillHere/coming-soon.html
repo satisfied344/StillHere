@@ -274,17 +274,6 @@
     .cs-btn:hover svg { transform: translateX(2px); }
     .cs-btn--back:hover svg { transform: translateX(-2px); }
 
-    /* ── DOODLES (page-level decoration) ─────────────────── */
-    .cs-doodle {
-      position: absolute;
-      pointer-events: none;
-      opacity: 0.18;
-      z-index: 1;
-    }
-    .cs-doodle--1 { top: 12%;  left: 2%;  width: 100px; transform: rotate(-8deg); }
-    .cs-doodle--2 { top: 28%;  right: 3%; width: 70px;  transform: rotate(14deg); }
-    .cs-doodle--3 { bottom: 18%; left: 4%; width: 80px;  transform: rotate(-4deg); }
-
     /* ── RESPONSIVE ──────────────────────────────────────── */
     @media (max-width: 760px) {
       .cs-page { padding: calc(73px + 32px) 22px 60px; }
@@ -311,10 +300,11 @@
     </filter>
   </svg>
 
-  <!-- Ambient page doodles -->
-  <img src="assets/doodles2/09_cloud.png"                       class="cs-doodle cs-doodle--1" alt="" aria-hidden="true">
-  <img src="assets/letters/_Special Characters/Asterisk_04.png" class="cs-doodle cs-doodle--2" alt="" aria-hidden="true">
-  <img src="assets/doodles2/06_double_heart.png"                class="cs-doodle cs-doodle--3" alt="" aria-hidden="true">
+  <!-- Page-level decorative doodles are handled by the .pg-doodle set
+       above (same as contacts / about / etc.). The old .cs-doodle layer
+       has been removed — it used the same source images at near-identical
+       positions and ended up rendering each doodle twice on top of itself. -->
+
 
   <nav class="top-info" aria-label="Primary navigation">
     <a href="main.html" class="logo"><span>StillHere</span></a>

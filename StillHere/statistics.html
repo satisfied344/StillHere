@@ -748,12 +748,12 @@
     <!-- ─── HERO ─── -->
     <section class="st-hero">
       <div class="st-hero-left">
-        <span class="st-eyebrow"><em>—</em> the platform, transparently</span>
+        <span class="st-eyebrow" data-i18n="st.hero.eyebrow"><em>—</em> the platform, transparently</span>
         <h1 class="st-title">
-          by the <em>numbers.</em>
+          <span data-i18n="st.hero.title">by the <em>numbers.</em></span>
           <img src="assets/letters/_Special Characters/Asterisk_01.png" class="st-title-star" alt="" aria-hidden="true">
         </h1>
-        <p class="st-lede">
+        <p class="st-lede" data-i18n="st.hero.lede">
           a transparent look at what's happening on StillHere — stories shared, support given,
           languages spoken, topics carried. <em>nothing personal</em>, just totals.
         </p>
@@ -762,38 +762,27 @@
       <div class="st-live">
         <div class="st-live-row">
           <span class="st-live-dot"></span>
-          live
+          <span data-i18n="st.live">live</span>
         </div>
-        <div class="st-live-label">last refreshed</div>
+        <div class="st-live-label" data-i18n="st.live.label">last refreshed</div>
         <div class="st-live-time" id="st-last-updated">…</div>
       </div>
     </section>
 
-    <!-- ─── LIVE PRESENCE — two cards: online now / total visits ─── -->
-    <div class="st-presence" aria-label="Live presence">
-      <div class="st-presence-card st-presence-card--live">
-        <div class="st-presence-eyebrow">
-          <span class="st-presence-dot" aria-hidden="true"></span>
-          right now
-        </div>
-        <div class="st-presence-num" id="presence-online">—</div>
-        <div class="st-presence-label">people on the site</div>
-        <div class="st-presence-desc">anyone with the site open in the last 5 minutes. counted by anonymous timestamp pings — no IPs, no identifiers stored.</div>
-      </div>
-      <div class="st-presence-card">
-        <div class="st-presence-eyebrow">all-time</div>
-        <div class="st-presence-num" id="presence-total">—</div>
-        <div class="st-presence-label">total visits</div>
-        <div class="st-presence-desc">every page open since the counter started. one number, nothing else attached to it.</div>
-      </div>
-    </div>
+    <!-- ─── LIVE PRESENCE — disabled.
+         The widget depended on a `site_stats` Postgres RPC that wasn't
+         returning sensible numbers (stuck at 0 / 1). Server-side fix
+         requires SQL work; until that's reliable, the widget is removed
+         so the page doesn't show broken counters. The matching JS block
+         further down was removed too. To revive: re-add this block +
+         re-add the `(function(){…/presence-online/…})();` IIFE. ─── -->
 
     <!-- ─── KPI BIG NUMBERS ─── -->
     <section class="st-section">
       <div class="st-section-head">
         <span class="st-section-eyebrow">— 01</span>
-        <h2 class="st-section-title">at a glance</h2>
-        <span class="st-section-hint">all-time totals</span>
+        <h2 class="st-section-title" data-i18n="st.kpi.title">at a glance</h2>
+        <span class="st-section-hint" data-i18n="st.kpi.hint">all-time totals</span>
       </div>
 
       <div class="st-kpi-grid">
@@ -805,8 +794,8 @@
             </svg>
           </div>
           <div class="st-kpi-num" id="kpi-total-people">—</div>
-          <div class="st-kpi-label">community members</div>
-          <div class="st-kpi-desc">people who joined, plus anonymous contributors</div>
+          <div class="st-kpi-label" data-i18n="st.kpi.members">community members</div>
+          <div class="st-kpi-desc" data-i18n="st.kpi.members.desc">people who joined, plus anonymous contributors</div>
         </div>
 
         <div class="st-kpi st-kpi--green">
@@ -816,8 +805,8 @@
             </svg>
           </div>
           <div class="st-kpi-num" id="kpi-posts">—</div>
-          <div class="st-kpi-label">stories shared</div>
-          <div class="st-kpi-desc">posts published since launch — each one heard</div>
+          <div class="st-kpi-label" data-i18n="st.kpi.stories">stories shared</div>
+          <div class="st-kpi-desc" data-i18n="st.kpi.stories.desc">posts published since launch — each one heard</div>
         </div>
 
         <div class="st-kpi st-kpi--blue">
@@ -827,8 +816,8 @@
             </svg>
           </div>
           <div class="st-kpi-num" id="kpi-comments">—</div>
-          <div class="st-kpi-label">support responses</div>
-          <div class="st-kpi-desc">replies, "me too"s, gentle words back</div>
+          <div class="st-kpi-label" data-i18n="st.kpi.responses">support responses</div>
+          <div class="st-kpi-desc" data-i18n="st.kpi.responses.desc">replies, "me too"s, gentle words back</div>
         </div>
 
         <div class="st-kpi st-kpi--amber">
@@ -838,8 +827,8 @@
             </svg>
           </div>
           <div class="st-kpi-num" id="kpi-ai">—</div>
-          <div class="st-kpi-label">ai companion sessions</div>
-          <div class="st-kpi-desc">private chats kept on each device — counted here from yours</div>
+          <div class="st-kpi-label" data-i18n="st.kpi.ai">ai companion sessions</div>
+          <div class="st-kpi-desc" data-i18n="st.kpi.ai.desc">private chats kept on each device — counted here from yours</div>
         </div>
 
       </div>
@@ -849,26 +838,26 @@
     <section class="st-section">
       <div class="st-section-head">
         <span class="st-section-eyebrow">— 02</span>
-        <h2 class="st-section-title">this week's activity</h2>
-        <span class="st-section-hint">last 7 days</span>
+        <h2 class="st-section-title" data-i18n="st.week.title">this week's activity</h2>
+        <span class="st-section-hint" data-i18n="st.week.hint">last 7 days</span>
       </div>
 
       <div class="st-strip">
         <div class="st-strip-cell">
           <div class="st-strip-num" id="week-posts">—</div>
-          <div class="st-strip-label">new stories</div>
+          <div class="st-strip-label" data-i18n="st.week.posts">new stories</div>
         </div>
         <div class="st-strip-cell">
           <div class="st-strip-num" id="week-comments">—</div>
-          <div class="st-strip-label">new responses</div>
+          <div class="st-strip-label" data-i18n="st.week.comments">new responses</div>
         </div>
         <div class="st-strip-cell">
           <div class="st-strip-num" id="week-people">—</div>
-          <div class="st-strip-label">new members</div>
+          <div class="st-strip-label" data-i18n="st.week.people">new members</div>
         </div>
         <div class="st-strip-cell">
           <div class="st-strip-num" id="week-active">—</div>
-          <div class="st-strip-label">active contributors</div>
+          <div class="st-strip-label" data-i18n="st.week.active">active contributors</div>
         </div>
       </div>
     </section>
@@ -877,15 +866,15 @@
     <section class="st-section">
       <div class="st-section-head">
         <span class="st-section-eyebrow">— 03</span>
-        <h2 class="st-section-title">community growth</h2>
-        <span class="st-section-hint">stories &amp; responses, last 30 days</span>
+        <h2 class="st-section-title" data-i18n="st.growth.title">community growth</h2>
+        <span class="st-section-hint" data-i18n="st.growth.hint">stories &amp; responses, last 30 days</span>
       </div>
 
       <div class="st-card">
         <div class="st-card-head">
           <div>
-            <div class="st-card-title">daily rhythm</div>
-            <div class="st-card-desc">when people show up to share &amp; respond</div>
+            <div class="st-card-title" data-i18n="st.growth.card.title">daily rhythm</div>
+            <div class="st-card-desc" data-i18n="st.growth.card.desc">when people show up to share &amp; respond</div>
           </div>
           <div class="st-legend" id="st-chart-legend"></div>
         </div>
@@ -899,32 +888,32 @@
     <section class="st-section">
       <div class="st-section-head">
         <span class="st-section-eyebrow">— 04</span>
-        <h2 class="st-section-title">what people share</h2>
-        <span class="st-section-hint">last 30 days</span>
+        <h2 class="st-section-title" data-i18n="st.share.title">what people share</h2>
+        <span class="st-section-hint" data-i18n="st.share.hint">last 30 days</span>
       </div>
 
       <div class="st-two-col">
         <div class="st-card">
           <div class="st-card-head">
             <div>
-              <div class="st-card-title">languages</div>
-              <div class="st-card-desc">people write in whatever feels native</div>
+              <div class="st-card-title" data-i18n="st.share.langs">languages</div>
+              <div class="st-card-desc" data-i18n="st.share.langs.desc">people write in whatever feels native</div>
             </div>
           </div>
           <div id="st-lang-bars">
-            <div class="st-bar-empty">loading…</div>
+            <div class="st-bar-empty" data-i18n="st.loading">loading…</div>
           </div>
         </div>
 
         <div class="st-card">
           <div class="st-card-head">
             <div>
-              <div class="st-card-title">topics</div>
-              <div class="st-card-desc">what people most often carry</div>
+              <div class="st-card-title" data-i18n="st.share.topics">topics</div>
+              <div class="st-card-desc" data-i18n="st.share.topics.desc">what people most often carry</div>
             </div>
           </div>
           <div id="st-topic-bars">
-            <div class="st-bar-empty">loading…</div>
+            <div class="st-bar-empty" data-i18n="st.loading">loading…</div>
           </div>
         </div>
       </div>
@@ -934,16 +923,16 @@
     <section class="st-section">
       <div class="st-section-head">
         <span class="st-section-eyebrow">— 05</span>
-        <h2 class="st-section-title">who's posting</h2>
-        <span class="st-section-hint">registered &amp; anonymous</span>
+        <h2 class="st-section-title" data-i18n="st.who.title">who's posting</h2>
+        <span class="st-section-hint" data-i18n="st.who.hint">registered &amp; anonymous</span>
       </div>
 
       <div class="st-compose-grid">
         <div class="st-card">
           <div class="st-card-head">
             <div>
-              <div class="st-card-title">registered vs anonymous</div>
-              <div class="st-card-desc">posts by signed-in members vs anonymous contributions</div>
+              <div class="st-card-title" data-i18n="st.who.split.title">registered vs anonymous</div>
+              <div class="st-card-desc" data-i18n="st.who.split.desc">posts by signed-in members vs anonymous contributions</div>
             </div>
           </div>
           <div class="st-split">
@@ -956,18 +945,18 @@
                 <span class="st-split-legend-dot" style="background:var(--accent-2)"></span>
                 <div>
                   <div class="st-split-legend-num" id="split-registered-num">—</div>
-                  <div class="st-split-legend-label">registered</div>
+                  <div class="st-split-legend-label" data-i18n="st.who.registered">registered</div>
                 </div>
               </div>
               <div class="st-split-legend-item">
                 <span class="st-split-legend-dot" style="background:#6d8268"></span>
                 <div>
                   <div class="st-split-legend-num" id="split-anon-num">—</div>
-                  <div class="st-split-legend-label">anonymous</div>
+                  <div class="st-split-legend-label" data-i18n="st.who.anonymous">anonymous</div>
                 </div>
               </div>
             </div>
-            <p class="st-split-note">
+            <p class="st-split-note" data-i18n="st.who.note">
               both paths are first-class — you can post without ever creating an account.
               this split shows how the community actually uses StillHere.
             </p>
@@ -975,10 +964,10 @@
         </div>
 
         <div class="st-ai-card">
-          <div class="st-ai-eyebrow">— ai companion</div>
+          <div class="st-ai-eyebrow" data-i18n="st.ai.eyebrow">— ai companion</div>
           <div class="st-ai-num" id="ai-card-num">—</div>
-          <div class="st-ai-label">conversations on this device</div>
-          <div class="st-ai-note">
+          <div class="st-ai-label" data-i18n="st.ai.label">conversations on this device</div>
+          <div class="st-ai-note" data-i18n="st.ai.note">
             ai conversations are stored privately on each device, not on our servers —
             a deliberate privacy choice. this number is what's stored locally where you're reading this.
           </div>
@@ -990,35 +979,35 @@
     <section class="st-section">
       <div class="st-section-head">
         <span class="st-section-eyebrow">— 06</span>
-        <h2 class="st-section-title">how the community responds</h2>
-        <span class="st-section-hint">engagement signals</span>
+        <h2 class="st-section-title" data-i18n="st.engage.title">how the community responds</h2>
+        <span class="st-section-hint" data-i18n="st.engage.hint">engagement signals</span>
       </div>
 
       <div class="st-engage-grid">
         <div class="st-engage">
           <div class="st-engage-num" id="engage-avg-replies">—</div>
-          <div class="st-engage-label">avg. responses per story</div>
-          <div class="st-engage-desc">how often someone replies when you share</div>
+          <div class="st-engage-label" data-i18n="st.engage.avg">avg. responses per story</div>
+          <div class="st-engage-desc" data-i18n="st.engage.avg.desc">how often someone replies when you share</div>
         </div>
         <div class="st-engage">
           <div class="st-engage-num" id="engage-response-rate">—</div>
-          <div class="st-engage-label">stories that got a response</div>
-          <div class="st-engage-desc">share of posts with at least one reply</div>
+          <div class="st-engage-label" data-i18n="st.engage.rate">stories that got a response</div>
+          <div class="st-engage-desc" data-i18n="st.engage.rate.desc">share of posts with at least one reply</div>
         </div>
         <div class="st-engage">
           <div class="st-engage-num" id="engage-langs">—</div>
-          <div class="st-engage-label">languages spoken</div>
-          <div class="st-engage-desc">distinct languages used in the last 30 days</div>
+          <div class="st-engage-label" data-i18n="st.engage.langs">languages spoken</div>
+          <div class="st-engage-desc" data-i18n="st.engage.langs.desc">distinct languages used in the last 30 days</div>
         </div>
       </div>
     </section>
 
     <!-- ─── CLOSING ─── -->
     <section class="st-closing">
-      <p class="st-closing-text">
+      <p class="st-closing-text" data-i18n="st.closing.text">
         every number here is <em>someone</em>.
       </p>
-      <p class="st-closing-sub">— that's the only thing we count</p>
+      <p class="st-closing-sub" data-i18n="st.closing.sub">— that's the only thing we count</p>
     </section>
 
   </main>
@@ -1031,7 +1020,7 @@
                 <div class="footer_logo">
                     <p>StillHere</p>
                 </div>
-                <p class="footer_subtitle">A project about presence, not solutions</p>
+                <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
             </div>
 
             <div class="footer_links">
@@ -1545,57 +1534,9 @@ document.addEventListener('DOMContentLoaded', function () {
   <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  (function () {
-    if (!window.SH_SUPABASE_URL || !window.supabase) return;
-    var db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
-
-    var onlineEl = document.getElementById('presence-online');
-    var totalEl  = document.getElementById('presence-total');
-    if (!onlineEl || !totalEl) return;
-
-    /* Small int formatter matching the rest of the page. */
-    function fmt(n) {
-      if (n === null || n === undefined || isNaN(n)) return '—';
-      if (n >= 10000) return (n / 1000).toFixed(1).replace('.0','') + 'k';
-      return String(Math.round(n));
-    }
-
-    var lastOnline = null, lastTotal = null;
-
-    function tween(el, from, to) {
-      from = from || 0;
-      var dur = 600, start = null;
-      function step(ts) {
-        if (!start) start = ts;
-        var p = Math.min((ts - start) / dur, 1);
-        var ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = fmt(Math.round(from + (to - from) * ease));
-        if (p < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-
-    function refresh() {
-      db.rpc('site_stats').then(function (res) {
-        if (res.error) { console.error('[presence]', res.error); return; }
-        var row = (res.data && res.data[0]) || res.data || {};
-        var online = Number(row.online || 0);
-        var total  = Number(row.total  || 0);
-        if (online !== lastOnline) { tween(onlineEl, lastOnline, online); lastOnline = online; }
-        if (total  !== lastTotal)  { tween(totalEl,  lastTotal,  total);  lastTotal  = total;  }
-      }).catch(function (e) { console.error('[presence]', e); });
-    }
-
-    refresh();
-    /* Refresh every 15 seconds while the tab is visible. */
-    setInterval(function () {
-      if (document.visibilityState === 'visible') refresh();
-    }, 15000);
-    /* And once immediately when returning to the tab. */
-    document.addEventListener('visibilitychange', function () {
-      if (document.visibilityState === 'visible') refresh();
-    });
-  })();
+  /* Live-presence IIFE removed — depended on a Postgres `site_stats`
+     RPC that wasn't returning real numbers. Widget hidden above; can
+     be revived once the SQL function is verified. */
   
 });
 </script>

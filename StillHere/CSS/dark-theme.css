@@ -2516,3 +2516,25 @@ html[data-theme="dark"] .cp-section .ql-editor {
 html[data-theme="dark"] .cp-section .ql-editor.ql-blank::before {
   color: var(--text-light) !important;
 }
+
+/* ──────────────────────────────────────────────────────
+   create-post.html — anonymous-agreement pill
+   The base styles in create-post.html hard-code a cream
+   background (#fffbf2) + `color: var(--ink)`. In dark mode
+   `--ink` flips to a light cream, so the text disappears
+   onto its own cream background. Restore dark text + match
+   the rest of the dark UI: warm-dark surface, soft border.
+   ────────────────────────────────────────────────────── */
+html[data-theme="dark"] .cp-anon-agree-row {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(244, 234, 214, 0.20) !important;
+  color: var(--text-dark) !important;
+}
+html[data-theme="dark"] .cp-anon-agree-row:hover {
+  border-color: rgba(244, 234, 214, 0.35) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .cp-anon-agree-card .cp-anon-agree-row.is-error {
+  background: rgba(214, 83, 60, 0.12) !important;
+  border-color: rgba(214, 83, 60, 0.50) !important;
+}
