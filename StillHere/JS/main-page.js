@@ -106,6 +106,38 @@ function _saveSaved() {
 }
 
 /* ─────────────────────────────────────────────
+   Whole post-card click → open post.html
+   Clicks on interactive descendants (buttons, links, menus, tags,
+   images) are ignored so existing behaviour stays intact.
+   ───────────────────────────────────────────── */
+
+document.addEventListener('click', function (e) {
+  /* If the click landed on something that already does its own thing,
+     bail. This list covers: heart/share buttons, the 3-dot menu and
+     its items, the support actions, the comments link, the tag
+     filter, any anchor that already navigates somewhere. */
+  if (e.target.closest(
+    'a, button, .post-menu-down, .post-menu-trigger, ' +
+    '.post-actions-item, .post-actions-menu, .tag-no-advice, ' +
+    'input, textarea, label, video, [data-action], [data-action-save], ' +
+    '[data-action-copy], [data-action-edit], [data-action-delete], ' +
+    '[data-action-report]'
+  )) return;
+
+  /* Don't hijack text selection — if the user is highlighting text,
+     don't navigate. */
+  var sel = window.getSelection && window.getSelection();
+  if (sel && sel.toString().length > 0) return;
+
+  var card = e.target.closest('.post-card[data-post-id]');
+  if (!card) return;
+
+  var pid = card.getAttribute('data-post-id');
+  if (!pid) return;
+  window.location.href = 'post.html?id=' + encodeURIComponent(pid);
+});
+
+/* ─────────────────────────────────────────────
    Post action buttons — event delegation
    (support / share — works for dynamic cards)
    ───────────────────────────────────────────── */
@@ -125,6 +157,29 @@ document.addEventListener('click', function (e) {
     if (stat) stat.textContent = active
       ? String(parseInt(stat.textContent || '0', 10) + 1)
       : String(Math.max(0, parseInt(stat.textContent || '1', 10) - 1));
+
+    /* Swap label between presence states (i18n-aware). */
+    var titleEl = btn.querySelector('.action-title');
+    if (titleEl && window.SH_I18N) {
+      titleEl.textContent = active
+        ? window.SH_I18N.t('main.post.support.active')
+        : window.SH_I18N.t('main.post.support');
+    }
+
+    /* Presence pulse — heart icon scales briefly via .is-pulsing in motion.css.
+       Targets reduced-motion users via the @media block already in that file. */
+    btn.classList.remove('is-pulsing');
+    // force reflow so the animation can re-trigger when toggled rapidly
+    void btn.offsetWidth;
+    if (active) btn.classList.add('is-pulsing');
+    setTimeout(function () { btn.classList.remove('is-pulsing'); }, 600);
+
+    /* Calm presence toast — UI text only, backend unchanged. */
+    if (typeof showMainToast === 'function') {
+      showMainToast(window.SH_I18N
+        ? window.SH_I18N.t(active ? 'main.toast.presence' : 'main.toast.presence.off')
+        : (active ? 'they know someone is here.' : 'okay — quietly stepping back.'));
+    }
 
     /* Persist liked state in localStorage */
     if (postId) {
@@ -325,7 +380,15 @@ document.addEventListener('click', async function (e) {
     });
 
     if (post.mode === 'no-advice') {
-      html += '<span class="tag tag-mode tag-no-advice">' + NO_ADVICE_SVG + ' No Advice</span>';
+      var naTip = window.SH_I18N
+        ? window.SH_I18N.t('main.tooltip.noadvice')
+        : 'they asked for presence, not advice.';
+      html += '<span class="tag tag-mode tag-no-advice"' +
+        ' tabindex="0"' +
+        ' role="note"' +
+        ' aria-label="' + escHtml(naTip) + '"' +
+        ' data-presence-tooltip="' + escHtml(naTip) + '">' +
+        NO_ADVICE_SVG + ' No Advice</span>';
     } else {
       html += '<span class="tag tag-mode tag-need-support">' + NEED_SUPPORT_SVG + ' Need Support</span>';
     }
@@ -454,7 +517,9 @@ document.addEventListener('click', async function (e) {
           '<path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0' +
           'C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27' +
           'a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/></svg>' +
-          '<span class="action-title">' + (window.SH_I18N ? window.SH_I18N.t('main.post.support') : 'Support') + '</span>' +
+          '<span class="action-title">' + (window.SH_I18N
+            ? window.SH_I18N.t(_likedPosts.has(post.id) ? 'main.post.support.active' : 'main.post.support')
+            : (_likedPosts.has(post.id) ? 'here' : "I'm here")) + '</span>' +
         '</button>' +
         '<a class="post-actions-item" href="post.html?id=' + id + '#comments">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
@@ -537,6 +602,11 @@ document.addEventListener('click', async function (e) {
 
   /* ── append next batch of posts ── */
 
+  /* When true, the *next* batch render skips the post-card--enter animation.
+     Set by renderPosts() when it's a filter/sort/clear re-render so users
+     don't see content fade out + back in. Cleared after each renderBatch. */
+  var _skipBatchEnter = false;
+
   function renderBatch() {
     var size  = nextBatchSize();
     var batch = currentFilteredPosts.slice(displayedCount, displayedCount + size);
@@ -545,19 +615,82 @@ document.addEventListener('click', async function (e) {
       syncLoadMoreBtn();
       return;
     }
-    var fragment = document.createDocumentFragment();
+    var skipEnter   = _skipBatchEnter;
+    _skipBatchEnter = false;
+
+    var fragment    = document.createDocumentFragment();
+    var newCards    = [];
     batch.forEach(function (post) {
       var tmp = document.createElement('div');
       tmp.innerHTML = buildPostCard(post);
-      while (tmp.firstChild) fragment.appendChild(tmp.firstChild);
+      while (tmp.firstChild) {
+        var node = tmp.firstChild;
+        /* Mark only freshly-appended cards on initial load / "Load more".
+           Skip when re-rendering from filter/sort/clear to avoid flicker. */
+        if (!skipEnter && node.nodeType === 1 && node.classList && node.classList.contains('post-card')) {
+          node.classList.add('post-card--enter');
+          newCards.push(node);
+        }
+        fragment.appendChild(node);
+      }
     });
     feed.insertBefore(fragment, loader);
+
+    /* Skeleton removal is deferred to this point so the layout doesn't
+       collapse between "skeleton gone" and "cards faded in" — the new
+       cards (in their hidden --enter state) already occupy the space. */
+    hideSkeleton();
+
+    if (newCards.length) {
+      /* Calm stagger — one rAF lets the browser commit initial styles, then
+         a small per-card delay produces the soft cascade. Caps at 6 to avoid
+         a long wait on large batches. */
+      requestAnimationFrame(function () {
+        newCards.forEach(function (el, i) {
+          var delay = Math.min(i, 6) * 70;
+          setTimeout(function () { el.classList.add('is-in'); }, delay);
+        });
+      });
+    }
+
     displayedCount += batch.length;
     batchIndex++;
     if (displayedCount >= currentFilteredPosts.length && _scrollObserver) {
       _scrollObserver.disconnect();
     }
     syncLoadMoreBtn();
+  }
+
+  /* ── skeleton stack — shown only on initial fetch / refresh ── */
+
+  var _skelEl = null;
+  function showSkeleton(count) {
+    hideSkeleton();
+    if (!feed) return;
+    var n = Math.max(2, Math.min(count || 3, 4));
+    var wrap = document.createElement('div');
+    wrap.className = 'feed-skeleton-stack';
+    wrap.setAttribute('aria-hidden', 'true');
+    var html = '';
+    for (var i = 0; i < n; i++) {
+      html +=
+        '<div class="post-skeleton">' +
+          '<div class="skel skel-avatar"></div>' +
+          '<div class="skel skel-line skel-line--short" style="margin-top:14px"></div>' +
+          '<div class="skel skel-line skel-line--long"></div>' +
+          '<div class="skel skel-line skel-line--long"></div>' +
+          '<div class="skel skel-line skel-line--short"></div>' +
+          '<div class="skel skel-pill"></div>' +
+          '<div class="skel skel-pill"></div>' +
+        '</div>';
+    }
+    wrap.innerHTML = html;
+    feed.insertBefore(wrap, loader);
+    _skelEl = wrap;
+  }
+  function hideSkeleton() {
+    if (_skelEl && _skelEl.parentNode) _skelEl.parentNode.removeChild(_skelEl);
+    _skelEl = null;
   }
 
   function initScrollObserver() {
@@ -571,7 +704,17 @@ document.addEventListener('click', async function (e) {
   /* ── render ── */
 
   function renderPosts(posts) {
-    feed.querySelectorAll('.post-card, .feed-empty').forEach(function (el) { el.remove(); });
+    /* Atomic swap: snapshot the old cards but DO NOT remove them yet.
+       renderBatch() inserts the new fragment first, then we strip the
+       leftover old nodes — at no point is the feed visually empty.
+       Skip the enter animation on the next batch when there were
+       already cards (filter / sort / refresh re-render). */
+    var oldNodes = Array.prototype.slice.call(
+      feed.querySelectorAll('.post-card, .feed-empty')
+    );
+    var hadPrev = oldNodes.length > 0;
+    _skipBatchEnter = hadPrev;
+
     if (loader) loader.style.display = 'none';
 
     currentFilteredPosts = posts || [];
@@ -579,16 +722,73 @@ document.addEventListener('click', async function (e) {
     batchIndex     = 0;
 
     if (!currentFilteredPosts.length) {
+      hideSkeleton();
+      oldNodes.forEach(function (n) { n.remove(); });
       if (_scrollObserver) _scrollObserver.disconnect();
-      var empty = document.createElement('p');
-      empty.className    = 'feed-empty';
-      empty.textContent  = activeSavedFilter
-        ? 'No saved posts yet. Click "Save Post" on any story.'
-        : (Object.keys(activeLangs).length || Object.keys(activeModes).length || searchQuery
-          ? 'No posts match your filters.'
-          : 'No stories yet. Be the first to share yours.');
-      empty.style.cssText = 'text-align:center;color:#888;padding:40px 0;font-size:15px;';
+      var hasFilters = !!(Object.keys(activeLangs).length ||
+                          Object.keys(activeModes).length ||
+                          activeTopic ||
+                          searchQuery);
+      var t = function (k, fb) { return window.SH_I18N ? window.SH_I18N.t(k) : fb; };
+
+      var titleKey, textKey, fbTitle, fbText, ctaHtml;
+      if (activeSavedFilter) {
+        titleKey = 'main.empty.savedTitle';
+        textKey  = 'main.empty.savedText';
+        fbTitle  = 'No saved stories yet';
+        fbText   = 'Tap “Save Post” on any story to keep it here.';
+        ctaHtml  = '';
+      } else if (hasFilters) {
+        titleKey = 'main.empty.filteredTitle';
+        textKey  = 'main.empty.filteredText';
+        fbTitle  = 'Nothing matches these filters';
+        fbText   = 'Try clearing a filter or come back later.';
+        ctaHtml  = '<button type="button" class="feed-empty__cta" data-empty-action="clear">' +
+                     escHtml(t('main.empty.clear', 'clear filters')) +
+                   '</button>';
+      } else {
+        titleKey = 'main.empty.title';
+        textKey  = 'main.empty.text';
+        fbTitle  = 'No stories yet';
+        fbText   = 'be the first to share — your story matters.';
+        ctaHtml  = '<a class="feed-empty__cta feed-empty__cta--primary" href="create-post.html">' +
+                     escHtml(t('main.empty.share', 'share something')) +
+                   '</a>';
+      }
+
+      var empty = document.createElement('div');
+      empty.className = 'feed-empty feed-empty--polished';
+      empty.setAttribute('role', 'status');
+      empty.innerHTML =
+        '<p class="feed-empty__title">' + escHtml(t(titleKey, fbTitle)) + '</p>' +
+        '<p class="feed-empty__text">'  + escHtml(t(textKey,  fbText))  + '</p>' +
+        (ctaHtml ? '<div class="feed-empty__actions">' + ctaHtml + '</div>' : '');
+
       feed.insertBefore(empty, loader);
+
+      /* Single-shot wiring for the "clear filters" CTA. */
+      var clearBtn = empty.querySelector('[data-empty-action="clear"]');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+          activeLangs  = {};
+          activeModes  = {};
+          activeTopic  = '';
+          searchQuery  = '';
+          var si = document.getElementById('searchInput');
+          if (si) { si.value = ''; si.dispatchEvent(new Event('input', { bubbles: true })); }
+          document.querySelectorAll('.lang-radio').forEach(function (cb) { cb.checked = false; });
+          if (langAllBtn) langAllBtn.classList.add('pill-active');
+          document.querySelectorAll('.pill[data-filter="support"]').forEach(function (p) {
+            p.classList.remove('pill-active');
+          });
+          document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
+            l.classList.remove('active');
+          });
+          renderLangChips();
+          applyFilters();
+        });
+      }
+
       syncLoadMoreBtn();
       return;
     }
@@ -597,6 +797,8 @@ document.addEventListener('click', async function (e) {
        (No IntersectionObserver — it fires immediately on attach if the
        sentinel is already in view, which auto-loads everything.) */
     renderBatch();
+    /* Strip leftover old cards now that the new fragment is in place. */
+    oldNodes.forEach(function (n) { n.remove(); });
     if (_scrollObserver) _scrollObserver.disconnect();
   }
 
@@ -814,8 +1016,16 @@ document.addEventListener('click', async function (e) {
   /* ── fetch from Supabase ── */
 
   function fetchPosts() {
-    if (loader) loader.style.display = 'flex';
-    feed.querySelectorAll('.post-card, .feed-empty').forEach(function (el) { el.remove(); });
+    /* Keep existing cards visible during refresh — renderPosts() will
+       swap them in one paint once the new data arrives. Only show the
+       skeleton when there is genuinely nothing to look at (first load
+       or after an empty state). */
+    var hadPosts = feed.querySelectorAll('.post-card').length > 0;
+    if (!hadPosts) {
+      if (loader) loader.style.display = 'flex';
+      feed.querySelectorAll('.feed-empty').forEach(function (el) { el.remove(); });
+      showSkeleton(3);
+    }
 
     /* Hide the "Show more stories" button while we're reloading —
        renderPosts() will re-show it if there are still more posts after the fetch. */
@@ -874,17 +1084,32 @@ document.addEventListener('click', async function (e) {
           .select('post_id')
           .in('post_id', visibleIds)
           .then(function (cr) {
-            if (!cr.error && cr.data) {
-              var counts = {};
-              cr.data.forEach(function (c) {
-                counts[c.post_id] = (counts[c.post_id] || 0) + 1;
-              });
-              rawPosts.forEach(function (p) {
+            if (cr.error || !cr.data) return;
+            var counts = {};
+            cr.data.forEach(function (c) {
+              counts[c.post_id] = (counts[c.post_id] || 0) + 1;
+            });
+            /* Update the cached post objects so future re-renders use the
+               corrected counts. */
+            rawPosts.forEach(function (p) {
+              if (counts[p.id] !== undefined) p.comment_count = counts[p.id];
+            });
+            if (allPosts && allPosts.length) {
+              allPosts.forEach(function (p) {
                 if (counts[p.id] !== undefined) p.comment_count = counts[p.id];
               });
-              /* Re-render with corrected counts if posts already rendered */
-              if (typeof applyFilters === 'function') applyFilters();
             }
+            /* In-place DOM patch — no re-render, no atomic swap, no flicker,
+               no killed enter animation. We only need to update the small
+               "Responses" stat number on cards that are already visible. */
+            feed.querySelectorAll('.post-card[data-post-id]').forEach(function (card) {
+              var pid = card.getAttribute('data-post-id');
+              if (counts[pid] === undefined) return;
+              /* Comments link is the only post-actions-item that contains
+                 an .action-stat span — target that. */
+              var statEl = card.querySelector('a.post-actions-item .action-stat');
+              if (statEl) statEl.textContent = String(counts[pid]);
+            });
           });
       }
 

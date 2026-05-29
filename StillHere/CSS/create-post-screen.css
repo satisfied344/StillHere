@@ -1224,3 +1224,95 @@ input[name="mode"]:checked + .mode-card.mode-noadvice .mode-radio-dot::after { b
   display: block;
 }
 .rich-editor .ql-editor a { color: var(--purple); text-decoration: underline; }
+
+/* ══════════════════════════════════════════════════════════════════
+   Stage 4 — create-post polish.
+   Calm token transitions on submit/cancel + topic / mode chips,
+   tactile press, focus rings for keyboard nav, gentle title-input
+   underline on focus.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Title input — subtle bottom-border accent on focus so the cursor
+   feels grounded without harsh outline. */
+.title-input {
+  transition:
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    box-shadow   var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+  border-bottom: 1.5px solid transparent;
+}
+.title-input:focus {
+  border-bottom-color: rgba(214, 83, 60, 0.35);
+}
+
+.content-area {
+  transition:
+    color        var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+
+/* Topic chips — calm tokenized hover/active. */
+.topic-chip,
+.lang-pill,
+.mode-card {
+  transition:
+    background   var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    color        var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    transform    var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    box-shadow   var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.topic-chip:hover,
+.lang-pill:hover {
+  transform: translateY(-1px);
+}
+.topic-chip:focus-visible,
+.lang-pill:focus-visible,
+.mode-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+  border-radius: 999px;
+}
+input[type="radio"].lang-radio:focus-visible + .lang-pill,
+input[type="radio"].mode-radio:focus-visible + .mode-card,
+input[type="checkbox"].topic-check:focus-visible + .topic-chip {
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+}
+
+/* Primary submit — tokenized transition + calm press. */
+.btn-publish {
+  transition:
+    background var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    transform  var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    box-shadow var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.btn-publish:focus-visible {
+  outline: none;
+  box-shadow:
+    0 8px 24px rgba(17, 24, 39, 0.22),
+    var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+}
+.btn-publish:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 4px 14px rgba(17, 24, 39, 0.20);
+}
+
+.btn-cancel {
+  transition:
+    background var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    color      var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.btn-cancel:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+}
+.btn-cancel:active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-publish:active:not(:disabled),
+  .btn-cancel:active,
+  .topic-chip:hover,
+  .lang-pill:hover { transform: none; }
+}

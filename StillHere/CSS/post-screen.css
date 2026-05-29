@@ -80,11 +80,32 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
   user-select: none;
 }
-.pg-doodle--1 { width: 120px; top: 14%;  left: 1.5%;  transform: rotate(-8deg); }
-.pg-doodle--2 { width:  64px; top: 52%;  left: 0.8%;  transform: rotate(14deg); }
-.pg-doodle--3 { width:  68px; bottom: 18%; right: 1%;  transform: rotate(-6deg); }
-.pg-doodle--4 { width:  52px; top: 22%;  right: 1.2%; transform: rotate(-18deg); }
-.pg-doodle--5 { width: 140px; bottom: 32%; left: 6%;   transform: rotate(-3deg); opacity: 0.08; }
+.pg-doodle--1 { width: 120px; top: 14%;  left: 1.5%;  --pg-rot: -8deg;
+                animation: pgDoodleFloat 6s ease-in-out infinite alternate; }
+.pg-doodle--2 { width:  64px; top: 52%;  left: 0.8%;  --pg-rot: 14deg;
+                animation: pgDoodleFloat 5s ease-in-out -1.5s infinite alternate; }
+.pg-doodle--3 { width:  68px; bottom: 18%; right: 1%; --pg-rot: -6deg;
+                animation: pgDoodleFloat 7s ease-in-out -3s infinite alternate; }
+.pg-doodle--4 { width:  52px; top: 22%;  right: 1.2%; --pg-rot: -18deg;
+                animation: pgDoodleSpin 5.5s ease-in-out -1s infinite alternate; }
+.pg-doodle--5 { width: 140px; bottom: 32%; left: 6%;  --pg-rot: -3deg; opacity: 0.08;
+                animation: pgDoodleFloat 8s ease-in-out -4s infinite alternate; }
+
+/* Smaller-amplitude ambient float — matches the dBob vocabulary
+   used on main.html, but with reduced range (±2-3px instead of
+   ±6px) so the reading area underneath stays calm. Each doodle
+   keeps its base rotation via --pg-rot. */
+@keyframes pgDoodleFloat {
+  from { transform: rotate(var(--pg-rot, 0deg)) translateY(-2.5px); }
+  to   { transform: rotate(var(--pg-rot, 0deg)) translateY(3px); }
+}
+@keyframes pgDoodleSpin {
+  from { transform: rotate(calc(var(--pg-rot, 0deg) - 1.8deg)) translateY(-2px); }
+  to   { transform: rotate(calc(var(--pg-rot, 0deg) + 1.8deg)) translateY(2px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-doodle { animation: none !important; }
+}
 
 /* ══════════════════════════════════════════════════════
    NAVBAR — identical to startup/main/ai-chat
@@ -330,25 +351,7 @@ a { color: inherit; text-decoration: none; }
 
 .post-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 
-/* tags — match main-screen.css */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #3a2f24;
-  background: rgba(26, 20, 16, 0.06);
-  border: 1px solid rgba(26, 20, 16, 0.18);
-}
-.tag-lang { background: rgba(26, 20, 16, 0.08); color: #2a2118; border-color: rgba(26, 20, 16, 0.22); }
-.tag-topic { background: rgba(214, 83, 60, 0.16); color: #9c3a26; border-color: rgba(214, 83, 60, 0.38); }
-.tag-mode { gap: 5px; }
-.tag-no-advice    { background: rgba(85, 115, 80, 0.18); color: #3d5a36; border-color: rgba(85, 115, 80, 0.40); }
-.tag-need-support { background: rgba(200, 148, 86, 0.22); color: #6e4416; border-color: rgba(200, 148, 86, 0.45); }
+/* tags — source of truth lives in CSS/motion.css. */
 
 /* ── Options menu (3-dots) ── */
 .post-options { position: relative; }
@@ -1219,3 +1222,83 @@ a { color: inherit; text-decoration: none; }
   .post-header { flex-direction: column; align-items: flex-start; }
   .footer_links { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   Stage 2.5 — post page polish.
+   - Calmer no-advice tag (focus-ring token, cursor cue).
+   - Polished comments empty state (mirrors main feed).
+   - Comment card calm hover lift via paper-shadow token.
+   - Heart-btn presence pulse hook (icon only).
+   ══════════════════════════════════════════════════════════════════ */
+
+.tag-no-advice {
+  cursor: help;
+  outline: none;
+}
+.tag-no-advice:focus-visible {
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+  border-radius: 999px;
+}
+
+/* Polished empty state — same vocabulary as main-screen.css feed empty,
+   scoped inside the comments list (which is an <ol>, so we reset list
+   styling). */
+.comment-empty.feed-empty--polished {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 36px 16px 44px;
+  text-align: center;
+  font-style: normal;
+  color: var(--ink-light);
+  animation: postEmptyIn var(--dur-reveal, 760ms) var(--ease-calm, ease-out) both;
+}
+.comment-empty .feed-empty__title {
+  margin: 0;
+  font-family: "Boldonse", serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink, #1a1410);
+  letter-spacing: -0.005em;
+}
+.comment-empty .feed-empty__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 36ch;
+  color: var(--ink-light);
+}
+@keyframes postEmptyIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Comment card hover — token-driven calm lift. */
+.comment-card {
+  transition:
+    transform   var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    box-shadow  var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.comment-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--paper-shadow-soft, 0 14px 32px -18px rgba(26,20,16,0.18));
+}
+
+/* Heart-btn presence pulse — same vocabulary as main feed.
+   Targets the visible inner svg only so the button itself stays still. */
+.heart-btn.is-pulsing .heart-icon--filled,
+.heart-btn.is-pulsing .heart-icon--outline {
+  animation: presencePulse 520ms var(--ease-calm, ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comment-empty.feed-empty--polished { animation: none; }
+  .comment-card { transition: none; }
+  .comment-card:hover { transform: none; }
+  .heart-btn.is-pulsing .heart-icon--filled,
+  .heart-btn.is-pulsing .heart-icon--outline { animation: none; }
+}
+

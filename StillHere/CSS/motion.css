@@ -1,0 +1,510 @@
+/* ══════════════════════════════════════════════════════════════════
+   motion.css
+   Calm motion foundation for StillHere.
+   ──────────────────────────────────────────────────────────────────
+   Loaded before dark-theme.css on every page. Provides:
+     · timing tokens (easings + durations);
+     · paper-shadow tokens (resting + hover);
+     · focus-ring token;
+     · scaffold utility classes for reveals, skeletons, tooltips
+       (inert until paired with their JS triggers in Stage 2);
+     · targeted prefers-reduced-motion overrides — only ambient /
+       decorative animations stop. UI state transitions (menus,
+       modals, theme toggle, hovers) keep working.
+   No vendor prefixes — transform/opacity/filter are universally
+   supported. No global `*` resets.
+   ══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Easings ─────────────────────────────────────────────────────
+     Pick by intent, not by feel:
+       --ease-soft  — UI hover/focus/buttons (decisive, no overshoot)
+       --ease-calm  — section reveal / page enter
+       --ease-hand  — only doodles + handwritten playful bits   */
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-hand: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Durations ───────────────────────────────────────────────── */
+  --dur-fast:   160ms;   /* small focal acks (icon pulse, toggle dot) */
+  --dur-hover:  220ms;   /* button / card hover */
+  --dur-medium: 420ms;   /* modal / menu / panel */
+  --dur-reveal: 760ms;   /* card enter / scroll-in */
+  --dur-slow:  1200ms;   /* heavy ambient or long-pause reveal */
+
+  /* ── Paper shadows ───────────────────────────────────────────── */
+  --paper-shadow-soft:
+    0 1px 0 rgba(26, 20, 16, 0.04),
+    0 14px 32px -18px rgba(26, 20, 16, 0.18);
+  --paper-shadow-hover:
+    0 1px 0 rgba(26, 20, 16, 0.05),
+    0 20px 42px -20px rgba(26, 20, 16, 0.24);
+
+  /* ── Focus ring (used with :focus-visible) ───────────────────── */
+  --focus-ring: 0 0 0 3px rgba(214, 83, 60, 0.16);
+}
+
+/* In dark theme the warm shadows look anaemic — bump them down to
+   richer, near-black drops so cards still lift off the bg. */
+html[data-theme="dark"] {
+  --paper-shadow-soft:
+    0 1px 0 rgba(0, 0, 0, 0.20),
+    0 16px 36px -18px rgba(0, 0, 0, 0.55);
+  --paper-shadow-hover:
+    0 1px 0 rgba(0, 0, 0, 0.22),
+    0 22px 46px -20px rgba(0, 0, 0, 0.65);
+  --focus-ring: 0 0 0 3px rgba(232, 168, 124, 0.22);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   Utility scaffolding — inert until JS adds the trigger class.
+   Safe to land in Stage 1 because nothing uses them yet.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Calm enter animation for newly inserted feed cards. JS will add
+   `.post-card--enter` to a freshly-rendered card, then on next frame
+   add `.is-in` to play the transition. */
+.post-card--enter {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(4px);
+}
+.post-card--enter.is-in {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition:
+    opacity   var(--dur-reveal) var(--ease-calm),
+    transform var(--dur-reveal) var(--ease-calm),
+    filter    var(--dur-reveal) var(--ease-calm);
+}
+
+/* Feed skeleton — quiet shimmer placeholder used while posts load.
+   Markup inserted/removed by JS; falls back to a static block if
+   reduced-motion is on (see end of file). */
+.feed-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.post-skeleton {
+  border: 1px solid var(--line, rgba(26, 20, 16, 0.10));
+  border-radius: 12px;
+  background: var(--surface-card, var(--paper-soft, #fffaf0));
+  padding: 22px;
+  overflow: hidden;
+}
+.skel {
+  position: relative;
+  overflow: hidden;
+  background: rgba(26, 20, 16, 0.08);
+  border-radius: 999px;
+}
+.skel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 250, 240, 0.34),
+    transparent
+  );
+  animation: quietShimmer 1800ms var(--ease-calm) infinite;
+}
+.skel-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+}
+.skel-line {
+  height: 12px;
+  margin-top: 10px;
+}
+.skel-line--short { width: 36%; }
+.skel-line--long  { width: 78%; }
+.skel-pill {
+  display: inline-block;
+  width: 68px; height: 22px;
+  margin-top: 14px;
+  margin-right: 6px;
+}
+@keyframes quietShimmer {
+  to { transform: translateX(100%); }
+}
+html[data-theme="dark"] .skel {
+  background: rgba(244, 234, 214, 0.08);
+}
+html[data-theme="dark"] .skel::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(244, 234, 214, 0.10),
+    transparent
+  );
+}
+
+/* Single tap-once pulse — used by JS for the "I'm here" action.
+   Just animates the inner .icon, then the class is removed. */
+.is-pulsing > .icon,
+.is-pulsing .icon {
+  animation: presencePulse 520ms var(--ease-calm);
+}
+@keyframes presencePulse {
+  0%   { transform: scale(1); }
+  42%  { transform: scale(1.14) rotate(-4deg); }
+  100% { transform: scale(1); }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Tag system — single source of truth for `.tag` pills used on
+   feed cards (main.html) and post page (post.html). One paper-neutral
+   surface for every tag; color is reserved for a small accent dot
+   (topic) or the inline icon (no-advice / need-support).
+   Light + dark + reduced-motion all defined here.
+   ══════════════════════════════════════════════════════════════════ */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: #3a2f24;
+  background: rgba(26, 20, 16, 0.06);
+  border: 1px solid rgba(26, 20, 16, 0.18);
+  border-radius: 999px;
+  text-transform: lowercase;
+  transition:
+    background  var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    color       var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.tag .icon { width: 11px; height: 11px; }
+
+/* Light theme — each tag type carries its own colored fill, but the
+   palette is tightly curated: muted earth tones (slate ink, salmon,
+   sage, ochre) all from the same warmth family. */
+.tag-lang {
+  background: rgba(26, 20, 16, 0.08);
+  color: #2a2118;
+  border-color: rgba(26, 20, 16, 0.22);
+}
+.tag-topic {
+  background: rgba(214, 83, 60, 0.16);
+  color: #9c3a26;
+  border-color: rgba(214, 83, 60, 0.38);
+}
+.tag-mode { gap: 5px; }
+.tag-no-advice {
+  background: rgba(85, 115, 80, 0.18);
+  color: #3d5a36;
+  border-color: rgba(85, 115, 80, 0.40);
+}
+.tag-need-support {
+  background: rgba(200, 148, 86, 0.22);
+  color: #6e4416;
+  border-color: rgba(200, 148, 86, 0.45);
+}
+
+/* Dark theme — same colour roles, just remapped to warm-bright values
+   so they read clearly on the warm-dark page. */
+html[data-theme="dark"] .tag {
+  color: #f0e4cf;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+html[data-theme="dark"] .tag-lang {
+  background: rgba(255, 255, 255, 0.10);
+  color: #f4ead6;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+html[data-theme="dark"] .tag-topic {
+  background: rgba(232, 168, 124, 0.22);
+  color: #f3b88f;
+  border-color: rgba(232, 168, 124, 0.40);
+}
+html[data-theme="dark"] .tag-no-advice {
+  background: rgba(155, 179, 154, 0.22);
+  color: #c9dbc4;
+  border-color: rgba(155, 179, 154, 0.42);
+}
+html[data-theme="dark"] .tag-need-support {
+  background: rgba(214, 160, 106, 0.22);
+  color: #e8c084;
+  border-color: rgba(214, 160, 106, 0.42);
+}
+
+/* Tooltip via data-attribute. Any element with `data-presence-tooltip`
+   attribute gets a quiet pill above it on hover / focus-visible.
+   Used by no-advice tag in Stage 2 — inert until the attribute lands. */
+[data-presence-tooltip] {
+  position: relative;
+}
+[data-presence-tooltip]::after {
+  content: attr(data-presence-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  max-width: 240px;
+  transform: translateX(-50%) translateY(4px);
+  opacity: 0;
+  pointer-events: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--ink, #1a1410);
+  color: var(--paper, #f4ead6);
+  font-family: "Ubuntu", sans-serif;
+  font-size: 11.5px;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  white-space: normal;
+  text-align: center;
+  box-shadow: 0 12px 28px -14px rgba(26, 20, 16, 0.45);
+  transition:
+    opacity   var(--dur-fast) var(--ease-soft),
+    transform var(--dur-fast) var(--ease-soft);
+  z-index: 40;
+}
+[data-presence-tooltip]:hover::after,
+[data-presence-tooltip]:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+html[data-theme="dark"] [data-presence-tooltip]::after {
+  background: var(--paper-soft, #f4ead6);
+  color: var(--ink, #1a1410);
+  box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.55);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   prefers-reduced-motion — targeted, not global.
+   We only switch off ambient / decorative motion. UI state
+   transitions (modals, menus, theme FAB, hovers) keep their
+   short transitions because they communicate state changes.
+   ══════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  /* Snap revealed content to visible — no fade/slide/blur. */
+  .reveal,
+  .reveal-row,
+  .reveal-stagger {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  /* Feed card enter — instant visible, never animated. */
+  .post-card--enter,
+  .post-card--enter.is-in {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Stop the multilingual word marquee on the landing background. */
+  .bg_words .row,
+  .bg_words .row.left,
+  .bg_words .row.right,
+  .bg_words .row.slow,
+  .bg_words .row.slower,
+  .bg_words .row.slowest { animation: none !important; }
+
+  /* Stop the looping stamp band ("you matter ✶ respira ✶ …"). */
+  .stamp-track { animation: none !important; }
+
+  /* Doodles — stop the hand-drawn float / spin / tilt loops. */
+  .d-bob,
+  .d-spin-slow,
+  .d-tilt,
+  .pg-doodle,
+  .pg-doodle--1, .pg-doodle--2, .pg-doodle--3, .pg-doodle--4,
+  .ct-title-star,
+  .up-title-star,
+  .pf-title-star,
+  .ep-title-star,
+  .pref-title-star,
+  .doc-title-star,
+  .ql-title-doodle,
+  .th-title-star,
+  .cp-title-star,
+  .doodle-hero-cloud,
+  .doodle-hero-spark,
+  .doodle-hero-wave,
+  .doodle-hero-heart-r,
+  .doodle-hero-swirl-r,
+  .doodle-hero-cat-r,
+  .start-hand,
+  .section-hand,
+  .quote-flower,
+  .wd { animation: none !important; }
+
+  /* Skeleton shimmer becomes a static block. */
+  .skel::after { animation: none !important; }
+
+  /* The "I'm here" pulse — no jump for reduced-motion users. */
+  .is-pulsing > .icon,
+  .is-pulsing .icon { animation: none !important; }
+
+  /* Scribble draw-on path animations on the hero title. */
+  .scribble-circle path,
+  .start-hand-ink path,
+  .section-hand-ink path { animation: none !important; }
+
+  /* Smooth-scroll → instant. */
+  html { scroll-behavior: auto; }
+
+  /* Stage 3 — extra ambient elements added later. */
+  .quote-band.reveal,
+  .quote-band.reveal.is-in {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.2s ease !important;
+  }
+  .start-hand-wrap,
+  .butttons_on_start:hover .start-hand-wrap {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  /* Stage 4 — auth/edit/create-post tactile presses. */
+  .auth-btn:active:not(:disabled),
+  .btn-save:active:not(:disabled),
+  .btn-publish:active:not(:disabled),
+  .btn-cancel:active,
+  .button_start_1:active,
+  .button_start_2:active,
+  .join-register:active,
+  .topic-chip:hover,
+  .lang-pill:hover { transform: none !important; }
+
+  .field-error, .form-error { animation: none !important; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   Stage 5 — global a11y / mobile / dark sweep.
+   - Mouse-click never shows the focus ring (only keyboard nav does).
+   - Sensible focus-visible fallback for interactive elements that
+     don't have their own ring already.
+   - Remove the blue Android/iOS tap-highlight rectangle on all
+     buttons / links (page-specific touches already do this in places).
+   - Touch devices: disable ambient hover lifts that linger after tap.
+   - Screen-reader-only utility class.
+   - Forced-colors (Windows high-contrast) — make focus ring use
+     the system highlight color so it's still visible.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Default browser outline only when navigating via keyboard. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Generic focus-visible — quiet salmon ring for any interactive
+   element that hasn't defined its own focus style. Stays out of the
+   way for elements that already set box-shadow (page-specific rules
+   override via higher specificity). */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible,
+summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+  border-radius: 4px;
+}
+
+/* Buttons / links — kill the Android/iOS blue rectangle on tap. */
+a, button, [role="button"], input, textarea, select, summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch / no-hover devices: ambient hover lifts feel "stuck" after a
+   tap because the element keeps :hover until something else is
+   focused. Gate them off entirely on hover-less devices. */
+@media (hover: none) {
+  .post-card:hover,
+  .comment-card:hover,
+  .feature-card:hover,
+  .topic-chip:hover,
+  .lang-pill:hover,
+  .feed-empty__cta:hover,
+  .scroll-cue:hover {
+    transform: none;
+  }
+}
+
+/* Screen-reader-only utility — use when you need accessible text
+   without showing it visually (e.g. icon-only buttons). Standard
+   pattern from inclusive components. */
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Windows High Contrast / forced-colors — the soft rgba focus ring
+   becomes invisible. Re-paint it with the system Highlight color so
+   keyboard users can always see where focus is. */
+/* Skip-link utility — call site adds:
+     <a class="skip-link" href="#main">Skip to main content</a>
+   right after <body>, then sets id="main" on the primary <main>.
+   It stays visually hidden until focused (keyboard Tab on page load),
+   then snaps into view at top-left. Not retrofitted onto existing
+   pages here; pattern is ready when you want it. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -100px;
+  z-index: 10000;
+  padding: 10px 16px;
+  background: var(--ink, #1a1410);
+  color: var(--paper, #f4ead6);
+  font-family: "Ubuntu", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px -8px rgba(26, 20, 16, 0.35);
+  transition: top var(--dur-fast, 160ms) var(--ease-soft, ease-out);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 8px;
+  outline: none;
+  box-shadow:
+    0 8px 24px -8px rgba(26, 20, 16, 0.35),
+    var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+}
+
+@media (forced-colors: active) {
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:not([tabindex="-1"]):focus-visible,
+  summary:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}

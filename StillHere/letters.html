@@ -4,15 +4,52 @@
   <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
+    <meta name="darkreader-lock">
+    <meta name="nighteye" content="disabled">
+    <meta name="theme-color" content="#f4ead6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1410" media="(prefers-color-scheme: dark)">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" as="image" type="image/png" href="assets/favicon/favicon-96x96.png?v=3">
+    <link rel="icon" type="image/png" sizes="96x96"   href="assets/favicon/favicon-96x96.png?v=3">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/web-app-manifest-192x192.png?v=3">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/web-app-manifest-512x512.png?v=3">
+    <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
+    <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
+    <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
+    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <title>Quiet Letters — StillHere</title>
+  <!-- Lightweight prefetch via Speculation Rules.
+       The browser downloads the HTML of internal links the user is
+       likely to click (hover / mousedown) so navigation feels
+       snappy. Unlike prerender it does NOT execute the target
+       page's JS, so no extra Supabase calls, no double analytics.
+       Chromium-only; other engines quietly ignore it. -->
+  <script type="speculationrules">
+  {
+    "prefetch": [
+      {
+        "source": "document",
+        "where": {
+          "and": [
+            { "href_matches": "/*" },
+            { "not": { "href_matches": "/*\\?logout*" } },
+            { "not": { "href_matches": "/*\\#*" } },
+            { "not": { "selector_matches": "[rel~=external], [target=_blank], [download]" } }
+          ]
+        },
+        "eagerness": "moderate"
+      }
+    ]
+  }
+  </script>
 
   <link rel="stylesheet" href="CSS/main-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
+  <link rel="stylesheet" href="CSS/motion.css">
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <link rel="stylesheet" href="CSS/mobile.css?v=1779483937">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
@@ -21,6 +58,8 @@
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/theme.js" defer></script>
+  <!-- Required for SH_MOD.checkLetter (letter submit moderation). -->
+  <script src="JS/moderation.js?v=3" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -650,26 +689,40 @@
     }
     .ql-btn--ghost:hover { background: rgba(26,20,16,0.04); color: var(--ink); border-color: var(--ink-mid); }
 
-    /* ── TOAST after submit ── */
+    /* ── TOAST after submit ──
+       Matches the global `.toast` on main / post / edit-profile:
+       sits 32px above the viewport bottom and stays dark in both
+       themes (theme-stable, never inverts to cream-on-dark). */
     .ql-toast {
       position: fixed;
-      bottom: 100px;
+      bottom: 32px;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: var(--ink);
-      color: var(--paper);
-      padding: 12px 22px;
+      background: #1a1410;
+      color: #f4ead6;
+      padding: 11px 20px;
       border-radius: 999px;
-      font-size: 13.5px;
-      box-shadow: 0 12px 28px -6px rgba(26, 20, 16, 0.45);
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 14px 32px -10px rgba(26, 20, 16, 0.45);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      z-index: 9500;
+      transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 1000;
     }
     .ql-toast.is-show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    /* Dark theme — pull from the same warm-brown surface tokens that
+       drive the global .toast on post.html / main.html, so all three
+       toasts feel like one family across the site. */
+    html[data-theme="dark"] .ql-toast {
+      background: var(--surface-menu) !important;
+      color: var(--text-dark) !important;
+      border: 1px solid var(--border-glass) !important;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55) !important;
     }
 
     /* ── Extra page-edge doodles unique to this page ── */
@@ -1066,6 +1119,21 @@ document.addEventListener('DOMContentLoaded', function () {
     recipient.addEventListener('input', updateState);
     body.addEventListener('input', updateState);
 
+    /* ── Enter to send ──
+       Pressing Enter in the recipient OR body field submits the letter
+       (if both fields are filled). Shift+Enter in the body still inserts
+       a newline — multi-line letters are still possible. */
+    function trySubmitOnEnter(e) {
+      if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
+      // IME composition (e.g. typing Japanese / Korean) — never submit on Enter.
+      if (e.keyCode === 229) return;
+      if (submitBtn.disabled) return;
+      e.preventDefault();
+      submitBtn.click();
+    }
+    recipient.addEventListener('keydown', trySubmitOnEnter);
+    body.addEventListener('keydown', trySubmitOnEnter);
+
     /* ── Palette select ── */
     palette.addEventListener('click', function(e) {
       var s = e.target.closest('.ql-swatch');
@@ -1095,9 +1163,45 @@ document.addEventListener('DOMContentLoaded', function () {
       return Math.floor(diff / (86400*30)) + tI('ql.time.mo', 'mo ago');
     }
 
+    /* Lightweight script-and-diacritics language detection.
+       Covers the languages StillHere accepts in its lang-pill set:
+       latin (en + diacritic dialects), cyrillic (ru/uk/be), arabic,
+       hebrew, greek, japanese, korean, chinese, hindi, bengali, thai.
+       Order matters — non-latin scripts checked first because their
+       unicode ranges are unambiguous. Latin diacritic detection is
+       best-effort: a German user writing only ASCII still reads as
+       "en". User can override via the lang pill on submit anyway. */
     function detectLang(s) {
-      if (/[а-яё]/i.test(s) && /[ії’]/i.test(s)) return 'uk';
-      if (/[а-яё]/i.test(s)) return 'ru';
+      if (!s) return 'en';
+      s = String(s);
+
+      // ── Non-Latin scripts ──────────────────────────────────
+      if (/[぀-ゟ゠-ヿ]/.test(s))   return 'ja'; // hiragana / katakana
+      if (/[가-힯]/.test(s))                 return 'ko'; // hangul
+      if (/[一-鿿]/.test(s))                 return 'zh'; // CJK ideographs
+      if (/[؀-ۿ]/.test(s))                 return 'ar'; // arabic
+      if (/[֐-׿]/.test(s))                 return 'he'; // hebrew
+      if (/[Ͱ-Ͽ]/.test(s))                 return 'el'; // greek
+      if (/[ऀ-ॿ]/.test(s))                 return 'hi'; // devanagari (hindi)
+      if (/[ঀ-৿]/.test(s))                 return 'bn'; // bengali
+      if (/[฀-๿]/.test(s))                 return 'th'; // thai
+
+      // ── Cyrillic — distinguish uk / be / ru ────────────────
+      if (/[іїєґ]/i.test(s))                         return 'uk';
+      if (/ў/i.test(s))                              return 'be';
+      if (/[а-яё]/i.test(s))                         return 'ru';
+
+      // ── Latin with distinguishing diacritics ───────────────
+      if (/ñ/i.test(s))                              return 'es';
+      if (/[ãõ]/i.test(s))                           return 'pt';
+      if (/[äöüß]/i.test(s))                         return 'de';
+      if (/[ąęłśźżó]/i.test(s))                      return 'pl';
+      if (/[ıİğşçÇ]/i.test(s))                       return 'tr';
+      if (/[àâêîôûÿæœ]/i.test(s))                    return 'fr';
+      if (/[àèéìòù]/i.test(s))                       return 'it';
+      // Vietnamese — many stacked diacritics
+      if (/[ăđĩũơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]/i.test(s)) return 'vi';
+
       return 'en';
     }
 
@@ -1218,17 +1322,35 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         var lang = detectLang(msg + ' ' + name);
 
-        // Optional AI moderation (only if user is signed in and SH_MOD exists)
-        if (window.SH_MOD && window.SH_MOD.check) {
+        // Letter-tier moderation — local slur check first, then AI via
+        // SH_MOD.checkLetter. The AI call ALLOWS profanity / emotional
+        // intensity / soft sexual content (recipients can only read,
+        // never reply, so the harm is bounded) but BLOCKS targeted
+        // insults, harassment, threats, doxxing, etc.
+        if (window.SH_MOD && window.SH_MOD.checkLetter) {
+          var mod;
           try {
-            var mod = await window.SH_MOD.check(name + '\n' + msg, 'post');
-            if (mod && mod.allowed === false) {
-              alert('your letter was not posted — moderation flagged it. try softer wording.');
-              submitBtn.disabled = false;
-              submitBtn.innerHTML = prevText;
-              return;
-            }
-          } catch (_) { /* fail-open */ }
+            mod = await window.SH_MOD.checkLetter(name + '\n' + msg);
+          } catch (_) { mod = { allowed: true }; /* fail-open */ }
+          if (mod && mod.allowed === false) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = prevText;
+            var existing = document.getElementById('qlModWarn');
+            if (existing) existing.remove();
+            var warn = document.createElement('p');
+            warn.id = 'qlModWarn';
+            warn.style.cssText =
+              'margin:8px 0 0;font-size:12.5px;line-height:1.4;color:#c0392b;' +
+              'text-align:left;animation:errFadeIn 280ms cubic-bezier(.22,1,.36,1);';
+            // Friendly but clear — the person on the other end can only
+            // read this, so let's not put darts in their hand.
+            warn.textContent = 'this one can’t be posted — please soften the personal attack.';
+            (body.closest('.ql-field') || body.parentNode).appendChild(warn);
+            setTimeout(function () {
+              if (warn && warn.parentNode) warn.remove();
+            }, 5000);
+            return;
+          }
         }
 
         var row = {

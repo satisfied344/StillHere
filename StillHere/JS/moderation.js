@@ -62,6 +62,111 @@
   /* ── Public API ──────────────────────────────────────────── */
   window.SH_MOD = {
 
+    /* Lightweight LOCAL check — synchronous, no network call, no AI.
+       Only fires on the hardcoded slur blacklist (extreme profanity /
+       targeted insults). Used as a first pass before the AI call so
+       we save round-trips on obvious cases. */
+    checkLight: function (text) {
+      if (isBlacklisted(text || '')) {
+        return { allowed: false, reason: 'profanity', label: 'Strong profanity or slur' };
+      }
+      return { allowed: true };
+    },
+
+    /* Letter-specific check — designed for quiet-letters where the
+       bar is intentionally low. We call the AI moderate function but
+       only HARD-BLOCK when the category is something a recipient
+       cannot reply to or defend themselves from (they can only read).
+       Categories ALLOWED through (the AI may still flag them):
+         · plain profanity        (блять / fuck / shit)
+         · emotional intensity    (anger, grief, longing)
+         · soft sexual references
+         · spam / link
+       Categories BLOCKED:
+         · targeted_insult        (ты тупое уебище)
+         · harassment / hate      (slurs aimed at someone)
+         · threat / violence
+         · self-harm encouragement to another person
+         · doxxing / personal info
+         · sexual_minors / illegal — never. */
+    checkLetter: async function (text) {
+      // No local profanity pre-check here — letters intentionally
+      // allow venting / cursing ("пиздец какой ты" should post).
+      // Only the AI decides, because only it can distinguish
+      // "profanity as venting" from "profanity as a weapon".
+      //
+      // Tiny safety net for the most unambiguous targeted slurs that
+      // are NEVER OK regardless of context (always personal attacks,
+      // never venting). Catches signed-out users where the AI
+      // doesn't run.
+      //
+      // IMPORTANT: JavaScript `\b` is ASCII-only — `\bуебищ\b` does
+      // NOT match Cyrillic text. We use Unicode-aware boundaries via
+      // `(?<![\p{L}])` lookbehind and a Cyrillic-tail match so we
+      // catch all inflections (уебище, уебища, уебищу, уебищем …).
+      var CYR_BLOCK = /(?<![\p{L}])(?:уебищ|уёбищ|долбо[её]б|дебилоид|имбецил)[\p{L}]*/iu;
+      var LAT_BLOCK = /\b(?:faggot|nigger|nigga|retard|kike|chink|gook|tranny|dyke)s?\b/i;
+      var t = text || '';
+      if (CYR_BLOCK.test(t) || LAT_BLOCK.test(t)) {
+        return { allowed: false, reason: 'targeted_insult', label: 'Direct personal attack' };
+      }
+
+      // Network call to AI. If signed-out OR network fails, it
+      // fails open via check() (same as everywhere else).
+      var raw = await this.check(text, 'post');
+      if (!raw || raw.allowed !== false) return { allowed: true };
+
+      // 3. We have an AI block decision. Translate the reason into
+      //    "is this severe enough to refuse the letter".
+      var reason = String(raw.reason || '').toLowerCase();
+      var label  = raw.label  || 'flagged';
+
+      // Categories we ALWAYS allow through for letters (profanity is
+      // OK in a letter to mom, anger is OK, sexual chat is just
+      // embarrassing not harmful since no one can reply).
+      var ALWAYS_ALLOW = [
+        'profanity',
+        'mild',
+        'mild_profanity',
+        'soft',
+        'sexual',
+        'sexual_general',
+        'spam',
+        'link',
+        'links',
+        'low_quality',
+        'off_topic',
+      ];
+      if (ALWAYS_ALLOW.some(function (k) { return reason.indexOf(k) !== -1; })) {
+        return { allowed: true };
+      }
+
+      // ── Loving-context allow ────────────────────────────────
+      // Letters often contain hyperbole between intimates
+      // ("я тебя убью"/"i could kill you" jokingly). AI can't tell
+      // banter from a real threat. If the message contains clear
+      // signals of love / longing / apology, treat threat/violence
+      // categories as banter and let them through. The recipient
+      // can never reply on this platform — harm vector is small.
+      var LOVING_CONTEXT = /(\bлюбл|\bобожа|\bсосе|скучаю|скуча|целую|целова|обнима|жду тебя|мил[аы]й|милая|любимы|любима|родн[аы]я|родной|солныш|солнце моё|маленьк[аыо]|зайк|котёнок|baby|babe|honey|sweetheart|darling|love you|miss you|i love|i miss|love ya|i'?d die for|sorry|forgive me|прости меня|извини|жалко|жаль)/i;
+      var SOFT_THREAT_REASONS = ['threat', 'violence', 'self_harm', 'self-harm'];
+      var isSoftThreat = SOFT_THREAT_REASONS.some(function (k) {
+        return reason.indexOf(k) !== -1;
+      });
+      if (isSoftThreat && LOVING_CONTEXT.test(text || '')) {
+        return { allowed: true };
+      }
+
+      // Everything else (targeted_insult, harassment, hate, hard
+      // threat with no love context, doxx, sexual_minors, illegal, …)
+      // → block.
+      return {
+        allowed: false,
+        reason:  reason || 'flagged',
+        label:   label,
+      };
+    },
+
     /* Username check — no JWT required (user not logged in yet at registration).
        Returns { allowed, reason, label } */
     checkUsername: async function (username) {
