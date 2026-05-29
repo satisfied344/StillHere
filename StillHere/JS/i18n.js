@@ -665,6 +665,12 @@
     'ep.danger.delete':    { en: 'Delete all my posts',               ru: 'Удалить все мои посты' },
     'ep.danger.close':     { en: 'Close my account',                  ru: 'Закрыть мой аккаунт' },
 
+    'ep.delposts.title':   { en: 'delete all your posts?',            ru: 'удалить все ваши посты?' },
+    'ep.delposts.desc':    { en: 'every story you wrote will be removed for good. replies that other people left under them will go with them. this cannot be undone.',
+                             ru: 'все ваши истории будут удалены навсегда. ответы, которые другие люди оставили под ними, тоже исчезнут. отменить нельзя.' },
+    'ep.delposts.cancel':  { en: 'keep them',                         ru: 'оставить' },
+    'ep.delposts.confirm': { en: 'yes, delete all',                   ru: 'да, удалить все' },
+
     'ep.delmod.title':     { en: 'close your account?',               ru: 'закрыть аккаунт?' },
     'ep.delmod.desc':      { en: 'your account will be closed and your name removed. the posts and comments you wrote will stay on the platform, shown as posted by "deleted account" — this keeps the conversations they started intact for everyone who replied.',
                              ru: 'твой аккаунт будет закрыт и имя удалено. посты и комментарии останутся на сайте, помеченные как «удалённый аккаунт» — так беседы, которые ты начал, останутся целыми для всех, кто отвечал.' },
@@ -909,6 +915,11 @@
                              ru: 'всё проходит через мягкую модерацию перед публикацией — это сохраняет пространство добрым для всех.' },
     'cp.submit.cancel':    { en: 'cancel',                            ru: 'отмена' },
     'cp.submit.draft':     { en: 'delete draft',                      ru: 'удалить черновик' },
+    'cp.draftdel.title':   { en: 'delete saved draft?',                ru: 'удалить черновик?' },
+    'cp.draftdel.desc':    { en: 'your saved text, language, topics and mode will be cleared. this cannot be undone.',
+                             ru: 'сохранённый текст, язык, темы и режим будут сброшены. отменить нельзя.' },
+    'cp.draftdel.cancel':  { en: 'keep it',                            ru: 'оставить' },
+    'cp.draftdel.confirm': { en: 'delete',                             ru: 'удалить' },
     'cp.submit.publish':   { en: 'publish story',                     ru: 'опубликовать историю' },
 
     /* Sidebar widgets */
@@ -2364,7 +2375,8 @@
     /* Burger menu — Quiet letters page link */
     'menu.letters':              { en: 'Quiet letters',          ru: 'Тихие письма' },
 
-    'main.post.support':         { en: 'Support',                ru: 'Поддержать' },
+    'main.post.support':         { en: "I'm here",               ru: 'я рядом' },
+    'main.post.support.active':  { en: 'here',                   ru: 'рядом' },
     'main.post.responses':       { en: 'Responses',              ru: 'Ответов' },
     'main.post.share':           { en: 'Share',                  ru: 'Поделиться' },
     'main.post.menu.save':       { en: 'Save Post',              ru: 'Сохранить' },
@@ -2380,6 +2392,28 @@
     'main.toast.linkcopied':     { en: 'Link copied',            ru: 'Ссылка скопирована' },
     'main.toast.saved':          { en: 'Saved',                  ru: 'Сохранено' },
     'main.toast.unsaved':        { en: 'Removed from saved',     ru: 'Убрано из сохранённых' },
+    'main.toast.presence':       { en: 'they know someone is here.',
+                                   ru: 'они знают, что кто-то рядом.' },
+    'main.toast.presence.off':   { en: 'okay — quietly stepping back.',
+                                   ru: 'хорошо — тихо отступаю.' },
+    'main.tooltip.noadvice':     { en: 'they asked for presence, not advice.',
+                                   ru: 'они просят присутствия, а не советов.' },
+    'main.loading.stories':      { en: 'gathering stories…',     ru: 'собираем истории…' },
+    'main.empty.savedTitle':     { en: 'No saved stories yet',   ru: 'Пока ничего не сохранено' },
+    'main.empty.savedText':      { en: 'Tap “Save Post” on any story to keep it here.',
+                                   ru: 'Нажми «Сохранить» на любой истории, чтобы она осталась здесь.' },
+    'main.empty.filteredTitle':  { en: 'Nothing matches these filters',
+                                   ru: 'Под эти фильтры ничего не подходит' },
+    'main.empty.filteredText':   { en: 'Try clearing a filter or come back later.',
+                                   ru: 'Попробуй убрать фильтр или зайди позже.' },
+    'main.empty.share':          { en: 'share something',        ru: 'поделиться' },
+    'main.empty.clear':          { en: 'clear filters',          ru: 'сбросить фильтры' },
+
+    /* ── post.html — comments empty state ── */
+    'post.comments.emptyTitle':  { en: 'No replies yet',
+                                   ru: 'Пока нет ответов' },
+    'post.comments.emptyText':   { en: 'be the first to respond — quietly is fine.',
+                                   ru: 'ответь первым — тихо тоже подойдёт.' },
 
     /* ── login.html ────────────────────────────────────── */
     'login.nav.join':            { en: 'join',                   ru: 'регистрация' },

@@ -129,7 +129,18 @@
       html += '<span class="tag tag-topic">' + t.charAt(0).toUpperCase() + t.slice(1) + '</span>';
     });
     if (post.mode === 'no-advice') {
-      html += '<span class="tag tag-need-support">' + NO_ADVICE_SVG + ' No Advice</span>';
+      var naTip = window.SH_I18N
+        ? window.SH_I18N.t('main.tooltip.noadvice')
+        : 'they asked for presence, not advice.';
+      /* HTML-escape the tooltip text since it lands in two attributes. */
+      var naTipEsc = String(naTip)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+      html += '<span class="tag tag-need-support tag-no-advice"' +
+        ' tabindex="0" role="note"' +
+        ' aria-label="' + naTipEsc + '"' +
+        ' data-presence-tooltip="' + naTipEsc + '">' +
+        NO_ADVICE_SVG + ' No Advice</span>';
     } else {
       html += '<span class="tag tag-need-support">' + NEED_SUPPORT_SVG + ' Need Support</span>';
     }
@@ -351,16 +362,43 @@
 
   var heartBtn = document.getElementById('heartBtn');
   if (heartBtn) {
+    /* Calm presence label — i18n-aware. */
+    var _setHeartLabel = function (active) {
+      var label = window.SH_I18N
+        ? window.SH_I18N.t(active ? 'main.post.support.active' : 'main.post.support')
+        : (active ? 'here' : "I'm here");
+      heartBtn.setAttribute('aria-label', label);
+      heartBtn.setAttribute('title', label);
+    };
+
     /* restore from localStorage */
     if (_likedPosts.has(postId)) {
       heartBtn.setAttribute('aria-pressed', 'true');
       heartBtn.classList.add('is-active');
     }
+    _setHeartLabel(_likedPosts.has(postId));
+    document.addEventListener('sh:langchange', function () {
+      _setHeartLabel(heartBtn.getAttribute('aria-pressed') === 'true');
+    });
+
     heartBtn.addEventListener('click', function () {
       var pressed   = heartBtn.getAttribute('aria-pressed') === 'true';
       var nowActive = !pressed;
       heartBtn.setAttribute('aria-pressed', String(nowActive));
       heartBtn.classList.toggle('is-active', nowActive);
+      _setHeartLabel(nowActive);
+
+      /* Presence pulse — re-trigger by removing class + forcing reflow. */
+      heartBtn.classList.remove('is-pulsing');
+      void heartBtn.offsetWidth;
+      if (nowActive) heartBtn.classList.add('is-pulsing');
+      setTimeout(function () { heartBtn.classList.remove('is-pulsing'); }, 600);
+
+      /* Calm presence toast — UI only, RPC unchanged. */
+      showToast(window.SH_I18N
+        ? window.SH_I18N.t(nowActive ? 'main.toast.presence' : 'main.toast.presence.off')
+        : (nowActive ? 'they know someone is here.' : 'okay — quietly stepping back.'));
+
       if (nowActive) _likedPosts.add(postId);
       else           _likedPosts.delete(postId);
       _saveLiked();
@@ -518,6 +556,21 @@
           handlers: {
             image: function () { uploadCommentImage(commentQuill, commentInlineImageUrls); }
           }
+        },
+        /* Press Enter alone → submit the comment.
+           Shift+Enter still inserts a newline (default Quill behavior). */
+        keyboard: {
+          bindings: {
+            submitOnEnter: {
+              key: 13,
+              shiftKey: false,
+              handler: function () {
+                var btn = document.getElementById('commentSubmitBtn');
+                if (btn && !btn.disabled) btn.click();
+                return false; // prevent default newline
+              }
+            }
+          }
         }
       }
     });
@@ -641,8 +694,12 @@
 
     if (n === 0) {
       var empty = document.createElement('li');
-      empty.className = 'comment-empty';
-      empty.textContent = 'No replies yet — be the first to respond.';
+      empty.className = 'comment-empty feed-empty--polished';
+      empty.setAttribute('role', 'status');
+      var t = function (k, fb) { return window.SH_I18N ? window.SH_I18N.t(k) : fb; };
+      empty.innerHTML =
+        '<p class="feed-empty__title">' + t('post.comments.emptyTitle', 'No replies yet') + '</p>' +
+        '<p class="feed-empty__text">'  + t('post.comments.emptyText',  'be the first to respond — quietly is fine.') + '</p>';
       list.appendChild(empty);
       return;
     }
@@ -669,6 +726,12 @@
     function renderNextBatch() {
       var size = commentsNextSize(batchIndex);
       var end  = Math.min(renderedCount + size, topLevel.length);
+      /* Only animate-in batches AFTER the first paint of the comment list.
+         The very first batch lands together with the post body, so let it
+         appear instantly — no double-reveal. Subsequent batches (Show more
+         replies) get the calm cascade. */
+      var animate = batchIndex > 0;
+      var newLis  = [];
       for (var i = renderedCount; i < end; i++) {
         var c = topLevel[i];
         var li = buildCommentLi(c, false);
@@ -681,7 +744,19 @@
           });
           li.appendChild(ul);
         }
+        if (animate) {
+          li.classList.add('post-card--enter');
+          newLis.push(li);
+        }
         list.appendChild(li);
+      }
+      if (newLis.length) {
+        requestAnimationFrame(function () {
+          newLis.forEach(function (el, j) {
+            var delay = Math.min(j, 6) * 70;
+            setTimeout(function () { el.classList.add('is-in'); }, delay);
+          });
+        });
       }
       renderedCount = end;
       batchIndex++;
@@ -765,6 +840,19 @@
           ],
           handlers: {
             image: function () { uploadCommentImage(_replyQuill, replyInlineImageUrls); }
+          }
+        },
+        /* Enter alone → submit reply; Shift+Enter → newline. */
+        keyboard: {
+          bindings: {
+            submitOnEnter: {
+              key: 13,
+              shiftKey: false,
+              handler: function () {
+                if (typeof submitInlineReply === 'function') submitInlineReply();
+                return false;
+              }
+            }
           }
         }
       }

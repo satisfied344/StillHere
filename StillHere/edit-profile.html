@@ -4,6 +4,10 @@
   <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
+    <meta name="darkreader-lock">
+    <meta name="nighteye" content="disabled">
+    <meta name="theme-color" content="#f4ead6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1410" media="(prefers-color-scheme: dark)">
   <!-- Vercel Speed Insights -->
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -15,10 +19,42 @@
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" as="image" type="image/png" href="assets/favicon/favicon-96x96.png?v=3">
+    <link rel="icon" type="image/png" sizes="96x96"   href="assets/favicon/favicon-96x96.png?v=3">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/web-app-manifest-192x192.png?v=3">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/web-app-manifest-512x512.png?v=3">
+    <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
+    <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
+    <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
+    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <title>Edit profile — StillHere</title>
+  <!-- Lightweight prefetch via Speculation Rules.
+       The browser downloads the HTML of internal links the user is
+       likely to click (hover / mousedown) so navigation feels
+       snappy. Unlike prerender it does NOT execute the target
+       page's JS, so no extra Supabase calls, no double analytics.
+       Chromium-only; other engines quietly ignore it. -->
+  <script type="speculationrules">
+  {
+    "prefetch": [
+      {
+        "source": "document",
+        "where": {
+          "and": [
+            { "href_matches": "/*" },
+            { "not": { "href_matches": "/*\\?logout*" } },
+            { "not": { "href_matches": "/*\\#*" } },
+            { "not": { "selector_matches": "[rel~=external], [target=_blank], [download]" } }
+          ]
+        },
+        "eagerness": "moderate"
+      }
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="CSS/main-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
@@ -30,7 +66,7 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/moderation.js" defer></script>
+  <script src="JS/moderation.js?v=3" defer></script>
   <script src="JS/theme.js" defer></script>
 
   <style>
@@ -390,39 +426,79 @@
     .ep-card--danger .ep-card-label {
       color: var(--color-danger, #c0392b);
     }
+    /* Two danger actions sit side-by-side, equal width, with a clear
+       severity hierarchy — left = soft red (reversible-ish), right =
+       saturated red (irreversible). On narrow screens they stack. */
     .ep-danger-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
     }
     .btn-danger {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: transparent;
-      color: var(--color-danger, #c0392b);
-      border: 1px solid rgba(214, 83, 60, 0.40);
-      border-radius: 8px;
-      font-size: 13px;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 13.5px;
       font-weight: 600;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+      border: 1px solid transparent;
+      transition:
+        background  var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+        color       var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+        border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+        transform   var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+        box-shadow  var(--dur-hover, 220ms) var(--ease-soft, ease-out);
     }
-    .btn-danger:hover {
-      background: var(--color-danger, #c0392b);
-      color: #fff;
-      border-color: var(--color-danger, #c0392b);
+    .btn-danger svg { flex-shrink: 0; }
+    .btn-danger:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.22));
     }
+    .btn-danger:active { transform: translateY(1px); }
+
+    /* Tier 1 — soft red (left, "Delete all my posts"). */
     .btn-danger--soft {
-      color: var(--ink-mid);
-      border-color: var(--line);
+      background: rgba(214, 83, 60, 0.10);
+      color: #c0392b;
+      border-color: rgba(214, 83, 60, 0.32);
+      box-shadow: 0 6px 14px -10px rgba(214, 83, 60, 0.30);
     }
+    .btn-danger--soft svg { color: #c0392b; }
     .btn-danger--soft:hover {
-      background: rgba(214, 83, 60, 0.08);
-      color: var(--color-danger, #c0392b);
-      border-color: rgba(214, 83, 60, 0.40);
+      background: rgba(214, 83, 60, 0.16);
+      border-color: rgba(214, 83, 60, 0.45);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px -12px rgba(214, 83, 60, 0.40);
+    }
+
+    /* Tier 2 — saturated red (right, "Close my account"). Solid fill,
+       paper-stamp shadow — reads as final/permanent. */
+    .btn-danger.btn-delete {
+      background: var(--accent-2, #d6533c);
+      color: #fffaf0;
+      border-color: var(--accent-2, #d6533c);
+      box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.08),
+        0 10px 24px -10px rgba(214, 83, 60, 0.55);
+    }
+    .btn-danger.btn-delete svg { color: #fffaf0; }
+    .btn-danger.btn-delete:hover {
+      background: #c84a32;
+      border-color: #c84a32;
+      transform: translateY(-1px);
+      box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.10),
+        0 14px 28px -10px rgba(214, 83, 60, 0.65);
+    }
+
+    @media (max-width: 520px) {
+      .ep-danger-actions { grid-template-columns: 1fr; }
     }
 
     /* ── DELETE MODAL ────────────────────────────────── */
@@ -851,6 +927,26 @@
     </div>
   </div>
 
+  <!-- Delete ALL posts confirmation modal (mirrors close-account look). -->
+  <div class="del-backdrop" id="delPostsBackdrop" aria-hidden="true">
+    <div class="del-modal" role="alertdialog" aria-labelledby="delPostsTitle" aria-describedby="delPostsDesc">
+      <div class="del-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+          <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+        </svg>
+      </div>
+      <h2 class="del-title" id="delPostsTitle" data-i18n="ep.delposts.title">delete all your posts?</h2>
+      <p class="del-desc" id="delPostsDesc" data-i18n="ep.delposts.desc">
+        every story you wrote will be removed for good. replies that other people left under them
+        will go with them. this cannot be undone.
+      </p>
+      <div class="del-actions">
+        <button class="del-btn del-btn--cancel" id="delPostsCancel" data-i18n="ep.delposts.cancel">keep them</button>
+        <button class="del-btn del-btn--confirm" id="delPostsConfirm" data-i18n="ep.delposts.confirm">yes, delete all</button>
+      </div>
+    </div>
+  </div>
+
   <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -922,6 +1018,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       /* ── Avatar file selection → instant preview ── */
       var pendingAvatarBase64 = null;
+      var pendingRemoveAvatar = false; // staged "remove photo" intent
       var avatarInput = document.getElementById('avatar_input');
       if (avatarInput) {
         avatarInput.addEventListener('change', async function () {
@@ -929,20 +1026,26 @@ document.addEventListener('DOMContentLoaded', function () {
           if (!file) return;
           var b64 = await resizeToBase64(file, 300);
           pendingAvatarBase64 = b64;
+          pendingRemoveAvatar = false; // new file overrides a pending removal
           if (avatarCircle) avatarCircle.innerHTML = '<img src="' + b64 + '" alt="Avatar">';
         });
       }
 
-      /* ── Remove photo ── */
+      /* ── Remove photo ──
+         Stages the removal only — the actual DB write happens on form
+         submit so it can't race with re-uploading the old avatar_url
+         (which the submit handler does from the in-memory `user`
+         object). Previous version wrote nullimmediately + the submit
+         then re-set the old URL, so "remove" looked broken. */
       var removeBtn = document.querySelector('.btn-ghost');
       if (removeBtn) {
-        removeBtn.addEventListener('click', async function () {
+        removeBtn.addEventListener('click', function () {
           pendingAvatarBase64 = null;
+          pendingRemoveAvatar = true;
           if (avatarCircle) avatarCircle.innerHTML =
             '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
             '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>';
-          await sb.from('profiles').update({ avatar_url: null }).eq('id', user.id);
-          toast('Photo removed.', false);
+          toast('Photo will be removed on save.', false);
         });
       }
 
@@ -1062,16 +1165,51 @@ document.addEventListener('DOMContentLoaded', function () {
         if (saveBtn) { saveBtn.textContent = 'Saving…'; }
         var ok = true;
 
-        var newAvatarUrl = user.avatarUrl;
+        /* avatarChanged controls whether we touch avatar_url at all on
+           this save. Without it, the submit would re-write the user's
+           original avatar_url every time, even when nothing changed —
+           and would resurrect a removed photo. */
+        var newAvatarUrl = undefined;
+        var avatarChanged = false;
         if (pendingAvatarBase64) {
           newAvatarUrl = pendingAvatarBase64;
-          pendingAvatarBase64 = null;
+          avatarChanged = true;
+        } else if (pendingRemoveAvatar) {
+          newAvatarUrl = null;
+          avatarChanged = true;
         }
+
+        /* AI moderation on new avatar — SH_MOD.check supports mediaUrls,
+           so we pass the base64 data URI as the only media item. If the
+           backend flags it, block the save and surface the reason. We
+           skip this when the user is removing the photo (no URL). */
+        if (avatarChanged && newAvatarUrl && window.SH_MOD && window.SH_MOD.check) {
+          if (saveBtn) saveBtn.textContent = 'Checking photo…';
+          var avRes = await window.SH_MOD.check('', 'post', [newAvatarUrl]);
+          if (avRes && avRes.allowed === false) {
+            var label = (avRes.label || avRes.reason || 'not allowed');
+            setFieldErr(avatarCircle || form, 'Avatar blocked: ' + label);
+            toast('Avatar blocked: ' + label, true);
+            if (saveBtn) {
+              saveBtn.disabled = false;
+              saveBtn.innerHTML =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+                '<path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
+                'Save changes';
+            }
+            return; // hard stop — do NOT clear pending state so user can fix
+          }
+          if (saveBtn) saveBtn.textContent = 'Saving…';
+        }
+
+        /* Past the moderation gate — safe to consume the pending state. */
+        if (pendingAvatarBase64) pendingAvatarBase64 = null;
+        if (pendingRemoveAvatar) pendingRemoveAvatar = false;
 
         if (ok) {
           var profileUpdate = { display_name: newDisplayName };
           if (newUsername && newUsername !== user.username) profileUpdate.username = newUsername;
-          if (newAvatarUrl !== undefined) profileUpdate.avatar_url = newAvatarUrl;
+          if (avatarChanged) profileUpdate.avatar_url = newAvatarUrl;
 
           var { error: profErr } = await sb
             .from('profiles')
@@ -1106,6 +1244,9 @@ document.addEventListener('DOMContentLoaded', function () {
           toast('✓ Saved!', false);
           if (document.getElementById('pass_new'))     document.getElementById('pass_new').value     = '';
           if (document.getElementById('pass_confirm')) document.getElementById('pass_confirm').value = '';
+          /* Redirect to main feed after the toast is visible briefly,
+             so the change is reflected in the rest of the app. */
+          setTimeout(function () { window.location.href = 'main.html'; }, 900);
         }
       });
 
@@ -1156,25 +1297,52 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       /* ── Delete all my posts ── */
-      var btnDelAllPosts = document.getElementById('btnDeleteAllPosts');
+      var btnDelAllPosts   = document.getElementById('btnDeleteAllPosts');
+      var dpBackdrop       = document.getElementById('delPostsBackdrop');
+      var dpConfirm        = document.getElementById('delPostsConfirm');
+      var dpCancel         = document.getElementById('delPostsCancel');
+
+      function openDelPostsModal()  {
+        if (!dpBackdrop) return;
+        dpBackdrop.classList.add('is-open');
+        dpBackdrop.setAttribute('aria-hidden', 'false');
+        setTimeout(function () { if (dpCancel) dpCancel.focus(); }, 60);
+      }
+      function closeDelPostsModal() {
+        if (!dpBackdrop) return;
+        dpBackdrop.classList.remove('is-open');
+        dpBackdrop.setAttribute('aria-hidden', 'true');
+      }
+      if (dpCancel)   dpCancel.addEventListener('click', closeDelPostsModal);
+      if (dpBackdrop) dpBackdrop.addEventListener('click', function (e) { if (e.target === dpBackdrop) closeDelPostsModal(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && dpBackdrop && dpBackdrop.classList.contains('is-open')) closeDelPostsModal();
+      });
+
       if (btnDelAllPosts) {
-        btnDelAllPosts.addEventListener('click', async function () {
-          if (!confirm('Delete ALL of your posts? This cannot be undone. Comments other people made on them will also be deleted.')) return;
-          btnDelAllPosts.disabled = true;
-          var origText = btnDelAllPosts.innerHTML;
-          btnDelAllPosts.textContent = 'Deleting…';
+        btnDelAllPosts.addEventListener('click', openDelPostsModal);
+      }
+
+      if (dpConfirm) {
+        dpConfirm.addEventListener('click', async function () {
+          dpConfirm.disabled = true;
+          var origConfirmText = dpConfirm.textContent;
+          dpConfirm.textContent = 'deleting…';
+
           var { data: posts } = await sb.from('posts').select('id').eq('user_id', user.id);
           var ids = (posts || []).map(function (p) { return p.id; });
           if (ids.length === 0) {
-            btnDelAllPosts.disabled = false;
-            btnDelAllPosts.innerHTML = origText;
+            closeDelPostsModal();
+            dpConfirm.disabled = false;
+            dpConfirm.textContent = origConfirmText;
             toast('You have no posts to delete.');
             return;
           }
           await sb.from('comments').delete().in('post_id', ids);
           var { error: dpErr } = await sb.from('posts').delete().eq('user_id', user.id);
-          btnDelAllPosts.disabled = false;
-          btnDelAllPosts.innerHTML = origText;
+          closeDelPostsModal();
+          dpConfirm.disabled = false;
+          dpConfirm.textContent = origConfirmText;
           if (dpErr) { toast('Delete failed: ' + dpErr.message, true); return; }
           toast('Deleted ' + ids.length + (ids.length === 1 ? ' post.' : ' posts.'));
         });

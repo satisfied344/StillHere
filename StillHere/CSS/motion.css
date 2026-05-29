@@ -157,6 +157,89 @@ html[data-theme="dark"] .skel::after {
   100% { transform: scale(1); }
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   Tag system — single source of truth for `.tag` pills used on
+   feed cards (main.html) and post page (post.html). One paper-neutral
+   surface for every tag; color is reserved for a small accent dot
+   (topic) or the inline icon (no-advice / need-support).
+   Light + dark + reduced-motion all defined here.
+   ══════════════════════════════════════════════════════════════════ */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: #3a2f24;
+  background: rgba(26, 20, 16, 0.06);
+  border: 1px solid rgba(26, 20, 16, 0.18);
+  border-radius: 999px;
+  text-transform: lowercase;
+  transition:
+    background  var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    color       var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.tag .icon { width: 11px; height: 11px; }
+
+/* Light theme — each tag type carries its own colored fill, but the
+   palette is tightly curated: muted earth tones (slate ink, salmon,
+   sage, ochre) all from the same warmth family. */
+.tag-lang {
+  background: rgba(26, 20, 16, 0.08);
+  color: #2a2118;
+  border-color: rgba(26, 20, 16, 0.22);
+}
+.tag-topic {
+  background: rgba(214, 83, 60, 0.16);
+  color: #9c3a26;
+  border-color: rgba(214, 83, 60, 0.38);
+}
+.tag-mode { gap: 5px; }
+.tag-no-advice {
+  background: rgba(85, 115, 80, 0.18);
+  color: #3d5a36;
+  border-color: rgba(85, 115, 80, 0.40);
+}
+.tag-need-support {
+  background: rgba(200, 148, 86, 0.22);
+  color: #6e4416;
+  border-color: rgba(200, 148, 86, 0.45);
+}
+
+/* Dark theme — same colour roles, just remapped to warm-bright values
+   so they read clearly on the warm-dark page. */
+html[data-theme="dark"] .tag {
+  color: #f0e4cf;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+html[data-theme="dark"] .tag-lang {
+  background: rgba(255, 255, 255, 0.10);
+  color: #f4ead6;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+html[data-theme="dark"] .tag-topic {
+  background: rgba(232, 168, 124, 0.22);
+  color: #f3b88f;
+  border-color: rgba(232, 168, 124, 0.40);
+}
+html[data-theme="dark"] .tag-no-advice {
+  background: rgba(155, 179, 154, 0.22);
+  color: #c9dbc4;
+  border-color: rgba(155, 179, 154, 0.42);
+}
+html[data-theme="dark"] .tag-need-support {
+  background: rgba(214, 160, 106, 0.22);
+  color: #e8c084;
+  border-color: rgba(214, 160, 106, 0.42);
+}
+
 /* Tooltip via data-attribute. Any element with `data-presence-tooltip`
    attribute gets a quiet pill above it on hover / focus-visible.
    Used by no-advice tag in Stage 2 — inert until the attribute lands. */
@@ -280,4 +363,148 @@ html[data-theme="dark"] [data-presence-tooltip]::after {
 
   /* Smooth-scroll → instant. */
   html { scroll-behavior: auto; }
+
+  /* Stage 3 — extra ambient elements added later. */
+  .quote-band.reveal,
+  .quote-band.reveal.is-in {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.2s ease !important;
+  }
+  .start-hand-wrap,
+  .butttons_on_start:hover .start-hand-wrap {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  /* Stage 4 — auth/edit/create-post tactile presses. */
+  .auth-btn:active:not(:disabled),
+  .btn-save:active:not(:disabled),
+  .btn-publish:active:not(:disabled),
+  .btn-cancel:active,
+  .button_start_1:active,
+  .button_start_2:active,
+  .join-register:active,
+  .topic-chip:hover,
+  .lang-pill:hover { transform: none !important; }
+
+  .field-error, .form-error { animation: none !important; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   Stage 5 — global a11y / mobile / dark sweep.
+   - Mouse-click never shows the focus ring (only keyboard nav does).
+   - Sensible focus-visible fallback for interactive elements that
+     don't have their own ring already.
+   - Remove the blue Android/iOS tap-highlight rectangle on all
+     buttons / links (page-specific touches already do this in places).
+   - Touch devices: disable ambient hover lifts that linger after tap.
+   - Screen-reader-only utility class.
+   - Forced-colors (Windows high-contrast) — make focus ring use
+     the system highlight color so it's still visible.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Default browser outline only when navigating via keyboard. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Generic focus-visible — quiet salmon ring for any interactive
+   element that hasn't defined its own focus style. Stays out of the
+   way for elements that already set box-shadow (page-specific rules
+   override via higher specificity). */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible,
+summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+  border-radius: 4px;
+}
+
+/* Buttons / links — kill the Android/iOS blue rectangle on tap. */
+a, button, [role="button"], input, textarea, select, summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch / no-hover devices: ambient hover lifts feel "stuck" after a
+   tap because the element keeps :hover until something else is
+   focused. Gate them off entirely on hover-less devices. */
+@media (hover: none) {
+  .post-card:hover,
+  .comment-card:hover,
+  .feature-card:hover,
+  .topic-chip:hover,
+  .lang-pill:hover,
+  .feed-empty__cta:hover,
+  .scroll-cue:hover {
+    transform: none;
+  }
+}
+
+/* Screen-reader-only utility — use when you need accessible text
+   without showing it visually (e.g. icon-only buttons). Standard
+   pattern from inclusive components. */
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Windows High Contrast / forced-colors — the soft rgba focus ring
+   becomes invisible. Re-paint it with the system Highlight color so
+   keyboard users can always see where focus is. */
+/* Skip-link utility — call site adds:
+     <a class="skip-link" href="#main">Skip to main content</a>
+   right after <body>, then sets id="main" on the primary <main>.
+   It stays visually hidden until focused (keyboard Tab on page load),
+   then snaps into view at top-left. Not retrofitted onto existing
+   pages here; pattern is ready when you want it. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -100px;
+  z-index: 10000;
+  padding: 10px 16px;
+  background: var(--ink, #1a1410);
+  color: var(--paper, #f4ead6);
+  font-family: "Ubuntu", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px -8px rgba(26, 20, 16, 0.35);
+  transition: top var(--dur-fast, 160ms) var(--ease-soft, ease-out);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 8px;
+  outline: none;
+  box-shadow:
+    0 8px 24px -8px rgba(26, 20, 16, 0.35),
+    var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+}
+
+@media (forced-colors: active) {
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:not([tabindex="-1"]):focus-visible,
+  summary:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
 }

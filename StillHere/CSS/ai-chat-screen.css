@@ -61,11 +61,28 @@ a { color: inherit; text-decoration: none; }
   user-select: none;
   mix-blend-mode: multiply;
 }
-.pg-doodle--1 { width: 130px; top: 16%;   left: 1.5%;  transform: rotate(-8deg); }
-.pg-doodle--2 { width:  60px; top: 46%;   left: 1%;    transform: rotate(14deg); }
-.pg-doodle--3 { width:  78px; bottom:14%; right: 2%;   transform: rotate(-6deg); }
-.pg-doodle--4 { width:  54px; top: 20%;   right: 1.5%; transform: rotate(-18deg); }
-.pg-doodle--5 { width: 110px; bottom: 6%; left: 36%;   transform: rotate(3deg); opacity: 0.07; }
+.pg-doodle--1 { width: 130px; top: 16%;   left: 1.5%;  --pg-rot: -8deg;
+                animation: pgDoodleFloat 12s ease-in-out infinite alternate; }
+.pg-doodle--2 { width:  60px; top: 46%;   left: 1%;    --pg-rot: 14deg;
+                animation: pgDoodleFloat 9s ease-in-out -2s infinite alternate; }
+.pg-doodle--3 { width:  78px; bottom:14%; right: 2%;   --pg-rot: -6deg;
+                animation: pgDoodleFloat 14s ease-in-out -5s infinite alternate; }
+.pg-doodle--4 { width:  54px; top: 20%;   right: 1.5%; --pg-rot: -18deg;
+                animation: pgDoodleSpin 11s ease-in-out -1s infinite alternate; }
+.pg-doodle--5 { width: 110px; bottom: 6%; left: 36%;   --pg-rot: 3deg; opacity: 0.07;
+                animation: pgDoodleFloat 16s ease-in-out -7s infinite alternate; }
+
+@keyframes pgDoodleFloat {
+  from { transform: rotate(var(--pg-rot, 0deg)) translateY(-5px); }
+  to   { transform: rotate(var(--pg-rot, 0deg)) translateY(7px); }
+}
+@keyframes pgDoodleSpin {
+  from { transform: rotate(calc(var(--pg-rot, 0deg) - 4deg)) translateY(-4px); }
+  to   { transform: rotate(calc(var(--pg-rot, 0deg) + 4deg)) translateY(4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-doodle { animation: none !important; }
+}
 
 /* ══════════════════════════════════════════════════════
    NAVBAR — matches startup/main

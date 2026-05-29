@@ -589,6 +589,7 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 22px 22px 16px;
+  cursor: pointer;
   box-shadow:
     0 1px 0 rgba(26,20,16,0.04),
     0 12px 24px -16px rgba(26,20,16,0.12);
@@ -732,23 +733,9 @@ a { color: inherit; text-decoration: none; }
 .post-title a:hover { color: var(--accent-2); }
 
 .post-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #3a2f24;
-  background: rgba(26, 20, 16, 0.06);
-  border: 1px solid rgba(26, 20, 16, 0.18);
-  border-radius: 999px;
-  text-transform: lowercase;
-}
-.tag-lang { background: rgba(26, 20, 16, 0.08); color: #2a2118; border-color: rgba(26, 20, 16, 0.22); }
-.tag-topic { background: rgba(214,83,60,0.16); color: #9c3a26; border-color: rgba(214,83,60,0.38); }
-.tag-no-advice { background: rgba(85, 115, 80, 0.18); color: #3d5a36; border-color: rgba(85, 115, 80, 0.40); }
-.tag-need-support { background: rgba(200,148,86,0.22); color: #6e4416; border-color: rgba(200,148,86,0.45); }
-.tag .icon { width: 11px; height: 11px; }
+/* Tag styles moved to CSS/motion.css as a single source of truth so
+   feed cards and post page render identically. See ".tag" rules
+   in motion.css. Kept this comment in place for grep-ability. */
 
 .post-preview {
   margin: 4px 0 0;
@@ -1848,3 +1835,147 @@ html[data-theme="dark"] .ml-card::before {
   text-decoration: none;
 }
 .widget-link-letters:hover { color: var(--accent-2); gap: 8px; }
+
+/* ══════════════════════════════════════════════════════════════════
+   Stage 2 — feed micro-polish.
+   - Calmer post-card hover using motion.css paper-shadow tokens.
+   - Smoother filter-panel open.
+   - Polished empty-state with title / text / CTA.
+   - Calmer no-advice tag (focus ring uses token).
+   Pure visual; no markup changes beyond what main-page.js emits.
+   ══════════════════════════════════════════════════════════════════ */
+
+.post-card {
+  transition:
+    transform   var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    box-shadow  var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+  will-change: transform;
+}
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--paper-shadow-hover, 0 20px 42px -20px rgba(26,20,16,0.24));
+}
+
+/* Support button — calm color transition on toggle. */
+.post-actions-item[data-action="support"] {
+  transition:
+    color       var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    background  var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+/* Active "I'm here" — heart fills with accent color, visibly red
+   in both light and dark themes. `currentColor` on the path picks
+   up `color`, but we also set `fill` explicitly as belt-and-suspenders
+   against any cascade override. */
+.post-actions-item--active,
+.post-actions-item[data-action="support"].post-actions-item--active {
+  color: var(--accent-2, #d6533c) !important;
+}
+.post-actions-item--active .icon,
+.post-actions-item--active svg {
+  color: var(--accent-2, #d6533c);
+  fill: var(--accent-2, #d6533c);
+}
+.post-actions-item--active .icon path {
+  fill: var(--accent-2, #d6533c);
+}
+
+/* No-advice tag — accessible focus ring + subtle cursor cue
+   (signals interactivity for the tooltip without shouting). */
+.tag-no-advice {
+  cursor: help;
+  outline: none;
+}
+.tag-no-advice:focus-visible {
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+  border-radius: 999px;
+}
+
+/* Filter panel — match the calmer easing for the open/close. */
+.filter-panel {
+  transition:
+    max-height var(--dur-medium, 420ms) var(--ease-calm, ease-out),
+    opacity    var(--dur-medium, 420ms) var(--ease-calm, ease-out),
+    transform  var(--dur-medium, 420ms) var(--ease-calm, ease-out);
+}
+
+/* ── Polished empty state. ── */
+.feed-empty--polished {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 24px 56px;
+  text-align: center;
+  color: var(--ink-light, #8a7c6b);
+  font-family: "Ubuntu", sans-serif;
+  animation: feedEmptyIn var(--dur-reveal, 760ms) var(--ease-calm) both;
+}
+.feed-empty__title {
+  margin: 0;
+  font-family: "Boldonse", serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink, #1a1410);
+  letter-spacing: -0.005em;
+}
+.feed-empty__text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  max-width: 38ch;
+  color: var(--ink-light, #8a7c6b);
+}
+.feed-empty__actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.feed-empty__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line, rgba(26, 20, 16, 0.12));
+  background: transparent;
+  color: var(--ink, #1a1410);
+  font-family: "Ubuntu", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background  var(--dur-hover, 220ms) var(--ease-soft),
+    color       var(--dur-hover, 220ms) var(--ease-soft),
+    border-color var(--dur-hover, 220ms) var(--ease-soft),
+    transform   var(--dur-hover, 220ms) var(--ease-soft);
+}
+.feed-empty__cta:hover {
+  background: var(--paper-soft, #f4ead6);
+  transform: translateY(-1px);
+}
+.feed-empty__cta:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+}
+.feed-empty__cta--primary {
+  background: var(--accent-2, #d6533c);
+  color: #fffaf0;
+  border-color: transparent;
+}
+.feed-empty__cta--primary:hover {
+  background: var(--accent-2, #d6533c);
+  filter: brightness(0.96);
+}
+@keyframes feedEmptyIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-empty--polished { animation: none; }
+  .post-card { transition: none; }
+  .post-card:hover { transform: none; }
+}

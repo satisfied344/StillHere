@@ -1992,3 +1992,183 @@ html[data-theme="dark"] .feature-card {
   background-image: none !important;
   border-color: rgba(237, 225, 200, 0.10) !important;
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   Stage 3 — landing polish.
+   - bg_words edge fade so the marquee dissolves into the paper instead
+     of hard-clipping at the viewport edges.
+   - CTA paper-press on :active (stamp-on-paper feel).
+   - Feature card hover — bring in motion-token paper shadow + steadier
+     transition; existing rotation tilt is preserved.
+   - Quote band: gentle calm-rise on reveal.
+   - Reveal tokens — switch hard-coded cubic-beziers to --ease-calm so
+     landing matches the rest of the system.
+   - scroll-cue: a calmer breathing pulse via tokens.
+   - prefers-reduced-motion: tighten the existing block.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Soft edge fade for the background word marquee — uses mask-image
+   so it works on both light and dark theme without recoloring text. */
+.bg_words {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+          mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+}
+
+/* Smooth out reveal transitions using motion tokens — same look,
+   just consistent with the rest of the system. */
+.reveal {
+  transition:
+    opacity   var(--dur-reveal, 760ms) var(--ease-calm, cubic-bezier(0.22,1,0.36,1)),
+    transform var(--dur-reveal, 760ms) var(--ease-calm, cubic-bezier(0.22,1,0.36,1));
+}
+.reveal-row {
+  transition:
+    opacity   var(--dur-medium, 420ms) var(--ease-calm, cubic-bezier(0.22,1,0.36,1)),
+    transform var(--dur-medium, 420ms) var(--ease-calm, cubic-bezier(0.22,1,0.36,1));
+}
+.reveal-stagger {
+  transition:
+    opacity   var(--dur-reveal, 760ms) var(--ease-calm, cubic-bezier(0.22,1,0.36,1)),
+    transform var(--dur-reveal, 760ms) var(--ease-calm, cubic-bezier(0.22,1,0.36,1));
+}
+
+/* CTA paper-press — light scale + lift drop on :active so primary
+   buttons feel like they receive your tap. Preserves existing
+   :hover transforms. */
+.btn {
+  transition:
+    transform  var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    background var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    color      var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    box-shadow var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+}
+/* Calm tactile press — no shadow collapse (that read as the button
+   flattening). Just a soft 1px settle so the click feels acknowledged. */
+.button_start_1:active {
+  transform: translateY(1px);
+}
+.button_start_2:active,
+.join-register:active {
+  transform: translateY(1px);
+}
+
+/* Feature card — keep the rotation tilt, but lift with token-based
+   shadow and a slightly calmer curve. */
+.feature-card {
+  transition:
+    transform   var(--dur-medium, 420ms) var(--ease-soft, ease-out),
+    box-shadow  var(--dur-medium, 420ms) var(--ease-soft, ease-out),
+    border-color var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.feature-card:hover {
+  /* Override the original rotate(0) lift with a slightly higher one and
+     use paper-shadow token (motion.css) for cohesion. */
+  box-shadow: var(--paper-shadow-hover, 0 20px 42px -20px rgba(26,20,16,0.24)),
+              0 4px 8px rgba(26, 20, 16, 0.05);
+}
+
+/* Quote band — quiet rise + brief scale settle.
+   Triggers via the existing .reveal on the section. */
+.quote-band.reveal {
+  transform: translateY(28px) scale(0.985);
+  filter: blur(2px);
+  transition:
+    opacity   var(--dur-slow, 1200ms) var(--ease-calm, ease-out),
+    transform var(--dur-slow, 1200ms) var(--ease-calm, ease-out),
+    filter    var(--dur-slow, 1200ms) var(--ease-calm, ease-out);
+}
+.quote-band.reveal.is-in {
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* Scroll cue — calmer breathing on the down chevron.
+   The original .scroll-cue-line had its own keyframe; we just
+   harmonize the dot indicator with motion tokens. */
+.scroll-cue {
+  transition:
+    color     var(--dur-hover, 220ms) var(--ease-soft, ease-out),
+    transform var(--dur-hover, 220ms) var(--ease-soft, ease-out);
+}
+.scroll-cue:hover {
+  transform: translateY(2px);
+}
+.scroll-cue:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(214, 83, 60, 0.16));
+  border-radius: 4px;
+}
+
+/* Hero CTA wrap — a tiny breathing nudge on hover for the
+   writing-hand decoration so it feels like it's still doodling. */
+.start-hand-wrap {
+  transition: transform var(--dur-medium, 420ms) var(--ease-soft, ease-out);
+}
+.butttons_on_start:hover .start-hand-wrap {
+  transform: translateY(-2px) rotate(-2deg);
+}
+
+/* Targeted prefers-reduced-motion — extends the existing block at
+   line ~1872. We disable just the new ambient transforms; nothing
+   global. */
+@media (prefers-reduced-motion: reduce) {
+  .quote-band.reveal,
+  .quote-band.reveal.is-in {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.2s ease !important;
+  }
+  .feature-card,
+  .feature-card:hover {
+    transition: none !important;
+  }
+  .start-hand-wrap,
+  .butttons_on_start:hover .start-hand-wrap {
+    transition: none !important;
+    transform: none !important;
+  }
+  .btn:active,
+  .button_start_1:active,
+  .button_start_2:active,
+  .join-register:active {
+    transform: none !important;
+  }
+}
+
+/* Mobile: keep the edge mask tighter (narrower viewport, fade nearer
+   the edges so the words still read). */
+@media (max-width: 700px) {
+  .bg_words {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 5%,
+      #000 95%,
+      transparent 100%
+    );
+            mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 5%,
+      #000 95%,
+      transparent 100%
+    );
+  }
+}
+
