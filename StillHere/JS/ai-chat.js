@@ -526,6 +526,17 @@
     var text = (ta.value || '').trim();
     if (!text) return;
 
+    /* Crisis-detection gate — show the care modal BEFORE we add the
+       message to the chat. If the user chose "see who can listen"
+       (or dismissed), pause: the text stays in the input so they
+       can re-send when ready, or edit, or just walk away. */
+    if (window.SH_CRISIS && window.SH_CRISIS.gate) {
+      var proceed = true;
+      try { proceed = await window.SH_CRISIS.gate(text, { source: 'ai-chat' }); }
+      catch (_) {}
+      if (proceed === false) return;  // text stays in textarea
+    }
+
     /* Ensure we have an active chat */
     var chat;
     if (!activeChatId) {

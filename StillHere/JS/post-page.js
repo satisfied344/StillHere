@@ -926,9 +926,22 @@
 
     var replyImages = collectQuillImages(_replyQuill, replyInlineImageUrls);
 
-    Promise.resolve(
-      window.SH_MOD ? window.SH_MOD.check(plainText, 'reply', replyImages, _postAuthorId) : { allowed: true }
-    ).then(function (mod) {
+    /* Crisis-detection gate — if the user chose help / dismissed the
+       care modal, gate returns false and we pause the reply. */
+    var crisisP = (window.SH_CRISIS && window.SH_CRISIS.gate)
+      ? window.SH_CRISIS.gate(plainText, { source: 'reply' })
+      : Promise.resolve(true);
+
+    crisisP.then(function (proceed) {
+      if (proceed === false) {
+        btn.disabled    = false;
+        btn.textContent = 'Post reply';
+        return null;
+      }
+      return window.SH_MOD ? window.SH_MOD.check(plainText, 'reply', replyImages, _postAuthorId) : { allowed: true };
+    }).then(function (mod) {
+      if (mod === null) return; // crisis paused
+
       if (!mod.allowed) {
         btn.disabled    = false;
         btn.textContent = 'Post reply';
@@ -1194,9 +1207,23 @@
 
       var commentImages = collectQuillImages(commentQuill, commentInlineImageUrls);
 
-      Promise.resolve(
-        window.SH_MOD ? window.SH_MOD.check(plainText, 'comment', commentImages, _postAuthorId) : { allowed: true }
-      ).then(function (mod) {
+      /* Crisis-detection gate — care modal first. If the user chose
+         help / dismissed, gate returns false → we pause the comment
+         (it stays in the editor) and skip the rest of the pipeline. */
+      var crisisP = (window.SH_CRISIS && window.SH_CRISIS.gate)
+        ? window.SH_CRISIS.gate(plainText, { source: 'comment' })
+        : Promise.resolve(true);
+
+      crisisP.then(function (proceed) {
+        if (proceed === false) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = REPLY_ICON;
+          return null;
+        }
+        return window.SH_MOD ? window.SH_MOD.check(plainText, 'comment', commentImages, _postAuthorId) : { allowed: true };
+      }).then(function (mod) {
+        if (mod === null) return; // crisis gate paused us
+
         if (!mod.allowed) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = REPLY_ICON;

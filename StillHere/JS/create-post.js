@@ -371,9 +371,24 @@
 
     var textToCheck = (title ? title + '\n' : '') + plainText;
 
-    Promise.resolve(
-      window.SH_MOD ? window.SH_MOD.check(textToCheck, 'post') : { allowed: true }
-    ).then(function (mod) {
+    /* Crisis-detection gate — runs BEFORE moderation so the user sees
+       hotlines before we burn an AI moderation call. If the user
+       chose "see who can listen now" (or dismissed the modal), gate
+       returns FALSE → we cancel the submit. They keep all their
+       text — they can click publish again whenever they're ready. */
+    var crisisPromise = (window.SH_CRISIS && window.SH_CRISIS.gate)
+      ? window.SH_CRISIS.gate(textToCheck, { source: 'post' })
+      : Promise.resolve(true);
+
+    crisisPromise.then(function (proceed) {
+      if (proceed === false) {
+        setLoading(false);
+        return null;                    // signal: stop the pipeline
+      }
+      return window.SH_MOD ? window.SH_MOD.check(textToCheck, 'post') : { allowed: true };
+    }).then(function (mod) {
+      if (mod === null) return;         // crisis gate said pause
+
 
       if (!mod.allowed) {
         setLoading(false);

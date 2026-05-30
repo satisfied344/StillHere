@@ -20,7 +20,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>Quiet Letters — StillHere</title>
+  <title>Quiet letters — StillHere</title>
+    <meta data-sh-seo="1" name="generator" content="StillHere">
+    <meta name="description" content="Short, unsent letters to people you can't reach. Read them. Write one. No one will reply.">
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+    <link rel="canonical" href="https://www.stillhere.global/letters.html">
+    <meta property="og:site_name" content="StillHere">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Quiet letters — StillHere">
+    <meta property="og:description" content="Short, unsent letters to people you can't reach. Read them. Write one. No one will reply.">
+    <meta property="og:url" content="https://www.stillhere.global/letters.html">
+    <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
+    <meta property="og:image:secure_url" content="https://www.stillhere.global/assets/favicon/og-image.svg">
+    <meta property="og:image:type" content="image/svg+xml">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Quiet letters — StillHere">
+    <meta name="twitter:description" content="Short, unsent letters to people you can't reach. Read them. Write one. No one will reply.">
+    <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
+    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
        likely to click (hover / mousedown) so navigation feels
@@ -60,6 +85,9 @@
   <script src="JS/theme.js" defer></script>
   <!-- Required for SH_MOD.checkLetter (letter submit moderation). -->
   <script src="JS/moderation.js?v=3" defer></script>
+  <!-- Crisis-detection (SH_CRISIS) — surfaces a calm hotline card when
+       a letter contains distress signals. Non-blocking. -->
+  <script src="JS/crisis.js?v=4" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -1321,6 +1349,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
       try {
         var lang = detectLang(msg + ' ' + name);
+
+        /* Crisis-detection gate — letters can be heavy goodbye notes,
+           so the help-link must be reachable here. If user chose help
+           or dismissed, we pause: the letter stays in the composer
+           ready to send when they decide. */
+        if (window.SH_CRISIS && window.SH_CRISIS.gate) {
+          var crisisProceed = true;
+          try { crisisProceed = await window.SH_CRISIS.gate(msg + '\n' + name, { source: 'letter' }); }
+          catch (_) {}
+          if (crisisProceed === false) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = prevText;
+            return;
+          }
+        }
 
         // Letter-tier moderation — local slur check first, then AI via
         // SH_MOD.checkLetter. The AI call ALLOWS profanity / emotional

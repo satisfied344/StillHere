@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="StillHere — a space for presence, not solutions">
+  <!-- Warm-dark paper background -->
+  <rect width="1200" height="630" fill="#1a1410"/>
+
+  <!-- Subtle paper-grain dots so the dark surface doesn't read as flat black -->
+  <g fill="#f4ead6" fill-opacity="0.04">
+    <circle cx="100"  cy="80"   r="2.5"/>
+    <circle cx="300"  cy="140"  r="1.8"/>
+    <circle cx="540"  cy="60"   r="2.2"/>
+    <circle cx="820"  cy="120"  r="1.8"/>
+    <circle cx="1050" cy="200"  r="2.4"/>
+    <circle cx="150"  cy="320"  r="2.0"/>
+    <circle cx="980"  cy="380"  r="1.8"/>
+    <circle cx="220"  cy="520"  r="2.2"/>
+    <circle cx="640"  cy="570"  r="1.8"/>
+    <circle cx="1080" cy="500"  r="2.0"/>
+  </g>
+
+  <!-- Cloud doodle, top-right corner — site's hand-drawn vocabulary -->
+  <g transform="translate(960 90)" stroke="#6e5f53" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.55">
+    <path d="M30 30 Q15 30 10 45 Q-5 45 0 60 Q-5 75 15 75 L80 75 Q100 75 100 60 Q115 55 110 40 Q120 25 100 25 Q90 10 75 18 Q60 5 45 18 Q30 15 30 30 Z"/>
+  </g>
+
+  <!-- Wavy line doodle, bottom-left -->
+  <g transform="translate(60 510)" stroke="#6e5f53" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.45">
+    <path d="M0 20 Q20 0 40 20 T80 20 T120 20 T160 20"/>
+  </g>
+
+  <!-- Brand wordmark — "stillhere" in heavy cream + salmon italicised "here" -->
+  <!-- Font: Boldonse not embedded; falls back to bold sans-serif. -->
+  <text x="600" y="320"
+        text-anchor="middle"
+        font-family="'Boldonse','Arial Black','Helvetica Neue',Helvetica,Arial,sans-serif"
+        font-size="180"
+        font-weight="900"
+        letter-spacing="-4">
+    <tspan fill="#f4ead6">still</tspan><tspan fill="#e8a87c" font-style="italic">here</tspan>
+  </text>
+
+  <!-- Hand-drawn scribble underline under "here" (echoes site's title squiggle) -->
+  <path d="M715 350 Q800 365 880 348 Q970 332 1000 358"
+        stroke="#d6533c" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.85"/>
+
+  <!-- Salmon asterisk to the right of the wordmark -->
+  <g transform="translate(1015 230) rotate(8)"
+     stroke="#e8a87c" stroke-width="9" stroke-linecap="round">
+    <line x1="0" y1="-30" x2="0"  y2="30"/>
+    <line x1="-26" y1="0" x2="26" y2="0"/>
+    <line x1="-20" y1="-20" x2="20" y2="20"/>
+    <line x1="-20" y1="20"  x2="20" y2="-20"/>
+  </g>
+
+  <!-- Tagline — Ubuntu fallback -->
+  <text x="600" y="430"
+        text-anchor="middle"
+        font-family="'Ubuntu','Helvetica Neue',Helvetica,Arial,sans-serif"
+        font-size="34"
+        font-weight="400"
+        fill="#d8cab0">
+    a space for <tspan font-style="italic" fill="#e8a87c">presence</tspan>, not solutions.
+  </text>
+
+  <!-- Tiny metadata line -->
+  <text x="600" y="490"
+        text-anchor="middle"
+        font-family="'Ubuntu',Helvetica,Arial,sans-serif"
+        font-size="20"
+        font-weight="500"
+        letter-spacing="6"
+        fill="#8a7a6e">
+    GLOBAL · ANONYMOUS · FREE
+  </text>
+</svg>

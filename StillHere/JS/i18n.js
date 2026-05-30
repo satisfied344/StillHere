@@ -2391,6 +2391,32 @@
     'main.empty.title':          { en: 'No stories yet',         ru: 'Пока нет историй' },
     'main.empty.text':           { en: 'be the first to share — your story matters.',
                                    ru: 'будь первым — твоя история важна.' },
+    /* ── Crisis-detection care modal ─────────────────────────────
+       Shown when a post/comment/letter/AI-chat message matches a
+       distress pattern. Tone: warm, agency-respecting, paper-stamp. */
+    'crisis.high.title':         { en: 'before you keep going —',
+                                   ru: 'прежде чем продолжишь —' },
+    'crisis.high.desc':          { en: 'what you wrote sounds like you may be in pain right now. ' +
+                                       'we\'re not an emergency service — but real, trained people ' +
+                                       '<em>are</em>, and they\'re free, anonymous, 24/7.',
+                                   ru: 'то, что ты написал, звучит так, будто тебе сейчас очень больно. ' +
+                                       'мы не служба экстренной помощи — но <em>живые люди</em>, ' +
+                                       'обученные слушать, есть. они бесплатные, анонимные, круглосуточно.' },
+    'crisis.soft.title':         { en: 'we noticed something heavy',
+                                   ru: 'кажется, тебе тяжело' },
+    'crisis.soft.desc':          { en: 'this can stay here, and you can post it. just — if it helps — ' +
+                                       'there\'s <em>someone who listens</em>, available right now, free.',
+                                   ru: 'это может остаться здесь, и ты можешь опубликовать. просто — ' +
+                                       'если поможет — есть <em>кто-то, кто выслушает</em>, прямо сейчас, бесплатно.' },
+    'crisis.btn.see':            { en: 'see who can listen now',
+                                   ru: 'кто может выслушать сейчас' },
+    'crisis.btn.keep.high':      { en: 'I\'m okay — post it anyway',
+                                   ru: 'я в порядке — отправить' },
+    'crisis.btn.keep.soft':      { en: 'I\'m okay — post anyway',
+                                   ru: 'я в порядке — отправить' },
+    'crisis.foot':               { en: 'nothing you write is deleted by this message. it\'s here when you\'re ready.',
+                                   ru: 'это сообщение ничего не удаляет. твоё письмо здесь, когда ты будешь готов.' },
+
     'main.toast.linkcopied':     { en: 'Link copied',            ru: 'Ссылка скопирована' },
     'main.toast.saved':          { en: 'Saved',                  ru: 'Сохранено' },
     'main.toast.unsaved':        { en: 'Removed from saved',     ru: 'Убрано из сохранённых' },
