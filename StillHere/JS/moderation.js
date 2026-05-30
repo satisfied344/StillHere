@@ -198,10 +198,12 @@
        backend knows there's a vulnerable post author to protect. */
     check: async function (content, contentType, mediaUrls, postAuthorId) {
       var jwt = await getJwt();
-      if (!jwt) {
-        // Not logged in — anonymous content, skip moderation
-        return { allowed: true };
-      }
+      /* Previous behaviour skipped moderation entirely for anonymous
+         users — that meant anyone posting a comment without an account
+         could write anything bad. Now we ALWAYS call the edge function,
+         using the publishable (anon) key as Bearer when no user JWT is
+         present. The edge function decides whether to moderate or
+         fail-open — but at least the request is made. */
 
       try {
         var body = { content: content, contentType: contentType };
@@ -212,11 +214,13 @@
           body.postAuthorId = postAuthorId;
         }
 
+        var bearer = jwt || window.SH_SUPABASE_KEY || '';
         var res = await fetch(FUNCTION_URL, {
           method:  'POST',
           headers: {
             'Content-Type':  'application/json',
-            'Authorization': 'Bearer ' + jwt,
+            'apikey':        window.SH_SUPABASE_KEY || '',
+            'Authorization': 'Bearer ' + bearer,
           },
           body: JSON.stringify(body),
         });

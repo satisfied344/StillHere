@@ -40,20 +40,21 @@
     var s = document.createElement('style');
     s.id = 'sh-notif-styles';
     s.textContent = [
-      /* ── Bell ─────────────────────────────────────────────────── */
+      /* ── Bell — calm, matches inline-icon hover behavior of nav. ──
+         No round chip background, no label. Just the Phosphor bell
+         at the same 24px size as nav icons, with a hover lift. */
       '.sh-notif-bell{position:relative;display:inline-flex;align-items:center;justify-content:center;',
-        'width:42px;height:42px;border-radius:999px;background:transparent;border:none;cursor:pointer;',
-        'color:var(--ink,#1a1410);transition:background .2s ease,transform .2s ease;}',
-      '.sh-notif-bell:hover{background:rgba(26,20,16,.06);}',
-      '.sh-notif-bell:active{transform:scale(.94);}',
-      '.sh-notif-bell svg{width:22px;height:22px;}',
-      '.sh-notif-bell .sh-notif-badge{position:absolute;top:6px;right:6px;min-width:18px;height:18px;',
-        'padding:0 5px;border-radius:999px;background:var(--accent-2,#d6533c);color:#fff;font-size:10.5px;',
-        'font-weight:700;display:inline-flex;align-items:center;justify-content:center;',
+        'padding:8px;background:transparent;border:none;cursor:pointer;',
+        'color:var(--ink-mid,#6e5f53);transition:color .2s ease,transform .2s ease;}',
+      '.sh-notif-bell:hover{color:var(--ink,#1a1410);transform:translateY(-1px);}',
+      '.sh-notif-bell svg{width:24px;height:24px;display:block;color:inherit;}',
+      '.sh-notif-bell .sh-notif-badge{position:absolute;top:2px;right:2px;min-width:16px;height:16px;',
+        'padding:0 4px;border-radius:999px;background:var(--accent-2,#d6533c);color:#fff;font-size:9.5px;',
+        'font-weight:700;display:inline-flex;align-items:center;justify-content:center;line-height:1;',
         'box-shadow:0 0 0 2px var(--paper,#f4ead6);font-family:"Ubuntu",sans-serif;pointer-events:none;}',
       '.sh-notif-bell .sh-notif-badge:empty,.sh-notif-bell .sh-notif-badge.is-zero{display:none;}',
-      'html[data-theme="dark"] .sh-notif-bell{color:#f4ead6;}',
-      'html[data-theme="dark"] .sh-notif-bell:hover{background:rgba(244,234,214,.08);}',
+      'html[data-theme="dark"] .sh-notif-bell{color:rgba(244,234,214,.65);}',
+      'html[data-theme="dark"] .sh-notif-bell:hover{color:#f4ead6;}',
       'html[data-theme="dark"] .sh-notif-bell .sh-notif-badge{box-shadow:0 0 0 2px #1a1410;}',
 
       /* ── Dropdown ─────────────────────────────────────────────── */
@@ -67,30 +68,52 @@
       '.sh-notif-wrap{position:relative;display:inline-block;}',
 
       '.sh-notif-head{display:flex;align-items:center;justify-content:space-between;gap:8px;',
-        'padding:14px 16px 10px;border-bottom:1px solid var(--line-soft,rgba(26,20,16,.08));}',
-      '.sh-notif-head h3{margin:0;font-family:"Caveat",cursive;font-size:22px;font-weight:600;color:var(--ink,#1a1410);}',
+        'padding:13px 16px 9px;border-bottom:1px solid var(--line-soft,rgba(26,20,16,.08));}',
+      /* "notifications" — Caveat, same vocabulary as widget-titles
+         (.widget.support .widget-title is Caveat 22px). Soft brand
+         accent without the heavy tape / tilt feel of the toast. */
+      '.sh-notif-head h3{margin:0;font-family:"Caveat",cursive;font-size:22px;font-weight:600;',
+        'color:var(--ink,#1a1410);line-height:1;}',
       '.sh-notif-clear{background:transparent;border:none;color:var(--ink-light,#8a7a6e);font-family:inherit;',
         'font-size:12px;cursor:pointer;padding:4px 6px;border-radius:4px;transition:color .2s ease;}',
       '.sh-notif-clear:hover{color:var(--accent-2,#d6533c);}',
 
-      '.sh-notif-list{list-style:none;margin:0;padding:6px 0;}',
-      '.sh-notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;text-decoration:none;',
-        'color:inherit;border-left:3px solid transparent;transition:background .15s ease;}',
-      '.sh-notif-item:hover{background:rgba(214,83,60,.05);}',
-      '.sh-notif-item.is-unread{border-left-color:var(--accent-2,#d6533c);background:rgba(214,83,60,.04);}',
-      '.sh-notif-icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:rgba(214,83,60,.12);',
+      '.sh-notif-list{list-style:none;margin:0;padding:4px 0;}',
+      '.sh-notif-item{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;text-decoration:none;',
+        'color:inherit;border-left:2px solid transparent;transition:background .15s ease;}',
+      '.sh-notif-item:hover{background:rgba(26,20,16,.035);}',
+      /* Subtle salmon dot at the start to mark unread, + very faint bg. */
+      '.sh-notif-item.is-unread{border-left-color:var(--accent-2,#d6533c);background:rgba(214,83,60,.025);}',
+      '.sh-notif-icon{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(214,83,60,.10);',
         'color:var(--accent-2,#d6533c);display:inline-flex;align-items:center;justify-content:center;}',
-      '.sh-notif-icon svg{width:14px;height:14px;}',
+      '.sh-notif-icon svg{width:13px;height:13px;}',
+      'html[data-theme="dark"] .sh-notif-item:hover{background:rgba(244,234,214,.04);}',
+      'html[data-theme="dark"] .sh-notif-item.is-unread{background:rgba(214,83,60,.08);}',
       '.sh-notif-body{flex:1;min-width:0;}',
-      '.sh-notif-text{margin:0;font-size:13px;line-height:1.4;color:var(--ink,#1a1410);}',
-      '.sh-notif-text strong{font-weight:600;}',
+      '.sh-notif-text{margin:0;font-size:13px;line-height:1.45;color:var(--ink-mid,#6e5f53);}',
+      /* Caveat accent for the actor name — same family as the dropdown
+         header, just smaller. Keeps the brand voice without screaming. */
+      '.sh-notif-text .sh-notif-who{font-family:"Caveat",cursive;font-weight:600;font-size:18px;',
+        'color:var(--ink,#1a1410);line-height:1;letter-spacing:.005em;margin-right:2px;}',
+      'html[data-theme="dark"] .sh-notif-text{color:rgba(244,234,214,.75);}',
+      'html[data-theme="dark"] .sh-notif-text .sh-notif-who{color:#f4ead6;}',
       '.sh-notif-preview{margin:3px 0 0;font-size:12px;line-height:1.4;color:var(--ink-mid,#6e5f53);',
         'overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}',
       '.sh-notif-time{margin:3px 0 0;font-size:11px;color:var(--ink-light,#8a7a6e);}',
 
-      '.sh-notif-empty{padding:30px 16px 26px;text-align:center;color:var(--ink-light,#8a7a6e);',
+      '.sh-notif-empty{padding:32px 16px 28px;text-align:center;color:var(--ink-light,#8a7a6e);',
         'font-size:13px;line-height:1.55;}',
-      '.sh-notif-empty em{font-family:"Caveat",cursive;font-size:18px;color:var(--ink-mid,#6e5f53);font-style:normal;display:block;margin-bottom:4px;}',
+      '.sh-notif-empty em{font-family:"Caveat",cursive;font-style:normal;font-size:20px;font-weight:600;',
+        'color:var(--ink-mid,#6e5f53);display:block;margin-bottom:2px;line-height:1;}',
+
+      /* "show N more" button at the end of the collapsed list. */
+      '.sh-notif-more{display:block;width:100%;padding:11px 16px;background:transparent;',
+        'border:none;border-top:1px solid var(--line-soft,rgba(26,20,16,.08));',
+        'color:var(--accent-2,#d6533c);font-family:inherit;font-size:12.5px;font-weight:600;',
+        'cursor:pointer;text-align:center;transition:background .2s ease,color .2s ease;}',
+      '.sh-notif-more:hover{background:rgba(214,83,60,.06);color:#b8462f;}',
+      'html[data-theme="dark"] .sh-notif-more{border-top-color:rgba(244,234,214,.10);}',
+      'html[data-theme="dark"] .sh-notif-more:hover{background:rgba(214,83,60,.15);}',
 
       /* Dark theme overrides */
       'html[data-theme="dark"] .sh-notif-panel{background:#26201a;border-color:rgba(244,234,214,.14);color:#f4ead6;}',
@@ -105,30 +128,41 @@
       'html[data-theme="dark"] .sh-notif-empty em{color:rgba(244,234,214,.75);}',
       'html[data-theme="dark"] .sh-notif-clear{color:rgba(244,234,214,.55);}',
 
-      /* ── Realtime corner toast ─────────────────────────────── */
-      /* Small, bottom-right, paper-stamp. Never full-screen. */
-      '.sh-notif-toast{position:fixed;bottom:88px;right:24px;left:auto;max-width:340px;width:auto;',
-        'background:#1a1410;color:#f4ead6;padding:12px 16px;border-radius:12px;',
-        'box-shadow:0 14px 36px -10px rgba(26,20,16,.45);font-family:"Ubuntu",sans-serif;',
-        'font-size:13px;line-height:1.4;transform:translateY(20px);opacity:0;',
-        'transition:opacity .3s ease,transform .35s cubic-bezier(.34,1.56,.64,1);',
+      /* ── Realtime corner toast ──────────────────────────────────
+         Clean paper card. No tilt, no tape, no italics — just a calm
+         neutral card with the site's colors. Top-right of viewport. */
+      '.sh-notif-toast{position:fixed;top:90px;right:24px;bottom:auto;left:auto;max-width:320px;width:auto;',
+        'background:var(--paper-soft,#fffaf0);color:var(--ink,#1a1410);',
+        'border:1px solid var(--line,rgba(26,20,16,.14));border-radius:10px;',
+        'padding:13px 16px;font-family:"Ubuntu",sans-serif;font-size:13px;line-height:1.45;',
+        'box-shadow:0 14px 36px -14px rgba(26,20,16,.25),0 2px 4px rgba(26,20,16,.04);',
+        'transform:translateY(-12px);opacity:0;',
+        'transition:opacity .25s ease,transform .3s ease;',
         'z-index:1000;display:flex;align-items:flex-start;gap:10px;text-decoration:none;cursor:pointer;}',
       '.sh-notif-toast.is-show{opacity:1;transform:translateY(0);}',
       '.sh-notif-toast .sh-notif-toast-icon{flex-shrink:0;width:24px;height:24px;border-radius:50%;',
-        'background:rgba(232,168,124,.18);color:#e8a87c;display:inline-flex;align-items:center;justify-content:center;}',
+        'background:rgba(214,83,60,.12);color:var(--accent-2,#d6533c);display:inline-flex;',
+        'align-items:center;justify-content:center;margin-top:1px;}',
       '.sh-notif-toast .sh-notif-toast-icon svg{width:13px;height:13px;}',
       '.sh-notif-toast .sh-notif-toast-body{flex:1;min-width:0;}',
-      '.sh-notif-toast .sh-notif-toast-text{margin:0;}',
-      '.sh-notif-toast .sh-notif-toast-text strong{color:#fffaf0;}',
-      '.sh-notif-toast .sh-notif-toast-preview{margin:4px 0 0;font-size:12px;color:rgba(244,234,214,.7);',
+      '.sh-notif-toast .sh-notif-toast-text{margin:0;color:var(--ink-mid,#6e5f53);font-size:13px;}',
+      /* Caveat accent for the name — same family/role as the dropdown
+         header and the widget-titles around the site. No tilt / tape. */
+      '.sh-notif-toast .sh-notif-who{font-family:"Caveat",cursive;font-weight:600;font-size:20px;',
+        'color:var(--ink,#1a1410);line-height:1;letter-spacing:.005em;margin-right:2px;}',
+      '.sh-notif-toast .sh-notif-toast-preview{margin:4px 0 0;font-size:12.5px;color:var(--ink-mid,#6e5f53);',
         'overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}',
-      'html[data-theme="dark"] .sh-notif-toast{background:var(--surface-menu,#26201a);',
-        'border:1px solid var(--border-glass,rgba(244,234,214,.14));}',
+      /* Dark theme — warm-dark surface. */
+      'html[data-theme="dark"] .sh-notif-toast{background:#26201a;border-color:rgba(244,234,214,.14);',
+        'color:#f4ead6;box-shadow:0 14px 36px -14px rgba(0,0,0,.5),0 2px 4px rgba(0,0,0,.2);}',
+      'html[data-theme="dark"] .sh-notif-toast .sh-notif-toast-text{color:rgba(244,234,214,.75);}',
+      'html[data-theme="dark"] .sh-notif-toast .sh-notif-who{color:#f4ead6;}',
+      'html[data-theme="dark"] .sh-notif-toast .sh-notif-toast-preview{color:rgba(244,234,214,.65);}',
 
-      /* Mobile — keep it small */
+      /* Mobile — keep it small, top of viewport */
       '@media (max-width:520px){',
         '.sh-notif-panel{position:fixed;top:auto;right:8px;left:8px;min-width:0;max-width:none;}',
-        '.sh-notif-toast{right:12px;left:12px;bottom:24px;max-width:none;}',
+        '.sh-notif-toast{right:12px;left:12px;top:72px;bottom:auto;max-width:none;}',
       '}',
     ].join('');
     document.head.appendChild(s);
@@ -142,6 +176,8 @@
     wrap.className = 'sh-notif-wrap';
     wrap.innerHTML =
       '<button type="button" class="sh-notif-bell" id="shNotifBell" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">' +
+        /* Phosphor "Bell" regular weight, 24px — same family as the
+           other nav icons (about / contacts / updates / profile). */
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
           '<path d="M221.8,175.94c-5.55-9.56-13.8-36.61-13.8-71.94a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"/>' +
         '</svg>' +
@@ -211,37 +247,93 @@
     });
   }
 
+  /* How many to show in the collapsed dropdown.
+     Anything past this lives behind a "show N more" button. */
+  var PREVIEW_LIMIT = 3;
+  var MAX_FETCH     = 30;
+
   function loadRecent(sb, ui) {
+    /* ONLY unread — once you read a row it disappears from the
+       dropdown (user request). Read rows still live in DB so future
+       analytics can use them. */
     sb.from('notifications')
-      .select('id, actor_id, type, target_post_id, target_comment_id, preview, created_at, read_at, profiles!notifications_actor_id_fkey(username, display_name)')
+      .select('id, actor_id, type, target_post_id, target_comment_id, preview, created_at, read_at')
+      .is('read_at', null)
       .order('created_at', { ascending: false })
-      .limit(12)
+      .limit(MAX_FETCH)
       .then(function (res) {
         if (res.error) {
-          /* Try a bare select if the FK alias differs in this DB. */
-          sb.from('notifications')
-            .select('id, actor_id, type, target_post_id, target_comment_id, preview, created_at, read_at')
-            .order('created_at', { ascending: false })
-            .limit(12)
-            .then(function (res2) {
-              renderList(ui, res2.data || []);
-              updateBadge(ui, (res2.data || []).filter(unread).length);
-            });
+          console.warn('[notifications] load error:', res.error.message);
           return;
         }
-        renderList(ui, res.data || []);
-        updateBadge(ui, (res.data || []).filter(unread).length);
+        ui.cache = res.data || [];
+        ui.expanded = false;
+
+        /* Resolve actor names via a single batched profiles lookup,
+           then re-render. Initial render uses "someone" placeholder
+           so the dropdown isn't empty while the name fetch is in
+           flight. */
+        renderList(ui);
+        updateBadge(ui, ui.cache.length);
+        var ids = uniqueActorIds(ui.cache);
+        if (ids.length) {
+          fetchActorNames(sb, ids).then(function (map) {
+            ui.actorNames = Object.assign(ui.actorNames || {}, map);
+            renderList(ui);
+          });
+        }
       });
+  }
+
+  /* Fetch display names for a batch of actor_ids. Returns a promise
+     resolving to { uuid → "display name" }. Anonymous commenters
+     (actor_id NULL) are skipped — we display "someone" for them. */
+  function fetchActorNames(sb, actorIds) {
+    return sb.from('profiles')
+      .select('id, username, display_name')
+      .in('id', actorIds)
+      .then(function (res) {
+        var map = {};
+        (res.data || []).forEach(function (p) {
+          map[p.id] = (p.display_name && p.display_name.trim()) || p.username || '';
+        });
+        return map;
+      });
+  }
+  function uniqueActorIds(rows) {
+    var set = {};
+    (rows || []).forEach(function (n) { if (n.actor_id) set[n.actor_id] = true; });
+    return Object.keys(set);
   }
 
   function unread(n) { return !n.read_at; }
 
+  /* Strip HTML tags + decode common entities so previews read as plain
+     text on the client side too (defensive: legacy rows + anything the
+     trigger didn't catch). */
+  function stripHtml(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/<[^>]*>/g, '')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/&lt;/gi, '<')
+      .replace(/&gt;/gi, '>')
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;/gi, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   function wireClearBtn(sb, ui) {
     ui.clearBtn.addEventListener('click', function () {
       sb.rpc('mark_notifications_read').then(function () {
-        ui.list.querySelectorAll('.sh-notif-item.is-unread').forEach(function (el) {
-          el.classList.remove('is-unread');
-        });
+        /* Once marked read, the user wants them GONE from the
+           dropdown — not just dimmed. They stay in the DB for
+           analytics but disappear from the UI immediately. */
+        ui.cache = [];
+        ui.expanded = false;
+        renderList(ui);
         updateBadge(ui, 0);
       });
     });
@@ -269,18 +361,28 @@
       }, function (payload) {
         var n = payload && payload.new;
         if (!n) return;
-        // Inject at the top of the dropdown list.
-        var emptyEl = ui.list.querySelector('.sh-notif-empty');
-        if (emptyEl) emptyEl.remove();
-        ui.list.insertBefore(renderItem(n), ui.list.firstChild);
-        while (ui.list.children.length > 12) ui.list.lastChild.remove();
-
-        // Bump badge.
-        var current = parseInt(ui.badge.textContent || '0', 10) || 0;
-        updateBadge(ui, current + 1);
+        /* Push into the cache + re-render so collapse / "show more"
+           logic applies. Newest first. */
+        ui.cache = ui.cache || [];
+        ui.cache.unshift(n);
+        if (ui.cache.length > MAX_FETCH) ui.cache.length = MAX_FETCH;
+        renderList(ui);
+        updateBadge(ui, ui.cache.length);
 
         // Corner toast (only if the panel isn't already open).
-        if (!ui.panel.classList.contains('is-open')) showToast(n);
+        if (!ui.panel.classList.contains('is-open')) showToast(n, ui);
+
+        /* Resolve actor name in the background, then re-render so
+           "someone" turns into their handle once the lookup lands. */
+        if (n.actor_id && !(ui.actorNames && ui.actorNames[n.actor_id])) {
+          fetchActorNames(sb, [n.actor_id]).then(function (map) {
+            ui.actorNames = Object.assign(ui.actorNames || {}, map);
+            renderList(ui);
+            // also patch the open toast if it's still on screen
+            var openToast = document.querySelector('.sh-notif-toast .sh-notif-who');
+            if (openToast && map[n.actor_id]) openToast.textContent = map[n.actor_id];
+          });
+        }
       }).subscribe(function (status, err) {
         if (err) console.warn('[notifications] subscribe error:', err);
         else     console.debug('[notifications] subscribe status:', status);
@@ -301,6 +403,17 @@
   function copyForType(type) {
     if (type === 'reply_to_comment') return 'replied to your comment';
     return 'responded to your story';
+  }
+
+  /* Returns the friendly name to show (display_name or username),
+     falling back to "someone" for anonymous commenters or while the
+     name fetch is in flight. */
+  function actorLabel(ui, n) {
+    if (n && n._actor_name) return n._actor_name;
+    if (ui && ui.actorNames && n && n.actor_id && ui.actorNames[n.actor_id]) {
+      return ui.actorNames[n.actor_id];
+    }
+    return 'someone';
   }
 
   function timeAgo(iso) {
@@ -328,30 +441,56 @@
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  function renderItem(n) {
+  function renderItem(n, ui) {
     var li = document.createElement('a');
     li.className = 'sh-notif-item' + (n.read_at ? '' : ' is-unread');
     li.href = postUrl(n.target_post_id, n.target_comment_id);
+    /* Strip HTML again on render — defensive for legacy DB rows. */
+    var cleanPreview = stripHtml(n.preview);
+    var who = actorLabel(ui, n);
     li.innerHTML =
       '<span class="sh-notif-icon" aria-hidden="true">' +
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">' +
           '<path d="M232,64V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64Z"/></svg>' +
       '</span>' +
       '<div class="sh-notif-body">' +
-        '<p class="sh-notif-text">someone <strong>' + esc(copyForType(n.type)) + '</strong></p>' +
-        (n.preview ? '<p class="sh-notif-preview">' + esc(n.preview) + '</p>' : '') +
+        '<p class="sh-notif-text"><strong class="sh-notif-who">' + esc(who) + '</strong> ' + esc(copyForType(n.type)) + '</p>' +
+        (cleanPreview ? '<p class="sh-notif-preview">' + esc(cleanPreview) + '</p>' : '') +
         '<p class="sh-notif-time">' + esc(timeAgo(n.created_at)) + '</p>' +
       '</div>';
     return li;
   }
 
-  function renderList(ui, rows) {
+  /* Renders from ui.cache (= unread rows we hold in memory).
+     Collapses to PREVIEW_LIMIT items, with a "show N more" button
+     when there are extras. ui.expanded flips on click. */
+  function renderList(ui) {
+    var rows = ui.cache || [];
     if (!rows.length) {
       ui.list.innerHTML = '<li class="sh-notif-empty"><em>nothing new</em>quiet for now.</li>';
       return;
     }
+    var visible = ui.expanded ? rows : rows.slice(0, PREVIEW_LIMIT);
     ui.list.innerHTML = '';
-    rows.forEach(function (n) { ui.list.appendChild(renderItem(n)); });
+    visible.forEach(function (n) { ui.list.appendChild(renderItem(n, ui)); });
+
+    var hidden = rows.length - visible.length;
+    if (hidden > 0) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'sh-notif-more';
+      btn.textContent = 'show ' + hidden + ' more';
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        /* Stop the click from bubbling to document — otherwise the
+           outside-click handler sees that the (re-rendered, now
+           detached) target isn't inside `wrap` and closes the panel. */
+        e.stopPropagation();
+        ui.expanded = true;
+        renderList(ui);
+      });
+      ui.list.appendChild(btn);
+    }
   }
 
   function updateBadge(ui, n) {
@@ -368,21 +507,23 @@
   /* ──────────────────────────────────────────────────────────────
      E. Corner toast (small, never full-screen)
      ────────────────────────────────────────────────────────────── */
-  function showToast(n) {
+  function showToast(n, ui) {
     var existing = document.querySelector('.sh-notif-toast');
     if (existing) existing.remove();
 
     var a = document.createElement('a');
     a.className = 'sh-notif-toast';
     a.href = postUrl(n.target_post_id, n.target_comment_id);
+    var cleanPreview = stripHtml(n.preview);
+    var who = actorLabel(ui, n);
     a.innerHTML =
       '<span class="sh-notif-toast-icon" aria-hidden="true">' +
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">' +
           '<path d="M232,64V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64Z"/></svg>' +
       '</span>' +
       '<div class="sh-notif-toast-body">' +
-        '<p class="sh-notif-toast-text">someone <strong>' + esc(copyForType(n.type)) + '</strong></p>' +
-        (n.preview ? '<p class="sh-notif-toast-preview">' + esc(n.preview) + '</p>' : '') +
+        '<p class="sh-notif-toast-text"><strong class="sh-notif-who">' + esc(who) + '</strong> ' + esc(copyForType(n.type)) + '</p>' +
+        (cleanPreview ? '<p class="sh-notif-toast-preview">' + esc(cleanPreview) + '</p>' : '') +
       '</div>';
 
     document.body.appendChild(a);
