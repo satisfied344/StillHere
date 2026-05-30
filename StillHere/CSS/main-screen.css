@@ -286,20 +286,26 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   text-decoration: none;
 }
+/* Hand-drawn brush-stroke indicator instead of a clean 3px rectangle.
+   Uses an inline SVG with a slightly wobbly vertical path, irregular
+   stroke-width variation, and 0.92 opacity so it reads as marker ink
+   on paper — not a sterile vector divider. */
 .sidebar-item::before {
   content: "";
   position: absolute;
-  left: 0; top: 6px; bottom: 6px;
-  width: 3px;
-  background: var(--accent-2);
-  transform: scaleY(0);
+  left: -1px; top: 4px; bottom: 4px;
+  width: 8px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 60' preserveAspectRatio='none'><path d='M5.2 2 Q6.8 12 4.6 22 Q3.1 32 5.7 42 Q7 50 4.8 58' stroke='%23d6533c' stroke-width='3.2' stroke-linecap='round' fill='none' opacity='0.92'/><path d='M5.2 2 Q6.8 12 4.6 22 Q3.1 32 5.7 42 Q7 50 4.8 58' stroke='%23d6533c' stroke-width='1.4' stroke-linecap='round' fill='none' opacity='0.35'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transform: scaleY(0) rotate(-1.5deg);
   transform-origin: center;
-  transition: transform 0.3s ease;
-  border-radius: 2px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+  pointer-events: none;
 }
 .sidebar-item:hover { background: rgba(247, 234, 184, 0.55); color: var(--ink); transform: translateX(2px); }
 .sidebar-item.active { background: rgba(247, 234, 184, 0.75); color: var(--ink); font-weight: 600; }
-.sidebar-item.active::before { transform: scaleY(1); }
+.sidebar-item.active::before { transform: scaleY(1) rotate(-1.5deg); }
 .sidebar-item .icon { width: 18px; height: 18px; }
 
 .sidebar-item.small {

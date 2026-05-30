@@ -124,21 +124,59 @@
          Happens when there's no DB trigger and the user registered
          before the explicit insert was added to auth.js.
          We read the username/display_name from Supabase auth metadata
-         (stored there during signUp) and upsert into profiles.
-      ────────────────────────────────────────────────────────────── */
+         (stored there during signUp) and INSERT into profiles.
+
+         CRITICAL: never UPSERT here. A null from .maybeSingle() can
+         mean either "row doesn't exist" OR "RLS hid it from us / temp
+         network glitch". UPSERTing in the second case overwrites the
+         real profile (username, display_name, avatar) with the fallback
+         — which is exactly the bug that turned "start" into
+         "user_30f113be" and broke that user's login (since auth.email
+         is derived from the username at signup time and never changed
+         alongside).
+
+         New rules:
+         1. Only attempt the write if we have a REAL username source
+            (auth metadata or localStorage). Never persist a synthetic
+            `user_xxxxx` fallback — that silently destroys data.
+         2. Use plain `.insert()` so a duplicate-key error fails loud
+            and we don't overwrite. The user already has a profile —
+            it was just temporarily unreadable.
+         3. Keep the fallback display string for in-memory use only
+            (see `fire()` below) so the UI doesn't go blank. */
       if (!profile && session.user) {
-        var meta   = session.user.user_metadata || {};
-        var uname  = meta.username     || localStorage.getItem('sh_username') || ('user_' + session.user.id.slice(0, 8));
-        var dname  = meta.display_name || null;
-        try {
-          var upsertRes = await sb.from('profiles').upsert(
-            { id: session.user.id, username: uname, display_name: dname, avatar_url: null },
-            { onConflict: 'id' }
-          );
-          if (!upsertRes.error) {
-            profile = { username: uname, display_name: dname, avatar_url: null, created_at: session.user.created_at };
+        var meta  = session.user.user_metadata || {};
+        var uname = meta.username || localStorage.getItem('sh_username') || null;
+        var dname = meta.display_name || null;
+        if (uname) {
+          try {
+            var insRes = await sb.from('profiles').insert({
+              id:           session.user.id,
+              username:     uname,
+              display_name: dname,
+              avatar_url:   null
+            });
+            if (!insRes.error) {
+              profile = {
+                username: uname, display_name: dname,
+                avatar_url: null, created_at: session.user.created_at
+              };
+            } else if (/duplicate|unique|conflict/i.test(insRes.error.message || '')) {
+              /* Profile exists but we couldn't read it (RLS / glitch).
+                 Use the metadata username for this session only —
+                 do NOT write back. Next load will probably succeed. */
+              profile = {
+                username: uname, display_name: dname,
+                avatar_url: null, created_at: session.user.created_at
+              };
+            }
+          } catch (_) {
+            profile = {
+              username: uname, display_name: dname,
+              avatar_url: null, created_at: session.user.created_at
+            };
           }
-        } catch (_) {}
+        }
       }
 
       fire({

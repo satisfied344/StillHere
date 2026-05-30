@@ -1230,12 +1230,25 @@ document.addEventListener('click', async function (e) {
     applyFilters();
   });
 
-  /* ── refresh button ── */
-
-  var refreshBtn = document.getElementById('refreshBtn');
-  if (refreshBtn) {
-    refreshBtn.addEventListener('click', fetchPosts);
-  }
+  /* ── refresh button ──
+     Event delegation on document so it survives any re-render or
+     missing-at-IIFE-time scenario. Logs once on click so DevTools
+     console makes it obvious whether the click fires. */
+  document.addEventListener('click', function (e) {
+    var rb = e.target.closest('#refreshBtn');
+    if (!rb) return;
+    if (rb.dataset._fetching === '1') return; // already in-flight, debounce
+    rb.dataset._fetching = '1';
+    console.log('[refresh] click → fetchPosts');
+    fetchPosts();
+    // Clear the in-flight flag once the spinning class is removed.
+    var clear = setInterval(function () {
+      if (!rb.classList.contains('spinning')) {
+        rb.dataset._fetching = '';
+        clearInterval(clear);
+      }
+    }, 200);
+  });
 
   /* ── delete confirm modal ── */
 

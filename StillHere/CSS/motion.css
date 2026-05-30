@@ -508,3 +508,29 @@ a, button, [role="button"], input, textarea, select, summary {
     box-shadow: none;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   Auth button spinner — login.html / register.html don't load
+   login-screen.css (they use inline styles + main-screen.css), so the
+   loading spinner lived in CSS they never pulled in → the button went
+   blank ("empty rectangle") while submitting. Defined here because
+   motion.css IS loaded on every page.
+   ══════════════════════════════════════════════════════════════════ */
+.auth-btn--loading {
+  pointer-events: none;
+  position: relative;
+}
+.btn-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btnSpin 0.65s linear infinite;
+  vertical-align: middle;
+}
+@keyframes btnSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .btn-spinner { animation-duration: 1.4s; }
+}

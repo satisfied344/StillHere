@@ -55,7 +55,7 @@
     ]
   }
   </script>
-    <link rel="stylesheet" href="CSS/startup-screen.css">
+    <link rel="stylesheet" href="CSS/startup-screen.css?v=4">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
     <script src="JS/supabase-config.js" defer></script>
@@ -341,13 +341,10 @@
 
         <!-- Subtle corner accents — light, never heavy black scribbles -->
         <img src="assets/doodles2/06_double_heart.png" class="d-img section-doodle section-doodle--mr d-bob d-mouse" data-px="0.018" alt="" aria-hidden="true" loading="lazy">
-        <img src="assets/doodles2/01_star.png" class="d-img section-doodle section-doodle--ml d-mouse" data-px="0.020" alt="" aria-hidden="true" loading="lazy">
-        <img src="assets/doodles2/02_asterisk_flower.png" class="d-img section-doodle section-doodle--bl d-bob d-mouse" data-px="0.016" alt="" aria-hidden="true" loading="lazy">
 
         <!-- BIG writing-hand filling the persistent "empty right side" next to title.
              Animated ink scribble flows toward the heading. -->
         <div class="section-hand-wrap" aria-hidden="true">
-            <img src="assets/emotions/hand-with-pen.png" class="d-img section-hand" loading="lazy">
             <svg class="section-hand-ink" viewBox="0 0 220 90" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
                 <path d="M8 62 Q 36 36, 70 48 T 140 44 T 212 52"/>
                 <path d="M18 78 Q 48 62, 86 70 T 160 66"/>
@@ -365,7 +362,6 @@
         <div class="container">
             <div class="section-head reveal">
                 <span class="section-eyebrow">
-                    <img src="assets/doodles2/02_asterisk_flower.png" class="eyebrow-doodle" alt="" aria-hidden="true" loading="lazy">
                     <span data-i18n="idx.why.eyebrow">02 / why stillhere</span>
                 </span>
                 <h2 class="card-section-title" data-i18n="idx.why.title">built for <em>quiet</em>,<br>not for noise.</h2>
@@ -374,58 +370,40 @@
             </div>
 
             <div class="feature-grid">
-                <article class="feature-card reveal-row" style="--rot: -1.2deg;">
+                <article class="feature-card reveal-row" style="--rot: -2deg;">
                     <img src="assets/skotch/03.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
-                    <div class="card-emotion">
-                        <img src="assets/cats_named/sneaking.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
-                    </div>
                     <span class="feature-num" data-i18n="idx.c1.num">01 — privacy</span>
                     <h3 data-i18n="idx.c1.title">anonymous &amp; safe</h3>
                     <p data-i18n="idx.c1.desc">share without showing your face or your name. your presence is enough.</p>
+                    <!-- corner doodle: wavy line — "blurred / anonymous" feel -->
+
                 </article>
 
-                <article class="feature-card reveal-row" style="--rot: 1.4deg;">
+                <article class="feature-card reveal-row" style="--rot: 1.8deg;">
                     <img src="assets/skotch/11.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
-                    <div class="card-emotion">
-                        <img src="assets/cats_named/calm.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
-                    </div>
                     <span class="feature-num" data-i18n="idx.c2.num">02 — care</span>
                     <h3 data-i18n="idx.c2.title">no-advice mode</h3>
                     <p data-i18n="idx.c2.desc">a toggle that protects your story from unsolicited advice — only listening, only company.</p>
+                    <!-- corner doodle: hand-drawn spiral — "no easy answers, sit with it" -->
+
                 </article>
 
-                <article class="feature-card reveal-row" style="--rot: -0.8deg;">
+                <article class="feature-card reveal-row" style="--rot: -1.5deg;">
                     <img src="assets/skotch/19.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
-                    <div class="card-emotion">
-                        <img src="assets/cats_named/happy.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
-                    </div>
                     <span class="feature-num" data-i18n="idx.c3.num">03 — together</span>
                     <h3 data-i18n="idx.c3.title">a quiet community</h3>
                     <p data-i18n="idx.c3.desc">1,000+ people already showed up here, in their own languages, at their own pace.</p>
+                    <!-- corner doodle: small cluster of dots — "many people, gathered" -->
+
                 </article>
 
-                <article class="feature-card reveal-row" style="--rot: 1.0deg;">
+                <article class="feature-card reveal-row" style="--rot: 2.2deg;">
                     <img src="assets/skotch/24.png" class="skotch card-skotch" alt="" aria-hidden="true" loading="lazy">
-                    <div class="card-emotion">
-                        <img src="assets/cats_named/surprised.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
-                    </div>
                     <span class="feature-num" data-i18n="idx.c4.num">04 — trust</span>
                     <h3 data-i18n="idx.c4.title">moderated, with care</h3>
                     <p data-i18n="idx.c4.desc">sensitive content can be flagged. humans review every report — slowly, gently.</p>
-                </article>
+                    <p data-i18n="idx.c4.desc2">no bots, no performance — mindful, honest conversation, in any language.</p>
 
-                <article class="feature-card feature-card--wide reveal-row" style="--rot: -0.6deg;">
-                    <img src="assets/skotch/06.png" class="skotch card-skotch card-skotch--l" alt="" aria-hidden="true" loading="lazy">
-                    <img src="assets/skotch/27.png" class="skotch card-skotch card-skotch--r" alt="" aria-hidden="true" loading="lazy">
-                    <div class="card-emotion">
-                        <img src="assets/cats_named/confused.png" class="d-img" alt="" aria-hidden="true" loading="lazy">
-                    </div>
-                    <span class="feature-num" data-i18n="idx.c5.num">05 — human</span>
-                    <h3 data-i18n="idx.c5.title">real people, real words</h3>
-                    <p data-i18n="idx.c5.desc">no bots, no performance — mindful, honest conversation, in any language.</p>
-                    <img src="assets/doodles2/08_wavy_line.png" class="d-img card-extra card-extra--1" alt="" aria-hidden="true" loading="lazy">
-                    <img src="assets/doodles2/01_star.png" class="d-img card-extra card-extra--2" alt="" aria-hidden="true" loading="lazy">
-                    <img src="assets/doodles/wave-mmmm.png" class="d-img card-extra card-extra--3" alt="" aria-hidden="true" loading="lazy">
                 </article>
             </div>
         </div>

@@ -2249,6 +2249,8 @@
     'idx.c4.title':        { en: 'moderated, with care',  ru: 'модерация с заботой' },
     'idx.c4.desc':         { en: 'sensitive content can be flagged. humans review every report — slowly, gently.',
                              ru: 'чувствительный контент можно пометить. люди разбирают каждый репорт — медленно, бережно.' },
+    'idx.c4.desc2':        { en: 'no bots, no performance — mindful, honest conversation, in any language.',
+                             ru: 'никаких ботов, никакого позёрства — внимательный, честный разговор, на любом языке.' },
 
     'idx.c5.num':          { en: '05 — human',            ru: '05 — человеческое' },
     'idx.c5.title':        { en: 'real people, real words',
@@ -2444,6 +2446,7 @@
     'login.pw.aria':             { en: 'Show password',           ru: 'Показать пароль' },
 
     'login.submit':              { en: 'sign in',                 ru: 'войти' },
+    'login.forgot':              { en: 'forgot password?',        ru: 'забыли пароль?' },
     'login.switch':              { en: 'no account yet? <a href="register.html">start here</a>',
                                    ru: 'нет аккаунта? <a href="register.html">начни здесь</a>' },
 

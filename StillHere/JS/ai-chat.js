@@ -422,19 +422,34 @@
       })
     };
 
+    /* The companion is open to everyone — anonymous users may chat too.
+       We send the user JWT when logged in (higher rate budget, keyed to
+       the account) or the anon key otherwise (the function then keys the
+       limit on a hash of the IP). Either way the request goes through. */
     var res = await fetch(cfg.functionUrl, {
       method:  'POST',
       headers: {
         'Content-Type':  'application/json',
-        /* Anon key is required for Edge Functions; user JWT identifies the caller */
+        /* Anon key is required for Edge Functions; user JWT (if any) identifies the caller */
         'apikey':        cfg.anonKey,
         'Authorization': 'Bearer ' + (jwt || cfg.anonKey)
       },
       body: JSON.stringify(payload)
     });
     if (!res.ok) {
-      var body = await res.text();
-      throw new Error('api error ' + res.status + ': ' + body);
+      /* Parse the structured error the function returns so we can show a
+         human message (auth_required / rate_limited / payload_too_large …). */
+      var errData = null;
+      try { errData = await res.json(); } catch (_) {}
+      var e = new Error(
+        (errData && errData.message) ||
+        (errData && errData.error)   ||
+        ('api error ' + res.status)
+      );
+      e.code   = (errData && errData.error) || ('http_' + res.status);
+      e.status = res.status;
+      e.retryAfter = errData && errData.retry_after_seconds;
+      throw e;
     }
     var data = await res.json();
     /* Accept either { reply: "..." } or full OpenAI/OpenRouter shape */
@@ -558,9 +573,24 @@
       if (pendingEl) pendingEl.remove();
       var errMsg = appendMsg('ai', '');
       var pEl = errMsg.querySelector('.msg-text');
-      pEl.innerHTML =
-        '<span style="color:#c0392b;">couldn\'t reach the model.</span><br>' +
-        '<span style="color:var(--ink-light);font-size:12px;">' + escapeHtml(err.message) + '</span>';
+
+      var code = err && err.code;
+      if (code === 'auth_required') {
+        /* Offer a direct path to sign in — the companion needs an account. */
+        pEl.innerHTML =
+          '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span><br>' +
+          '<a href="login.html" style="color:var(--accent-2,#d6533c);font-weight:600;text-decoration:underline;text-underline-offset:3px;">sign in →</a>';
+      } else if (code === 'rate_limited') {
+        pEl.innerHTML =
+          '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span>';
+      } else if (code === 'message_too_long' || code === 'payload_too_large' || code === 'too_many_messages') {
+        pEl.innerHTML =
+          '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span>';
+      } else {
+        pEl.innerHTML =
+          '<span style="color:#c0392b;">couldn\'t reach the companion right now.</span><br>' +
+          '<span style="color:var(--ink-light);font-size:12px;">please try again in a moment.</span>';
+      }
     } finally {
       sendBtn.dataset.busy = '0';
       refreshSendBtn();

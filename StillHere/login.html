@@ -58,7 +58,7 @@
   <link rel="stylesheet" href="CSS/main-screen.css">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
-  <link rel="stylesheet" href="CSS/motion.css">
+  <link rel="stylesheet" href="CSS/motion.css?v=2">
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <link rel="stylesheet" href="CSS/mobile.css?v=1779483937">
   <script src="JS/theme.js" defer></script>
@@ -352,6 +352,33 @@
     }
     .pw-toggle:hover { color: var(--accent-2); }
 
+    /* Turnstile widget — only takes space when populated; full width. */
+    .captcha-container:not(:empty) { margin: 6px 0 2px; }
+    .captcha-container .cf-turnstile,
+    .captcha-container iframe { width: 100% !important; }
+
+    /* Forgot-password link under the password field. align-self
+       shrinks the link to its text width (the parent .field is a
+       flex column whose children stretch to 100% by default — that
+       was making the dotted underline span the whole card). */
+    .auth-forgot {
+      align-self: flex-start;
+      margin-top: 9px;
+      font-family: "Ubuntu", sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent-2, #d6533c);
+      text-decoration: underline dotted rgba(214, 83, 60, 0.5);
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1px;
+      transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    }
+    .auth-forgot:hover {
+      color: #b8462f;
+      text-decoration: underline solid #b8462f;
+      text-underline-offset: 4px;
+    }
+
     /* Password strength */
     .pw-strength-wrap {
       display: flex;
@@ -557,7 +584,6 @@
 
     <!-- ─── RIGHT — card / form ─── -->
     <section class="auth-card">
-      <div class="auth-card-eyebrow" data-i18n="login.card.eyebrow">— sign in</div>
       <h2 class="auth-card-title" data-i18n="login.card.title">Welcome back</h2>
       <p class="auth-card-sub" data-i18n="login.card.sub">use the handle &amp; password you picked when you joined.</p>
 
@@ -585,7 +611,12 @@
               <span class="pw-toggle-hide" data-i18n="login.pw.hide" hidden>hide</span>
             </button>
           </div>
+          <a href="#" id="forgotPasswordLink" class="auth-forgot" data-i18n="login.forgot">forgot password?</a>
         </div>
+
+        <!-- Cloudflare Turnstile — when SH_TURNSTILE_SITEKEY is set AND
+             Supabase has CAPTCHA enabled, login also needs a token. -->
+        <div id="captchaContainer" class="captcha-container"></div>
 
         <button type="submit" class="auth-btn">
           <span data-i18n="login.submit">sign in</span>
@@ -639,6 +670,6 @@
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
-  <script src="JS/auth.js"></script>
+  <script src="JS/auth.js?v=5"></script>
 </body>
 </html>
