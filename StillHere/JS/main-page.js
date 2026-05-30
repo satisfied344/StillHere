@@ -1241,6 +1241,16 @@ document.addEventListener('click', async function (e) {
           if (pill) pill.style.display = 'none';
         });
     }
+    /* Pass the user's access token to realtime so RLS-evaluated
+       broadcasts reach this client. Anonymous viewing of new posts
+       still works because posts table is publicly readable. */
+    db.auth.getSession().then(function (s) {
+      var jwt = s && s.data && s.data.session && s.data.session.access_token;
+      if (jwt && db.realtime && typeof db.realtime.setAuth === 'function') {
+        try { db.realtime.setAuth(jwt); } catch (_) {}
+      }
+    });
+
     var ch = db.channel('feed:posts');
     ch.on('postgres_changes', {
       event: 'INSERT', schema: 'public', table: 'posts'
@@ -1255,7 +1265,10 @@ document.addEventListener('click', async function (e) {
       if (pendingIds.indexOf(p.id) !== -1) return;
       pendingIds.push(p.id);
       show(pendingIds.length);
-    }).subscribe();
+    }).subscribe(function (status, err) {
+      if (err) console.warn('[feed-realtime] subscribe error:', err);
+      else     console.debug('[feed-realtime] subscribe status:', status);
+    });
   })();
 
   /* ── topic counts (left sidebar) ── */

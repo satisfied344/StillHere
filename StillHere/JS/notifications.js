@@ -248,28 +248,51 @@
   }
 
   function subscribeRealtime(sb, ui) {
-    var ch = sb.channel('notifications:' + ui.userId);
-    ch.on('postgres_changes', {
-      event:  'INSERT',
-      schema: 'public',
-      table:  'notifications',
-      filter: 'user_id=eq.' + ui.userId,
-    }, function (payload) {
-      var n = payload && payload.new;
-      if (!n) return;
-      // Inject at the top of the dropdown list.
-      var emptyEl = ui.list.querySelector('.sh-notif-empty');
-      if (emptyEl) emptyEl.remove();
-      ui.list.insertBefore(renderItem(n), ui.list.firstChild);
-      while (ui.list.children.length > 12) ui.list.lastChild.remove();
+    /* Realtime delivery respects RLS — so we MUST pass the user's
+       access token to the realtime socket. Without this, the broker
+       sees an anon connection, RLS rejects, and your own row never
+       reaches you even though it exists in the DB. The JS client
+       sometimes auto-syncs auth + realtime, but explicitly setting
+       it here is the one move that always works. */
+    sb.auth.getSession().then(function (s) {
+      var jwt = s && s.data && s.data.session && s.data.session.access_token;
+      if (jwt && sb.realtime && typeof sb.realtime.setAuth === 'function') {
+        try { sb.realtime.setAuth(jwt); } catch (_) {}
+      }
 
-      // Bump badge.
-      var current = parseInt(ui.badge.textContent || '0', 10) || 0;
-      updateBadge(ui, current + 1);
+      var ch = sb.channel('notifications:' + ui.userId);
+      ch.on('postgres_changes', {
+        event:  'INSERT',
+        schema: 'public',
+        table:  'notifications',
+        filter: 'user_id=eq.' + ui.userId,
+      }, function (payload) {
+        var n = payload && payload.new;
+        if (!n) return;
+        // Inject at the top of the dropdown list.
+        var emptyEl = ui.list.querySelector('.sh-notif-empty');
+        if (emptyEl) emptyEl.remove();
+        ui.list.insertBefore(renderItem(n), ui.list.firstChild);
+        while (ui.list.children.length > 12) ui.list.lastChild.remove();
 
-      // Corner toast (only if the panel isn't already open).
-      if (!ui.panel.classList.contains('is-open')) showToast(n);
-    }).subscribe();
+        // Bump badge.
+        var current = parseInt(ui.badge.textContent || '0', 10) || 0;
+        updateBadge(ui, current + 1);
+
+        // Corner toast (only if the panel isn't already open).
+        if (!ui.panel.classList.contains('is-open')) showToast(n);
+      }).subscribe(function (status, err) {
+        if (err) console.warn('[notifications] subscribe error:', err);
+        else     console.debug('[notifications] subscribe status:', status);
+      });
+
+      // Keep realtime auth fresh when the user's session refreshes.
+      sb.auth.onAuthStateChange(function (_event, session) {
+        if (session && session.access_token && sb.realtime && sb.realtime.setAuth) {
+          try { sb.realtime.setAuth(session.access_token); } catch (_) {}
+        }
+      });
+    });
   }
 
   /* ──────────────────────────────────────────────────────────────
