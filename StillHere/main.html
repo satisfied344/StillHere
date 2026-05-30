@@ -88,6 +88,7 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
+  <script src="JS/notifications.js?v=1" defer></script>
   <script src="JS/moderation.js?v=3" defer></script>
   <script src="JS/main-page.js?v=3" defer></script>
   <script>
@@ -393,7 +394,12 @@
     </nav>
 
     <div class="main-main">
-        <aside class="sidebar">
+        <!-- data-nosnippet: the sidebar's filter chips (Topics, Anxiety,
+             Depression, …) read like a content list to Google and were
+             ending up in the search snippet. They're UI filters, not
+             page content. Marking the whole aside hides them from
+             snippet extraction without affecting indexing of the feed. -->
+        <aside class="sidebar" data-nosnippet>
             <nav class="sidebar-nav">
                 <div class="sidebar-primary-navigation">
                     <a href="#" class="sidebar-item active" id="sidebarHome">

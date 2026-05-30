@@ -1170,6 +1170,94 @@ document.addEventListener('click', async function (e) {
     });
   }
 
+  /* ── Realtime feed: live "N new stories" pill ──────────────────
+     Listens for INSERT on posts. When someone else publishes while
+     the user is on main.html, we DON'T auto-prepend (that would
+     yank the page under them). Instead we show a small floating
+     pill at the top of the feed: "1 new story · tap to show". The
+     pill increments while more posts arrive. Click → prepend + reset.
+     Quiet, non-intrusive, lives behind the existing nav. */
+  (function setupRealtimeFeed() {
+    if (!db || !db.channel) return;
+    var pill = null;
+    var pendingIds = [];
+    function ensurePill() {
+      if (pill) return pill;
+      pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'feed-newposts-pill';
+      pill.style.display = 'none';
+      pill.addEventListener('click', revealPending);
+      injectFeedPillStyles();
+      // Anchor it above the feed inside its parent column.
+      if (feed && feed.parentNode) feed.parentNode.insertBefore(pill, feed);
+      return pill;
+    }
+    function injectFeedPillStyles() {
+      if (document.getElementById('sh-feed-pill-styles')) return;
+      var s = document.createElement('style');
+      s.id = 'sh-feed-pill-styles';
+      s.textContent =
+        '.feed-newposts-pill{position:sticky;top:84px;z-index:50;display:inline-flex;align-items:center;gap:8px;' +
+          'margin:0 auto 12px;padding:9px 18px;border:none;border-radius:999px;cursor:pointer;' +
+          'background:var(--accent-2,#d6533c);color:#fff;font-family:"Ubuntu",sans-serif;font-size:13px;' +
+          'font-weight:600;letter-spacing:.01em;box-shadow:0 8px 24px -10px rgba(214,83,60,.55);' +
+          'transition:background .25s ease,transform .25s ease,box-shadow .25s ease;' +
+          'left:50%;transform:translateX(-50%);}' +
+        '.feed-newposts-pill:hover{background:#b8462f;transform:translateX(-50%) translateY(-1px);}' +
+        '.feed-newposts-pill:active{transform:translateX(-50%) translateY(1px);}' +
+        '.feed-newposts-pill svg{width:13px;height:13px;animation:feedPulse 1.6s ease-in-out infinite;}' +
+        '@keyframes feedPulse{0%,100%{transform:translateY(0);}50%{transform:translateY(-2px);}}' +
+        '@media (prefers-reduced-motion: reduce){.feed-newposts-pill svg{animation:none;}}';
+      document.head.appendChild(s);
+    }
+    function show(n) {
+      var p = ensurePill();
+      p.style.display = 'inline-flex';
+      p.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
+          '<path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg>' +
+        n + (n === 1 ? ' new story' : ' new stories') + ' · tap to show';
+    }
+    function revealPending() {
+      if (!pendingIds.length) return;
+      // Fetch the new posts in one call and prepend them.
+      db.from('posts')
+        .select('*, comments(count), profiles(username, display_name, avatar_url)')
+        .in('id', pendingIds)
+        .order('created_at', { ascending: false })
+        .then(function (r) {
+          if (r.error) return;
+          // Drop ids of posts we already have (race safety).
+          var existingIds = {};
+          allPosts.forEach(function (p) { existingIds[p.id] = true; });
+          var fresh = (r.data || []).filter(function (p) { return !existingIds[p.id]; });
+          if (fresh.length) {
+            allPosts = fresh.concat(allPosts);
+            applyFilters();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          pendingIds = [];
+          if (pill) pill.style.display = 'none';
+        });
+    }
+    var ch = db.channel('feed:posts');
+    ch.on('postgres_changes', {
+      event: 'INSERT', schema: 'public', table: 'posts'
+    }, function (payload) {
+      var p = payload && payload.new;
+      if (!p || !p.id) return;
+      // Skip user's own posts — they'd be confused to see a "new!" badge
+      // for something they just published.
+      if (_currentUserId && p.user_id === _currentUserId) return;
+      // Skip duplicates if a refresh raced us.
+      if (allPosts.some(function (x) { return x.id === p.id; })) return;
+      if (pendingIds.indexOf(p.id) !== -1) return;
+      pendingIds.push(p.id);
+      show(pendingIds.length);
+    }).subscribe();
+  })();
+
   /* ── topic counts (left sidebar) ── */
 
   function updateTopicCounts(posts) {

@@ -92,6 +92,7 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
     <script src="JS/session.js" defer></script>
+  <script src="JS/notifications.js?v=1" defer></script>
   <link rel="stylesheet" href="CSS/motion.css">
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <link rel="stylesheet" href="CSS/mobile.css?v=1779483937">
@@ -224,7 +225,11 @@
             </filter>
         </svg>
 
-        <div class="bg_words">
+        <!-- data-nosnippet: tell Google not to extract these decorative
+             multilingual marquee words into the search snippet. They're
+             visual texture, not content. With this attribute the snippet
+             becomes cleaner (just the meta description + brand). -->
+        <div class="bg_words" data-nosnippet>
             <div class="row left">
                 <span>breathe</span><span>respira</span><span>respire</span><span>atme</span><span>дыши</span>
                 <span>تنفس</span><span>ゆっくり</span><span>호흡</span><span>respirar</span><span>andning</span>
@@ -335,7 +340,7 @@
     </main>
 
     <!-- ── Stamp band ── -->
-    <div class="stamp-band" aria-hidden="true">
+    <div class="stamp-band" aria-hidden="true" data-nosnippet>
         <div class="stamp-track">
             <span>
                 <span>you are here</span><span class="stamp-sep">✶</span>
