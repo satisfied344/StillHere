@@ -82,7 +82,7 @@
   }
   </script>
   <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-  <link rel="stylesheet" href="CSS/post-screen.css?v=2">
+  <link rel="stylesheet" href="CSS/post-screen.css?v=5">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
@@ -91,10 +91,10 @@
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
-  <script src="JS/notifications.js?v=7" defer></script>
+  <script src="JS/notifications.js?v=11" defer></script>
   <script src="JS/moderation.js?v=4" defer></script>
   <script src="JS/crisis.js?v=4" defer></script>
-  <script src="JS/post-page.js?v=2" defer></script>
+  <script src="JS/post-page.js?v=3" defer></script>
   <link rel="stylesheet" href="CSS/motion.css">
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <link rel="stylesheet" href="CSS/mobile.css?v=1779483937">
@@ -313,7 +313,6 @@
   <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
   <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
   <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
-  <img src="assets/doodles2/08_wavy_line.png"                        class="pg-doodle pg-doodle--5" alt="" aria-hidden="true">
 
   <nav class="top-info" aria-label="Primary navigation">
     <a href="main.html" class="logo">
@@ -420,18 +419,21 @@
 
           <header class="post-header">
             <div class="post-author-row">
-              <div class="post-avatar post-avatar--anon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
-                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>
+              <!-- Same SVG glyph as main-page.js buildPostCard so the
+                   fallback avatar reads identically across surfaces. -->
+              <div class="post-avatar" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round" class="icon">
+                  <circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>
                 </svg>
               </div>
               <div class="post-author-info">
                 <span class="post-author-name">Anonymous</span>
                 <span class="post-time" id="post-time">…</span>
               </div>
-              <div class="post-tags" id="post-header-tags">
-                <!-- filled by JS -->
-              </div>
+              <!-- Header tags removed: language + mode now live only
+                   in the "This post" sidebar widget (single source). -->
             </div>
 
             <div class="post-actions-menu">

@@ -187,13 +187,46 @@
       postedEl.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
     }
 
-    /* Show author name (or Anonymous if unattributed) */
+    /* Show author name (or Anonymous if unattributed). When we have a
+       real username, render it as a link to their public profile. */
     var authorNameEl = document.querySelector('.post-author-name');
+    var uname = _postAuthorProfile && _postAuthorProfile.username;
     if (authorNameEl) {
       var name = _postAuthorProfile
         ? (_postAuthorProfile.display_name || _postAuthorProfile.username || 'Anonymous')
         : 'Anonymous';
-      authorNameEl.textContent = name;
+      if (uname) {
+        authorNameEl.innerHTML = '';
+        var a = document.createElement('a');
+        a.className = 'post-author-link';
+        a.href = 'u.html?u=' + encodeURIComponent(uname);
+        a.textContent = name;
+        authorNameEl.appendChild(a);
+      } else {
+        authorNameEl.textContent = name;
+      }
+    }
+
+    /* Post header avatar — swap default anon SVG for the author's
+       avatar_url (when present), and wrap the whole tile in an <a>
+       linking to their public profile so the avatar is clickable
+       too (matches the main feed). */
+    var headerAvatar = document.querySelector('.post-author-row .post-avatar');
+    if (headerAvatar && _postAuthorProfile) {
+      var avatarInner = _postAuthorProfile.avatar_url
+        ? '<img src="' + _postAuthorProfile.avatar_url + '" alt="Avatar" class="post-avatar-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover">'
+        : headerAvatar.innerHTML;
+      if (uname) {
+        var displayName = _postAuthorProfile.display_name || _postAuthorProfile.username;
+        var wrapper = document.createElement('a');
+        wrapper.className = 'post-avatar post-avatar-link';
+        wrapper.href = 'u.html?u=' + encodeURIComponent(uname);
+        wrapper.setAttribute('aria-label', displayName);
+        wrapper.innerHTML = avatarInner;
+        headerAvatar.parentNode.replaceChild(wrapper, headerAvatar);
+      } else if (_postAuthorProfile.avatar_url) {
+        headerAvatar.innerHTML = avatarInner;
+      }
     }
 
     /* Only the author can edit or delete their post — hide both for everyone else. */

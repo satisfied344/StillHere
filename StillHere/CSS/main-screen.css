@@ -1985,3 +1985,31 @@ html[data-theme="dark"] .ml-card::before {
   .post-card { transition: none; }
   .post-card:hover { transform: none; }
 }
+
+/* ──────────────────────────────────────────────────────────────
+   Public-profile link wrapper on author names. Subtle: looks
+   like normal text by default, with a quiet underline on hover.
+   ────────────────────────────────────────────────────────────── */
+.post-author-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+.post-author-link:hover {
+  color: var(--accent-2);
+  border-bottom-color: rgba(214, 83, 60, 0.45);
+}
+
+/* When .post-avatar is rendered as an <a> (links to a public
+   profile), strip the default link chrome and add a subtle hover
+   ring so it reads as a tap target. */
+a.post-avatar-link {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+a.post-avatar-link:hover {
+  border-color: var(--accent-2);
+  transform: translateY(-1px);
+}

@@ -119,6 +119,7 @@ document.addEventListener('click', function (e) {
   if (e.target.closest(
     'a, button, .post-menu-down, .post-menu-trigger, ' +
     '.post-actions-item, .post-actions-menu, .tag-no-advice, ' +
+    '.tag-topic, .post-author-link, .post-avatar-link, ' +
     'input, textarea, label, video, [data-action], [data-action-save], ' +
     '[data-action-copy], [data-action-edit], [data-action-delete], ' +
     '[data-action-report]'
@@ -375,8 +376,11 @@ document.addEventListener('click', async function (e) {
     var html = '<span class="tag tag-lang">' + escHtml((post.lang || 'en').toUpperCase()) + '</span>';
 
     (post.topics || []).forEach(function (topic) {
-      html += '<span class="tag tag-topic">' +
-        escHtml(topic.charAt(0).toUpperCase() + topic.slice(1)) + '</span>';
+      /* Topic tag is a deep-link into the same feed pre-filtered to
+         that topic. Click navigates with ?topic=… which feed.js
+         reads on boot. */
+      html += '<a class="tag tag-topic" href="main.html?topic=' + escHtml(topic) + '">' +
+        escHtml(topic.charAt(0).toUpperCase() + topic.slice(1)) + '</a>';
     });
 
     if (post.mode === 'no-advice') {
@@ -438,22 +442,27 @@ document.addEventListener('click', async function (e) {
 
       '<div class="post-header">' +
         '<div class="post-author-info">' +
-          '<div class="post-avatar">' +
+          /* Avatar wrapper is an <a> only when there's a username
+             to link to, so anonymous / deleted authors stay inert. */
+          (post.profiles && post.profiles.username
+            ? '<a class="post-avatar post-avatar-link" href="u.html?u=' + escHtml(post.profiles.username) + '" aria-label="' + escHtml(post.profiles.display_name || post.profiles.username) + '">'
+            : '<div class="post-avatar">') +
             (post.profiles && post.profiles.avatar_url
               ? '<img src="' + escHtml(post.profiles.avatar_url) + '" alt="Avatar" class="post-avatar-img">'
               : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"' +
                 ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"' +
                 ' stroke-linejoin="round" class="icon" aria-hidden="true">' +
                 '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>') +
-          '</div>' +
+          (post.profiles && post.profiles.username ? '</a>' : '</div>') +
           '<div class="post-include-info">' +
-            '<span class="post-author">' + (
-            post.profiles
-              ? escHtml(post.profiles.display_name || post.profiles.username)
+            (post.profiles && post.profiles.username
+              ? /* Linked author name → public profile (/u.html?u=…) */
+                '<a class="post-author post-author-link" href="u.html?u=' + escHtml(post.profiles.username) + '">' +
+                  escHtml(post.profiles.display_name || post.profiles.username) +
+                '</a>'
               : post.user_id
-                ? '<span style="opacity:0.5;font-style:italic">deleted account</span>'
-                : 'Anonymous'
-          ) + '</span>' +
+                ? '<span class="post-author" style="opacity:0.5;font-style:italic">deleted account</span>'
+                : '<span class="post-author">Anonymous</span>') +
             '<span class="post-time">' + CLOCK_SVG + ' ' + timeAgo(post.created_at) + '</span>' +
           '</div>' +
         '</div>' +
@@ -1322,6 +1331,38 @@ document.addEventListener('click', async function (e) {
         if (membersEl) membersEl.textContent = String(stories + commentCount);
       });
   }
+
+  /* Deep-link via URL params:
+       ?topic=anxiety   → pre-apply that topic filter
+       ?lang=en         → pre-check that language
+       ?search=...      → pre-fill search box
+     Set BEFORE the first fetchPosts() so the initial render is already filtered. */
+  (function applyUrlFilters() {
+    try {
+      var qs = new URLSearchParams(window.location.search);
+      var topic = (qs.get('topic') || '').toLowerCase().trim();
+      if (topic) {
+        activeTopic = topic;
+        document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
+          l.classList.toggle('active', l.getAttribute('data-topic-filter') === topic);
+        });
+      }
+      var lang = (qs.get('lang') || '').toLowerCase().trim();
+      if (lang) {
+        activeLangs[lang] = true;
+        var cb = document.querySelector('.lang-radio[value="' + lang + '"]');
+        if (cb) cb.checked = true;
+        if (langAllBtn) langAllBtn.classList.remove('pill-active');
+        renderLangChips();
+      }
+      var q = qs.get('search');
+      if (q) {
+        searchQuery = q;
+        var si = document.getElementById('searchInput');
+        if (si) si.value = q;
+      }
+    } catch (_) {}
+  })();
 
   fetchPosts();
 

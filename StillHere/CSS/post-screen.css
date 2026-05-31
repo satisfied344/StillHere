@@ -326,10 +326,31 @@ a { color: inherit; text-decoration: none; }
 }
 
 .post-avatar {
+  /* 1:1 with the main-feed avatar so the same tile reads identically
+     across surfaces — size, border, background, overflow, hover lift. */
   width: 38px; height: 38px;
   border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
   display: flex; align-items: center; justify-content: center;
+  color: var(--ink-light);
   flex-shrink: 0;
+}
+.post-avatar svg { width: 24px; height: 24px; }
+.post-avatar .post-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Same hover lift as on the main feed (mirrors main-screen.css's
+   a.post-avatar-link rule) — post.html doesn't load main-screen.css,
+   so we redeclare it here so the avatar reads identically. */
+a.post-avatar-link {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+a.post-avatar-link:hover {
+  border-color: var(--accent-2);
+  transform: translateY(-1px);
 }
 .post-avatar--anon {
   background: rgba(26, 20, 16, 0.08);
@@ -342,6 +363,18 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
   color: var(--ink);
   letter-spacing: 0.01em;
+}
+/* Linked author name on the post page — quiet by default, salmon
+   underline on hover (same vocabulary as .post-author-link in the feed). */
+.post-author-name .post-author-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+.post-author-name .post-author-link:hover {
+  color: var(--accent-2);
+  border-bottom-color: rgba(214, 83, 60, 0.45);
 }
 .post-time {
   font-size: 12px;

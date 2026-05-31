@@ -1,14 +1,21 @@
 window.SH_SESSION.whenReady(function (user) {
+  /* Index navbar mirrors main.html exactly. While the session is
+     loading we keep showing the guest navbar (login CTA visible,
+     profile + burger hidden). Once we know the auth state:
+       • Guest:  login visible, profile + burger hidden (no-op).
+       • Authed: hide login, show profile (session.js fills the
+         username label) and the burger menu. */
   if (!user) return;
-  var loginLink = document.getElementById('navLoginLink');
-  if (loginLink) {
-    loginLink.href = 'nav-bar/profile.html';
-    loginLink.innerHTML =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
-      '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/>' +
-      '</svg>' +
-      '<span>' + (user.displayName || user.username) + '</span>';
-  }
+  var loginLink   = document.getElementById('navLoginLink');
+  var profileLink = document.getElementById('navProfileLink');
+  var burger      = document.getElementById('navMenuDropdown');
+  /* Use style.display in addition to .hidden — the [hidden] attribute
+     has the same specificity as `.nav-link`, so .nav-link's
+     `display:inline-flex` wins and the element stays visible. Setting
+     style.display explicitly is the cleanest override. */
+  if (loginLink)   { loginLink.hidden   = true;  loginLink.style.display   = 'none'; }
+  if (profileLink) { profileLink.hidden = false; profileLink.style.display = ''; }
+  if (burger)      { burger.hidden      = false; burger.style.display      = ''; }
 });
 
 (function () {

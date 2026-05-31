@@ -1075,14 +1075,20 @@ html[data-theme="dark"] .logo::after { color: #e8a87c !important; }
 html[data-theme="dark"] .nav-link { color: rgba(237,225,200,0.7) !important; }
 html[data-theme="dark"] .nav-link:hover { color: #ede1c8 !important; }
 html[data-theme="dark"] .nav-link::after { background: #ede1c8 !important; }
-html[data-theme="dark"] .nav-link--stack:last-child {
+/* Login pill in dark mode — also matches new .nav-link--login class
+   used on index.html (burger sits after it, so :last-child no longer
+   targets the login link itself). */
+html[data-theme="dark"] .nav-link--stack:last-child,
+html[data-theme="dark"] .nav-link.nav-link--login {
   background: #ede1c8 !important;
   color: #1a1612 !important;
 }
-html[data-theme="dark"] .nav-link--stack:last-child:hover {
+html[data-theme="dark"] .nav-link--stack:last-child:hover,
+html[data-theme="dark"] .nav-link.nav-link--login:hover {
   background: #e8a87c !important;
   color: #1a1612 !important;
 }
+html[data-theme="dark"] .nav-link.nav-link--login .icon { color: #1a1612 !important; }
 
 html[data-theme="dark"] .hero-meta,
 html[data-theme="dark"] .section-eyebrow,

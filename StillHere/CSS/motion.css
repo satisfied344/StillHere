@@ -534,3 +534,19 @@ a, button, [role="button"], input, textarea, select, summary {
 @media (prefers-reduced-motion: reduce) {
   .btn-spinner { animation-duration: 1.4s; }
 }
+
+/* ──────────────────────────────────────────────────────────────
+   Topic tag rendered as <a> — keep the same pill look as before
+   (motion.css already styles .tag-topic). Strip default <a>
+   underline + give a subtle hover lift signalling "clickable".
+   ────────────────────────────────────────────────────────────── */
+a.tag-topic {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+a.tag-topic:hover {
+  transform: translateY(-1px);
+  background: rgba(214, 83, 60, 0.28);
+}
+html[data-theme="dark"] a.tag-topic:hover { background: rgba(232, 168, 124, 0.32); }

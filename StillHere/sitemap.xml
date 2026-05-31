@@ -45,6 +45,15 @@
     <priority>0.5</priority>
   </url>
 
+  <!-- ── Discovery deep-links (topic-filtered feed) ───────────────── -->
+  <url><loc>https://www.stillhere.global/main.html?topic=anxiety</loc>      <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main.html?topic=depression</loc>   <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main.html?topic=relationships</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main.html?topic=grief</loc>        <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main.html?topic=burnout</loc>      <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main.html?topic=loneliness</loc>   <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main.html?topic=trauma</loc>       <changefreq>daily</changefreq><priority>0.7</priority></url>
+
   <!-- ── Static info pages ────────────────────────────────────────── -->
   <url>
     <loc>https://www.stillhere.global/nav-bar/about.html</loc>

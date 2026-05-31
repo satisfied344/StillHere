@@ -45,9 +45,14 @@
          at the same 24px size as nav icons, with a hover lift. */
       '.sh-notif-bell{position:relative;display:inline-flex;align-items:center;justify-content:center;',
         'padding:8px;background:transparent;border:none;cursor:pointer;',
-        'color:var(--ink-mid,#6e5f53);transition:color .2s ease,transform .2s ease;}',
+        'color:var(--ink-mid,#6e5f53);transition:color .2s ease,transform .3s ease;}',
+      /* Calm hover: same gentle lift as .nav-link:hover, plus a
+         small tilt on the glyph — no ringing/jingling, intentionally
+         quiet so a notifications icon never reads as anxious. */
       '.sh-notif-bell:hover{color:var(--ink,#1a1410);transform:translateY(-1px);}',
-      '.sh-notif-bell svg{width:24px;height:24px;display:block;color:inherit;}',
+      '.sh-notif-bell svg{width:24px;height:24px;display:block;color:inherit;',
+        'transition:transform .3s ease;transform-origin:50% 30%;}',
+      '.sh-notif-bell:hover svg{transform:rotate(-6deg);}',
       '.sh-notif-bell .sh-notif-badge{position:absolute;top:2px;right:2px;min-width:16px;height:16px;',
         'padding:0 4px;border-radius:999px;background:var(--accent-2,#d6533c);color:#fff;font-size:9.5px;',
         'font-weight:700;display:inline-flex;align-items:center;justify-content:center;line-height:1;',
@@ -174,6 +179,10 @@
   function buildUi(nav) {
     var wrap = document.createElement('div');
     wrap.className = 'sh-notif-wrap';
+    /* Bell stays hidden until bootSession() confirms an authed user.
+       Guests should never see a notifications icon — there's nothing
+       it can do for them and it clutters the navbar. */
+    wrap.style.display = 'none';
     wrap.innerHTML =
       '<button type="button" class="sh-notif-bell" id="shNotifBell" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">' +
         /* Phosphor "Bell" regular weight, 24px — same family as the
@@ -210,8 +219,22 @@
 
     ui.bell.addEventListener('click', function (e) {
       e.stopPropagation();
-      var open = ui.panel.classList.toggle('is-open');
-      ui.bell.setAttribute('aria-expanded', String(open));
+      var willOpen = !ui.panel.classList.contains('is-open');
+      /* Opening the notifications dropdown closes any open burger
+         menu, and vice versa (the burger handler itself closes us).
+         We close menus directly here instead of relying on
+         SH_closeAllMenus, so this works on every page regardless of
+         whether nav-menu.js has been loaded. */
+      if (willOpen) {
+        document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) {
+          p.classList.remove('is-open');
+          var wrap2 = p.closest('.main-menu-dropdown');
+          var b = wrap2 && wrap2.querySelector('.main-menu-trigger');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      }
+      ui.panel.classList.toggle('is-open', willOpen);
+      ui.bell.setAttribute('aria-expanded', String(willOpen));
     });
     document.addEventListener('click', function (e) {
       if (!wrap.contains(e.target) && ui.panel.classList.contains('is-open')) {
@@ -219,6 +242,23 @@
         ui.bell.setAttribute('aria-expanded', 'false');
       }
     });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && ui.panel.classList.contains('is-open')) {
+        ui.panel.classList.remove('is-open');
+        ui.bell.setAttribute('aria-expanded', 'false');
+      }
+    });
+    /* Capture-phase listener: ANY burger-trigger click closes the
+       notifications panel before the burger's own handler opens its
+       menu — gives us mutual exclusion without having to touch the
+       inline burger code on every page. */
+    document.addEventListener('click', function (e) {
+      var trig = e.target.closest && e.target.closest('.main-menu-trigger');
+      if (trig && ui.panel.classList.contains('is-open')) {
+        ui.panel.classList.remove('is-open');
+        ui.bell.setAttribute('aria-expanded', 'false');
+      }
+    }, true);
     return ui;
   }
 
@@ -238,6 +278,9 @@
     sb.auth.getSession().then(function (s) {
       var user = s && s.data && s.data.session && s.data.session.user;
       if (!user) { ui.wrap.style.display = 'none'; return; }
+      /* Authed → reveal bell (it was hidden in buildUi to keep
+         guests from briefly seeing it flash). */
+      ui.wrap.style.display = '';
       ui.userId = user.id;
 
       // Initial load + realtime subscription.
