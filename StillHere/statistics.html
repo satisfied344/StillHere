@@ -90,7 +90,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
-  <script src="JS/i18n.js?v=2" defer></script>
+  <script src="JS/i18n.js?v=4" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=12" defer></script>
   <script src="JS/theme.js" defer></script>
@@ -1363,13 +1363,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function topicCounts(posts) {
       var c = {};
+      /* Use the raw slug as the bucket key — `renderBars` will
+         translate it via `main.side.topic.<slug>` before render
+         so labels flip with the language toggle. */
       posts.forEach(function (p) {
         (p.topics || []).forEach(function (t) {
-          var label = t.charAt(0).toUpperCase() + t.slice(1);
-          c[label] = (c[label] || 0) + 1;
+          var slug = String(t || '').toLowerCase();
+          if (!slug) return;
+          c[slug] = (c[slug] || 0) + 1;
         });
       });
       return c;
+    }
+    /* Localise a topic slug ("other" → "Другое" / "Other") via the
+       shared sidebar dictionary entries already used on main.html.
+       Falls back to a Capitalised version of the slug if the key
+       isn't in the dictionary. */
+    function labelForTopic(slug) {
+      var key = 'main.side.topic.' + slug;
+      var v = window.SH_I18N && window.SH_I18N.t(key);
+      if (v && v !== key) return v;
+      return slug.charAt(0).toUpperCase() + slug.slice(1);
     }
 
     function renderBars(containerId, counts, fillClass) {
@@ -1380,13 +1394,18 @@ document.addEventListener('DOMContentLoaded', function () {
         .slice(0, 7);
 
       if (!sorted.length) {
-        container.innerHTML = '<div class="st-bar-empty">no data yet</div>';
+        var emptyTxt = (window.SH_I18N && window.SH_I18N.t('st.bar.empty')) || 'no data yet';
+        container.innerHTML = '<div class="st-bar-empty">' + emptyTxt + '</div>';
         return;
       }
       var total = sorted.reduce(function (s, e) { return s + e[1]; }, 0) || 1;
+      /* Topic bars need translation; language bars (`st-lang-bars`)
+         already store readable strings from the dictionary so we
+         just pass them through. */
+      var isTopics = containerId === 'st-topic-bars';
 
       container.innerHTML = sorted.map(function (entry) {
-        var label = entry[0];
+        var label = isTopics ? labelForTopic(entry[0]) : entry[0];
         var count = entry[1];
         var pct   = Math.round(count / total * 100);
         return (

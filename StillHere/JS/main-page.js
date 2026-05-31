@@ -189,11 +189,18 @@ document.addEventListener('click', function (e) {
       _saveLiked();
     }
 
-    /* Persist count to DB if Supabase is available */
+    /* Persist count to DB if Supabase is available. Re-use the
+       shared client (created once by session.js / supabase-config)
+       so the call carries the user's session, and surface any error
+       via console so failed RPCs aren't silent black holes. */
     if (postId && window.SH_SUPABASE_URL && window.supabase) {
-      var _db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+      if (!window._sbClient) {
+        window._sbClient = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+      }
       var fn  = active ? 'increment_support' : 'decrement_support';
-      _db.rpc(fn, { post_id: postId });
+      window._sbClient.rpc(fn, { post_id: postId }).then(function (res) {
+        if (res && res.error) console.warn('[support-rpc]', fn, res.error.message);
+      });
     }
   }
 
@@ -348,10 +355,11 @@ document.addEventListener('click', async function (e) {
 
   function timeAgo(iso) {
     var diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (diff < 60)    return 'just now';
-    if (diff < 3600)  return Math.floor(diff / 60)   + ' min ago';
-    if (diff < 86400) return Math.floor(diff / 3600)  + 'h ago';
-    return Math.floor(diff / 86400) + 'd ago';
+    var tt = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
+    if (diff < 60)    return tt('time.now', 'just now');
+    if (diff < 3600)  return Math.floor(diff / 60)   + tt('time.m', ' min ago');
+    if (diff < 86400) return Math.floor(diff / 3600) + tt('time.h', 'h ago');
+    return Math.floor(diff / 86400) + tt('time.d', 'd ago');
   }
 
   /* ── SVG constants ── */
@@ -377,22 +385,32 @@ document.addEventListener('click', async function (e) {
       /* Topic tag is a deep-link into the same feed pre-filtered to
          that topic. Click navigates with ?topic=… which feed.js
          reads on boot. */
+      /* Translate via the sidebar dictionary (single source) so the
+         tag label flips with the language toggle. Falls back to a
+         capitalised slug for any topic that's not in the dict. */
+      var topicLabel = (window.SH_I18N && window.SH_I18N.t('main.side.topic.' + topic));
+      if (!topicLabel || topicLabel === 'main.side.topic.' + topic) {
+        topicLabel = topic.charAt(0).toUpperCase() + topic.slice(1);
+      }
       html += '<a class="tag tag-topic" href="main.html?topic=' + escHtml(topic) + '">' +
-        escHtml(topic.charAt(0).toUpperCase() + topic.slice(1)) + '</a>';
+        escHtml(topicLabel) + '</a>';
     });
 
+    /* Mode pill labels — reuse the existing filter dictionary so
+       the chip text on the card matches "Need Support" / "No Advice"
+       filter pills in the filter panel. */
+    var tFn = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
     if (post.mode === 'no-advice') {
-      var naTip = window.SH_I18N
-        ? window.SH_I18N.t('main.tooltip.noadvice')
-        : 'they asked for presence, not advice.';
+      var naTip = tFn('main.tooltip.noadvice', 'they asked for presence, not advice.');
       html += '<span class="tag tag-mode tag-no-advice"' +
         ' tabindex="0"' +
         ' role="note"' +
         ' aria-label="' + escHtml(naTip) + '"' +
         ' data-presence-tooltip="' + escHtml(naTip) + '">' +
-        NO_ADVICE_SVG + ' No Advice</span>';
+        NO_ADVICE_SVG + ' ' + escHtml(tFn('main.filter.noadvice', 'No Advice')) + '</span>';
     } else {
-      html += '<span class="tag tag-mode tag-need-support">' + NEED_SUPPORT_SVG + ' Need Support</span>';
+      html += '<span class="tag tag-mode tag-need-support">' +
+        NEED_SUPPORT_SVG + ' ' + escHtml(tFn('main.filter.need', 'Need Support')) + '</span>';
     }
 
     return html;
@@ -1294,7 +1312,66 @@ document.addEventListener('click', async function (e) {
       var el = document.getElementById('tc-' + key);
       if (el) el.textContent = String(counts[key]);
     });
+
+    /* Reorder the chips by descending count so the most-active
+       topic always reads first. Topics with zero stay last in the
+       original document order. The "show more topics" toggle button
+       MUST stay at the very bottom of the section, so we insert
+       chips BEFORE it instead of appending. */
+    var section = document.querySelector('.sidebar-section');
+    if (!section) return;
+    var chips = section.querySelectorAll('[data-topic-filter]');
+    if (!chips.length) return;
+    var arr = Array.prototype.slice.call(chips);
+    arr.sort(function (a, b) {
+      var ka = a.getAttribute('data-topic-filter');
+      var kb = b.getAttribute('data-topic-filter');
+      var na = counts[ka] || 0;
+      var nb = counts[kb] || 0;
+      if (na === nb) return 0;
+      return nb - na;
+    });
+    var anchor = document.getElementById('sidebarMoreTopicsBtn');
+    arr.forEach(function (el, idx) {
+      if (anchor) section.insertBefore(el, anchor);
+      else        section.appendChild(el);
+      /* Remember the rank so the visibility helper below can pick
+         "the top N" without re-running the sort. */
+      el.dataset.topicRank = idx;
+    });
+
+    /* Apply visibility: first VISIBLE_LIMIT chips show, the rest
+       hide — unless the user expanded the list via "Show more
+       topics". Toggled by inline-script in main.html (which only
+       flips data-topics-expanded and calls SH_applyTopicVisibility). */
+    if (window.SH_applyTopicVisibility) window.SH_applyTopicVisibility();
   }
+
+  /* Exposed globally so the "Show more topics" inline handler in
+     main.html can re-apply visibility without duplicating logic. */
+  /* How many topic chips stay open before "show more topics" hides
+     the rest. 4 → clicking "show more" reveals 4 more at once,
+     which feels meaningful (vs. one chip popping in). */
+  var TOPIC_VISIBLE_LIMIT = 5;
+  window.SH_applyTopicVisibility = function () {
+    var section = document.querySelector('.sidebar-section');
+    if (!section) return;
+    var expanded = section.dataset.topicsExpanded === '1';
+    var chips = section.querySelectorAll('[data-topic-filter]');
+    chips.forEach(function (el) {
+      var rank = parseInt(el.dataset.topicRank, 10);
+      if (isNaN(rank)) rank = 0;
+      if (expanded || rank < TOPIC_VISIBLE_LIMIT) el.removeAttribute('hidden');
+      else                                        el.setAttribute('hidden', '');
+    });
+    /* Hide the toggle button if everything already fits in the
+       visible window — no point offering "show more" when there
+       are no extras. */
+    var btn = document.getElementById('sidebarMoreTopicsBtn');
+    if (btn) {
+      btn.style.display = chips.length > TOPIC_VISIBLE_LIMIT ? '' : 'none';
+    }
+  };
 
   /* ── "This Week" stats (right sidebar) ──
      Counts events since the start of the current calendar week (Monday 00:00 local).

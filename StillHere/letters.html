@@ -80,7 +80,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
-  <script src="JS/i18n.js?v=2" defer></script>
+  <script src="JS/i18n.js?v=4" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=12" defer></script>
   <script src="JS/theme.js" defer></script>
@@ -607,13 +607,35 @@
       line-height: 1;
     }
     .ql-composer-close {
+      /* Proper round-button affordance — was a bare 22px "×" glyph
+         that read as an artifact rather than a button. Match the
+         site's other icon buttons (32px circle, subtle hover). */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
       background: transparent;
-      border: none;
-      color: var(--ink-light);
-      font-size: 22px;
-      cursor: pointer;
-      padding: 4px 8px;
+      border: 1px solid var(--line-soft, rgba(26, 20, 16, 0.12));
+      border-radius: 50%;
+      color: var(--ink-mid, #6e5f53);
+      font-family: inherit;
+      font-size: 18px;
       line-height: 1;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease,
+                  border-color 0.2s ease, transform 0.2s ease;
+    }
+    .ql-composer-close:hover {
+      background: rgba(214, 83, 60, 0.08);
+      border-color: var(--accent-2, #d6533c);
+      color: var(--accent-2, #d6533c);
+      transform: rotate(90deg);
+    }
+    .ql-composer-close:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.18);
     }
     .ql-composer-sub {
       font-size: 12.5px;

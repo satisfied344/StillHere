@@ -1254,6 +1254,20 @@ html[data-theme="dark"] .filter-pill {
   border-color: var(--border-subtle) !important;
   color: var(--text-dark) !important;
 }
+/* Active state — the rule above sets `.pill` background with
+   !important which also wins over `.pill.pill-active` in light
+   mode's cascade. Reassert the accent fill so a selected support
+   pill visibly stays selected on dark theme. */
+html[data-theme="dark"] .pill.pill-active,
+html[data-theme="dark"] .support-pill.pill-active,
+html[data-theme="dark"] .mode-pill.pill-active,
+html[data-theme="dark"] .filter-pill.pill-active {
+  background: var(--accent-2) !important;
+  border-color: var(--accent-2) !important;
+  color: #fff !important;
+  box-shadow: 0 3px 10px -3px rgba(214, 83, 60, 0.35) !important;
+}
+html[data-theme="dark"] .pill.pill-active .icon { color: #fff !important; }
 
 /* — Sort dropdown / native select — */
 html[data-theme="dark"] .sort-select,

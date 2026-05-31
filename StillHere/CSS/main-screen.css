@@ -404,6 +404,10 @@ a { color: inherit; text-decoration: none; }
   align-items: flex-end;
   gap: 10px;
   justify-content: space-between;
+  /* The "line" between feed-head and the feed is actually the
+     top border of `.filter-panel`. Keeping a normal margin here
+     lets the panel render its 1.5px border-top right under the
+     buttons and slide content out of it on .is-open. */
   margin-bottom: 20px;
   position: relative;
 }
@@ -471,6 +475,11 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--line);
   border-radius: 4px;
   margin-bottom: 18px;
+  /* The visible "line" between the buttons and the feed is this
+     panel's own border-top. Closed: max-height collapses content
+     to 0 but the 1px top/bottom borders stay rendered → looks
+     like a hairline divider. Open: content expands and pushes
+     the bottom border down to wrap the form. */
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s cubic-bezier(0.2,0.7,0.2,1), margin-bottom 0.3s ease;
@@ -505,13 +514,34 @@ a { color: inherit; text-decoration: none; }
 }
 .search-input::placeholder { color: var(--ink-light); }
 .search-clear {
-  background: none; border: none;
-  color: var(--ink-light);
+  /* Round icon button that matches the rest of the site's tap
+     targets (32×32, dashed border, accent hover, rotate). Previously
+     was a bare 4px-padded SVG that read as a flat artefact. */
+  width: 30px; height: 30px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--line-soft, rgba(26, 20, 16, 0.12));
+  border-radius: 50%;
+  color: var(--ink-mid, #6e5f53);
   cursor: pointer;
   display: none;
-  padding: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease,
+              border-color 0.2s ease, transform 0.2s ease;
 }
 .search-clear.is-visible { display: inline-flex; }
+.search-clear:hover {
+  background: rgba(214, 83, 60, 0.08);
+  border-color: var(--accent-2, #d6533c);
+  color: var(--accent-2, #d6533c);
+  transform: rotate(90deg);
+}
+.search-clear:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.18);
+}
 
 .lang-strip { display: flex; flex-direction: column; gap: 8px; }
 .lang-strip-label {
@@ -1715,7 +1745,11 @@ a { color: inherit; text-decoration: none; }
 .topic-span.topic-other      { background: var(--ink-light); }
 
 /* `.sidebar-item` uses display:flex which beats the browser default
-   `[hidden] { display:none }` — force the hide so the toggle works. */
+   `[hidden] { display:none }` — force the hide so the toggle works.
+   Match by data-topic-filter (not by the legacy `.sidebar-topic-extra`
+   class) because main-page.js now hides chips dynamically by rank,
+   and a chip without that class would otherwise stay visible. */
+.sidebar-section [data-topic-filter][hidden],
 .sidebar-topic-extra[hidden] { display: none !important; }
 
 /* "Load more stories" button — below the feed */
@@ -1906,13 +1940,10 @@ html[data-theme="dark"] .ml-card::before {
   border-radius: 999px;
 }
 
-/* Filter panel — match the calmer easing for the open/close. */
-.filter-panel {
-  transition:
-    max-height var(--dur-medium, 420ms) var(--ease-calm, ease-out),
-    opacity    var(--dur-medium, 420ms) var(--ease-calm, ease-out),
-    transform  var(--dur-medium, 420ms) var(--ease-calm, ease-out);
-}
+/* Filter-panel transition lives in the main `.filter-panel` rule
+   above — it uses `grid-template-rows: 0fr → 1fr` for a smooth
+   content-height reveal. This block intentionally left empty so a
+   stray `max-height` override doesn't fight the new transition. */
 
 /* ── Polished empty state. ── */
 .feed-empty--polished {
@@ -1928,9 +1959,14 @@ html[data-theme="dark"] .ml-card::before {
 }
 .feed-empty__title {
   margin: 0;
-  font-family: "Boldonse", serif;
+  /* Boldonse isn't loaded on the page — the rule fell back to a
+     system serif and read as the wrong font. Switch to Ubuntu
+     (already used for body text) at a slightly heavier weight so
+     the empty-state title sits in the same family as everything
+     else on the page. */
+  font-family: "Ubuntu", sans-serif;
   font-size: 19px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--ink, #1a1410);
   letter-spacing: -0.005em;
 }

@@ -1093,6 +1093,14 @@
     'cp.err.notowner':       { en: 'You can only edit your own posts.',
                                ru: 'Редактировать можно только свои посты.' },
     'cp.doc.title.edit':     { en: 'Edit post · StillHere',            ru: 'Изменить пост · StillHere' },
+    'cp.lang.more':          { en: '+ more…',                          ru: '+ ещё…' },
+    'cp.lang.morelangs':     { en: 'More languages',                   ru: 'Ещё языки' },
+
+    /* ── Shared timeAgo strings (feed cards, post header, comments) */
+    'time.now':              { en: 'just now',                         ru: 'только что' },
+    'time.m':                { en: ' min ago',                         ru: ' мин назад' },
+    'time.h':                { en: 'h ago',                            ru: ' ч назад' },
+    'time.d':                { en: 'd ago',                            ru: ' д назад' },
 
     'cp.c1.title':         { en: 'language',                          ru: 'язык' },
     'cp.c1.hint':          { en: 'write in whatever feels native',    ru: 'пиши на том языке, который тебе родной' },
@@ -1284,6 +1292,7 @@
     'st.updated.prefix':   { en: 'Updated',                           ru: 'Обновлено' },
     'st.empty.data':       { en: 'No data yet',                       ru: 'Пока нет данных' },
     'st.empty.stories':    { en: 'No stories yet',                    ru: 'Пока нет историй' },
+    'st.bar.empty':        { en: 'no data yet',                       ru: 'пока нет данных' },
     'st.trend.week':       { en: 'this week',                         ru: 'за эту неделю' },
     'st.author.anon':      { en: 'Anonymous',                         ru: 'Анонимно' },
     'st.post.untitled':    { en: '(untitled)',                        ru: '(без названия)' },
@@ -2679,7 +2688,7 @@
     'menu.letters':              { en: 'Quiet letters',          ru: 'Тихие письма' },
 
     'main.post.support':         { en: "I'm here",               ru: 'Я рядом' },
-    'main.post.support.active':  { en: 'here',                   ru: 'я рядом' },
+    'main.post.support.active':  { en: 'here',                   ru: 'Я рядом' },
     'main.post.responses':       { en: 'Responses',              ru: 'Ответов' },
     'main.post.share':           { en: 'Share',                  ru: 'Поделиться' },
     'main.post.menu.save':       { en: 'Save Post',              ru: 'Сохранить' },

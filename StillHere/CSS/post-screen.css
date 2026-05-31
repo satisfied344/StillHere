@@ -1295,9 +1295,10 @@ a.post-avatar-link:hover {
 }
 .comment-empty .feed-empty__title {
   margin: 0;
-  font-family: "Boldonse", serif;
+  /* Match the rest of the site — Boldonse isn't loaded anywhere. */
+  font-family: "Ubuntu", sans-serif;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--ink, #1a1410);
   letter-spacing: -0.005em;
 }

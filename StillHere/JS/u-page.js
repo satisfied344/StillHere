@@ -286,8 +286,12 @@
   function buildTagsHtml(post) {
     var html = '<span class="tag tag-lang">' + escHtml((post.lang || 'en').toUpperCase()) + '</span>';
     (post.topics || []).forEach(function (topic) {
+      var topicLabel = (window.SH_I18N && window.SH_I18N.t('main.side.topic.' + topic));
+      if (!topicLabel || topicLabel === 'main.side.topic.' + topic) {
+        topicLabel = topic.charAt(0).toUpperCase() + topic.slice(1);
+      }
       html += '<a class="tag tag-topic" href="main.html?topic=' + escAttr(topic) + '">' +
-              escHtml(topic.charAt(0).toUpperCase() + topic.slice(1)) +
+              escHtml(topicLabel) +
               '</a>';
     });
     if (post.mode === 'no-advice') {
@@ -300,9 +304,11 @@
         ' tabindex="0" role="note"' +
         ' aria-label="' + escAttr(naTip) + '"' +
         ' data-presence-tooltip="' + escAttr(naTip) + '">' +
-        '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/></svg> No Advice</span>';
+        '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/></svg> ' +
+        ((window.SH_I18N && window.SH_I18N.t('main.filter.noadvice')) || 'No Advice') + '</span>';
     } else {
-      html += '<span class="tag tag-mode tag-need-support"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></svg> Need Support</span>';
+      html += '<span class="tag tag-mode tag-need-support"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></svg> ' +
+        ((window.SH_I18N && window.SH_I18N.t('main.filter.need')) || 'Need Support') + '</span>';
     }
     return html;
   }

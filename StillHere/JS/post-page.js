@@ -15,10 +15,11 @@
 
   function timeAgo(iso) {
     var diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (diff < 60)    return 'just now';
-    if (diff < 3600)  return Math.floor(diff / 60)  + ' min ago';
-    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-    return Math.floor(diff / 86400) + 'd ago';
+    var tt = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
+    if (diff < 60)    return tt('time.now', 'just now');
+    if (diff < 3600)  return Math.floor(diff / 60)  + tt('time.m', ' min ago');
+    if (diff < 86400) return Math.floor(diff / 3600) + tt('time.h', 'h ago');
+    return Math.floor(diff / 86400) + tt('time.d', 'd ago');
   }
 
   function showToast(msg) {
@@ -135,7 +136,11 @@
     var html = '';
     html += '<span class="tag tag-lang">' + (post.lang || 'en').toUpperCase() + '</span>';
     (post.topics || []).forEach(function (t) {
-      html += '<span class="tag tag-topic">' + t.charAt(0).toUpperCase() + t.slice(1) + '</span>';
+      var topicLabel = (window.SH_I18N && window.SH_I18N.t('main.side.topic.' + t));
+      if (!topicLabel || topicLabel === 'main.side.topic.' + t) {
+        topicLabel = t.charAt(0).toUpperCase() + t.slice(1);
+      }
+      html += '<span class="tag tag-topic">' + topicLabel + '</span>';
     });
     if (post.mode === 'no-advice') {
       var naTip = window.SH_I18N
@@ -149,9 +154,10 @@
         ' tabindex="0" role="note"' +
         ' aria-label="' + naTipEsc + '"' +
         ' data-presence-tooltip="' + naTipEsc + '">' +
-        NO_ADVICE_SVG + ' No Advice</span>';
+        NO_ADVICE_SVG + ' ' + ((window.SH_I18N && window.SH_I18N.t('main.filter.noadvice')) || 'No Advice') + '</span>';
     } else {
-      html += '<span class="tag tag-need-support">' + NEED_SUPPORT_SVG + ' Need Support</span>';
+      html += '<span class="tag tag-need-support">' + NEED_SUPPORT_SVG + ' ' +
+        ((window.SH_I18N && window.SH_I18N.t('main.filter.need')) || 'Need Support') + '</span>';
     }
     return html;
   }
@@ -450,7 +456,12 @@
       if (nowActive) _likedPosts.add(postId);
       else           _likedPosts.delete(postId);
       _saveLiked();
-      db.rpc(nowActive ? 'increment_support' : 'decrement_support', { post_id: postId });
+      /* Log RPC errors so a silent failure (RLS, stale schema, etc.)
+         shows up in DevTools instead of vanishing. */
+      db.rpc(nowActive ? 'increment_support' : 'decrement_support', { post_id: postId })
+        .then(function (res) {
+          if (res && res.error) console.warn('[support-rpc]', res.error.message);
+        });
     });
   }
 
