@@ -89,7 +89,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="../JS/supabase-config.js" defer></script>
   <script src="../JS/site-pings.js" defer></script>
-  <script src="../JS/i18n.js" defer></script>
+  <script src="../JS/i18n.js?v=2" defer></script>
   <script src="../JS/session.js" defer></script>
   <script src="../JS/theme.js" defer></script>
   <script src="../JS/notifications.js?v=12" defer></script>
@@ -1340,99 +1340,62 @@
   <!-- ════════════════════ FOOTER ════════════════════ -->
   <footer class="footer">
     <div class="footer_content">
-        <div class="footer_main">
-            <div class="footer_stillhere">
-                <div class="footer_logo">
-                    <p>StillHere</p>
-                </div>
-                <p class="footer_subtitle" data-i18n="footer.subtitle">A project about presence, not solutions</p>
-            </div>
-
-            <div class="footer_links">
-                <div class="footer_links_1">
-                    <h3>Platform</h3>
-                    <ul>
-                        <li><a href="../main.html">Browse Stories</a></li>
-                        <li><a href="../create-post.html">Share Your Story</a></li>
-                        <li><a href="updates.html">Updates</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer_links_2">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="contacts.html">Contacts</a></li>
-                        <li><a href="../docs/html/guidelines.html">Guidelines</a></li>
-                        <li><a href="../docs/html/crisis-resources.html">Crisis Resources</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer_links_3">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="../docs/html/privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="../docs/html/terms-of-service.html">Terms of Service</a></li>
-                    </ul>
-                </div>
-            </div>
+      <div class="footer_main">
+        <div class="footer_stillhere">
+          <div class="footer_logo">
+            <p>StillHere</p>
+          </div>
+          <p class="footer_subtitle" data-i18n="footer.subtitle">Проект о том, чтобы быть рядом, а не искать решения</p>
         </div>
 
-        <div class="footer_footer">
-            <div class="footer_legal">
+        <div class="footer_links">
+          <div class="footer_links_1">
+            <h3 data-i18n="footer.platform">Платформа</h3>
+            <ul>
+              <li><a href="../main.html" data-i18n="footer.browse">Читать истории</a></li>
+              <li><a href="../create-post.html" data-i18n="footer.share">Поделиться своей историей</a></li>
+              <li><a href="updates.html" data-i18n="footer.updates">Обновления</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_2">
+            <h3 data-i18n="footer.support">Поддержка</h3>
+            <ul>
+              <li><a href="about.html" data-i18n="footer.about">О нас</a></li>
+              <li><a href="contacts.html" data-i18n="footer.contacts">Контакты</a></li>
+              <li><a href="../docs/html/guidelines.html" data-i18n="footer.guidelines">Правила</a></li>
+              <li><a href="../docs/html/crisis-resources.html" data-i18n="footer.crisis">Где найти помощь</a></li>
+            </ul>
+          </div>
+          <div class="footer_links_3">
+            <h3 data-i18n="footer.legal">Правовое</h3>
+            <ul>
+              <li><a href="../docs/html/privacy-policy.html" data-i18n="footer.privacy">Политика конфиденциальности</a></li>
+              <li><a href="../docs/html/terms-of-service.html" data-i18n="footer.terms">Условия использования</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer_footer">
+        <div class="footer_legal">
                   <p>2026 StillHere.</p>
-                  <p class="implicit-consent">
-                    by being here, you accept our
-                    <a href="../docs/html/terms-of-service.html">terms</a>
-                    &amp; <a href="../docs/html/privacy-policy.html">privacy</a>.
-                  </p>
+                  <p class="implicit-consent" data-i18n="footer.consent.subdir">находясь здесь, ты принимаешь наши <a href="../docs/html/terms-of-service.html">условия пользования</a> и <a href="../docs/html/privacy-policy.html">политику конфиденциальности</a>.</p>
                 </div>
-            <div class="footer_social">
-                <a href="https://t.me/still_here_global" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/>
-                    </svg>
-                </a>
-
-                <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/>
-                    </svg>
-                </a>
-
-                <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"/>
-                    </svg>
-                </a>
-
-                <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24"
-                        viewBox="0 0 256 256"
-                        fill="currentColor"
-                        class="icon"
-                        aria-hidden="true">
-                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/>
-                    </svg>
-                </a>
-            </div>
+        <div class="footer_social">
+          <a href="https://t.me/still_here_global" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"></path></svg>
+          </a>
+          <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"></path></svg>
+          </a>
+          <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,72a48.05,48.05,0,0,1-48-48,8,8,0,0,0-8-8H128a8,8,0,0,0-8,8V156a20,20,0,1,1-28.57-18.08A8,8,0,0,0,96,130.69V88a8,8,0,0,0-9.4-7.88C50.91,86.48,24,119.1,24,156a76,76,0,0,0,152,0V116.29A103.25,103.25,0,0,0,224,128a8,8,0,0,0,8-8V80A8,8,0,0,0,224,72Zm-8,39.64a87.19,87.19,0,0,1-43.33-16.15A8,8,0,0,0,160,102v54a60,60,0,0,1-120,0c0-25.9,16.64-49.13,40-57.6v27.67A36,36,0,1,0,136,156V32h24.5A64.14,64.14,0,0,0,216,87.5Z"></path></svg>
+          </a>
+          <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path></svg>
+          </a>
         </div>
+      </div>
     </div>
 </footer>
 

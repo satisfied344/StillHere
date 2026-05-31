@@ -90,7 +90,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="../../JS/supabase-config.js" defer></script>
   <script src="../../JS/site-pings.js" defer></script>
-  <script src="../../JS/i18n.js" defer></script>
+  <script src="../../JS/i18n.js?v=2" defer></script>
   <script src="../../JS/session.js" defer></script>
   <script src="../../JS/theme.js" defer></script>
   <script src="../../JS/mobile-nav.js?v=1779483937" defer></script>
@@ -192,7 +192,7 @@
         <ul>
           <li>your <strong>handle</strong> (the @name you picked).</li>
           <li>your <strong>password</strong> — stored as an irreversible hash. we cannot read it, even if we wanted to.</li>
-          <li>optionally: a <strong>display name</strong>, <strong>avatar image</strong>, and any free-text bio you add.</li>
+          <li>optionally: a <strong>display name</strong>, <strong>avatar image</strong> you add.</li>
           <li>the <strong>timestamp</strong> of when you joined.</li>
         </ul>
         <h3>activity</h3>
@@ -214,7 +214,6 @@
         <ul>
           <li><strong>Vercel Web Analytics</strong> — counts page views and unique visitors, aggregated to numbers like "this article had 200 reads this week". no cookies, no localStorage, no persistent identifiers. Vercel hashes the request to deduplicate visits within a 24-hour window and discards the hash afterwards.</li>
           <li><strong>Vercel Speed Insights</strong> — collects only Core Web Vitals (page-load time, largest-contentful-paint, layout shift, interaction-to-next-paint) so we can tell when a page is slow. no cookies, no identifiers, performance numbers only.</li>
-          <li><strong>our own "<code>site_pings</code>" table</strong> in Supabase — powers the "X online right now / Y total visits" counters on the <a href="../../statistics.html">statistics page</a>. each ping inserts <em>only a server timestamp</em> (no IP, no fingerprint, no path, no user id). it is fundamentally impossible to reconstruct who visited or what they read from this table.</li>
         </ul>
         <p>we deliberately do <strong>not</strong> use Google Analytics, Facebook Pixel, Segment, Mixpanel, or any other behavioural analytics tool. a standard content-blocker (uBlock Origin, Brave shield, Firefox strict mode) blocks the Vercel scripts, and we don't try to circumvent that — the site works identically with or without them loaded.</p>
       </div>
