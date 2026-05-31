@@ -4,6 +4,15 @@
 
   /* ── helpers ── */
 
+  /* Tiny i18n lookup — defers to SH_I18N when ready, else falls
+     back to the English literal. Used everywhere we render a
+     user-visible string from JS (toasts, errors, dynamic labels). */
+  function t(key, fallback) {
+    return (window.SH_I18N && window.SH_I18N.t)
+      ? (window.SH_I18N.t(key) || fallback)
+      : fallback;
+  }
+
   function timeAgo(iso) {
     var diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
     if (diff < 60)    return 'just now';
@@ -89,12 +98,12 @@
   var params = new URLSearchParams(window.location.search);
   var postId = params.get('id');
 
-  if (!postId) { showError('No post ID in URL.'); return; }
+  if (!postId) { showError(t('post.err.noid', 'No post ID in URL.')); return; }
 
   var sbUrl = window.SH_SUPABASE_URL;
   var sbKey = window.SH_SUPABASE_KEY;
   if (!sbUrl || sbUrl.indexOf('YOUR_PROJECT_ID') !== -1 || !window.supabase) {
-    showError('Database not configured.');
+    showError(t('post.err.dbcfg', 'Database not configured.'));
     return;
   }
 
@@ -297,11 +306,17 @@
           return;
         }
         console.error('Post fetch failed on all passes:', postRes.error);
-        showError('Post not found. It may have been deleted.');
+        /* Treat as a hard 404 — friendlier than a fragment with an
+           error blob, and matches the URL semantics (the requested
+           resource genuinely doesn't exist for this user). */
+        location.replace('/404.html');
         return;
       }
       if (!postRes.data) {
-        showError('Post not found. It may have been deleted.');
+        /* Treat as a hard 404 — friendlier than a fragment with an
+           error blob, and matches the URL semantics (the requested
+           resource genuinely doesn't exist for this user). */
+        location.replace('/404.html');
         return;
       }
 
@@ -333,7 +348,7 @@
     }).catch(function (err) {
       console.error('doFetchPost unexpected error:', err);
       if (pass < FETCH_PASSES.length - 1) { doFetchPost(pass + 1); return; }
-      showError('Something went wrong. Please try again.');
+      showError(t('post.err.generic', 'Something went wrong. Please try again.'));
     });
   }
 
@@ -361,7 +376,7 @@
 
   function copyLink() {
     navigator.clipboard && navigator.clipboard.writeText(window.location.href)
-      .then(function () { showToast('Link copied'); });
+      .then(function () { showToast(t('post.copylink.ok', 'Link copied')); });
   }
 
   var copyBtn  = document.getElementById('copyLinkBtn');
@@ -455,7 +470,7 @@
     savePostBtn.classList.toggle('save-post-btn--saved', isSaved);
     savePostBtn.innerHTML =
       (isSaved ? BOOKMARK_FILLED_SVG : BOOKMARK_OUTLINE_SVG) +
-      (isSaved ? 'Saved' : 'Save Post');
+      (isSaved ? t('post.menu.unsave', 'Unsave Post') : t('post.menu.save', 'Save Post'));
   }
   if (savePostBtn) {
     refreshSaveBtn();
@@ -464,10 +479,10 @@
       var isSaved = _savedPosts.has(postId);
       if (isSaved) {
         _savedPosts.delete(postId);
-        showToast('Removed from saved');
+        showToast(t('post.toast.unsaved', 'Removed from saved'));
       } else {
         _savedPosts.add(postId);
-        showToast('Post saved');
+        showToast(t('post.toast.saved', 'Post saved'));
       }
       _saveSaved();
       refreshSaveBtn();
@@ -489,14 +504,12 @@
     if (optionsBtn)      optionsBtn.setAttribute('aria-expanded', 'false');
 
     /* `postId` is defined at the top of the IIFE from URL params */
-    console.log('[report-post] click', { postId: postId, hasSHMOD: !!(window.SH_MOD && window.SH_MOD.report) });
     if (!postId) { showToast('Cannot report — post id missing.'); return; }
     if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report — moderation API not loaded.'); return; }
 
     showToast('Sending report…');
     try {
       var res = await window.SH_MOD.report('post', postId, null);
-      console.log('[report-post] response', res);
 
       if (!res || res.ok === false) {
         var err = (res && res.error) || 'unknown';
@@ -1085,7 +1098,7 @@
     var cid = btn.getAttribute('data-comment-copy');
     var url = window.location.href.split('#')[0] + '#comment-' + cid;
     if (navigator.clipboard) navigator.clipboard.writeText(url)
-      .then(function () { showToast('Link copied'); });
+      .then(function () { showToast(t('post.copylink.ok', 'Link copied')); });
     closeAllCommentMenus();
   });
 
@@ -1118,14 +1131,12 @@
     closeAllCommentMenus();
 
     var cid = btn.getAttribute('data-comment-report');
-    console.log('[report-comment] click', { cid, hasSHMOD: !!(window.SH_MOD && window.SH_MOD.report) });
     if (!cid) { showToast('Cannot report — comment id missing.'); return; }
     if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report — moderation API not loaded.'); return; }
 
     showToast('Sending report…');
     try {
       var res = await window.SH_MOD.report('comment', cid, null);
-      console.log('[report-comment] response', res);
 
       if (!res || res.ok === false) {
         var err = (res && res.error) || 'unknown';

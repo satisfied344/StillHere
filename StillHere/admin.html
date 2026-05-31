@@ -26,11 +26,11 @@
     <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
     <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+    <link rel="manifest"                                href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>Moderation queue — StillHere</title>
+  <title data-i18n="doc.title.admin">Moderation queue — StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Internal moderation queue.">
     <meta name="robots" content="noindex,nofollow">
@@ -91,7 +91,7 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
+  <script src="JS/notifications.js?v=12" defer></script>
   <script src="JS/theme.js" defer></script>
 
   <style>
@@ -350,6 +350,7 @@
     }
   </style>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 <body>
   <!-- Ambient page-edge doodles -->
@@ -370,7 +371,7 @@
   <img src="assets/doodles2/09_cloud.png"                       class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
   <img src="assets/letters/_Special Characters/Asterisk_04.png" class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
 
-  <nav class="top-info" aria-label="Primary navigation">
+  <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
     <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="main.html" class="nav-link nav-link--stack">

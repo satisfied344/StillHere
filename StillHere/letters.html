@@ -16,11 +16,11 @@
     <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
     <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+    <link rel="manifest"                                href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>Quiet letters — StillHere</title>
+  <title data-i18n="doc.title.letters">Quiet letters — StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Short, unsent letters to people you can't reach. Read them. Write one. No one will reply.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
@@ -82,10 +82,10 @@
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
+  <script src="JS/notifications.js?v=12" defer></script>
   <script src="JS/theme.js" defer></script>
   <!-- Required for SH_MOD.checkLetter (letter submit moderation). -->
-  <script src="JS/moderation.js?v=4" defer></script>
+  <script src="JS/moderation.js?v=5" defer></script>
   <!-- Crisis-detection (SH_CRISIS) — surfaces a calm hotline card when
        a letter contains distress signals. Non-blocking. -->
   <script src="JS/crisis.js?v=4" defer></script>
@@ -818,6 +818,7 @@
       .letter-body { font-size: 17px; }
     }
   </style>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 
 <body>
@@ -833,7 +834,7 @@
   <div class="page-wrapper">
 
     <!-- ════════════════════ NAVBAR ════════════════════ -->
-    <nav class="top-info" aria-label="Primary navigation">
+    <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
       <a href="main.html" class="logo"><span>StillHere</span></a>
 
       <div class="nav">
@@ -939,7 +940,7 @@
     </main>
 
     <!-- ════════════════════ FAB ════════════════════ -->
-    <button class="ql-fab" id="qlFab" aria-label="Write a quiet letter" title="Write a letter">
+    <button class="ql-fab" id="qlFab" aria-label="Write a quiet letter" data-i18n-attr-aria-label="aria.writeletter" title="Write a letter">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"/></svg>
       <span data-i18n="ql.fab">write a letter</span>
     </button>
@@ -950,7 +951,7 @@
     <div class="ql-composer" id="qlComposer" role="dialog" aria-modal="true" aria-labelledby="qlComposerTitle">
       <div class="ql-composer-head">
         <h2 class="ql-composer-title" id="qlComposerTitle" data-i18n="ql.composer.title">a letter to&hellip;</h2>
-        <button class="ql-composer-close" id="qlClose" aria-label="Close">&times;</button>
+        <button class="ql-composer-close" id="qlClose" aria-label="Close" data-i18n-attr-aria-label="aria.close">&times;</button>
       </div>
       <p class="ql-composer-sub" data-i18n="ql.composer.sub">short. honest. nobody will reply. that's the point.</p>
 
@@ -1425,7 +1426,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       } catch (err) {
         console.error('[letters] submit failed:', err);
-        alert('couldn’t send the letter. try again in a moment.');
+        alert(tI('ql.err.send', 'couldn’t send the letter. try again in a moment.'));
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = prevText;

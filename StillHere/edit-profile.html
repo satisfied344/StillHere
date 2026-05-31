@@ -26,11 +26,11 @@
     <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
     <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+    <link rel="manifest"                                href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>Edit profile — StillHere</title>
+  <title data-i18n="doc.title.editprofile">Edit profile — StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Update your handle, avatar, or password.">
     <meta name="robots" content="noindex,nofollow">
@@ -91,8 +91,15 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
-  <script src="JS/moderation.js?v=4" defer></script>
+  <script src="JS/notifications.js?v=12" defer></script>
+  <script src="JS/moderation.js?v=5" defer></script>
+  <!-- auth.js exposes SH_AUTH.validatePassword — we reuse the same
+       password rules here as on register / reset, so a user can't
+       set a weaker password from the profile-edit page. The page-
+       specific init paths inside auth.js (register / login / recovery
+       wiring) all guard on form presence, so loading the file here
+       has no side-effects. -->
+  <script src="JS/auth.js?v=9" defer></script>
   <script src="JS/theme.js" defer></script>
 
   <style>
@@ -629,6 +636,7 @@
     }
   </style>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 <body>
 
@@ -647,7 +655,7 @@
   <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
   <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
-  <nav class="top-info" aria-label="Primary navigation">
+  <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
     <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
@@ -668,7 +676,7 @@
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger" aria-label="Open menu">
+        <button class="main-menu-trigger" aria-label="Open menu" data-i18n-attr-aria-label="aria.openMenu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
         </button>
         <ul class="main-menu-panel" role="menu">
@@ -787,6 +795,11 @@
                 <input type="password" id="pass_confirm" name="password_confirm" placeholder="••••••••">
               </div>
             </div>
+            <!-- Rule reminder — mirrors the one shown on register / reset
+                 so the user knows what the validator will accept. -->
+            <p class="ep-pass-hint" data-i18n="ep.pass.hint" style="margin: 10px 2px 0; font-size: 12px; color: var(--ink-light); font-style: italic;">
+              min 8 characters, at least 1 letter &amp; 1 number, no spaces, Latin only.
+            </p>
           </div>
 
           <!-- Save / Cancel -->
@@ -976,6 +989,15 @@
   <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+    /* Local i18n lookup — falls back to English literal so toasts
+       still read correctly during the very brief window before
+       i18n.js boots, and continue working if a key is missing. */
+    function tI(k, fb) {
+      return (window.SH_I18N && window.SH_I18N.t)
+        ? (window.SH_I18N.t(k) || fb)
+        : fb;
+    }
+
     /* ── Edit profile logic ─────────────────────────────────────── */
     window.SH_SESSION.whenReady(async function (user) {
 
@@ -1071,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if (avatarCircle) avatarCircle.innerHTML =
             '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
             '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></svg>';
-          toast('Photo will be removed on save.', false);
+          toast(tI('ep.toast.photorm', 'Photo will be removed on save.'), false);
         });
       }
 
@@ -1156,10 +1178,29 @@ document.addEventListener('DOMContentLoaded', function () {
         var passNew     = (document.getElementById('pass_new')     || {value:''}).value;
         var passConfirm = (document.getElementById('pass_confirm') || {value:''}).value;
 
-        if (passNew && passNew !== passConfirm) { toast('Passwords do not match.', true); return; }
-        if (passNew && passNew.length < 8)      { toast('Password must be at least 8 characters.', true); return; }
+        if (passNew) {
+          /* Match check first — fast and only here, not in the
+             shared validator (which only sees one value). */
+          if (passNew !== passConfirm) {
+            var mismatchMsg = (window.SH_I18N && window.SH_I18N.t('auth.pw.mismatch')) || 'Passwords do not match.';
+            toast(mismatchMsg, true);
+            return;
+          }
+          /* Delegate the actual rule set to auth.js so register /
+             reset / edit-profile stay in lockstep — no spaces, ASCII
+             only, min 8, has letter + digit, etc. */
+          if (window.SH_AUTH && window.SH_AUTH.validatePassword) {
+            var pwErr = window.SH_AUTH.validatePassword(passNew);
+            if (pwErr) { toast(pwErr, true); return; }
+          } else if (passNew.length < 8) {
+            /* Fallback if auth.js failed to load — keep the bare
+               minimum so we never accept a 1-char password. */
+            toast(tI('auth.pw.min', 'Must be at least 8 characters.'), true);
+            return;
+          }
+        }
 
-        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Checking…'; }
+        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = tI('ep.btn.checking', 'Checking…'); }
 
         /* Moderation */
         if (window.SH_MOD) {
@@ -1170,7 +1211,7 @@ document.addEventListener('DOMContentLoaded', function () {
               setFieldErr(fnInput, nameRes.label || 'This name is not allowed.');
               if (saveBtn) {
                 saveBtn.disabled = false;
-                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
+                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> ' + tI('ep.btn.save', 'Save changes');
               }
               return;
             }
@@ -1181,14 +1222,14 @@ document.addEventListener('DOMContentLoaded', function () {
               setFieldErr(unInput, unRes.label || 'This username is not allowed.');
               if (saveBtn) {
                 saveBtn.disabled = false;
-                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> Save changes';
+                saveBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg> ' + tI('ep.btn.save', 'Save changes');
               }
               return;
             }
           }
         }
 
-        if (saveBtn) { saveBtn.textContent = 'Saving…'; }
+        if (saveBtn) { saveBtn.textContent = tI('ep.btn.saving', 'Saving…'); }
         var ok = true;
 
         /* avatarChanged controls whether we touch avatar_url at all on
@@ -1210,12 +1251,12 @@ document.addEventListener('DOMContentLoaded', function () {
            backend flags it, block the save and surface the reason. We
            skip this when the user is removing the photo (no URL). */
         if (avatarChanged && newAvatarUrl && window.SH_MOD && window.SH_MOD.check) {
-          if (saveBtn) saveBtn.textContent = 'Checking photo…';
+          if (saveBtn) saveBtn.textContent = tI('ep.btn.checkphoto', 'Checking photo…');
           var avRes = await window.SH_MOD.check('', 'post', [newAvatarUrl]);
           if (avRes && avRes.allowed === false) {
             var label = (avRes.label || avRes.reason || 'not allowed');
             setFieldErr(avatarCircle || form, 'Avatar blocked: ' + label);
-            toast('Avatar blocked: ' + label, true);
+            toast(tI('ep.toast.avblock', 'Avatar blocked:') + ' ' + label, true);
             if (saveBtn) {
               saveBtn.disabled = false;
               saveBtn.innerHTML =
@@ -1225,7 +1266,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             return; // hard stop — do NOT clear pending state so user can fix
           }
-          if (saveBtn) saveBtn.textContent = 'Saving…';
+          if (saveBtn) saveBtn.textContent = tI('ep.btn.saving', 'Saving…');
         }
 
         /* Past the moderation gate — safe to consume the pending state. */
@@ -1247,16 +1288,16 @@ document.addEventListener('DOMContentLoaded', function () {
               .from('profiles')
               .update({ display_name: newDisplayName })
               .eq('id', user.id);
-            if (profErr2) { toast('Error: ' + profErr2.message, true); ok = false; }
-            else toast('Saved (no photo — run SQL to enable avatars)', false);
+            if (profErr2) { toast(tI('ep.toast.errpfx', 'Error:') + ' ' + profErr2.message, true); ok = false; }
+            else toast(tI('ep.toast.savednophoto', 'Saved (no photo — run SQL to enable avatars)'), false);
           } else if (profErr) {
-            toast('Error: ' + profErr.message, true); ok = false;
+            toast(tI('ep.toast.errpfx', 'Error:') + ' ' + profErr.message, true); ok = false;
           }
         }
 
         if (ok && passNew) {
           var { error: pwErr } = await sb.auth.updateUser({ password: passNew });
-          if (pwErr) { toast('Password error: ' + pwErr.message, true); ok = false; }
+          if (pwErr) { toast(tI('ep.toast.pwerr', 'Password error:') + ' ' + pwErr.message, true); ok = false; }
         }
 
         if (saveBtn) {
@@ -1267,7 +1308,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'Save changes';
         }
         if (ok) {
-          toast('✓ Saved!', false);
+          toast(tI('ep.toast.saved', '✓ Saved!'), false);
           if (document.getElementById('pass_new'))     document.getElementById('pass_new').value     = '';
           if (document.getElementById('pass_confirm')) document.getElementById('pass_confirm').value = '';
           /* Redirect to main feed after the toast is visible briefly,
@@ -1311,7 +1352,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           if (errors.length > 0) {
             closeDelModal();
-            toast('Could not close account: ' + errors[0], true);
+            toast(tI('ep.toast.closefail', 'Could not close account:') + ' ' + errors[0], true);
             delConfirm.disabled = false;
             delConfirm.textContent = 'yes, close account';
             return;
@@ -1361,7 +1402,7 @@ document.addEventListener('DOMContentLoaded', function () {
             closeDelPostsModal();
             dpConfirm.disabled = false;
             dpConfirm.textContent = origConfirmText;
-            toast('You have no posts to delete.');
+            toast(tI('ep.toast.noposts', 'You have no posts to delete.'));
             return;
           }
           await sb.from('comments').delete().in('post_id', ids);
@@ -1369,8 +1410,12 @@ document.addEventListener('DOMContentLoaded', function () {
           closeDelPostsModal();
           dpConfirm.disabled = false;
           dpConfirm.textContent = origConfirmText;
-          if (dpErr) { toast('Delete failed: ' + dpErr.message, true); return; }
-          toast('Deleted ' + ids.length + (ids.length === 1 ? ' post.' : ' posts.'));
+          if (dpErr) { toast(tI('ep.toast.delfail', 'Delete failed:') + ' ' + dpErr.message, true); return; }
+          /* "Deleted N post(s)." — i18n string with {n} so RU/EN
+             grammar can place the count where they need to. */
+          var delTpl = tI(ids.length === 1 ? 'ep.toast.deleted.one' : 'ep.toast.deleted.many',
+                          ids.length === 1 ? 'Deleted {n} post.' : 'Deleted {n} posts.');
+          toast(delTpl.replace('{n}', ids.length));
         });
       }
     });

@@ -140,7 +140,7 @@
         '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
         '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
         'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
-        'Sign out';
+        tI('menu.signout', 'Sign out');
       loginItem.removeAttribute('href');
       loginItem.style.cursor = 'pointer';
       loginItem.addEventListener('click', async function (e) {
@@ -486,7 +486,7 @@
     $$('.mood-opt', moodMenu).forEach(function (opt) {
       opt.addEventListener('click', function () {
         toolState.mood = opt.getAttribute('data-mood') || '';
-        if (moodLabel) moodLabel.textContent = toolState.mood || 'mood';
+        if (moodLabel) moodLabel.textContent = toolState.mood || tI('ac.tool.mood', 'mood');
         moodBtn.setAttribute('aria-pressed', String(!!toolState.mood));
         $$('.mood-opt', moodMenu).forEach(function (o) { o.classList.remove('is-active'); });
         if (toolState.mood) opt.classList.add('is-active');
@@ -590,7 +590,8 @@
         /* Offer a direct path to sign in — the companion needs an account. */
         pEl.innerHTML =
           '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span><br>' +
-          '<a href="login.html" style="color:var(--accent-2,#d6533c);font-weight:600;text-decoration:underline;text-underline-offset:3px;">sign in →</a>';
+          '<a href="login.html" style="color:var(--accent-2,#d6533c);font-weight:600;text-decoration:underline;text-underline-offset:3px;">' +
+          escapeHtml(tI('ac.err.signin', 'sign in →')) + '</a>';
       } else if (code === 'rate_limited') {
         pEl.innerHTML =
           '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span>';
@@ -599,8 +600,8 @@
           '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span>';
       } else {
         pEl.innerHTML =
-          '<span style="color:#c0392b;">couldn\'t reach the companion right now.</span><br>' +
-          '<span style="color:var(--ink-light);font-size:12px;">please try again in a moment.</span>';
+          '<span style="color:#c0392b;">' + escapeHtml(tI('ac.err.reach', 'couldn\'t reach the companion right now.')) + '</span><br>' +
+          '<span style="color:var(--ink-light);font-size:12px;">' + escapeHtml(tI('ac.err.retry', 'please try again in a moment.')) + '</span>';
       }
     } finally {
       sendBtn.dataset.busy = '0';

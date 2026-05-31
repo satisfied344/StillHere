@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
+  <meta name="darkreader-lock">
+  <meta name="nighteye" content="disabled">
+  <meta name="theme-color" content="#f4ead6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1410" media="(prefers-color-scheme: dark)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preload" as="image" type="image/png" href="/assets/favicon/favicon-96x96.png?v=3">
+  <link rel="icon" type="image/png" sizes="96x96"   href="/assets/favicon/favicon-96x96.png?v=3">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/web-app-manifest-192x192.png?v=3">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon/web-app-manifest-512x512.png?v=3">
+  <link rel="shortcut icon"                          href="/assets/favicon/favicon.ico?v=3">
+  <link rel="apple-touch-icon" sizes="180x180"       href="/assets/favicon/apple-touch-icon.png?v=3">
+  <link rel="mask-icon"        color="#d6533c"       href="/assets/favicon/favicon.svg?v=3">
+  <link rel="manifest"                                href="/manifest.webmanifest">
+
+  <title data-i18n="nf.doc.title">Not here — StillHere</title>
+  <meta name="description" data-i18n-attr-content="nf.doc.desc" content="This page drifted off — but you're still here.">
+  <meta name="robots" content="noindex,follow">
+
+  <link rel="stylesheet" href="/CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/dark-theme.css">
+  <link rel="stylesheet" href="/CSS/mobile.css?v=1779483937">
+  <!-- i18n machinery — loaded on this isolated page too so the EN/RU
+       toggle still works without bouncing the user to a navbar page. -->
+  <script src="/JS/i18n.js" defer></script>
+  <script src="/JS/pwa-register.js" defer></script>
+
+  <style>
+    /* ════════════════════════════════════════════════════════
+       404 — paper aesthetic + the EXACT 8-doodle ambient set
+       from ai-chat.html (5 `.pg-doodle--*` perimeter + 3 `.wd--*`
+       interior). Animations + opacity values copied verbatim
+       from ai-chat-screen.css so backgrounds read identically.
+       ════════════════════════════════════════════════════════ */
+    body {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Perimeter doodles — 1:1 with CSS/ai-chat-screen.css ── */
+    .pg-doodle {
+      position: fixed; z-index: 0;
+      opacity: 0.10; pointer-events: none;
+      user-select: none; mix-blend-mode: multiply;
+    }
+    .pg-doodle--1 { width: 130px; top: 16%;   left: 1.5%;  --pg-rot: -8deg;
+                    animation: pgDoodleFloat 12s ease-in-out infinite alternate; }
+    .pg-doodle--2 { width:  60px; top: 46%;   left: 1%;    --pg-rot: 14deg;
+                    animation: pgDoodleFloat 9s ease-in-out -2s infinite alternate; }
+    .pg-doodle--3 { width:  78px; bottom:14%; right: 2%;   --pg-rot: -6deg;
+                    animation: pgDoodleFloat 14s ease-in-out -5s infinite alternate; }
+    .pg-doodle--4 { width:  54px; top: 20%;   right: 1.5%; --pg-rot: -18deg;
+                    animation: pgDoodleSpin 11s ease-in-out -1s infinite alternate; }
+    .pg-doodle--5 { width: 110px; bottom: 6%; left: 36%;   --pg-rot: 3deg; opacity: 0.07;
+                    animation: pgDoodleFloat 16s ease-in-out -7s infinite alternate; }
+    @keyframes pgDoodleFloat {
+      from { transform: rotate(var(--pg-rot, 0deg)) translateY(-5px); }
+      to   { transform: rotate(var(--pg-rot, 0deg)) translateY(7px); }
+    }
+    @keyframes pgDoodleSpin {
+      from { transform: rotate(calc(var(--pg-rot, 0deg) - 4deg)) translateY(-4px); }
+      to   { transform: rotate(calc(var(--pg-rot, 0deg) + 4deg)) translateY(4px); }
+    }
+
+    /* ── Interior doodles — 1:1 with `.wd--*` welcome-doodles
+         from CSS/ai-chat-screen.css. Fixed (not absolute) so
+         they live across the whole viewport. */
+    .wd {
+      position: fixed; z-index: 0;
+      pointer-events: none; user-select: none;
+      mix-blend-mode: multiply;
+    }
+    .wd--cloud-l { width: 110px;  top: 58%;  left: 8%;   --wd-rot:-6deg;  opacity: 0.11;
+                   animation: wdFloatA 11s ease-in-out infinite; }
+    .wd--wave    { width: 140px;  bottom:14%; left: 24%;  --wd-rot:-3deg; opacity: 0.09;
+                   animation: wdSway 13s ease-in-out infinite; }
+    .wd--star-r  { width:  52px;  top: 38%;  right: 14%;  --wd-rot:-18deg; opacity: 0.16;
+                   animation: wdSpin 18s ease-in-out infinite; }
+    .wd--spark   { width:  38px;  top: 64%;  left: 52%;   --wd-rot:20deg;  opacity: 0.13;
+                   animation: wdFloatA 8s ease-in-out infinite reverse; }
+    @keyframes wdFloatA {
+      0%, 100% { transform: rotate(var(--wd-rot, 0deg))                  translateY(0); }
+      50%      { transform: rotate(calc(var(--wd-rot, 0deg) + 4deg))     translateY(-10px); }
+    }
+    @keyframes wdSway {
+      0%, 100% { transform: rotate(var(--wd-rot, 0deg))                  translateX(0); }
+      50%      { transform: rotate(calc(var(--wd-rot, 0deg) - 3deg))     translateX(-12px); }
+    }
+    @keyframes wdSpin {
+      0%, 100% { transform: rotate(calc(var(--wd-rot, 0deg) - 10deg))    translateY(0); }
+      50%      { transform: rotate(calc(var(--wd-rot, 0deg) + 10deg))    translateY(-6px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pg-doodle, .wd { animation: none !important; }
+    }
+    @media (max-width: 880px) {
+      .pg-doodle, .wd { display: none; }
+    }
+
+    .nf-wrap {
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      animation: nfIn 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes nfIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .nf-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin: 0 0 22px;
+    }
+    .nf-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 6px; }
+
+    /* "404" — plain block element, centered via parent's
+       text-align. No inline-flex, no spans, no negative tracking
+       — those caused the heading to shift right because the
+       italic em added asymmetric horizontal advance to the box.
+       Keep it dead simple so it actually sits under the eyebrow. */
+    .nf-num {
+      display: block;
+      font-family: "Caveat", cursive;
+      font-size: 188px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ink);
+      margin: 0;
+      text-align: center;
+    }
+    .nf-num em {
+      color: var(--accent-2);
+      font-style: normal;
+    }
+
+    .nf-title {
+      font-family: "Caveat", cursive;
+      font-size: 44px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 12px 0 16px;
+      line-height: 1.05;
+    }
+    .nf-title em { color: var(--accent-2); font-style: italic; }
+
+    .nf-lede {
+      font-size: 15.5px;
+      color: var(--ink-mid);
+      line-height: 1.7;
+      max-width: 460px;
+      margin: 0 auto 32px;
+    }
+    .nf-lede em { color: var(--accent-2); font-style: italic; }
+
+    .nf-actions {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+    .nf-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  background 0.25s ease, color 0.25s ease,
+                  box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .nf-btn--primary {
+      background: var(--ink);
+      color: var(--paper);
+      box-shadow: 0 4px 14px -3px rgba(26, 20, 16, 0.22);
+    }
+    .nf-btn--primary:hover {
+      background: var(--accent-2);
+      transform: translateY(-1px) rotate(-1deg);
+      box-shadow: 0 8px 20px -3px rgba(214, 83, 60, 0.35);
+    }
+    .nf-btn--ghost {
+      color: var(--ink-mid);
+      border: 1px dashed var(--line);
+    }
+    .nf-btn--ghost:hover {
+      color: var(--accent-2);
+      border-color: var(--accent-2);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+      .nf-num   { font-size: 128px; }
+      .nf-title { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 5 perimeter doodles + 4 interior doodles = 9 total
+       (1:1 with ai-chat.html's full ambient set) -->
+      <div class="welcome-doodles" id="welcomeDoodles" aria-hidden="true">
+        <img src="assets/doodles2/02_asterisk_flower.png"                            class="wd wd--cloud-l">
+        <img src="assets/doodles2/08_wavy_line.png"                        class="wd wd--wave">
+        <img src="assets/letters/_Special Characters/Asterisk_06.png"      class="wd wd--star-r">
+      </div>
+
+        <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+
+  <main class="nf-wrap">
+    <p class="nf-eyebrow"><em>—</em> <span data-i18n="nf.eyebrow">page not found</span></p>
+
+    <h1 class="nf-num">4<em>0</em>4</h1>
+    <p class="nf-title" data-i18n="nf.title">this page drifted <em>off</em>.</p>
+
+    <p class="nf-lede" data-i18n="nf.lede">
+      maybe the link was old, maybe a typo —<br>
+      either way, <em>you're still here</em>, and that's enough.
+    </p>
+
+    <div class="nf-actions">
+      <a href="/main.html" class="nf-btn nf-btn--primary">
+        <span data-i18n="nf.btn.feed">back to the feed</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M6 12l4-4-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="/index.html" class="nf-btn nf-btn--ghost" data-i18n="nf.btn.home">or go home</a>
+    </div>
+  </main>
+</body>
+</html>

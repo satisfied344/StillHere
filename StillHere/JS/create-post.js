@@ -4,6 +4,15 @@
   var form = document.getElementById('postForm');
   if (!form) return;
 
+  /* Shared i18n lookup — top-level so every alert / toast / button
+     label in this file uses the same lookup pattern. Falls back to
+     the English literal if i18n.js hasn't loaded yet. */
+  function t(key, fallback) {
+    return (window.SH_I18N && window.SH_I18N.t)
+      ? (window.SH_I18N.t(key) || fallback)
+      : fallback;
+  }
+
   /* ─────────────────────────────────────────────
      Edit mode — when URL has ?edit=<post-id>, we
      load the existing post into the form and the
@@ -28,7 +37,7 @@
 
   var quill = new Quill('#post-editor', {
     theme: 'snow',
-    placeholder: 'Write freely…',
+    placeholder: t('cp.editor.placeholder', 'Write freely…'),
     modules: {
       toolbar: {
         container: [
@@ -61,7 +70,7 @@
 
       var sbUrl = window.SH_SUPABASE_URL;
       var sbKey = window.SH_SUPABASE_KEY;
-      if (!sbUrl || !window.supabase) { alert('Supabase not configured.'); return; }
+      if (!sbUrl || !window.supabase) { alert(t('cp.err.sbcfg', 'Supabase not configured.')); return; }
 
       var db     = window.supabase.createClient(sbUrl, sbKey);
       var bucket = db.storage.from('post-media');
@@ -70,13 +79,14 @@
 
       // Show a brief "uploading…" tooltip
       var range = quill.getSelection(true);
-      quill.insertText(range.index, 'Uploading image…', 'italic', true);
+      var uploadingTxt = t('cp.editor.uploading', 'Uploading image…');
+      quill.insertText(range.index, uploadingTxt, 'italic', true);
 
       bucket.upload(path, file, { cacheControl: '3600', upsert: false }).then(function (res) {
         // Remove the "Uploading…" placeholder text
-        quill.deleteText(range.index, 'Uploading image…'.length);
+        quill.deleteText(range.index, uploadingTxt.length);
 
-        if (res.error) { alert('Upload failed: ' + res.error.message); return; }
+        if (res.error) { alert(t('cp.err.upload', 'Upload failed:') + ' ' + res.error.message); return; }
         var url = bucket.getPublicUrl(path).data.publicUrl;
         inlineImageUrls.push(url);  // register for moderation at submit time
         quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
@@ -139,7 +149,7 @@
     var removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.className = 'media-remove';
-    removeBtn.setAttribute('aria-label', 'Remove');
+    removeBtn.setAttribute('aria-label', t('cp.media.remove', 'Remove'));
     removeBtn.innerHTML =
       '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor">' +
       '<path d="M202.83,197.17a4,4,0,0,1-5.66,5.66L128,133.66,58.83,202.83a4,4,0,0,1-5.66-5.66' +
@@ -198,7 +208,7 @@
     var removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.className = 'media-remove';
-    removeBtn.setAttribute('aria-label', 'Remove');
+    removeBtn.setAttribute('aria-label', t('cp.media.remove', 'Remove'));
     removeBtn.innerHTML =
       '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor">' +
       '<path d="M202.83,197.17a4,4,0,0,1-5.66,5.66L128,133.66,58.83,202.83a4,4,0,0,1-5.66-5.66' +
@@ -270,7 +280,7 @@
     e.preventDefault();
 
     if (!window.supabase || !window.supabase.createClient) {
-      alert('Supabase SDK not loaded. Check your internet connection.');
+      alert(t('cp.err.sdk', 'Supabase SDK not loaded. Check your internet connection.'));
       return;
     }
 
@@ -278,7 +288,7 @@
     var sbKey = window.SH_SUPABASE_KEY;
 
     if (!sbUrl || sbUrl.indexOf('YOUR_PROJECT_ID') !== -1) {
-      alert('Please fill in JS/supabase-config.js with your project credentials.');
+      alert(t('cp.err.creds', 'Please fill in JS/supabase-config.js with your project credentials.'));
       return;
     }
 
@@ -493,12 +503,12 @@
                     if (typeof window.SH_showBlockModal === 'function') {
                       window.SH_showBlockModal();
                     } else {
-                      alert('You are temporarily blocked from posting. Please try again later.');
+                      alert(t('cp.err.blocked', 'You are temporarily blocked from posting. Please try again later.'));
                     }
                   } else {
                     alert(EDIT_ID
-                      ? 'Could not save changes: ' + result.error.message
-                      : 'Could not publish: ' + result.error.message);
+                      ? t('cp.err.savefail', 'Could not save changes:') + ' ' + result.error.message
+                      : t('cp.err.publishfail', 'Could not publish:') + ' ' + result.error.message);
                   }
                   setLoading(false);
                   return;
@@ -550,7 +560,7 @@
 
     postPromise.then(function (postRes) {
       if (postRes.error || !postRes.data) {
-        alert('Post not found — it may have been deleted.');
+        alert(t('cp.err.notfound', 'Post not found — it may have been deleted.'));
         window.location.href = 'main.html';
         return;
       }
@@ -562,7 +572,7 @@
       authPromise.then(function (authRes) {
         var userId = (authRes && authRes.data && authRes.data.user) ? authRes.data.user.id : null;
         if (!userId || postRes.data.user_id !== userId) {
-          alert('You can only edit your own posts.');
+          alert(t('cp.err.notowner', 'You can only edit your own posts.'));
           window.location.href = 'post.html?id=' + encodeURIComponent(postId);
         }
       });
@@ -581,7 +591,7 @@
     }
     var cancelLink = document.querySelector('a.btn-cancel');
     if (cancelLink) cancelLink.href = 'post.html?id=' + encodeURIComponent(postId);
-    document.title = 'Edit post · StillHere';
+    document.title = t('cp.doc.title.edit', 'Edit post · StillHere');
     var draftBtn = document.getElementById('btnDeleteDraft');
     if (draftBtn) draftBtn.style.display = 'none';
   }

@@ -17,13 +17,13 @@
   <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
   <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
   <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-  <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+  <link rel="manifest"                                href="/manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
-  <title>Loading profile — StillHere</title>
-  <meta name="description" content="A quiet voice on StillHere.">
+  <title data-i18n="u.doc.title.loading">Loading profile — StillHere</title>
+  <meta name="description" data-i18n-attr-content="u.doc.desc" content="A quiet voice on StillHere.">
   <meta name="robots" content="index,follow">
 
   <link rel="stylesheet" href="CSS/main-screen.css">
@@ -39,7 +39,7 @@
   <script src="JS/session.js" defer></script>
   <script src="JS/theme.js" defer></script>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
+  <script src="JS/notifications.js?v=12" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -327,6 +327,7 @@
     /* Stories list — same .post-card vocabulary as the main feed. */
     .u-stories { display: flex; flex-direction: column; gap: 22px; }
   </style>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 <body>
 
@@ -346,7 +347,7 @@
   <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
   <!-- ── Navbar — verbatim copy from nav-bar/profile.html (root-relative paths) ── -->
-  <nav class="top-info" aria-label="Primary navigation">
+  <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
     <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
@@ -367,7 +368,7 @@
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger" aria-label="Open menu">
+        <button class="main-menu-trigger" aria-label="Open menu" data-i18n-attr-aria-label="aria.openMenu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
         </button>
         <ul class="main-menu-panel" role="menu">
@@ -392,12 +393,12 @@
     <!-- ─── HERO ─── -->
     <section class="pf-hero">
       <div class="pf-hero-left">
-        <span class="pf-eyebrow"><em>—</em> a quiet voice on stillhere</span>
+        <span class="pf-eyebrow"><em>—</em> <span data-i18n="u.hero.eyebrow">a quiet voice on stillhere</span></span>
         <h1 class="pf-title">
           <span id="heroNameSpan">…</span>
           <img src="assets/letters/_Special Characters/Asterisk_01.png" class="pf-title-star" alt="" aria-hidden="true">
         </h1>
-        <p class="pf-lede" id="heroLede">
+        <p class="pf-lede" id="heroLede" data-i18n="u.hero.lede">
           stories shared <em>anonymously</em> here. read what they wrote, sit with it, leave nothing if nothing feels right.
         </p>
       </div>
@@ -416,11 +417,13 @@
           <div class="pf-meta">
             <span id="pfJoined">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48Zm136,160H48V96H208V208Z"/></svg>
-              <span>here since …</span>
+              <!-- u-page.js replaces this on render with the "here since
+                   {month year}" string in the active language. -->
+              <span data-i18n="u.card.joined">here since …</span>
             </span>
             <span>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></svg>
-              <span>Anonymous</span>
+              <span data-i18n="u.card.anon">Anonymous</span>
             </span>
           </div>
         </div>
@@ -431,13 +434,13 @@
     <section class="pf-section">
       <div class="pf-section-head">
         <span class="pf-section-eyebrow">— 01</span>
-        <h2 class="pf-section-title">their footprint</h2>
-        <span class="pf-section-hint">presence, not metrics</span>
+        <h2 class="pf-section-title" data-i18n="u.stats.title">their footprint</h2>
+        <span class="pf-section-hint" data-i18n="u.stats.hint">presence, not metrics</span>
       </div>
       <div class="pf-stats">
-        <div class="pf-stat"><div class="pf-stat-num" id="statStories">0</div><div class="pf-stat-label">stories shared</div></div>
-        <div class="pf-stat"><div class="pf-stat-num" id="statSupport">0</div><div class="pf-stat-label">i'm-here received</div></div>
-        <div class="pf-stat"><div class="pf-stat-num" id="statDays">0</div><div class="pf-stat-label">days on stillhere</div></div>
+        <div class="pf-stat"><div class="pf-stat-num" id="statStories">0</div><div class="pf-stat-label" data-i18n="u.stats.shared">stories shared</div></div>
+        <div class="pf-stat"><div class="pf-stat-num" id="statSupport">0</div><div class="pf-stat-label" data-i18n="u.stats.support">i'm-here received</div></div>
+        <div class="pf-stat"><div class="pf-stat-num" id="statDays">0</div><div class="pf-stat-label" data-i18n="u.stats.days">days on stillhere</div></div>
       </div>
     </section>
 
@@ -445,20 +448,20 @@
     <section class="pf-section">
       <div class="pf-section-head">
         <span class="pf-section-eyebrow">— 02</span>
-        <h2 class="pf-section-title">their stories</h2>
-        <span class="pf-section-hint" id="storiesHint">newest first</span>
+        <h2 class="pf-section-title" data-i18n="u.stories.title">their stories</h2>
+        <span class="pf-section-hint" id="storiesHint" data-i18n="u.stories.hint">newest first</span>
       </div>
       <div class="feed u-stories" id="uStories"></div>
     </section>
 
     <div class="pf-closing">
-      <p class="pf-closing-text">they're <em>still here.</em></p>
-      <p class="pf-closing-sub">and so are you.</p>
+      <p class="pf-closing-text" data-i18n="u.closing.text">they're <em>still here.</em></p>
+      <p class="pf-closing-sub" data-i18n="u.closing.sub">and so are you.</p>
     </div>
 
   </main>
 
   <script src="JS/nav-menu.js?v=1" defer></script>
-  <script src="JS/u-page.js?v=5" defer></script>
+  <script src="JS/u-page.js?v=7" defer></script>
 </body>
 </html>

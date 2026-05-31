@@ -14,11 +14,15 @@
     var qs = new URLSearchParams(window.location.search);
     var username = (qs.get('u') || qs.get('user') || '').trim().toLowerCase();
     if (!username) {
-      showError('No user specified.');
+      /* No `?u=` → there's no profile to view. 404 is the correct
+         response, not a content-area error. */
+      location.replace('/404.html');
       return;
     }
     if (!window.supabase || !window.SH_SUPABASE_URL) {
-      showError('Service unavailable.');
+      showError((window.SH_I18N && window.SH_I18N.t)
+        ? window.SH_I18N.t('u.err.service')
+        : 'Service unavailable.');
       return;
     }
     if (!window._sbClient) {
@@ -39,7 +43,8 @@
       .maybeSingle()
       .then(function (res) {
         if (res.error || !res.data) {
-          showError('We couldn\'t find @' + escHtml(username) + '.');
+          /* Profile doesn't exist (or RLS hid it) → 404 page. */
+          location.replace('/404.html');
           return;
         }
         renderHeader(res.data);
@@ -65,7 +70,14 @@
     if (handleEl) handleEl.textContent = '@' + p.username;
     if (joinedEl) {
       var span = joinedEl.querySelector('span');
-      if (span) span.textContent = 'here since ' + formatJoined(p.created_at);
+      if (span) {
+        /* "here since {month year}" — prefix is i18n, the date is
+           localised via toLocaleDateString below. */
+        var prefix = (window.SH_I18N && window.SH_I18N.t)
+          ? window.SH_I18N.t('u.card.joined')
+          : 'here since';
+        span.textContent = prefix + ' ' + formatJoined(p.created_at);
+      }
     }
     if (avatarEl && p.avatar_url) {
       avatarEl.innerHTML = '<img src="' + escAttr(p.avatar_url) + '" alt="" loading="lazy">';
@@ -116,7 +128,10 @@
     var lede     = document.getElementById('heroLede');
     var card     = document.querySelector('.pf-hero-right');
     var sections = document.querySelectorAll('.pf-section, .pf-closing');
-    if (heroSpan) heroSpan.textContent = 'not here';
+    var notHere  = (window.SH_I18N && window.SH_I18N.t)
+      ? window.SH_I18N.t('u.err.notfound')
+      : 'not here';
+    if (heroSpan) heroSpan.textContent = notHere;
     if (lede)     lede.textContent     = msg;
     if (card)     card.style.display   = 'none';
     sections.forEach(function (s) { s.style.display = 'none'; });
@@ -165,8 +180,15 @@
     if (!container) return;
 
     if (!posts.length) {
+      var t = (window.SH_I18N && window.SH_I18N.t)
+        ? window.SH_I18N.t
+        : function (_, fb) { return fb; };
       container.innerHTML =
-        '<div class="u-empty"><em>quiet here</em>no stories yet — they\'re just listening.</div>';
+        '<div class="u-empty"><em>' +
+          (t('u.empty.tag', 'quiet here') || 'quiet here') +
+        '</em>' +
+          (t('u.empty.text', 'no stories yet — they\'re just listening.') || 'no stories yet — they\'re just listening.') +
+        '</div>';
       return;
     }
 
@@ -309,7 +331,13 @@
   function formatJoined(iso) {
     if (!iso) return '';
     var d = new Date(iso);
-    return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    /* Use the active i18n language for the locale so "May 2026"
+       renders as "май 2026" in Russian. Falls back to en-GB. */
+    var lang = (window.SH_I18N && window.SH_I18N.getLang)
+      ? window.SH_I18N.getLang()
+      : 'en';
+    var locale = lang === 'ru' ? 'ru-RU' : 'en-GB';
+    return d.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
   }
 
   /* Whole-card click → open post (mirrors main.html behaviour). */

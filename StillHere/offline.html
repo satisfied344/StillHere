@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
+  <meta name="darkreader-lock">
+  <meta name="nighteye" content="disabled">
+  <meta name="theme-color" content="#f4ead6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1410" media="(prefers-color-scheme: dark)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <link rel="preload" as="image" type="image/png" href="/assets/favicon/favicon-96x96.png?v=3">
+  <link rel="icon" type="image/png" sizes="96x96"   href="/assets/favicon/favicon-96x96.png?v=3">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/web-app-manifest-192x192.png?v=3">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon/web-app-manifest-512x512.png?v=3">
+  <link rel="shortcut icon"                          href="/assets/favicon/favicon.ico?v=3">
+  <link rel="apple-touch-icon" sizes="180x180"       href="/assets/favicon/apple-touch-icon.png?v=3">
+  <link rel="mask-icon"        color="#d6533c"       href="/assets/favicon/favicon.svg?v=3">
+  <link rel="manifest"                                href="/manifest.webmanifest">
+
+  <title data-i18n="off.doc.title">Offline — StillHere</title>
+
+  <link rel="stylesheet" href="/CSS/main-screen.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/dark-theme.css">
+  <!-- i18n is normally bundled with deferred fetches that would
+       fail offline — but i18n.js is already in the SW shell cache
+       (precached as JS), so the strings load even without network. -->
+  <script src="/JS/i18n.js" defer></script>
+
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px; overflow: hidden;
+      position: relative;
+    }
+
+    /* Full 9-doodle ambient set — 1:1 with ai-chat-screen.css */
+    .pg-doodle {
+      position: fixed; z-index: 0;
+      opacity: 0.10; pointer-events: none;
+      user-select: none; mix-blend-mode: multiply;
+    }
+    .pg-doodle--1 { width: 130px; top: 16%;   left: 1.5%;  --pg-rot: -8deg;
+                    animation: pgDoodleFloat 12s ease-in-out infinite alternate; }
+    .pg-doodle--2 { width:  60px; top: 46%;   left: 1%;    --pg-rot: 14deg;
+                    animation: pgDoodleFloat 9s ease-in-out -2s infinite alternate; }
+    .pg-doodle--3 { width:  78px; bottom:14%; right: 2%;   --pg-rot: -6deg;
+                    animation: pgDoodleFloat 14s ease-in-out -5s infinite alternate; }
+    .pg-doodle--4 { width:  54px; top: 20%;   right: 1.5%; --pg-rot: -18deg;
+                    animation: pgDoodleSpin 11s ease-in-out -1s infinite alternate; }
+    .pg-doodle--5 { width: 110px; bottom: 6%; left: 36%;   --pg-rot: 3deg; opacity: 0.07;
+                    animation: pgDoodleFloat 16s ease-in-out -7s infinite alternate; }
+    @keyframes pgDoodleFloat {
+      from { transform: rotate(var(--pg-rot, 0deg)) translateY(-5px); }
+      to   { transform: rotate(var(--pg-rot, 0deg)) translateY(7px); }
+    }
+    @keyframes pgDoodleSpin {
+      from { transform: rotate(calc(var(--pg-rot, 0deg) - 4deg)) translateY(-4px); }
+      to   { transform: rotate(calc(var(--pg-rot, 0deg) + 4deg)) translateY(4px); }
+    }
+
+    .wd {
+      position: fixed; z-index: 0;
+      pointer-events: none; user-select: none;
+      mix-blend-mode: multiply;
+    }
+    .wd--cloud-l { width: 110px;  top: 58%;  left: 8%;   --wd-rot:-6deg;  opacity: 0.11;
+                   animation: wdFloatA 11s ease-in-out infinite; }
+    .wd--wave    { width: 140px;  bottom:14%; left: 24%; --wd-rot:-3deg;  opacity: 0.09;
+                   animation: wdSway 13s ease-in-out infinite; }
+    .wd--star-r  { width:  52px;  top: 38%;  right: 14%; --wd-rot:-18deg; opacity: 0.16;
+                   animation: wdSpin 18s ease-in-out infinite; }
+    .wd--spark   { width:  38px;  top: 64%;  left: 52%;  --wd-rot:20deg;  opacity: 0.13;
+                   animation: wdFloatA 8s ease-in-out infinite reverse; }
+    @keyframes wdFloatA {
+      0%, 100% { transform: rotate(var(--wd-rot, 0deg))                  translateY(0); }
+      50%      { transform: rotate(calc(var(--wd-rot, 0deg) + 4deg))     translateY(-10px); }
+    }
+    @keyframes wdSway {
+      0%, 100% { transform: rotate(var(--wd-rot, 0deg))                  translateX(0); }
+      50%      { transform: rotate(calc(var(--wd-rot, 0deg) - 3deg))     translateX(-12px); }
+    }
+    @keyframes wdSpin {
+      0%, 100% { transform: rotate(calc(var(--wd-rot, 0deg) - 10deg))    translateY(0); }
+      50%      { transform: rotate(calc(var(--wd-rot, 0deg) + 10deg))    translateY(-6px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pg-doodle, .wd { animation: none !important; }
+    }
+    @media (max-width: 880px) {
+      .pg-doodle, .wd { display: none; }
+    }
+
+    .off-wrap {
+      max-width: 520px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      animation: offIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes offIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .off-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 18px;
+    }
+    .off-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 6px; }
+
+    .off-title {
+      font-family: "Caveat", cursive;
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 18px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .off-title em { color: var(--accent-2); font-style: italic; }
+
+    .off-lede {
+      font-size: 15px;
+      color: var(--ink-mid);
+      line-height: 1.7;
+      max-width: 420px;
+      margin: 0 auto 28px;
+    }
+
+    .off-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 13.5px; font-weight: 500;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  background 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 4px 14px -3px rgba(26, 20, 16, 0.22);
+    }
+    .off-btn:hover {
+      background: var(--accent-2);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px -3px rgba(214, 83, 60, 0.35);
+    }
+
+    @media (max-width: 560px) {
+      .off-title { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 5 perimeter doodles + 4 interior doodles = full ai-chat set -->
+  <img src="/assets/doodles2/09_cloud.png"                          class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
+  <img src="/assets/letters/_Special Characters/Asterisk_04.png"    class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
+  <img src="/assets/doodles2/06_double_heart.png"                   class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
+  <img src="/assets/letters/_Special Characters/Asterisk_02.png"    class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
+
+  <img src="/assets/doodles2/02_asterisk_flower.png"                class="wd wd--cloud-l" alt="" aria-hidden="true">
+  <img src="/assets/doodles2/08_wavy_line.png"                      class="wd wd--wave" alt="" aria-hidden="true">
+  <img src="/assets/letters/_Special Characters/Asterisk_06.png"    class="wd wd--star-r" alt="" aria-hidden="true">
+
+  <main class="off-wrap">
+    <p class="off-eyebrow"><em>—</em> <span data-i18n="off.eyebrow">offline</span></p>
+    <h1 class="off-title" data-i18n="off.title">no <em>signal</em>, still <em>here</em>.</h1>
+    <p class="off-lede" data-i18n="off.lede">
+      we couldn't reach the network — that's okay. take a breath.
+      when you're back online, the page will load.
+    </p>
+    <button class="off-btn" onclick="location.reload()" data-i18n="off.btn">try again</button>
+  </main>
+</body>
+</html>

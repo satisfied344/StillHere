@@ -371,6 +371,11 @@ a.post-avatar-link:hover {
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  /* Match the feed: lock underline to text width so short names
+     don't get a wide line. */
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
 }
 .post-author-name .post-author-link:hover {
   color: var(--accent-2);

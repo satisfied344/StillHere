@@ -183,8 +183,12 @@
        Guests should never see a notifications icon — there's nothing
        it can do for them and it clutters the navbar. */
     wrap.style.display = 'none';
+    /* Local i18n helper — falls back to the English literal when
+       SH_I18N isn't ready (e.g. early boot). */
+    var nt = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
+
     wrap.innerHTML =
-      '<button type="button" class="sh-notif-bell" id="shNotifBell" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">' +
+      '<button type="button" class="sh-notif-bell" id="shNotifBell" aria-label="' + nt('nt.aria', 'Notifications') + '" aria-haspopup="true" aria-expanded="false">' +
         /* Phosphor "Bell" regular weight, 24px — same family as the
            other nav icons (about / contacts / updates / profile). */
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
@@ -194,11 +198,11 @@
       '</button>' +
       '<div class="sh-notif-panel" id="shNotifPanel" role="menu" aria-labelledby="shNotifBell">' +
         '<div class="sh-notif-head">' +
-          '<h3>notifications</h3>' +
-          '<button type="button" class="sh-notif-clear" id="shNotifClear">mark all read</button>' +
+          '<h3>' + nt('nt.title', 'notifications') + '</h3>' +
+          '<button type="button" class="sh-notif-clear" id="shNotifClear">' + nt('nt.clear', 'mark all read') + '</button>' +
         '</div>' +
         '<ul class="sh-notif-list" id="shNotifList">' +
-          '<li class="sh-notif-empty"><em>nothing new</em>quiet for now.</li>' +
+          '<li class="sh-notif-empty"><em>' + nt('nt.empty.tag', 'nothing new') + '</em>' + nt('nt.empty.text', 'quiet for now.') + '</li>' +
         '</ul>' +
       '</div>';
 
@@ -443,9 +447,11 @@
   /* ──────────────────────────────────────────────────────────────
      D. Rendering
      ────────────────────────────────────────────────────────────── */
+  function nt(k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; }
+
   function copyForType(type) {
-    if (type === 'reply_to_comment') return 'replied to your comment';
-    return 'responded to your story';
+    if (type === 'reply_to_comment') return nt('nt.type.reply',    'replied to your comment');
+    return nt('nt.type.respond', 'responded to your story');
   }
 
   /* Returns the friendly name to show (display_name or username),
@@ -456,16 +462,16 @@
     if (ui && ui.actorNames && n && n.actor_id && ui.actorNames[n.actor_id]) {
       return ui.actorNames[n.actor_id];
     }
-    return 'someone';
+    return nt('nt.actor.someone', 'someone');
   }
 
   function timeAgo(iso) {
     if (!iso) return '';
     var diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (diff < 60)    return 'just now';
-    if (diff < 3600)  return Math.floor(diff / 60)   + ' min ago';
-    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-    return Math.floor(diff / 86400) + 'd ago';
+    if (diff < 60)    return nt('nt.time.now', 'just now');
+    if (diff < 3600)  return Math.floor(diff / 60)   + nt('nt.time.m', ' min ago');
+    if (diff < 86400) return Math.floor(diff / 3600) + nt('nt.time.h', 'h ago');
+    return Math.floor(diff / 86400) + nt('nt.time.d', 'd ago');
   }
 
   /* Build a relative link to the post (works from any page).
@@ -510,7 +516,9 @@
   function renderList(ui) {
     var rows = ui.cache || [];
     if (!rows.length) {
-      ui.list.innerHTML = '<li class="sh-notif-empty"><em>nothing new</em>quiet for now.</li>';
+      var emptyTag  = (window.SH_I18N && window.SH_I18N.t('nt.empty.tag'))  || 'nothing new';
+      var emptyText = (window.SH_I18N && window.SH_I18N.t('nt.empty.text')) || 'quiet for now.';
+      ui.list.innerHTML = '<li class="sh-notif-empty"><em>' + emptyTag + '</em>' + emptyText + '</li>';
       return;
     }
     var visible = ui.expanded ? rows : rows.slice(0, PREVIEW_LIMIT);
@@ -522,7 +530,10 @@
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'sh-notif-more';
-      btn.textContent = 'show ' + hidden + ' more';
+      /* "show N more" — use a {n} placeholder so RU/EN can put the
+         number where the grammar requires (RU: "ещё N"). */
+      var moreTpl = (window.SH_I18N && window.SH_I18N.t('nt.showmore')) || 'show {n} more';
+      btn.textContent = moreTpl.replace('{n}', hidden);
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         /* Stop the click from bubbling to document — otherwise the

@@ -1074,7 +1074,9 @@ html[data-theme="dark"] .logo::after { color: #e8a87c !important; }
 
 html[data-theme="dark"] .nav-link { color: rgba(237,225,200,0.7) !important; }
 html[data-theme="dark"] .nav-link:hover { color: #ede1c8 !important; }
-html[data-theme="dark"] .nav-link::after { background: #ede1c8 !important; }
+/* Underline lives on .nav-link > span now (so short labels don't
+   get an over-long indicator). Recolor it in dark mode here too. */
+html[data-theme="dark"] .nav-link > span::after { background: #ede1c8 !important; }
 /* Login pill in dark mode — also matches new .nav-link--login class
    used on index.html (burger sits after it, so :last-child no longer
    targets the login link itself). */

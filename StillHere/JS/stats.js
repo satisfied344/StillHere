@@ -16,10 +16,11 @@
 
   function timeAgo(iso) {
     var d = Math.floor((Date.now() - new Date(iso)) / 1000);
-    if (d < 60)    return 'just now';
-    if (d < 3600)  return Math.floor(d / 60)   + 'm ago';
-    if (d < 86400) return Math.floor(d / 3600)  + 'h ago';
-    return Math.floor(d / 86400) + 'd ago';
+    var tt = function (k, fb) { return (window.SH_I18N && SH_I18N.t(k)) || fb; };
+    if (d < 60)    return tt('st.time.now', 'just now');
+    if (d < 3600)  return Math.floor(d / 60)   + tt('st.time.m', 'm ago');
+    if (d < 86400) return Math.floor(d / 3600) + tt('st.time.h', 'h ago');
+    return Math.floor(d / 86400) + tt('st.time.d', 'd ago');
   }
 
   function fmt(n) {
@@ -85,8 +86,11 @@
     /* Trend labels */
     var weekPosts    = r[3].count ?? 0;
     var weekComments = r[4].count ?? 0;
-    setTrend('trend-posts',    weekPosts,    'this week');
-    setTrend('trend-comments', weekComments, 'this week');
+    /* "+N this week" trend strings — i18n so the label flips with
+       the language toggle. */
+    var weekLabel = (window.SH_I18N && SH_I18N.t('st.trend.week')) || 'this week';
+    setTrend('trend-posts',    weekPosts,    weekLabel);
+    setTrend('trend-comments', weekComments, weekLabel);
 
     var posts30d    = r[5].data || [];
     var comments30d = r[6].data || [];
@@ -199,11 +203,13 @@
       return;
     }
 
+    var anonLabel    = (window.SH_I18N && SH_I18N.t('st.author.anon')) || 'Anonymous';
+    var untitledTxt  = (window.SH_I18N && SH_I18N.t('st.post.untitled')) || '(untitled)';
     container.innerHTML = posts.map(function (p) {
       var author = p.profiles
         ? escHtml(p.profiles.display_name || p.profiles.username)
-        : 'Anonymous';
-      var title = escHtml(p.title || '(untitled)');
+        : anonLabel;
+      var title = escHtml(p.title || untitledTxt);
       return (
         '<a href="post.html?id=' + escHtml(p.id) + '" class="recent-post-row">' +
           '<span class="rp-title">' + title + '</span>' +
@@ -229,7 +235,10 @@
     });
 
     var labels = Object.keys(postBuckets).map(function (d) {
-      return new Date(d + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' });
+      /* Localised date — flips to "29 мая" in Russian. */
+      var stLang = (window.SH_I18N && SH_I18N.getLang) ? SH_I18N.getLang() : 'en';
+      var stLocale = stLang === 'ru' ? 'ru-RU' : 'en-GB';
+      return new Date(d + 'T12:00:00').toLocaleDateString(stLocale, { month: 'short', day: 'numeric' });
     });
     var postData    = Object.values(postBuckets);
     var commentData = Object.values(commentBuckets);
@@ -250,7 +259,7 @@
         labels: labels,
         datasets: [
           {
-            label: 'Stories',
+            label: (window.SH_I18N && SH_I18N.t('st.chart.stories')) || 'Stories',
             data: postData,
             borderColor: '#a691c2',
             backgroundColor: 'rgba(166,145,194,0.12)',
@@ -262,7 +271,7 @@
             pointBackgroundColor: '#a691c2',
           },
           {
-            label: 'Responses',
+            label: (window.SH_I18N && SH_I18N.t('st.chart.responses')) || 'Responses',
             data: commentData,
             borderColor: '#e0bda5',
             backgroundColor: 'rgba(224,189,165,0.10)',

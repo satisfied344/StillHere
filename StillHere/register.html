@@ -26,11 +26,11 @@
     <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
     <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+    <link rel="manifest"                                href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>Join StillHere — anonymous, free</title>
+  <title data-i18n="doc.title.register">Join StillHere — anonymous, free</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="No real name, no profile to maintain. Just a quiet place to be heard.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
@@ -370,7 +370,20 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-top: 4px;
+      /* Stay collapsed until the user actually types a password.
+         The bar gets `.pw-strength-bar--weak/fair/good/strong`
+         from auth.js on input; `:has()` keys off that so the
+         meter only takes vertical space when there's something
+         to show — otherwise the password hint and "I agree"
+         checkbox would sit ~24px apart with empty space between. */
+      max-height: 0;
+      margin-top: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, margin-top 0.25s ease;
+    }
+    .field:has(.pw-strength-bar[class*="pw-strength-bar--"]) .pw-strength-wrap {
+      max-height: 40px;
+      margin-top: 6px;
     }
     .pw-strength-track {
       width: 100%;
@@ -496,6 +509,7 @@
     }
   </style>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 <body>
 
@@ -513,7 +527,7 @@
   <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
   <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
-  <nav class="top-info" aria-label="Primary navigation">
+  <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
     <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
@@ -534,7 +548,7 @@
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger" aria-label="Open menu">
+        <button class="main-menu-trigger" aria-label="Open menu" data-i18n-attr-aria-label="aria.openMenu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
         </button>
         <ul class="main-menu-panel" role="menu">
@@ -625,6 +639,12 @@
               <span class="pw-toggle-hide" data-i18n="login.pw.hide" hidden>hide</span>
             </button>
           </div>
+          <!-- Static rule reminder sits tight under the input, BEFORE
+               the strength meter — the strength meter has an empty
+               min-height row that otherwise pushes the hint way
+               down with whitespace in between. Same wording across
+               register / reset / edit-profile. -->
+          <span class="field-hint" data-i18n="reg.field.password.hint">min 8 characters, at least 1 letter &amp; 1 number, no spaces, Latin only.</span>
           <div class="pw-strength-wrap">
             <div class="pw-strength-track">
               <div class="pw-strength-bar" id="pwStrengthBar"></div>
@@ -699,8 +719,8 @@
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
-  <script src="JS/moderation.js?v=4" defer></script>
-  <script src="JS/auth.js?v=5"></script>
+  <script src="JS/notifications.js?v=12" defer></script>
+  <script src="JS/moderation.js?v=5" defer></script>
+  <script src="JS/auth.js?v=9"></script>
 </body>
 </html>

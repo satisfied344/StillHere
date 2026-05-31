@@ -16,7 +16,7 @@
     <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
     <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+    <link rel="manifest"                                href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -30,7 +30,7 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
-    <title>Community feed — StillHere</title>
+    <title data-i18n="doc.title.main">Community feed — StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Quiet stories from people around the world. Anonymous, free, no-advice — just presence.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
@@ -88,9 +88,9 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
-  <script src="JS/moderation.js?v=4" defer></script>
-  <script src="JS/main-page.js?v=6" defer></script>
+  <script src="JS/notifications.js?v=12" defer></script>
+  <script src="JS/moderation.js?v=5" defer></script>
+  <script src="JS/main-page.js?v=7" defer></script>
   <script>
     /* ── Sidebar Home / Saved toggle ── */
     document.addEventListener('DOMContentLoaded', function () {
@@ -292,6 +292,7 @@
        "Moved from main.html inline <style> blocks". Letters-widget
        styles (previously inline in the right-sidebar markup) moved too. -->
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 <body>
 <!-- Paper-grain noise filter (shared with startup-page) -->
@@ -311,7 +312,7 @@
 <img src="../assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
 <div class="page-wrapper">
-    <nav class="top-info" aria-label="Primary navigation">
+    <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
             <a href="/" class="logo">
                 <span>StillHere</span>
             </a>

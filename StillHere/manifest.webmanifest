@@ -1,0 +1,41 @@
+{
+  "name": "StillHere — presence, not solutions",
+  "short_name": "StillHere",
+  "description": "Anonymous, free, no-advice support for hard days.",
+  "start_url": "/main.html",
+  "scope": "/",
+  "id": "/?source=pwa",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4ead6",
+  "theme_color": "#f4ead6",
+  "lang": "en",
+  "categories": ["lifestyle", "social", "health"],
+  "icons": [
+    { "src": "/assets/favicon/favicon.svg",                  "sizes": "any",     "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/favicon/favicon-96x96.png",            "sizes": "96x96",   "type": "image/png" },
+    { "src": "/assets/favicon/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/favicon/web-app-manifest-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/favicon/apple-touch-icon.png",         "sizes": "180x180", "type": "image/png" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Share a story",
+      "short_name": "Share",
+      "url": "/create-post.html",
+      "icons": [{ "src": "/assets/favicon/favicon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Community feed",
+      "short_name": "Feed",
+      "url": "/main.html",
+      "icons": [{ "src": "/assets/favicon/favicon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "AI support",
+      "short_name": "AI chat",
+      "url": "/ai-chat.html",
+      "icons": [{ "src": "/assets/favicon/favicon-96x96.png", "sizes": "96x96" }]
+    }
+  ]
+}

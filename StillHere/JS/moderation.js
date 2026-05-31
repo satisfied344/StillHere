@@ -246,8 +246,9 @@
        result — object returned by SH_MOD.check() */
     showBlock: function (el, result) {
       if (!el) return;
+      var mt = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
 
-      var label = result.label || 'Community guidelines violation';
+      var label = result.label || mt('mod.label.violation', 'Community guidelines violation');
       var html = '<p class="mod-error">✕ ' + label + '</p>';
 
       if (result.retry) {
@@ -260,12 +261,18 @@
       if (result.banned && result.bannedUntil) {
         var until = new Date(result.bannedUntil);
         var diff  = Math.ceil((until - Date.now()) / 3_600_000);
-        var timeStr = diff >= 24
-          ? Math.ceil(diff / 24) + (Math.ceil(diff / 24) === 1 ? ' day' : ' days')
-          : diff + (diff === 1 ? ' hour' : ' hours');
-        html += '<p class="mod-ban">Account suspended · ' + timeStr + '</p>';
+        var timeStr;
+        if (diff >= 24) {
+          var days = Math.ceil(diff / 24);
+          timeStr = days + ' ' + mt(days === 1 ? 'mod.time.day' : 'mod.time.days', days === 1 ? 'day' : 'days');
+        } else {
+          timeStr = diff + ' ' + mt(diff === 1 ? 'mod.time.hour' : 'mod.time.hours', diff === 1 ? 'hour' : 'hours');
+        }
+        html += '<p class="mod-ban">' + mt('mod.banned', 'Account suspended') + ' · ' + timeStr + '</p>';
       } else if (!result.banned && typeof result.blocksLeft === 'number' && result.blocksLeft > 0) {
-        html += '<p class="mod-warn">' + result.blocksLeft + ' attempt' + (result.blocksLeft === 1 ? '' : 's') + ' remaining</p>';
+        var n = result.blocksLeft;
+        var attemptLabel = mt(n === 1 ? 'mod.attempt.one' : 'mod.attempt.many', n === 1 ? 'attempt remaining' : 'attempts remaining');
+        html += '<p class="mod-warn">' + n + ' ' + attemptLabel + '</p>';
       }
 
       el.innerHTML = html;
@@ -309,7 +316,6 @@
         }
       } catch (_) {}
 
-      console.log('[SH_MOD.report] calling RPC', { targetType, targetId, fp: fp ? fp.slice(0, 10) + '…' : null });
 
       var rpc;
       try {
@@ -323,7 +329,6 @@
         console.error('[SH_MOD.report] RPC threw:', err);
         return { ok: false, error: 'network', detail: String(err) };
       }
-      console.log('[SH_MOD.report] RPC raw:', rpc);
       if (rpc.error) {
         console.error('[SH_MOD.report] RPC error:', rpc.error);
         return { ok: false, error: rpc.error.message || 'rpc_error', code: rpc.error.code, hint: rpc.error.hint };
@@ -339,7 +344,6 @@
         db.functions.invoke('strict-review', {
           body: { target_type: targetType, target_id: targetId }
         }).then(function (r) {
-          console.log('[strict-review] response:', r);
         }).catch(function (e) {
           console.warn('[strict-review] kick failed (cron will retry):', e);
         });

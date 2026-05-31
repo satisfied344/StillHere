@@ -26,11 +26,11 @@
     <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
     <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+    <link rel="manifest"                                href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>By the numbers — StillHere</title>
+  <title data-i18n="doc.title.stats">By the numbers — StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="How many people showed up here this week, this month, this year.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
@@ -92,7 +92,7 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
+  <script src="JS/notifications.js?v=12" defer></script>
   <script src="JS/theme.js" defer></script>
 
   <style>
@@ -747,6 +747,7 @@
     }
   </style>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 <body>
 
@@ -765,7 +766,7 @@
   <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
   <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
-  <nav class="top-info" aria-label="Primary navigation">
+  <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
     <a href="main.html" class="logo"><span>StillHere</span></a>
     <div class="nav">
       <a href="nav-bar/about.html" class="nav-link nav-link--stack">
@@ -786,7 +787,7 @@
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger" aria-label="Open menu">
+        <button class="main-menu-trigger" aria-label="Open menu" data-i18n-attr-aria-label="aria.openMenu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
         </button>
         <ul class="main-menu-panel" role="menu">
@@ -1215,7 +1216,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
             '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
             'M218.83,130.83l-40,40a8,8,0,0,1-11.32-11.32L192.69,136H104a8,8,0,0,1,0-16h88.69L167.51,96.49a8,8,0,1,1,11.32-11.32l40,40A8,8,0,0,1,218.83,130.83Z"/></svg>' +
-            'Sign out';
+            ((window.SH_I18N && SH_I18N.t('menu.signout')) || 'Sign out');
           loginItem.removeAttribute('href');
           loginItem.style.cursor = 'pointer';
           loginItem.addEventListener('click', async function (e) {
@@ -1513,7 +1514,7 @@ document.addEventListener('DOMContentLoaded', function () {
           labels: labels,
           datasets: [
             {
-              label: 'Stories',
+              label: (window.SH_I18N && SH_I18N.t('st.chart.stories')) || 'Stories',
               data: Object.values(pb),
               borderColor: '#d6533c',
               backgroundColor: 'rgba(214, 83, 60, 0.10)',
@@ -1525,7 +1526,7 @@ document.addEventListener('DOMContentLoaded', function () {
               pointBackgroundColor: '#d6533c',
             },
             {
-              label: 'Responses',
+              label: (window.SH_I18N && SH_I18N.t('st.chart.responses')) || 'Responses',
               data: Object.values(cb),
               borderColor: '#6d8268',
               backgroundColor: 'rgba(109, 130, 104, 0.10)',

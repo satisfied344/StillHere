@@ -203,7 +203,7 @@ document.addEventListener('click', function (e) {
     var url  = id
       ? window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'post.html?id=' + id
       : window.location.href;
-    if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast('Link copied'); });
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast((window.SH_I18N && window.SH_I18N.t('main.toast.linkcopied')) || 'Link copied'); });
   }
 });
 
@@ -222,7 +222,7 @@ document.addEventListener('click', function (e) {
       '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z' +
       'm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"/></svg>Save Post';
     saveBtn.classList.remove('save-post-btn--saved');
-    showMainToast('Removed from saved');
+    showMainToast((window.SH_I18N && window.SH_I18N.t('main.toast.unsaved')) || 'Removed from saved');
   } else {
     _savedPosts.add(postId);
     /* Filled bookmark icon */
@@ -230,7 +230,7 @@ document.addEventListener('click', function (e) {
       '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
       '<path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"/></svg>Saved';
     saveBtn.classList.add('save-post-btn--saved');
-    showMainToast('Post saved');
+    showMainToast((window.SH_I18N && window.SH_I18N.t('main.toast.saved')) || 'Post saved');
   }
   _saveSaved();
   closeAllPostMenus();
@@ -246,7 +246,7 @@ document.addEventListener('click', function (e) {
   var postId = copyBtn.getAttribute('data-action-copy');
   var url = window.location.origin +
     window.location.pathname.replace(/[^/]*$/, '') + 'post.html?id=' + postId;
-  if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast('Link copied'); });
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast((window.SH_I18N && window.SH_I18N.t('main.toast.linkcopied')) || 'Link copied'); });
   closeAllPostMenus();
 });
 
@@ -276,7 +276,6 @@ document.addEventListener('click', async function (e) {
   closeAllPostMenus();
 
   var pid = rbtn.getAttribute('data-action-report');
-  console.log('[main-report] click', { pid, hasSHMOD: !!(window.SH_MOD && window.SH_MOD.report) });
   if (!pid) { showMainToast('Cannot report — post id missing.'); return; }
   if (!window.SH_MOD || !window.SH_MOD.report) {
     showMainToast('Cannot report — moderation API not loaded.');
@@ -286,7 +285,6 @@ document.addEventListener('click', async function (e) {
   showMainToast('Sending report…');
   try {
     var res = await window.SH_MOD.report('post', pid, null);
-    console.log('[main-report] response', res);
 
     if (!res || res.ok === false) {
       var err = (res && res.error) || 'unknown';
@@ -1381,7 +1379,6 @@ document.addEventListener('click', async function (e) {
     if (!rb) return;
     if (rb.dataset._fetching === '1') return; // already in-flight, debounce
     rb.dataset._fetching = '1';
-    console.log('[refresh] click → fetchPosts');
     fetchPosts();
     // Clear the in-flight flag once the spinning class is removed.
     var clear = setInterval(function () {

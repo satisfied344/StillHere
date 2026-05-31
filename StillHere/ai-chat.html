@@ -26,11 +26,11 @@
     <link rel="shortcut icon"                          href="assets/favicon/favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180"       href="assets/favicon/apple-touch-icon.png?v=3">
     <link rel="mask-icon"        color="#d6533c"       href="assets/favicon/favicon.svg?v=3">
-    <link rel="manifest"                                href="assets/favicon/site.webmanifest?v=3">
+    <link rel="manifest"                                href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title>AI companion — StillHere</title>
+  <title data-i18n="doc.title.aichat">AI companion — StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="A gentle, present companion for hard days. Anonymous, free, with you whenever.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
@@ -91,10 +91,11 @@
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=11" defer></script>
+  <script src="JS/notifications.js?v=12" defer></script>
   <script src="JS/ai-chat-config.js?v=4" defer></script>
   <script src="JS/theme.js" defer></script>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
+  <script src="JS/pwa-register.js" defer></script>
 </head>
 <body>
 
@@ -114,7 +115,7 @@
   <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
   <img src="assets/doodles2/08_wavy_line.png"                        class="pg-doodle pg-doodle--5" alt="" aria-hidden="true">
 
-  <nav class="top-info" aria-label="Primary navigation">
+  <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
     <a href="/" class="logo"><span>StillHere</span></a>
 
     <div class="nav">
@@ -147,7 +148,7 @@
       </a>
 
       <div class="main-menu-dropdown">
-        <button class="main-menu-trigger" aria-label="Open menu">
+        <button class="main-menu-trigger" aria-label="Open menu" data-i18n-attr-aria-label="aria.openMenu">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">
             <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
           </svg>
@@ -306,7 +307,7 @@
               </div>
             </div>
 
-            <button class="send-btn" id="sendBtn" type="button" disabled aria-label="Send">
+            <button class="send-btn" id="sendBtn" type="button" disabled aria-label="Send" data-i18n-attr-aria-label="aria.send">
               <span class="send-label" data-i18n="ac.send">send</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
                 <path d="M223.87,114,89.87,34A16,16,0,0,0,66.4,53.65L88,128,66.4,202.35A16,16,0,0,0,82.13,224a16.06,16.06,0,0,0,7.77-2L223.87,142a16,16,0,0,0,0-28ZM82.12,208,103.66,134.4l63.49.07a8,8,0,0,0,0-16l-63.49.07L82,53.94,216,128Z"/>
@@ -347,6 +348,6 @@
   <!-- Crisis-detection — must load BEFORE ai-chat.js so the gate is
        available when the user sends their first message. -->
   <script src="JS/crisis.js?v=4"></script>
-  <script src="JS/ai-chat.js?v=7"></script>
+  <script src="JS/ai-chat.js?v=8"></script>
 </body>
 </html>

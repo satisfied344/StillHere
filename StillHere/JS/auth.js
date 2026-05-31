@@ -3,6 +3,18 @@
 (function () {
   'use strict';
 
+  // ── i18n helper ──────────────────────────────────────────────────────────
+  // Every user-visible string returned by this file (validator messages,
+  // form-level errors, recovery dialog copy) goes through `t()` so they
+  // get translated when SH_I18N is loaded, and fall back gracefully to
+  // the English literal otherwise (e.g. during the brief window before
+  // i18n.js boots, or if the dictionary is missing the key).
+  function t(key, fallback) {
+    return (window.SH_I18N && window.SH_I18N.t)
+      ? (window.SH_I18N.t(key) || fallback)
+      : fallback;
+  }
+
   // ── Supabase client ──────────────────────────────────────────────────────
 
   var _sb = null;
@@ -52,29 +64,38 @@
   // Allowed: a-z A-Z 0-9 _ -   |   3–30 chars   |   no leading/trailing _ -   |   no consecutive __ --
   function validateUsername(val) {
     val = (val || '').trim();
-    if (!val)          return 'Username is required.';
-    if (val.length < 3)  return 'Must be at least 3 characters.';
-    if (val.length > 30) return 'Must be 30 characters or less.';
-    if (!/^[a-zA-Z0-9_-]+$/.test(val))  return 'Only letters, numbers, _ and - are allowed.';
-    if (/^[_-]/.test(val))               return 'Cannot start with _ or -.';
-    if (/[_-]$/.test(val))               return 'Cannot end with _ or -.';
-    if (/[_-]{2}/.test(val))             return 'No consecutive _ or - characters.';
+    if (!val)            return t('auth.username.required', 'Username is required.');
+    if (val.length < 3)  return t('auth.username.min', 'Must be at least 3 characters.');
+    if (val.length > 30) return t('auth.username.max', 'Must be 30 characters or less.');
+    if (!/^[a-zA-Z0-9_-]+$/.test(val))  return t('auth.username.chars', 'Only letters, numbers, _ and - are allowed.');
+    if (/^[_-]/.test(val))               return t('auth.username.startend', 'Cannot start with _ or -.');
+    if (/[_-]$/.test(val))               return t('auth.username.endwith', 'Cannot end with _ or -.');
+    if (/[_-]{2}/.test(val))             return t('auth.username.consec', 'No consecutive _ or - characters.');
     return null;
   }
 
   function validateDisplayName(val) {
     if (!val) return null; // optional
-    if (val.length > 30) return 'Max 30 characters.';
-    if (/\s/.test(val))  return 'One word per field — put the rest in Last name.';
-    if (!/^[\p{L}\p{M}][\p{L}\p{M}'\-]*$/u.test(val)) return 'Letters, hyphens and apostrophes only.';
+    if (val.length > 30) return t('auth.name.max', 'Max 30 characters.');
+    if (/\s/.test(val))  return t('auth.name.oneword', 'One word per field — put the rest in Last name.');
+    if (!/^[\p{L}\p{M}][\p{L}\p{M}'\-]*$/u.test(val)) return t('auth.name.chars', 'Letters, hyphens and apostrophes only.');
     return null;
   }
 
   function validatePassword(val) {
-    if (!val)            return 'Password is required.';
-    if (val.length < 8)  return 'Must be at least 8 characters.';
-    if (!/[a-zA-Z]/.test(val)) return 'Must contain at least one letter.';
-    if (!/[0-9]/.test(val))    return 'Must contain at least one number.';
+    if (!val)            return t('auth.pw.required', 'Password is required.');
+    /* Whitespace check up front — catches all-spaces inputs AND
+       spaces between characters. Same rule applies on reset and
+       registration since they share this validator. */
+    if (/\s/.test(val))  return t('auth.pw.nospace', 'No spaces allowed.');
+    /* ASCII-printable only (0x21–0x7E) — rejects Russian/Unicode
+       letters, emoji, control chars. Lets normal Latin letters,
+       digits, and common symbols through (!@#$%^&* etc). */
+    if (!/^[\x21-\x7E]+$/.test(val)) return t('auth.pw.ascii', 'Latin letters, digits and common symbols only.');
+    if (val.length < 8)  return t('auth.pw.min', 'Must be at least 8 characters.');
+    if (val.length > 128) return t('auth.pw.max', 'Must be 128 characters or less.');
+    if (!/[a-zA-Z]/.test(val)) return t('auth.pw.letter', 'Must contain at least one letter.');
+    if (!/[0-9]/.test(val))    return t('auth.pw.digit', 'Must contain at least one number.');
     return null;
   }
 
@@ -138,7 +159,14 @@
   }
 
   var STRENGTH_LEVELS = ['', 'weak', 'fair', 'good', 'strong', 'strong'];
-  var STRENGTH_LABELS = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Strong'];
+  /* Localised on every call via labels() — STRENGTH_LABELS itself is
+     just a stable English vocabulary for the dictionary lookups. */
+  var STRENGTH_LABELS_EN = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Strong'];
+  function strengthLabel(i) {
+    var en = STRENGTH_LABELS_EN[i] || '';
+    if (!en) return '';
+    return t('auth.strength.' + en.toLowerCase(), en);
+  }
 
   function updateStrengthBar(val, barEl, textEl) {
     if (!barEl) return;
@@ -146,7 +174,7 @@
     var level = val ? (STRENGTH_LEVELS[score] || 'weak') : '';
     barEl.className = 'pw-strength-bar' + (level ? ' pw-strength-bar--' + level : '');
     barEl.style.width = val ? (score * 20) + '%' : '0';
-    if (textEl) textEl.textContent = val ? (STRENGTH_LABELS[score] || '') : '';
+    if (textEl) textEl.textContent = val ? strengthLabel(score) : '';
   }
 
   // ── Show/hide password toggle ────────────────────────────────────────────
@@ -287,13 +315,13 @@
       if (uErr || pErr || fnErr || lnErr) return;
 
       if (termsBox && !termsBox.checked) {
-        setFormError(form, 'Please agree to the Terms of Service to continue.');
+        setFormError(form, t('auth.form.agree', 'Please agree to the Terms of Service to continue.'));
         return;
       }
 
       // CAPTCHA — require a token when bot protection is enabled.
       if (captchaEnabled() && !_captchaToken) {
-        setFormError(form, 'Please complete the "I\'m human" check below.');
+        setFormError(form, t('auth.form.captcha', 'Please complete the "I\'m human" check below.'));
         return;
       }
 
@@ -310,13 +338,13 @@
 
       if (checkErr && checkErr.code !== 'PGRST116') {
         setBtnLoading(btn, false);
-        setFormError(form, 'Something went wrong. Please try again.');
+        setFormError(form, t('auth.form.generic', 'Something went wrong. Please try again.'));
         return;
       }
 
       if (existing) {
         setBtnLoading(btn, false);
-        setFieldError(fUsername, 'This username is already taken.');
+        setFieldError(fUsername, t('auth.form.taken', 'This username is already taken.'));
         return;
       }
 
@@ -325,7 +353,7 @@
         var modResult = await window.SH_MOD.checkUsername(username);
         if (!modResult.allowed) {
           setBtnLoading(btn, false);
-          setFieldError(fUsername, modResult.label || 'This username is not allowed.');
+          setFieldError(fUsername, modResult.label || t('auth.form.uname.blocked', 'This username is not allowed.'));
           return;
         }
 
@@ -335,7 +363,7 @@
           var nameResult = await window.SH_MOD.checkUsername(nameToCheck);
           if (!nameResult.allowed) {
             setBtnLoading(btn, false);
-            setFormError(form, nameResult.label || 'This name is not allowed.');
+            setFormError(form, nameResult.label || t('auth.form.name.blocked', 'This name is not allowed.'));
             return;
           }
         }
@@ -364,7 +392,7 @@
       if (signErr) {
         setBtnLoading(btn, false);
         resetCaptcha(); // token is single-use; refresh it for a retry
-        setFormError(form, signErr.message || 'Registration failed. Please try again.');
+        setFormError(form, signErr.message || t('auth.form.regfail', 'Registration failed. Please try again.'));
         return;
       }
 
@@ -373,8 +401,7 @@
       // remind the user to disable it in Supabase dashboard.
       if (signData && !signData.session) {
         setBtnLoading(btn, false);
-        setFormError(form, 'Almost there — but email confirmation is enabled in your Supabase project. ' +
-          'Disable it under Authentication → Settings → Email confirmations.');
+        setFormError(form, t('auth.form.confirm', 'Almost there — but email confirmation is enabled in your Supabase project. Disable it under Authentication → Settings → Email confirmations.'));
         return;
       }
 
@@ -455,14 +482,14 @@
       var username = (inUsername.value || '').trim();
       var password = inPassword.value || '';
 
-      var uErr = username ? null : 'Username is required.';
-      var pErr = password ? null : 'Password is required.';
+      var uErr = username ? null : t('auth.username.required', 'Username is required.');
+      var pErr = password ? null : t('auth.pw.required', 'Password is required.');
       setFieldError(fUsername, uErr);
       setFieldError(fPassword, pErr);
       if (uErr || pErr) return;
 
       if (captchaEnabled() && !_captchaToken) {
-        setFormError(form, 'Please complete the "I\'m human" check below.');
+        setFormError(form, t('auth.form.captcha', 'Please complete the "I\'m human" check below.'));
         return;
       }
 
@@ -485,9 +512,9 @@
         // user doesn't think it's their password. Anything else stays generic.
         var em = (error.message || '').toLowerCase();
         if (em.indexOf('captcha') !== -1) {
-          setFormError(form, 'Captcha check failed — please tick the box below again and retry.');
+          setFormError(form, t('auth.form.captchafail', 'Captcha check failed — please tick the box below again and retry.'));
         } else {
-          setFormError(form, 'Incorrect username or password. Please try again.');
+          setFormError(form, t('auth.form.bad', 'Incorrect username or password. Please try again.'));
         }
         return;
       }
@@ -624,19 +651,20 @@
           '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256" fill="currentColor">' +
           '<path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM136,148.07V172a8,8,0,0,1-16,0V148.07a20,20,0,1,1,16,0Z"/></svg>' +
         '</div>' +
-        '<h2 id="shRecResetTitle" class="sh-rec-title">reset your password</h2>' +
-        '<p class="sh-rec-desc">enter your username and the recovery key you saved when you joined, ' +
-          'then choose a new password.</p>' +
+        '<h2 id="shRecResetTitle" class="sh-rec-title">' + t('auth.reset.title', 'reset your password') + '</h2>' +
+        '<p class="sh-rec-desc">' + t('auth.reset.desc',
+          'enter your username and the recovery key you saved when you joined, then choose a new password.') + '</p>' +
         '<div class="sh-rec-form">' +
-          '<input type="text" id="shRecUser" placeholder="username" autocomplete="username" class="sh-rec-input">' +
+          '<input type="text" id="shRecUser" placeholder="' + t('auth.reset.ph.user', 'username') + '" autocomplete="username" class="sh-rec-input">' +
+          /* Recovery-key format is brand-specific (literal STILL-…); no translation. */
           '<input type="text" id="shRecKeyIn" placeholder="STILL-XXXX-XXXX-XXXX-XXXX" class="sh-rec-input">' +
-          '<input type="password" id="shRecPass" placeholder="new password" autocomplete="new-password" class="sh-rec-input">' +
-          '<p class="sh-rec-hint">min 8 characters, at least 1 letter &amp; 1 number</p>' +
+          '<input type="password" id="shRecPass" placeholder="' + t('auth.reset.ph.newpw', 'new password') + '" autocomplete="new-password" class="sh-rec-input">' +
+          '<p class="sh-rec-hint">' + t('auth.reset.hint', 'min 8 characters, at least 1 letter &amp; 1 number, no spaces') + '</p>' +
           '<p class="sh-rec-msg" id="shRecMsg"></p>' +
         '</div>' +
         '<div class="sh-rec-actions">' +
-          '<button type="button" class="sh-rec-btn" id="shRecCancel">cancel</button>' +
-          '<button type="button" class="sh-rec-continue" id="shRecSubmit">reset password</button>' +
+          '<button type="button" class="sh-rec-btn" id="shRecCancel">' + t('auth.reset.cancel', 'cancel') + '</button>' +
+          '<button type="button" class="sh-rec-continue" id="shRecSubmit">' + t('auth.reset.submit', 'reset password') + '</button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(bd);
@@ -672,13 +700,13 @@
       var k = (bd.querySelector('#shRecKeyIn').value || '').trim();
       var p = bd.querySelector('#shRecPass').value || '';
       msg.className = 'sh-rec-msg';
-      if (!u || !k || !p) { msg.textContent = 'Please fill in all fields.'; return; }
+      if (!u || !k || !p) { msg.textContent = t('auth.reset.fillall', 'Please fill in all fields.'); return; }
       /* Same rules as registration so we don't end up with weak passwords
          set via the recovery path: min 8 chars, at least one letter, one digit. */
       var pErr = validatePassword(p);
       if (pErr) { msg.textContent = pErr; return; }
 
-      submit.disabled = true; submit.textContent = 'resetting…';
+      submit.disabled = true; submit.textContent = t('auth.reset.busy', 'resetting…');
       try {
         var res = await fetch(recoverFunctionUrl(), {
           method: 'POST',
@@ -689,27 +717,64 @@
         var data = await res.json().catch(function () { return null; });
         if (data && data.ok) {
           msg.className = 'sh-rec-msg ok';
-          msg.textContent = 'Password updated — you can sign in now.';
-          submit.textContent = 'done ✓';
+          msg.textContent = t('auth.reset.ok', 'Password updated — you can sign in now.');
+          submit.textContent = t('auth.reset.done', 'done ✓');
           setTimeout(closeReset, 1800);
         } else {
-          msg.textContent = (data && data.message) || 'Could not reset password.';
-          submit.disabled = false; submit.textContent = 'reset password';
+          msg.textContent = (data && data.message) || t('auth.reset.fail', 'Could not reset password.');
+          submit.disabled = false; submit.textContent = t('auth.reset.submit', 'reset password');
         }
       } catch (_) {
-        msg.textContent = 'Network error — try again.';
-        submit.disabled = false; submit.textContent = 'reset password';
+        msg.textContent = t('auth.reset.network', 'Network error — try again.');
+        submit.disabled = false; submit.textContent = t('auth.reset.submit', 'reset password');
       }
     });
   }
 
   // ── Boot ─────────────────────────────────────────────────────────────────
 
+  /* ── Live input filter on password fields ───────────────────────
+     Strips anything outside ASCII printable (0x21–0x7E) before it
+     hits the field value. Users can't accidentally paste Cyrillic
+     from a translator or trail a space from copy-paste — the field
+     literally won't accept those chars. Validator stays as the
+     authoritative gate on submit. Selector covers every password
+     input we ship today (register / login / edit-profile / reset
+     modal — the modal's input is created later, so we use a
+     delegated listener on document). */
+  function filterAsciiInput(e) {
+    var el = e.target;
+    if (!el || el.type !== 'password') return;
+    if (el.dataset && el.dataset.noFilter === '1') return;
+    var v = el.value;
+    var clean = v.replace(/[^\x21-\x7E]/g, '');
+    if (clean !== v) {
+      // Preserve caret position relative to the cleaned tail.
+      var pos = el.selectionStart - (v.length - clean.length);
+      el.value = clean;
+      try { el.setSelectionRange(pos, pos); } catch (_) {}
+    }
+  }
+
+  function attachAsciiFilters() {
+    // Document-level delegated listener — picks up password inputs
+    // added later (e.g. the recovery modal that's built on demand).
+    document.addEventListener('input', filterAsciiInput, true);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initRegister();
     initLogin();
     initPasswordToggles();
     initRecovery();
+    attachAsciiFilters();
   });
+
+  /* Public surface — single source of truth for password rules so
+     other pages (edit-profile, future settings flows) enforce the
+     exact same rules as registration and reset. */
+  window.SH_AUTH = window.SH_AUTH || {};
+  window.SH_AUTH.validatePassword = validatePassword;
+  window.SH_AUTH.filterAsciiInput = filterAsciiInput;
 
 }());
