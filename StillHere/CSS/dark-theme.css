@@ -170,8 +170,11 @@ html[data-theme="dark"] .post-title a {
   color: var(--text-dark);
 }
 
+/* Feed-card body text. Same reasoning as .post-body — the user's
+   words are the point, so they need to read as the loudest line
+   in the card, not the dimmest. */
 html[data-theme="dark"] .post-preview {
-  color: var(--text-mid);
+  color: var(--ink);
 }
 
 html[data-theme="dark"] .post-actions {
@@ -809,8 +812,19 @@ html[data-theme="dark"] .options-divider {
   background: var(--border-divider);
 }
 
-html[data-theme="dark"] .post-body p {
-  color: var(--text-mid);
+/* The post body IS the post — the user's words are the point of
+   the page. On dark theme the previous --text-mid (#c2b6a4) sat
+   too low-contrast against the dark background, so the actual
+   message got visually outranked by the chrome around it. Bump
+   to --ink (#f4e9d5) so the text reads as the loudest element.
+   !important guards against Quill's inline <p style="color">
+   leftovers from the editor, which otherwise win specificity. */
+html[data-theme="dark"] .post-body,
+html[data-theme="dark"] .post-body p,
+html[data-theme="dark"] .post-body li,
+html[data-theme="dark"] .post-body span,
+html[data-theme="dark"] .post-body div {
+  color: var(--ink) !important;
 }
 
 html[data-theme="dark"] .comment-card {

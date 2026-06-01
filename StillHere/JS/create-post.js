@@ -59,7 +59,7 @@
      Populated as each upload completes — used at submit time for moderation. */
   var inlineImageUrls = [];
 
-  /* image upload → Supabase Storage, then insert URL into editor */
+  /* image upload → Cloudflare R2 (via SH_MEDIA), then insert URL into editor */
   function handleImageUpload() {
     var input = document.createElement('input');
     input.type   = 'image/*'.length ? 'file' : 'file'; // just 'file'
@@ -72,25 +72,23 @@
       var sbKey = window.SH_SUPABASE_KEY;
       if (!sbUrl || !window.supabase) { alert(t('cp.err.sbcfg', 'Supabase not configured.')); return; }
 
-      var db     = window.supabase.createClient(sbUrl, sbKey);
-      var bucket = db.storage.from('post-media');
-      var ext    = file.name.split('.').pop().toLowerCase();
-      var path   = 'posts/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+      var db = window.supabase.createClient(sbUrl, sbKey);
 
       // Show a brief "uploading…" tooltip
       var range = quill.getSelection(true);
       var uploadingTxt = t('cp.editor.uploading', 'Uploading image…');
       quill.insertText(range.index, uploadingTxt, 'italic', true);
 
-      bucket.upload(path, file, { cacheControl: '3600', upsert: false }).then(function (res) {
-        // Remove the "Uploading…" placeholder text
+      // Compress (canvas → WebP/JPEG) then PUT to R2 via presigned URL.
+      // Old path: db.storage.from('post-media').upload(...).
+      window.SH_MEDIA.uploadToR2(file, { db: db }).then(function (url) {
         quill.deleteText(range.index, uploadingTxt.length);
-
-        if (res.error) { alert(t('cp.err.upload', 'Upload failed:') + ' ' + res.error.message); return; }
-        var url = bucket.getPublicUrl(path).data.publicUrl;
         inlineImageUrls.push(url);  // register for moderation at submit time
         quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
         quill.setSelection(range.index + 1, Quill.sources.SILENT);
+      }).catch(function (err) {
+        quill.deleteText(range.index, uploadingTxt.length);
+        alert(t('cp.err.upload', 'Upload failed:') + ' ' + (err && err.message || err));
       });
     };
     input.click();
@@ -328,30 +326,33 @@
         : btnHtml;
     }
 
-    /* upload attachment files to Supabase Storage */
+    /* upload attachment files to Cloudflare R2 (via presigned PUT).
+       Each file is compressed client-side (images) or size-checked
+       (videos, strategy C) inside SH_MEDIA.uploadToR2. */
     function uploadAll(files, done) {
       if (!files.length) { done([]); return; }
 
-      var bucket  = db.storage.from('post-media');
       var urls    = new Array(files.length).fill(null);
       var pending = files.length;
       var aborted = false;
 
       files.forEach(function (file, i) {
-        var ext  = file.name.split('.').pop().toLowerCase();
-        var path = 'posts/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
-
-        bucket.upload(path, file, { cacheControl: '3600', upsert: false }).then(function (res) {
+        window.SH_MEDIA.uploadToR2(file, { db: db }).then(function (url) {
           if (aborted) return;
-          if (res.error) {
-            aborted = true;
-            alert('Upload failed: ' + res.error.message);
-            setLoading(false);
-            return;
-          }
-          urls[i] = bucket.getPublicUrl(path).data.publicUrl;
+          urls[i] = url;
           pending--;
           if (pending === 0) done(urls.filter(Boolean));
+        }).catch(function (err) {
+          if (aborted) return;
+          aborted = true;
+          var msg = 'Upload failed: ' + (err && err.message || err);
+          if (err && err.code === 'video_too_large') {
+            msg = 'Video is too large (max ' +
+                  Math.round(window.SH_MEDIA.LIMITS.MAX_VIDEO_BYTES / 1024 / 1024) +
+                  ' MB).';
+          }
+          alert(msg);
+          setLoading(false);
         });
       });
     }

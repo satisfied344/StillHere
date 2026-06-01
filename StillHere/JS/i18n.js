@@ -1,18 +1,12 @@
 /* ═══════════════════════════════════════════════════════════════════
    i18n.js — minimal client-side internationalization.
-   • Two languages: en (default) + ru.
+   • Three languages: en (default) + ru + uk.
    • Persists choice in localStorage under "sh_lang".
    • Replaces text by looking up data-i18n="key" attributes.
    • Replaces an attribute via data-i18n-attr-<attr>="key" (e.g.
      data-i18n-attr-placeholder="search.placeholder").
-   • Injects a "EN | RU" toggle into .top-info nav on every page.
+   • Injects a language toggle into #sh-lang-mount on preferences page.
    • Translates strings emitted by SH_I18N.t(key) for JS-built HTML.
-
-   "StillHere" the name is intentionally NOT translated anywhere — it's
-   a brand. Everything else is.
-
-   To add another translatable page, just mark up its HTML with
-   data-i18n attributes that reference keys in DICT below.
    ═══════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -334,7 +328,8 @@
     'ct.facts.based.note': { en: 'no office, no zip code — just the internet.',
                              ru: 'без офиса, без почтового индекса — только интернет.' },
     'ct.facts.lang':       { en: 'languages',                      ru: 'языки' },
-    'ct.facts.lang.value': { en: 'english · more coming',          ru: 'english · скоро появятся другие' },
+    'ct.facts.lang.value': { en: 'english · russian · ukrainian (beta) · more coming',
+                             ru: 'english · русский · українська (beta) · скоро будут ещё' },
     'ct.facts.lang.note':  { en: 'write in any language — we\'ll translate.',
                              ru: 'пиши на любом языке — мы переведём.' },
 
@@ -1117,11 +1112,11 @@
                              ru: 'нет неправильного способа сказать о том, что чувствуешь. пиши так, будто никто не оценивает.' },
 
     'cp.c4.title':         { en: 'images or video',                   ru: 'фото или видео' },
-    'cp.c4.sub':           { en: 'add up to 6 things — drawings, photos, a song clip. up to 50MB each.',
-                             ru: 'до 6 файлов — рисунки, фото, отрывок песни. до 50МБ каждый.' },
+    'cp.c4.sub':           { en: 'add up to 6 things — drawings, photos, a song clip. photos are compressed automatically, video up to 25MB.',
+                             ru: 'до 6 файлов — рисунки, фото, отрывок песни. фото сжимаются автоматически, видео до 25МБ.' },
     'cp.c4.upload':        { en: 'click to upload, or drag &amp; drop',ru: 'нажми чтобы загрузить, или перетащи' },
-    'cp.c4.uphint':        { en: 'images or video · up to 50MB each · max 6',
-                             ru: 'фото или видео · до 50МБ каждое · максимум 6' },
+    'cp.c4.uphint':        { en: 'images or video · video up to 25MB · max 6',
+                             ru: 'фото или видео · видео до 25МБ · максимум 6' },
 
     'cp.c5.title':         { en: 'what does it touch on?',            ru: 'о чём это?' },
     'cp.c5.hint':          { en: 'pick what fits — or skip',          ru: 'выбери что подходит — или пропусти' },
@@ -2839,6 +2834,20 @@
   };
 
 
+
+  /* ── Optional external language packs ───────────────────────────
+     Example: JS/i18n.uk.js can define window.SH_I18N_UK = { key: '...' }.
+     We merge it into the in-file DICT as { uk: value } per key. */
+  function mergeLanguagePack(lang, pack) {
+    if (!pack || typeof pack !== 'object') return;
+    Object.keys(pack).forEach(function (key) {
+      if (!DICT[key]) DICT[key] = {};
+      DICT[key][lang] = pack[key];
+    });
+  }
+
+  mergeLanguagePack('uk', window.SH_I18N_UK);
+
   /* ── Public API on window.SH_I18N ───────────────────────────── */
   var SH_I18N = {
     getLang: getLang,
@@ -2852,13 +2861,13 @@
   function getLang() {
     try {
       var l = localStorage.getItem(STORAGE_KEY);
-      if (l === 'en' || l === 'ru') return l;
+      if (l === 'en' || l === 'ru' || l === 'uk') return l;
     } catch (_) {}
     return DEFAULT_LANG;
   }
 
   function setLang(lang) {
-    if (lang !== 'en' && lang !== 'ru') return;
+    if (lang !== 'en' && lang !== 'ru' && lang !== 'uk') return;
     try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
     document.documentElement.setAttribute('lang', lang);
     applyToRoot(document);
@@ -2923,7 +2932,7 @@
     var LANGS = [
       { code: 'en', name: 'English',    native: 'english',    available: true  },
       { code: 'ru', name: 'Russian',    native: 'русский',    available: true  },
-      { code: 'uk', name: 'Ukrainian',  native: 'українська', available: false },
+      { code: 'uk', name: 'Ukrainian',  native: 'українська', available: true, beta: true },
       { code: 'es', name: 'Spanish',    native: 'español',    available: false },
       { code: 'fr', name: 'French',     native: 'français',   available: false },
       { code: 'de', name: 'German',     native: 'deutsch',    available: false }
@@ -2937,7 +2946,10 @@
         '<button type="button" class="sh-lang-card' + dis + '" data-lang="' + L.code + '" data-available="' + (L.available ? '1' : '0') + '" role="radio" aria-checked="false">' +
           '<span class="sh-lang-flag" aria-hidden="true">' + L.code.toUpperCase() + '</span>' +
           '<span class="sh-lang-text">' +
-            '<span class="sh-lang-name">' + L.name + (L.available ? '' : '<span class="sh-lang-soon">soon</span>') + '</span>' +
+            '<span class="sh-lang-name">' + L.name +
+              (!L.available ? '<span class="sh-lang-soon">soon</span>' :
+               L.beta       ? '<span class="sh-lang-beta">beta</span>' : '') +
+            '</span>' +
             '<span class="sh-lang-native">' + L.native + '</span>' +
           '</span>' +
           CHECK_SVG +
@@ -3012,6 +3024,14 @@
           'display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:0.10em;' +
           'text-transform:uppercase;padding:2px 6px;border-radius:99px;' +
           'background:rgba(214,83,60,0.12);color:var(--accent-2,#d6533c);' +
+        '}' +
+        /* "beta" pill — same shape as `.sh-lang-soon` but sage-green
+           tint so it doesn't read as a warning (red) and so the two
+           labels are visually distinguishable at a glance. */
+        '.sh-lang-beta{' +
+          'display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:0.10em;' +
+          'text-transform:uppercase;padding:2px 6px;border-radius:99px;' +
+          'background:rgba(109,130,104,0.14);color:var(--accent-3,#6d8268);' +
         '}' +
         '.sh-lang-native{font-size:12px;color:var(--ink-light,#a89e8c);font-style:italic;}' +
         '.sh-lang-check{' +

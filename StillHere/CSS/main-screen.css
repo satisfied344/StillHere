@@ -789,24 +789,56 @@ a { color: inherit; text-decoration: none; }
   color: var(--ink-soft);
 }
 
+/* Media strip on the feed (main page) — Reddit-style preview.
+   Single attachment: shows at natural aspect ratio up to 480 ×
+   400. Multiple: a wrapping flex row of ~200px tiles. No frame
+   chrome — just the media itself with rounded corners. */
 .post-media-strip {
-  display: grid;
-  gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
   margin-top: 12px;
-  border-radius: 4px;
-  overflow: hidden;
 }
-.post-media-strip--1 { grid-template-columns: 1fr; }
-.post-media-strip--2 { grid-template-columns: 1fr 1fr; }
+/* Drop the old grid-template variants — flex handles wrapping. */
+.post-media-strip--1,
+.post-media-strip--2,
 .post-media-strip--3,
-.post-media-strip--4 { grid-template-columns: 1fr 1fr 1fr; }
+.post-media-strip--4 {
+  /* override the legacy grid display from the variant selectors  */
+  display: flex;
+}
 .post-media-cell {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: var(--paper-2);
   overflow: hidden;
+  border-radius: 6px;
+  flex: 0 0 auto;
 }
+/* Single image / video in a card: aspect-preserved, modest size.
+   No fixed width/height — the cell shrinks to the image's natural
+   aspect so there are no letterbox bars and no bottom cropping. */
+.post-media-strip--1 .post-media-cell {
+  max-width: 320px;
+  width: auto;
+  height: auto;
+}
+.post-media-strip--1 .post-media-thumb-img {
+  width: auto;
+  height: auto;
+  max-width: 320px;
+  max-height: 280px;
+}
+/* Multi-attachment: small square tiles. */
+.post-media-strip--2 .post-media-cell,
+.post-media-strip--3 .post-media-cell,
+.post-media-strip--4 .post-media-cell {
+  width: 140px;
+  height: 140px;
+}
+/* Default: cover (used by multi-attachment square tiles).
+   Single-attachment overrides this with `contain` so the full
+   image / video frame is visible (no cropping). */
 .post-media-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.post-media-strip--1 .post-media-thumb-img { object-fit: contain; }
 .post-media-more {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;

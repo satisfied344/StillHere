@@ -93,13 +93,15 @@
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
-  <script src="JS/i18n.js?v=4" defer></script>
+  <script src="JS/i18n.uk.js?v=8" defer></script>
+  <script src="JS/i18n.js?v=7" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=12" defer></script>
   <script src="JS/moderation.js?v=5" defer></script>
   <script src="JS/crisis.js?v=4" defer></script>
   <script src="JS/theme.js" defer></script>
-  <script src="JS/create-post.js?v=3" defer></script>
+  <script src="JS/media-compress.js?v=1" defer></script>
+  <script src="JS/create-post.js?v=4" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -1149,7 +1151,7 @@
               <h2 class="cp-card-title" data-i18n="cp.c4.title">images or video</h2>
               <span class="cp-card-hint" data-i18n="cp.optional">optional</span>
             </div>
-            <p class="cp-card-sub" data-i18n="cp.c4.sub">add up to 6 things — drawings, photos, a song clip. up to 50MB each.</p>
+            <p class="cp-card-sub" data-i18n="cp.c4.sub">add up to 6 things — drawings, photos, a song clip. photos are compressed automatically, video up to 25MB.</p>
 
             <div class="cp-upload" id="mediaUploadArea">
               <input type="file" id="mediaInput" name="media" multiple accept="image/*,video/*" hidden>
@@ -1160,7 +1162,7 @@
                   <polyline points="21 15 16 10 5 21"/>
                 </svg>
                 <p class="upload-text" data-i18n="cp.c4.upload">click to upload, or drag &amp; drop</p>
-                <p class="upload-hint" data-i18n="cp.c4.uphint">images or video · up to 50MB each · max 6</p>
+                <p class="upload-hint" data-i18n="cp.c4.uphint">images or video · video up to 25MB · max 6</p>
               </div>
               <div class="media-preview-grid" id="mediaPreview"></div>
             </div>

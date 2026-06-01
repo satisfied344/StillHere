@@ -458,14 +458,29 @@ a.post-avatar-link:hover {
 .post-body ul, .post-body ol { margin: 14px 0 14px 22px; }
 .post-body li { margin: 4px 0; }
 
+/* Inline media inside post body and comments.
+   Previously: max-width:100% only — a single iPhone photo could
+   render at full column width and eat 80–90% of the viewport.
+   Now: cap visible size so media reads as an attachment, not the
+   whole point of the post. Clicking opens the lightbox for the
+   full view (see SH_LIGHTBOX in JS/post-page.js). */
 .post-body img,
-.post-body video {
-  max-width: 100%;
+.post-body video,
+.comment-body img,
+.comment-body video {
+  display: block;
+  max-width: min(100%, 420px);
+  max-height: 360px;
+  width: auto;
   height: auto;
+  object-fit: contain;
   border-radius: 6px;
   margin: 12px 0;
   border: 1px solid var(--line-soft);
+  background: var(--paper-2);
 }
+.post-body img,
+.comment-body img { cursor: zoom-in; }
 
 .post-body pre,
 .post-body code {
@@ -478,25 +493,64 @@ a.post-avatar-link:hover {
 .post-body code { padding: 1px 6px; }
 .post-body pre { padding: 12px 14px; overflow-x: auto; margin: 12px 0; }
 
-/* Media gallery (attachments grid) */
+/* Media gallery on the post page — Reddit-style.
+   Single attachment: shows at natural aspect ratio, capped so it
+   doesn't dominate (max ~520 × 480). Multiple attachments: flow
+   into a row that wraps. No visible cell background or border —
+   the media itself is the visual, not the container.            */
 .post-media-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  margin-top: 18px;
+  margin-top: 14px;
 }
 .post-gallery-item {
-  border-radius: 6px;
-  overflow: hidden;
-  background: var(--paper-2);
-  border: 1px solid var(--line-soft);
-  aspect-ratio: 1 / 1;
-  position: relative;
-}
-.post-gallery-media {
-  width: 100%; height: 100%;
-  object-fit: cover;
   display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  /* No background, no border — let the media speak. */
+}
+.post-gallery-item--video { cursor: default; }
+
+/* Tile size — kept modest so the TEXT of the post stays the
+   focal point and the media reads as a supporting attachment.
+   Single attachment ≤ 380 × 340. Multi-attachment tiles ≤ 200. */
+.post-media-gallery .post-gallery-item {
+  max-width: 200px;
+}
+.post-media-gallery:has(.post-gallery-item:only-child) .post-gallery-item {
+  max-width: 380px;
+}
+
+.post-gallery-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* `contain` keeps the full frame visible — no bottom cropping.
+     We pair it with NO fixed wrapper height so the cell shrinks
+     to the image's natural aspect ratio. */
+  object-fit: contain;
+  border-radius: 8px;
+  max-height: 340px;
+}
+/* Multi-attachment tiles: square thumbnails with cover crop. */
+.post-media-gallery:not(:has(.post-gallery-item:only-child)) .post-gallery-media {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  max-height: 200px;
+}
+
+/* Video — keep native player chrome (play, scrubber, ⛶ fullscreen).
+   max-height applies to the <video> itself so the player isn't
+   weirdly short. */
+.post-gallery-item--video { max-width: 380px; }
+.post-gallery-item--video .post-gallery-media {
+  width: 100%;
+  max-height: 340px;
+  aspect-ratio: auto;        /* override the multi-tile square rule */
+  object-fit: contain;
 }
 
 /* ── Post footer / heart + copy ── */

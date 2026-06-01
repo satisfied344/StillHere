@@ -179,8 +179,10 @@
         urls.forEach(function (url) {
           var isVideo = /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
           bodyHtml += isVideo
-            ? '<div class="post-gallery-item post-gallery-item--video"><video src="' + url + '" controls preload="metadata" class="post-gallery-media"></video></div>'
-            : '<div class="post-gallery-item"><a href="' + url + '" target="_blank" rel="noopener"><img src="' + url + '" class="post-gallery-media" alt="" loading="lazy"></a></div>';
+            ? '<div class="post-gallery-item post-gallery-item--video"><video src="' + url + '" controls playsinline preload="metadata" class="post-gallery-media"></video></div>'
+            // No <a> wrapper — click is caught by SH_LIGHTBOX, which
+            // opens an in-page modal instead of navigating away.
+            : '<div class="post-gallery-item" data-lightbox><img src="' + url + '" class="post-gallery-media" alt="" loading="lazy"></div>';
         });
         bodyHtml += '</div>';
       }
@@ -560,20 +562,20 @@
     input.onchange = function () {
       var file = input.files && input.files[0];
       if (!file) return;
-      var bucket = db.storage.from('post-media');
-      var ext    = (file.name.split('.').pop() || 'png').toLowerCase();
-      var path   = 'comments/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
 
       var range = quill.getSelection(true);
       quill.insertText(range.index, 'Uploading…', 'italic', true);
 
-      bucket.upload(path, file, { cacheControl: '3600', upsert: false }).then(function (res) {
+      // Compress (canvas → WebP/JPEG) then PUT to R2 via presigned URL.
+      // Old path: db.storage.from('post-media').upload(...).
+      window.SH_MEDIA.uploadToR2(file, { db: db }).then(function (url) {
         quill.deleteText(range.index, 'Uploading…'.length);
-        if (res.error) { showToast('Upload failed: ' + res.error.message); return; }
-        var url = bucket.getPublicUrl(path).data.publicUrl;
         if (urlList) urlList.push(url);
         quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
         quill.setSelection(range.index + 1, Quill.sources.SILENT);
+      }).catch(function (err) {
+        quill.deleteText(range.index, 'Uploading…'.length);
+        showToast('Upload failed: ' + (err && err.message || err));
       });
     };
     input.click();
