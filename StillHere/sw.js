@@ -18,7 +18,7 @@
    manifest — only the CACHE_VERSION constant invalidates everything.
    ═══════════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'sh-v1';
+const CACHE_VERSION = 'sh-v2';
 const SHELL_CACHE   = CACHE_VERSION + '-shell';
 const PAGES_CACHE   = CACHE_VERSION + '-pages';
 
