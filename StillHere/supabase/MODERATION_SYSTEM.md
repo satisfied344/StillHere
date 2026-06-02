@@ -157,7 +157,7 @@ statement in the Supabase **SQL Editor**:
 -- Find the user's id (replace 'yourhandle' with the @username):
 select id, email
   from auth.users
-  join public.profiles on profiles.id = auth.users.id
+  join public.profiles on profiles.id = auth.users.idда 
  where profiles.username = 'yourhandle';
 
 -- Promote them:

@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════════════
    u-page.js — public profile renderer.
-   URL: /u.html?u=<username>
+   URL: /u?u=<username>
    Loads the profile by username + that user's posts, reusing the same
    .post-card markup as the main feed so the visual language is 1:1.
    ══════════════════════════════════════════════════════════════════ */
@@ -88,7 +88,7 @@
     var displayName = (p.display_name && p.display_name.trim()) || p.username;
     document.title = displayName + ' (@' + p.username + ') — StillHere';
 
-    var url = 'https://www.stillhere.global/u.html?u=' + encodeURIComponent(p.username);
+    var url = 'https://www.stillhere.global/u?u=' + encodeURIComponent(p.username);
     setMeta('description', 'Stories shared by @' + p.username + ' on StillHere — anonymous, free, no advice.');
     setLink('canonical', url);
 
@@ -222,10 +222,10 @@
     /* Avatar + name both link to the user's public profile; whole-
        card click handler skips `.post-avatar-link` and `.post-author-link`. */
     var avatarHtml = uname
-      ? '<a class="post-avatar post-avatar-link" href="u.html?u=' + escAttr(uname) + '" aria-label="' + escAttr(displayN) + '">' + avatarTag + '</a>'
+      ? '<a class="post-avatar post-avatar-link" href="u?u=' + escAttr(uname) + '" aria-label="' + escAttr(displayN) + '">' + avatarTag + '</a>'
       : '<div class="post-avatar">' + avatarTag + '</div>';
     var authorHtml = uname
-      ? '<a class="post-author post-author-link" href="u.html?u=' + escAttr(uname) + '">' + escHtml(displayN) + '</a>'
+      ? '<a class="post-author post-author-link" href="u?u=' + escAttr(uname) + '">' + escHtml(displayN) + '</a>'
       : '<span class="post-author">' + escHtml(displayN) + '</span>';
 
     /* Markup mirrors main-page.js buildPostCard exactly: same icons,
@@ -249,7 +249,7 @@
 
         '<div class="post-content">' +
           '<h2 class="post-title">' +
-            '<a href="post.html?id=' + id + '">' + (title || '<em>(no title)</em>') + '</a>' +
+            '<a href="post?id=' + id + '">' + (title || '<em>(no title)</em>') + '</a>' +
           '</h2>' +
           '<div class="post-tags">' + buildTagsHtml(post) + '</div>' +
           '<p class="post-preview">' + preview + '</p>' +
@@ -257,14 +257,14 @@
 
         '<div class="post-actions">' +
           /* "I'm here" — no count, label-only (same as feed default) */
-          '<a class="post-actions-item" href="post.html?id=' + id + '">' +
+          '<a class="post-actions-item" href="post?id=' + id + '">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/>' +
             '</svg>' +
             '<span class="action-title">' + i18nLabel('main.post.support', "I'm here") + '</span>' +
           '</a>' +
           /* Responses — count + label */
-          '<a class="post-actions-item" href="post.html?id=' + id + '#comments">' +
+          '<a class="post-actions-item" href="post?id=' + id + '#comments">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Zm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64ZM40,224h0ZM216,64H40V224l34.77-30A8,8,0,0,1,80,192H216Z"/>' +
             '</svg>' +
@@ -272,7 +272,7 @@
             '<span class="action-title">' + i18nLabel('main.post.responses', 'Responses') + '</span>' +
           '</a>' +
           /* Share */
-          '<a class="post-actions-item" href="post.html?id=' + id + '">' +
+          '<a class="post-actions-item" href="post?id=' + id + '">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M176,160a39.89,39.89,0,0,0-28.62,12.09l-46.1-29.63a39.8,39.8,0,0,0,0-28.92l46.1-29.63a40,40,0,1,0-8.66-13.45l-46.1,29.63a40,40,0,1,0,0,55.82l46.1,29.63A40,40,0,1,0,176,160Zm0-128a24,24,0,1,1-24,24A24,24,0,0,1,176,32ZM64,152a24,24,0,1,1,24-24A24,24,0,0,1,64,152Zm112,72a24,24,0,1,1,24-24A24,24,0,0,1,176,224Z"/>' +
             '</svg>' +
@@ -290,7 +290,7 @@
       if (!topicLabel || topicLabel === 'main.side.topic.' + topic) {
         topicLabel = topic.charAt(0).toUpperCase() + topic.slice(1);
       }
-      html += '<a class="tag tag-topic" href="main.html?topic=' + escAttr(topic) + '">' +
+      html += '<a class="tag tag-topic" href="main?topic=' + escAttr(topic) + '">' +
               escHtml(topicLabel) +
               '</a>';
     });
@@ -354,6 +354,6 @@
     var card = e.target.closest('.post-card[data-post-id]');
     if (!card) return;
     var pid = card.getAttribute('data-post-id');
-    if (pid) window.location.href = 'post.html?id=' + encodeURIComponent(pid);
+    if (pid) window.location.href = 'post?id=' + encodeURIComponent(pid);
   });
 })();

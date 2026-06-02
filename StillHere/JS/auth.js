@@ -442,12 +442,12 @@
           );
           recoveredHandled = true;
           showRecoveryKeyModal(recKey, function () {
-            window.location.href = 'main.html';
+            window.location.href = 'main';
           });
         }
       } catch (_) { /* if anything fails, don't trap the user */ }
 
-      if (!recoveredHandled) window.location.href = 'main.html';
+      if (!recoveredHandled) window.location.href = 'main';
     });
   }
 
@@ -520,7 +520,7 @@
       }
 
       try { localStorage.setItem('sh_username', username.toLowerCase()); } catch (_) {}
-      window.location.href = 'main.html';
+      window.location.href = 'main';
     });
   }
 

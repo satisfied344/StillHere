@@ -146,7 +146,7 @@
       loginItem.addEventListener('click', async function (e) {
         e.preventDefault();
         await window.SH_SESSION.signOut();
-        window.location.href = 'login.html';
+        window.location.href = 'login';
       });
     }
   }
@@ -590,7 +590,7 @@
         /* Offer a direct path to sign in — the companion needs an account. */
         pEl.innerHTML =
           '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span><br>' +
-          '<a href="login.html" style="color:var(--accent-2,#d6533c);font-weight:600;text-decoration:underline;text-underline-offset:3px;">' +
+          '<a href="login" style="color:var(--accent-2,#d6533c);font-weight:600;text-decoration:underline;text-underline-offset:3px;">' +
           escapeHtml(tI('ac.err.signin', 'sign in →')) + '</a>';
       } else if (code === 'rate_limited') {
         pEl.innerHTML =

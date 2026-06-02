@@ -8,87 +8,87 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/main.html</loc>
+    <loc>https://www.stillhere.global/main</loc>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/letters.html</loc>
+    <loc>https://www.stillhere.global/letters</loc>
     <changefreq>hourly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/ai-chat.html</loc>
+    <loc>https://www.stillhere.global/ai-chat</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/statistics.html</loc>
+    <loc>https://www.stillhere.global/statistics</loc>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/therapists.html</loc>
+    <loc>https://www.stillhere.global/therapists</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- ── Auth (find-able but lower priority) ──────────────────────── -->
   <url>
-    <loc>https://www.stillhere.global/login.html</loc>
+    <loc>https://www.stillhere.global/login</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/register.html</loc>
+    <loc>https://www.stillhere.global/register</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <!-- ── Discovery deep-links (topic-filtered feed) ───────────────── -->
-  <url><loc>https://www.stillhere.global/main.html?topic=anxiety</loc>      <changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.stillhere.global/main.html?topic=depression</loc>   <changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.stillhere.global/main.html?topic=relationships</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.stillhere.global/main.html?topic=grief</loc>        <changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.stillhere.global/main.html?topic=burnout</loc>      <changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.stillhere.global/main.html?topic=loneliness</loc>   <changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.stillhere.global/main.html?topic=trauma</loc>       <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main?topic=anxiety</loc>      <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main?topic=depression</loc>   <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main?topic=relationships</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main?topic=grief</loc>        <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main?topic=burnout</loc>      <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main?topic=loneliness</loc>   <changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.stillhere.global/main?topic=trauma</loc>       <changefreq>daily</changefreq><priority>0.7</priority></url>
 
   <!-- ── Static info pages ────────────────────────────────────────── -->
   <url>
-    <loc>https://www.stillhere.global/nav-bar/about.html</loc>
+    <loc>https://www.stillhere.global/nav-bar/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/nav-bar/contacts.html</loc>
+    <loc>https://www.stillhere.global/nav-bar/contacts</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/nav-bar/updates.html</loc>
+    <loc>https://www.stillhere.global/nav-bar/updates</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <!-- ── Docs (legal + safety) — important for trust signals ─────── -->
   <url>
-    <loc>https://www.stillhere.global/docs/html/guidelines.html</loc>
+    <loc>https://www.stillhere.global/docs/html/guidelines</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/docs/html/crisis-resources.html</loc>
+    <loc>https://www.stillhere.global/docs/html/crisis-resources</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/docs/html/privacy-policy.html</loc>
+    <loc>https://www.stillhere.global/docs/html/privacy-policy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.stillhere.global/docs/html/terms-of-service.html</loc>
+    <loc>https://www.stillhere.global/docs/html/terms-of-service</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

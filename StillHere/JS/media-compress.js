@@ -67,16 +67,31 @@
     });
   }
 
+  // iPhone delivers HEIC from Files/iCloud — canvas can't decode it.
+  // Detect by mime OR extension and fail loud with a friendly tag so
+  // the UI can show "convert to JPG" instead of silently swallowing
+  // the upload.
+  function isHeic(file) {
+    var t = (file.type || '').toLowerCase();
+    if (t === 'image/heic' || t === 'image/heif' ||
+        t === 'image/heic-sequence' || t === 'image/heif-sequence') return true;
+    var n = (file.name || '').toLowerCase();
+    return /\.(heic|heif)$/.test(n);
+  }
+
   function compressImage(file, opts) {
     opts = opts || {};
     var maxSide = opts.maxSide || MAX_LONG_SIDE;
     var quality = opts.quality || Q;
-    // forceResize: skip the fast-path short-circuits. Used by the
-    // avatar flow where we MUST shrink to exactly 300 px even if
-    // the source is a small PNG, because the original could be a
-    // 2-MP transparent PNG that's "small enough" by size but huge
-    // by pixels.
     var forceResize = opts.forceResize || !!opts.maxSide;
+
+    // HEIC short-circuit: surface a clear error before we waste
+    // time trying to decode something the browser can't read.
+    if (isHeic(file)) {
+      var hErr = new Error('heic_unsupported');
+      hErr.code = 'heic_unsupported';
+      return Promise.reject(hErr);
+    }
 
     // PNGs with alpha stay PNG — re-encoding to JPEG/WebP flattens
     // transparency to a black background, which is jarring for UI
@@ -87,7 +102,21 @@
     // GIFs: don't try to re-encode (would lose animation).
     if (file.type === 'image/gif') return Promise.resolve(file);
 
-    return Promise.all([loadBitmap(file), canEncodeWebp()]).then(function (pair) {
+    return Promise.all([loadBitmap(file), canEncodeWebp()]).catch(function (err) {
+      // Decode failed entirely (corrupt EXIF, exotic colorspace,
+      // browser-specific bug). If the original is already small
+      // enough for the server cap, pass it through raw — the user
+      // gets their post out, even uncompressed.
+      if (file.size <= MAX_IMAGE_BYTES && /^image\/(jpe?g|png|webp)$/i.test(file.type || '')) {
+        return [null, false];
+      }
+      var de = new Error('decode_failed');
+      de.code = 'decode_failed';
+      de.cause = err;
+      throw de;
+    }).then(function (pair) {
+      // Raw passthrough path (decode failed but file is acceptable).
+      if (pair && pair[0] === null) return file;
       var bmp = pair[0];
       var webpOk = pair[1];
 
@@ -168,6 +197,8 @@
       if (prepared.size > (isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES)) {
         var e = new Error('too_large_after_compress');
         e.code = 'too_large_after_compress';
+        e.size = prepared.size;
+        e.cap  = (isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES);
         throw e;
       }
       return db.functions.invoke('r2-presign', {

@@ -34,12 +34,12 @@
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Internal moderation queue.">
     <meta name="robots" content="noindex,nofollow">
-    <link rel="canonical" href="https://www.stillhere.global/admin.html">
+    <link rel="canonical" href="https://www.stillhere.global/admin">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Moderation queue — StillHere">
     <meta property="og:description" content="Internal moderation queue.">
-    <meta property="og:url" content="https://www.stillhere.global/admin.html">
+    <meta property="og:url" content="https://www.stillhere.global/admin">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:secure_url" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:type" content="image/svg+xml">
@@ -85,13 +85,13 @@
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/motion.css?v=2">
   <link rel="stylesheet" href="CSS/dark-theme.css">
-  <link rel="stylesheet" href="CSS/mobile.css?v=1779486000">
+  <link rel="stylesheet" href="CSS/mobile.css?v=1779486300">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.js?v=6" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=14" defer></script>
+  <script src="JS/notifications.js?v=15" defer></script>
   <script src="JS/theme.js" defer></script>
 
   <style>
@@ -372,13 +372,13 @@
   <img src="assets/letters/_Special Characters/Asterisk_04.png" class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
 
   <nav class="top-info" aria-label="Primary navigation" data-i18n-attr-aria-label="aria.primaryNav">
-    <a href="main.html" class="logo"><span>StillHere</span></a>
+    <a href="main" class="logo"><span>StillHere</span></a>
     <div class="nav">
-      <a href="main.html" class="nav-link nav-link--stack">
+      <a href="main" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg>
         <span>feed</span>
       </a>
-      <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
+      <a href="nav-bar/profile" class="nav-link nav-link--stack">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Z"/></svg>
         <span data-i18n="nav.profile">profile</span>
       </a>
@@ -424,8 +424,8 @@
           <p>2026 StillHere.</p>
           <p class="implicit-consent">
             by being here, you accept our
-            <a href="docs/html/terms-of-service.html">terms</a>
-            &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
+            <a href="docs/html/terms-of-service">terms</a>
+            &amp; <a href="docs/html/privacy-policy">privacy</a>.
           </p>
         </div>
       </div>
@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '</span>' +
                 '<button class="ad-btn ad-btn--ai"     data-action="ai-rerun">↻ rerun AI</button>' +
                 (r.target_type === 'post'
-                  ? '<a class="ad-btn ad-btn--review" href="post.html?id=' + escHtml(r.target_id) + '" target="_blank">open</a>'
+                  ? '<a class="ad-btn ad-btn--review" href="post?id=' + escHtml(r.target_id) + '" target="_blank">open</a>'
                   : '') +
               '</div>' +
             '</article>'

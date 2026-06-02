@@ -5,11 +5,11 @@ User-agent: *
 Allow: /
 
 # Private / app-only — no value in being indexed
-Disallow: /admin.html
-Disallow: /edit-profile.html
-Disallow: /create-post.html
-Disallow: /preferences.html
-Disallow: /coming-soon.html
+Disallow: /admin
+Disallow: /edit-profile
+Disallow: /create-post
+Disallow: /preferences
+Disallow: /coming-soon
 
 # AI scraping training data — opt out (this site is about human voices,
 # not feedstock). Remove these lines if you actually want LLM training.

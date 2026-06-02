@@ -58,7 +58,7 @@
     profileLi.className = 'mmenu-burger-extras mmenu-burger-extras--profile-row';
     profileLi.setAttribute('role', 'none');
     profileLi.innerHTML =
-      '<a href="' + base + 'nav-bar/profile.html" class="mmenu-item mmenu-extra--profile" role="menuitem">' +
+      '<a href="' + base + 'nav-bar/profile" class="mmenu-item mmenu-extra--profile" role="menuitem">' +
         iconProfile() +
         '<span data-i18n="nav.profile">profile</span>' +
       '</a>';
@@ -81,11 +81,11 @@
     rowLi.className = 'mmenu-burger-extras mmenu-burger-extras--row';
     rowLi.setAttribute('role', 'none');
     rowLi.innerHTML =
-      '<a href="' + base + 'nav-bar/about.html"    class="mmenu-extra-link" role="menuitem" data-i18n="nav.about">about</a>' +
+      '<a href="' + base + 'nav-bar/about"    class="mmenu-extra-link" role="menuitem" data-i18n="nav.about">about</a>' +
       '<span class="mmenu-extra-dot" aria-hidden="true">·</span>' +
-      '<a href="' + base + 'nav-bar/contacts.html" class="mmenu-extra-link" role="menuitem" data-i18n="nav.contacts">contacts</a>' +
+      '<a href="' + base + 'nav-bar/contacts" class="mmenu-extra-link" role="menuitem" data-i18n="nav.contacts">contacts</a>' +
       '<span class="mmenu-extra-dot" aria-hidden="true">·</span>' +
-      '<a href="' + base + 'nav-bar/updates.html"  class="mmenu-extra-link" role="menuitem" data-i18n="nav.updates">updates</a>';
+      '<a href="' + base + 'nav-bar/updates"  class="mmenu-extra-link" role="menuitem" data-i18n="nav.updates">updates</a>';
 
     panel.appendChild(divider);
     panel.appendChild(rowLi);

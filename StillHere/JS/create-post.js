@@ -88,7 +88,15 @@
         quill.setSelection(range.index + 1, Quill.sources.SILENT);
       }).catch(function (err) {
         quill.deleteText(range.index, uploadingTxt.length);
-        alert(t('cp.err.upload', 'Upload failed:') + ' ' + (err && err.message || err));
+        var msg = (err && err.message) || err;
+        if (err && err.code === 'heic_unsupported') {
+          msg = 'HEIC photos from iPhone aren\'t supported. Re-save as JPG, or set iPhone Camera → Formats → "Most Compatible".';
+        } else if (err && err.code === 'decode_failed') {
+          msg = 'Couldn\'t read this image. Try a different photo or re-save as JPG/PNG.';
+        } else if (err && err.code === 'too_large_after_compress') {
+          msg = 'Image too large (' + Math.round((err.size || 0) / 1024 / 1024) + ' MB).';
+        }
+        alert(t('cp.err.upload', 'Upload failed:') + ' ' + msg);
       });
     };
     input.click();
@@ -350,6 +358,13 @@
             msg = 'Video is too large (max ' +
                   Math.round(window.SH_MEDIA.LIMITS.MAX_VIDEO_BYTES / 1024 / 1024) +
                   ' MB).';
+          } else if (err && err.code === 'heic_unsupported') {
+            msg = 'HEIC photos from iPhone aren\'t supported. Open the photo and re-save as JPG, or in iPhone Settings → Camera → Formats pick "Most Compatible".';
+          } else if (err && err.code === 'decode_failed') {
+            msg = 'Couldn\'t read this image. Try a different photo or re-save it as JPG/PNG.';
+          } else if (err && err.code === 'too_large_after_compress') {
+            msg = 'Image is too large (' + Math.round((err.size || 0) / 1024 / 1024) +
+                  ' MB, max ' + Math.round((err.cap || 5 * 1024 * 1024) / 1024 / 1024) + ' MB).';
           }
           alert(msg);
           setLoading(false);
@@ -469,7 +484,29 @@
               }
             } catch (_) {}
 
-            profileStep.then(function () {
+            /* ── Rate-limit gate — short-circuits BEFORE we burn an
+               AI call. Caps:
+                 logged-in: 5 posts / 60s
+                 anonymous: 3 posts / 60s
+               Skipped on EDIT (editing isn't authorship). */
+            var rateStep = EDIT_ID
+              ? Promise.resolve({ data: { allowed: true } })
+              : db.rpc('check_publish_rate', {
+                  p_user_id: userId || null,
+                  p_anon_fp: anonFp || null,
+                  p_kind:    'post',
+                });
+
+            rateStep.then(function (rl) {
+              if (rl && rl.data && rl.data.allowed === false) {
+                setLoading(false);
+                alert(t('cp.err.ratelimited',
+                  'Slow down for a moment — you can publish again in ' +
+                  (rl.data.retry_after || 60) + ' s.'));
+                throw new Error('rate_limited');
+              }
+              return profileStep;
+            }).then(function () {
               /* Build the payload once; only the operation (insert vs
                  update) differs between create and edit. */
               var payload = {
@@ -522,8 +559,8 @@
                 /* After edit, send the user back to the post they edited;
                    after create, send to the main feed. */
                 window.location.href = EDIT_ID
-                  ? ('post.html?id=' + encodeURIComponent(EDIT_ID))
-                  : 'main.html';
+                  ? ('post?id=' + encodeURIComponent(EDIT_ID))
+                  : 'main';
               });
             });
 
@@ -562,7 +599,7 @@
     postPromise.then(function (postRes) {
       if (postRes.error || !postRes.data) {
         alert(t('cp.err.notfound', 'Post not found — it may have been deleted.'));
-        window.location.href = 'main.html';
+        window.location.href = 'main';
         return;
       }
       populateFormFromPost(postRes.data);
@@ -574,7 +611,7 @@
         var userId = (authRes && authRes.data && authRes.data.user) ? authRes.data.user.id : null;
         if (!userId || postRes.data.user_id !== userId) {
           alert(t('cp.err.notowner', 'You can only edit your own posts.'));
-          window.location.href = 'post.html?id=' + encodeURIComponent(postId);
+          window.location.href = 'post?id=' + encodeURIComponent(postId);
         }
       });
     });
@@ -591,7 +628,7 @@
         '<path d="M219.31,80,176,36.69A15.86,15.86,0,0,0,164.69,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V91.31A15.86,15.86,0,0,0,219.31,80ZM168,208H88V152h80Zm40,0H184V152a16,16,0,0,0-16-16H88a16,16,0,0,0-16,16v56H48V48h116.69L208,91.31ZM160,72a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h56A8,8,0,0,1,160,72Z"/></svg>';
     }
     var cancelLink = document.querySelector('a.btn-cancel');
-    if (cancelLink) cancelLink.href = 'post.html?id=' + encodeURIComponent(postId);
+    if (cancelLink) cancelLink.href = 'post?id=' + encodeURIComponent(postId);
     document.title = t('cp.doc.title.edit', 'Edit post · StillHere');
     var draftBtn = document.getElementById('btnDeleteDraft');
     if (draftBtn) draftBtn.style.display = 'none';

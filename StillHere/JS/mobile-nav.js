@@ -96,9 +96,9 @@
 
     /* Find the right link path for create-post.html relative
        to the current page. main.html is at site root, so
-       the relative link is just 'create-post.html'. */
-    var href = 'create-post.html';
-    if (location.pathname.indexOf('/nav-bar/') !== -1) href = '../create-post.html';
+       the relative link is just 'create-post'. */
+    var href = 'create-post';
+    if (location.pathname.indexOf('/nav-bar/') !== -1) href = '../create-post';
 
     var a = document.createElement('a');
     a.className = 'feed-fab';

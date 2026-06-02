@@ -216,7 +216,7 @@
         authorNameEl.innerHTML = '';
         var a = document.createElement('a');
         a.className = 'post-author-link';
-        a.href = 'u.html?u=' + encodeURIComponent(uname);
+        a.href = 'u?u=' + encodeURIComponent(uname);
         a.textContent = name;
         authorNameEl.appendChild(a);
       } else {
@@ -237,7 +237,7 @@
         var displayName = _postAuthorProfile.display_name || _postAuthorProfile.username;
         var wrapper = document.createElement('a');
         wrapper.className = 'post-avatar post-avatar-link';
-        wrapper.href = 'u.html?u=' + encodeURIComponent(uname);
+        wrapper.href = 'u?u=' + encodeURIComponent(uname);
         wrapper.setAttribute('aria-label', displayName);
         wrapper.innerHTML = avatarInner;
         headerAvatar.parentNode.replaceChild(wrapper, headerAvatar);
@@ -259,7 +259,7 @@
       if (editBtn) {
         editBtn.addEventListener('click', function () {
           if (optionsDropdown) optionsDropdown.classList.remove('is-open');
-          window.location.href = 'create-post.html?edit=' + encodeURIComponent(postId);
+          window.location.href = 'create-post?edit=' + encodeURIComponent(postId);
         });
       }
       if (deleteBtn) {
@@ -268,7 +268,7 @@
           showConfirm(function () {
             db.from('posts').delete().eq('id', postId).then(function (res) {
               if (res.error) { showToast('Error: ' + res.error.message); return; }
-              window.location.href = 'main.html';
+              window.location.href = 'main';
             });
           });
         });
@@ -1033,7 +1033,20 @@
         );
       })() : Promise.resolve({ error: null });
 
-      profileStep.then(function () { return db.from('comments').insert({
+      /* Rate-limit gate (8/min users, 5/min anon for comments). */
+      db.rpc('check_publish_rate', {
+        p_user_id: _currentUserId || null,
+        p_anon_fp: anonFpR || null,
+        p_kind: 'comment',
+      }).then(function (rl) {
+        if (rl && rl.data && rl.data.allowed === false) {
+          btn.disabled = false;
+          btn.textContent = 'Post reply';
+          showToast('Slow down — try again in ' + (rl.data.retry_after || 60) + ' s.');
+          throw new Error('rate_limited');
+        }
+        return profileStep;
+      }).then(function () { return db.from('comments').insert({
         post_id:   postId,
         parent_id: parentCid,
         content:   safeHtml(html),
@@ -1312,7 +1325,19 @@
           );
         })() : Promise.resolve({ error: null });
 
-        profileStepC.then(function () { return db.from('comments').insert({ post_id: postId, content: html, user_id: _currentUserId, anon_fp: anonFpC }); }).then(function (result) {
+        db.rpc('check_publish_rate', {
+          p_user_id: _currentUserId || null,
+          p_anon_fp: anonFpC || null,
+          p_kind: 'comment',
+        }).then(function (rl) {
+          if (rl && rl.data && rl.data.allowed === false) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Reply';
+            showToast('Slow down — try again in ' + (rl.data.retry_after || 60) + ' s.');
+            throw new Error('rate_limited');
+          }
+          return profileStepC;
+        }).then(function () { return db.from('comments').insert({ post_id: postId, content: html, user_id: _currentUserId, anon_fp: anonFpC }); }).then(function (result) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = REPLY_ICON;
 

@@ -2,7 +2,7 @@
   "name": "StillHere — presence, not solutions",
   "short_name": "StillHere",
   "description": "Anonymous, free, no-advice support for hard days.",
-  "start_url": "/main.html",
+  "start_url": "/main",
   "scope": "/",
   "id": "/?source=pwa",
   "display": "standalone",
@@ -22,19 +22,19 @@
     {
       "name": "Share a story",
       "short_name": "Share",
-      "url": "/create-post.html",
+      "url": "/create-post",
       "icons": [{ "src": "/assets/favicon/favicon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Community feed",
       "short_name": "Feed",
-      "url": "/main.html",
+      "url": "/main",
       "icons": [{ "src": "/assets/favicon/favicon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "AI support",
       "short_name": "AI chat",
-      "url": "/ai-chat.html",
+      "url": "/ai-chat",
       "icons": [{ "src": "/assets/favicon/favicon-96x96.png", "sizes": "96x96" }]
     }
   ]

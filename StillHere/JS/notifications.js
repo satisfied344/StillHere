@@ -518,7 +518,7 @@
   }
 
   /* Build a relative link to the post (works from any page).
-     Lives at /post.html?id=… ; if currently inside /nav-bar/* we add a
+     Lives at /post?id=… ; if currently inside /nav-bar/* we add a
      '../'; inside /docs/html/* we add '../../'. */
   function postUrl(postId, commentId) {
     var p = window.location.pathname || '';
@@ -526,7 +526,7 @@
     if (/\/docs\/html\//.test(p)) prefix = '../../';
     else if (/\/nav-bar\//.test(p)) prefix = '../';
     var hash = commentId ? '#comment-' + commentId : '#comments';
-    return prefix + 'post.html?id=' + encodeURIComponent(postId) + hash;
+    return prefix + 'post?id=' + encodeURIComponent(postId) + hash;
   }
 
   function esc(s) {

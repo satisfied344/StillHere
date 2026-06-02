@@ -34,12 +34,12 @@
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Quiet stories from people around the world. Anonymous, free, no-advice — just presence.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
-    <link rel="canonical" href="https://www.stillhere.global/main.html">
+    <link rel="canonical" href="https://www.stillhere.global/main">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Community feed — StillHere">
     <meta property="og:description" content="Quiet stories from people around the world. Anonymous, free, no-advice — just presence.">
-    <meta property="og:url" content="https://www.stillhere.global/main.html">
+    <meta property="og:url" content="https://www.stillhere.global/main">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:secure_url" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:type" content="image/svg+xml">
@@ -89,8 +89,8 @@
   <script src="JS/i18n.uk.js?v=7" defer></script>
   <script src="JS/i18n.js?v=6" defer></script>
   <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=14" defer></script>
-  <script src="JS/moderation.js?v=5" defer></script>
+  <script src="JS/notifications.js?v=15" defer></script>
+  <script src="JS/moderation.js?v=7" defer></script>
   <script src="JS/main-page.js?v=19" defer></script>
   <script>
     /* ── Sidebar Home / Saved toggle ── */
@@ -148,7 +148,7 @@
         });
 
         /* Highlight profile nav link with the user's name */
-        var profileLink = document.querySelector('.nav-link[href="nav-bar/profile.html"] span');
+        var profileLink = document.querySelector('.nav-link[href="nav-bar/profile"] span');
         if (profileLink) profileLink.textContent = user.displayName || user.username;
       }
     });
@@ -288,7 +288,7 @@
   </script>
   <link rel="stylesheet" href="CSS/motion.css?v=2">
   <link rel="stylesheet" href="CSS/dark-theme.css?v=4">
-  <link rel="stylesheet" href="CSS/mobile.css?v=1779486000">
+  <link rel="stylesheet" href="CSS/mobile.css?v=1779486300">
   <script src="JS/theme.js" defer></script>
 
   <!-- Widget / filter / card overrides previously inlined here were moved
@@ -322,7 +322,7 @@
             </a>
             
             <div class="nav">
-                <a href="nav-bar/about.html" class="nav-link nav-link--stack">
+                <a href="nav-bar/about" class="nav-link nav-link--stack">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         width="30" height="30"
                         viewBox="0 0 256 256" 
@@ -334,7 +334,7 @@
                 <span data-i18n="nav.about">about</span>
                 </a>
 
-                <a href="nav-bar/contacts.html" class="nav-link nav-link--stack">
+                <a href="nav-bar/contacts" class="nav-link nav-link--stack">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="30" height="30"
                             viewBox="0 0 256 256" stroke-width="22"
@@ -346,7 +346,7 @@
                     <span data-i18n="nav.contacts">contacts</span>
                 </a>
 
-                <a href="nav-bar/updates.html" class="nav-link nav-link--stack">
+                <a href="nav-bar/updates" class="nav-link nav-link--stack">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="30" height="30"
                             viewBox="0 0 256 256"
@@ -358,7 +358,7 @@
                     <span data-i18n="nav.updates">updates</span>
                 </a>
 
-                <a href="nav-bar/profile.html" class="nav-link nav-link--stack">
+                <a href="nav-bar/profile" class="nav-link nav-link--stack">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="30" height="30"
                             viewBox="0 0 256 256"
@@ -383,16 +383,16 @@
                     </button>
                 
         <ul class="main-menu-panel" role="menu">
-          <li role="none"><a href="login.html" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg><span data-i18n="menu.login">Login</span></a></li>
+          <li role="none"><a href="login" class="mmenu-item mmenu-item--login" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66A8,8,0,0,1,101.66,82.34l40,40A8,8,0,0,1,141.66,133.66ZM192,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h56a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Z"/></svg><span data-i18n="menu.login">Login</span></a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="main.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg><span data-i18n="menu.feed">Community feed</span></a></li>
-          <li role="none"><a href="letters.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,40H56A16,16,0,0,0,40,56V216a16,16,0,0,0,16,16h120a8,8,0,0,0,5.66-2.34l40-40A8,8,0,0,0,224,184V56A16,16,0,0,0,216,40ZM56,56H216v120H168a8,8,0,0,0-8,8v32H56Zm120,160V192h27.31Z"/></svg><span data-i18n="menu.letters">Quiet letters</span></a></li>
-          <li role="none"><a href="preferences.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg><span data-i18n="menu.preferences">Preferences</span></a></li>
-          <li role="none"><a href="ai-chat.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg><span data-i18n="menu.ai">AI support</span></a></li>
-          <li role="none"><a href="coming-soon.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span data-i18n="menu.private">Private support</span></a></li>
+          <li role="none"><a href="main" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/></svg><span data-i18n="menu.feed">Community feed</span></a></li>
+          <li role="none"><a href="letters" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,40H56A16,16,0,0,0,40,56V216a16,16,0,0,0,16,16h120a8,8,0,0,0,5.66-2.34l40-40A8,8,0,0,0,224,184V56A16,16,0,0,0,216,40ZM56,56H216v120H168a8,8,0,0,0-8,8v32H56Zm120,160V192h27.31Z"/></svg><span data-i18n="menu.letters">Quiet letters</span></a></li>
+          <li role="none"><a href="preferences" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0H216a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16H137a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg><span data-i18n="menu.preferences">Preferences</span></a></li>
+          <li role="none"><a href="ai-chat" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Z"/></svg><span data-i18n="menu.ai">AI support</span></a></li>
+          <li role="none"><a href="coming-soon" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"/></svg><span data-i18n="menu.private">Private support</span></a></li>
           <li role="none" class="mmenu-divider" aria-hidden="true"></li>
-          <li role="none"><a href="coming-soon.html" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
-          <li role="none"><a href="statistics.html" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg><span data-i18n="menu.statistics">Statistics</span></a></li>
+          <li role="none"><a href="coming-soon" class="mmenu-item mmenu-item--session" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM208,208H48V80H208V208ZM48,64V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V64Z"/></svg><span data-i18n="menu.session">Book a session</span></a></li>
+          <li role="none"><a href="statistics" class="mmenu-item" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240,208H224V96a16,16,0,0,0-16-16H176a16,16,0,0,0-16,16V208H136V48a16,16,0,0,0-16-16H88A16,16,0,0,0,72,48V208H56V144a16,16,0,0,0-16-16H24a8,8,0,0,0,0,16H40v64H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM88,48h32V208H88ZM176,96h32V208H176Z"/></svg><span data-i18n="menu.statistics">Statistics</span></a></li>
         </ul>
         </div>
             </div>
@@ -494,7 +494,7 @@
 
                 <div class="asidebar-divider"></div>
 
-                <a href="create-post.html" class="sidebar-create-post-button">
+                <a href="create-post" class="sidebar-create-post-button">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20"
                         viewBox="0 0 256 256"
@@ -686,7 +686,7 @@
             <div class="widget support">
                 <h3 class="widget-title" data-i18n="main.widget.crisis.title">Need Immediate Help?</h3>
                 <p class="widget-subtitle" data-i18n="main.widget.crisis.sub">If you're in crisis, please call out:</p>
-                <a href="docs/html/crisis-resources.html" class="widget-link">
+                <a href="docs/html/crisis-resources" class="widget-link">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20"
                         viewBox="0 0 256 256"
@@ -702,7 +702,7 @@
             <div class="widget support ai">
                 <h3 class="widget-title" data-i18n="main.widget.ai.title">Need support right now?</h3>
                 <p class="widget-subtitle" data-i18n="main.widget.ai.sub">If you're going through something difficult, you can talk to our AI support:</p>
-                <a href="ai-chat.html" class="widgetai-link">
+                <a href="ai-chat" class="widgetai-link">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         width="20" height="20" fill="currentColor"
                         viewBox="0 0 256 256" data-darkreader-inline-fill=""
@@ -723,7 +723,7 @@
                     <!-- populated client-side from a small seed pool -->
                 </div>
 
-                <a href="letters.html" class="widget-link-letters">
+                <a href="letters" class="widget-link-letters">
                     <span data-i18n="main.widget.letters.link">more quiet letters</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg>
                 </a>
@@ -739,7 +739,7 @@
                     <li data-i18n="main.widget.guidelines.4">Protect anonymity</li>
                 </ul>
 
-                <a href="docs/html/guidelines.html" class="widget-link-guidelines" data-i18n="main.widget.guidelines.link">Read full guidelines →</a>
+                <a href="docs/html/guidelines" class="widget-link-guidelines" data-i18n="main.widget.guidelines.link">Read full guidelines →</a>
             </div>
 
             
@@ -846,27 +846,27 @@
                 <div class="footer_links_1">
                     <h3 data-i18n="footer.platform">Platform</h3>
                     <ul>
-                        <li><a href="main.html" data-i18n="footer.browse">Browse Stories</a></li>
-                        <li><a href="create-post.html" data-i18n="footer.share">Share Your Story</a></li>
-                        <li><a href="nav-bar/updates.html" data-i18n="footer.updates">Updates</a></li>
+                        <li><a href="main" data-i18n="footer.browse">Browse Stories</a></li>
+                        <li><a href="create-post" data-i18n="footer.share">Share Your Story</a></li>
+                        <li><a href="nav-bar/updates" data-i18n="footer.updates">Updates</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_2">
                     <h3 data-i18n="footer.support">Support</h3>
                     <ul>
-                        <li><a href="nav-bar/about.html" data-i18n="footer.about">About Us</a></li>
-                        <li><a href="nav-bar/contacts.html" data-i18n="footer.contacts">Contacts</a></li>
-                        <li><a href="docs/html/guidelines.html" data-i18n="footer.guidelines">Guidelines</a></li>
-                        <li><a href="docs/html/crisis-resources.html" data-i18n="footer.crisis">Crisis Resources</a></li>
+                        <li><a href="nav-bar/about" data-i18n="footer.about">About Us</a></li>
+                        <li><a href="nav-bar/contacts" data-i18n="footer.contacts">Contacts</a></li>
+                        <li><a href="docs/html/guidelines" data-i18n="footer.guidelines">Guidelines</a></li>
+                        <li><a href="docs/html/crisis-resources" data-i18n="footer.crisis">Crisis Resources</a></li>
                     </ul>
                 </div>
 
                 <div class="footer_links_3">
                     <h3 data-i18n="footer.legal">Legal</h3>
                     <ul>
-                        <li><a href="docs/html/privacy-policy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
-                        <li><a href="docs/html/terms-of-service.html" data-i18n="footer.terms">Terms of Service</a></li>
+                        <li><a href="docs/html/privacy-policy" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="docs/html/terms-of-service" data-i18n="footer.terms">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -877,8 +877,8 @@
                   <p>2026 StillHere.</p>
                   <p class="implicit-consent" data-i18n="footer.consent">
                     by being here, you accept our
-                    <a href="docs/html/terms-of-service.html">terms</a>
-                    &amp; <a href="docs/html/privacy-policy.html">privacy</a>.
+                    <a href="docs/html/terms-of-service">terms</a>
+                    &amp; <a href="docs/html/privacy-policy">privacy</a>.
                   </p>
                 </div>
             <div class="footer_social">
@@ -990,7 +990,7 @@
       </div>
     </div>
   </div>
-  <script src="JS/burger-extras.js?v=4" defer></script>
+  <script src="JS/burger-extras.js?v=5" defer></script>
 </body>
 </html>
 

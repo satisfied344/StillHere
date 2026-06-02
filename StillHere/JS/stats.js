@@ -211,7 +211,7 @@
         : anonLabel;
       var title = escHtml(p.title || untitledTxt);
       return (
-        '<a href="post.html?id=' + escHtml(p.id) + '" class="recent-post-row">' +
+        '<a href="post?id=' + escHtml(p.id) + '" class="recent-post-row">' +
           '<span class="rp-title">' + title + '</span>' +
           '<span class="rp-meta">' + author + ' &nbsp;·&nbsp; ' + timeAgo(p.created_at) + '</span>' +
         '</a>'

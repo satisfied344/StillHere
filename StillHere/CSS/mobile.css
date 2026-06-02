@@ -621,14 +621,34 @@
     font-size: inherit !important;
     line-height: inherit !important;
   }
-  /* Tiny space between "still" and "here" so they don't kern
-     together as a single word. */
-  .title .title-word::after { content: " "; }
-  /* Background multilingual word marquee — bumped from 0.06 →
-     0.18 (light theme) / 0.22 (dark theme) per user feedback:
-     was barely visible on light, hardly readable on dark. */
+  /* Tighter gap between "still" and "here" — was a full space
+     character (~0.3em at this font size) and read as oversized.
+     Replace with a narrow no-break space (\\2009) so the words
+     don't kern into "stillhere" but feel like one phrase. */
+  .title .title-word::after {
+    content: "\2009";          /* thin space — half of regular */
+    letter-spacing: -0.12em;
+  }
+  /* Background multilingual word marquee — opacity unchanged
+     (kept the user-preferred values), but the strokes are bolder
+     and the inter-row gaps are tighter on mobile per user
+     feedback so the words read as a richer watermark. */
   .bg_words { opacity: 0.18 !important; }
   html[data-theme="dark"] .bg_words { opacity: 0.22 !important; }
+  /* Each `.row` is one scrolling line of multilingual text.
+     Default desktop weight is 800 → push to 900 (max weight) for
+     more visual density on small screens. Tighter top positions
+     compress the 5 rows so the inter-row gap is ~16 % of viewport
+     instead of ~22 %. */
+  .bg_words .row {
+    font-weight: 900 !important;
+    letter-spacing: -3px !important;     /* slightly tighter kerning */
+  }
+  .bg_words .row:nth-child(1) { top: 10% !important; }
+  .bg_words .row:nth-child(2) { top: 28% !important; }
+  .bg_words .row:nth-child(3) { top: 46% !important; }
+  .bg_words .row:nth-child(4) { top: 64% !important; }
+  .bg_words .row:nth-child(5) { top: 82% !important; }
   /* Ambient single words rendered as large background letters
      (separate from the marquee). Bump too so the hero feels
      populated. */
@@ -915,11 +935,11 @@
      so it sits clear of the navbar's 50-px clearance. */
   .doodle-hero-cloud,
   .d-img.doodle-hero-cloud {
-    width: 96px !important;
+    width: 126px !important;
     height: auto !important;
     opacity: 0.55 !important;
-    top: 78px !important;             /* below navbar + breathing */
-    right: 14px !important;
+    top: 125px !important;            /* lower per user feedback */
+    right: 17px !important;
     left: auto !important;
   }
   /* Hero spark — keep it but force it OFF the CTA area. On mobile
@@ -938,25 +958,28 @@
   }
   .doodle-hero-heart-r,
   .d-img.doodle-hero-heart-r {
-    /* Heart sits LEFT-OF-CENTER above the wordmark, between the
-       eyebrow line and "still here" title. Smaller than before
-       (52 px instead of 64) and animated via a dedicated
-       keyframe that BAKES IN translateX(-50%) so the bob/rotate
-       animation doesn't fight the horizontal anchor. */
+    /* Heart — smaller (42 px) and animated. Animation BAKES IN
+       translateX(-50%) so the horizontal centring isn't fought
+       by the bob/rotate transform. */
     display: block !important;
-    width: 52px !important;
+    width: 72px !important;
     height: auto !important;
     opacity: 0.7 !important;
-    left: 22% !important;
+    left: 21% !important;
     right: auto !important;
-    top: 130px !important;
+    top: 150px !important;
     bottom: auto !important;
     animation: sh-heartFloatCentered 4.6s ease-in-out infinite !important;
     transform-origin: center !important;
   }
   @keyframes sh-heartFloatCentered {
-    0%, 100% { transform: translateX(-50%) translateY(0)    rotate(-4deg); }
-    50%      { transform: translateX(-50%) translateY(-6px) rotate(4deg);  }
+    0%, 100% { transform: translateX(-50%) translateY(0)    rotate(-5deg); }
+    25%      { transform: translateX(-50%) translateY(-4px) rotate(3deg);  }
+    50%      { transform: translateX(-50%) translateY(-7px) rotate(5deg);  }
+    75%      { transform: translateX(-50%) translateY(-3px) rotate(-2deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doodle-hero-heart-r { animation: none !important; transform: translateX(-50%) !important; }
   }
   .scribble-circle { display: none !important; }
   .title-star { width: 40px !important; height: 40px !important; opacity: 1 !important; }

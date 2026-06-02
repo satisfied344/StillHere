@@ -168,28 +168,64 @@
     },
 
     /* Username check — no JWT required (user not logged in yet at registration).
-       Returns { allowed, reason, label } */
-    checkUsername: async function (username) {
-      // Fast local check first — catch obvious slurs without a network round-trip
-      if (isBlacklisted(username)) {
-        return { allowed: false, reason: 'targeted_insult', label: 'Direct insult or harassment' };
-      }
+       Returns { allowed, reason, label }.
 
-      try {
-        var res = await fetch(FUNCTION_URL, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: username, contentType: 'username' }),
-        });
+       Client-side cache: every unique candidate name is checked AT MOST
+       ONCE per session. The register/edit-profile forms fire `input`
+       events on every keystroke; without this cache an 8-character
+       handle would burn 8 OR calls (one per character as the user
+       types) before a single submit. Cache key is the trimmed
+       lower-cased name. Cache lives in a closure Map so it dies with
+       the tab — exactly what we want for moderation freshness. */
+    checkUsername: (function () {
+      var cache = new Map();
 
-        if (!res.ok) return { allowed: true };
-        return await res.json();
+      return async function (username) {
+        var key = String(username || '').trim().toLowerCase();
+        if (!key) return { allowed: true };
 
-      } catch (err) {
-        console.warn('[SH_MOD] Username check failed, failing open:', err);
-        return { allowed: true };
-      }
-    },
+        if (cache.has(key)) return cache.get(key);
+
+        // Fast local check first — catch obvious slurs without a network round-trip
+        if (isBlacklisted(username)) {
+          var blockedResult = { allowed: false, reason: 'targeted_insult', label: 'Direct insult or harassment' };
+          cache.set(key, blockedResult);
+          return blockedResult;
+        }
+
+        try {
+          /* Send apikey + anon Bearer so Supabase's platform-level
+             verify_jwt check passes (the function code itself
+             treats username-checks as anonymous). Without these
+             headers, a function with `verify_jwt: true` returns
+             401 before our code even runs. */
+          var anonKey = window.SH_SUPABASE_KEY || '';
+          var res = await fetch(FUNCTION_URL, {
+            method:  'POST',
+            headers: {
+              'Content-Type':  'application/json',
+              'apikey':        anonKey,
+              'Authorization': 'Bearer ' + anonKey,
+            },
+            body: JSON.stringify({ content: username, contentType: 'username' }),
+          });
+
+          var verdict;
+          if (!res.ok) {
+            verdict = { allowed: true };
+            // Don't cache transient HTTP errors — leave open for retry.
+          } else {
+            verdict = await res.json();
+            cache.set(key, verdict);
+          }
+          return verdict;
+
+        } catch (err) {
+          console.warn('[SH_MOD] Username check failed, failing open:', err);
+          return { allowed: true };
+        }
+      };
+    })(),
 
     /* Main check. Returns the full response object from the Edge Function.
        Always resolves (never rejects).

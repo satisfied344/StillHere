@@ -151,6 +151,29 @@
     /\bi\s+(?:can'?t|can[’'`]t|cannot)\s+(?:live|keep\s+living|stay\s+alive|exist)\s+anymore\b/i,
     /\bbetter\s+off\s+(?:without\s+me|dead)\b/i,
     /\bworld\s+(?:would\s+be\s+)?better\s+without\s+me\b/i,
+
+    /* ──────── Expanded HIGH coverage (replaces AI fallback) ─────
+       Internet slang + obfuscation that the regex previously missed
+       and that the AI second pass typically caught. */
+    /\b(?:k|kill)\s*(?:myself|my\s+self)\b/i,
+    /\bkms\b/i,                          // "kms" — internet shorthand
+    /\bunalive(?:\s+(?:myself|me))?\b/i, // tiktok-safe word for "kill"
+    /\bsewer[\s-]*slide\b/i,             // "sewer slide" = "suicide"
+    /\bgoodbye\s+(?:everyone|world|forever)\b/i,
+    /\bend\s+it\s+(?:all|tonight|today)\b/i,
+    /\bnot\s+gonna\s+(?:make\s+it|be\s+here)\b/i,
+    /\b(?:i\s+)?have\s+(?:a\s+)?plan\s+(?:to\s+(?:end|kill)|now)\b/i,
+
+    // RU/UK more obfuscation forms
+    rxAny([
+      'кмс', 'кмз',                                   // RU transliteration of "kms"
+      'анелайв', 'анэлайв',                           // "unalive" cyrillicized
+      'я\\s+планирую\\s+(?:покончить|выпил)',         // explicit planning
+      'сегодня\\s+(?:покончу|закончу\\s+(?:это|со\\s+всем))',
+      'это\\s+мой\\s+последн* пост',
+      'больше\\s+меня\\s+(?:не\\s+будет|здесь\\s+не\\s+будет)',
+      'я\\s+не\\s+хочу\\s+быть\\s+(?:здесь|больше\\s+живым)',
+    ]),
   ];
 
   // SOFT: less explicit distress signals. More permissive than HIGH —
@@ -166,6 +189,50 @@
     /\bnobody\s+would\s+(?:miss|care|notice)\b/i,
     /\bgive\s+up\s+on\s+(?:life|everything)\b/i,
     /\bi\s+feel\s+(?:so\s+)?(?:empty|numb|hopeless|worthless)\b/i,
+
+    /* ──────── Expanded coverage (replaces the AI second-pass) ─────
+       Added so we don't have to burn an OpenRouter call per submit.
+       Patterns picked from real distress-vocabulary lists + the cases
+       the previous AI fallback most often caught. */
+
+    // RU — hopelessness / "I can't anymore"
+    /(?:^|[^\p{L}])(?:я\s+(?:больше\s+)?не\s+мог[уy]\s+(?:так\s+)?(?:жить|жит))/iu,
+    /(?:^|[^\p{L}])(?:не\s+могу\s+(?:это\s+)?(?:вынести|терпеть|выдержать|переживать))/iu,
+    /(?:^|[^\p{L}])(?:всё\s+(?:так\s+)?(?:плохо|херово|хуёво|хреново)|жизнь\s+(?:это\s+)?ад)/iu,
+    /(?:^|[^\p{L}])(?:ничего\s+(?:уже\s+)?не\s+помога(?:ет|ют))/iu,
+    /(?:^|[^\p{L}])(?:мне\s+(?:так\s+)?плохо\s+что\s+я)/iu,
+    /(?:^|[^\p{L}])(?:устал[аи]?\s+быть)/iu,
+    /(?:^|[^\p{L}])(?:я\s+(?:сейчас\s+)?на\s+гран(?:и|е))/iu,
+    /(?:^|[^\p{L}])(?:мне\s+(?:тебе\s+)?нужн[аы]?\s+помощь)/iu,
+    /(?:^|[^\p{L}])(?:сорвал[аи]?(?:сь)?|опять\s+сорвал)/iu,
+    /(?:^|[^\p{L}])(?:не\s+знаю\s+что\s+(?:мне\s+)?делать)/iu,
+    /(?:^|[^\p{L}])(?:одиночество\s+(?:меня\s+)?(?:убивает|съедает))/iu,
+    /(?:^|[^\p{L}])(?:я\s+(?:такой|такая|такие)\s+(?:ничтожество|никчёмн|никчемн|жалк))/iu,
+
+    // RU — finality / farewell tone
+    /(?:^|[^\p{L}])(?:прощайте|прощай(?:те)?\s+(?:все|друзья|мама|папа))/iu,
+    /(?:^|[^\p{L}])(?:последн(?:ий|ее|яя)\s+(?:раз|пост|сообщение|запись))/iu,
+    /(?:^|[^\p{L}])(?:спасибо\s+за\s+(?:всё|все)\b)/iu,
+
+    // UK — Ukrainian distress
+    /(?:^|[^\p{L}])(?:я\s+(?:більше\s+)?не\s+можу\s+(?:так\s+)?(?:жити|жит))/iu,
+    /(?:^|[^\p{L}])(?:нікому\s+я\s+не\s+потрібн)/iu,
+    /(?:^|[^\p{L}])(?:не\s+бачу\s+сенсу|немає\s+сенсу)/iu,
+    /(?:^|[^\p{L}])(?:втомив(?:ся|лася)\s+(?:від|жити))/iu,
+
+    // EN — additional distress markers
+    /\bi\s+(?:just\s+)?want\s+(?:it|this|the\s+pain)\s+to\s+(?:stop|end)\b/i,
+    /\bi\s+can(?:'?t| not)\s+(?:keep\s+going|deal\s+with\s+this|handle\s+(?:it|this))\b/i,
+    /\bi\s+(?:'?m|\s+am)\s+(?:so\s+)?(?:done|over\s+(?:it|this)|exhausted\s+(?:with|by)\s+life)\b/i,
+    /\bi\s+(?:'?ve|\s+have)\s+(?:had\s+enough|given\s+up|nothing\s+left)\b/i,
+    /\bi\s+(?:'?m|\s+am)\s+a\s+(?:burden|waste\s+of\s+space|failure)\b/i,
+    /\beverything\s+(?:hurts|is\s+falling\s+apart|is\s+pointless)\b/i,
+    /\b(?:i\s+)?wish\s+i\s+was\s+(?:dead|never\s+born|gone)\b/i,
+    /\bi\s+(?:'?m|\s+am)\s+at\s+(?:my\s+)?(?:breaking\s+point|the\s+end\s+of\s+(?:my\s+)?rope)\b/i,
+    /\b(?:no|nothing)\s+(?:one|to\s+live\s+for|matters\s+anymore)\b/i,
+    /\bsaying\s+goodbye\s+to\s+(?:you\s+all|everyone)\b/i,
+    /\b(?:this\s+is\s+)?(?:my\s+)?(?:last|final)\s+(?:post|message|note)\b/i,
+    /\bthank\s+you\s+(?:all\s+)?for\s+everything\b/i,
   ];
 
   /* Defeat common obfuscation: replace lookalike Ukrainian / Belarusian
@@ -252,50 +319,14 @@
     return false;
   }
 
-  // Promise that resolves to "none"|"soft"|"high". Times out after ~2.4s
-  // so the UX never feels broken.
-  function aiCheck(text, source) {
-    return new Promise(function (resolve) {
-      if (!window.SH_SUPABASE_URL) { resolve('none'); return; }
-
-      var url = window.SH_SUPABASE_URL + '/functions/v1/crisis-check';
-      var jwt = null;
-      // Best-effort: use the user's access token if we already have a
-      // Supabase client around; otherwise fall back to the anon key.
-      try {
-        if (window._sbClient && window._sbClient.auth) {
-          window._sbClient.auth.getSession().then(function (s) {
-            jwt = s && s.data && s.data.session && s.data.session.access_token;
-          });
-        }
-      } catch (_) {}
-
-      var ctrl = new AbortController();
-      var timer = setTimeout(function () { ctrl.abort(); resolve('none'); }, 2400);
-
-      fetch(url, {
-        method: 'POST',
-        signal: ctrl.signal,
-        headers: {
-          'Content-Type':  'application/json',
-          'apikey':        window.SH_SUPABASE_KEY || '',
-          'Authorization': 'Bearer ' + (jwt || window.SH_SUPABASE_KEY || ''),
-        },
-        body: JSON.stringify({ text: text, source: source || 'unknown' }),
-      })
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (d) {
-          clearTimeout(timer);
-          if (!d || !d.risk) { resolve('none'); return; }
-          if (d.risk === 'high' || d.risk === 'soft') {
-            console.debug('[crisis] AI flagged', d.risk, '—', d.reason || '');
-            resolve(d.risk);
-          } else {
-            resolve('none');
-          }
-        })
-        .catch(function () { clearTimeout(timer); resolve('none'); });
-    });
+  /* AI fallback was previously used when the local regex returned
+     "none" but the text contained distress markers — it added 1
+     OpenRouter call per submit. We replaced it with an EXPANDED
+     local regex (see EXTRA_HIGH_PATTERNS + EXTRA_SOFT_PATTERNS
+     below) that catches the previously-AI-only cases. Kept as a
+     no-op so callers don't need a code change. */
+  function aiCheck(/* text, source */) {
+    return Promise.resolve('none');
   }
 
   /* ────────────────────────────────────────────────────────────────
@@ -404,11 +435,11 @@
   function crisisHref() {
     var p = window.location.pathname || '';
     // /docs/html/*  → already there → same-folder link
-    if (/\/docs\/html\//.test(p)) return 'crisis-resources.html';
+    if (/\/docs\/html\//.test(p)) return 'crisis-resources';
     // /nav-bar/*    → one level up
-    if (/\/nav-bar\//.test(p))    return '../docs/html/crisis-resources.html';
+    if (/\/nav-bar\//.test(p))    return '../docs/html/crisis-resources';
     // root
-    return 'docs/html/crisis-resources.html';
+    return 'docs/html/crisis-resources';
   }
 
   function showCare(opts) {

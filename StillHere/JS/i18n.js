@@ -267,12 +267,12 @@
     'footer.legal':        { en: 'Legal',                 ru: 'Правовое' },
     'footer.privacy':      { en: 'Privacy Policy',        ru: 'Политика конфиденциальности' },
     'footer.terms':        { en: 'Terms of Service',      ru: 'Условия использования' },
-    'footer.consent':      { en: 'by being here, you accept our <a href="docs/html/terms-of-service.html">terms</a> &amp; <a href="docs/html/privacy-policy.html">privacy</a>.',
-                             ru: 'находясь здесь, ты принимаешь наши <a href="docs/html/terms-of-service.html">условия пользования</a> и <a href="docs/html/privacy-policy.html">политику конфиденциальности</a>.' },
-    'footer.consent.docs': { en: 'by being here, you accept our <a href="terms-of-service.html">terms</a> &amp; <a href="privacy-policy.html">privacy</a>.',
-                             ru: 'находясь здесь, ты принимаешь наши <a href="terms-of-service.html">условия пользования</a> и <a href="privacy-policy.html">политику конфиденциальности</a>.' },
-    'footer.consent.subdir':{ en: 'by being here, you accept our <a href="../docs/html/terms-of-service.html">terms</a> &amp; <a href="../docs/html/privacy-policy.html">privacy</a>.',
-                             ru: 'находясь здесь, ты принимаешь наши <a href="../docs/html/terms-of-service.html">условия пользования</a> и <a href="../docs/html/privacy-policy.html">политику конфиденциальности</a>.' },
+    'footer.consent':      { en: 'by being here, you accept our <a href="docs/html/terms-of-service">terms</a> &amp; <a href="docs/html/privacy-policy">privacy</a>.',
+                             ru: 'находясь здесь, ты принимаешь наши <a href="docs/html/terms-of-service">условия пользования</a> и <a href="docs/html/privacy-policy">политику конфиденциальности</a>.' },
+    'footer.consent.docs': { en: 'by being here, you accept our <a href="terms-of-service">terms</a> &amp; <a href="privacy-policy">privacy</a>.',
+                             ru: 'находясь здесь, ты принимаешь наши <a href="terms-of-service">условия пользования</a> и <a href="privacy-policy">политику конфиденциальности</a>.' },
+    'footer.consent.subdir':{ en: 'by being here, you accept our <a href="../docs/html/terms-of-service">terms</a> &amp; <a href="../docs/html/privacy-policy">privacy</a>.',
+                             ru: 'находясь здесь, ты принимаешь наши <a href="../docs/html/terms-of-service">условия пользования</a> и <a href="../docs/html/privacy-policy">политику конфиденциальности</a>.' },
 
     /* ── nav-bar/contacts.html ────────────────────────────── */
     'ct.hero.eyebrow':     { en: '<em>—</em> reach out, anytime',
@@ -1142,8 +1142,8 @@
     'cp.c7.hint':          { en: 'since you\'re posting without an account', ru: 'раз ты публикуешь без аккаунта' },
     'cp.c7.sub':           { en: 'you don\'t need an account to share a story — but we still need to know you\'ve read the small print. it\'s short and human.',
                              ru: 'не нужно аккаунта, чтобы поделиться историей — но нам всё же важно знать, что ты прочитал(а) мелкий шрифт. он короткий и человеческий.' },
-    'cp.c7.agree':         { en: 'i\'ve read and i agree to the <a href="docs/html/terms-of-service.html" target="_blank">terms of service</a> and the <a href="docs/html/privacy-policy.html" target="_blank">privacy policy</a>.',
-                             ru: 'я прочитал(а) и согласен(а) с <a href="docs/html/terms-of-service.html" target="_blank">условиями использования</a> и <a href="docs/html/privacy-policy.html" target="_blank">политикой конфиденциальности</a>.' },
+    'cp.c7.agree':         { en: 'i\'ve read and i agree to the <a href="docs/html/terms-of-service" target="_blank">terms of service</a> and the <a href="docs/html/privacy-policy" target="_blank">privacy policy</a>.',
+                             ru: 'я прочитал(а) и согласен(а) с <a href="docs/html/terms-of-service" target="_blank">условиями использования</a> и <a href="docs/html/privacy-policy" target="_blank">политикой конфиденциальности</a>.' },
     'cp.c7.error':         { en: 'please tick the box above to confirm — then your story will publish.',
                              ru: 'пожалуйста, поставь галочку выше — и твоя история опубликуется.' },
 
@@ -1454,8 +1454,8 @@
     'dc.gl.s6.alert.head': { en: 'this is the most important section',
                              ru: 'это самый важный раздел' },
     'dc.gl.s6.alert':      {
-      en: '<p><strong>StillHere is not an emergency service.</strong> if you or someone else is in immediate danger, please call a trained crisis counselor — <a href="crisis-resources.html">our crisis-resources page</a> has free 24/7 numbers by country.</p>',
-      ru: '<p><strong>StillHere — не служба экстренной помощи.</strong> если ты или кто-то рядом в непосредственной опасности, пожалуйста, позвони обученному консультанту кризисной поддержки — <a href="crisis-resources.html">наша страница линий помощи</a> содержит бесплатные номера 24/7 по странам.</p>'
+      en: '<p><strong>StillHere is not an emergency service.</strong> if you or someone else is in immediate danger, please call a trained crisis counselor — <a href="crisis-resources">our crisis-resources page</a> has free 24/7 numbers by country.</p>',
+      ru: '<p><strong>StillHere — не служба экстренной помощи.</strong> если ты или кто-то рядом в непосредственной опасности, пожалуйста, позвони обученному консультанту кризисной поддержки — <a href="crisis-resources">наша страница линий помощи</a> содержит бесплатные номера 24/7 по странам.</p>'
     },
     'dc.gl.s6.body':       {
       en: '<h3>what\'s specifically prohibited</h3>' +
@@ -1474,7 +1474,7 @@
           '<h3>if you see someone in crisis</h3>' +
           '<ul>' +
             '<li><strong>respond gently</strong> — even just "i\'m here, i hear you" matters.</li>' +
-            '<li><strong>share crisis resources</strong> — point them to <a href="crisis-resources.html">free 24/7 lines</a>.</li>' +
+            '<li><strong>share crisis resources</strong> — point them to <a href="crisis-resources">free 24/7 lines</a>.</li>' +
             '<li><strong>report the post</strong> using the report button — we\'ll look at it within hours, not days.</li>' +
           '</ul>',
       ru: '<h3>что конкретно запрещено</h3>' +
@@ -1493,7 +1493,7 @@
           '<h3>если видишь, что кто-то срочно нуждается в помощи</h3>' +
           '<ul>' +
             '<li><strong>ответь мягко</strong> — даже «я здесь, я слышу тебя» — это уже важно.</li>' +
-            '<li><strong>поделись линиями помощи</strong> — направь к <a href="crisis-resources.html">бесплатным линиям 24/7</a>.</li>' +
+            '<li><strong>поделись линиями помощи</strong> — направь к <a href="crisis-resources">бесплатным линиям 24/7</a>.</li>' +
             '<li><strong>пожалуйся на пост</strong> через кнопку report — мы посмотрим в течение часов, не дней.</li>' +
           '</ul>'
     },
@@ -1811,8 +1811,8 @@
 
     /* Section 11 — changes to this policy */
     'dc.pp.s11.body':      {
-      en: '<p>if anything material changes, we\'ll post a notice on the <a href="../../nav-bar/updates.html">updates page</a> and bump the version number above. the older versions stay archived in our git history.</p>',
-      ru: '<p>если что-то существенное изменится — опубликуем уведомление на <a href="../../nav-bar/updates.html">странице обновлений</a> и повысим номер версии вверху. старые версии останутся в нашей git-истории.</p>'
+      en: '<p>if anything material changes, we\'ll post a notice on the <a href="../../nav-bar/updates">updates page</a> and bump the version number above. the older versions stay archived in our git history.</p>',
+      ru: '<p>если что-то существенное изменится — опубликуем уведомление на <a href="../../nav-bar/updates">странице обновлений</a> и повысим номер версии вверху. старые версии останутся в нашей git-истории.</p>'
     },
 
     /* Section 12 — contact */
@@ -1851,12 +1851,12 @@
       ru: 'StillHere — бесплатное и анонимное место, которое держится на надежде и свободном времени одного человека.'
     },
     'dc.tos.row2': {
-      en: 'by using it, you agree to follow the <a href="guidelines.html">community guidelines</a>.',
-      ru: 'находясь здесь, ты соглашаешься с <a href="guidelines.html">правилами</a>.'
+      en: 'by using it, you agree to follow the <a href="guidelines">community guidelines</a>.',
+      ru: 'находясь здесь, ты соглашаешься с <a href="guidelines">правилами</a>.'
     },
     'dc.tos.row3': {
-      en: '<strong>StillHere is not therapy</strong> and not an emergency service. if you\'re in crisis, please reach <a href="crisis-resources.html">a trained counselor</a>.',
-      ru: '<strong>StillHere — не терапия</strong> и не экстренная помощь. если тебе сейчас очень тяжело, пожалуйста, обратись к <a href="crisis-resources.html">обученному специалисту</a>.'
+      en: '<strong>StillHere is not therapy</strong> and not an emergency service. if you\'re in crisis, please reach <a href="crisis-resources">a trained counselor</a>.',
+      ru: '<strong>StillHere — не терапия</strong> и не экстренная помощь. если тебе сейчас очень тяжело, пожалуйста, обратись к <a href="crisis-resources">обученному специалисту</a>.'
     },
     'dc.tos.row4': {
       en: 'we may remove content or accounts that break the rules.',
@@ -1894,8 +1894,8 @@
     },
 
     'dc.tos.s2.body':      {
-      en: '<p>by creating an account, posting, commenting, or even just browsing, you agree to follow these terms and our <a href="guidelines.html">community guidelines</a>. if you can\'t agree, please don\'t use the site.</p>',
-      ru: '<p>создавая аккаунт, публикуя посты, комментируя — или даже просто читая — ты соглашаешься следовать этим условиям и нашим <a href="guidelines.html">правилам сообщества</a>. если не можешь согласиться — пожалуйста, не пользуйся сайтом.</p>'
+      en: '<p>by creating an account, posting, commenting, or even just browsing, you agree to follow these terms and our <a href="guidelines">community guidelines</a>. if you can\'t agree, please don\'t use the site.</p>',
+      ru: '<p>создавая аккаунт, публикуя посты, комментируя — или даже просто читая — ты соглашаешься следовать этим условиям и нашим <a href="guidelines">правилам сообщества</a>. если не можешь согласиться — пожалуйста, не пользуйся сайтом.</p>'
     },
 
     'dc.tos.s3.body':      {
@@ -1931,7 +1931,7 @@
     },
 
     'dc.tos.s5.body':      {
-      en: '<p>the full version lives in the <a href="guidelines.html">community guidelines</a>. the short version:</p>' +
+      en: '<p>the full version lives in the <a href="guidelines">community guidelines</a>. the short version:</p>' +
           '<div class="doc-chips">' +
             '<span class="doc-chip doc-chip--good">be kind</span>' +
             '<span class="doc-chip doc-chip--good">respect "no advice"</span>' +
@@ -1943,7 +1943,7 @@
             '<span class="doc-chip doc-chip--bad">no promotion / spam</span>' +
             '<span class="doc-chip doc-chip--bad">no doxxing</span>' +
           '</div>',
-      ru: '<p>полная версия — в <a href="guidelines.html">правилах сообщества</a>. короткая:</p>' +
+      ru: '<p>полная версия — в <a href="guidelines">правилах сообщества</a>. короткая:</p>' +
           '<div class="doc-chips">' +
             '<span class="doc-chip doc-chip--good">будь добрым</span>' +
             '<span class="doc-chip doc-chip--good">уважай «без советов»</span>' +
@@ -1990,9 +1990,9 @@
     'dc.tos.s8.alert.head':{ en: 'please read this carefully',         ru: 'пожалуйста, прочитай внимательно' },
     'dc.tos.s8.alert':     {
       en: '<p><strong>StillHere is not a therapist, doctor, counselor, or emergency service.</strong> the ai companion is a language model — it\'s empathetic, but it is not qualified to diagnose, treat, or save your life.</p>' +
-          '<p>if you are in crisis, please call a real human. see our <a href="crisis-resources.html">crisis resources</a> page for free 24/7 numbers in your country.</p>',
+          '<p>if you are in crisis, please call a real human. see our <a href="crisis-resources">crisis resources</a> page for free 24/7 numbers in your country.</p>',
       ru: '<p><strong>StillHere — не терапевт, не врач, не консультант и не служба экстренной помощи.</strong> AI-спутник — это языковая модель. он эмпатичен, но не квалифицирован ставить диагнозы, лечить или спасти твою жизнь.</p>' +
-          '<p>если тебе сейчас очень тяжело — пожалуйста, позвони живому человеку. на странице <a href="crisis-resources.html">где найти помощь</a> есть бесплатные номера 24/7 по странам.</p>'
+          '<p>если тебе сейчас очень тяжело — пожалуйста, позвони живому человеку. на странице <a href="crisis-resources">где найти помощь</a> есть бесплатные номера 24/7 по странам.</p>'
     },
     'dc.tos.s8.body':      {
       en: '<p>by using the site you understand that other users are <strong>peers, not professionals</strong>. their stories and replies are their personal experiences — not medical advice.</p>',
@@ -2006,7 +2006,7 @@
             '<li>users can <strong>report</strong> content; we review reports — usually within 24 hours.</li>' +
             '<li>content that breaks the guidelines gets <strong>removed</strong>.</li>' +
             '<li>serious or repeated violations lead to <strong>account suspension or ban</strong>. some violations are zero-tolerance.</li>' +
-            '<li>to enforce a temporary block, we store your request IP and a random browser identifier on the post or comment you submit. these are only consulted when a moderator pauses someone — they are not used for tracking. full detail in the <a href="privacy-policy.html">privacy policy</a>.</li>' +
+            '<li>to enforce a temporary block, we store your request IP and a random browser identifier on the post or comment you submit. these are only consulted when a moderator pauses someone — they are not used for tracking. full detail in the <a href="privacy-policy">privacy policy</a>.</li>' +
             '<li>if you think we got it wrong, appeal by emailing <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.</li>' +
           '</ul>',
       ru: '<p>мы модерируем. это значит:</p>' +
@@ -2015,7 +2015,7 @@
             '<li>пользователи могут <strong>жаловаться</strong> на контент; мы рассматриваем жалобы — обычно в течение 24 часов.</li>' +
             '<li>контент, нарушающий правила, <strong>удаляется</strong>.</li>' +
             '<li>серьёзные или повторяющиеся нарушения ведут к <strong>приостановке или бану аккаунта</strong>. для некоторых нарушений — zero-tolerance.</li>' +
-            '<li>чтобы временный бан реально работал, мы сохраняем IP запроса и случайный идентификатор браузера рядом с твоим постом или комментарием. их смотрят только когда модератор приостанавливает кого-то — для трекинга они не используются. подробности в <a href="privacy-policy.html">политике конфиденциальности</a>.</li>' +
+            '<li>чтобы временный бан реально работал, мы сохраняем IP запроса и случайный идентификатор браузера рядом с твоим постом или комментарием. их смотрят только когда модератор приостанавливает кого-то — для трекинга они не используются. подробности в <a href="privacy-policy">политике конфиденциальности</a>.</li>' +
             '<li>если думаешь, что мы ошиблись — апелляция по адресу <a href="mailto:hello@stillhere.global">hello@stillhere.global</a>.</li>' +
           '</ul>'
     },
@@ -2043,8 +2043,8 @@
     },
 
     'dc.tos.s12.body':     {
-      en: '<p>if we update these terms materially, we\'ll post a notice on the <a href="../../nav-bar/updates.html">updates page</a> and bump the version number above. continued use after a change means you accept the new version.</p>',
-      ru: '<p>если мы существенно обновим эти условия, разместим уведомление на <a href="../../nav-bar/updates.html">странице обновлений</a> и повысим номер версии вверху. продолжение использования после изменения означает согласие с новой версией.</p>'
+      en: '<p>if we update these terms materially, we\'ll post a notice on the <a href="../../nav-bar/updates">updates page</a> and bump the version number above. continued use after a change means you accept the new version.</p>',
+      ru: '<p>если мы существенно обновим эти условия, разместим уведомление на <a href="../../nav-bar/updates">странице обновлений</a> и повысим номер версии вверху. продолжение использования после изменения означает согласие с новой версией.</p>'
     },
 
     /* ── docs nav (shared across all 4 docs pages) ───── */
@@ -2464,8 +2464,8 @@
     'ac.mood.hopeful':     { en: 'hopeful',                           ru: 'есть надежда' },
 
     'ac.send':             { en: 'send',                              ru: 'отправить' },
-    'ac.foot':             { en: 'for support, not medical advice. in crisis, please reach a <a href="docs/html/crisis-resources.html">real person</a>.',
-                             ru: 'для поддержки, не для медицинских советов. если тебе сейчас очень тяжело, пожалуйста, обратись к <a href="docs/html/crisis-resources.html">живому человеку</a>.' },
+    'ac.foot':             { en: 'for support, not medical advice. in crisis, please reach a <a href="docs/html/crisis-resources">real person</a>.',
+                             ru: 'для поддержки, не для медицинских советов. если тебе сейчас очень тяжело, пожалуйста, обратись к <a href="docs/html/crisis-resources">живому человеку</a>.' },
 
     'ac.delmod.title':     { en: 'delete this conversation?',         ru: 'удалить этот диалог?' },
     'ac.delmod.desc':      { en: 'this can\'t be undone.',            ru: 'это нельзя отменить.' },
@@ -2778,8 +2778,8 @@
 
     'login.submit':              { en: 'sign in',                 ru: 'войти' },
     'login.forgot':              { en: 'forgot password?',        ru: 'забыли пароль?' },
-    'login.switch':              { en: 'no account yet? <a href="register.html">start here</a>',
-                                   ru: 'нет аккаунта? <a href="register.html">начни здесь</a>' },
+    'login.switch':              { en: 'no account yet? <a href="register">start here</a>',
+                                   ru: 'нет аккаунта? <a href="register">начни здесь</a>' },
 
     /* Common error messages (used by auth.js) — optional, won't break
        if some are missing; auth.js falls back to English literals. */
@@ -2819,12 +2819,12 @@
                                    ru: 'только буквы, цифры, _ и -. от 3 до 30 символов.' },
     'reg.field.password':        { en: 'password',               ru: 'пароль' },
 
-    'reg.terms':                 { en: 'i agree to the <a href="docs/html/terms-of-service.html">terms of service</a> and <a href="docs/html/privacy-policy.html">privacy policy</a>',
-                                   ru: 'я согласен с <a href="docs/html/terms-of-service.html">условиями использования</a> и <a href="docs/html/privacy-policy.html">политикой конфиденциальности</a>' },
+    'reg.terms':                 { en: 'i agree to the <a href="docs/html/terms-of-service">terms of service</a> and <a href="docs/html/privacy-policy">privacy policy</a>',
+                                   ru: 'я согласен с <a href="docs/html/terms-of-service">условиями использования</a> и <a href="docs/html/privacy-policy">политикой конфиденциальности</a>' },
 
     'reg.submit':                { en: 'create account',         ru: 'создать аккаунт' },
-    'reg.switch':                { en: 'already have an account? <a href="login.html">sign in</a>',
-                                   ru: 'уже есть аккаунт? <a href="login.html">войти</a>' },
+    'reg.switch':                { en: 'already have an account? <a href="login">sign in</a>',
+                                   ru: 'уже есть аккаунт? <a href="login">войти</a>' },
 
     /* Password strength meter labels (referenced by JS) */
     'reg.pw.weak':               { en: 'weak',                   ru: 'слабый' },

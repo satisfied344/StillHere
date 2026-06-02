@@ -51,9 +51,9 @@
   function decorateNavForSession(user) {
     /* 1) Profile nav link → user.displayName or @username when logged in */
     var profileLink =
-         document.querySelector('.nav-link[href$="nav-bar/profile.html"]')
-      || document.querySelector('.nav-link[href="profile.html"]')
-      || document.querySelector('.nav .nav-link[href*="profile.html"]');
+         document.querySelector('.nav-link[href$="nav-bar/profile"]')
+      || document.querySelector('.nav-link[href="profile"]')
+      || document.querySelector('.nav .nav-link[href*="profile"]');
 
     if (profileLink) {
       var labelEl = profileLink.querySelector('span');
@@ -87,8 +87,8 @@
         await SHS.signOut();
         /* Find the right login URL relative to the current page */
         var loginHref = location.pathname.indexOf('/nav-bar/') !== -1
-          ? '../login.html'
-          : 'login.html';
+          ? '../login'
+          : 'login';
         window.location.href = loginHref;
       });
     }

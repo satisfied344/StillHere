@@ -227,7 +227,7 @@ document.addEventListener('click', function (e) {
 
   var pid = card.getAttribute('data-post-id');
   if (!pid) return;
-  window.location.href = 'post.html?id=' + encodeURIComponent(pid);
+  window.location.href = 'post?id=' + encodeURIComponent(pid);
 });
 
 /* ─────────────────────────────────────────────
@@ -300,7 +300,7 @@ document.addEventListener('click', function (e) {
     var card = btn.closest('[data-post-id]');
     var id   = card ? card.dataset.postId : null;
     var url  = id
-      ? window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'post.html?id=' + id
+      ? window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'post?id=' + id
       : window.location.href;
     if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast((window.SH_I18N && window.SH_I18N.t('main.toast.linkcopied')) || 'Link copied'); });
   }
@@ -344,7 +344,7 @@ document.addEventListener('click', function (e) {
   if (!copyBtn) return;
   var postId = copyBtn.getAttribute('data-action-copy');
   var url = window.location.origin +
-    window.location.pathname.replace(/[^/]*$/, '') + 'post.html?id=' + postId;
+    window.location.pathname.replace(/[^/]*$/, '') + 'post?id=' + postId;
   if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { showMainToast((window.SH_I18N && window.SH_I18N.t('main.toast.linkcopied')) || 'Link copied'); });
   closeAllPostMenus();
 });
@@ -365,7 +365,7 @@ document.addEventListener('click', function (e) {
   closeAllPostMenus();
   var pid = ebtn.getAttribute('data-action-edit');
   if (!pid) return;
-  window.location.href = 'create-post.html?edit=' + encodeURIComponent(pid);
+  window.location.href = 'create-post?edit=' + encodeURIComponent(pid);
 });
 
 /* ── Report (post) — feed-level, calls SH_MOD.report ── */
@@ -484,7 +484,7 @@ document.addEventListener('click', async function (e) {
       if (!topicLabel || topicLabel === 'main.side.topic.' + topic) {
         topicLabel = topic.charAt(0).toUpperCase() + topic.slice(1);
       }
-      html += '<a class="tag tag-topic tag-topic-' + escHtml(topic) + '" href="main.html?topic=' + escHtml(topic) + '">' +
+      html += '<a class="tag tag-topic tag-topic-' + escHtml(topic) + '" href="main?topic=' + escHtml(topic) + '">' +
         escHtml(topicLabel) + '</a>';
     });
 
@@ -553,7 +553,7 @@ document.addEventListener('click', async function (e) {
           /* Avatar wrapper is an <a> only when there's a username
              to link to, so anonymous / deleted authors stay inert. */
           (post.profiles && post.profiles.username
-            ? '<a class="post-avatar post-avatar-link" href="u.html?u=' + escHtml(post.profiles.username) + '" aria-label="' + escHtml(post.profiles.display_name || post.profiles.username) + '">'
+            ? '<a class="post-avatar post-avatar-link" href="u?u=' + escHtml(post.profiles.username) + '" aria-label="' + escHtml(post.profiles.display_name || post.profiles.username) + '">'
             : '<div class="post-avatar">') +
             (post.profiles && post.profiles.avatar_url
               ? '<img src="' + escHtml(post.profiles.avatar_url) + '" alt="Avatar" class="post-avatar-img">'
@@ -564,8 +564,8 @@ document.addEventListener('click', async function (e) {
           (post.profiles && post.profiles.username ? '</a>' : '</div>') +
           '<div class="post-include-info">' +
             (post.profiles && post.profiles.username
-              ? /* Linked author name → public profile (/u.html?u=…) */
-                '<a class="post-author post-author-link" href="u.html?u=' + escHtml(post.profiles.username) + '">' +
+              ? /* Linked author name → public profile (/u?u=…) */
+                '<a class="post-author post-author-link" href="u?u=' + escHtml(post.profiles.username) + '">' +
                   escHtml(post.profiles.display_name || post.profiles.username) +
                 '</a>'
               : post.user_id
@@ -620,8 +620,8 @@ document.addEventListener('click', async function (e) {
       '<div class="post-content">' +
         '<h2 class="post-title">' +
           (title
-            ? '<a href="post.html?id=' + id + '">' + title + '</a>'
-            : '<a href="post.html?id=' + id + '"><em>(no title)</em></a>') +
+            ? '<a href="post?id=' + id + '">' + title + '</a>'
+            : '<a href="post?id=' + id + '"><em>(no title)</em></a>') +
         '</h2>' +
         '<div class="post-tags">' + buildTagsHtml(post) + '</div>' +
         '<p class="post-preview">' + preview + '</p>' +
@@ -638,7 +638,7 @@ document.addEventListener('click', async function (e) {
             ? window.SH_I18N.t(_likedPosts.has(post.id) ? 'main.post.support.active' : 'main.post.support')
             : (_likedPosts.has(post.id) ? 'here' : "I'm here")) + '</span>' +
         '</button>' +
-        '<a class="post-actions-item" href="post.html?id=' + id + '#comments">' +
+        '<a class="post-actions-item" href="post?id=' + id + '#comments">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
           '<path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Z' +
           'm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216' +
@@ -869,7 +869,7 @@ document.addEventListener('click', async function (e) {
         textKey  = 'main.empty.text';
         fbTitle  = 'No stories yet';
         fbText   = 'be the first to share — your story matters.';
-        ctaHtml  = '<a class="feed-empty__cta feed-empty__cta--primary" href="create-post.html">' +
+        ctaHtml  = '<a class="feed-empty__cta feed-empty__cta--primary" href="create-post">' +
                      escHtml(t('main.empty.share', 'share something')) +
                    '</a>';
       }
