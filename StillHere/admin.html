@@ -97,13 +97,13 @@
   <style>
     body { overflow-x: hidden; }
 
-    .ad-page {
+    .adm-page {
       max-width: 1200px;
       margin: 0 auto;
       padding: calc(73px + 38px) 32px 80px;
       position: relative; z-index: 2;
     }
-    .ad-hero {
+    .adm-hero {
       display: flex;
       align-items: end;
       justify-content: space-between;
@@ -112,109 +112,109 @@
       padding-bottom: 22px;
       border-bottom: 1px dashed var(--line-soft);
     }
-    .ad-eyebrow {
+    .adm-eyebrow {
       font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--ink-light);
       margin-bottom: 12px; display: inline-block;
     }
-    .ad-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
-    .ad-title {
+    .adm-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 4px; }
+    .adm-title {
       font-family: "Caveat", cursive;
       font-size: 64px; font-weight: 700; color: var(--ink);
       line-height: 0.96; margin: 0 0 8px;
     }
-    .ad-title em { color: var(--accent-2); font-style: italic; }
-    .ad-lede {
+    .adm-title em { color: var(--accent-2); font-style: italic; }
+    .adm-lede {
       font-size: 15px; color: var(--ink-mid); line-height: 1.6; max-width: 540px;
     }
-    .ad-stats {
+    .adm-stats {
       background: #fffbf2; border: 1.5px solid var(--line); border-radius: 12px;
       padding: 14px 18px; display: flex; gap: 18px; min-width: 240px;
     }
-    .ad-stat-num {
+    .adm-stat-num {
       font-family: "Caveat", cursive; font-size: 28px; font-weight: 700;
       color: var(--accent-2); line-height: 1;
     }
-    .ad-stat-label {
+    .adm-stat-label {
       font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--ink-light);
     }
 
     /* ── Tabs ── */
-    .ad-tabs {
+    .adm-tabs {
       display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap;
     }
-    .ad-tab {
+    .adm-tab {
       padding: 8px 16px; border-radius: 999px; cursor: pointer;
       background: #fffbf2; border: 1.5px solid var(--line);
       font-family: "Ubuntu", sans-serif; font-size: 13px;
       font-weight: 600; color: var(--ink); user-select: none;
       transition: all 0.2s ease;
     }
-    .ad-tab:hover {
+    .adm-tab:hover {
       border-color: var(--accent-2);
       color: var(--accent-2);
       transform: translateY(-1px);
     }
-    .ad-tab.is-active {
+    .adm-tab.is-active {
       background: var(--accent-2);
       color: #fff;
       border-color: var(--accent-2);
       box-shadow: 0 3px 10px -3px rgba(214, 83, 60, 0.35);
       transform: translateY(-1px);
     }
-    .ad-tab .count {
+    .adm-tab .count {
       display: inline-block; margin-left: 6px; padding: 0 6px;
       border-radius: 999px; background: rgba(214, 83, 60, 0.18);
       color: var(--accent-2); font-size: 11px; font-weight: 700;
     }
-    .ad-tab.is-active .count {
+    .adm-tab.is-active .count {
       background: rgba(255, 255, 255, 0.22); color: #fff;
     }
 
     /* ── Queue card ── */
-    .ad-list { display: flex; flex-direction: column; gap: 12px; }
-    .ad-card {
+    .adm-list { display: flex; flex-direction: column; gap: 12px; }
+    .adm-card {
       background: #fffbf2; border: 1.5px solid var(--line);
       border-radius: 14px; padding: 18px 22px;
       box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
     }
-    .ad-card-head {
+    .adm-card-head {
       display: flex; align-items: center; gap: 10px;
       margin-bottom: 10px; flex-wrap: wrap;
     }
-    .ad-badge {
+    .adm-badge {
       display: inline-flex; align-items: center;
       padding: 3px 10px; border-radius: 999px;
       font-size: 10.5px; font-weight: 700;
       letter-spacing: 0.10em; text-transform: uppercase;
     }
-    .ad-badge--post    { background: rgba(214, 83, 60, 0.10); color: var(--accent-2); }
-    .ad-badge--comment { background: rgba(109, 130, 104, 0.14); color: #4d5e4a; }
-    .ad-badge--state   { background: rgba(26, 20, 16, 0.08);   color: var(--ink); }
-    .ad-state-ai_reviewing  { background: rgba(184, 162, 60, 0.18); color: #8a7a20; }
-    .ad-state-shadow        { background: rgba(107, 139, 175, 0.18); color: #4a6b8f; }
-    .ad-state-hidden        { background: rgba(214, 83, 60, 0.18); color: #b8462f; }
-    .ad-state-pending_manual{ background: rgba(214, 83, 60, 0.10); color: var(--accent-2); }
+    .adm-badge--post    { background: rgba(214, 83, 60, 0.10); color: var(--accent-2); }
+    .adm-badge--comment { background: rgba(109, 130, 104, 0.14); color: #4d5e4a; }
+    .adm-badge--state   { background: rgba(26, 20, 16, 0.08);   color: var(--ink); }
+    .adm-state-ai_reviewing  { background: rgba(184, 162, 60, 0.18); color: #8a7a20; }
+    .adm-state-shadow        { background: rgba(107, 139, 175, 0.18); color: #4a6b8f; }
+    .adm-state-hidden        { background: rgba(214, 83, 60, 0.18); color: #b8462f; }
+    .adm-state-pending_manual{ background: rgba(214, 83, 60, 0.10); color: var(--accent-2); }
 
-    .ad-meta {
+    .adm-meta {
       margin-left: auto; font-size: 12px; color: var(--ink-light);
       font-variant-numeric: tabular-nums;
     }
-    .ad-card-title {
+    .adm-card-title {
       font-family: "Ubuntu", sans-serif; font-size: 16px;
       font-weight: 700; color: var(--ink); margin: 4px 0 6px;
       letter-spacing: -0.005em;
     }
-    .ad-card-content {
+    .adm-card-content {
       font-size: 13.5px; color: var(--ink-mid); line-height: 1.55;
       padding: 12px 14px; background: var(--paper);
       border: 1px dashed var(--line-soft); border-radius: 8px;
       margin: 6px 0 10px; max-height: 200px; overflow: auto;
       word-wrap: break-word; overflow-wrap: anywhere;
     }
-    .ad-card-content img { max-width: 100%; max-height: 220px; border-radius: 6px; }
-    .ad-note {
+    .adm-card-content img { max-width: 100%; max-height: 220px; border-radius: 6px; }
+    .adm-note {
       font-size: 12px; font-style: italic; color: var(--ink-mid);
       padding: 8px 12px; background: rgba(184, 162, 60, 0.10);
       border-left: 3px solid #b8a23c; border-radius: 0 6px 6px 0;
@@ -280,36 +280,36 @@
       font-size: 11.5px; color: var(--ink-light);
       font-style: italic;
     }
-    .ad-actions {
+    .adm-actions {
       display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;
     }
-    .ad-btn {
+    .adm-btn {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 9px 16px; border-radius: 999px;
       font-family: "Ubuntu", sans-serif; font-size: 12.5px;
       font-weight: 600; cursor: pointer; border: 1.5px solid;
       transition: all 0.2s ease;
     }
-    .ad-btn--keep   { background: rgba(109, 130, 104, 0.10); color: #4d5e4a; border-color: rgba(109, 130, 104, 0.32); }
-    .ad-btn--keep:hover   { background: #6d8268; color: #fff; border-color: #6d8268; transform: translateY(-1px); }
-    .ad-btn--shadow { background: transparent; color: #4a6b8f; border-color: rgba(107, 139, 175, 0.40); }
-    .ad-btn--shadow:hover { background: #6b8baf; color: #fff; border-color: #6b8baf; transform: translateY(-1px); }
-    .ad-btn--remove { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
-    .ad-btn--remove:hover { background: #b8462f; border-color: #b8462f; transform: translateY(-1px); }
-    .ad-btn--review { background: transparent; color: var(--ink); border-color: var(--line); }
-    .ad-btn--review:hover { border-color: var(--ink-mid); transform: translateY(-1px); }
-    .ad-btn--ai { background: rgba(184, 162, 60, 0.10); color: #8a7a20; border-color: rgba(184, 162, 60, 0.32); }
-    .ad-btn--ai:hover { background: #b8a23c; color: #fff; border-color: #b8a23c; transform: translateY(-1px); }
-    .ad-btn--ai:disabled { opacity: 0.6; cursor: progress; }
+    .adm-btn--keep   { background: rgba(109, 130, 104, 0.10); color: #4d5e4a; border-color: rgba(109, 130, 104, 0.32); }
+    .adm-btn--keep:hover   { background: #6d8268; color: #fff; border-color: #6d8268; transform: translateY(-1px); }
+    .adm-btn--shadow { background: transparent; color: #4a6b8f; border-color: rgba(107, 139, 175, 0.40); }
+    .adm-btn--shadow:hover { background: #6b8baf; color: #fff; border-color: #6b8baf; transform: translateY(-1px); }
+    .adm-btn--remove { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
+    .adm-btn--remove:hover { background: #b8462f; border-color: #b8462f; transform: translateY(-1px); }
+    .adm-btn--review { background: transparent; color: var(--ink); border-color: var(--line); }
+    .adm-btn--review:hover { border-color: var(--ink-mid); transform: translateY(-1px); }
+    .adm-btn--ai { background: rgba(184, 162, 60, 0.10); color: #8a7a20; border-color: rgba(184, 162, 60, 0.32); }
+    .adm-btn--ai:hover { background: #b8a23c; color: #fff; border-color: #b8a23c; transform: translateY(-1px); }
+    .adm-btn--ai:disabled { opacity: 0.6; cursor: progress; }
 
     /* ── Block dropdown ─────────────────────────────────────────── */
-    .ad-block-wrap { position: relative; display: inline-block; }
-    .ad-btn--block {
+    .adm-block-wrap { position: relative; display: inline-block; }
+    .adm-btn--block {
       background: rgba(120, 40, 40, 0.08); color: #7a2828;
       border-color: rgba(120, 40, 40, 0.32);
     }
-    .ad-btn--block:hover { background: #7a2828; color: #fff; border-color: #7a2828; transform: translateY(-1px); }
-    .ad-block-menu {
+    .adm-btn--block:hover { background: #7a2828; color: #fff; border-color: #7a2828; transform: translateY(-1px); }
+    .adm-block-menu {
       position: absolute; top: calc(100% + 6px); left: 0;
       min-width: 170px;
       background: var(--paper, #fdf8ec);
@@ -319,34 +319,34 @@
       padding: 6px;
       display: none; z-index: 50;
     }
-    .ad-block-menu.is-open { display: block; }
-    .ad-block-menu button {
+    .adm-block-menu.is-open { display: block; }
+    .adm-block-menu button {
       display: block; width: 100%; text-align: left;
       padding: 8px 12px; font-size: 13px;
       background: transparent; border: 0; border-radius: 6px;
       cursor: pointer; font-family: inherit; color: var(--ink);
     }
-    .ad-block-menu button:hover { background: rgba(120, 40, 40, 0.10); color: #7a2828; }
-    .ad-block-menu hr {
+    .adm-block-menu button:hover { background: rgba(120, 40, 40, 0.10); color: #7a2828; }
+    .adm-block-menu hr {
       border: 0; border-top: 1px dashed var(--line-soft, rgba(0,0,0,0.10));
       margin: 4px 0;
     }
-    .ad-block-menu .label {
+    .adm-block-menu .label {
       font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
       color: var(--ink-light); padding: 6px 12px 2px;
     }
 
-    .ad-empty, .ad-loading, .ad-forbidden {
+    .adm-empty, .adm-loading, .adm-forbidden {
       text-align: center; padding: 60px 24px;
       color: var(--ink-light); font-size: 14px;
     }
-    .ad-forbidden { color: var(--accent-2); font-weight: 600; }
+    .adm-forbidden { color: var(--accent-2); font-weight: 600; }
 
     @media (max-width: 760px) {
-      .ad-hero { flex-direction: column; align-items: stretch; }
-      .ad-title { font-size: 48px; }
-      .ad-stats { min-width: 0; }
-      .ad-page { padding: calc(73px + 24px) 18px 50px; }
+      .adm-hero { flex-direction: column; align-items: stretch; }
+      .adm-title { font-size: 48px; }
+      .adm-stats { min-width: 0; }
+      .adm-page { padding: calc(73px + 24px) 18px 50px; }
     }
   </style>
   <script src="JS/mobile-nav.js?v=1779483937" defer></script>
@@ -362,7 +362,7 @@
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <filter id="noise">
-      <feTurbulence type="noise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
+      <feTurbulence type="fractalNoise" baseFrequency="0.3" numOctaves="2" stitchTiles="stitch" />
       <feColorMatrix type="saturate" values="0" />
       <feComponentTransfer><feFuncA type="linear" slope="0.09" /></feComponentTransfer>
     </filter>
@@ -385,35 +385,35 @@
     </div>
   </nav>
 
-  <main class="ad-page">
-    <section class="ad-hero">
+  <main class="adm-page">
+    <section class="adm-hero">
       <div>
-        <span class="ad-eyebrow"><em>—</em> moderation</span>
-        <h1 class="ad-title">admin <em>queue.</em></h1>
-        <p class="ad-lede">posts &amp; comments that need a human's eye. keep, downrank, or remove.</p>
+        <span class="adm-eyebrow"><em>—</em> moderation</span>
+        <h1 class="adm-title">admin <em>queue.</em></h1>
+        <p class="adm-lede">posts &amp; comments that need a human's eye. keep, downrank, or remove.</p>
       </div>
-      <div class="ad-stats">
+      <div class="adm-stats">
         <div>
-          <div class="ad-stat-num" id="stat-total">—</div>
-          <div class="ad-stat-label">in queue</div>
+          <div class="adm-stat-num" id="stat-total">—</div>
+          <div class="adm-stat-label">in queue</div>
         </div>
         <div>
-          <div class="ad-stat-num" id="stat-urgent">—</div>
-          <div class="ad-stat-label">hidden</div>
+          <div class="adm-stat-num" id="stat-urgent">—</div>
+          <div class="adm-stat-label">hidden</div>
         </div>
       </div>
     </section>
 
-    <div class="ad-tabs" id="tabs">
-      <span class="ad-tab is-active" data-filter="all">Pending decision <span class="count" id="cnt-all">0</span></span>
-      <span class="ad-tab" data-filter="pending_manual">Pending review <span class="count" id="cnt-pending_manual">0</span></span>
-      <span class="ad-tab" data-filter="hidden">Hidden (≥10 reports) <span class="count" id="cnt-hidden">0</span></span>
-      <span class="ad-tab" data-filter="shadow">Shadow <span class="count" id="cnt-shadow">0</span></span>
-      <span class="ad-tab" data-filter="ai_reviewing">AI reviewing <span class="count" id="cnt-ai_reviewing">0</span></span>
+    <div class="adm-tabs" id="tabs">
+      <span class="adm-tab is-active" data-filter="all">Pending decision <span class="count" id="cnt-all">0</span></span>
+      <span class="adm-tab" data-filter="pending_manual">Pending review <span class="count" id="cnt-pending_manual">0</span></span>
+      <span class="adm-tab" data-filter="hidden">Hidden (≥10 reports) <span class="count" id="cnt-hidden">0</span></span>
+      <span class="adm-tab" data-filter="shadow">Shadow <span class="count" id="cnt-shadow">0</span></span>
+      <span class="adm-tab" data-filter="ai_reviewing">AI reviewing <span class="count" id="cnt-ai_reviewing">0</span></span>
     </div>
 
-    <div class="ad-list" id="queue">
-      <p class="ad-loading">loading queue…</p>
+    <div class="adm-list" id="queue">
+      <p class="adm-loading">loading queue…</p>
     </div>
   </main>
 
@@ -466,14 +466,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (!rows.length) {
-          queueEl.innerHTML = '<p class="ad-empty">nothing to review. the community is quiet today.</p>';
+          queueEl.innerHTML = '<p class="adm-empty">nothing to review. the community is quiet today.</p>';
           return;
         }
 
         queueEl.innerHTML = rows.map(function (r) {
           var stateLabel = (r.moderation_state || '').replace(/_/g, ' ');
           var typeBadge = r.target_type === 'post' ? 'post' : 'comment';
-          var titleHtml = r.title ? '<h3 class="ad-card-title">' + escHtml(r.title) + '</h3>' : '';
+          var titleHtml = r.title ? '<h3 class="adm-card-title">' + escHtml(r.title) + '</h3>' : '';
 
           /* ── AI verdict box ──────────────────────────────────────
              moderation_note format (set by strict-review edge fn):
@@ -510,29 +510,29 @@ document.addEventListener('DOMContentLoaded', function () {
               '</div>';
           } else if (r.moderation_note) {
             /* fallback for legacy notes that don't match the pattern */
-            aiBox = '<p class="ad-note">⚙ ' + escHtml(r.moderation_note) + '</p>';
+            aiBox = '<p class="adm-note">⚙ ' + escHtml(r.moderation_note) + '</p>';
           }
           var noteHtml = aiBox;
           return (
-            '<article class="ad-card" data-target-type="' + r.target_type + '" data-target-id="' + escHtml(r.target_id) + '">' +
-              '<div class="ad-card-head">' +
-                '<span class="ad-badge ad-badge--' + r.target_type + '">' + typeBadge + '</span>' +
-                '<span class="ad-badge ad-badge--state ad-state-' + r.moderation_state + '">' + stateLabel + '</span>' +
-                '<span class="ad-meta">' + r.report_count + ' report' + (r.report_count === 1 ? '' : 's') +
+            '<article class="adm-card" data-target-type="' + r.target_type + '" data-target-id="' + escHtml(r.target_id) + '">' +
+              '<div class="adm-card-head">' +
+                '<span class="adm-badge adm-badge--' + r.target_type + '">' + typeBadge + '</span>' +
+                '<span class="adm-badge adm-badge--state adm-state-' + r.moderation_state + '">' + stateLabel + '</span>' +
+                '<span class="adm-meta">' + r.report_count + ' report' + (r.report_count === 1 ? '' : 's') +
                   ' · weight ' + (r.report_weight || 0) +
                   ' · ' + timeAgo(r.created_at) +
                 '</span>' +
               '</div>' +
               titleHtml +
-              '<div class="ad-card-content">' + (r.content || '') + '</div>' +
+              '<div class="adm-card-content">' + (r.content || '') + '</div>' +
               noteHtml +
-              '<div class="ad-actions">' +
-                '<button class="ad-btn ad-btn--keep"   data-action="keep">keep</button>' +
-                '<button class="ad-btn ad-btn--shadow" data-action="shadow">shadow (downrank)</button>' +
-                '<button class="ad-btn ad-btn--remove" data-action="remove">remove</button>' +
-                '<span class="ad-block-wrap">' +
-                  '<button class="ad-btn ad-btn--block" data-action="block-toggle">🚫 block author</button>' +
-                  '<div class="ad-block-menu">' +
+              '<div class="adm-actions">' +
+                '<button class="adm-btn adm-btn--keep"   data-action="keep">keep</button>' +
+                '<button class="adm-btn adm-btn--shadow" data-action="shadow">shadow (downrank)</button>' +
+                '<button class="adm-btn adm-btn--remove" data-action="remove">remove</button>' +
+                '<span class="adm-block-wrap">' +
+                  '<button class="adm-btn adm-btn--block" data-action="block-toggle">🚫 block author</button>' +
+                  '<div class="adm-block-menu">' +
                     '<div class="label">Block this author for</div>' +
                     '<button data-action="block" data-seconds="3600">1 hour</button>' +
                     '<button data-action="block" data-seconds="10800">3 hours</button>' +
@@ -540,9 +540,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     '<button data-action="block" data-seconds="604800">1 week</button>' +
                   '</div>' +
                 '</span>' +
-                '<button class="ad-btn ad-btn--ai"     data-action="ai-rerun">↻ rerun AI</button>' +
+                '<button class="adm-btn adm-btn--ai"     data-action="ai-rerun">↻ rerun AI</button>' +
                 (r.target_type === 'post'
-                  ? '<a class="ad-btn ad-btn--review" href="post?id=' + escHtml(r.target_id) + '" target="_blank">open</a>'
+                  ? '<a class="adm-btn adm-btn--review" href="post?id=' + escHtml(r.target_id) + '" target="_blank">open</a>'
                   : '') +
               '</div>' +
             '</article>'
@@ -574,19 +574,19 @@ document.addEventListener('DOMContentLoaded', function () {
         // 1. Check admin status
         var { data: { user } } = await db.auth.getUser();
         if (!user) {
-          queueEl.innerHTML = '<p class="ad-forbidden">please sign in to access the admin queue.</p>';
+          queueEl.innerHTML = '<p class="adm-forbidden">please sign in to access the admin queue.</p>';
           return;
         }
         var { data: roleRow } = await db.from('admin_roles').select('role').eq('user_id', user.id).maybeSingle();
         if (!roleRow) {
-          queueEl.innerHTML = '<p class="ad-forbidden">forbidden — your account is not an admin. ask a super_admin to grant access.</p>';
+          queueEl.innerHTML = '<p class="adm-forbidden">forbidden — your account is not an admin. ask a super_admin to grant access.</p>';
           return;
         }
 
         // 2. Fetch queue
         var { data, error } = await db.rpc('admin_queue_list');
         if (error) {
-          queueEl.innerHTML = '<p class="ad-forbidden">error: ' + escHtml(error.message) + '</p>';
+          queueEl.innerHTML = '<p class="adm-forbidden">error: ' + escHtml(error.message) + '</p>';
           return;
         }
         allRows = (data || []).sort(function (a, b) {
@@ -600,9 +600,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // ── Tab clicks
       document.getElementById('tabs').addEventListener('click', function (e) {
-        var tab = e.target.closest('.ad-tab');
+        var tab = e.target.closest('.adm-tab');
         if (!tab) return;
-        document.querySelectorAll('.ad-tab').forEach(function (t) { t.classList.remove('is-active'); });
+        document.querySelectorAll('.adm-tab').forEach(function (t) { t.classList.remove('is-active'); });
         tab.classList.add('is-active');
         currentFilter = tab.dataset.filter;
         render();
@@ -612,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function () {
       queueEl.addEventListener('click', async function (e) {
         var btn = e.target.closest('[data-action]');
         if (!btn) return;
-        var card = btn.closest('.ad-card');
+        var card = btn.closest('.adm-card');
         if (!card) return;
         var action = btn.dataset.action;
         var t = card.dataset.targetType, id = card.dataset.targetId;
@@ -659,10 +659,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // ── Block dropdown: toggle the menu open/closed
         if (action === 'block-toggle') {
-          var wrap = btn.closest('.ad-block-wrap');
-          var menu = wrap && wrap.querySelector('.ad-block-menu');
+          var wrap = btn.closest('.adm-block-wrap');
+          var menu = wrap && wrap.querySelector('.adm-block-menu');
           // Close any other open menus first
-          document.querySelectorAll('.ad-block-menu.is-open').forEach(function (m) {
+          document.querySelectorAll('.adm-block-menu.is-open').forEach(function (m) {
             if (m !== menu) m.classList.remove('is-open');
           });
           if (menu) menu.classList.toggle('is-open');
@@ -687,7 +687,7 @@ document.addEventListener('DOMContentLoaded', function () {
           console.log('[admin] block_author RPC ←', blockRes);
 
           // Close the menu either way
-          var openMenu = btn.closest('.ad-block-menu');
+          var openMenu = btn.closest('.adm-block-menu');
           if (openMenu) openMenu.classList.remove('is-open');
 
           if (blockRes.error) {
@@ -729,8 +729,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Close block menus when clicking outside
       document.addEventListener('click', function (e) {
-        if (e.target.closest('.ad-block-wrap')) return;
-        document.querySelectorAll('.ad-block-menu.is-open').forEach(function (m) {
+        if (e.target.closest('.adm-block-wrap')) return;
+        document.querySelectorAll('.adm-block-menu.is-open').forEach(function (m) {
           m.classList.remove('is-open');
         });
       });
