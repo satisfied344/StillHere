@@ -325,6 +325,21 @@ a { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
 }
 
+/* Tags row sitting between the author info and the title.
+   Desktop hides this — the sidebar widget already shows tags.
+   Mobile re-enables (mobile.css inside @media re-shows). */
+.post-header-tags {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 -8px;
+  width: 100%;
+}
+.post-header-tags:empty { display: none !important; }
+
+/* Topic + mode tag pill colours live in main-screen.css now
+   (loaded site-wide) so the same colours apply on every page. */
+
 .post-avatar {
   /* 1:1 with the main-feed avatar so the same tile reads identically
      across surfaces — size, border, background, overflow, hover lift. */
@@ -431,10 +446,25 @@ a.post-avatar-link:hover {
 .post-body {
   font-size: 15.5px;
   line-height: 1.7;
-  color: var(--ink-soft);
+  /* Use --ink (full contrast) instead of --ink-soft so the body
+     reads as crisp and dark on light theme. !important + a wide
+     selector list defeats Quill's inline `style="color:..."`
+     leftovers from the editor that otherwise win specificity. */
+  color: var(--ink) !important;
   word-wrap: break-word;
   animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
+.post-body p,
+.post-body div,
+.post-body span,
+.post-body li,
+.post-body * {
+  color: var(--ink) !important;
+}
+/* Re-allow link colour after the wildcard rule above. */
+.post-body a,
+.post-body a *  { color: var(--accent-2) !important; }
+.post-body strong { color: var(--ink) !important; font-weight: 600 !important; }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }

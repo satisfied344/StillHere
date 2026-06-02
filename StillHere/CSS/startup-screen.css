@@ -2143,6 +2143,52 @@ html[data-theme="dark"] .feature-card--wide {
    - prefers-reduced-motion: tighten the existing block.
    ══════════════════════════════════════════════════════════════════ */
 
+/* ── Extra animated asterisk in the join (03/invitation) section
+   — TOP-RIGHT corner. Different glyph (Asterisk_05) from the
+   existing join-flower (Asterisk_03) for visual variety.
+   Pinned to a dead zone above all text/buttons so it never
+   overlaps anything. */
+.doodle-join-bonus {
+  position: absolute;
+  top: 6%;
+  right: 4%;
+  left: auto;
+  width: 42px;
+  height: auto;
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Heart + flower doodle animations.
+   Gentle floating wiggle — heart bobs vertically, flower rotates
+   slightly. Respects prefers-reduced-motion (no-op there). */
+@keyframes sh-heartFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes sh-flowerSpin {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50%      { transform: rotate(20deg) scale(1.08); }
+}
+.doodle-hero-heart-r,
+.d-img.doodle-hero-heart-r {
+  animation: sh-heartFloat 4.6s ease-in-out infinite;
+  transform-origin: center;
+}
+.doodle-join-flower,
+.d-img.doodle-join-flower,
+.doodle-join-bonus,
+.d-img.doodle-join-bonus {
+  animation: sh-flowerSpin 6.5s ease-in-out infinite;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .doodle-hero-heart-r,
+  .doodle-join-flower,
+  .doodle-join-bonus { animation: none !important; }
+}
+
 /* Soft edge fade for the background word marquee — uses mask-image
    so it works on both light and dark theme without recoloring text. */
 .bg_words {

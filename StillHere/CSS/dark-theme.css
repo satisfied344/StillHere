@@ -867,8 +867,17 @@ html[data-theme="dark"] .compose-card {
   border-color: var(--border-glass) !important;
 }
 
+/* Post-page title on dark theme — bumped to pure cream so the
+   single-letter / short titles ("В", "Hi", etc.) read as the
+   loudest element on the card, matching the brightness of the
+   main-page .post-title (also #f4e9d5). Was --charcoal which
+   resolves to the same hex, but we add explicit weight + opacity
+   1 + filter:none guard to defeat any inherited blur/opacity. */
 html[data-theme="dark"] .post-title {
-  color: var(--charcoal);
+  color: #f4e9d5;
+  opacity: 1;
+  filter: none;
+  font-weight: 700;
 }
 
 html[data-theme="dark"] .post-author-name {

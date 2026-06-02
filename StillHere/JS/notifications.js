@@ -21,6 +21,49 @@
   // ── Boot guard ────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', init);
 
+  /* Mobile-only: scrolling closes any open floating panel — burger
+     menu, notifications bell, post kebab. Lives here (in
+     notifications.js) because this file is loaded on every page
+     with a navbar — putting the logic here makes it run site-wide
+     without touching every page's HTML. Gated on matchMedia so
+     desktop is never affected. Passive listener — never blocks
+     scroll perf. */
+  (function closeFloatingOnScrollMobile() {
+    var mq = window.matchMedia('(max-width: 900px)');
+    var lastY = window.scrollY;
+    window.addEventListener('scroll', function () {
+      if (!mq.matches) return;
+      var y = window.scrollY;
+      if (Math.abs(y - lastY) < 8) { lastY = y; return; }
+      lastY = y;
+
+      // Post kebab dropdowns (any page that renders posts).
+      document.querySelectorAll('.post-menu-down.show').forEach(function (m) {
+        m.classList.remove('show');
+      });
+      // Burger menu panels.
+      document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) {
+        p.classList.remove('is-open');
+        var trg = p.closest('.main-menu-dropdown');
+        var btn = trg && trg.querySelector('.main-menu-trigger');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+      // Notifications panel.
+      var notifP = document.getElementById('shNotifPanel');
+      if (notifP && notifP.classList.contains('is-open')) {
+        notifP.classList.remove('is-open');
+        var bell = document.getElementById('shNotifBell');
+        if (bell) bell.setAttribute('aria-expanded', 'false');
+      }
+      /* Tooltips on data-presence-tooltip pills (e.g. "no advice")
+         open via :focus — blur on scroll so they close. */
+      var fe = document.activeElement;
+      if (fe && fe.hasAttribute && fe.hasAttribute('data-presence-tooltip')) {
+        try { fe.blur(); } catch (_) {}
+      }
+    }, { passive: true });
+  })();
+
   function init() {
     var nav = document.querySelector('.top-info .nav');
     if (!nav) return;                                  // no nav on this page

@@ -346,11 +346,56 @@ a { color: inherit; text-decoration: none; }
   flex-shrink: 0;
   border: 1px solid rgba(26,20,16,0.10);
 }
-.topic-anxiety       { background: #d6533c; }
-.topic-depression    { background: #7c6fa3; }
-.topic-relationships { background: #c97c8c; }
-.topic-grief         { background: #6d8268; }
-.topic-burnout       { background: #c89456; }
+/* Topic-dot colours — single source palette, MIRRORED 1:1
+   from the create-post chip colour vars (.chip-* in
+   create-post.html lines 561-568). Anywhere a topic shows
+   (sidebar dot, filter pill, feed card tag, post page tag)
+   it uses these same hues. */
+.topic-anxiety       { background: #d6533c; }     /* coral red */
+.topic-depression    { background: #6d8268; }     /* sage green */
+.topic-relationships { background: #c8945d; }     /* orange tan */
+.topic-grief         { background: #8a7197; }     /* dusty purple */
+.topic-burnout       { background: #b85c3a; }     /* burnt orange */
+.topic-loneliness    { background: #6b8baf; }     /* dusty blue */
+.topic-trauma        { background: #a55a5a; }     /* rose red */
+.topic-other         { background: #847569; }     /* warm grey */
+
+/* ── Topic tag pills — tinted background + tinted text from
+   the same palette. Both background AND text MUST update so
+   the pill reads "this is that topic" at a glance. */
+.tag.tag-topic-anxiety       { background: rgba(214,  83,  60, 0.18) !important; color: #d6533c !important; border-color: rgba(214,  83,  60, 0.36) !important; }
+.tag.tag-topic-depression    { background: rgba(109, 130, 104, 0.22) !important; color: #4a5b46 !important; border-color: rgba(109, 130, 104, 0.40) !important; }
+.tag.tag-topic-relationships { background: rgba(200, 148,  93, 0.22) !important; color: #8c5d2a !important; border-color: rgba(200, 148,  93, 0.40) !important; }
+.tag.tag-topic-grief         { background: rgba(138, 113, 151, 0.22) !important; color: #6a5180 !important; border-color: rgba(138, 113, 151, 0.40) !important; }
+.tag.tag-topic-burnout       { background: rgba(184,  92,  58, 0.20) !important; color: #b85c3a !important; border-color: rgba(184,  92,  58, 0.38) !important; }
+.tag.tag-topic-loneliness    { background: rgba(107, 139, 175, 0.22) !important; color: #45688a !important; border-color: rgba(107, 139, 175, 0.40) !important; }
+.tag.tag-topic-trauma        { background: rgba(165,  90,  90, 0.20) !important; color: #864242 !important; border-color: rgba(165,  90,  90, 0.38) !important; }
+.tag.tag-topic-other         { background: rgba(132, 117, 105, 0.18) !important; color: #6e5f53 !important; border-color: rgba(132, 117, 105, 0.34) !important; }
+html[data-theme="dark"] .tag.tag-topic-anxiety       { color: #ff8a72 !important; }
+html[data-theme="dark"] .tag.tag-topic-depression    { color: #a3bd9a !important; }
+html[data-theme="dark"] .tag.tag-topic-relationships { color: #e0b27a !important; }
+html[data-theme="dark"] .tag.tag-topic-grief         { color: #c0a8d4 !important; }
+html[data-theme="dark"] .tag.tag-topic-burnout       { color: #f49d72 !important; }
+html[data-theme="dark"] .tag.tag-topic-loneliness    { color: #95b3c5 !important; }
+html[data-theme="dark"] .tag.tag-topic-trauma        { color: #d99393 !important; }
+html[data-theme="dark"] .tag.tag-topic-other         { color: #c0afa0 !important; }
+
+/* Mode pills — ONE unified colour (warm tan) for both
+   "need-support" and "no-advice" so they read as a single
+   "mood-marker" category, distinct from coloured topic pills.
+   Same colour on every page (main feed, post page, sidebar). */
+.tag.tag-need-support,
+.tag.tag-no-advice {
+  background: rgba(214, 162, 115, 0.18) !important;
+  color: #9a6a33 !important;
+  border: 1px solid rgba(214, 162, 115, 0.40) !important;
+}
+html[data-theme="dark"] .tag.tag-need-support,
+html[data-theme="dark"] .tag.tag-no-advice {
+  background: rgba(214, 162, 115, 0.18) !important;
+  color: #e0b27a !important;
+  border-color: rgba(214, 162, 115, 0.40) !important;
+}
 
 .topic-count {
   margin-left: auto;

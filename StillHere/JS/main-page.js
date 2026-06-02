@@ -25,6 +25,60 @@ if (filterToggle && filterPanel) {
 }
 
 /* ─────────────────────────────────────────────
+   Mobile-only: move the left sidebar's nav (Home / Saved tabs +
+   topic pills) INTO the filter panel so the feed top isn't
+   crowded by them on small screens.
+
+   Mechanics:
+     • matchMedia('(max-width: 900px)') is the SOLE gate — desktop
+       never enters this code path, so layout stays exactly as it
+       was. The change is observed live; rotating a phone or
+       resizing DevTools moves the nodes back/forth.
+     • We MOVE (appendChild — not cloneNode) so the original click
+       handlers attached elsewhere in this file via id selectors
+       (#sidebarHome, #sidebarSaved) and event delegation
+       (`[data-topic-filter]`) keep firing — same DOM nodes,
+       different parent.
+     • A comment-node anchor remembers the original slot inside
+       the sidebar so we can put nodes back on resize-to-desktop.
+     • The sidebar gets `.sidebar--emptied` once moved — mobile.css
+       collapses it to `display: none` so it doesn't leave a 4 px
+       sliver above the feed. Desktop CSS doesn't have this rule
+       (it lives inside the @media block), so adding the class
+       there is harmless.
+   ───────────────────────────────────────────── */
+(function relocateSidebarForFilter() {
+  const sidebar      = document.querySelector('.main-main > .sidebar, aside.sidebar');
+  const filtersInner = filterPanel && filterPanel.querySelector('.filters-container');
+  if (!sidebar || !filtersInner) return;
+  const navContainer = sidebar.querySelector('.sidebar-nav');
+  if (!navContainer) return;
+
+  const anchor = document.createComment('sidebar-nav-original-slot');
+  navContainer.parentNode.insertBefore(anchor, navContainer);
+
+  const mq = window.matchMedia('(max-width: 900px)');
+  function apply() {
+    if (mq.matches) {
+      if (navContainer.parentNode !== filtersInner) {
+        navContainer.classList.add('sidebar-nav--in-filter');
+        filtersInner.insertBefore(navContainer, filtersInner.firstChild);
+      }
+      sidebar.classList.add('sidebar--emptied');
+    } else {
+      if (navContainer.parentNode !== sidebar) {
+        navContainer.classList.remove('sidebar-nav--in-filter');
+        anchor.parentNode.insertBefore(navContainer, anchor.nextSibling);
+      }
+      sidebar.classList.remove('sidebar--emptied');
+    }
+  }
+  apply();
+  if (mq.addEventListener) mq.addEventListener('change', apply);
+  else if (mq.addListener) mq.addListener(apply);
+})();
+
+/* ─────────────────────────────────────────────
    Search clear button
    ───────────────────────────────────────────── */
 
@@ -81,6 +135,44 @@ document.addEventListener('click', function (e) {
     closeAllPostMenus();
   }
 });
+
+/* ─────────────────────────────────────────────
+   Scroll → close every floating UI: burger menu, notifications
+   panel, and any open post kebab. These all anchor to a fixed
+   point in the viewport; once the user starts scrolling their
+   anchor drifts and the open panel feels glued to the wrong
+   spot. Threshold of 8 px avoids closing on micro-scroll/jitter.
+   Passive listener — never blocks scroll perf.
+   ───────────────────────────────────────────── */
+(function closeFloatingOnScroll() {
+  let lastY = window.scrollY;
+  window.addEventListener('scroll', function () {
+    const y = window.scrollY;
+    if (Math.abs(y - lastY) < 8) { lastY = y; return; }
+    lastY = y;
+
+    // Post kebab dropdowns.
+    document.querySelectorAll('.post-menu-down.show').forEach(function (m) {
+      m.classList.remove('show');
+    });
+
+    // Burger panels (every page that uses .main-menu-panel).
+    document.querySelectorAll('.main-menu-panel.is-open').forEach(function (p) {
+      p.classList.remove('is-open');
+      const trg = p.closest('.main-menu-dropdown');
+      const btn = trg && trg.querySelector('.main-menu-trigger');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+
+    // Notifications panel.
+    const notifP = document.getElementById('shNotifPanel');
+    if (notifP && notifP.classList.contains('is-open')) {
+      notifP.classList.remove('is-open');
+      const bell = document.getElementById('shNotifBell');
+      if (bell) bell.setAttribute('aria-expanded', 'false');
+    }
+  }, { passive: true });
+})();
 
 /* ─────────────────────────────────────────────
    Liked-posts set — persisted in localStorage
@@ -392,7 +484,7 @@ document.addEventListener('click', async function (e) {
       if (!topicLabel || topicLabel === 'main.side.topic.' + topic) {
         topicLabel = topic.charAt(0).toUpperCase() + topic.slice(1);
       }
-      html += '<a class="tag tag-topic" href="main.html?topic=' + escHtml(topic) + '">' +
+      html += '<a class="tag tag-topic tag-topic-' + escHtml(topic) + '" href="main.html?topic=' + escHtml(topic) + '">' +
         escHtml(topicLabel) + '</a>';
     });
 
@@ -573,7 +665,8 @@ document.addEventListener('click', async function (e) {
   var _currentUserId = null;
   var activeLangs = {};   // { en: true, ru: true, … }
   var activeModes       = {};    // { 'support': true, 'no-advice': true } — both can be active
-  var activeTopic       = '';    // e.g. 'anxiety' — single topic filter from sidebar
+  var activeTopic       = '';    // legacy single-topic state (kept for URL-deep-link compat)
+  var activeTopics      = [];    // NEW — multi-select topic list, post matches if its topics include ANY of these
   var searchQuery       = '';
   var activeSavedFilter = false; // true when "Saved" sidebar item is selected
 
@@ -839,7 +932,17 @@ document.addEventListener('click', async function (e) {
       if (activeSavedFilter && !_savedPosts.has(post.id)) return false;
       if (langKeys.length && langKeys.indexOf(post.lang) === -1) return false;
       if (modeKeys.length && modeKeys.indexOf(post.mode) === -1) return false;
-      if (activeTopic && (post.topics || []).indexOf(activeTopic) === -1) return false;
+      /* Multi-topic filter (AND semantics): the post must contain
+         EVERY currently-selected topic in its `topics` array. If
+         the user picks "grief" + "trauma", only posts tagged with
+         BOTH are shown — per explicit user request. Empty
+         selection = no topic filter. */
+      if (activeTopics.length) {
+        var pt = post.topics || [];
+        for (var ti = 0; ti < activeTopics.length; ti++) {
+          if (pt.indexOf(activeTopics[ti]) === -1) return false;
+        }
+      }
       if (query) {
         var inTitle   = (post.title   || '').toLowerCase().indexOf(query) !== -1;
         var inContent = (post.content || '').toLowerCase().indexOf(query) !== -1;
@@ -1016,26 +1119,38 @@ document.addEventListener('click', async function (e) {
     sortSelectEl.addEventListener('change', applyFilters);
   }
 
-  /* ── topic sidebar links → filter feed ── */
+  /* ── topic sidebar links → MULTI-SELECT filter feed ──
+     Toggle behaviour: each click adds/removes the topic from
+     activeTopics[]. applyFilters() shows posts whose `topics`
+     intersect with any selected topic. Works on desktop sidebar
+     AND on the mobile filter-panel (same elements, just moved
+     between containers — event delegation on document covers
+     both contexts).
 
-  document.querySelectorAll('[data-topic-filter]').forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
-      var topic = link.getAttribute('data-topic-filter');
-      if (activeTopic === topic) {
-        // clicking active topic deselects it
-        activeTopic = '';
-        document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
-          l.classList.remove('active');
-        });
-      } else {
-        activeTopic = topic;
-        document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
-          l.classList.toggle('active', l === link);
-        });
-      }
-      applyFilters();
+     Legacy `activeTopic` (single) is kept in sync — it points to
+     the FIRST selected topic so URL deep-links and any external
+     code that reads it still work. */
+  function syncTopicActiveClass() {
+    document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
+      var t = l.getAttribute('data-topic-filter');
+      l.classList.toggle('active', activeTopics.indexOf(t) !== -1);
     });
+  }
+
+  /* Delegated click — catches every [data-topic-filter] anywhere
+     on the page, current and future (dynamic chips). */
+  document.addEventListener('click', function (e) {
+    var link = e.target && e.target.closest && e.target.closest('[data-topic-filter]');
+    if (!link) return;
+    e.preventDefault();
+    var topic = link.getAttribute('data-topic-filter');
+    if (!topic) return;
+    var idx = activeTopics.indexOf(topic);
+    if (idx === -1) activeTopics.push(topic);
+    else            activeTopics.splice(idx, 1);
+    activeTopic = activeTopics[0] || '';
+    syncTopicActiveClass();
+    applyFilters();
   });
 
   /* ── fetch from Supabase ── */
@@ -1415,12 +1530,13 @@ document.addEventListener('click', async function (e) {
   (function applyUrlFilters() {
     try {
       var qs = new URLSearchParams(window.location.search);
-      var topic = (qs.get('topic') || '').toLowerCase().trim();
-      if (topic) {
-        activeTopic = topic;
-        document.querySelectorAll('[data-topic-filter]').forEach(function (l) {
-          l.classList.toggle('active', l.getAttribute('data-topic-filter') === topic);
-        });
+      /* Deep-link supports `?topic=a,b,c` (comma-separated) for
+         multi-select, plus the legacy `?topic=a` single value. */
+      var topicParam = (qs.get('topic') || '').toLowerCase().trim();
+      if (topicParam) {
+        activeTopics = topicParam.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+        activeTopic = activeTopics[0] || '';
+        syncTopicActiveClass();
       }
       var lang = (qs.get('lang') || '').toLowerCase().trim();
       if (lang) {

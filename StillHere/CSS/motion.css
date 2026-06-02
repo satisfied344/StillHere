@@ -195,22 +195,14 @@ html[data-theme="dark"] .skel::after {
   color: #2a2118;
   border-color: rgba(26, 20, 16, 0.22);
 }
-.tag-topic {
-  background: rgba(214, 83, 60, 0.16);
-  color: #9c3a26;
-  border-color: rgba(214, 83, 60, 0.38);
-}
+/* `.tag-topic` and `.tag-mode` no longer carry their own colour
+   here — per-topic colours live in main-screen.css as
+   `.tag.tag-topic-<name>` rules. They use the create-post chip
+   palette as the single source of truth. */
+.tag-topic { /* colour comes from .tag-topic-<name> in main-screen.css */ }
 .tag-mode { gap: 5px; }
-.tag-no-advice {
-  background: rgba(85, 115, 80, 0.18);
-  color: #3d5a36;
-  border-color: rgba(85, 115, 80, 0.40);
-}
-.tag-need-support {
-  background: rgba(200, 148, 86, 0.22);
-  color: #6e4416;
-  border-color: rgba(200, 148, 86, 0.45);
-}
+.tag-no-advice { /* colour comes from .tag.tag-no-advice in main-screen.css */ }
+.tag-need-support { /* colour comes from .tag.tag-need-support in main-screen.css */ }
 
 /* Dark theme — same colour roles, just remapped to warm-bright values
    so they read clearly on the warm-dark page. */
@@ -225,14 +217,10 @@ html[data-theme="dark"] .tag-lang {
   border-color: rgba(255, 255, 255, 0.18);
 }
 html[data-theme="dark"] .tag-topic {
-  background: rgba(232, 168, 124, 0.22);
-  color: #f3b88f;
-  border-color: rgba(232, 168, 124, 0.40);
+  /* per-topic colour overrides in main-screen.css */
 }
 html[data-theme="dark"] .tag-no-advice {
-  background: rgba(155, 179, 154, 0.22);
-  color: #c9dbc4;
-  border-color: rgba(155, 179, 154, 0.42);
+  /* colour in main-screen.css */
 }
 html[data-theme="dark"] .tag-need-support {
   background: rgba(214, 160, 106, 0.22);

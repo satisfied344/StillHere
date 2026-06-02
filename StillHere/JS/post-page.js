@@ -140,7 +140,7 @@
       if (!topicLabel || topicLabel === 'main.side.topic.' + t) {
         topicLabel = t.charAt(0).toUpperCase() + t.slice(1);
       }
-      html += '<span class="tag tag-topic">' + topicLabel + '</span>';
+      html += '<span class="tag tag-topic tag-topic-' + t + '">' + topicLabel + '</span>';
     });
     if (post.mode === 'no-advice') {
       var naTip = window.SH_I18N

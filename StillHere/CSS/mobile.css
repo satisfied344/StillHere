@@ -22,6 +22,24 @@
 }
 .logo:hover::after { transform: rotate(12deg) scale(1.2) !important; }
 
+/* Hide the JS-injected burger meta row (about · contacts · updates)
+   on desktop. On desktop those three links live in the top-info nav
+   already, so the row would duplicate. The mobile @media re-shows it
+   as flex below. */
+.main-menu-panel .mmenu-meta { display: none; }
+
+/* burger-extras.js injects 4 extra items (Profile / About / Contacts
+   / Updates) into every .main-menu-panel. On DESKTOP those links
+   already exist in the top-info nav, so hide the duplicates. Mobile
+   re-enables them via @media below. */
+.main-menu-panel .mmenu-burger-extras { display: none; }
+
+/* Floating-action "share story" button — mobile-only.
+   The element lives in main.html so the same markup ships to all
+   visitors; this rule keeps it invisible on desktop where the
+   sidebar already has its own Create-Post button. */
+.feed-fab { display: none; }
+
 
 /* ════════════════════════════════════════════════════════
    ULTRA-SPECIFIC overrides — force the layout regardless
@@ -58,7 +76,30 @@
     gap: 12px !important;
     margin-top: 18px !important;
   }
-  html body .right-sticky { display: none !important; }
+  /* Was: `display: none` — that ALSO hid the Crisis Hotlines and
+     AI Support widgets which live inside `.right-sticky`. Instead
+     keep the widgets visible inline below the feed; only disable
+     the `is-floating` sticky behaviour (which would otherwise pin
+     them to the right side of the viewport on scroll). */
+  html body .right-sticky {
+    display: flex !important;
+    flex-direction: column !important;
+    position: static !important;
+    width: 100% !important;
+    gap: 14px !important;
+    transform: none !important;
+    opacity: 1 !important;
+    right: auto !important;
+    top: auto !important;
+  }
+  html body .right-sticky.is-floating {
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    right: auto !important;
+    top: auto !important;
+  }
 
   html body .hero-bottom {
     display: flex !important;
@@ -74,44 +115,182 @@
 
 @media (max-width: 900px) {
 
-  /* ── Page-level safety ─────────────────────────────── */
-  html, body { overflow-x: hidden; max-width: 100vw; }
+  /* ── Page-level safety ───────────────────────────────
+     `overflow-x: hidden` on html+body kills the horizontal
+     scrollbar, but child elements can still BE wider than the
+     viewport — the post-card "right edge cut" bug. We clamp every
+     common feed/post wrapper to `max-width: 100%` so nothing
+     escapes the column, and add `overflow-x: clip` (modern browsers)
+     to the main layout container as a belt-and-suspenders measure. */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
   body { font-size: 15px; }
   img, svg, video { max-width: 100%; height: auto; }
+
+  .main-main,
+  .main-feed,
+  .feed,
+  .post-card,
+  .post-body,
+  .post-content,
+  .compose-card,
+  .filter-panel,
+  .right-sidebar,
+  .sidebar {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .main-main { overflow-x: clip; }
+
+  /* Anything wider than its parent inside a post (long URLs, code
+     blocks, embedded media) should wrap or break, not punch the
+     card open. */
+  .post-card * { max-width: 100%; }
+  .post-body pre, .post-body code {
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+  }
+  .post-body a { word-break: break-word !important; }
+
+  /* Create-post submit row — on mobile the 3 buttons (cancel /
+     delete draft / publish story) were misaligned: cancel and
+     publish were `flex: 1` but delete-draft wasn't, AND "publish
+     story" wrapped to two lines because its padding (14 28) made
+     the pill too narrow for the label. Fix both: equal share +
+     nowrap. */
+  .cp-submit-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: stretch !important;
+    width: 100% !important;
+  }
+  .cp-submit-actions .btn-cancel,
+  .cp-submit-actions .btn-delete-draft,
+  .cp-submit-actions .btn-publish {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    padding: 11px 12px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Post-page: hide the "this post" sidebar widget — its tags
+     now live above the title in .post-header-tags. Desktop keeps
+     the widget visible. */
+  .post-sidebar .sidebar-widget { display: none !important; }
+  /* Re-show the header tags row that's hidden on desktop. */
+  .post-header-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin: 12px 0 14px !important;       /* breathing room above title */
+    width: 100% !important;
+    clear: both !important;
+  }
+
+  /* Post-page body colour — guarantee crisp contrast on mobile.
+     Light theme: deep ink. Dark theme: bright cream. Title gets
+     the brightest cream on dark so single-letter titles ("В")
+     still read clearly. Highest-specificity selectors (html body
+     prefix) so any inherited Quill inline style is defeated. */
+  html body .post-body,
+  html body .post-body p,
+  html body .post-body div,
+  html body .post-body span,
+  html body .post-body li,
+  html body .post-body * {
+    color: var(--ink) !important;
+  }
+  html body .post-body a, html body .post-body a * {
+    color: var(--accent-2) !important;
+  }
+  html[data-theme="dark"] body .post-body,
+  html[data-theme="dark"] body .post-body p,
+  html[data-theme="dark"] body .post-body div,
+  html[data-theme="dark"] body .post-body span,
+  html[data-theme="dark"] body .post-body li,
+  html[data-theme="dark"] body .post-body * {
+    color: #f4e9d5 !important;
+  }
+  html[data-theme="dark"] body .post-title,
+  html[data-theme="dark"] body h1.post-title,
+  html[data-theme="dark"] body h1#post-title,
+  html[data-theme="dark"] body .post-title *,
+  html[data-theme="dark"] body h1.post-title * {
+    color: #f4e9d5 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    -webkit-text-fill-color: #f4e9d5 !important;
+  }
 
   /* ══════════════════════════════════════════════════
      TOP NAVBAR — compact on mobile
      ══════════════════════════════════════════════════ */
+  /* Navbar — never wrap. Hard `flex-wrap: nowrap` on the row
+     guarantees the logo + bell + burger stay side-by-side. The
+     logo gets `flex-shrink: 0` so it never compresses to wrap.
+     z-index bumped to 10000 so posts (which use z-index 9000
+     when their kebab is open) can't paint over the navbar. */
   .top-info {
-    padding: 8px 12px !important;
+    padding: 10px 14px !important;
     gap: 6px;
+    flex-wrap: nowrap !important;
+    z-index: 10000 !important;
+  }
+  .top-info .logo,
+  .top-info .logo a,
+  .top-info .logo span,
+  .top-info .logo p {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
   }
   .top-info .logo span,
   .top-info .logo p {
-    font-size: 18px !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+  }
+  /* The `*` is an ::after pseudo on .logo — keep inline-block,
+     tight to the wordmark (zero margin-left so it doesn't read
+     as a separate token), and small enough to never push a wrap. */
+  .top-info .logo::after {
+    display: inline-block !important;
+    vertical-align: super !important;
+    margin-left: 1px !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
   }
   .top-info .nav {
     gap: 4px !important;
   }
-  /* Hide text labels under nav icons — icons-only */
-  .nav-link--stack span,
-  .nav-link span:not(.icon) {
+  /* Hide ALL nav icons on mobile — only logo + burger remain.
+     The burger panel (.main-menu-panel) already contains the same
+     destinations (Feed, Letters, AI, Preferences, Login, etc.) so
+     nothing is lost. Previously we kept icons visible and only hid
+     their text labels; the row of 4–5 icons + burger felt cramped
+     on a 375px viewport and the icons themselves were < 44px tap
+     targets. Hiding them resolves both issues at once. */
+  .nav-link,
+  .nav-link--stack,
+  .nav-link--login {
     display: none !important;
   }
-  .nav-link, .nav-link--stack {
-    padding: 6px !important;
-    gap: 0 !important;
-  }
-  .nav-link svg, .nav-link .icon {
-    width: 22px !important;
-    height: 22px !important;
-  }
-  /* Burger / overflow menu — perfect circle, matches other icon-only links */
+
+  /* Burger / overflow menu — promoted to the single tap target.
+     44×44px is Apple/Material's recommended minimum for a finger
+     hit area; we go a hair larger for comfort. */
   .main-menu-trigger {
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
     aspect-ratio: 1 / 1 !important;
     padding: 0 !important;
     border-radius: 50% !important;
@@ -126,25 +305,260 @@
     background: var(--accent-2, #d6533c) !important;
   }
   .main-menu-trigger svg {
-    width: 20px !important;
-    height: 20px !important;
+    width: 22px !important;
+    height: 22px !important;
   }
-  /* Dropdown panel — fit small screens */
+  /* Burger dropdown lives inside .nav — must remain visible after
+     we hid every .nav-link. The dropdown wrapper carries no class
+     override; resurrect it explicitly so the previous "display:none
+     all .nav-link" rule can't catch it via cascade. */
+  .main-menu-dropdown { display: inline-flex !important; }
+
+  /* Dropdown panel — fit small screens. Slightly wider so the
+     "Login" entry can have a roomy full-row hit target. */
   .main-menu-panel {
     right: 0 !important;
     left: auto !important;
-    width: 220px !important;
+    width: 240px !important;
     max-width: 92vw !important;
+  }
+  /* Notifications panel — match the burger menu's width on mobile
+     instead of the wide desktop default. Previously it spanned
+     ~96vw, dwarfing every other dropdown. */
+  .sh-notif-panel,
+  #shNotifPanel {
+    position: fixed !important;
+    top: 60px !important;            /* below the fixed navbar */
+    right: 8px !important;
+    left: auto !important;
+    width: 280px !important;
+    max-width: 92vw !important;
+    min-width: 0 !important;
+    z-index: 9999 !important;
+  }
+  .sh-notif-panel .sh-notif-item,
+  #shNotifPanel .sh-notif-item { padding: 10px 12px !important; font-size: 13px !important; }
+  /* Each menu item ≥ 44px tall for comfortable taps. */
+  .main-menu-panel .mmenu-item {
+    min-height: 44px !important;
+    padding: 12px 14px !important;
+  }
+  /* Login pill (guest state) — bright coral CTA, white text+icon. */
+  .main-menu-panel .mmenu-item--login:not([data-sh-auth-swapped]) {
+    background: var(--accent-2, #d6533c) !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    margin: 6px 8px !important;
+    padding: 12px 14px !important;
+    transform: none !important;
+  }
+  .main-menu-panel .mmenu-item--login:not([data-sh-auth-swapped]) svg,
+  .main-menu-panel .mmenu-item--login:not([data-sh-auth-swapped]) .icon {
+    color: #fff !important;
+  }
+
+  /* Sign-out pill (authed state) — destructive look: muted red
+     background + coral text + coral icon. No border (user feedback:
+     visually noisy). Width is locked symmetrically via box-sizing
+     + calc so left and right margins ALWAYS look equal — previously
+     the right edge touched the panel because the parent <li> had
+     no horizontal padding, and `margin: 6px 8px` only worked on
+     one side. */
+  .main-menu-panel .mmenu-item--login[data-sh-auth-swapped] {
+    display: flex !important;
+    box-sizing: border-box !important;
+    width: calc(100% - 16px) !important;
+    margin: 6px 8px !important;
+    padding: 12px 14px !important;
+    background: rgba(214, 83, 60, 0.14) !important;
+    color: var(--accent-2, #d6533c) !important;
+    font-weight: 700 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    transform: none !important;
+  }
+  .main-menu-panel .mmenu-item--login[data-sh-auth-swapped] svg,
+  .main-menu-panel .mmenu-item--login[data-sh-auth-swapped] .icon {
+    color: var(--accent-2, #d6533c) !important;
+    fill: currentColor !important;
+  }
+  /* Apply the same width lock to the GUEST Login pill so it visually
+     matches when the user is signed out. */
+  .main-menu-panel .mmenu-item--login:not([data-sh-auth-swapped]) {
+    display: flex !important;
+    box-sizing: border-box !important;
+    width: calc(100% - 16px) !important;
+  }
+  /* The wrapping <li> can carry default margin/padding from the
+     menu's list reset — neutralise so the pill width is what we
+     compute above. */
+  .main-menu-panel li:has(> .mmenu-item--login) {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+
+  /* Kill the desktop hover-shift on EVERY menu item — touch
+     interactions read translateX(2px) as a layout glitch. */
+  html body .main-menu-panel .mmenu-item,
+  html body .main-menu-panel .mmenu-item:hover,
+  html body .main-menu-panel .mmenu-item:active,
+  html body .main-menu-panel .mmenu-item:focus,
+  html body .main-menu-panel .mmenu-item--login,
+  html body .main-menu-panel .mmenu-item--login:hover,
+  html body .main-menu-panel .mmenu-item--login:active,
+  html body .main-menu-panel .mmenu-item--login:focus,
+  html body .main-menu-panel .mmenu-burger-extras .mmenu-item,
+  html body .main-menu-panel .mmenu-burger-extras .mmenu-item:hover,
+  html body .main-menu-panel .mmenu-burger-extras .mmenu-item:active,
+  html body .main-menu-panel .mmenu-burger-extras .mmenu-item:focus {
+    transform: none !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+  }
+
+  /* Reveal the burger-extras blocks ONLY on mobile.
+     Three pieces (all share .mmenu-burger-extras class so the
+     desktop hide rule catches them all):
+       • .mmenu-burger-extras--profile-row → Profile item at the TOP
+       • .mmenu-burger-extras--divider     → thin line above bottom row
+       • .mmenu-burger-extras--row         → "about · contacts · updates" */
+  .main-menu-panel li.mmenu-burger-extras { display: list-item !important; }
+
+  /* Profile entry above Sign-out — clean look: same styling as
+     other menu items (Community feed / Quiet letters / etc.).
+     No background tint, no border, just the regular hover wash
+     from the base menu-item styles. */
+  .main-menu-panel li.mmenu-burger-extras--profile-row {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+  .main-menu-panel li.mmenu-burger-extras--profile-row > .mmenu-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 14px !important;
+    min-height: 44px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;       /* bold to mark "your area" */
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .main-menu-panel li.mmenu-burger-extras--profile-row > .mmenu-item svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* The row itself: horizontal flex, centred, wrap on overflow. */
+  .main-menu-panel li.mmenu-burger-extras--row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px 6px !important;
+    padding: 10px 14px 12px !important;
+    margin: 0 !important;
+    list-style: none !important;
+  }
+  /* Individual text link — small, muted, hoverable. */
+  .main-menu-panel .mmenu-extra-link {
+    font-size: 12.5px !important;
+    color: var(--ink-light, #847569) !important;
+    text-decoration: none !important;
+    padding: 6px 4px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.01em !important;
+    transition: color 0.15s ease !important;
+    line-height: 1 !important;
+  }
+  .main-menu-panel .mmenu-extra-link:hover,
+  .main-menu-panel .mmenu-extra-link:focus {
+    color: var(--accent-2, #d6533c) !important;
+  }
+  .main-menu-panel .mmenu-extra-dot {
+    color: var(--ink-light, #847569);
+    opacity: 0.4;
+    font-size: 13px;
+    user-select: none;
+    line-height: 1;
+  }
+
+  /* Divider above the row — thin line spanning the panel. */
+  .main-menu-panel li.mmenu-burger-extras--divider {
+    display: block !important;
+    width: calc(100% - 16px) !important;
+    margin: 8px 8px 0 !important;
+    height: 1px !important;
+    background: var(--line-soft, rgba(26,20,16,0.10)) !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    list-style: none !important;
+  }
+
+  /* Footer-style meta row at the bottom of the burger panel.
+     About / Contacts / Updates — small, text-only, dot-separated.
+     Injected by JS/nav-menu.js so every page picks them up
+     without HTML edits. Sits below the last real menu item, after
+     a thin divider, so the eye reads them as secondary links —
+     not a 4th block of full actions. */
+  .main-menu-panel .mmenu-meta {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px 12px;
+    flex-wrap: wrap;
+  }
+  .mmenu-meta-link {
+    font-size: 12.5px;
+    text-transform: lowercase;
+    letter-spacing: 0.01em;
+    color: var(--ink-light, #847569);
+    text-decoration: none;
+    padding: 6px 4px;            /* tap padding without visual weight */
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.15s ease;
+  }
+  .mmenu-meta-link:hover,
+  .mmenu-meta-link:focus { color: var(--accent-2, #d6533c); }
+  .mmenu-meta-dot {
+    color: var(--ink-light, #847569);
+    opacity: 0.45;
+    font-size: 12px;
+    user-select: none;
+  }
+  .mmenu-divider--meta {
+    margin-top: 4px;
   }
 
   /* Content area — comfortable space below the navbar so
      the eyebrow line breathes, without leaving a huge gap
-     between the eyebrow and the title that follows it. */
-  main, .up-page, .ab-page, .ct-page, .pf-page, .ep-page,
+     between the eyebrow and the title that follows it.
+     Reduced from 84px to 70px on the feed (`.main-main`) so the
+     "STORIES SHARED HERE" eyebrow sits closer to the navbar. */
+  /* Top padding for content pages. EXPLICITLY excludes
+     `main.main-feed` (the feed area) — that path is owned by
+     `.main-main` below which uses a tighter margin instead.
+     Without this exclusion `<main class="main-feed">` was getting
+     78 px PLUS the .main-main margin → a huge gap above the feed
+     eyebrow. */
+  .up-page, .ab-page, .ct-page, .pf-page, .ep-page,
   .auth-page, .ai-page, .pref-page, .stats-page,
-  .post-page, .cp-page, .main-main, .docs-page,
+  .post-page, .cp-page, .docs-page,
   .chat-page {
-    padding-top: 84px !important;
+    padding-top: 78px !important;
+  }
+  /* Feed's <main> element — zero padding, .main-main handles the
+     clearance below. */
+  main.main-feed {
+    padding-top: 0 !important;
   }
 
   /* Tighten the eyebrow→title gap on every page. Desktop
@@ -181,16 +595,56 @@
     width: 100% !important;
     max-width: 100% !important;
   }
-  /* Title — large, but bound to viewport so it never overflows */
+  /* Title — "still here" MUST fit on ONE line. Previously the
+     font scaled with 28vw which overflowed and wrapped the second
+     word. We use 17vw (≈75 px on a 440 px screen) + white-space:
+     nowrap which forces single-line render even if the viewport
+     is tight. clamp keeps it sane on very small and very large
+     phones. */
   .title, .start-title, .start-name, .stillhere-name {
-    font-size: clamp(56px, 18vw, 96px) !important;
-    line-height: 0.95 !important;
+    display: block !important;
+    font-size: clamp(58px, 24.5vw, 110px) !important;
+    line-height: 0.92 !important;
     text-align: left !important;
-    word-break: break-word;
+    word-break: keep-all !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    margin-top: 150px !important;
   }
-  .title-word, .title-em, .title em { font-size: inherit !important; }
-  /* Hero "meta" row (— 01 / Presence, not solutions + GLOBAL · ANONYMOUS · FREE)
-     stack one above the other instead of two columns */
+  .title .title-word, .title .title-em, .title em {
+    white-space: nowrap !important;
+  }
+  .title .title-word,
+  .title .title-em,
+  .title em {
+    display: inline !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+  /* Tiny space between "still" and "here" so they don't kern
+     together as a single word. */
+  .title .title-word::after { content: " "; }
+  /* Background multilingual word marquee — bumped from 0.06 →
+     0.18 (light theme) / 0.22 (dark theme) per user feedback:
+     was barely visible on light, hardly readable on dark. */
+  .bg_words { opacity: 0.18 !important; }
+  html[data-theme="dark"] .bg_words { opacity: 0.22 !important; }
+  /* Ambient single words rendered as large background letters
+     (separate from the marquee). Bump too so the hero feels
+     populated. */
+  .ambient-word, .bg-word, .stamp-letter, .quote-band-letter {
+    opacity: 0.08 !important;
+  }
+  html[data-theme="dark"] .ambient-word,
+  html[data-theme="dark"] .bg-word,
+  html[data-theme="dark"] .stamp-letter,
+  html[data-theme="dark"] .quote-band-letter {
+    opacity: 0.12 !important;
+  }
+  /* Hero "meta" row — only the index/eyebrow ("— 01 / Presence,
+     not solutions") shows on mobile. The "GLOBAL · ANONYMOUS · FREE"
+     location chip is hidden — adds noise without adding info on
+     a small viewport. */
   .hero-meta, .start-meta-row {
     display: flex !important;
     flex-direction: column !important;
@@ -198,6 +652,7 @@
     gap: 8px !important;
     margin-bottom: 18px !important;
   }
+  .hero-loc { display: none !important; }
   /* Bottom row — tagline + CTAs in one column, full-width buttons */
   .hero-bottom {
     grid-template-columns: 1fr !important;
@@ -209,31 +664,84 @@
   }
   .hero-bottom-left  { padding: 0 !important; }
   .hero-bottom-right { gap: 14px !important; }
+  /* Subtitle + supporting text — shrunk so the title (just
+     bumped to 24vw) reads as the dominant element. */
   .subtitle, .start-tagline, .start-sub, .hero-tagline {
-    font-size: clamp(22px, 5.5vw, 32px) !important;
+    font-size: clamp(18px, 4.4vw, 26px) !important;     /* was 22-32 */
     line-height: 1.2 !important;
     text-align: left !important;
     margin: 0 !important;
     max-width: 100% !important;
   }
-  .lede, .hero-lede {
-    font-size: 14.5px !important;
+  .lede, .hero-lede,
+  .subtitle-2 {
+    font-size: 13px !important;
     line-height: 1.55 !important;
   }
-  .start-cta-row, .start-actions, .cta-row {
+  /* Join section: tighten vertical rhythm. 14 px between blocks
+     instead of desktop's 64 — fits a phone screen cleanly. */
+  .join-content { gap: 14px !important; }
+  .join-title {
+    font-size: clamp(40px, 12vw, 64px) !important;
+    line-height: 0.95 !important;
+    margin: 0 !important;
+  }
+  .join-description {
+    font-size: 14.5px !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+  }
+  .join-bottom { margin: 12px 0 0 !important; padding-top: 0 !important; }
+  /* Remove the hand-drawn 1-px divider above join-bottom on mobile
+     — at small widths it just adds visual noise between the title
+     and description. */
+  .join-bottom::before { display: none !important; content: none !important; }
+
+  /* Hero CTA row — buttons stack vertically, full-width feels
+     fine for the hero (it's the primary action above the fold). */
+  .start-cta-row, .start-actions, .cta-row,
+  .butttons_on_start {
+    display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 10px !important;
     width: 100% !important;
-    max-width: 100% !important;
+    margin: 16px 0 0 !important;
   }
   .start-cta, .start-cta--ghost,
-  .btn-primary, .btn-ghost {
+  .btn-primary, .btn-ghost,
+  .butttons_on_start .btn,
+  .button_start_1,
+  .button_start_2 {
     width: 100% !important;
     justify-content: center !important;
-    padding: 14px 22px !important;
+    padding: 13px 22px !important;
     font-size: 15px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
   }
+
+  /* Join-section button — SMALLER and LEFT-aligned (under the
+     description text), not stretched full-width. User feedback:
+     the full-width pill looked oversized for a secondary block. */
+  .join-bottom {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+  .join-register {
+    width: auto !important;
+    align-self: flex-start !important;
+    padding: 12px 22px !important;
+    font-size: 14px !important;
+    margin: 0 !important;
+  }
+
+  /* Doodle accents (hand + ink trail) around the hero CTA
+     reflow-collapse on mobile — keep tiny so they don't bump
+     the button below them down. */
+  .start-hand-wrap { display: none !important; }
   /* Scroll hint — hide on mobile (no room) */
   .scroll-hint { display: none !important; }
 
@@ -244,20 +752,214 @@
   .why-section, .card-section, .join-section {
     padding: 36px 18px !important;
   }
-  /* Background ambient words — barely visible on mobile */
+
+  /* ── Feature cards (01 privacy / 02 care / 03 together /
+        04 trust). Keep the desktop tilt (`--rot`) — it's part
+        of the paper aesthetic — but pad the vertical gap so
+        tilted cards don't lean into each other. */
+  .feature-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 44px !important;            /* wide enough that ±2° tilt clears */
+    padding: 0 !important;
+  }
+  .feature-card,
+  .feature-card.reveal-row {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    /* leave transform alone — the inline `style="--rot: …deg"`
+       on each card + the existing .feature-card transform rule
+       provide the tilt. */
+  }
+  /* Scotch tape — make it bigger and centred for mobile so it
+     reads as a real tape strip, not a tiny chip. */
+  .feature-card::before {
+    width: 96px !important;
+    height: 26px !important;
+    top: -13px !important;
+    box-shadow: 0 3px 6px rgba(26, 20, 16, 0.12) !important;
+  }
+
+  /* ── Quote band on mobile: clean one-card layout.
+        • ONE big scotch strip CENTERED at the top
+        • Bigger, taller quotation marks in the corners
+        • A taller card (more vertical breathing room)
+        • Ambient + flower decoration removed             */
+  .quote-band .quote-mark {
+    width: 44px !important;
+    height: 52px !important;
+    opacity: 0.6 !important;
+  }
+  .quote-band .quote-mark--open  { top: 6px !important;    left: 10px !important; }
+  .quote-band .quote-mark--close { bottom: 6px !important; right: 10px !important; }
+  .quote-band .quote-ambient,
+  .quote-band .quote-flower { display: none !important; }
+
+  /* Hide the right-corner scotch, show ONE centered strip via
+     `.skotch-tl` (which we used to hide). Centre via left:50%. */
+  .quote-band .quote-note .skotch-tr { display: none !important; }
+  .quote-band .quote-note .skotch-tl {
+    display: block !important;
+    width: 96px !important;
+    height: auto !important;
+    top: -16px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) rotate(-2deg) !important;
+    opacity: 0.85 !important;
+  }
+  /* Quote note — taller card */
+  .quote-band .quote-note {
+    padding: 44px 24px 30px !important;
+    margin: 0 !important;
+    text-align: center !important;
+    min-height: 180px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+  .quote-band .quote-text {
+    font-size: 19px !important;
+    line-height: 1.5 !important;
+    margin: 0 0 14px !important;
+  }
+  .quote-band .quote-cite {
+    font-size: 12px !important;
+    opacity: 0.7 !important;
+  }
+
+  /* ── "not alone" paper-note in the join section — purely
+        decorative, hides on mobile where the quote already
+        carries the same vibe. */
+  .paper-note--join { display: none !important; }
+
+  /* Decorative asterisk doodle in the join section — keep ONLY
+     the flower-asterisk, pin it to the RIGHT of the "start
+     sharing" button as a margin-note accent. The second
+     margin-mark asterisk stays hidden (too crowded otherwise). */
+  .doodle-join-margin-mark,
+  .d-img.doodle-join-margin-mark { display: none !important; }
+  .doodle-join-flower,
+  .d-img.doodle-join-flower {
+    display: block !important;
+    position: absolute !important;
+    width: 38px !important;
+    height: auto !important;
+    opacity: 0.85 !important;
+    left: auto !important;
+    right: 6vw !important;
+    bottom: 4px !important;
+    top: auto !important;
+    transform: rotate(15deg) !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+  }
+  /* Ensure the .join-content parent has positioning context so
+     the absolute doodle anchors correctly. */
+  .join-content { position: relative !important; }
+
+  /* ── Rotated "respira / you matter / дыши" stamp band */
+  .stamp-band {
+    padding: 12px 0 !important;
+    margin: 36px -2vw 36px !important;
+  }
+  /* The stamp track is one continuous text line — the .stamp-sep
+     ✶ glyphs sit on the font baseline but the text feels centered,
+     so the stars look low. Push them up by a third of an em so
+     they read as centred on the x-height. */
+  .stamp-track {
+    gap: 28px !important;
+    align-items: center !important;
+    line-height: 1 !important;
+  }
+  .stamp-item, .stamp-band .stamp {
+    font-size: 16px !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+  }
+  .stamp-band .stamp-sep {
+    display: inline-block !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    transform: translateY(-2px) !important;     /* nudge up to text mid-line */
+    margin: 0 4px !important;
+  }
+  .stamp-band svg, .stamp-band img {
+    width: 14px !important;
+    height: 14px !important;
+    vertical-align: middle !important;
+    transform: translateY(-2px) !important;
+  }
+
+  /* ── Section fog: hidden entirely on mobile (both themes).
+        Per user feedback — inversion didn't read cleanly, and on
+        a small screen the fog blobs just felt like dirty smudges
+        instead of atmospheric depth. Section reads cleaner
+        without them. */
+  .section-fog,
+  html[data-theme="dark"] .section-fog {
+    display: none !important;
+  }
+  /* Background ambient words — bumped from barely-there 0.03 →
+     0.08/0.12 (see overrides above) so they read as a soft
+     watermark, not invisible noise. font-size kept 28vw so they
+     fill the screen as background. */
   .ambient-word, .bg-word, .stamp-letter, .quote-band-letter {
-    opacity: 0.03 !important;
     font-size: 28vw !important;
   }
-  /* Hero side doodles — small, don't crowd the title */
-  .doodle-hero-wave, .doodle-hero-heart-r,
-  .d-img.doodle-hero-wave, .d-img.doodle-hero-heart-r,
-  .d-img.doodle-hero-cloud, .d-img.doodle-hero-cloud-r {
-    width: 42px !important;
+  /* Hero side doodles — visible, but tucked into corners so they
+     don't push around the title. Bump to 72–96px and keep opacity
+     strong. Cloud was flying UNDER the fixed navbar — pin it down
+     so it sits clear of the navbar's 50-px clearance. */
+  .doodle-hero-cloud,
+  .d-img.doodle-hero-cloud {
+    width: 96px !important;
     height: auto !important;
+    opacity: 0.55 !important;
+    top: 78px !important;             /* below navbar + breathing */
+    right: 14px !important;
+    left: auto !important;
+  }
+  /* Hero spark — keep it but force it OFF the CTA area. On mobile
+     the desktop position would land it right next to the "start
+     sharing" pill, looking like an attached decoration. Pin to
+     mid-right area instead. */
+  .doodle-hero-spark,
+  .d-img.doodle-hero-spark {
+    display: none !important;
+  }
+  .doodle-hero-wave,
+  .d-img.doodle-hero-wave {
+    width: 78px !important;
+    height: auto !important;
+    opacity: 0.6 !important;
+  }
+  .doodle-hero-heart-r,
+  .d-img.doodle-hero-heart-r {
+    /* Heart sits LEFT-OF-CENTER above the wordmark, between the
+       eyebrow line and "still here" title. Smaller than before
+       (52 px instead of 64) and animated via a dedicated
+       keyframe that BAKES IN translateX(-50%) so the bob/rotate
+       animation doesn't fight the horizontal anchor. */
+    display: block !important;
+    width: 52px !important;
+    height: auto !important;
+    opacity: 0.7 !important;
+    left: 22% !important;
+    right: auto !important;
+    top: 130px !important;
+    bottom: auto !important;
+    animation: sh-heartFloatCentered 4.6s ease-in-out infinite !important;
+    transform-origin: center !important;
+  }
+  @keyframes sh-heartFloatCentered {
+    0%, 100% { transform: translateX(-50%) translateY(0)    rotate(-4deg); }
+    50%      { transform: translateX(-50%) translateY(-6px) rotate(4deg);  }
   }
   .scribble-circle { display: none !important; }
-  .title-star { width: 26px !important; height: 26px !important; }
+  .title-star { width: 40px !important; height: 40px !important; opacity: 1 !important; }
 
   /* ══════════════════════════════════════════════════
      MAIN FEED (main.html)
@@ -274,18 +976,47 @@
     display: flex !important;
     flex-direction: column !important;
     grid-template-columns: 1fr !important;
-    padding: 70px 14px 100px !important;  /* extra bottom for FAB */
-    gap: 14px !important;
+    /* 52 px clears the fixed navbar; +32 px of cushion so the
+       "STORIES SHARED HERE" eyebrow has obvious room to breathe
+       (20 px was still cramped per user feedback). */
+    padding: 32px 14px 100px !important;
+    margin-top: 52px !important;
+    gap: 10px !important;
+  }
+  /* feed-head specifically — squash any default margin / padding
+     so the eyebrow snaps to the bottom of the navbar.            */
+  .feed-head, .feed-header {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  /* The "eyebrow" line itself usually has its own top-margin from
+     desktop layouts — neutralise. */
+  .feed-title .feed-title-eyebrow,
+  .feed-eyebrow,
+  .page-eyebrow {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
   /* Order: sidebar (topics strip) → feed → widgets */
   .sidebar       { order: 1; }
   .main-feed     { order: 2; }
   .right-sidebar { order: 3; }
-  .right-sticky  { display: none !important; }
+  /* Note: .right-sticky stays VISIBLE on mobile now (see global
+     override above) — only the float/sticky behaviour is killed.  */
 
   .main-feed {
     width: 100% !important;
     min-width: 0 !important;
+  }
+
+  /* Once main-page.js moves .sidebar-nav into the filter panel,
+     the sidebar itself is empty — collapse it so it doesn't leave
+     a 4-px ghost line above the feed. The class is added by JS
+     after a successful move (see relocateSidebarForFilter()).    */
+  .sidebar.sidebar--emptied {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* ── LEFT SIDEBAR → horizontal topic strip ── */
@@ -344,6 +1075,16 @@
   }
   .sidebar-topics::-webkit-scrollbar,
   .sidebar-secondary-navigation::-webkit-scrollbar { display: none; }
+  /* `.sidebar-section` is the wrapper between
+     `.sidebar-secondary-navigation` (flex container) and the topic
+     links. By default it would be a single flex child holding a
+     vertical list. `display: contents` makes the wrapper invisible
+     to layout so the topic links participate in the parent's
+     horizontal flex directly. */
+  .sidebar-secondary-navigation .sidebar-section {
+    display: contents !important;
+  }
+
   .sidebar-topics .sidebar-item,
   .sidebar-secondary-navigation .sidebar-item {
     flex: 0 0 auto !important;
@@ -353,6 +1094,27 @@
     background: rgba(26, 20, 16, 0.05) !important;
     white-space: nowrap !important;
   }
+  /* Show ALL topics in the horizontal strip — no "Show more" button
+     on mobile. The strip scrolls horizontally, so adding 3 extra
+     pills costs nothing.
+
+     Hard part: main-page.js's `SH_applyTopicVisibility()` keeps
+     setting [hidden] on rank >= 5 chips, and main-screen.css has
+     `.sidebar-section [data-topic-filter][hidden] { display: none }`
+     (spec 0,3,1) that we need to outrank. Using html-body prefix
+     pushes us to (0,3,3) which wins cleanly. */
+  html body .sidebar-section [data-topic-filter],
+  html body .sidebar-section [data-topic-filter][hidden],
+  html body .filter-panel [data-topic-filter],
+  html body .filter-panel [data-topic-filter][hidden],
+  html body .sidebar-secondary-navigation [data-topic-filter][hidden],
+  html body .sidebar-item.sidebar-topic-extra[hidden] {
+    display: inline-flex !important;
+  }
+  /* "Show more topics" button — redundant on mobile (we just show
+     them all in the scroll strip). */
+  .sidebar-more,
+  #sidebarMoreTopicsBtn { display: none !important; }
   html[data-theme="dark"] .sidebar-topics .sidebar-item,
   html[data-theme="dark"] .sidebar-secondary-navigation .sidebar-item {
     background: rgba(255, 240, 220, 0.05) !important;
@@ -360,11 +1122,9 @@
   .sidebar-topics .sidebar-item::before,
   .sidebar-secondary-navigation .sidebar-item::before { display: none !important; }
   .topic-count { font-size: 10.5px !important; }
-  .sidebar-more {
-    flex: 0 0 auto !important;
-    font-size: 11.5px !important;
-    padding: 7px 12px !important;
-  }
+  /* The "Show more topics" button is hidden on mobile (see rule
+     above near the topic-pill strip). The flex/font properties
+     are kept as a no-op in case any page later opts back in. */
   /* The "Share Your Story" button inside the sidebar is duplicated
      by our FAB, so hide it on mobile to avoid two CTAs. */
   .sidebar-create-post-button { display: none !important; }
@@ -435,60 +1195,341 @@
     padding: 9px 14px !important;
   }
 
-  /* Filter panel — collapses into a compact wrapping row */
+  /* Filter panel — must remain TRULY collapsed when closed.
+     Previous rule had `padding: 12px !important` directly on
+     .filter-panel; combined with `max-height: 0` (set by the
+     base rule in main-screen.css) the padding still rendered,
+     creating a 24-px-tall empty cream rectangle below the
+     filter button. Solution: put padding on `.filters-container`
+     (the inner box) instead. When the panel is closed,
+     overflow: hidden clips the inner padding too. */
   .filter-panel {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 10px !important;
-    padding: 12px !important;
     margin-bottom: 14px !important;
+    padding: 0 !important;
+  }
+  .filter-panel.is-open .filters-container,
+  .filter-panel .filters-container {
+    padding: 20px 18px !important;
+    gap: 18px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* Each filter section (search, lang strip, support type, sort)
+     gets visible breathing room between its label and its controls. */
+  .filter-panel .filter-group,
+  .filter-panel .lang-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .filter-panel .filter-title,
+  .filter-panel .lang-strip-label {
+    font-size: 11px !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: var(--ink-light, #847569) !important;
+    margin: 0 !important;
   }
   .filter-row {
     display: flex !important;
     flex-wrap: wrap !important;
     gap: 6px !important;
   }
-  .filter-select, .filter-pill, .lang-pill, .pill {
-    font-size: 12.5px !important;
-    padding: 6px 11px !important;
+
+  /* ── Unified control sizing inside filter panel ──
+     All interactive elements (Home/Saved tabs, topic pills,
+     language pills, support-type pills, sort dropdown, "More
+     languages" dropdown) get the SAME visual height and font.
+     Topic pills inside the topic-strip keep their compact size
+     because they're a horizontal scroll, not a primary CTA. */
+  .filter-panel .filter-pill,
+  .filter-panel .lang-pill,
+  .filter-panel .filter-select,
+  .filter-panel .lang-select-other,
+  .filter-panel .pill {
+    font-size: 13.5px !important;
+    padding: 10px 14px !important;
+    min-height: 40px !important;
+    box-sizing: border-box !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
+  }
+  /* Selects: the native chevron needs a bit of right padding so it
+     doesn't sit on top of the text. */
+  .filter-panel .filter-select,
+  .filter-panel .lang-select-other {
+    padding-right: 32px !important;
   }
 
-  /* Post cards — comfortable mobile-app feel */
-  .feed { display: flex !important; flex-direction: column !important; gap: 12px !important; }
+  /* Active / selected state — for TOPIC pills we use OUTLINE
+     ONLY (transparent fill + coral border), per design feedback.
+     Filled topic pills competed visually with the always-filled
+     Home/Saved/lang pills. Outline says "you tapped me" without
+     turning the whole strip into a coral wall. */
+  .filter-panel .sidebar-item.active {
+    background: transparent !important;
+    color: inherit !important;
+    border: 2px solid var(--accent-2, #d6533c) !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+  }
+  /* The colour dot inside topic pills keeps its hue, no extra ring
+     needed now that the fill is transparent. */
+  .filter-panel .sidebar-item.active .topic-span {
+    box-shadow: none !important;
+  }
+
+  /* Home / Saved primary buttons and language pills keep the
+     solid coral fill — they read as primary nav and shouldn't
+     blend into the topic strip. */
+  .filter-panel .sidebar-primary-navigation .sidebar-item.active,
+  .filter-panel .lang-pill.pill-active,
+  .filter-panel .filter-pill.active,
+  .filter-panel .pill.active {
+    background: var(--accent-2, #d6533c) !important;
+    color: #fff !important;
+    border-color: var(--accent-2, #d6533c) !important;
+    font-weight: 700 !important;
+  }
+  /* Active Home/Saved → flip the icon AND text to white so the
+     glyph doesn't stay dark on the coral fill. */
+  .filter-panel .sidebar-primary-navigation .sidebar-item.active,
+  .filter-panel .sidebar-primary-navigation .sidebar-item.active *,
+  .filter-panel .sidebar-primary-navigation .sidebar-item.active svg,
+  .filter-panel .sidebar-primary-navigation .sidebar-item.active .icon {
+    color: #fff !important;
+    fill: currentColor !important;
+  }
+  .filter-panel .filter-pill.active svg { color: #fff !important; }
+
+  /* ── Section labels (LANGUAGE / SUPPORT TYPE / SORT BY) aligned
+     to the SAME left edge as the controls below. Default rendering
+     can offset depending on parent flex/padding. Force them flush. */
+  .filter-panel .filter-title,
+  .filter-panel .lang-strip-label {
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: left !important;
+    align-self: flex-start !important;
+  }
+  /* Lang-strip's inner row has its own padding — zero it so the
+     label and the pills below share the same x-origin. */
+  .filter-panel .lang-strip,
+  .filter-panel .lang-select-row,
+  .filter-panel .lang-popular {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* ── Search input must NOT change size when the user types.
+     Lock height with a fixed `height` + `box-sizing: border-box`.
+     Also pin the clear (×) button size so it doesn't inflate. */
+  .filter-panel .search-bar {
+    height: 44px !important;
+    padding: 0 14px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .filter-panel .search-bar .search-input {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  /* Clear button (×) — fixed 28×28 circle so it doesn't balloon
+     when the user types. Previously inherited flex sizing from
+     the search-bar layout and ended up 36–40 px once content
+     appeared. */
+  .filter-panel .search-bar .search-clear {
+    flex: 0 0 28px !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .filter-panel .search-bar .search-clear svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* ── Kebab/options dropdown MUST render ON TOP of the next
+     post, never under. The hard part: each .post-card creates
+     its own stacking context (position: relative + z-index sets
+     siblings' z-index to be relative to themselves). The next
+     post-card paints on top by document order.
+
+     Solution: when ANY .post-card contains an OPEN dropdown
+     (`.post-menu-down.show`), elevate that whole card above its
+     siblings via `:has()`. Then the absolutely-positioned
+     dropdown inside it naturally paints above the next card.   */
   .post-card {
-    padding: 16px !important;
+    position: relative !important;
+    overflow: visible !important;      /* let the dropdown escape */
+    z-index: 1 !important;
+  }
+  .post-card:has(.post-menu-down.show) {
+    z-index: 9000 !important;          /* elevate ABOVE next cards */
+  }
+  .post-card .post-actions-menu {
+    position: absolute !important;
+    right: 16px !important;
+    top: 16px !important;
+    z-index: 1 !important;
+  }
+  .post-menu-down,
+  .post-menu-down.show,
+  #optionsDropdown {
+    z-index: 9999 !important;
+    box-shadow:
+      0 16px 40px -10px rgba(0, 0, 0, 0.45),
+      0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  }
+  /* Feed and feed wrappers must NOT clip — otherwise the dropdown
+     gets cropped at the wrapper's edge. */
+  .feed,
+  .main-feed,
+  .main-main {
+    overflow: visible !important;
+  }
+
+  /* ── Post title + first paragraph stand out as the heart of
+     the card. Default mobile rule had them at 18 px / 14.5 px;
+     too quiet given they're the actual point of every card. */
+  .post-card .post-title,
+  .post-card .post-content h2 {
+    font-size: 19px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin: 4px 0 8px !important;
+    color: var(--ink, #1a1410) !important;
+  }
+  html[data-theme="dark"] .post-card .post-title,
+  html[data-theme="dark"] .post-card .post-content h2 {
+    color: var(--paper, #fffaf0) !important;
+  }
+  .post-card .post-body,
+  .post-card .post-content p {
+    font-size: 15.5px !important;
+    line-height: 1.6 !important;
+    color: var(--ink, #1a1410) !important;
+  }
+  html[data-theme="dark"] .post-card .post-body,
+  html[data-theme="dark"] .post-card .post-content p {
+    color: var(--ink-soft, #e0d3bf) !important;
+  }
+
+  /* Kill the desktop-only "hand-drawn brush stroke" decoration on
+     EVERY .sidebar-item once it lives inside the filter panel —
+     it's a vertical marker line designed for a vertical sidebar,
+     so on horizontal pills it bleeds out as a coral squiggle on
+     the left edge of the active item (visible in the Home pill). */
+  .filter-panel .sidebar-item::before,
+  .sidebar-nav--in-filter .sidebar-item::before { display: none !important; }
+
+  /* Post cards — generous breathing room.
+     Previous: padding 16, no horizontal margin. Cards touched
+     each other and the page edge, feed felt cramped. Now: 20-px
+     inner padding + a small horizontal slack (the .main-main
+     wrapper already gives 14 px gutter; we keep cards inside it
+     so the gutter stays consistent everywhere on the page). */
+  .feed {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+  .post-card {
+    padding: 20px !important;
     border-radius: 14px !important;
     margin: 0 !important;
   }
   .post-header {
     flex-wrap: wrap !important;
     gap: 8px !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
   }
   .post-header .post-author { font-size: 14px !important; }
   .post-header .post-meta, .post-date { font-size: 11.5px !important; }
   .post-content h2, .post-title { font-size: 18px !important; margin-bottom: 6px !important; }
   .post-body, .post-content p { font-size: 14.5px !important; line-height: 1.55 !important; }
-  .post-tags { gap: 6px !important; flex-wrap: wrap !important; }
-  .post-tags .tag, .post-tags .post-tag { font-size: 11.5px !important; padding: 3px 9px !important; }
+  /* Tags inside a post card — smaller so they don't dominate.
+     User feedback: previously the language pill + "no advice" /
+     "need support" pills were as visually loud as the title. */
+  .post-tags { gap: 5px !important; flex-wrap: wrap !important; margin-top: 6px !important; }
+  .post-tags .tag,
+  .post-tags .post-tag,
+  .post-card .lang-pill,
+  .post-card .post-tag,
+  .post-card .tag {
+    font-size: 10.5px !important;
+    padding: 2px 8px !important;
+    line-height: 1.3 !important;
+    min-height: 0 !important;
+    border-radius: 999px !important;
+  }
+  .post-card .post-tag svg,
+  .post-card .tag svg { width: 11px !important; height: 11px !important; }
 
-  /* Post action bar — evenly spaced */
+  /* Post action bar — left-aligned cluster.
+     Previously evenly-distributed across the full card width
+     with `justify-content: space-between`, which made the three
+     buttons (Like / Responses / Share) feel like they belonged
+     to different sections of the card. Group them at the start
+     so they read as a single utility row. */
   .post-actions {
     display: flex !important;
-    justify-content: space-between !important;
-    gap: 4px !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
     flex-wrap: nowrap !important;
-    padding-top: 10px !important;
+    padding-top: 12px !important;
     border-top: 1px dashed var(--line-soft, rgba(26,20,16,0.10)) !important;
-    margin-top: 12px !important;
+    margin-top: 14px !important;
   }
+  /* Button class is actually `.post-actions-item` (not
+     `.post-action`) — both kept in the selector list so any
+     legacy markup works too. */
+  .post-actions .post-actions-item,
   .post-action, .post-action-btn {
-    flex: 1 1 0;
-    font-size: 12px !important;
-    padding: 8px 4px !important;
+    flex: 0 0 auto !important;       /* don't grow to fill */
+    font-size: 12.5px !important;
+    padding: 8px 10px !important;
     justify-content: center;
+    min-height: 36px;                /* still tappable */
+    white-space: nowrap;
+  }
+  /* If a card includes the kebab/menu button, push it to the
+     far right — it's not part of the cluster, it's a separate
+     affordance. */
+  .post-actions .post-menu-btn,
+  .post-actions .post-action--menu {
+    margin-left: auto !important;
   }
   .post-menu-btn { flex: 0 0 auto; }
+  /* Kebab cluster (`.post-actions-menu`) lives in the post header,
+     not in `.post-actions` — pin it top-right so it's not
+     decorative noise in the middle of the card. */
+  .post-card .post-actions-menu {
+    position: absolute !important;
+    right: 16px !important;
+    top: 16px !important;
+  }
+  .post-card { position: relative !important; }
 
   /* Load-more button full width */
   .feed-load-more-btn {
