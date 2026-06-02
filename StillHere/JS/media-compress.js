@@ -120,36 +120,65 @@
       var bmp = pair[0];
       var webpOk = pair[1];
 
-      var w = bmp.width  || bmp.naturalWidth;
-      var h = bmp.height || bmp.naturalHeight;
-      var scale = Math.min(1, maxSide / Math.max(w, h));
-      var tw = Math.round(w * scale);
-      var th = Math.round(h * scale);
+      // Helper: if anything in the canvas/encode pipeline fails,
+      // pass the original file through provided it's an acceptable
+      // type & size. Better to upload an un-compressed photo than
+      // to fail the whole post.
+      function rawFallback() {
+        if (file.size <= MAX_IMAGE_BYTES &&
+            /^image\/(jpe?g|png|webp)$/i.test(file.type || '')) {
+          return file;
+        }
+        var e = new Error('encode_failed');
+        e.code = 'encode_failed';
+        return Promise.reject(e);
+      }
 
-      var canvas = document.createElement('canvas');
-      canvas.width = tw; canvas.height = th;
-      var ctx = canvas.getContext('2d');
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(bmp, 0, 0, tw, th);
-      if (bmp.close) try { bmp.close(); } catch (_) {}
+      try {
+        var w = bmp.width  || bmp.naturalWidth;
+        var h = bmp.height || bmp.naturalHeight;
+        if (!w || !h) return rawFallback();
+        var scale = Math.min(1, maxSide / Math.max(w, h));
+        var tw = Math.round(w * scale);
+        var th = Math.round(h * scale);
 
-      var outType = webpOk ? 'image/webp' : 'image/jpeg';
-      var outExt  = webpOk ? 'webp'        : 'jpg';
+        var canvas = document.createElement('canvas');
+        canvas.width = tw; canvas.height = th;
+        var ctx = canvas.getContext('2d');
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(bmp, 0, 0, tw, th);
+        if (bmp.close) try { bmp.close(); } catch (_) {}
 
-      return new Promise(function (resolve, reject) {
-        canvas.toBlob(function (blob) {
-          if (!blob) { reject(new Error('encode_failed')); return; }
-          // If compression somehow made the file BIGGER (small
-          // already-optimized photos, screenshots), keep the
-          // original — common pitfall of naive compression.
-          if (blob.size >= file.size && /^image\//.test(file.type)) {
-            resolve(file);
-            return;
-          }
-          var base = (file.name || 'image').replace(/\.[^.]+$/, '');
-          resolve(new File([blob], base + '.' + outExt, { type: outType }));
-        }, outType, quality);
-      });
+        var outType = webpOk ? 'image/webp' : 'image/jpeg';
+        var outExt  = webpOk ? 'webp'        : 'jpg';
+
+        return new Promise(function (resolve) {
+          var settled = false;
+          // iOS Safari can hang or return null on giant photos.
+          // 8-second watchdog → raw fallback.
+          var watchdog = setTimeout(function () {
+            if (settled) return;
+            settled = true;
+            resolve(rawFallback());
+          }, 8000);
+          canvas.toBlob(function (blob) {
+            if (settled) return;
+            settled = true;
+            clearTimeout(watchdog);
+            if (!blob) { resolve(rawFallback()); return; }
+            // If compression somehow made the file BIGGER (small
+            // already-optimized photos, screenshots), keep original.
+            if (blob.size >= file.size && /^image\//.test(file.type)) {
+              resolve(file);
+              return;
+            }
+            var base = (file.name || 'image').replace(/\.[^.]+$/, '');
+            resolve(new File([blob], base + '.' + outExt, { type: outType }));
+          }, outType, quality);
+        });
+      } catch (e) {
+        return rawFallback();
+      }
     });
   }
 
