@@ -2537,8 +2537,8 @@
 
     'idx.c3.num':          { en: '03 — together',         ru: '03 — вместе' },
     'idx.c3.title':        { en: 'a quiet community',     ru: 'тихое сообщество' },
-    'idx.c3.desc':         { en: '1,000+ people already showed up here, in their own languages, at their own pace.',
-                             ru: '1 000+ людей уже пришли сюда, на своих языках, в своём ритме.' },
+    'idx.c3.desc':         { en: 'a quiet new place — you could be one of the first to show up here, in your own language, at your own pace.',
+                             ru: 'тихое новое место — ты можешь стать одним из первых, кто придёт сюда, на своём языке, в своём ритме.' },
 
     'idx.c4.num':          { en: '04 — trust',            ru: '04 — доверие' },
     'idx.c4.title':        { en: 'moderated, with care',  ru: 'модерация с заботой' },
