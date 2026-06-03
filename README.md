@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🌙 StillHere
+<img src="StillHere/assets/favicon/web-app-manifest-192x192.png" alt="StillHere" width="120" height="120" />
+
+# StillHere
 
 **presence, not solutions**
 
@@ -23,7 +25,7 @@ It is not a clinic, not a forum, not a social network. There are no likes, no fo
 A few things it deliberately is **not**, and we say so out loud everywhere on the site:
 
 - not a replacement for a therapist – it doesn't diagnose or prescribe;
-- not a crisis line – if you're in danger right now, please call real professionals (there's a one-tap [crisis resources](docs/html/crisis-resources.html) page from every screen);
+- not a crisis line – if you're in danger right now, please call real professionals (there's a one-tap [crisis resources](StillHere/docs/html/crisis-resources.html) page from every screen);
 - not a debate forum – the "well, actually" crowd gets removed;
 - not a place to sell anything.
 
@@ -43,7 +45,7 @@ A few things it deliberately is **not**, and we say so out loud everywhere on th
 
 **See the honest numbers.** The statistics page (`/statistics`) shows aggregate totals – people here today, stories shared, languages in use, topics carried – and *only* aggregates. Nothing personal, nothing that traces back to you.
 
-There's also a small [therapists directory](therapists.html) for when presence isn't enough and you want a real professional, and a set of documents written in the same plain voice: [community guidelines](docs/html/guidelines.html), [privacy policy](docs/html/privacy-policy.html), [terms](docs/html/terms-of-service.html).
+There's also a small [therapists directory](StillHere/therapists.html) for when presence isn't enough and you want a real professional, and a set of documents written in the same plain voice: [community guidelines](StillHere/docs/html/guidelines.html), [privacy policy](StillHere/docs/html/privacy-policy.html), [terms](StillHere/docs/html/terms-of-service.html).
 
 ---
 
@@ -55,7 +57,7 @@ Accounts don't use real email. When you register, StillHere creates a throwaway 
 
 You can download everything we hold about you at any time. The "export my data" button (GDPR Article 15 / 20) assembles a full machine-readable bundle straight from the database using your own session – row-level security already limits every query to *your* rows, so it needs no special server endpoint and can't leak anyone else's data.
 
-The visitor counter is deliberately blind. The table behind the "X here now / Y total" widget stores **only a timestamp per visit** – no IP, no user-id, no fingerprint, no path, no user agent. You literally cannot reconstruct who did what from it. Site analytics (Vercel) are cookieless. And [`robots.txt`](robots.txt) opts the whole site *out* of LLM training crawlers – this place is about human voices, not feedstock.
+The visitor counter is deliberately blind. The table behind the "X here now / Y total" widget stores **only a timestamp per visit** – no IP, no user-id, no fingerprint, no path, no user agent. You literally cannot reconstruct who did what from it. Site analytics (Vercel) are cookieless. And [`robots.txt`](StillHere/robots.txt) opts the whole site *out* of LLM training crawlers – this place is about human voices, not feedstock.
 
 We don't sell your story, profile you, or train models on what you write.
 
@@ -65,7 +67,7 @@ We don't sell your story, profile you, or train models on what you write.
 
 Two systems run quietly in the background so the place stays gentle.
 
-**Crisis detection.** When someone writes something that sounds like acute danger, StillHere doesn't block them. It pauses for a second, in the site's own soft voice, and puts a real hotline one tap away. A cheap keyword check runs first in the browser ([`JS/crisis.js`](JS/crisis.js) – a tiered, Unicode-aware lexicon that handles Cyrillic word-stems, not just English); if that's unsure but the text feels heavy, it asks a small language model to judge intent ([`crisis-check`](supabase/functions/crisis-check/index.ts)). This runs on posts, comments, letters and chat messages alike.
+**Crisis detection.** When someone writes something that sounds like acute danger, StillHere doesn't block them. It pauses for a second, in the site's own soft voice, and puts a real hotline one tap away. A cheap keyword check runs first in the browser ([`JS/crisis.js`](StillHere/JS/crisis.js) – a tiered, Unicode-aware lexicon that handles Cyrillic word-stems, not just English); if that's unsure but the text feels heavy, it asks a small language model to judge intent ([`crisis-check`](StillHere/supabase/functions/crisis-check/index.ts)). This runs on posts, comments, letters and chat messages alike.
 
 **Moderation that leaves humans for last.** In a community this fragile, you'd rather a real person catch the edge cases than have a model delete everything. So content escalates *itself* based on accumulated **report weight**, and a human only gets pulled in at the threshold:
 
@@ -82,9 +84,9 @@ a report comes in → weighed by who's reporting
    admin queue (/admin):  keep · shadow · remove   – every action is logged
 ```
 
-The weighting is what defeats brigading: five brand-new accounts only reach weight 5 (shadow), while five established users reach 10 (hidden). Authors always see their own content so they never think the site is silently broken, and shadowed users aren't told they've been downranked, so they don't just spin up new accounts. Admins can also temporarily block an abusive author by user-id, by anonymous device fingerprint, and by IP. The real security gate is `is_admin()` checked inside every database function – opening `/admin.html` directly changes nothing if you aren't one. The full design is written up in [`supabase/MODERATION_SYSTEM.md`](supabase/MODERATION_SYSTEM.md).
+The weighting is what defeats brigading: five brand-new accounts only reach weight 5 (shadow), while five established users reach 10 (hidden). Authors always see their own content so they never think the site is silently broken, and shadowed users aren't told they've been downranked, so they don't just spin up new accounts. Admins can also temporarily block an abusive author by user-id, by anonymous device fingerprint, and by IP. The real security gate is `is_admin()` checked inside every database function – opening `/admin.html` directly changes nothing if you aren't one. The full design is written up in [`supabase/MODERATION_SYSTEM.md`](StillHere/supabase/MODERATION_SYSTEM.md).
 
-Registration is also protected by Cloudflare Turnstile (configurable / optional, see [`JS/supabase-config.js`](JS/supabase-config.js)).
+Registration is also protected by Cloudflare Turnstile (configurable / optional, see [`JS/supabase-config.js`](StillHere/JS/supabase-config.js)).
 
 ---
 
@@ -102,18 +104,18 @@ It installs as an app (PWA) on phones and desktop, has its own mobile layout, an
 
 ## under the hood
 
-The front end is plain HTML, CSS and JavaScript – no framework, and that's a choice, not a shortcut. It keeps the site fast, keeps it alive for years without dependency churn, and means one person can hold the entire thing in their head. The only front-end libraries are [Quill](https://quilljs.com/) for the rich editor and [DOMPurify](https://github.com/cure53/DOMPurify) for safe rendering of anything user-written. Internationalisation is a small home-grown library ([`JS/i18n.js`](JS/i18n.js)) with browser-language auto-detect; the interface ships in **English and Russian**, with **Ukrainian** in beta and more scaffolded, while post *content* can be written in 30-plus languages.
+The front end is plain HTML, CSS and JavaScript – no framework, and that's a choice, not a shortcut. It keeps the site fast, keeps it alive for years without dependency churn, and means one person can hold the entire thing in their head. The only front-end libraries are [Quill](https://quilljs.com/) for the rich editor and [DOMPurify](https://github.com/cure53/DOMPurify) for safe rendering of anything user-written. Internationalisation is a small home-grown library ([`JS/i18n.js`](StillHere/JS/i18n.js)) with browser-language auto-detect; the interface ships in **English and Russian**, with **Ukrainian** in beta and more scaffolded, while post *content* can be written in 30-plus languages.
 
 The back end is [Supabase](https://supabase.com): Postgres with row-level security on everything, email/password auth (over those throwaway addresses), and Supabase Realtime so new posts, comments and notifications appear live. Notifications themselves are a Postgres trigger that fires on new comments and writes a row for the post author or parent-comment author; the browser subscribes and shows a small corner toast. The server-side logic lives in Deno edge functions:
 
 | function | what it does |
 |---|---|
-| [`ai-chat`](supabase/functions/ai-chat/index.ts) | proxies the companion to OpenRouter. Verifies the user, rate-limits per account *and* per hashed IP, caps payload size, and fails closed – so nobody can run up the model bill. |
-| [`crisis-check`](supabase/functions/crisis-check/index.ts) | the second-pass crisis judgement, with its own separate rate-limit budget so it never competes with the chat. |
-| [`strict-review`](supabase/functions/strict-review/index.ts) | the stricter AI re-check that fires once a piece of content crosses the report threshold. |
-| [`recover-password`](supabase/functions/recover-password/index.ts) | the email-free, recovery-key reset flow. |
+| [`ai-chat`](StillHere/supabase/functions/ai-chat/index.ts) | proxies the companion to OpenRouter. Verifies the user, rate-limits per account *and* per hashed IP, caps payload size, and fails closed – so nobody can run up the model bill. |
+| [`crisis-check`](StillHere/supabase/functions/crisis-check/index.ts) | the second-pass crisis judgement, with its own separate rate-limit budget so it never competes with the chat. |
+| [`strict-review`](StillHere/supabase/functions/strict-review/index.ts) | the stricter AI re-check that fires once a piece of content crosses the report threshold. |
+| [`recover-password`](StillHere/supabase/functions/recover-password/index.ts) | the email-free, recovery-key reset flow. |
 
-Images are compressed to WebP **in the browser** before they ever leave it ([`JS/media-compress.js`](JS/media-compress.js)), then uploaded straight to [Cloudflare R2](https://developers.cloudflare.com/r2/) through short-lived presigned URLs. The AI features (moderation and companion) route through [OpenRouter](https://openrouter.ai/). Hosting is Vercel, with clean URLs and cookieless analytics.
+Images are compressed to WebP **in the browser** before they ever leave it ([`JS/media-compress.js`](StillHere/JS/media-compress.js)), then uploaded straight to [Cloudflare R2](https://developers.cloudflare.com/r2/) through short-lived presigned URLs. The AI features (moderation and companion) route through [OpenRouter](https://openrouter.ai/). Hosting is Vercel, with clean URLs and cookieless analytics.
 
 ```
 StillHere/
@@ -147,7 +149,7 @@ npx serve .
 python -m http.server 8000
 ```
 
-Point [`JS/supabase-config.js`](JS/supabase-config.js) at your own Supabase project – the key in there is the public publishable key and is safe to ship, because row-level security does the real protecting. For the full back end:
+Point [`JS/supabase-config.js`](StillHere/JS/supabase-config.js) at your own Supabase project – the key in there is the public publishable key and is safe to ship, because row-level security does the real protecting. For the full back end:
 
 ```bash
 supabase db push                              # apply everything in migrations/
@@ -165,13 +167,13 @@ There's no automated test runner wired up yet – honestly noted as the biggest 
 ## digging deeper
 
 - **[`ARCHITECTURE.md`](ARCHITECTURE.md)** – the system diagram, the request flows, the *why* behind the hard decisions (email-free auth, human-last moderation, keeping an open AI endpoint from becoming a bill bomb), and an honest list of known limitations.
-- **[`supabase/MODERATION_SYSTEM.md`](supabase/MODERATION_SYSTEM.md)** – the full moderation design.
+- **[`supabase/MODERATION_SYSTEM.md`](StillHere/supabase/MODERATION_SYSTEM.md)** – the full moderation design.
 
 ---
 
 ## license
 
-Released under the [MIT License](LICENSE) – use it, learn from it, build on it. If StillHere or anything in here is useful to you, that's the whole point.
+Released under the [MIT License](StillHere/LICENSE) – use it, learn from it, build on it. If StillHere or anything in here is useful to you, that's the whole point.
 
 ---
 
