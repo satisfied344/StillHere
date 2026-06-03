@@ -86,7 +86,7 @@
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/motion.css?v=2">
   <link rel="stylesheet" href="CSS/dark-theme.css">
-  <link rel="stylesheet" href="CSS/mobile.css?v=1779486300">
+  <link rel="stylesheet" href="CSS/mobile.css?v=1779502000">
   <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="https://cdn.quilljs.com/1.3.7/quill.min.js" defer></script>
@@ -101,7 +101,7 @@
   <script src="JS/crisis.js?v=6" defer></script>
   <script src="JS/theme.js" defer></script>
   <script src="JS/media-compress.js?v=3" defer></script>
-  <script src="JS/create-post.js?v=7" defer></script>
+  <script src="JS/create-post.js?v=8" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -559,12 +559,12 @@
       transform: scale(1.3);
     }
     .chip-anxiety     { --chip-color: #d6533c; }
-    .chip-depression  { --chip-color: #6d8268; }
-    .chip-relations   { --chip-color: #c8945d; }
-    .chip-grief       { --chip-color: #8a7197; }
+    .chip-depression  { --chip-color: #4a5b46; }
+    .chip-relations   { --chip-color: #8c5d2a; }
+    .chip-grief       { --chip-color: #6a5180; }
     .chip-burnout     { --chip-color: #b85c3a; }
-    .chip-loneliness  { --chip-color: #6b8baf; }
-    .chip-trauma      { --chip-color: #a55a5a; }
+    .chip-loneliness  { --chip-color: #45688a; }
+    .chip-trauma      { --chip-color: #864242; }
     .chip-other       { --chip-color: var(--ink-light); }
 
     /* ── MODE CARDS ───────────────────────────────────── */
@@ -592,9 +592,9 @@
       box-shadow: 0 4px 12px -4px rgba(26, 20, 16, 0.12);
     }
     .cp-mode-input:checked + .cp-mode-card {
-      border-color: var(--accent-2);
-      background: linear-gradient(135deg, rgba(214,83,60,0.12), rgba(214,83,60,0.04));
-      box-shadow: 0 6px 18px -6px rgba(214,83,60,0.28);
+      border-color: #d6a273;
+      background: linear-gradient(135deg, rgba(214,162,115,0.14), rgba(214,162,115,0.05));
+      box-shadow: 0 6px 18px -6px rgba(214,162,115,0.35);
     }
     .cp-mode-icon {
       width: 38px; height: 38px;
@@ -608,8 +608,8 @@
       transition: background 0.25s ease, color 0.25s ease;
     }
     .cp-mode-input:checked + .cp-mode-card .cp-mode-icon {
-      background: rgba(214,83,60,0.16);
-      color: var(--accent-2);
+      background: rgba(214,162,115,0.20);
+      color: #9a6a33;
     }
     .cp-mode-text { min-width: 0; flex: 1; }
     .cp-mode-text strong {
@@ -635,8 +635,8 @@
       transition: border-color 0.25s ease, background 0.25s ease;
     }
     .cp-mode-input:checked + .cp-mode-card .cp-mode-dot {
-      border-color: var(--accent-2);
-      background: radial-gradient(circle at center, var(--accent-2) 0%, var(--accent-2) 40%, transparent 45%);
+      border-color: #d6a273;
+      background: radial-gradient(circle at center, #d6a273 0%, #d6a273 40%, transparent 45%);
     }
 
     /* ── SUBMIT ROW ───────────────────────────────────── */
@@ -1697,6 +1697,11 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         if (new URLSearchParams(window.location.search).get('edit')) return;
       } catch (_) {}
+
+      /* Set to true by __shClearPostDraft (called on successful publish).
+         Prevents the pagehide / visibilitychange listeners from re-saving the
+         form contents and undoing the clear before navigation completes. */
+      var noMoreSaves = false;
       /* Per-user draft key — without the suffix, two accounts on the
          same browser see each other's drafts (bug 2026-05). The user
          id is read once at startup from window.SH_SESSION (populated
@@ -1750,6 +1755,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       function save() {
+        if (noMoreSaves) return;
         var s = snapshot(); if (!s) return;
         try {
           if (isBlank(s)) localStorage.removeItem(KEY());
@@ -1954,6 +1960,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Public hook for create-post.js to call after a successful publish
       window.__shClearPostDraft = function () {
+        // Block pagehide/visibilitychange from re-saving the form before
+        // navigation completes — that was restoring the just-submitted draft.
+        noMoreSaves = true;
         try { localStorage.removeItem(KEY()); } catch (_) {}
         updateDeleteBtn();
       };

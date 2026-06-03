@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/motion.css?v=2">
   <link rel="stylesheet" href="CSS/dark-theme.css">
-  <link rel="stylesheet" href="CSS/mobile.css?v=1779486300">
+  <link rel="stylesheet" href="CSS/mobile.css?v=1779502000">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
@@ -49,6 +49,27 @@
        owner-profile page so the visual language stays cohesive.
        ══════════════════════════════════════════════════════ */
     body { overflow-x: hidden; }
+
+    .pf-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--ink-light);
+      margin-bottom: 22px;
+      letter-spacing: 0.02em;
+      padding: 6px 10px 6px 4px;
+      border-radius: 999px;
+      transition: color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-decoration: none;
+    }
+    .pf-back-link:hover {
+      color: var(--accent-2);
+      transform: translateX(-3px);
+      background: rgba(214, 83, 60, 0.06);
+    }
+    .pf-back-link svg { transition: transform 0.3s ease; }
+    .pf-back-link:hover svg { transform: translateX(-2px); }
 
     .pf-page {
       max-width: 1080px;
@@ -391,6 +412,13 @@
   <!-- ════════════════════ PAGE ════════════════════ -->
   <main class="pf-page">
 
+    <a href="main" class="pf-back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>
+      </svg>
+      <span data-i18n="post.back">back to feed</span>
+    </a>
+
     <!-- ─── HERO ─── -->
     <section class="pf-hero">
       <div class="pf-hero-left">
@@ -462,8 +490,11 @@
 
   </main>
 
+  <!-- Toast (shared vocabulary with main feed — uses .toast from main-screen.css) -->
+  <div id="uPageToast" class="toast" aria-live="polite"></div>
+
   <script src="JS/nav-menu.js?v=1" defer></script>
-  <script src="JS/u-page.js?v=9" defer></script>
+  <script src="JS/u-page.js?v=10" defer></script>
   <script src="JS/burger-extras.js?v=5" defer></script>
 </body>
 </html>

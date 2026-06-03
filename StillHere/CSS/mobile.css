@@ -125,6 +125,9 @@
   html, body {
     overflow-x: hidden !important;
     max-width: 100vw !important;
+    /* Prevent double-tap zoom on touch devices while preserving
+       pinch-to-zoom (which user-scalable=no would kill). */
+    touch-action: manipulation;
   }
   body { font-size: 15px; }
   img, svg, video { max-width: 100%; height: auto; }
@@ -1229,7 +1232,13 @@
   .filter-panel {
     margin-bottom: 14px !important;
     padding: 0 !important;
+    /* Replace the sluggish 0.4s max-height animation (animates the full
+       0→800px range causing a layout recalculation on every frame) with a
+       snappy 0.18s ease. Mobile CPUs feel the difference immediately. */
+    transition: max-height 0.18s ease, margin-bottom 0.15s ease !important;
   }
+  /* Tighten the max-height cap so the easing range is smaller. */
+  .filter-panel.is-open { max-height: 560px !important; }
   .filter-panel.is-open .filters-container,
   .filter-panel .filters-container {
     padding: 20px 18px !important;
@@ -1615,8 +1624,21 @@
     padding: 84px 14px 30px !important;
   }
   .post-detail-card { padding: 18px !important; }
-  .comments-section { padding: 14px !important; }
-  .comment-card, .reply-card { padding: 12px !important; }
+  /* Reduce post-card padding so the card bottom border stays far from
+     the footer dashed separator (prevents "2 lines" perception). */
+  .post-card { padding: 18px 16px 14px !important; }
+  /* Remove the dashed border from post-footer on mobile — the card's own
+     border already visually separates it from the compose section below.
+     Keeping both borders created the "2 lines" the user reported. */
+  .post-footer { margin-top: 16px !important; padding-top: 0 !important; border-top: none !important; }
+  /* Ensure comment section has visible horizontal breathing room */
+  .comments-section { padding: 0 14px 14px !important; }
+  /* Preserve the requested 16px/20px padding on mobile too */
+  .comment-card, .reply-card { padding: 16px 20px !important; }
+  /* Reduce the oversized gap between comment text and Reply button */
+  .comment-actions { margin-top: 4px !important; }
+  /* Each comment item should have a small vertical gap */
+  .comment-list { gap: 10px !important; padding: 0 !important; }
 
   /* ══════════════════════════════════════════════════
      ABOUT (nav-bar/about.html)

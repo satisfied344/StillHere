@@ -108,7 +108,13 @@
     return;
   }
 
-  var db = window.supabase.createClient(sbUrl, sbKey);
+  // Reuse the shared client to avoid "Multiple GoTrueClient instances" warning.
+  // moderation.js creates window.__shSharedSupabase on first load; fall back to
+  // window._sbClient (set by session.js / u-page.js), then create once and store.
+  if (!window._sbClient) {
+    window._sbClient = window.supabase.createClient(sbUrl, sbKey);
+  }
+  var db = window._sbClient;
 
   /* ── current user + post author ─────────────────────────────
      Populated when the post is fetched. Used to:
@@ -682,6 +688,8 @@
     var displayName = c.profiles
       ? (c.profiles.display_name || c.profiles.username || 'Anonymous')
       : 'Anonymous';
+    var commenterUsername = c.profiles ? (c.profiles.username || null) : null;
+    var commenterAvatar   = c.profiles ? (c.profiles.avatar_url || null) : null;
 
     var li  = document.createElement('li');
     li.className = 'comment-item' + (isReply ? ' comment-item--reply' : '');
@@ -695,14 +703,29 @@
     }
     menuItems += '<li role="none"><button type="button" class="menu-item-report" data-comment-report="' + cid + '">' + REPORT_SVG + 'Report</button></li>';
 
+    /* Render author name as a clickable link when a username is known. */
+    var authorOpen  = commenterUsername
+      ? '<a class="comment-author comment-author-link" href="u?u=' + encodeURIComponent(commenterUsername) + '">'
+      : '<span class="comment-author">';
+    var authorClose = commenterUsername ? '</a>' : '</span>';
+
+    /* Build avatar tile — show profile picture when available, else anon SVG.
+       Wrap in <a> to make it clickable (same pattern as main feed cards). */
+    var avatarInner = commenterAvatar
+      ? '<img src="' + escAttr(commenterAvatar) + '" alt="" class="comment-avatar-img" loading="lazy" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
+      : AVATAR_SVG;
+    var avatarHtml = commenterUsername
+      ? '<a class="comment-avatar comment-avatar-link' + (commenterAvatar ? '' : ' comment-avatar--anon') + '" href="u?u=' + encodeURIComponent(commenterUsername) + '" aria-label="' + escAttr(displayName) + '\'s profile">' + avatarInner + '</a>'
+      : '<div class="comment-avatar comment-avatar--anon" aria-hidden="true">' + avatarInner + '</div>';
+
     li.innerHTML =
       '<article class="comment-card' + (isReply ? ' comment-card--reply' : '') + (isAuthor ? ' comment-card--author' : '') + '">' +
         '<header class="comment-header">' +
-          '<div class="comment-avatar comment-avatar--anon" aria-hidden="true">' + AVATAR_SVG + '</div>' +
+          avatarHtml +
           '<div class="comment-meta">' +
-            '<span class="comment-author">' + escAttr(displayName) +
+            authorOpen + escAttr(displayName) +
               (isAuthor ? ' <span class="comment-author-badge" title="Original poster">Author</span>' : '') +
-            '</span>' +
+            authorClose +
             '<span class="comment-time">' + timeAgo(c.created_at) + '</span>' +
           '</div>' +
           '<div class="post-actions-menu">' +
@@ -1247,6 +1270,70 @@
         renderComments(rows);
       });
   }
+
+  /* ── realtime: subscribe to new comments on this post ──────── */
+  (function subscribeComments() {
+    if (!db || typeof db.channel !== 'function' || !postId) return;
+
+    // Pass JWT to realtime so RLS-aware broadcasts reach this client
+    // (same pattern as setupRealtimeFeed in main-page.js).
+    db.auth.getSession().then(function (s) {
+      var jwt = s && s.data && s.data.session && s.data.session.access_token;
+      if (jwt && db.realtime && typeof db.realtime.setAuth === 'function') {
+        try { db.realtime.setAuth(jwt); } catch (_) {}
+      }
+    });
+
+    var ch = db.channel('post-comments:' + postId);
+    ch.on('postgres_changes', {
+      event: 'INSERT', schema: 'public', table: 'comments',
+      filter: 'post_id=eq.' + postId,
+    }, function (payload) {
+      var c = payload && payload.new;
+      if (!c || !c.id) return;
+      // Skip own comment — it was already optimistically added.
+      if (_currentUserId && c.user_id === _currentUserId) return;
+      // Skip if already rendered.
+      if (document.getElementById('comment-' + c.id)) return;
+
+      // Fetch the profile for the new comment then render it.
+      var resolve = function (profile) {
+        c.profiles = profile || null;
+        var commentList = document.getElementById('comment-list');
+        if (!commentList) return;
+        // Remove the "No replies yet" empty state if it's still showing.
+        var emptyEl = commentList.querySelector('.comment-empty');
+        if (emptyEl) emptyEl.remove();
+        var isReply = !!(c.parent_id);
+        var li = buildCommentLi(c, isReply);
+        if (isReply) {
+          var parentLi = document.getElementById('comment-' + c.parent_id);
+          if (parentLi) {
+            var nested = parentLi.querySelector('.nested-replies');
+            if (nested) nested.appendChild(li);
+            else commentList.appendChild(li);
+          } else {
+            commentList.appendChild(li);
+          }
+        } else {
+          commentList.appendChild(li);
+        }
+        // Update count.
+        var countEl = document.getElementById('comments-count');
+        if (countEl) countEl.textContent = String((parseInt(countEl.textContent, 10) || 0) + 1);
+      };
+
+      if (c.user_id) {
+        db.from('profiles').select('id, username, display_name, avatar_url')
+          .eq('id', c.user_id).maybeSingle()
+          .then(function (r) { resolve(r.data || null); });
+      } else {
+        resolve(null);
+      }
+    }).subscribe(function (status, err) {
+      if (err) console.warn('[post-realtime] comment subscribe error:', err);
+    });
+  })();
 
   /* ── submit top-level comment ── */
 

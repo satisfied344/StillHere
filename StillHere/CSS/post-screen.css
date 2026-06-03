@@ -726,7 +726,7 @@ a.post-avatar-link:hover {
   background: var(--paper-soft);
   border: 1px solid var(--line-soft);
   border-radius: 6px;
-  padding: 16px 20px 14px;
+  padding: 16px 20px;
   animation: commentSlideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
 }
@@ -760,6 +760,18 @@ a.post-avatar-link:hover {
   background: rgba(26, 20, 16, 0.08);
   color: var(--ink-mid);
 }
+/* Clickable avatar link — same hover vocabulary as a.post-avatar-link
+   on the main feed: coral border ring + subtle lift, no scale. */
+a.comment-avatar-link {
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+a.comment-avatar-link:hover {
+  border-color: var(--accent-2);
+  transform: translateY(-1px);
+}
 
 .comment-meta {
   display: flex;
@@ -772,10 +784,28 @@ a.post-avatar-link:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink);
 }
+/* When the commenter has a profile, the name renders as <a>.
+   Override display to inline so border-bottom only spans the text width,
+   not the full flex container width. */
+a.comment-author-link {
+  /* Flex items ignore display:inline — use align-self+width to prevent
+     the element stretching full container width (which made the
+     underline span the whole comment row). */
+  align-self: flex-start;
+  width: fit-content;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+a.comment-author-link:hover {
+  color: var(--accent-2);
+  border-bottom-color: rgba(214, 83, 60, 0.45);
+}
+
 .comment-author-badge {
   display: inline-flex;
   align-items: center;
@@ -789,13 +819,13 @@ a.post-avatar-link:hover {
   text-transform: uppercase;
 }
 .comment-time {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--ink-light);
   letter-spacing: 0.02em;
 }
 
 .comment-body {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--ink-soft);
   word-wrap: break-word;
@@ -1423,5 +1453,42 @@ a.post-avatar-link:hover {
   .comment-card:hover { transform: none; }
   .heart-btn.is-pulsing .heart-icon--filled,
   .heart-btn.is-pulsing .heart-icon--outline { animation: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Topic & mode tag colours — post.html does not load main-screen.css,
+   so these rules (identical to main-screen.css) live here too.
+   They style the tags in the post header, the sidebar widget,
+   and any inline references throughout the post page.
+   ══════════════════════════════════════════════════════════════════ */
+.tag.tag-topic-anxiety       { background: rgba(214,  83,  60, 0.18) !important; color: #d6533c !important; border-color: rgba(214,  83,  60, 0.36) !important; }
+.tag.tag-topic-depression    { background: rgba(109, 130, 104, 0.22) !important; color: #4a5b46 !important; border-color: rgba(109, 130, 104, 0.40) !important; }
+.tag.tag-topic-relationships { background: rgba(200, 148,  93, 0.22) !important; color: #8c5d2a !important; border-color: rgba(200, 148,  93, 0.40) !important; }
+.tag.tag-topic-grief         { background: rgba(138, 113, 151, 0.22) !important; color: #6a5180 !important; border-color: rgba(138, 113, 151, 0.40) !important; }
+.tag.tag-topic-burnout       { background: rgba(184,  92,  58, 0.20) !important; color: #b85c3a !important; border-color: rgba(184,  92,  58, 0.38) !important; }
+.tag.tag-topic-loneliness    { background: rgba(107, 139, 175, 0.22) !important; color: #45688a !important; border-color: rgba(107, 139, 175, 0.40) !important; }
+.tag.tag-topic-trauma        { background: rgba(165,  90,  90, 0.20) !important; color: #864242 !important; border-color: rgba(165,  90,  90, 0.38) !important; }
+.tag.tag-topic-other         { background: rgba(132, 117, 105, 0.18) !important; color: #6e5f53 !important; border-color: rgba(132, 117, 105, 0.34) !important; }
+
+html[data-theme="dark"] .tag.tag-topic-anxiety       { color: #ff8a72 !important; }
+html[data-theme="dark"] .tag.tag-topic-depression    { color: #a3bd9a !important; }
+html[data-theme="dark"] .tag.tag-topic-relationships { color: #e0b27a !important; }
+html[data-theme="dark"] .tag.tag-topic-grief         { color: #c0a8d4 !important; }
+html[data-theme="dark"] .tag.tag-topic-burnout       { color: #f49d72 !important; }
+html[data-theme="dark"] .tag.tag-topic-loneliness    { color: #95b3c5 !important; }
+html[data-theme="dark"] .tag.tag-topic-trauma        { color: #d99393 !important; }
+html[data-theme="dark"] .tag.tag-topic-other         { color: #c0afa0 !important; }
+
+.tag.tag-need-support,
+.tag.tag-no-advice {
+  background: rgba(214, 162, 115, 0.18) !important;
+  color: #9a6a33 !important;
+  border-color: rgba(214, 162, 115, 0.40) !important;
+}
+html[data-theme="dark"] .tag.tag-need-support,
+html[data-theme="dark"] .tag.tag-no-advice {
+  background: rgba(214, 162, 115, 0.18) !important;
+  color: #e0b27a !important;
+  border-color: rgba(214, 162, 115, 0.40) !important;
 }
 

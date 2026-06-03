@@ -72,7 +72,10 @@
       var sbKey = window.SH_SUPABASE_KEY;
       if (!sbUrl || !window.supabase) { alert(t('cp.err.sbcfg', 'Supabase not configured.')); return; }
 
-      var db = window.supabase.createClient(sbUrl, sbKey);
+      // Reuse the shared client (already has auth session) so r2-presign
+      // receives a valid JWT. Creating a fresh client here caused "Load failed"
+      // because the new instance hadn't restored the session from localStorage yet.
+      var db = window.__shSharedSupabase || window.supabase.createClient(sbUrl, sbKey);
 
       // Show a brief "uploading…" tooltip
       var range = quill.getSelection(true);
@@ -463,12 +466,18 @@
             // We upsert here so the join always finds the author's name.
             var profileStep = userId ? (function () {
               var shUser = window.SH_SESSION && window.SH_SESSION.user;
-              var uname  = (shUser && shUser.username)    || ('user_' + userId.slice(0, 8));
+              var uname  = (shUser && shUser.username) || null;
               var dname  = (shUser && shUser.displayName) || null;
               var aurl   = (shUser && shUser.avatarUrl)   || null;
+              // Never upsert without a real username — that would overwrite
+              // the profile with a synthetic "user_xxxxxxxx" fallback if the
+              // session hasn't loaded yet (race condition across tabs/SW).
+              // ignoreDuplicates:true = INSERT … ON CONFLICT DO NOTHING,
+              // so existing profiles are NEVER touched.
+              if (!uname) return Promise.resolve({ error: null });
               return db.from('profiles').upsert(
                 { id: userId, username: uname, display_name: dname, avatar_url: aurl },
-                { onConflict: 'id' }
+                { onConflict: 'id', ignoreDuplicates: true }
               );
             })() : Promise.resolve({ error: null });
 

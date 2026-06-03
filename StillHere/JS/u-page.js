@@ -8,6 +8,66 @@
 (function () {
   'use strict';
 
+  /* ── Liked posts (shared with main feed via same localStorage key) ── */
+  var _uLiked = (function () {
+    try { return new Set(JSON.parse(localStorage.getItem('sh_liked_posts') || '[]')); }
+    catch (_) { return new Set(); }
+  })();
+  function _uSaveLiked() {
+    try { localStorage.setItem('sh_liked_posts', JSON.stringify([..._uLiked])); } catch (_) {}
+  }
+
+  function _uToast(msg) {
+    var t = document.getElementById('uPageToast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('is-visible');
+    clearTimeout(_uToast._timer);
+    _uToast._timer = setTimeout(function () { t.classList.remove('is-visible'); }, 2800);
+  }
+
+  /* ── Action handler: support (heart) and share ── */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    var postId = btn.getAttribute('data-post-id');
+    if (!action || !postId) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (action === 'support') {
+      var active = btn.classList.toggle('post-actions-item--active');
+      var titleEl = btn.querySelector('.action-title');
+      if (titleEl && window.SH_I18N) {
+        titleEl.textContent = active
+          ? window.SH_I18N.t('main.post.support.active')
+          : window.SH_I18N.t('main.post.support');
+      }
+      if (active) _uLiked.add(postId); else _uLiked.delete(postId);
+      _uSaveLiked();
+      _uToast(window.SH_I18N
+        ? window.SH_I18N.t(active ? 'main.toast.presence' : 'main.toast.presence.off')
+        : (active ? 'they know someone is here.' : 'okay — quietly stepping back.'));
+      /* Persist to DB */
+      if (window._sbClient) {
+        var fn = active ? 'increment_support' : 'decrement_support';
+        window._sbClient.rpc(fn, { post_id: postId }).then(function (r) {
+          if (r && r.error) console.warn('[u-support-rpc]', fn, r.error.message);
+        });
+      }
+    }
+
+    if (action === 'share') {
+      var url = window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'post?id=' + postId;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () {
+          _uToast(window.SH_I18N ? window.SH_I18N.t('main.toast.linkcopied') : 'Link copied');
+        });
+      }
+    }
+  });
+
   document.addEventListener('DOMContentLoaded', init);
 
   function init() {
@@ -256,14 +316,14 @@
         '</div>' +
 
         '<div class="post-actions">' +
-          /* "I'm here" — no count, label-only (same as feed default) */
-          '<a class="post-actions-item" href="post?id=' + id + '">' +
+          /* "I'm here" — button, in-place support (no navigation) */
+          '<button type="button" class="post-actions-item' + (_uLiked.has(id) ? ' post-actions-item--active' : '') + '" data-action="support" data-post-id="' + id + '">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/>' +
             '</svg>' +
-            '<span class="action-title">' + i18nLabel('main.post.support', "I'm here") + '</span>' +
-          '</a>' +
-          /* Responses — count + label */
+            '<span class="action-title">' + i18nLabel(_uLiked.has(id) ? 'main.post.support.active' : 'main.post.support', "I'm here") + '</span>' +
+          '</button>' +
+          /* Responses — link to post comments */
           '<a class="post-actions-item" href="post?id=' + id + '#comments">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Zm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64ZM40,224h0ZM216,64H40V224l34.77-30A8,8,0,0,1,80,192H216Z"/>' +
@@ -271,13 +331,13 @@
             '<span class="action-stat">' + (post.comment_count || 0) + '</span>' +
             '<span class="action-title">' + i18nLabel('main.post.responses', 'Responses') + '</span>' +
           '</a>' +
-          /* Share */
-          '<a class="post-actions-item" href="post?id=' + id + '">' +
+          /* Share — button, copies link in-place */
+          '<button type="button" class="post-actions-item" data-action="share" data-post-id="' + id + '">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M176,160a39.89,39.89,0,0,0-28.62,12.09l-46.1-29.63a39.8,39.8,0,0,0,0-28.92l46.1-29.63a40,40,0,1,0-8.66-13.45l-46.1,29.63a40,40,0,1,0,0,55.82l46.1,29.63A40,40,0,1,0,176,160Zm0-128a24,24,0,1,1-24,24A24,24,0,0,1,176,32ZM64,152a24,24,0,1,1,24-24A24,24,0,0,1,64,152Zm112,72a24,24,0,1,1,24-24A24,24,0,0,1,176,224Z"/>' +
             '</svg>' +
             '<span class="action-title">' + i18nLabel('main.post.share', 'Share') + '</span>' +
-          '</a>' +
+          '</button>' +
         '</div>' +
       '</article>'
     );
