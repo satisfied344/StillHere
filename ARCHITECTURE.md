@@ -42,7 +42,7 @@ enforce.
 
 The guiding rule: **push everything that can run in the browser into the
 browser, and let Postgres' row-level security (RLS) be the real security
-boundary.** The anon key shipped in [`JS/supabase-config.js`](JS/supabase-config.js)
+boundary.** The anon key shipped in [`JS/supabase-config.js`](StillHere/JS/supabase-config.js)
 is meant to be public; it grants nothing that RLS doesn't already allow.
 
 ---
@@ -70,7 +70,7 @@ report → rpc submit_report()         weighs by reporter trust, updates aggrega
   AI verdict → removed / shadow / pending_manual
   admin queue (RPCs gated by is_admin()) → keep / shadow / remove → moderation_log
 ```
-Full writeup: [`supabase/MODERATION_SYSTEM.md`](supabase/MODERATION_SYSTEM.md).
+Full writeup: [`supabase/MODERATION_SYSTEM.md`](StillHere/supabase/MODERATION_SYSTEM.md).
 
 ### Talking to the companion
 ```
@@ -129,7 +129,7 @@ inspection took specific choices: the visitor counter table (`site_pings`) store
 **only a timestamp** — no IP, user id, fingerprint, path, or user agent, so the
 "who did what" question is unanswerable by construction. The data-export feature
 is assembled client-side through the user's own session, so RLS guarantees it can
-only ever return that user's rows. And [`robots.txt`](robots.txt) opts the whole
+only ever return that user's rows. And [`robots.txt`](StillHere/robots.txt) opts the whole
 site out of LLM training crawlers. The principle was: *don't claim a privacy
 property you can't point at in the code.*
 
@@ -180,7 +180,7 @@ There's no unit-test runner wired up yet (see limitations), so verification is
 currently manual and at the data layer. Concretely:
 
 **Crisis detection** — open `/create-post` and type a known high-risk phrase
-(the lexicon in [`JS/crisis.js`](JS/crisis.js) lists them, EN + RU). Expected: a
+(the lexicon in [`JS/crisis.js`](StillHere/JS/crisis.js) lists them, EN + RU). Expected: a
 gentle care dialog with a hotline appears *before* publish, and publishing is
 never hard-blocked.
 
@@ -214,14 +214,14 @@ the `/offline.html` fallback, never a browser error page.
 
 | Concern | Files |
 | --- | --- |
-| Feed, filters, realtime | [`JS/main-page.js`](JS/main-page.js) |
-| Editor, crisis gate, upload | [`JS/create-post.js`](JS/create-post.js), [`JS/media-compress.js`](JS/media-compress.js) |
-| Companion | [`JS/ai-chat.js`](JS/ai-chat.js), [`supabase/functions/ai-chat`](supabase/functions/ai-chat/index.ts) |
-| Crisis detection | [`JS/crisis.js`](JS/crisis.js), [`supabase/functions/crisis-check`](supabase/functions/crisis-check/index.ts) |
-| Moderation | [`JS/moderation.js`](JS/moderation.js), [`supabase/functions/strict-review`](supabase/functions/strict-review/index.ts), [`supabase/MODERATION_SYSTEM.md`](supabase/MODERATION_SYSTEM.md) |
-| Auth, recovery key | [`JS/auth.js`](JS/auth.js), [`supabase/functions/recover-password`](supabase/functions/recover-password/index.ts) |
-| Session / nav | [`JS/session.js`](JS/session.js) |
-| Notifications | [`JS/notifications.js`](JS/notifications.js), `supabase/migrations/015_notifications.sql` |
-| Privacy-pure analytics | [`JS/site-pings.js`](JS/site-pings.js), [`JS/stats.js`](JS/stats.js), `supabase/migrations/009_site_pings.sql` |
-| Data export (GDPR) | [`JS/gdpr-export.js`](JS/gdpr-export.js) |
-| Schema & policies | [`supabase/migrations/`](supabase/migrations/) (numbered, run in order) |
+| Feed, filters, realtime | [`JS/main-page.js`](StillHere/JS/main-page.js) |
+| Editor, crisis gate, upload | [`JS/create-post.js`](StillHere/JS/create-post.js), [`JS/media-compress.js`](StillHere/JS/media-compress.js) |
+| Companion | [`JS/ai-chat.js`](StillHere/JS/ai-chat.js), [`supabase/functions/ai-chat`](StillHere/supabase/functions/ai-chat/index.ts) |
+| Crisis detection | [`JS/crisis.js`](StillHere/JS/crisis.js), [`supabase/functions/crisis-check`](StillHere/supabase/functions/crisis-check/index.ts) |
+| Moderation | [`JS/moderation.js`](StillHere/JS/moderation.js), [`supabase/functions/strict-review`](StillHere/supabase/functions/strict-review/index.ts), [`supabase/MODERATION_SYSTEM.md`](StillHere/supabase/MODERATION_SYSTEM.md) |
+| Auth, recovery key | [`JS/auth.js`](StillHere/JS/auth.js), [`supabase/functions/recover-password`](StillHere/supabase/functions/recover-password/index.ts) |
+| Session / nav | [`JS/session.js`](StillHere/JS/session.js) |
+| Notifications | [`JS/notifications.js`](StillHere/JS/notifications.js), `supabase/migrations/015_notifications.sql` |
+| Privacy-pure analytics | [`JS/site-pings.js`](StillHere/JS/site-pings.js), [`JS/stats.js`](StillHere/JS/stats.js), `supabase/migrations/009_site_pings.sql` |
+| Data export (GDPR) | [`JS/gdpr-export.js`](StillHere/JS/gdpr-export.js) |
+| Schema & policies | [`supabase/migrations/`](StillHere/supabase/migrations/) (numbered, run in order) |
