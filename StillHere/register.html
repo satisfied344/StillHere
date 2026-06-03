@@ -30,14 +30,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title data-i18n="doc.title.register">Join StillHere — anonymous, free</title>
+  <title data-i18n="doc.title.register">Join StillHere, anonymous, free</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="No real name, no profile to maintain. Just a quiet place to be heard.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
     <link rel="canonical" href="https://www.stillhere.global/register">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Join StillHere — anonymous, free">
+    <meta property="og:title" content="Join StillHere, anonymous, free">
     <meta property="og:description" content="No real name, no profile to maintain. Just a quiet place to be heard.">
     <meta property="og:url" content="https://www.stillhere.global/register">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
@@ -45,16 +45,16 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Join StillHere — anonymous, free">
+    <meta name="twitter:title" content="Join StillHere, anonymous, free">
     <meta name="twitter:description" content="No real name, no profile to maintain. Just a quiet place to be heard.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -304,7 +304,7 @@
       box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.12);
     }
 
-    /* Username — segmented field (@ on the left, input on the right) */
+    /* Username, segmented field (@ on the left, input on the right) */
     .input-prefix-wrap {
       display: flex;
       align-items: stretch;
@@ -374,7 +374,7 @@
          The bar gets `.pw-strength-bar--weak/fair/good/strong`
          from auth.js on input; `:has()` keys off that so the
          meter only takes vertical space when there's something
-         to show — otherwise the password hint and "I agree"
+         to show, otherwise the password hint and "I agree"
          checkbox would sit ~24px apart with empty space between. */
       max-height: 0;
       margin-top: 0;
@@ -436,7 +436,7 @@
     }
     .terms-check a:hover { border-bottom-style: solid; }
 
-    /* Turnstile widget — only takes space when populated; full width
+    /* Turnstile widget, only takes space when populated; full width
        to line up with the form fields above it. */
     .captcha-container:not(:empty) { margin: 6px 0 2px; }
     .captcha-container .cf-turnstile,
@@ -570,27 +570,27 @@
   <!-- ════════════════════ PAGE ════════════════════ -->
   <main class="auth-page">
 
-    <!-- ─── LEFT — intro ─── -->
+    <!-- ─── LEFT, intro ─── -->
     <section class="auth-intro">
-      <span class="auth-eyebrow" data-i18n="reg.intro.eyebrow"><em>—</em> new here</span>
+      <span class="auth-eyebrow" data-i18n="reg.intro.eyebrow">new here</span>
       <h1 class="auth-title" data-i18n="reg.intro.title">
         no intro <em>required.</em>
         <img src="assets/letters/_Special Characters/Asterisk_01.png" class="auth-title-star" alt="" aria-hidden="true">
       </h1>
       <p class="auth-lede" data-i18n="reg.intro.lede">
-        a handle and a password — that's <em>genuinely all we need</em>.
+        a handle and a password, that's <em>genuinely all we need</em>.
         your real name stays yours. no email verification, no profile
         photo, no nothing.
       </p>
       <ul class="auth-bullets">
-        <li data-i18n="reg.intro.b1"><strong>anonymous by default</strong> — handle is just so you can find your own posts</li>
+        <li data-i18n="reg.intro.b1"><strong>anonymous by default</strong>, handle is just so you can find your own posts</li>
         <li data-i18n="reg.intro.b2">no email, no phone, no social-sign-in tracking</li>
         <li data-i18n="reg.intro.b3">your data is <strong>never sold, profiled, or trained on</strong></li>
-        <li data-i18n="reg.intro.b4">delete your account anytime — really, the button works</li>
+        <li data-i18n="reg.intro.b4">delete your account anytime, really, the button works</li>
       </ul>
     </section>
 
-    <!-- ─── RIGHT — card / form ─── -->
+    <!-- ─── RIGHT, card / form ─── -->
     <section class="auth-card">
 
       <h2 class="auth-card-title" data-i18n="reg.card.title" style="margin-bottom: 18px;">Create your account</h2>
@@ -640,7 +640,7 @@
             </button>
           </div>
           <!-- Static rule reminder sits tight under the input, BEFORE
-               the strength meter — the strength meter has an empty
+               the strength meter, the strength meter has an empty
                min-height row that otherwise pushes the hint way
                down with whitespace in between. Same wording across
                register / reset / edit-profile. -->
@@ -664,7 +664,7 @@
         </label>
 
         <!-- Cloudflare Turnstile renders here when SH_TURNSTILE_SITEKEY is set
-             (auth.js). Empty / collapsed otherwise — no layout shift. -->
+             (auth.js). Empty / collapsed otherwise, no layout shift. -->
         <div id="captchaContainer" class="captcha-container"></div>
 
         <button type="submit" class="auth-btn">

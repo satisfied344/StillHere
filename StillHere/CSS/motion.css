@@ -29,7 +29,7 @@
   --dur-fast:   160ms;   /* small focal acks (icon pulse, toggle dot) */
   --dur-hover:  220ms;   /* button / card hover */
   --dur-medium: 420ms;   /* modal / menu / panel */
-  --dur-reveal: 760ms;   /* card enter / scroll-in */
+  --dur-reveal: 600ms;   /* card enter / scroll-in (snappier than 760 — feels alive without losing calm) */
   --dur-slow:  1200ms;   /* heavy ambient or long-pause reveal */
 
   /* ── Paper shadows ───────────────────────────────────────────── */

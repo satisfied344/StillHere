@@ -30,14 +30,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title data-i18n="doc.title.admin">Moderation queue — StillHere</title>
+  <title data-i18n="doc.title.admin">Moderation queue · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Internal moderation queue.">
     <meta name="robots" content="noindex,nofollow">
     <link rel="canonical" href="https://www.stillhere.global/admin">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Moderation queue — StillHere">
+    <meta property="og:title" content="Moderation queue · StillHere">
     <meta property="og:description" content="Internal moderation queue.">
     <meta property="og:url" content="https://www.stillhere.global/admin">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
@@ -45,16 +45,16 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Moderation queue — StillHere">
+    <meta name="twitter:title" content="Moderation queue · StillHere">
     <meta name="twitter:description" content="Internal moderation queue.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -149,7 +149,7 @@
       background: #fffbf2; border: 1.5px solid var(--line);
       font-family: "Ubuntu", sans-serif; font-size: 13px;
       font-weight: 600; color: var(--ink); user-select: none;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
     .adm-tab:hover {
       border-color: var(--accent-2);
@@ -221,7 +221,7 @@
       margin: 6px 0 10px;
     }
 
-    /* AI verdict callout — shows what the strict-review AI decided */
+    /* AI verdict callout, shows what the strict-review AI decided */
     .ai-verdict-box {
       margin: 10px 0;
       padding: 12px 16px;
@@ -288,7 +288,7 @@
       padding: 9px 16px; border-radius: 999px;
       font-family: "Ubuntu", sans-serif; font-size: 12.5px;
       font-weight: 600; cursor: pointer; border: 1.5px solid;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
     .adm-btn--keep   { background: rgba(109, 130, 104, 0.10); color: #4d5e4a; border-color: rgba(109, 130, 104, 0.32); }
     .adm-btn--keep:hover   { background: #6d8268; color: #fff; border-color: #6d8268; transform: translateY(-1px); }
@@ -388,17 +388,17 @@
   <main class="adm-page">
     <section class="adm-hero">
       <div>
-        <span class="adm-eyebrow"><em>—</em> moderation</span>
+        <span class="adm-eyebrow">moderation</span>
         <h1 class="adm-title">admin <em>queue.</em></h1>
         <p class="adm-lede">posts &amp; comments that need a human's eye. keep, downrank, or remove.</p>
       </div>
       <div class="adm-stats">
         <div>
-          <div class="adm-stat-num" id="stat-total">—</div>
+          <div class="adm-stat-num" id="stat-total"></div>
           <div class="adm-stat-label">in queue</div>
         </div>
         <div>
-          <div class="adm-stat-num" id="stat-urgent">—</div>
+          <div class="adm-stat-num" id="stat-urgent"></div>
           <div class="adm-stat-label">hidden</div>
         </div>
       </div>
@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           /* ── AI verdict box ──────────────────────────────────────
              moderation_note format (set by strict-review edge fn):
-                "strict-AI: <verdict> (<category>) — <reason>"
+                "strict-AI: <verdict> (<category>), <reason>"
              If the note matches that pattern → render a verdict callout.
              Otherwise show "AI hasn't reviewed yet" pending box.
              ─────────────────────────────────────────────────────── */
@@ -488,9 +488,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var verdict  = m[1].toLowerCase();
             var category = m[2].trim();
             var reason   = m[3].trim();
-            var label = verdict === 'violation'  ? 'AI says: violation — auto-removed'
-                      : verdict === 'borderline' ? 'AI says: borderline — downranked'
-                                                 : 'AI says: clean — sent to manual review';
+            var label = verdict === 'violation'  ? 'AI says: violation, auto-removed'
+                      : verdict === 'borderline' ? 'AI says: borderline, downranked'
+                                                 : 'AI says: clean, sent to manual review';
             aiBox =
               '<div class="ai-verdict-box ai-verdict-box--' + verdict + '">' +
                 '<div class="ai-verdict-head">' +
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<div class="ai-verdict-head">' +
                   '<span class="ai-verdict-dot"></span>AI review pending' +
                 '</div>' +
-                '<div class="ai-verdict-meta">waiting for strict-review to run — click "↻ rerun AI" below to trigger it now.</div>' +
+                '<div class="ai-verdict-meta">waiting for strict-review to run, click "↻ rerun AI" below to trigger it now.</div>' +
               '</div>';
           } else if (r.moderation_note) {
             /* fallback for legacy notes that don't match the pattern */
@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '</span>' +
                 '<button class="adm-btn adm-btn--ai"     data-action="ai-rerun">↻ rerun AI</button>' +
                 (r.target_type === 'post'
-                  ? '<a class="adm-btn adm-btn--review" href="post?id=' + escHtml(r.target_id) + '" target="_blank">open</a>'
+                  ? '<a class="adm-btn adm-btn--review" href="post?id=' + escHtml(r.target_id) + '" target="_blank" rel="noopener noreferrer">open</a>'
                   : '') +
               '</div>' +
             '</article>'
@@ -579,7 +579,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         var { data: roleRow } = await db.from('admin_roles').select('role').eq('user_id', user.id).maybeSingle();
         if (!roleRow) {
-          queueEl.innerHTML = '<p class="adm-forbidden">forbidden — your account is not an admin. ask a super_admin to grant access.</p>';
+          queueEl.innerHTML = '<p class="adm-forbidden">forbidden, your account is not an admin. ask a super_admin to grant access.</p>';
           return;
         }
 
@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var action = btn.dataset.action;
         var t = card.dataset.targetType, id = card.dataset.targetId;
 
-        // ── "Rerun AI" branch — uses supabase client's functions.invoke
+        // ── "Rerun AI" branch, uses supabase client's functions.invoke
         //    which handles CORS + auth headers automatically.
         if (action === 'ai-rerun') {
           btn.disabled = true;
@@ -693,9 +693,9 @@ document.addEventListener('DOMContentLoaded', function () {
           if (blockRes.error) {
             var msg = blockRes.error.message || '';
             if (msg.indexOf('no identifiers') !== -1) {
-              alert('Cannot block — this post was created before the block feature existed, so we have no fingerprint or IP for the author. New posts will work.');
+              alert('Cannot block, this post was created before the block feature existed, so we have no fingerprint or IP for the author. New posts will work.');
             } else if (msg.indexOf('forbidden') !== -1) {
-              alert('Forbidden — your account is not flagged as admin.');
+              alert('Forbidden, your account is not flagged as admin.');
             } else {
               alert('block failed: ' + msg + '\n\n(see browser console for details)');
             }

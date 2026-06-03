@@ -46,7 +46,7 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
@@ -55,7 +55,7 @@
     <meta name="twitter:title" content="A story on StillHere">
     <meta name="twitter:description" content="Read a quiet story shared anonymously by someone who needed to be heard.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -106,22 +106,22 @@
 
   <style>
     /* ══════════════════════════════════════════════════════
-       Post — unify sidebar widgets with main / create-post
+       Post, unify sidebar widgets with main / create-post
        ══════════════════════════════════════════════════════ */
 
-    /* The whole post-sidebar — slightly looser gap */
+    /* The whole post-sidebar, slightly looser gap */
     .post-sidebar {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
-    /* Existing "this post" sidebar-widget — round it up to 12px */
+    /* Existing "this post" sidebar-widget, round it up to 12px */
     .sidebar-widget {
       border-radius: 12px !important;
     }
 
-    /* Unified .widget styling — identical to main.html + create-post */
+    /* Unified .widget styling, identical to main.html + create-post */
     .widget {
       background: rgba(255, 250, 240, 0.65);
       border: 1px solid var(--line-soft);
@@ -132,7 +132,7 @@
     }
     .widget:hover { border-color: var(--line); }
 
-    /* Crisis — red glow tint */
+    /* Crisis, red glow tint */
     .widget.support {
       background: rgba(214, 83, 60, 0.07);
       border-color: rgba(214, 83, 60, 0.25);
@@ -142,7 +142,7 @@
       border-color: rgba(214, 83, 60, 0.35);
     }
 
-    /* AI — calm paper */
+    /* AI, calm paper */
     .widget.support.ai {
       background: rgba(255, 250, 240, 0.65);
       border-color: var(--line-soft);
@@ -163,7 +163,7 @@
       margin: 0 0 12px;
     }
 
-    /* Crisis button — solid red filled */
+    /* Crisis button, solid red filled */
     .widget-link {
       display: inline-flex;
       align-items: center;
@@ -185,7 +185,7 @@
       transform: translateY(-1px);
     }
 
-    /* AI button — outlined ink, hover fills sage green */
+    /* AI button, outlined ink, hover fills sage green */
     .widgetai-link {
       display: inline-flex;
       align-items: center;
@@ -225,7 +225,7 @@
     .compose-card { box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04); }
     .comment-card { box-shadow: 0 1px 3px rgba(26, 20, 16, 0.03); }
 
-    /* Buttons / interactive bits — pills or rounded */
+    /* Buttons / interactive bits, pills or rounded */
     .heart-btn,
     .action-btn,
     .compose-submit,
@@ -270,7 +270,7 @@
     /* Author avatar rounded full */
     .post-avatar { border-radius: 50% !important; }
 
-    /* "Show more replies" button — below the comment list */
+    /* "Show more replies" button, below the comment list */
     .comments-load-more-btn {
       display: none;
       align-items: center;
@@ -323,7 +323,7 @@
     </filter>
   </svg>
 
-  <!-- Ambient background doodles — fixed, behind everything, very low opacity -->
+  <!-- Ambient background doodles, fixed, behind everything, very low opacity -->
   <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
   <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
   <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
@@ -501,7 +501,7 @@
             </div>
           </header>
 
-          <!-- Tags row (language + mode pills) — sits between the
+          <!-- Tags row (language + mode pills), sits between the
                author header and the title. post-page.js fills it
                via buildTagsHtml(post). Replaces the deleted
                "this post" sidebar widget. -->
@@ -706,7 +706,7 @@
 
   <div class="toast" id="toast" aria-live="polite">Link copied</div>
 
-  <!-- Block modal — shown when commenting is rejected by the
+  <!-- Block modal, shown when commenting is rejected by the
        BEFORE-INSERT trigger because the author is in user_blocks.
        Reuses the .del-modal styling from post-screen.css. -->
   <div class="del-backdrop" id="blockBackdrop" aria-hidden="true">
@@ -780,7 +780,7 @@
         });
       });
 
-      /* Navbar scroll-shrink — matches startup/main/ai-chat */
+      /* Navbar scroll-shrink, matches startup/main/ai-chat */
       var navEl = document.querySelector('.top-info');
       if (navEl) {
         var last = false;

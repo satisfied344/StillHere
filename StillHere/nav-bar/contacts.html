@@ -30,31 +30,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title data-i18n="doc.title.contacts">Contacts — StillHere</title>
+  <title data-i18n="doc.title.contacts">Contacts · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
-    <meta name="description" content="Questions, kind words, or partnership requests — we read everything.">
+    <meta name="description" content="Questions, kind words, or partnership requests, we read everything.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
     <link rel="canonical" href="https://www.stillhere.global/nav-bar/contacts">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Contacts — StillHere">
-    <meta property="og:description" content="Questions, kind words, or partnership requests — we read everything.">
+    <meta property="og:title" content="Contacts · StillHere">
+    <meta property="og:description" content="Questions, kind words, or partnership requests, we read everything.">
     <meta property="og:url" content="https://www.stillhere.global/nav-bar/contacts">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:secure_url" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Contacts — StillHere">
-    <meta name="twitter:description" content="Questions, kind words, or partnership requests — we read everything.">
+    <meta name="twitter:title" content="Contacts · StillHere">
+    <meta name="twitter:description" content="Questions, kind words, or partnership requests, we read everything.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -96,8 +96,35 @@
   <script src="../JS/notifications.js?v=15" defer></script>
 
   <style>
+    /* ── Scroll reveal (tilt-safe), quiet fade-up for narrative blocks.
+       Animates the `translate` property (NOT `transform`) so each block's
+       base `transform: rotate()` paper-tilt survives. Gated under
+       html.sh-reveal-on: blocks hide only once JS is wired, so a JS failure
+       never leaves content invisible. Uses --ease-calm from motion.css. ── */
+    html.sh-reveal-on .sh-reveal { opacity: 0; translate: 0 14px; filter: blur(3px); }
+    html.sh-reveal-on .sh-reveal.is-in {
+      opacity: 1; translate: 0 0; filter: none;
+      transition: opacity .6s var(--ease-calm, ease-out),
+                  translate .6s var(--ease-calm, ease-out),
+                  filter .6s var(--ease-calm, ease-out);
+    }
+    html.sh-reveal-on .sh-reveal-stagger > * { opacity: 0; translate: 0 10px; }
+    html.sh-reveal-on .sh-reveal-stagger.is-in > * {
+      opacity: 1; translate: 0 0;
+      transition: opacity .55s var(--ease-calm, ease-out),
+                  translate .55s var(--ease-calm, ease-out);
+    }
+    html.sh-reveal-on .sh-reveal-stagger.is-in > *:nth-child(2){transition-delay:.1s}
+    html.sh-reveal-on .sh-reveal-stagger.is-in > *:nth-child(3){transition-delay:.2s}
+    @media (prefers-reduced-motion: reduce){
+      html.sh-reveal-on .sh-reveal, html.sh-reveal-on .sh-reveal.is-in,
+      html.sh-reveal-on .sh-reveal-stagger > *, html.sh-reveal-on .sh-reveal-stagger.is-in > *{
+        opacity:1!important; translate:0 0!important; filter:none!important; transition:none!important;
+      }
+    }
+
     /* ══════════════════════════════════════════════════════
-       Contacts — paper aesthetic, matches startup/main/ai-chat/preferences
+       Contacts, paper aesthetic, matches startup/main/ai-chat/preferences
        ══════════════════════════════════════════════════════ */
 
     body { overflow-x: hidden; }
@@ -476,7 +503,7 @@
       .ct-closing-text { font-size: 30px; }
     }
 
-    /* ── Contrast boost — cards a touch more prominent ── */
+    /* ── Contrast boost, cards a touch more prominent ── */
     .ct-card,
     .ct-strip,
     .ct-hero-card {
@@ -487,7 +514,7 @@
     .ct-card:hover {
       box-shadow: 0 12px 30px -12px rgba(26, 20, 16, 0.22);
     }
-    /* Crisis callout — keeps red glow (do not overwrite gradient) */
+    /* Crisis callout, keeps red glow (do not overwrite gradient) */
     .ct-crisis {
       background: linear-gradient(135deg, rgba(214, 83, 60, 0.14), rgba(214, 83, 60, 0.05)) !important;
       border-color: rgba(214, 83, 60, 0.32) !important;
@@ -560,13 +587,13 @@
     <!-- ─── HERO ─── -->
     <section class="ct-hero">
       <div class="ct-hero-left">
-        <span class="ct-eyebrow" data-i18n="ct.hero.eyebrow"><em>—</em> reach out, anytime</span>
+        <span class="ct-eyebrow" data-i18n="ct.hero.eyebrow">reach out, anytime</span>
         <h1 class="ct-title">
           <span data-i18n="ct.hero.title">say <em>hello.</em></span>
           <img src="../assets/letters/_Special Characters/Asterisk_01.png" class="ct-title-star" alt="" aria-hidden="true">
         </h1>
         <p class="ct-lede" data-i18n="ct.hero.lede">
-          questions, ideas, kind words, partnership requests — we read everything.
+          questions, ideas, kind words, partnership requests, we read everything.
           we're a <em>small team</em> running this quietly, so replies may take a day or two.
           if you're in crisis, please scroll down first.
         </p>
@@ -574,7 +601,7 @@
 
       <div class="ct-hero-right">
         <div class="ct-hero-card">
-          <div class="ct-hero-card-eyebrow" data-i18n="ct.hero.card.eyebrow">— note from us</div>
+          <div class="ct-hero-card-eyebrow" data-i18n="ct.hero.card.eyebrow">note from us</div>
           <div class="ct-hero-card-title" data-i18n="ct.hero.card.title">we read every message.</div>
           <p class="ct-hero-card-text" data-i18n="ct.hero.card.text">
             no bots, no support tickets. just one human reading email between coffee.
@@ -587,7 +614,7 @@
     <!-- ─── CRISIS CALLOUT ─── -->
     <section class="ct-section">
       <div class="ct-section-head">
-        <span class="ct-section-eyebrow">— 01</span>
+        
         <h2 class="ct-section-title" data-i18n="ct.crisis.title">in crisis right now?</h2>
         <span class="ct-section-hint" data-i18n="ct.crisis.hint">please reach a real person</span>
       </div>
@@ -601,7 +628,7 @@
         <div class="ct-crisis-text">
           <h3 class="ct-crisis-title" data-i18n="ct.crisis.subtitle">we're not an emergency service.</h3>
           <p class="ct-crisis-desc" data-i18n="ct.crisis.desc">
-            if you're feeling unsafe or in immediate distress, please call a trained crisis counselor — they're available 24/7, free, in most countries.
+            if you're feeling unsafe or in immediate distress, please call a trained crisis counselor, they're available 24/7, free, in most countries.
           </p>
         </div>
         <a href="../docs/html/crisis-resources" class="ct-crisis-btn">
@@ -616,14 +643,14 @@
     <!-- ─── EMAIL CONTACTS ─── -->
     <section class="ct-section">
       <div class="ct-section-head">
-        <span class="ct-section-eyebrow">— 02</span>
+        
         <h2 class="ct-section-title" data-i18n="ct.email.title">write to us</h2>
         <span class="ct-section-hint" data-i18n="ct.email.hint">usually within 1–2 days</span>
       </div>
 
       <div class="ct-grid">
 
-        <a href="mailto:hello@stillhere.global" class="ct-card">
+        <a href="mailto:hello@stillhere.global" class="ct-card sh-reveal">
           <div class="ct-card-head">
             <span class="ct-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -633,13 +660,13 @@
             <span class="ct-card-label" data-i18n="ct.email.general">general</span>
           </div>
           <p class="ct-card-value">hello@stillhere.global</p>
-          <p class="ct-card-desc" data-i18n="ct.email.general.desc">questions, feedback, kind words, partnerships — anything, really.</p>
+          <p class="ct-card-desc" data-i18n="ct.email.general.desc">questions, feedback, kind words, partnerships, anything, really.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
         </a>
 
-        <a href="mailto:support@stillhere.global" class="ct-card">
+        <a href="mailto:support@stillhere.global" class="ct-card sh-reveal">
           <div class="ct-card-head">
             <span class="ct-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 240 180" fill="currentColor" aria-hidden="true">
@@ -655,7 +682,7 @@
           </svg>
         </a>
 
-        <a href="mailto:media@stillhere.global" class="ct-card">
+        <a href="mailto:media@stillhere.global" class="ct-card sh-reveal">
           <div class="ct-card-head">
             <span class="ct-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -677,14 +704,14 @@
     <!-- ─── SOCIAL ─── -->
     <section class="ct-section">
       <div class="ct-section-head">
-        <span class="ct-section-eyebrow">— 03</span>
+        
         <h2 class="ct-section-title" data-i18n="ct.social.title">find us elsewhere</h2>
         <span class="ct-section-hint" data-i18n="ct.social.hint">smaller updates, the same calm tone</span>
       </div>
 
       <div class="ct-grid">
 
-        <a href="https://t.me/still_here_global" target="_blank" rel="noopener" class="ct-card ct-card--telegram">
+        <a href="https://t.me/still_here_global" target="_blank" rel="noopener" class="ct-card ct-card--telegram sh-reveal">
           <div class="ct-card-head">
             <span class="ct-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -694,13 +721,13 @@
             <span class="ct-card-label">telegram</span>
           </div>
           <p class="ct-card-value">@still_here_global</p>
-          <p class="ct-card-desc" data-i18n="ct.social.tg.desc">our quietest channel — gentle reminders, small updates.</p>
+          <p class="ct-card-desc" data-i18n="ct.social.tg.desc">our quietest channel, gentle reminders, small updates.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
         </a>
 
-        <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" class="ct-card ct-card--instagram">
+        <a href="https://www.instagram.com/stillhere.global" target="_blank" rel="noopener" class="ct-card ct-card--instagram sh-reveal">
           <div class="ct-card-head">
             <span class="ct-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -716,7 +743,7 @@
           </svg>
         </a>
 
-        <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" class="ct-card ct-card--tiktok">
+        <a href="https://www.tiktok.com/@stillhere.global" target="_blank" rel="noopener" class="ct-card ct-card--tiktok sh-reveal">
           <div class="ct-card-head">
             <span class="ct-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -732,7 +759,7 @@
           </svg>
         </a>
 
-        <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" class="ct-card ct-card--github">
+        <a href="https://github.com/satisfied344/StillHere" target="_blank" rel="noopener" class="ct-card ct-card--github sh-reveal">
           <div class="ct-card-head">
             <span class="ct-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -742,7 +769,7 @@
             <span class="ct-card-label">github</span>
           </div>
           <p class="ct-card-value">satisfied344/StillHere</p>
-          <p class="ct-card-desc" data-i18n="ct.social.gh.desc">open-source. file an issue, star us, send a PR — we read those too.</p>
+          <p class="ct-card-desc" data-i18n="ct.social.gh.desc">open-source. file an issue, star us, send a PR, we read those too.</p>
           <svg class="ct-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
             <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
           </svg>
@@ -754,7 +781,7 @@
     <!-- ─── FAST FACTS STRIP ─── -->
     <section class="ct-section">
       <div class="ct-section-head">
-        <span class="ct-section-eyebrow">— 04</span>
+        
         <h2 class="ct-section-title" data-i18n="ct.facts.title">a few quick things</h2>
         <span class="ct-section-hint" data-i18n="ct.facts.hint">the boring but useful bits</span>
       </div>
@@ -763,17 +790,17 @@
         <div class="ct-strip-cell">
           <div class="ct-strip-label" data-i18n="ct.facts.response">response time</div>
           <div class="ct-strip-value" data-i18n="ct.facts.response.value">1–2 business days</div>
-          <div class="ct-strip-note" data-i18n="ct.facts.response.note">we're a small team — thanks for patience.</div>
+          <div class="ct-strip-note" data-i18n="ct.facts.response.note">we're a small team, thanks for patience.</div>
         </div>
         <div class="ct-strip-cell">
           <div class="ct-strip-label" data-i18n="ct.facts.based">based in</div>
           <div class="ct-strip-value" data-i18n="ct.facts.based.value">online · everywhere</div>
-          <div class="ct-strip-note" data-i18n="ct.facts.based.note">no office, no zip code — just the internet.</div>
+          <div class="ct-strip-note" data-i18n="ct.facts.based.note">no office, no zip code, just the internet.</div>
         </div>
         <div class="ct-strip-cell">
           <div class="ct-strip-label" data-i18n="ct.facts.lang">languages</div>
           <div class="ct-strip-value" data-i18n="ct.facts.lang.value">english · more coming</div>
-          <div class="ct-strip-note" data-i18n="ct.facts.lang.note">write in any language — we'll translate.</div>
+          <div class="ct-strip-note" data-i18n="ct.facts.lang.note">write in any language, we'll translate.</div>
         </div>
       </div>
     </section>
@@ -781,9 +808,9 @@
     <!-- ─── CLOSING ─── -->
     <section class="ct-closing">
       <p class="ct-closing-text" data-i18n="ct.closing.text">
-        whatever you write — <em>we'll read it carefully.</em>
+        whatever you write, <em>we'll read it carefully.</em>
       </p>
-      <p class="ct-closing-sub" data-i18n="ct.closing.sub">— still here, always</p>
+      <p class="ct-closing-sub" data-i18n="ct.closing.sub">still here, always</p>
     </section>
 
   </main>
@@ -856,6 +883,23 @@
 
   <script>
 document.addEventListener('DOMContentLoaded', function () {
+    /* ── Scroll reveal (tilt-safe; animates translate, not transform) ── */
+    (function () {
+      var els = document.querySelectorAll('.sh-reveal, .sh-reveal-stagger');
+      if (!els.length) return;
+      document.documentElement.classList.add('sh-reveal-on');
+      if (!('IntersectionObserver' in window)) { els.forEach(function(el){el.classList.add('is-in');}); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target, d = parseInt(el.getAttribute('data-reveal-delay'),10)||0;
+          setTimeout(function(){ el.classList.add('is-in'); }, d);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+      els.forEach(function(el){ io.observe(el); });
+    })();
+
 
     /* ── Nav menu toggle ── */
     (function () {

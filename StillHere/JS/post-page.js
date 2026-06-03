@@ -184,11 +184,12 @@
         bodyHtml += '<div class="post-media-gallery">';
         urls.forEach(function (url) {
           var isVideo = /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
+          var safeUrl = escAttr(url);   // never interpolate a raw URL into an attribute
           bodyHtml += isVideo
-            ? '<div class="post-gallery-item post-gallery-item--video"><video src="' + url + '" controls playsinline preload="metadata" class="post-gallery-media"></video></div>'
+            ? '<div class="post-gallery-item post-gallery-item--video"><video src="' + safeUrl + '" controls playsinline preload="metadata" class="post-gallery-media"></video></div>'
             // No <a> wrapper — click is caught by SH_LIGHTBOX, which
             // opens an in-page modal instead of navigating away.
-            : '<div class="post-gallery-item" data-lightbox><img src="' + url + '" class="post-gallery-media" alt="" loading="lazy"></div>';
+            : '<div class="post-gallery-item" data-lightbox><img src="' + safeUrl + '" class="post-gallery-media" alt="" loading="lazy"></div>';
         });
         bodyHtml += '</div>';
       }

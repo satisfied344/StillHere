@@ -9,7 +9,6 @@
     <meta name="theme-color" content="#f4ead6" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1a1410" media="(prefers-color-scheme: dark)">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preload" as="image" type="image/png" href="assets/favicon/favicon-96x96.png?v=3">
     <link rel="icon" type="image/png" sizes="96x96"   href="assets/favicon/favicon-96x96.png?v=3">
     <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/web-app-manifest-192x192.png?v=3">
     <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/web-app-manifest-512x512.png?v=3">
@@ -30,31 +29,31 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
-    <title data-i18n="doc.title.main">Community feed — StillHere</title>
+    <title data-i18n="doc.title.main">Community feed · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
-    <meta name="description" content="Quiet stories from people around the world. Anonymous, free, no-advice — just presence.">
+    <meta name="description" content="Quiet stories from people around the world. Anonymous, free, no-advice, just presence.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
     <link rel="canonical" href="https://www.stillhere.global/main">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Community feed — StillHere">
-    <meta property="og:description" content="Quiet stories from people around the world. Anonymous, free, no-advice — just presence.">
+    <meta property="og:title" content="Community feed · StillHere">
+    <meta property="og:description" content="Quiet stories from people around the world. Anonymous, free, no-advice, just presence.">
     <meta property="og:url" content="https://www.stillhere.global/main">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:secure_url" content="https://www.stillhere.global/assets/favicon/og-image.svg">
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Community feed — StillHere">
-    <meta name="twitter:description" content="Quiet stories from people around the world. Anonymous, free, no-advice — just presence.">
+    <meta name="twitter:title" content="Community feed · StillHere">
+    <meta name="twitter:description" content="Quiet stories from people around the world. Anonymous, free, no-advice, just presence.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -99,7 +98,7 @@
       var savedBtn = document.getElementById('sidebarSaved');
 
       function setSavedFilter(on) {
-        /* main-page.js exposes activeSavedFilter via the module scope — trigger via custom event */
+        /* main-page.js exposes activeSavedFilter via the module scope, trigger via custom event */
         document.dispatchEvent(new CustomEvent('sh:savedFilter', { detail: on }));
         if (homeBtn)  homeBtn.classList.toggle('active', !on);
         if (savedBtn) savedBtn.classList.toggle('active', on);
@@ -129,11 +128,16 @@
       }
     });
 
-    window.SH_SESSION.whenReady(function (user) {
+    function shMenuSessionSwap() {
+      /* session.js is deferred, so SH_SESSION may not exist yet when this
+         inline script first runs at parse time. Guard + run on DOMContentLoaded
+         (by which point the deferred session.js has executed). */
+      if (!window.SH_SESSION || typeof window.SH_SESSION.whenReady !== 'function') return;
+      window.SH_SESSION.whenReady(function (user) {
       var loginItem = document.querySelector('.mmenu-item--login');
       if (!loginItem) return;
       if (user) {
-        /* Logged in — swap Login → Sign out */
+        /* Logged in, swap Login → Sign out */
         loginItem.innerHTML =
           '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
           '<path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Z' +
@@ -152,6 +156,12 @@
         if (profileLink) profileLink.textContent = user.displayName || user.username;
       }
     });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', shMenuSessionSwap);
+    } else {
+      shMenuSessionSwap();
+    }
 
     /* ────────────────────────────────────────────────────────────
        Right-sidebar "first two widgets" reappearance.
@@ -171,14 +181,14 @@
       var leftSidebar = document.querySelector('.sidebar');
       var footer      = document.querySelector('.footer');
       if (!pair || !column) return;
-      var TOP_BASE   = 92;   // fallback — matches left sidebar's sticky top
+      var TOP_BASE   = 92;   // fallback, matches left sidebar's sticky top
       var FOOTER_GAP = 16;
 
       /* ── Stable reference point ──
          Document-coordinate Y of the column's bottom edge, measured
          while the pair is still in flow. Without this cache, going
          floating yanks the pair out of flow, the column collapses
-         by ~pair-height, and our threshold suddenly jumps — which
+         by ~pair-height, and our threshold suddenly jumps, which
          is why the panel "popped in" instead of fading. */
       var columnDocBottom = 0;
       function measureNaturalBottom() {
@@ -235,14 +245,14 @@
         if (raw < 0) raw = 0; else if (raw > 1) raw = 1;
         var p = easeOutCubic(raw);
 
-        /* Vertical position — three constraints, lowest wins:
+        /* Vertical position, three constraints, lowest wins:
            1. Default bottom = TOP_BASE + panelH (panel docked at top:92,
               same top edge as the left sidebar).
-           2. Left sidebar bottom — once the left sidebar starts
+           2. Left sidebar bottom, once the left sidebar starts
               scrolling up near the page end (its parent grid cell
               has ended), we track its bottom so both columns finish
               on the same horizontal line.
-           3. Footer guard — never let bottom pass `footer.top − GAP`.
+           3. Footer guard, never let bottom pass `footer.top − GAP`.
            The smallest of the three is the actual bottom; top = bottom − panelH. */
         var panelH = pair.offsetHeight;
         var bottom = TOP_BASE + panelH;
@@ -309,7 +319,7 @@
 </svg>
 
 
-<!-- Background atmosphere doodles — fixed, behind everything -->
+<!-- Background atmosphere doodles, fixed, behind everything -->
 <img src="../assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
 <img src="../assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
 <img src="../assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
@@ -509,11 +519,11 @@
         </aside>
 
         <main class="main-feed">
-            <!-- Ambient doodles — edges only, z-index 0 behind all content -->
+            <!-- Ambient doodles, edges only, z-index 0 behind all content -->
 
             <div class="feed-head">
                 <h1 class="feed-title">
-                    <span class="feed-title-eyebrow" data-i18n="main.feed.eyebrow">— stories shared here</span>
+                    <span class="feed-title-eyebrow" data-i18n="main.feed.eyebrow">stories shared here</span>
                     <span class="feed-title-line"><span data-i18n="main.feed.title">community feed</span>
                         <img src="assets/letters/_Special Characters/Asterisk_05.png"
                              class="feed-title-star" alt="" aria-hidden="true">
@@ -527,7 +537,7 @@
                         <span data-i18n="main.feed.filter">filter</span>
                     </button>
 
-                    <!-- Refresh kept alongside realtime — the pending pill
+                    <!-- Refresh kept alongside realtime, the pending pill
                          auto-shows new posts, but explicit refresh is a
                          useful "check now" affordance + reload after
                          filter changes. -->
@@ -714,7 +724,7 @@
             </div>
             </div><!-- /.right-sticky -->
 
-            <!-- From the wall of quiet letters — 3 random mini-cards -->
+            <!-- From the wall of quiet letters, 3 random mini-cards -->
             <div class="widget letters-widget" id="lettersWidget">
                 <h3 class="widget-title" data-i18n="main.widget.letters.title">From the quiet letters wall</h3>
                 <p class="widget-subtitle" data-i18n="main.widget.letters.sub">Short notes nobody will reply to. Read when you need to feel less alone.</p>
@@ -782,11 +792,11 @@
                         { to: 'd.',                 body: 'i hope you found something gentle. i hope it wasn’t me.',               bg: '#f4cea8', ink: '#1a1410' },
                         { to: 'бабушке',            body: 'я не успела попрощаться. до сих пор кажется что просто не позвонила.', bg: '#d29888', ink: '#1a1410' },
 
-                        /* — extra pool, 20 more — */
+                        /*, extra pool, 20 more, */
                         { to: 'dad',                body: 'i became the kind of quiet that scared me when you did it.',           bg: '#d8c8e0', ink: '#1a1410' },
                         { to: 'the friend i ghosted', body: 'you didn’t do anything. i was just drowning and couldn’t lift my head.', bg: '#b0b8c0', ink: '#1a1410' },
                         { to: 'отцу',               body: 'я больше не злюсь. просто очень устала ждать пока ты позвонишь.',      bg: '#e0a8b0', ink: '#1a1410' },
-                        { to: 'нічна тривога',      body: 'я знаю, що ти повернешся. але цього разу — без мене.',                 bg: '#c5d4b8', ink: '#1a1410' },
+                        { to: 'нічна тривога',      body: 'я знаю, що ти повернешся. але цього разу, без мене.',                 bg: '#c5d4b8', ink: '#1a1410' },
                         { to: 'the version of me that almost left', body: 'thank you for staying one more night. every night since has been earned.', bg: '#a8c4d8', ink: '#1a1410' },
                         { to: 'r.',                 body: 'you were my first home. nothing has felt like home since.',             bg: '#f1c8c8', ink: '#1a1410' },
                         { to: 'старшей сестре',     body: 'спасибо что не сказала маме. я выжила благодаря этому.',                bg: '#f0d896', ink: '#1a1410' },
@@ -816,7 +826,7 @@
                         var tRot  = rPick(TAPE_ROT)  + 'deg';
                         var tLeft = rPick(TAPE_LEFT) + 'px';
                         return '<article class="ml-card" style="--ml-bg:' + p.bg + ';--ml-ink:' + p.ink + ';--ml-rot:' + rots[i] + ';--tape-rot:' + tRot + ';--tape-left:' + tLeft + '">' +
-                               '<p class="ml-to">— to</p>' +
+                               '<p class="ml-to">to</p>' +
                                '<p class="ml-name"></p>' +
                                '<p class="ml-body"></p>' +
                                '</article>';
@@ -932,7 +942,7 @@
 
 
   <script>
-    /* Navbar shrink-on-scroll — same behavior as startup-page */
+    /* Navbar shrink-on-scroll, same behavior as startup-page */
     (function () {
       var navEl = document.querySelector('.top-info');
       if (!navEl) return;

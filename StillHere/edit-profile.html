@@ -30,14 +30,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title data-i18n="doc.title.editprofile">Edit profile — StillHere</title>
+  <title data-i18n="doc.title.editprofile">Edit profile · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Update your handle, avatar, or password.">
     <meta name="robots" content="noindex,nofollow">
     <link rel="canonical" href="https://www.stillhere.global/edit-profile">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Edit profile — StillHere">
+    <meta property="og:title" content="Edit profile · StillHere">
     <meta property="og:description" content="Update your handle, avatar, or password.">
     <meta property="og:url" content="https://www.stillhere.global/edit-profile">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
@@ -45,16 +45,16 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Edit profile — StillHere">
+    <meta name="twitter:title" content="Edit profile · StillHere">
     <meta name="twitter:description" content="Update your handle, avatar, or password.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -95,7 +95,7 @@
   <script src="JS/notifications.js?v=15" defer></script>
   <script src="JS/moderation.js?v=7" defer></script>
   <script src="JS/media-compress.js?v=3" defer></script>
-  <!-- auth.js exposes SH_AUTH.validatePassword — we reuse the same
+  <!-- auth.js exposes SH_AUTH.validatePassword, we reuse the same
        password rules here as on register / reset, so a user can't
        set a weaker password from the profile-edit page. The page-
        specific init paths inside auth.js (register / login / recovery
@@ -106,7 +106,7 @@
 
   <style>
     /* ══════════════════════════════════════════════════════
-       Edit profile — paper aesthetic
+       Edit profile, paper aesthetic
        ══════════════════════════════════════════════════════ */
 
     body { overflow-x: hidden; }
@@ -462,7 +462,7 @@
       color: var(--color-danger, #c0392b);
     }
     /* Two danger actions sit side-by-side, equal width, with a clear
-       severity hierarchy — left = soft red (reversible-ish), right =
+       severity hierarchy, left = soft red (reversible-ish), right =
        saturated red (irreversible). On narrow screens they stack. */
     .ep-danger-actions {
       display: grid;
@@ -497,7 +497,7 @@
     }
     .btn-danger:active { transform: translateY(1px); }
 
-    /* Tier 1 — soft red (left, "Delete all my posts"). */
+    /* Tier 1, soft red (left, "Delete all my posts"). */
     .btn-danger--soft {
       background: rgba(214, 83, 60, 0.10);
       color: #c0392b;
@@ -512,8 +512,8 @@
       box-shadow: 0 10px 22px -12px rgba(214, 83, 60, 0.40);
     }
 
-    /* Tier 2 — saturated red (right, "Close my account"). Solid fill,
-       paper-stamp shadow — reads as final/permanent. */
+    /* Tier 2, saturated red (right, "Close my account"). Solid fill,
+       paper-stamp shadow, reads as final/permanent. */
     .btn-danger.btn-delete {
       background: var(--accent-2, #d6533c);
       color: #fffaf0;
@@ -702,13 +702,13 @@
 
     <!-- ─── HERO ─── -->
     <section class="ep-hero">
-      <span class="ep-eyebrow" data-i18n="ep.hero.eyebrow"><em>—</em> settings, gently</span>
+      <span class="ep-eyebrow" data-i18n="ep.hero.eyebrow">settings, gently</span>
       <h1 class="ep-title">
         <span data-i18n="ep.hero.title">your <em>profile.</em></span>
         <img src="assets/letters/_Special Characters/Asterisk_01.png" class="ep-title-star" alt="" aria-hidden="true">
       </h1>
       <p class="ep-sub" data-i18n="ep.hero.sub">
-        change what others see — or <em>don't.</em> none of it is required, and none of it has to be real.
+        change what others see, or <em>don't.</em> none of it is required, and none of it has to be real.
       </p>
     </section>
 
@@ -751,7 +751,7 @@
           <!-- About you -->
           <div class="ep-card">
             <div class="ep-card-head">
-              <div class="ep-card-label" data-i18n="ep.about.label">— 01 about you</div>
+              <div class="ep-card-label" data-i18n="ep.about.label">about you</div>
               <div class="ep-card-title" data-i18n="ep.about.title">how others see you</div>
               <p class="ep-card-desc" data-i18n="ep.about.desc">none of it has to be real. you can leave any of it blank.</p>
             </div>
@@ -775,14 +775,14 @@
                 <span class="input-prefix">@</span>
                 <input type="text" id="username_input" name="username" placeholder="yourhandle" data-i18n-attr-placeholder="ep.about.username.ph" maxlength="24" autocomplete="username">
               </div>
-              <p class="field-hint" data-i18n="ep.about.username.hint">letters, numbers, and _ only — this is how you find your own posts.</p>
+              <p class="field-hint" data-i18n="ep.about.username.hint">letters, numbers, and _ only, this is how you find your own posts.</p>
             </div>
           </div>
 
           <!-- Password -->
           <div class="ep-card">
             <div class="ep-card-head">
-              <div class="ep-card-label" data-i18n="ep.pass.label">— 02 password</div>
+              <div class="ep-card-label" data-i18n="ep.pass.label">password</div>
               <div class="ep-card-title" data-i18n="ep.pass.title">change it, or leave it</div>
               <p class="ep-card-desc" data-i18n="ep.pass.desc">leave blank to keep your current password.</p>
             </div>
@@ -797,7 +797,7 @@
                 <input type="password" id="pass_confirm" name="password_confirm" placeholder="••••••••">
               </div>
             </div>
-            <!-- Rule reminder — mirrors the one shown on register / reset
+            <!-- Rule reminder, mirrors the one shown on register / reset
                  so the user knows what the validator will accept. -->
             <p class="ep-pass-hint" data-i18n="ep.pass.hint" style="margin: 10px 2px 0; font-size: 12px; color: var(--ink-light); font-style: italic;">
               min 8 characters, at least 1 letter &amp; 1 number, no spaces, Latin only.
@@ -818,8 +818,8 @@
           <!-- Danger zone -->
           <div class="ep-card ep-card--danger">
             <div class="ep-card-head">
-              <div class="ep-card-label" data-i18n="ep.danger.label">— 03 danger zone</div>
-              <div class="ep-card-title" data-i18n="ep.danger.title">careful — these can't be undone</div>
+              <div class="ep-card-label" data-i18n="ep.danger.label">danger zone</div>
+              <div class="ep-card-title" data-i18n="ep.danger.title">careful, these can't be undone</div>
               <p class="ep-card-desc" data-i18n="ep.danger.desc">
                 delete all your posts at once, or close your account. closing keeps your posts up
                 (shown as "deleted account") so the conversations they started stay intact.
@@ -958,7 +958,7 @@
       <h2 class="del-title" id="delAccTitle" data-i18n="ep.delmod.title">close your account?</h2>
       <p class="del-desc" id="delAccDesc" data-i18n="ep.delmod.desc">
         your account will be closed and your name removed. the posts and comments you wrote
-        will stay on the platform, shown as posted by "deleted account" — this keeps the
+        will stay on the platform, shown as posted by "deleted account", this keeps the
         conversations they started intact for everyone who replied.
       </p>
       <div class="del-actions">
@@ -991,7 +991,7 @@
   <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* Local i18n lookup — falls back to English literal so toasts
+    /* Local i18n lookup, falls back to English literal so toasts
        still read correctly during the very brief window before
        i18n.js boots, and continue working if a key is missing. */
     function tI(k, fb) {
@@ -1001,7 +1001,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* ── Edit profile logic ─────────────────────────────────────── */
-    window.SH_SESSION.whenReady(async function (user) {
+    /* session.js is deferred; if SH_SESSION isn't ready yet, defer to DOMContentLoaded. */
+    (window.SH_SESSION && window.SH_SESSION.whenReady ? window.SH_SESSION.whenReady.bind(window.SH_SESSION) : function (cb) { document.addEventListener('DOMContentLoaded', function () { if (window.SH_SESSION && window.SH_SESSION.whenReady) window.SH_SESSION.whenReady(cb); }); })(async function (user) {
 
       /* Not logged in → redirect */
       if (!user) { window.location.href = 'login.html'; return; }
@@ -1062,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', function () {
           var file = avatarInput.files && avatarInput.files[0];
           if (!file) return;
 
-          // Instant local preview — blob URL is shown before the
+          // Instant local preview, blob URL is shown before the
           // R2 round-trip finishes so the UI feels responsive.
           var blobUrl = URL.createObjectURL(file);
           if (avatarCircle) avatarCircle.innerHTML = '<img src="' + blobUrl + '" alt="Avatar">';
@@ -1089,7 +1090,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       /* ── Remove photo ──
-         Stages the removal only — the actual DB write happens on form
+         Stages the removal only, the actual DB write happens on form
          submit so it can't race with re-uploading the old avatar_url
          (which the submit handler does from the in-memory `user`
          object). Previous version wrote nullimmediately + the submit
@@ -1132,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', function () {
       function validateName(val) {
         if (!val) return null;
         if (val.length > 30) return 'Max 30 characters.';
-        if (/\s/.test(val)) return 'One word per field — put the rest in Last name.';
+        if (/\s/.test(val)) return 'One word per field, put the rest in Last name.';
         if (!/^[\p{L}\p{M}][\p{L}\p{M}'\-]*$/u.test(val)) return 'Letters, hyphens and apostrophes only.';
         return null;
       }
@@ -1140,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!val) return null;
         if (val.length < 3)  return 'At least 3 characters.';
         if (val.length > 24) return 'Max 24 characters.';
-        if (!/^[a-z0-9_]+$/.test(val)) return 'a–z, 0–9 and _ only — no spaces, Cyrillic or other characters.';
+        if (!/^[a-z0-9_]+$/.test(val)) return 'a–z, 0–9 and _ only, no spaces, Cyrillic or other characters.';
         return null;
       }
       function setFieldErr(input, msg) {
@@ -1189,7 +1190,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var passConfirm = (document.getElementById('pass_confirm') || {value:''}).value;
 
         if (passNew) {
-          /* Match check first — fast and only here, not in the
+          /* Match check first, fast and only here, not in the
              shared validator (which only sees one value). */
           if (passNew !== passConfirm) {
             var mismatchMsg = (window.SH_I18N && window.SH_I18N.t('auth.pw.mismatch')) || 'Passwords do not match.';
@@ -1197,13 +1198,13 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
           }
           /* Delegate the actual rule set to auth.js so register /
-             reset / edit-profile stay in lockstep — no spaces, ASCII
+             reset / edit-profile stay in lockstep, no spaces, ASCII
              only, min 8, has letter + digit, etc. */
           if (window.SH_AUTH && window.SH_AUTH.validatePassword) {
             var pwErr = window.SH_AUTH.validatePassword(passNew);
             if (pwErr) { toast(pwErr, true); return; }
           } else if (passNew.length < 8) {
-            /* Fallback if auth.js failed to load — keep the bare
+            /* Fallback if auth.js failed to load, keep the bare
                minimum so we never accept a 1-char password. */
             toast(tI('auth.pw.min', 'Must be at least 8 characters.'), true);
             return;
@@ -1262,7 +1263,7 @@ document.addEventListener('DOMContentLoaded', function () {
           avatarChanged = true;
         }
 
-        /* AI moderation on new avatar — SH_MOD.check supports mediaUrls,
+        /* AI moderation on new avatar, SH_MOD.check supports mediaUrls,
            so we pass the base64 data URI as the only media item. If the
            backend flags it, block the save and surface the reason. We
            skip this when the user is removing the photo (no URL). */
@@ -1280,12 +1281,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>' +
                 'Save changes';
             }
-            return; // hard stop — do NOT clear pending state so user can fix
+            return; // hard stop, do NOT clear pending state so user can fix
           }
           if (saveBtn) saveBtn.textContent = tI('ep.btn.saving', 'Saving…');
         }
 
-        /* Past the moderation gate — safe to consume the pending state. */
+        /* Past the moderation gate, safe to consume the pending state. */
         if (pendingAvatarUrl)       pendingAvatarUrl = null;
         if (pendingAvatarUploading) pendingAvatarUploading = null;
         if (pendingRemoveAvatar)    pendingRemoveAvatar = false;
@@ -1306,7 +1307,7 @@ document.addEventListener('DOMContentLoaded', function () {
               .update({ display_name: newDisplayName })
               .eq('id', user.id);
             if (profErr2) { toast(tI('ep.toast.errpfx', 'Error:') + ' ' + profErr2.message, true); ok = false; }
-            else toast(tI('ep.toast.savednophoto', 'Saved (no photo — run SQL to enable avatars)'), false);
+            else toast(tI('ep.toast.savednophoto', 'Saved (no photo, run SQL to enable avatars)'), false);
           } else if (profErr) {
             toast(tI('ep.toast.errpfx', 'Error:') + ' ' + profErr.message, true); ok = false;
           }
@@ -1428,7 +1429,7 @@ document.addEventListener('DOMContentLoaded', function () {
           dpConfirm.disabled = false;
           dpConfirm.textContent = origConfirmText;
           if (dpErr) { toast(tI('ep.toast.delfail', 'Delete failed:') + ' ' + dpErr.message, true); return; }
-          /* "Deleted N post(s)." — i18n string with {n} so RU/EN
+          /* "Deleted N post(s).", i18n string with {n} so RU/EN
              grammar can place the count where they need to. */
           var delTpl = tI(ids.length === 1 ? 'ep.toast.deleted.one' : 'ep.toast.deleted.many',
                           ids.length === 1 ? 'Deleted {n} post.' : 'Deleted {n} posts.');

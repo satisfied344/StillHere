@@ -30,14 +30,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title data-i18n="doc.title.updates">Updates — StillHere</title>
+  <title data-i18n="doc.title.updates">Updates · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="What we changed recently, and what's coming next.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
     <link rel="canonical" href="https://www.stillhere.global/nav-bar/updates">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Updates — StillHere">
+    <meta property="og:title" content="Updates · StillHere">
     <meta property="og:description" content="What we changed recently, and what's coming next.">
     <meta property="og:url" content="https://www.stillhere.global/nav-bar/updates">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
@@ -45,16 +45,16 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Updates — StillHere">
+    <meta name="twitter:title" content="Updates · StillHere">
     <meta name="twitter:description" content="What we changed recently, and what's coming next.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -96,8 +96,35 @@
   <script src="../JS/notifications.js?v=15" defer></script>
 
   <style>
+    /* ── Scroll reveal (tilt-safe), quiet fade-up for narrative blocks.
+       Animates the `translate` property (NOT `transform`) so each block's
+       base `transform: rotate()` paper-tilt survives. Gated under
+       html.sh-reveal-on: blocks hide only once JS is wired, so a JS failure
+       never leaves content invisible. Uses --ease-calm from motion.css. ── */
+    html.sh-reveal-on .sh-reveal { opacity: 0; translate: 0 14px; filter: blur(3px); }
+    html.sh-reveal-on .sh-reveal.is-in {
+      opacity: 1; translate: 0 0; filter: none;
+      transition: opacity .6s var(--ease-calm, ease-out),
+                  translate .6s var(--ease-calm, ease-out),
+                  filter .6s var(--ease-calm, ease-out);
+    }
+    html.sh-reveal-on .sh-reveal-stagger > * { opacity: 0; translate: 0 10px; }
+    html.sh-reveal-on .sh-reveal-stagger.is-in > * {
+      opacity: 1; translate: 0 0;
+      transition: opacity .55s var(--ease-calm, ease-out),
+                  translate .55s var(--ease-calm, ease-out);
+    }
+    html.sh-reveal-on .sh-reveal-stagger.is-in > *:nth-child(2){transition-delay:.1s}
+    html.sh-reveal-on .sh-reveal-stagger.is-in > *:nth-child(3){transition-delay:.2s}
+    @media (prefers-reduced-motion: reduce){
+      html.sh-reveal-on .sh-reveal, html.sh-reveal-on .sh-reveal.is-in,
+      html.sh-reveal-on .sh-reveal-stagger > *, html.sh-reveal-on .sh-reveal-stagger.is-in > *{
+        opacity:1!important; translate:0 0!important; filter:none!important; transition:none!important;
+      }
+    }
+
     /* ══════════════════════════════════════════════════════
-       Updates — paper aesthetic, matches site
+       Updates, paper aesthetic, matches site
        ══════════════════════════════════════════════════════ */
 
     body { overflow-x: hidden; }
@@ -500,7 +527,7 @@
       .up-entry::before { left: -22px; }
     }
 
-    /* ── Contrast boost — cards a touch more prominent ──
+    /* ── Contrast boost, cards a touch more prominent ──
        NOTE: target .up-entry-card (the visible card) not .up-entry
        (the wrapper that includes padding-bottom for timeline spacing). */
     .up-entry-card,
@@ -581,13 +608,13 @@
     <!-- ─── HERO ─── -->
     <section class="up-hero">
       <div class="up-hero-left">
-        <span class="up-eyebrow" data-i18n="up.hero.eyebrow"><em>—</em> changelog &amp; reflections</span>
+        <span class="up-eyebrow" data-i18n="up.hero.eyebrow">changelog &amp; reflections</span>
         <h1 class="up-title">
           <span data-i18n="up.hero.title"><em>updates</em></span>
           <img src="../assets/letters/_Special Characters/Asterisk_01.png" class="up-title-star" alt="" aria-hidden="true">
         </h1>
         <p class="up-lede" data-i18n="up.hero.lede">
-          this page documents how StillHere quietly evolves — small decisions, gentle
+          this page documents how StillHere quietly evolves, small decisions, gentle
           rewrites, <em>fixes</em> that came from your feedback, and what we're working on next.
         </p>
       </div>
@@ -611,16 +638,16 @@
     <!-- ─── TIMELINE ─── -->
     <section class="up-section">
       <div class="up-section-head">
-        <span class="up-section-eyebrow">— 01</span>
+        
         <h2 class="up-section-title" data-i18n="up.timeline.title">timeline</h2>
         <span class="up-section-hint" data-i18n="up.timeline.hint">newest first</span>
       </div>
 
       <div class="up-timeline">
 
-        <!-- May 26, 2026 — performance overhaul + edit posts -->
+        <!-- May 26, 2026, performance overhaul + edit posts -->
         <article class="up-entry">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0526.date">may 26, 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.perf">performance</span>
@@ -630,23 +657,23 @@
             <h3 class="up-entry-title" data-i18n="up.e0526.title">huge speed jump + you can finally edit your posts</h3>
             <p class="up-entry-lede" data-i18n="up.e0526.lede">
               the site got <em>~10× lighter</em> on first load, the home page renders fast even on
-              slow connections, and posts are now editable from the 3-dot menu — title, body, photos, all of it.
+              slow connections, and posts are now editable from the 3-dot menu, title, body, photos, all of it.
             </p>
             <ul class="up-entry-list">
-              <li data-i18n="up.e0526.li1"><strong>image assets: 28.6 MB → 2.7 MB</strong> — paper textures were 6900×10000 px for decorative use; aggressively resized + recompressed (−91%)</li>
+              <li data-i18n="up.e0526.li1"><strong>image assets: 28.6 MB → 2.7 MB</strong>, paper textures were 6900×10000 px for decorative use; aggressively resized + recompressed (−91%)</li>
               <li data-i18n="up.e0526.li2">blocking <code>&lt;script&gt;</code> tags in <code>&lt;head&gt;</code> moved to <code>defer</code>; Google Fonts merged 3→1; preconnect hints; <code>loading="lazy"</code> on below-fold images</li>
               <li data-i18n="up.e0526.li3">expected FCP in India: ~18s → ~2–3s · LCP: ~18s → ~3–5s · CLS on mobile: 0.38 → ~0.05 (the missing <code>&lt;meta viewport&gt;</code> was found)</li>
-              <li data-i18n="up.e0526.li4"><strong>edit your own posts</strong> — 3-dot menu on cards + the post page; loads the existing data into create-post, save → updates in place</li>
+              <li data-i18n="up.e0526.li4"><strong>edit your own posts</strong>, 3-dot menu on cards + the post page; loads the existing data into create-post, save → updates in place</li>
               <li data-i18n="up.e0526.li5">dark-mode polish: paper-note "not alone" stays cream, doodles invert correctly (cats, clouds, asterisks), tag pills now high-contrast on both themes</li>
-              <li data-i18n="up.e0526.li6">native theme detection via <code>prefers-color-scheme</code> — site auto-picks dark / light from the OS on first visit</li>
+              <li data-i18n="up.e0526.li6">native theme detection via <code>prefers-color-scheme</code>, site auto-picks dark / light from the OS on first visit</li>
               <li data-i18n="up.e0526.li7">post-menu in Russian shortened so every item fits one line; the Edit / Delete divider moved to its proper place</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 23, 2026 — mobile stylesheet + small UI tweaks -->
+        <!-- May 23, 2026, mobile stylesheet + small UI tweaks -->
         <article class="up-entry">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0523.date">may 23, 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.design">design</span>
@@ -654,7 +681,7 @@
             </div>
             <h3 class="up-entry-title" data-i18n="up.e0523.title">mobile-friendly across the board</h3>
             <p class="up-entry-lede" data-i18n="up.e0523.lede">
-              dedicated <code>mobile.css</code> shipped — small-screen layouts for every page, no more
+              dedicated <code>mobile.css</code> shipped, small-screen layouts for every page, no more
               horizontal scroll on phones, navbar and footers properly reflow.
             </p>
             <ul class="up-entry-list">
@@ -665,9 +692,9 @@
           </div>
         </article>
 
-        <!-- May 21, 2026 — dark theme overhaul + i18n UI -->
+        <!-- May 21, 2026, dark theme overhaul + i18n UI -->
         <article class="up-entry">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0521.date">may 21, 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.design">design</span>
@@ -675,21 +702,21 @@
             </div>
             <h3 class="up-entry-title" data-i18n="up.e0521.title">warmer dark, stronger cards, language toggle visible</h3>
             <p class="up-entry-lede" data-i18n="up.e0521.lede">
-              another pass on the dark palette — cards now stand noticeably above the background,
+              another pass on the dark palette, cards now stand noticeably above the background,
               secondary text is lighter, borders more visible. the language toggle in preferences
               actually shows up in dark mode now.
             </p>
             <ul class="up-entry-list">
-              <li data-i18n="up.e0521.li1">dark-theme.css reworked — card elevation, text contrast, border opacity</li>
+              <li data-i18n="up.e0521.li1">dark-theme.css reworked, card elevation, text contrast, border opacity</li>
               <li data-i18n="up.e0521.li2">i18n toggle visible + working in dark mode</li>
               <li data-i18n="up.e0521.li3">changelog and about-page copy edited</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 20, 2026 — dark-theme fixes + session-aware pings -->
+        <!-- May 20, 2026, dark-theme fixes + session-aware pings -->
         <article class="up-entry">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0520.date">may 20, 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.design">design</span>
@@ -702,16 +729,16 @@
               <em>actual per-tab sessions</em>, not stale counts.
             </p>
             <ul class="up-entry-list">
-              <li data-i18n="up.e0520.li1">inline color overrides removed — dark theme now applies cleanly everywhere</li>
-              <li data-i18n="up.e0520.li2">session-aware site_pings — stable per-tab id, no duplicates</li>
+              <li data-i18n="up.e0520.li1">inline color overrides removed, dark theme now applies cleanly everywhere</li>
+              <li data-i18n="up.e0520.li2">session-aware site_pings, stable per-tab id, no duplicates</li>
               <li data-i18n="up.e0520.li3">several hardcoded cream/white values replaced with CSS tokens</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 19, 2026 — i18n + analytics + index rename -->
+        <!-- May 19, 2026, i18n + analytics + index rename -->
         <article class="up-entry">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0519.date">may 19, 2026</span>
               <span class="up-tag up-tag--new" data-i18n="up.tag.new">new</span>
@@ -723,18 +750,18 @@
               that don't track you. <em>nothing about you, only that the page was opened.</em>
             </p>
             <ul class="up-entry-list">
-              <li data-i18n="up.e0519.li1"><strong>JS/i18n.js</strong> — full EN/RU dictionary + toggle in preferences</li>
-              <li data-i18n="up.e0519.li2"><strong>site_pings</strong> — supabase table: timestamps + session-id only; powers the "x online now" counter on /statistics</li>
-              <li data-i18n="up.e0519.li3"><strong>Vercel Speed Insights + Web Analytics</strong> — no cookies, no profiling</li>
-              <li data-i18n="up.e0519.li4">shared supabase client — silences duplicate GoTrueClient warnings</li>
+              <li data-i18n="up.e0519.li1"><strong>JS/i18n.js</strong>, full EN/RU dictionary + toggle in preferences</li>
+              <li data-i18n="up.e0519.li2"><strong>site_pings</strong>, supabase table: timestamps + session-id only; powers the "x online now" counter on /statistics</li>
+              <li data-i18n="up.e0519.li3"><strong>Vercel Speed Insights + Web Analytics</strong>, no cookies, no profiling</li>
+              <li data-i18n="up.e0519.li4">shared supabase client, silences duplicate GoTrueClient warnings</li>
               <li data-i18n="up.e0519.li5">startup-page.html renamed to <code>index.html</code>, vercel.json simplified</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 18, 2026 — dark theme overhaul + moderation system -->
+        <!-- May 18, 2026, dark theme overhaul + moderation system -->
         <article class="up-entry">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0518.date">may 18, 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.design">design</span>
@@ -744,44 +771,44 @@
             <p class="up-entry-lede" data-i18n="up.e0518.lede">
               biggest update so far. dark theme rewritten from scratch as a warm neutral palette;
               new consistent styling for all legal/docs pages; and a full moderation system
-              built into supabase — reports, weights, AI escalation, admin queue.
+              built into supabase, reports, weights, AI escalation, admin queue.
             </p>
             <ul class="up-entry-list">
-              <li data-i18n="up.e0518.li1"><strong>dark-theme.css</strong> — completely rewritten, warm-neutral tokens</li>
-              <li data-i18n="up.e0518.li2"><strong>docs.css</strong> — guidelines / privacy / terms / crisis pages styled consistently</li>
+              <li data-i18n="up.e0518.li1"><strong>dark-theme.css</strong>, completely rewritten, warm-neutral tokens</li>
+              <li data-i18n="up.e0518.li2"><strong>docs.css</strong>, guidelines / privacy / terms / crisis pages styled consistently</li>
               <li data-i18n="up.e0518.li3">SQL migrations: <code>reports</code>, <code>admin_roles</code>, <code>moderation_log</code>, <code>user_blocks</code></li>
-              <li data-i18n="up.e0518.li4"><strong>strict-review</strong> supabase edge function — re-checks flagged content with stricter AI prompt</li>
+              <li data-i18n="up.e0518.li4"><strong>strict-review</strong> supabase edge function, re-checks flagged content with stricter AI prompt</li>
               <li data-i18n="up.e0518.li5">admin queue page: keep / shadow / remove + block-author duration picker</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 16, 2026 — AI chat companion -->
+        <!-- May 16, 2026, AI chat companion -->
         <article class="up-entry">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0516.date">may 16, 2026</span>
               <span class="up-tag up-tag--ai" data-i18n="up.tag.ai">ai support</span>
               <span class="up-tag up-tag--new" data-i18n="up.tag.new">new</span>
             </div>
-            <h3 class="up-entry-title" data-i18n="up.e0516.title">a quiet companion — for the hours when nobody else is around</h3>
+            <h3 class="up-entry-title" data-i18n="up.e0516.title">a quiet companion, for the hours when nobody else is around</h3>
             <p class="up-entry-lede" data-i18n="up.e0516.lede">
-              the AI chat page went in — paper aesthetic, no-advice toggle, mood tags. the
+              the AI chat page went in, paper aesthetic, no-advice toggle, mood tags. the
               API key lives in a supabase edge function; <em>the browser never sees it</em>.
             </p>
             <ul class="up-entry-list">
               <li data-i18n="up.e0516.li1">full AI chat UI: navbar, sidebar, messages, doodle assets, transitions</li>
               <li data-i18n="up.e0516.li2"><strong>no-advice mode</strong> + mood tags (sad / anxious / lonely / tired / …)</li>
-              <li data-i18n="up.e0516.li3">chat history kept on your device only — never uploaded</li>
-              <li data-i18n="up.e0516.li4"><strong>supabase/functions/ai-chat</strong> — server proxy holding the OpenRouter key</li>
-              <li data-i18n="up.e0516.li5"><code>statistics.html</code> added — transparent project numbers</li>
+              <li data-i18n="up.e0516.li3">chat history kept on your device only, never uploaded</li>
+              <li data-i18n="up.e0516.li4"><strong>supabase/functions/ai-chat</strong>, server proxy holding the OpenRouter key</li>
+              <li data-i18n="up.e0516.li5"><code>statistics.html</code> added, transparent project numbers</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 5-9, 2026 — supabase integration -->
+        <!-- May 5-9, 2026, supabase integration -->
         <article class="up-entry up-entry--past">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0509.date">may 5–9, 2026</span>
               <span class="up-tag up-tag--new" data-i18n="up.tag.new">new</span>
@@ -789,28 +816,28 @@
             </div>
             <h3 class="up-entry-title" data-i18n="up.e0509.title">supabase wired into everything</h3>
             <p class="up-entry-lede" data-i18n="up.e0509.lede">
-              the static prototype became a real app — auth, posts, comments, filters and
+              the static prototype became a real app, auth, posts, comments, filters and
               counters all running on supabase. first dark-theme draft shipped alongside AI moderation.
             </p>
             <ul class="up-entry-list">
               <li data-i18n="up.e0509.li1">supabase auth + profiles connected</li>
               <li data-i18n="up.e0509.li2">comments persist server-side; like/save counters work correctly</li>
               <li data-i18n="up.e0509.li3">language &amp; support-type filters actually filter the feed</li>
-              <li data-i18n="up.e0509.li4"><strong>AI moderation</strong> — checks every post on submit</li>
+              <li data-i18n="up.e0509.li4"><strong>AI moderation</strong>, checks every post on submit</li>
               <li data-i18n="up.e0509.li5">vercel.json routing added; startup page returned to previous design</li>
             </ul>
           </div>
         </article>
 
-        <!-- May 2-3, 2026 — nav-bar pages + design -->
+        <!-- May 2-3, 2026, nav-bar pages + design -->
         <article class="up-entry up-entry--past">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.e0503.date">may 2–3, 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.design">design</span>
               <span class="up-tag up-tag--new" data-i18n="up.tag.new">new</span>
             </div>
-            <h3 class="up-entry-title" data-i18n="up.e0503.title">about, contacts, updates, profile — all built</h3>
+            <h3 class="up-entry-title" data-i18n="up.e0503.title">about, contacts, updates, profile, all built</h3>
             <p class="up-entry-lede" data-i18n="up.e0503.lede">
               the supporting pages came together. first sketch of the AI support chat UI.
               comments section rebuilt, post menus polished.
@@ -824,9 +851,9 @@
           </div>
         </article>
 
-        <!-- April 2026 — create-post v2 + docs scaffold -->
+        <!-- April 2026, create-post v2 + docs scaffold -->
         <article class="up-entry up-entry--past">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.eApr.date">april 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.design">design</span>
@@ -834,28 +861,28 @@
             </div>
             <h3 class="up-entry-title" data-i18n="up.eApr.title">create-post redesigned, docs scaffolded</h3>
             <p class="up-entry-lede" data-i18n="up.eApr.lede">
-              full redesign of the post creation flow — rich-text editor, media upload,
+              full redesign of the post creation flow, rich-text editor, media upload,
               topic chips, mode picker, anonymous toggle. project docs pages scaffolded.
             </p>
             <ul class="up-entry-list">
               <li data-i18n="up.eApr.li1">Quill rich-text editor for the post body</li>
-              <li data-i18n="up.eApr.li2">media upload — up to 6 attachments, drag &amp; drop</li>
+              <li data-i18n="up.eApr.li2">media upload, up to 6 attachments, drag &amp; drop</li>
               <li data-i18n="up.eApr.li3">topic chips + open-to-support / no-advice mode selection</li>
-              <li data-i18n="up.eApr.li4">docs pages (guidelines, privacy, terms) — example content added</li>
+              <li data-i18n="up.eApr.li4">docs pages (guidelines, privacy, terms), example content added</li>
             </ul>
           </div>
         </article>
 
-        <!-- Feb-Mar 2026 — visual identity -->
+        <!-- Feb-Mar 2026, visual identity -->
         <article class="up-entry up-entry--past">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.eFM.date">feb–mar 2026</span>
               <span class="up-tag up-tag--design" data-i18n="up.tag.design">design</span>
             </div>
             <h3 class="up-entry-title" data-i18n="up.eFM.title">finding the paper aesthetic</h3>
             <p class="up-entry-lede" data-i18n="up.eFM.lede">
-              several weeks of iteration to land the right visual tone — warm cream, ink
+              several weeks of iteration to land the right visual tone, warm cream, ink
               doodles, Caveat cursive as an accent. swapped the icon set completely.
             </p>
             <ul class="up-entry-list">
@@ -868,16 +895,16 @@
           </div>
         </article>
 
-        <!-- January 2026 — very beginning -->
+        <!-- January 2026, very beginning -->
         <article class="up-entry up-entry--past">
-          <div class="up-entry-card">
+          <div class="up-entry-card sh-reveal">
             <div class="up-entry-meta">
               <span class="up-entry-date" data-i18n="up.eJan.date">january 2026</span>
               <span class="up-tag up-tag--comm" data-i18n="up.tag.comm">community</span>
             </div>
             <h3 class="up-entry-title" data-i18n="up.eJan.title">the first lines of code</h3>
             <p class="up-entry-lede" data-i18n="up.eJan.lede">
-              first commits — a basic structure taking shape locally. main page, icons,
+              first commits, a basic structure taking shape locally. main page, icons,
               a profile page, the create-post draft, and a rough idea of
               <em>presence, not solutions</em>. nothing deployed yet, just figuring it out.
             </p>
@@ -896,30 +923,30 @@
     <!-- ─── ROADMAP ─── 
     <section class="up-section">
       <div class="up-section-head">
-        <span class="up-section-eyebrow">— 02</span>
+        
         <h2 class="up-section-title">what's brewing</h2>
         <span class="up-section-hint">subject to gentle change</span>
       </div>
 
       <div class="up-roadmap">
 
-        <div class="up-road-card">
+        <div class="up-road-card sh-reveal">
           <div class="up-road-head">
             <span class="up-road-status up-road-status--soon">soon</span>
           </div>
           <div class="up-road-name">multi-language</div>
-          <p class="up-road-desc">русский, українська, español, français — content auto-tagged, UI fully translated.</p>
+          <p class="up-road-desc">русский, українська, español, français, content auto-tagged, UI fully translated.</p>
         </div>
 
-        <div class="up-road-card">
+        <div class="up-road-card sh-reveal">
           <div class="up-road-head">
             <span class="up-road-status up-road-status--soon">soon</span>
           </div>
           <div class="up-road-name">crisis-aware AI</div>
-          <p class="up-road-desc">if the AI detects distress signals, it suggests a real hotline — gently, never alarmingly.</p>
+          <p class="up-road-desc">if the AI detects distress signals, it suggests a real hotline, gently, never alarmingly.</p>
         </div>
 
-        <div class="up-road-card">
+        <div class="up-road-card sh-reveal">
           <div class="up-road-head">
             <span class="up-road-status up-road-status--exploring">exploring</span>
           </div>
@@ -927,28 +954,28 @@
           <p class="up-road-desc">1-on-1 booking with trained peer listeners. fully anonymous, slot-based.</p>
         </div>
 
-        <div class="up-road-card">
+        <div class="up-road-card sh-reveal">
           <div class="up-road-head">
             <span class="up-road-status up-road-status--exploring">exploring</span>
           </div>
           <div class="up-road-name">offline mode</div>
-          <p class="up-road-desc">read saved posts &amp; chat history without internet — for tough nights.</p>
+          <p class="up-road-desc">read saved posts &amp; chat history without internet, for tough nights.</p>
         </div>
 
-        <div class="up-road-card">
+        <div class="up-road-card sh-reveal">
           <div class="up-road-head">
             <span class="up-road-status up-road-status--later">later</span>
           </div>
           <div class="up-road-name">letter mode</div>
-          <p class="up-road-desc">write a long, slow letter — to your future self, or to no one.</p>
+          <p class="up-road-desc">write a long, slow letter, to your future self, or to no one.</p>
         </div>
 
-        <div class="up-road-card">
+        <div class="up-road-card sh-reveal">
           <div class="up-road-head">
             <span class="up-road-status up-road-status--later">later</span>
           </div>
           <div class="up-road-name">voice notes</div>
-          <p class="up-road-desc">leave a 30-second voice memo — sometimes typing is too much.</p>
+          <p class="up-road-desc">leave a 30-second voice memo, sometimes typing is too much.</p>
         </div>
 
       </div>
@@ -960,7 +987,7 @@
       <div class="up-subscribe-text">
         <h3 class="up-subscribe-title" data-i18n="up.sub.title">want quiet updates <em>in your pocket?</em></h3>
         <p class="up-subscribe-desc" data-i18n="up.sub.desc">
-          we post the same notes on telegram — no algorithm, no pressure, just a soft ping when
+          we post the same notes on telegram, no algorithm, no pressure, just a soft ping when
           something new lands.
         </p>
       </div>
@@ -1040,6 +1067,23 @@
 
   <script>
 document.addEventListener('DOMContentLoaded', function () {
+    /* ── Scroll reveal (tilt-safe; animates translate, not transform) ── */
+    (function () {
+      var els = document.querySelectorAll('.sh-reveal, .sh-reveal-stagger');
+      if (!els.length) return;
+      document.documentElement.classList.add('sh-reveal-on');
+      if (!('IntersectionObserver' in window)) { els.forEach(function(el){el.classList.add('is-in');}); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target, d = parseInt(el.getAttribute('data-reveal-delay'),10)||0;
+          setTimeout(function(){ el.classList.add('is-in'); }, d);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+      els.forEach(function(el){ io.observe(el); });
+    })();
+
 
     /* ── Nav menu toggle ── */
     (function () {

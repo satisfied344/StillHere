@@ -19,15 +19,15 @@
   <link rel="mask-icon"        color="#d6533c"       href="/assets/favicon/favicon.svg?v=3">
   <link rel="manifest"                                href="/manifest.webmanifest">
 
-  <title data-i18n="nf.doc.title">Not here — StillHere</title>
-  <meta name="description" data-i18n-attr-content="nf.doc.desc" content="This page drifted off — but you're still here.">
+  <title data-i18n="nf.doc.title">Not here · StillHere</title>
+  <meta name="description" data-i18n-attr-content="nf.doc.desc" content="This page drifted off, but you're still here.">
   <meta name="robots" content="noindex,follow">
 
   <link rel="stylesheet" href="/CSS/main-screen.css?v=3">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/CSS/dark-theme.css">
   <link rel="stylesheet" href="/CSS/mobile.css?v=1779502000">
-  <!-- i18n machinery — loaded on this isolated page too so the EN/RU
+  <!-- i18n machinery, loaded on this isolated page too so the EN/RU
        toggle still works without bouncing the user to a navbar page. -->
   <script src="JS/i18n.uk.js?v=7" defer></script>
   <script src="/JS/i18n.js?v=6" defer></script>
@@ -35,7 +35,7 @@
 
   <style>
     /* ════════════════════════════════════════════════════════
-       404 — paper aesthetic + the EXACT 8-doodle ambient set
+       404, paper aesthetic + the EXACT 8-doodle ambient set
        from ai-chat.html (5 `.pg-doodle--*` perimeter + 3 `.wd--*`
        interior). Animations + opacity values copied verbatim
        from ai-chat-screen.css so backgrounds read identically.
@@ -48,7 +48,7 @@
       position: relative;
     }
 
-    /* ── Perimeter doodles — 1:1 with CSS/ai-chat-screen.css ── */
+    /* ── Perimeter doodles, 1:1 with CSS/ai-chat-screen.css ── */
     .pg-doodle {
       position: fixed; z-index: 0;
       opacity: 0.10; pointer-events: none;
@@ -73,7 +73,7 @@
       to   { transform: rotate(calc(var(--pg-rot, 0deg) + 4deg)) translateY(4px); }
     }
 
-    /* ── Interior doodles — 1:1 with `.wd--*` welcome-doodles
+    /* ── Interior doodles, 1:1 with `.wd--*` welcome-doodles
          from CSS/ai-chat-screen.css. Fixed (not absolute) so
          they live across the whole viewport. */
     .wd {
@@ -131,9 +131,9 @@
     }
     .nf-eyebrow em { color: var(--accent-2); font-style: normal; margin-right: 6px; }
 
-    /* "404" — plain block element, centered via parent's
+    /* "404", plain block element, centered via parent's
        text-align. No inline-flex, no spans, no negative tracking
-       — those caused the heading to shift right because the
+      , those caused the heading to shift right because the
        italic em added asymmetric horizontal advance to the box.
        Keep it dead simple so it actually sits under the eyebrow. */
     .nf-num {
@@ -228,13 +228,13 @@
   <img src="assets/letters/_Special Characters/Asterisk_02.png"      class="pg-doodle pg-doodle--4" alt="" aria-hidden="true">
 
   <main class="nf-wrap">
-    <p class="nf-eyebrow"><em>—</em> <span data-i18n="nf.eyebrow">page not found</span></p>
+    <p class="nf-eyebrow"><span data-i18n="nf.eyebrow">page not found</span></p>
 
     <h1 class="nf-num">4<em>0</em>4</h1>
     <p class="nf-title" data-i18n="nf.title">this page drifted <em>off</em>.</p>
 
     <p class="nf-lede" data-i18n="nf.lede">
-      maybe the link was old, maybe a typo —<br>
+      maybe the link was old, maybe a typo<br>
       either way, <em>you're still here</em>, and that's enough.
     </p>
 

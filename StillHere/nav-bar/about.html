@@ -30,14 +30,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title data-i18n="doc.title.about">About — StillHere</title>
+  <title data-i18n="doc.title.about">About · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="A small team building a quiet place for people who need to be heard. Why we built this, and how.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
     <link rel="canonical" href="https://www.stillhere.global/nav-bar/about">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="About — StillHere">
+    <meta property="og:title" content="About · StillHere">
     <meta property="og:description" content="A small team building a quiet place for people who need to be heard. Why we built this, and how.">
     <meta property="og:url" content="https://www.stillhere.global/nav-bar/about">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
@@ -45,16 +45,16 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About — StillHere">
+    <meta name="twitter:title" content="About · StillHere">
     <meta name="twitter:description" content="A small team building a quiet place for people who need to be heard. Why we built this, and how.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -97,10 +97,59 @@
 
   <style>
     /* ══════════════════════════════════════════════════════
-       About — paper aesthetic, matches startup/main/ai-chat/contacts/updates
+       About, paper aesthetic, matches startup/main/ai-chat/contacts/updates
        ══════════════════════════════════════════════════════ */
 
     body { overflow-x: hidden; }
+
+    /* ── Scroll reveal, quiet fade-up for below-the-fold narrative blocks.
+       Gated under html.ab-inview so content hides only after the JS observer
+       is wired (JS fails → nothing hidden, page stays readable).
+       Uses the --ease-calm token from motion.css. ── */
+    /* NOTE: we animate the individual `translate` property (NOT `transform`)
+       so the reveal composes ON TOP of each card's base `transform: rotate()`
+       paper-tilt instead of overwriting it. */
+    html.ab-inview .ab-reveal {
+      opacity: 0;
+      translate: 0 14px;
+      filter: blur(3px);
+    }
+    html.ab-inview .ab-reveal.is-in {
+      opacity: 1;
+      translate: 0 0;
+      filter: none;
+      transition:
+        opacity   0.6s var(--ease-calm, ease-out),
+        translate 0.6s var(--ease-calm, ease-out),
+        filter    0.6s var(--ease-calm, ease-out);
+    }
+    /* Staggered children, the two mock comments cascade so "i read every
+       word" lands a beat after the first message. */
+    html.ab-inview .ab-reveal-stagger > * {
+      opacity: 0;
+      translate: 0 10px;
+    }
+    html.ab-inview .ab-reveal-stagger.is-in > * {
+      opacity: 1;
+      translate: 0 0;
+      transition:
+        opacity   0.55s var(--ease-calm, ease-out),
+        translate 0.55s var(--ease-calm, ease-out);
+    }
+    html.ab-inview .ab-reveal-stagger.is-in > *:nth-child(2) { transition-delay: 0.18s; }
+    html.ab-inview .ab-reveal-stagger.is-in > *:nth-child(3) { transition-delay: 0.36s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html.ab-inview .ab-reveal,
+      html.ab-inview .ab-reveal.is-in,
+      html.ab-inview .ab-reveal-stagger > *,
+      html.ab-inview .ab-reveal-stagger.is-in > * {
+        opacity: 1 !important;
+        translate: 0 0 !important;
+        filter: none !important;
+        transition: none !important;
+      }
+    }
 
     .ab-page {
       max-width: 1080px;
@@ -836,7 +885,7 @@
       .ab-premise-quote-text { font-size: 22px; }
     }
 
-    /* ── Contrast boost — cards a touch more prominent ── */
+    /* ── Contrast boost, cards a touch more prominent ── */
     .ab-hero-card,
     .ab-card,
     .ab-premise-quote,
@@ -919,25 +968,25 @@
     <!-- ─── HERO ─── -->
     <section class="ab-hero">
       <div class="ab-hero-left">
-        <span class="ab-eyebrow" data-i18n="ab.hero.eyebrow"><em>—</em> a quiet space, made on purpose</span>
+        <span class="ab-eyebrow" data-i18n="ab.hero.eyebrow">a quiet space, made on purpose</span>
         <h1 class="ab-title">
           <span data-i18n="ab.hero.title">about <em>StillHere.</em></span>
           <img src="../assets/letters/_Special Characters/Asterisk_01.png" class="ab-title-star" alt="" aria-hidden="true">
         </h1>
         <p class="ab-lede" data-i18n="ab.hero.lede">
           we built this for the moments when everything feels heavy and you don't know
-          where to put it. not a clinic, not a forum — a <em>small, soft place</em> on the
+          where to put it. not a clinic, not a forum, a <em>small, soft place</em> on the
           internet where presence matters more than answers.
         </p>
       </div>
 
       <div class="ab-hero-right">
         <div class="ab-hero-card">
-          <div class="ab-hero-card-eyebrow" data-i18n="ab.hero.card.eyebrow">— our one-line</div>
+          <div class="ab-hero-card-eyebrow" data-i18n="ab.hero.card.eyebrow">our one-line</div>
           <div class="ab-hero-card-title" data-i18n="ab.hero.card.title">presence, not solutions.</div>
           <p class="ab-hero-card-text" data-i18n="ab.hero.card.text">
             you don't always need to be fixed. sometimes you just need to be
-            <strong>heard</strong> — and to know someone, somewhere, gets it.
+            <strong>heard</strong>, and to know someone, somewhere, gets it.
           </p>
         </div>
       </div>
@@ -946,7 +995,7 @@
     <!-- ─── PREMISE ─── -->
     <section class="ab-section">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow">— 01</span>
+        
         <h2 class="ab-section-title" data-i18n="ab.sec.01.title">why this exists</h2>
         <span class="ab-section-hint" data-i18n="ab.sec.01.hint">the short version</span>
       </div>
@@ -955,7 +1004,7 @@
         <div class="ab-premise-text">
           <p data-i18n="ab.premise.p1">
             most of the internet is loud. it wants your attention, your reaction, your hot take.
-            mental-health spaces aren't always better — they push <strong>productivity</strong>,
+            mental-health spaces aren't always better, they push <strong>productivity</strong>,
             <strong>positivity</strong>, <strong>five-step plans</strong>.
           </p>
           <p data-i18n="ab.premise.p2">
@@ -969,12 +1018,12 @@
           </p>
         </div>
 
-        <aside class="ab-premise-quote">
+        <aside class="ab-premise-quote ab-reveal">
           <span class="ab-premise-quote-mark">"</span>
           <p class="ab-premise-quote-text" data-i18n="ab.premise.quote">
             you don't have to be okay. <em>you just have to be here.</em>
           </p>
-          <div class="ab-premise-quote-attr" data-i18n="ab.premise.quote.attr">— the only rule</div>
+          <div class="ab-premise-quote-attr" data-i18n="ab.premise.quote.attr">the only rule</div>
         </aside>
       </div>
     </section>
@@ -982,7 +1031,7 @@
     <!-- ─── ORIGIN: TIKTOK STORY ─── -->
     <section class="ab-section">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow" data-i18n="ab.sec.origin.eyebrow">— the origin</span>
+        <span class="ab-section-eyebrow" data-i18n="ab.sec.origin.eyebrow">the origin</span>
         <h2 class="ab-section-title" data-i18n="ab.sec.origin.title">it started in a comment section</h2>
         <span class="ab-section-hint" data-i18n="ab.sec.origin.hint">not a startup idea</span>
       </div>
@@ -990,12 +1039,12 @@
       <div class="ab-origin">
 
         <!-- Mock TikTok-style comment thread -->
-        <div class="ab-origin-mock">
+        <div class="ab-origin-mock ab-reveal">
           <div class="ab-origin-mock-bar">
             <span class="ab-origin-mock-dot"></span>
             <span class="ab-origin-mock-dot"></span>
             <span class="ab-origin-mock-dot"></span>
-            <span class="ab-origin-mock-label" data-i18n="ab.mock.label">someone else's post — comments</span>
+            <span class="ab-origin-mock-label" data-i18n="ab.mock.label">someone else's post, comments</span>
           </div>
           <div class="ab-origin-mock-video">
             <div class="ab-origin-mock-video-icon">
@@ -1006,7 +1055,7 @@
               <span style="font-size:11px;opacity:0.7;">you'd never repost it. everyone you know would see you're not okay.</span>
             </div>
           </div>
-          <div class="ab-origin-mock-comments">
+          <div class="ab-origin-mock-comments ab-reveal-stagger">
             <div class="ab-origin-mock-comment">
               <div class="ab-origin-mock-avatar"></div>
               <div>
@@ -1027,7 +1076,7 @@
         <!-- Origin story text -->
         <div class="ab-origin-text">
           <p data-i18n="ab.origin.p1">
-            people kept writing honest things in places never meant for them — comment sections,
+            people kept writing honest things in places never meant for them, comment sections,
             random posts, late-night threads. not because they wanted attention. because they
             needed somewhere to put what they couldn't say out loud.
           </p>
@@ -1036,16 +1085,16 @@
           </p>
           <p data-i18n="ab.origin.p3">
             the pattern was always the same: someone writing the most honest thing they'd said
-            in months, sideways, under content that had nothing to do with them — and hoping
+            in months, sideways, under content that had nothing to do with them, and hoping
             a single stranger would notice.
           </p>
           <p data-i18n="ab.origin.p4">
             sometimes one did. and the only thing they said back was something like
-            <em>"i read every word."</em> — and that was the only place all week the person
+            <em>"i read every word."</em>, and that was the only place all week the person
             who wrote it felt heard. <strong>someone actually stopped and listened.</strong>
           </p>
           <p data-i18n="ab.origin.p5">
-            <strong>StillHere is that — on purpose.</strong> not buried under a video your friends
+            <strong>StillHere is that, on purpose.</strong> not buried under a video your friends
             might see. not borrowed from someone else's thread. a quiet feed where you can write
             what you couldn't say out loud, and someone who's been there too can sit with you
             for a minute.
@@ -1061,14 +1110,14 @@
     <!-- ─── HOW IT WORKS ─── -->
     <section class="ab-section">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow">— 02</span>
+        
         <h2 class="ab-section-title" data-i18n="ab.sec.02.title">how it works</h2>
         <span class="ab-section-hint" data-i18n="ab.sec.02.hint">four small things, no more</span>
       </div>
 
       <div class="ab-grid">
 
-        <article class="ab-card">
+        <article class="ab-card ab-reveal">
           <div class="ab-card-head">
             <span class="ab-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -1076,12 +1125,12 @@
               </svg>
             </span>
             <div>
-              <div class="ab-card-label" data-i18n="ab.feat.01.label">— feature 01</div>
+              <div class="ab-card-label" data-i18n="ab.feat.01.label">together</div>
               <div class="ab-card-title" data-i18n="ab.feat.01.title">community feed</div>
             </div>
           </div>
           <p class="ab-card-desc" data-i18n="ab.feat.01.desc">
-            a slow scroll of stories — no likes, no clout. people share what they're carrying;
+            a slow scroll of stories, no likes, no clout. people share what they're carrying;
             others respond gently. tag <strong>"no advice"</strong> if you only want presence.
           </p>
           <a href="../main" class="ab-card-link">
@@ -1090,7 +1139,7 @@
           </a>
         </article>
 
-        <article class="ab-card">
+        <article class="ab-card ab-reveal">
           <div class="ab-card-head">
             <span class="ab-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -1098,7 +1147,7 @@
               </svg>
             </span>
             <div>
-              <div class="ab-card-label" data-i18n="ab.feat.02.label">— feature 02</div>
+              <div class="ab-card-label" data-i18n="ab.feat.02.label">company</div>
               <div class="ab-card-title" data-i18n="ab.feat.02.title">ai companion</div>
             </div>
           </div>
@@ -1113,7 +1162,7 @@
           </a>
         </article>
 
-        <article class="ab-card">
+        <article class="ab-card ab-reveal">
           <div class="ab-card-head">
             <span class="ab-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -1121,7 +1170,7 @@
               </svg>
             </span>
             <div>
-              <div class="ab-card-label" data-i18n="ab.feat.03.label">— feature 03</div>
+              <div class="ab-card-label" data-i18n="ab.feat.03.label">privacy</div>
               <div class="ab-card-title" data-i18n="ab.feat.03.title">anonymous by default</div>
             </div>
           </div>
@@ -1135,7 +1184,7 @@
           </a>
         </article>
         <!--
-        <article class="ab-card">
+        <article class="ab-card ab-reveal">
           <div class="ab-card-head">
             <span class="ab-card-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
@@ -1143,13 +1192,13 @@
               </svg>
             </span>
             <div>
-              <div class="ab-card-label">— feature 04</div>
+              <div class="ab-card-label">quiet</div>
               <div class="ab-card-title">free, forever</div>
             </div>
           </div>
           <p class="ab-card-desc">
             no premium tier, no paywall on the "good" features. if money ever shows up,
-            it's <strong>donations or grants</strong> — and we'll always say where.
+            it's <strong>donations or grants</strong>, and we'll always say where.
           </p>
           <a href="updates" class="ab-card-link">
             see roadmap
@@ -1164,7 +1213,7 @@
     <!-- ─── PRINCIPLES ─── -->
     <section class="ab-section">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow">— 03</span>
+        
         <h2 class="ab-section-title" data-i18n="ab.sec.03.title">what we believe</h2>
         <span class="ab-section-hint" data-i18n="ab.sec.03.hint">our four quiet rules</span>
       </div>
@@ -1196,13 +1245,13 @@
     <!-- ─── WHAT WE'RE NOT ─── -->
     <section class="ab-section">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow">— 04</span>
+        
         <h2 class="ab-section-title" data-i18n="ab.sec.04.title">what we're not</h2>
         <span class="ab-section-hint" data-i18n="ab.sec.04.hint">honest about the edges</span>
       </div>
 
       <div class="ab-not">
-        <h3 class="ab-not-title" data-i18n="ab.not.title">we're <em>not</em> a replacement for —</h3>
+        <h3 class="ab-not-title" data-i18n="ab.not.title">we're <em>not</em> a replacement for</h3>
         <p class="ab-not-sub" data-i18n="ab.not.sub">
           StillHere is a soft place, but it has limits. please know them, and
           please don't carry serious things alone.
@@ -1219,7 +1268,7 @@
             <span class="ab-not-item-mark">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>
             </span>
-            <span data-i18n="ab.not.02"><strong>a crisis line.</strong> if you're unsafe right now, please call a trained counselor — they're 24/7 and free.</span>
+            <span data-i18n="ab.not.02"><strong>a crisis line.</strong> if you're unsafe right now, please call a trained counselor, they're 24/7 and free.</span>
           </div>
           <div class="ab-not-item">
             <span class="ab-not-item-mark">
@@ -1240,7 +1289,7 @@
     <!-- ─── STORY / WHO ─── -->
     <section class="ab-section">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow">— 05</span>
+        
         <h2 class="ab-section-title" data-i18n="ab.sec.05.title">who's behind this</h2>
         <span class="ab-section-hint" data-i18n="ab.sec.05.hint">just one person</span>
       </div>
@@ -1260,17 +1309,17 @@
         </div>
 
         <div class="ab-story-text">
-          <div class="ab-story-eyebrow" data-i18n="ab.story.eyebrow">— the person</div>
+          <div class="ab-story-eyebrow" data-i18n="ab.story.eyebrow">the person</div>
           <h3 class="ab-story-heading" data-i18n="ab.story.heading">one person, <em>working quietly.</em></h3>
           <div class="ab-story-body">
             <p data-i18n="ab.story.p1">
               StillHere is a <strong>solo project</strong>. one developer, building and
-              maintaining the whole thing — the site, the database, the moderation, the
+              maintaining the whole thing, the site, the database, the moderation, the
               writing on these pages, all of it. no team, no investors, no growth deck.
             </p>
             <p data-i18n="ab.story.p2">
               the reason it exists is personal. burnout, grief, the kind of nights where
-              the internet only made it worse. nothing felt right — so this place is an
+              the internet only made it worse. nothing felt right, so this place is an
               attempt to make one that <strong>doesn't shout</strong>.
             </p>
             <p data-i18n="ab.story.p3">
@@ -1279,8 +1328,8 @@
               grow slowly and only as much as it needs to.
             </p>
             <p data-i18n="ab.story.p4">
-              if you want to help — share your story, send a kind reply, point out a bug,
-              or just exist here quietly — you already are.
+              if you want to help, share your story, send a kind reply, point out a bug,
+              or just exist here quietly, you already are.
             </p>
           </div>
         </div>
@@ -1289,7 +1338,7 @@
 
     <section class="ab-section ab-section--inspire" style="margin-top:64px; padding:32px 0 0; border-top:1px dashed var(--line-soft);">
       <div class="ab-section-head">
-        <span class="ab-section-eyebrow">— 06</span>
+        
         <h2 class="ab-section-title" data-i18n="ab.sec.06.title">inspirations &amp; honest credit</h2>
         <span class="ab-section-hint" data-i18n="ab.sec.06.hint">we didn't invent quiet</span>
       </div>
@@ -1297,12 +1346,12 @@
         StillHere stands on the shoulders of projects that figured out something tender
         long before we did. <em>quiet letters</em>, our wall of unsent messages, is openly
         inspired by <a href="https://theunsentproject.com" target="_blank" rel="noopener" style="color:var(--accent-2); border-bottom:1px dashed rgba(214,83,60,0.45);"><strong>The Unsent Project</strong></a>
-        by <em>Rora Blue</em> — a years-running collection of messages to first loves,
+        by <em>Rora Blue</em>, a years-running collection of messages to first loves,
         sorted by colour. it's a quiet, generous piece of internet, and the format
         clicked into what we were already building.
       </p>
       <p class="ab-section-lede" style="font-size:14.5px; color:var(--ink-mid); line-height:1.7; max-width:720px; margin-top:16px;" data-i18n="ab.insp.p2">
-        we kept what mattered — no replies, just colour and short honesty — and shaped
+        we kept what mattered, no replies, just colour and short honesty, and shaped
         it toward this place's purpose: not only first loves, but the parent who can't
         hear it anymore, the version of you that didn't make it through, the dog you
         forgot to thank. if you've never been there, go. it's worth your evening.
@@ -1313,9 +1362,9 @@
     <!-- ─── CLOSING ─── -->
     <section class="ab-closing">
       <p class="ab-closing-text" data-i18n="ab.closing.text">
-        wherever you are tonight — <em>we're glad you found this.</em>
+        wherever you are tonight, <em>we're glad you found this.</em>
       </p>
-      <p class="ab-closing-sub" data-i18n="ab.closing.sub">— still here, always</p>
+      <p class="ab-closing-sub" data-i18n="ab.closing.sub">still here, always</p>
 
       <div class="ab-closing-actions">
         <a href="../create-post" class="ab-cta ab-cta--primary">
@@ -1333,7 +1382,7 @@
       </div>
     </section>
 
-    <!-- ─── INSPIRATIONS — open credit to projects we learned from ─── -->
+    <!-- ─── INSPIRATIONS, open credit to projects we learned from ─── -->
     
 
   </main>
@@ -1402,6 +1451,30 @@
 
   <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── Scroll reveal (quiet fade-up for narrative blocks) ──
+       Add the gate class so CSS hides .ab-reveal elements only now that
+       JS is running. If IntersectionObserver is missing, reveal everything
+       immediately so nothing is ever stuck invisible. */
+    (function () {
+      var els = document.querySelectorAll('.ab-reveal, .ab-reveal-stagger');
+      if (!els.length) return;
+      document.documentElement.classList.add('ab-inview');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var delay = parseInt(el.getAttribute('data-reveal-delay'), 10) || 0;
+          setTimeout(function () { el.classList.add('is-in'); }, delay);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
 
     /* ── Nav menu toggle ── */
     (function () {

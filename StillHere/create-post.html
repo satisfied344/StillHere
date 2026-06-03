@@ -31,14 +31,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.quilljs.com">
-  <title data-i18n="doc.title.createpost">Share your story — StillHere</title>
+  <title data-i18n="doc.title.createpost">Share your story · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Write what feels heavy. No account needed. Anonymous, no advice unless you ask.">
     <meta name="robots" content="noindex,nofollow">
     <link rel="canonical" href="https://www.stillhere.global/create-post">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Share your story — StillHere">
+    <meta property="og:title" content="Share your story · StillHere">
     <meta property="og:description" content="Write what feels heavy. No account needed. Anonymous, no advice unless you ask.">
     <meta property="og:url" content="https://www.stillhere.global/create-post">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
@@ -46,16 +46,16 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Share your story — StillHere">
+    <meta name="twitter:title" content="Share your story · StillHere">
     <meta name="twitter:description" content="Write what feels heavy. No account needed. Anonymous, no advice unless you ask.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -105,7 +105,7 @@
 
   <style>
     /* ══════════════════════════════════════════════════════
-       Create post — paper aesthetic, matches startup/main/about/profile
+       Create post, paper aesthetic, matches startup/main/about/profile
        ══════════════════════════════════════════════════════ */
     body { overflow-x: hidden; }
 
@@ -188,7 +188,7 @@
       align-items: start;
     }
 
-    /* ── STEP CARDS — high contrast, definite ────────────── */
+    /* ── STEP CARDS, high contrast, definite ────────────── */
     .cp-card {
       background: var(--paper-soft);
       border: 1.5px solid var(--line);
@@ -208,7 +208,7 @@
       box-shadow: 0 4px 16px -4px rgba(214, 83, 60, 0.18);
     }
 
-    /* DOMINANT story card — visually the heart of the page */
+    /* DOMINANT story card, visually the heart of the page */
     .cp-card--story {
       padding: 30px 32px 32px;
       border-width: 2px;
@@ -312,7 +312,7 @@
       background: #fffbf2;
       border: 1.5px solid var(--line);
       border-radius: 10px;
-      /* Typed text — clean Ubuntu */
+      /* Typed text, clean Ubuntu */
       font-family: "Ubuntu", sans-serif;
       font-size: 19px;
       font-weight: 600;
@@ -322,7 +322,7 @@
       resize: none;
       transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     }
-    /* Placeholder — keeps the handwritten Caveat look */
+    /* Placeholder, keeps the handwritten Caveat look */
     .cp-title-input::placeholder {
       font-family: "Caveat", cursive;
       font-size: 26px;
@@ -345,7 +345,7 @@
       text-align: right;
     }
 
-    /* ── QUILL EDITOR — the dominant element ──────────── */
+    /* ── QUILL EDITOR, the dominant element ──────────── */
     #post-editor {
       min-height: 360px;
     }
@@ -393,7 +393,7 @@
       max-width: 100%;
       overflow-x: hidden;
     }
-    /* Embedded images inside the editor — limit max size */
+    /* Embedded images inside the editor, limit max size */
     .ql-editor img {
       max-width: 100%;
       max-height: 420px;
@@ -404,7 +404,7 @@
       margin: 10px auto;
       border-radius: 8px;
     }
-    /* Title input — break long words too */
+    /* Title input, break long words too */
     .cp-title-input {
       word-wrap: break-word;
       overflow-wrap: anywhere;
@@ -532,7 +532,7 @@
       font-weight: 600;
       color: var(--ink);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
       user-select: none;
     }
     .cp-topic-chip::before {
@@ -709,7 +709,7 @@
     .btn-publish:active:not(:disabled) { transform: translateY(0); }
     .btn-publish:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
 
-    /* Delete-draft — outlined ghost (subtle, only appears when a draft exists) */
+    /* Delete-draft, outlined ghost (subtle, only appears when a draft exists) */
     .btn-delete-draft {
       display: inline-flex;
       align-items: center;
@@ -735,7 +735,7 @@
     }
     .btn-delete-draft:active { transform: translateY(0); }
 
-    /* Anonymous-user agreement — matches the styling of other cp-card sections.
+    /* Anonymous-user agreement, matches the styling of other cp-card sections.
        Only the inner checkbox row carries its own visual weight. */
     .cp-anon-agree-card.is-flash {
       animation: cpAgreeFlash 0.6s ease;
@@ -796,7 +796,7 @@
       line-height: 1.5;
     }
 
-    /* ── SIDEBAR — quiet, secondary, matches main page ──── */
+    /* ── SIDEBAR, quiet, secondary, matches main page ──── */
     .cp-aside {
       position: sticky;
       top: 96px;
@@ -813,12 +813,12 @@
       margin-bottom: 0;
       box-shadow: 0 1px 3px rgba(26, 20, 16, 0.04);
     }
-    /* Crisis — red glow tint (urgent, stands out) */
+    /* Crisis, red glow tint (urgent, stands out) */
     .cp-widget--crisis {
       background: rgba(214, 83, 60, 0.07);
       border-color: rgba(214, 83, 60, 0.25);
     }
-    /* AI — calm, no tint */
+    /* AI, calm, no tint */
     .cp-widget--ai {
       background: rgba(255, 250, 240, 0.65);
       border-color: var(--line-soft);
@@ -860,7 +860,7 @@
       transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
       border: 1.5px solid transparent;
     }
-    /* Crisis — solid red filled (primary action in sidebar) */
+    /* Crisis, solid red filled (primary action in sidebar) */
     .cp-widget--crisis .cp-widget-link {
       background: var(--accent-2);
       border-color: var(--accent-2);
@@ -871,7 +871,7 @@
       border-color: #b8462f;
       transform: translateY(-1px);
     }
-    /* AI — outlined ghost, hover fills with sage green */
+    /* AI, outlined ghost, hover fills with sage green */
     .cp-widget--ai .cp-widget-link {
       background: transparent;
       border-color: var(--ink-mid);
@@ -884,7 +884,7 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px -3px rgba(109, 130, 104, 0.40);
     }
-    /* Generic — outlined */
+    /* Generic, outlined */
     .cp-widget:not(.cp-widget--crisis):not(.cp-widget--ai) .cp-widget-link {
       background: transparent;
       border-color: var(--line);
@@ -1037,14 +1037,14 @@
 
     <!-- ─── HERO ─── -->
     <section class="cp-hero">
-      <span class="cp-eyebrow" data-i18n="cp.hero.eyebrow"><em>—</em> share, anonymously</span>
+      <span class="cp-eyebrow" data-i18n="cp.hero.eyebrow">share, anonymously</span>
       <h1 class="cp-title">
         <span data-i18n="cp.hero.title">say it, <em>gently.</em></span>
         <img src="assets/letters/_Special Characters/Asterisk_01.png" class="cp-title-star" alt="" aria-hidden="true">
       </h1>
       <p class="cp-lede" data-i18n="cp.hero.lede">
         no perfect words, no need to wrap it up neatly. somebody out there is going through
-        something almost <em>just like this</em> — and seeing yours might be the reason they
+        something almost <em>just like this</em>, and seeing yours might be the reason they
         finally write theirs too.
       </p>
     </section>
@@ -1055,10 +1055,10 @@
         <!-- ════════ MAIN FORM COLUMN ════════ -->
         <div>
 
-          <!-- 01 — language -->
+          <!-- 01, language -->
           <div class="cp-card">
             <div class="cp-card-head">
-              <span class="cp-card-eyebrow">— 01</span>
+              
               <h2 class="cp-card-title" data-i18n="cp.c1.title">language</h2>
               <span class="cp-card-hint" data-i18n="cp.c1.hint">write in whatever feels native</span>
             </div>
@@ -1110,10 +1110,10 @@
             </div>
           </div>
 
-          <!-- 02 — title -->
+          <!-- 02, title -->
           <div class="cp-card">
             <div class="cp-card-head">
-              <span class="cp-card-eyebrow">— 02</span>
+              
               <h2 class="cp-card-title" data-i18n="cp.c2.title">a title, if it helps</h2>
               <span class="cp-card-hint" data-i18n="cp.optional">optional</span>
             </div>
@@ -1131,12 +1131,12 @@
             <div class="cp-title-meta" data-i18n="cp.c2.meta">max 120 characters</div>
           </div>
 
-          <!-- 03 — story (DOMINANT) -->
+          <!-- 03, story (DOMINANT) -->
           <div class="cp-card cp-card--story">
             <div class="cp-card-head">
-              <span class="cp-card-eyebrow">— 03</span>
+              
               <h2 class="cp-card-title" data-i18n="cp.c3.title">your story</h2>
-              <span class="cp-card-hint" data-i18n="cp.c3.hint">brief or long — both are okay</span>
+              <span class="cp-card-hint" data-i18n="cp.c3.hint">brief or long, both are okay</span>
             </div>
             <p class="cp-card-sub" data-i18n="cp.c3.sub">there's no wrong way to say what you're feeling. write like nobody's grading it.</p>
 
@@ -1144,14 +1144,14 @@
             <textarea id="post-content" name="content" style="display:none" aria-hidden="true"></textarea>
           </div>
 
-          <!-- 04 — media -->
+          <!-- 04, media -->
           <div class="cp-card">
             <div class="cp-card-head">
-              <span class="cp-card-eyebrow">— 04</span>
+              
               <h2 class="cp-card-title" data-i18n="cp.c4.title">images or video</h2>
               <span class="cp-card-hint" data-i18n="cp.optional">optional</span>
             </div>
-            <p class="cp-card-sub" data-i18n="cp.c4.sub">add up to 6 things — drawings, photos, a song clip. photos are compressed automatically, video up to 25MB.</p>
+            <p class="cp-card-sub" data-i18n="cp.c4.sub">add up to 6 things, drawings, photos, a song clip. photos are compressed automatically, video up to 25MB.</p>
 
             <div class="cp-upload" id="mediaUploadArea">
               <input type="file" id="mediaInput" name="media" multiple accept="image/*,video/*" hidden>
@@ -1162,18 +1162,18 @@
                   <polyline points="21 15 16 10 5 21"/>
                 </svg>
                 <p class="upload-text" data-i18n="cp.c4.upload">click to upload, or drag &amp; drop</p>
-                <p class="upload-hint" data-i18n="cp.c4.uphint">images or video · video up to 25MB · max 6</p>
+                <p class="upload-hint" data-i18n="cp.c4.uphint">images or video, up to 25MB, max 6</p>
               </div>
               <div class="media-preview-grid" id="mediaPreview"></div>
             </div>
           </div>
 
-          <!-- 05 — topics -->
+          <!-- 05, topics -->
           <div class="cp-card">
             <div class="cp-card-head">
-              <span class="cp-card-eyebrow">— 05</span>
+              
               <h2 class="cp-card-title" data-i18n="cp.c5.title">what does it touch on?</h2>
-              <span class="cp-card-hint" data-i18n="cp.c5.hint">pick what fits — or skip</span>
+              <span class="cp-card-hint" data-i18n="cp.c5.hint">pick what fits, or skip</span>
             </div>
 
             <div class="cp-topics">
@@ -1203,10 +1203,10 @@
             </div>
           </div>
 
-          <!-- 06 — mode -->
+          <!-- 06, mode -->
           <div class="cp-card">
             <div class="cp-card-head">
-              <span class="cp-card-eyebrow">— 06</span>
+              
               <h2 class="cp-card-title" data-i18n="cp.c6.title">what kind of response feels okay?</h2>
               <span class="cp-card-hint" data-i18n="cp.c6.hint">tell people in advance</span>
             </div>
@@ -1219,7 +1219,7 @@
                 </span>
                 <span class="cp-mode-text">
                   <strong data-i18n="cp.mode.support">open to support</strong>
-                  <span data-i18n="cp.mode.support.desc">warm words, perspective, a "me too" — all welcome.</span>
+                  <span data-i18n="cp.mode.support.desc">warm words, perspective, a "me too", all welcome.</span>
                 </span>
                 <span class="cp-mode-dot"></span>
               </label>
@@ -1238,27 +1238,27 @@
             </div>
           </div>
 
-          <!-- 07 — anonymous-user agreement (only shown when not logged in) -->
+          <!-- 07, anonymous-user agreement (only shown when not logged in) -->
           <div class="cp-card cp-anon-agree-card" id="cp-anon-agree-card" style="display:none;">
             <div class="cp-card-head">
-              <span class="cp-card-eyebrow">— 07</span>
+              
               <h2 class="cp-card-title" data-i18n="cp.c7.title">agreement</h2>
               <span class="cp-card-hint" data-i18n="cp.c7.hint">since you're posting without an account</span>
             </div>
             <p class="cp-card-sub" data-i18n="cp.c7.sub">
-              you don't need an account to share a story — but we still need to know you've
+              you don't need an account to share a story, but we still need to know you've
               read the small print. it's short and human.
             </p>
             <label class="cp-anon-agree-row" for="cp-anon-agree-input">
               <input type="checkbox" id="cp-anon-agree-input">
               <span data-i18n="cp.c7.agree">
                 i've read and i agree to the
-                <a href="docs/html/terms-of-service" target="_blank">terms of service</a>
-                and the <a href="docs/html/privacy-policy" target="_blank">privacy policy</a>.
+                <a href="docs/html/terms-of-service" target="_blank" rel="noopener noreferrer">terms of service</a>
+                and the <a href="docs/html/privacy-policy" target="_blank" rel="noopener noreferrer">privacy policy</a>.
               </span>
             </label>
             <p class="cp-anon-agree-error" id="cp-anon-agree-error" style="display:none;" data-i18n="cp.c7.error">
-              please tick the box above to confirm — then your story will publish.
+              please tick the box above to confirm, then your story will publish.
             </p>
           </div>
 
@@ -1342,7 +1342,7 @@
           <p class="cp-closing-text" data-i18n="cp.closing.text">
             whatever you write, <em>it counts.</em>
           </p>
-          <p class="cp-closing-sub" data-i18n="cp.closing.sub">— take your time</p>
+          <p class="cp-closing-sub" data-i18n="cp.closing.sub">take your time</p>
         </section>
 
       </div>
@@ -1485,7 +1485,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }, { passive: true });
       }
 
-      /* Title autosize — grow with content */
+      /* Title autosize, grow with content */
       var titleEl = document.getElementById('post-title');
       if (titleEl) {
         function autosize() {
@@ -1508,7 +1508,7 @@ document.addEventListener('DOMContentLoaded', function () {
           var form       = document.getElementById('postForm');
 
           if (!user) {
-            /* Anonymous — show section 07. Unchecked by default = real consent. */
+            /* Anonymous, show section 07. Unchecked by default = real consent. */
             if (agreeCard) agreeCard.style.display = '';
 
             /* Clear any error styling once user ticks the box */
@@ -1522,7 +1522,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             /* On submit: if not checked, stop submission, show error & scroll into view.
-               No button disabling — the form just refuses to send and tells the user why. */
+               No button disabling, the form just refuses to send and tells the user why. */
             if (form && agreeInput) {
               form.addEventListener('submit', function (e) {
                 if (!agreeInput.checked) {
@@ -1569,7 +1569,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   <!-- ──────────────────────────────────────────────────────
-       Block modal — shown when the BEFORE-INSERT trigger
+       Block modal, shown when the BEFORE-INSERT trigger
        rejects a post because the author is in user_blocks.
        Reuses the del-modal styling from post.html.
        ────────────────────────────────────────────────────── -->
@@ -1588,7 +1588,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   </div>
 
-  <!-- Delete draft confirm modal — replaces native browser confirm(). -->
+  <!-- Delete draft confirm modal, replaces native browser confirm(). -->
   <div class="sh-modal-backdrop" id="draftDelBackdrop" aria-hidden="true">
     <div class="sh-modal" role="alertdialog" aria-modal="true" aria-labelledby="draftDelTitle" aria-describedby="draftDelDesc">
       <div class="sh-modal-icon">
@@ -1683,17 +1683,17 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 
   <!-- ──────────────────────────────────────────────────────
-       Draft auto-save / restore — saves on every keystroke,
+       Draft auto-save / restore, saves on every keystroke,
        on pagehide, and on visibilitychange. Restores after Quill
        mounts. Cleared only by create-post.js on successful publish.
-       Skipped entirely in edit mode (?edit=…) — create-post.js is
+       Skipped entirely in edit mode (?edit=…), create-post.js is
        loading the real post into the form there, and we don't want
        to overwrite it with whatever the user last drafted.
        ────────────────────────────────────────────────────── -->
   <script>
     (function () {
       'use strict';
-      /* Bail out in edit mode — create-post.js owns the form contents. */
+      /* Bail out in edit mode, create-post.js owns the form contents. */
       try {
         if (new URLSearchParams(window.location.search).get('edit')) return;
       } catch (_) {}
@@ -1702,7 +1702,7 @@ document.addEventListener('DOMContentLoaded', function () {
          Prevents the pagehide / visibilitychange listeners from re-saving the
          form contents and undoing the clear before navigation completes. */
       var noMoreSaves = false;
-      /* Per-user draft key — without the suffix, two accounts on the
+      /* Per-user draft key, without the suffix, two accounts on the
          same browser see each other's drafts (bug 2026-05). The user
          id is read once at startup from window.SH_SESSION (populated
          by session.js); falls back to '_anon' so signed-out drafts
@@ -1804,7 +1804,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
 
-      /* Clear form fields + editor — used when switching accounts so
+      /* Clear form fields + editor, used when switching accounts so
          we don't leak the previous account's (or anon's) content into
          the new view. */
       function clearForm() {
@@ -1864,7 +1864,7 @@ document.addEventListener('DOMContentLoaded', function () {
         form.addEventListener('input',  save);
         form.addEventListener('change', save);
 
-        // Editor — attach when it exists
+        // Editor, attach when it exists
         var tries = 0;
         var hook = setInterval(function () {
           tries++;
@@ -1902,7 +1902,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       }
 
-      // ── Delete-draft button — visible only when a draft exists ──
+      // ── Delete-draft button, visible only when a draft exists ──
       function updateDeleteBtn() {
         var btn = document.getElementById('btnDeleteDraft');
         if (!btn) return;
@@ -1961,7 +1961,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Public hook for create-post.js to call after a successful publish
       window.__shClearPostDraft = function () {
         // Block pagehide/visibilitychange from re-saving the form before
-        // navigation completes — that was restoring the just-submitted draft.
+        // navigation completes, that was restoring the just-submitted draft.
         noMoreSaves = true;
         try { localStorage.removeItem(KEY()); } catch (_) {}
         updateDeleteBtn();

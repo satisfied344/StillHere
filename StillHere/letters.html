@@ -20,14 +20,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <title data-i18n="doc.title.letters">Quiet letters — StillHere</title>
+  <title data-i18n="doc.title.letters">Quiet letters · StillHere</title>
     <meta data-sh-seo="1" name="generator" content="StillHere">
     <meta name="description" content="Short, unsent letters to people you can't reach. Read them. Write one. No one will reply.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
     <link rel="canonical" href="https://www.stillhere.global/letters">
     <meta property="og:site_name" content="StillHere">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Quiet letters — StillHere">
+    <meta property="og:title" content="Quiet letters · StillHere">
     <meta property="og:description" content="Short, unsent letters to people you can't reach. Read them. Write one. No one will reply.">
     <meta property="og:url" content="https://www.stillhere.global/letters">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/og-image.svg">
@@ -35,16 +35,16 @@
     <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta property="og:image:alt" content="StillHere · a space for presence, not solutions">
     <meta property="og:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Quiet letters — StillHere">
+    <meta name="twitter:title" content="Quiet letters · StillHere">
     <meta name="twitter:description" content="Short, unsent letters to people you can't reach. Read them. Write one. No one will reply.">
     <meta name="twitter:image" content="https://www.stillhere.global/assets/favicon/web-app-manifest-512x512.png">
-    <meta name="twitter:image:alt" content="StillHere — a space for presence, not solutions">
+    <meta name="twitter:image:alt" content="StillHere · a space for presence, not solutions">
 
   <!-- Lightweight prefetch via Speculation Rules.
        The browser downloads the HTML of internal links the user is
@@ -87,13 +87,13 @@
   <script src="JS/theme.js" defer></script>
   <!-- Required for SH_MOD.checkLetter (letter submit moderation). -->
   <script src="JS/moderation.js?v=7" defer></script>
-  <!-- Crisis-detection (SH_CRISIS) — surfaces a calm hotline card when
+  <!-- Crisis-detection (SH_CRISIS), surfaces a calm hotline card when
        a letter contains distress signals. Non-blocking. -->
   <script src="JS/crisis.js?v=6" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
-       QUIET LETTERS — paper aesthetic, doodled wall of
+       QUIET LETTERS, paper aesthetic, doodled wall of
        short messages that nobody will reply to.
        ══════════════════════════════════════════════════════ */
 
@@ -272,7 +272,7 @@
       font-weight: 500;
       color: var(--ink-mid);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
     .ql-pill:hover { color: var(--ink); border-color: var(--line); }
     .ql-pill.is-active {
@@ -296,7 +296,7 @@
        and an uneven card total (e.g. 7), the browser fills columns
        top-to-bottom which leaves one full column much shorter than
        the others. Grid fills row-by-row, so the missing cells stay
-       in the bottom-right corner — far less visually jarring. */
+       in the bottom-right corner, far less visually jarring. */
     .ql-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -353,7 +353,7 @@
       from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    /* ─── Paper tape — one per card, anchored to the card itself ───
+    /* ─── Paper tape, one per card, anchored to the card itself ───
        Each .letter is the positioning context (position: relative).
        The tape (::before) is absolutely positioned inside it, with
        a small negative top so it overlaps the top edge.
@@ -361,27 +361,27 @@
        A larger margin-bottom on each card ensures the protruding
        tape of the next row's card sits clearly in its own row,
        not glued to the card above. */
-    /* (duplicate `.letter` block removed — it was re-applying
+    /* (duplicate `.letter` block removed, it was re-applying
        overflow: hidden + 44px padding-top, conflicting with the
        wrapper architecture defined above.) */
 
-    /* Tape — position & rotation pulled from CSS custom properties
+    /* Tape, position & rotation pulled from CSS custom properties
        set by JS per-card. nth-child won't work reliably in column
        layouts, so we drive variance through inline style on each
        .letter element instead. */
-    /* Tape — fully INSIDE the card. Positive `top` + parent
+    /* Tape, fully INSIDE the card. Positive `top` + parent
        `overflow: hidden` makes it physically impossible for the
        pseudo-element to leak into the row gap. The visual "stuck
        to the top" feel comes from positioning the tape close to
        the top edge. The wrapper has overflow: visible and a 14px
        reserved padding-top, so the tape sits half above the visible
-       card / half on it — without being clipped by anyone. */
+       card / half on it, without being clipped by anyone. */
     .letter::before {
       content: "";
       position: absolute;
       /* Wrapper has padding-top: 14px. Tape starts at 3px and ends
          at ~21px, so it sits on the page background AND overlaps the
-         visible card by ~7px. Never negative — never clipped. */
+         visible card by ~7px. Never negative, never clipped. */
       top: 3px;
       left: var(--tape-left, 20px);
       width: 78px;
@@ -401,7 +401,7 @@
       z-index: 3;
       pointer-events: none;
     }
-    /* Dark theme — warm-amber tape, opaque, with same texture */
+    /* Dark theme, warm-amber tape, opaque, with same texture */
     html[data-theme="dark"] .letter::before {
       background-color: #d8c49a;
       background-image:
@@ -476,7 +476,7 @@
       align-items: center;
     }
 
-    /* Color palette — same tokens used by the composer + cards */
+    /* Color palette, same tokens used by the composer + cards */
     .c-dust       { --letter-bg: #f1c8c8; }
     .c-sage       { --letter-bg: #c5d4b8; }
     .c-lavender   { --letter-bg: #d8c8e0; }
@@ -490,12 +490,12 @@
     .c-rose       { --letter-bg: #e0a8b0; }
     .c-peach      { --letter-bg: #f4cea8; }
 
-    /* Dark mode — keep the colours readable. Pre-multiplied
+    /* Dark mode, keep the colours readable. Pre-multiplied
        so each tile reads as a tinted card, not a neon block. */
     /* Dark-mode card shadow lives on the inner `.letter-card`
        (the outer `.letter` is a transparent wrapper now). The
        primary rule is already defined above next to .letter-card
-       — this comment is just a reminder not to add a shadow here. */
+      , this comment is just a reminder not to add a shadow here. */
     html[data-theme="dark"] .c-dust       { --letter-bg: #5a3a3c; --letter-ink: #f4d6d6; }
     html[data-theme="dark"] .c-sage       { --letter-bg: #3e4d3a; --letter-ink: #d6e4c8; }
     html[data-theme="dark"] .c-lavender   { --letter-bg: #4a3e58; --letter-ink: #e0d6ee; }
@@ -510,11 +510,11 @@
     html[data-theme="dark"] .c-peach      { --letter-bg: #5a3e2a; --letter-ink: #f4d2b0; }
 
     /* (the older transparent override `background: rgba(255, 240, 220, 0.10)`
-       was removed — it was nuking the textured tape in dark mode.
+       was removed, it was nuking the textured tape in dark mode.
        The proper dark-mode rule above keeps the warm-cream colour
        and the SVG grain.) */
 
-    /* ── FLOATING CTA — circle with just the pencil icon ── */
+    /* ── FLOATING CTA, circle with just the pencil icon ── */
     .ql-fab {
       position: fixed;
       right: 24px;
@@ -608,7 +608,7 @@
       line-height: 1;
     }
     .ql-composer-close {
-      /* Proper round-button affordance — was a bare 22px "×" glyph
+      /* Proper round-button affordance, was a bare 22px "×" glyph
          that read as an artifact rather than a button. Match the
          site's other icon buttons (32px circle, subtle hover). */
       display: inline-flex;
@@ -729,7 +729,7 @@
       background: var(--ink);
       color: var(--paper);
       flex: 1;
-      transition: all 0.25s ease;
+      transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
     }
     .ql-btn:hover { background: var(--accent-2); border-color: var(--accent-2); }
     .ql-btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -767,7 +767,7 @@
       transform: translateX(-50%) translateY(0);
       pointer-events: auto;
     }
-    /* Dark theme — pull from the same warm-brown surface tokens that
+    /* Dark theme, pull from the same warm-brown surface tokens that
        drive the global .toast on post.html / main.html, so all three
        toasts feel like one family across the site. */
     html[data-theme="dark"] .ql-toast {
@@ -855,7 +855,7 @@
 
 <body>
 
-  <!-- Ambient page-edge doodles — same set as about/contacts/updates -->
+  <!-- Ambient page-edge doodles, same set as about/contacts/updates -->
   <img src="assets/doodles2/09_cloud.png"                            class="pg-doodle pg-doodle--1" alt="" aria-hidden="true">
   <img src="assets/letters/_Special Characters/Asterisk_04.png"      class="pg-doodle pg-doodle--2" alt="" aria-hidden="true">
   <img src="assets/doodles2/06_double_heart.png"                     class="pg-doodle pg-doodle--3" alt="" aria-hidden="true">
@@ -913,7 +913,7 @@
       <!-- HERO -->
       <section class="ql-hero">
         <div class="ql-hero-left">
-          <span class="ql-eyebrow" data-i18n="ql.hero.eyebrow"><em>—</em> things you couldn't say</span>
+          <span class="ql-eyebrow" data-i18n="ql.hero.eyebrow">things you couldn't say</span>
           <h1 class="ql-title">
             <span data-i18n="ql.hero.title">quiet <em>letters.</em></span>
             <img src="assets/letters/_Special Characters/Asterisk_01.png" class="ql-title-doodle" alt="" aria-hidden="true">
@@ -926,7 +926,7 @@
         </div>
 
         <aside class="ql-hero-card">
-          <div class="ql-hero-card-eyebrow" data-i18n="ql.hero.card.eyebrow">— how this works</div>
+          <div class="ql-hero-card-eyebrow" data-i18n="ql.hero.card.eyebrow">how this works</div>
           <p class="ql-hero-card-text" data-i18n="ql.hero.card.text">no replies. no support count. no responses. just somewhere to put it down.</p>
           <ul class="ql-hero-card-rules">
             <li data-i18n="ql.hero.card.r1">name or word, not a full name</li>
@@ -934,7 +934,7 @@
             <li data-i18n="ql.hero.card.r3">read others when you need to feel less alone</li>
           </ul>
           <p class="ql-hero-card-inspire" data-i18n="ql.hero.card.inspire">
-            inspired by <a href="https://theunsentproject.com" target="_blank" rel="noopener">The Unsent Project</a> by Rora Blue — a project we love and learned from.
+            inspired by <a href="https://theunsentproject.com" target="_blank" rel="noopener">The Unsent Project</a> by Rora Blue, a project we love and learned from.
           </p>
         </aside>
       </section>
@@ -988,18 +988,18 @@
       <p class="ql-composer-sub" data-i18n="ql.composer.sub">short. honest. nobody will reply. that's the point.</p>
 
       <div class="ql-field">
-        <label class="ql-field-label" for="qlRecipient" data-i18n="ql.composer.to">— to</label>
+        <label class="ql-field-label" for="qlRecipient" data-i18n="ql.composer.to">to</label>
         <input type="text" id="qlRecipient" class="ql-input" placeholder="a name, an initial, or just a word" data-i18n-attr-placeholder="ql.composer.to.ph" maxlength="32">
       </div>
 
       <div class="ql-field">
-        <label class="ql-field-label" for="qlBody" data-i18n="ql.composer.body.label">— what you couldn't say</label>
+        <label class="ql-field-label" for="qlBody" data-i18n="ql.composer.body.label">what you couldn't say</label>
         <textarea id="qlBody" class="ql-textarea" placeholder="just write it." data-i18n-attr-placeholder="ql.composer.body.ph" maxlength="240"></textarea>
         <div class="ql-counter"><span id="qlCounter">0</span> / 240</div>
       </div>
 
       <div class="ql-field">
-        <label class="ql-field-label" data-i18n="ql.composer.color">— a colour for it</label>
+        <label class="ql-field-label" data-i18n="ql.composer.color">a colour for it</label>
         <div class="ql-palette" id="qlPalette">
           <button class="ql-swatch is-selected" data-color="c-dust"       style="--swatch-color:#f1c8c8" aria-label="dust"></button>
           <button class="ql-swatch" data-color="c-sage"       style="--swatch-color:#c5d4b8" aria-label="sage"></button>
@@ -1184,10 +1184,10 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ── Enter to send ──
        Pressing Enter in the recipient OR body field submits the letter
        (if both fields are filled). Shift+Enter in the body still inserts
-       a newline — multi-line letters are still possible. */
+       a newline, multi-line letters are still possible. */
     function trySubmitOnEnter(e) {
       if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
-      // IME composition (e.g. typing Japanese / Korean) — never submit on Enter.
+      // IME composition (e.g. typing Japanese / Korean), never submit on Enter.
       if (e.keyCode === 229) return;
       if (submitBtn.disabled) return;
       e.preventDefault();
@@ -1229,7 +1229,7 @@ document.addEventListener('DOMContentLoaded', function () {
        Covers the languages StillHere accepts in its lang-pill set:
        latin (en + diacritic dialects), cyrillic (ru/uk/be), arabic,
        hebrew, greek, japanese, korean, chinese, hindi, bengali, thai.
-       Order matters — non-latin scripts checked first because their
+       Order matters, non-latin scripts checked first because their
        unicode ranges are unambiguous. Latin diacritic detection is
        best-effort: a German user writing only ASCII still reads as
        "en". User can override via the lang pill on submit anyway. */
@@ -1248,7 +1248,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (/[ঀ-৿]/.test(s))                 return 'bn'; // bengali
       if (/[฀-๿]/.test(s))                 return 'th'; // thai
 
-      // ── Cyrillic — distinguish uk / be / ru ────────────────
+      // ── Cyrillic, distinguish uk / be / ru ────────────────
       if (/[іїєґ]/i.test(s))                         return 'uk';
       if (/ў/i.test(s))                              return 'be';
       if (/[а-яё]/i.test(s))                         return 'ru';
@@ -1261,7 +1261,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (/[ıİğşçÇ]/i.test(s))                       return 'tr';
       if (/[àâêîôûÿæœ]/i.test(s))                    return 'fr';
       if (/[àèéìòù]/i.test(s))                       return 'it';
-      // Vietnamese — many stacked diacritics
+      // Vietnamese, many stacked diacritics
       if (/[ăđĩũơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]/i.test(s)) return 'vi';
 
       return 'en';
@@ -1272,16 +1272,16 @@ document.addEventListener('DOMContentLoaded', function () {
       if (es) es.remove();
     }
 
-    /* Pools of variation for each card's tape — chosen randomly
+    /* Pools of variation for each card's tape, chosen randomly
        inside renderLetter so every card has its own anchor without
        relying on :nth-child (which is unreliable in column layouts). */
     var TAPE_ROTATIONS = [-4, -3, -2, 2, 3, 4];
     function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
     /* Weighted random horizontal tape position:
-       — 70% sit near the "— TO" label (18–38px)
-       — 30% drift a little toward the centre (42–76px)
-       — never jump far right; keeps the wall subtle and natural. */
+      , 70% sit near the "TO" label (18–38px)
+      , 30% drift a little toward the centre (42–76px)
+      , never jump far right; keeps the wall subtle and natural. */
     function randomTapeLeft() {
       var r = Math.random();
       if (r < 0.70) return Math.floor(18 + Math.random() * 20);  // 18–38px
@@ -1302,7 +1302,7 @@ document.addEventListener('DOMContentLoaded', function () {
          .letter can stay overflow:visible for the tape. */
       article.innerHTML =
         '<div class="letter-card">' +
-          '<p class="letter-to">' + tI('ql.card.to', '— to') + '</p>' +
+          '<p class="letter-to">' + tI('ql.card.to', 'to') + '</p>' +
           '<p class="letter-name"></p>' +
           '<p class="letter-body"></p>' +
           '<p class="letter-foot"><span></span><span></span></p>' +
@@ -1371,7 +1371,7 @@ document.addEventListener('DOMContentLoaded', function () {
       io.observe(sentinel);
     })();
 
-    /* ── Submit — sends the letter to Supabase, then renders on top ── */
+    /* ── Submit, sends the letter to Supabase, then renders on top ── */
     submitBtn.addEventListener('click', async function() {
       var name = recipient.value.trim();
       var msg  = body.value.trim();
@@ -1384,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         var lang = detectLang(msg + ' ' + name);
 
-        /* Crisis-detection gate — letters can be heavy goodbye notes,
+        /* Crisis-detection gate, letters can be heavy goodbye notes,
            so the help-link must be reachable here. If user chose help
            or dismissed, we pause: the letter stays in the composer
            ready to send when they decide. */
@@ -1399,7 +1399,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
 
-        // Letter-tier moderation — local slur check first, then AI via
+        // Letter-tier moderation, local slur check first, then AI via
         // SH_MOD.checkLetter. The AI call ALLOWS profanity / emotional
         // intensity / soft sexual content (recipients can only read,
         // never reply, so the harm is bounded) but BLOCKS targeted
@@ -1419,9 +1419,9 @@ document.addEventListener('DOMContentLoaded', function () {
             warn.style.cssText =
               'margin:8px 0 0;font-size:12.5px;line-height:1.4;color:#c0392b;' +
               'text-align:left;animation:errFadeIn 280ms cubic-bezier(.22,1,.36,1);';
-            // Friendly but clear — the person on the other end can only
+            // Friendly but clear, the person on the other end can only
             // read this, so let's not put darts in their hand.
-            warn.textContent = 'this one can’t be posted — please soften the personal attack.';
+            warn.textContent = 'this one can’t be posted, please soften the personal attack.';
             (body.closest('.ql-field') || body.parentNode).appendChild(warn);
             setTimeout(function () {
               if (warn && warn.parentNode) warn.remove();
@@ -1442,7 +1442,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if (ins.error) throw ins.error;
           renderLetter(ins.data, true);
         } else {
-          // No backend — render locally
+          // No backend, render locally
           row.created_at = new Date().toISOString();
           renderLetter(row, true);
         }
@@ -1466,7 +1466,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /* (Earlier we hid the FAB when the footer came into view. Per
-       feedback the FAB stays visible at all times now — the icon-
+       feedback the FAB stays visible at all times now, the icon-
        only circle is small enough not to obstruct the footer.) */
 
     /* ── Filter pills ── */
@@ -1482,7 +1482,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    /* (Shuffle removed — letters now come from Supabase in
+    /* (Shuffle removed, letters now come from Supabase in
        created_at DESC order. The wall is "latest first".) */
 
     /* ── Navbar burger-menu open/close ── */
