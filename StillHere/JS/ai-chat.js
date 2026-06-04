@@ -336,18 +336,16 @@
       .sort(function (a, b) { return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0); });
   }
 
-  /* Run once the session resolves to a logged-in user:
-       1. adopt any anonymous ("guest") chats into the account locally,
-       2. push those freshly-adopted chats up to the server,
-       3. pull the account's chats from the server (source of truth for
-          cross-device), merge into local, and re-render. */
+  /* Run once the session resolves to a logged-in user: pull the account's
+     chats from the server (the cross-device source of truth), merge into
+     the local account bucket and re-render.
+
+     NOTE: anonymous ("guest") chats are intentionally NOT migrated into
+     the account. Conversations created while signed out belong to the
+     browser session only; signing in shows the account's own history.
+     (The guest bucket is left untouched, so signing out shows it again.) */
   function syncOnLogin(accountId) {
     if (!accountId) return;
-    var adopted = [];
-    try { adopted = JSON.parse(localStorage.getItem('sh_ai_chats_v1_guest') || '[]'); }
-    catch (_) {}
-    migrateGuestChatsTo(accountId);
-    adopted.forEach(function (ch) { remoteUpsert(ch); });
     remotePull().then(function (remote) {
       if (!remote) return;                 // offline / failed — keep local as-is
       saveAll(mergeChats(loadAll(), remote));

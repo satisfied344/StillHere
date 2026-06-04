@@ -1808,6 +1808,12 @@
     padding: 0 !important;
     min-height: 100vh;
   }
+  /* On the chat screen, a vertical swipe must scroll the conversation,
+     never reload the page. Scoped via :has so other pages keep their
+     normal pull-to-refresh. */
+  html:has(.chat-page), body:has(.chat-page) {
+    overscroll-behavior-y: none;
+  }
   .chat-sidebar, .ai-sidebar {
     position: fixed !important;
     left: -110% !important;
@@ -1862,7 +1868,10 @@
      can't clip it; anchored to the panel edge via min(86vw, 320px)
      minus half the button width to centre it on the edge line. */
   .chat-sidebar.is-open .sidebar-toggle {
-    display: inline-flex !important;
+    /* Replaced on mobile by the single morphing .ai-sidebar-toggle, which
+       slides from the page's left edge to the drawer's right edge — so the
+       open and close affordances read as ONE button that flows, not two. */
+    display: none !important;
     align-items: center !important;
     justify-content: center !important;
     position: fixed !important;
@@ -1908,10 +1917,20 @@
     opacity: 1 !important;
     flex: 0 0 auto !important;
     align-self: center !important;
+    /* A clean SQUARE tap target (not the tall rectangle the global
+       button{min-height:40px} rule would force), centred like desktop. */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin: 0 2px 0 4px !important;
     font-size: 20px !important;
     line-height: 1 !important;
-    padding: 6px 6px !important;
-    margin: 0 -2px 0 4px !important;
+    border-radius: 9px !important;
     color: var(--ink-light, rgba(26,20,16,0.55)) !important;
     -webkit-tap-highlight-color: transparent;
   }
@@ -2026,7 +2045,13 @@
     cursor: pointer;
     z-index: 8600;
     box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    /* Movement is done via `transform: translate()` (NOT left/top) so it
+       animates on the compositor and avoids a Chromium quirk where a
+       transitioned `left` holding a calc(min()) value gets stuck. The
+       single button thus FLOWS from the left edge to the drawer's right
+       edge as the panel opens. */
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.2s ease;
   }
   /* icon-only — no "history" label */
   .ai-sidebar-toggle::after { content: none; }
@@ -2036,13 +2061,19 @@
     border-color: rgba(255,240,220,0.18);
     color: var(--charcoal, #f4e9d5);
   }
-  /* Hide the toggle while the sidebar is open — the
-     sidebar carries its own close arrow. */
-  .chat-sidebar.is-open ~ .ai-sidebar-toggle,
+  /* When the drawer opens, the SAME button glides to just inside the
+     drawer's right edge, level with the "your conversations" title, and
+     the chevron flips to point RIGHT — it now reads as the close control.
+     One element, two states: it flows instead of swapping. */
   body.chat-sidebar-open .ai-sidebar-toggle {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-8px);
+    /* translateX = (drawer right edge − 49px inset) − 12px base-left.
+       translateY = 86px target − 76px base-top = 10px.
+       scaleX(-1) flips the chevron to point RIGHT. */
+    transform: translate(calc(min(86vw, 320px) - 61px), 10px) scaleX(-1);
+  }
+  .ai-sidebar-toggle:active { transform: scale(0.92); }
+  body.chat-sidebar-open .ai-sidebar-toggle:active {
+    transform: translate(calc(min(86vw, 320px) - 61px), 10px) scaleX(-1) scale(0.92);
   }
 
   /* ══════════════════════════════════════════════════
@@ -2237,6 +2268,12 @@
     padding: 28px 16px 144px !important;  /* room above the fixed composer */
     gap: 18px;
     scroll-padding-bottom: 144px;
+    /* Let the message list own the scroll gesture: momentum scrolling +
+       no chaining to the document, so swiping through messages doesn't
+       trigger the browser's pull-to-refresh. */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
   }
   .msg { margin-bottom: 6px; }
 
