@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "stillhere-static",
+      "name": "stillhere",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8137"],
-      "port": 8137
+      "runtimeArgs": ["-m", "http.server", "5599"],
+      "port": 5599
     }
   ]
 }

@@ -52,20 +52,18 @@
       '</svg>';
     document.body.appendChild(btn);
 
-    /* Open/close use BOTH classList AND inline style. Inline style
-       has higher specificity than any CSS rule, so even if some other
-       script strips `is-open` we still stay visually open. This was
-       the only thing the user's flaky setup actually responded to. */
+    /* Open / close rely ONLY on the `is-open` class. The mobile CSS
+       drives the slide with `.chat-sidebar.is-open { left: 0 }`, so
+       no inline styles are needed (and inline `left` would be ignored
+       anyway, since the CSS rule is `!important`). */
     function open() {
       sidebar.classList.add('is-open');
-      sidebar.style.left = '0';
       backdrop.classList.add('is-open');
       document.body.classList.add('chat-sidebar-open');
       btn.setAttribute('aria-expanded', 'true');
     }
     function close() {
       sidebar.classList.remove('is-open');
-      sidebar.style.left = '-110%';
       backdrop.classList.remove('is-open');
       document.body.classList.remove('chat-sidebar-open');
       btn.setAttribute('aria-expanded', 'false');
@@ -74,93 +72,63 @@
       if (sidebar.classList.contains('is-open')) close(); else open();
     }
 
+    /* Why this is enough (and why all the old lock/observer hacks are
+       gone): the drawer is a real side panel sitting ABOVE the backdrop
+       (z-index 8500 vs 8400) and spanning the full height of the
+       viewport. So:
+         • A tap on any button INSIDE the drawer hits that button and
+           does its job — the backdrop never sees the event, because the
+           backdrop is a SIBLING of the drawer, not an ancestor, and
+           click events only bubble through ancestors.
+         • A tap on the empty area below the buttons still lands on the
+           drawer's own surface, so nothing closes.
+         • A tap to the RIGHT of the drawer (the strip the panel doesn't
+           cover) lands on the backdrop → close.
+       No global click listener on this page touches the sidebar, so
+       there is nothing to defend against. */
+
+    /* Toggle button opens the drawer. */
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
       toggle();
     });
-    backdrop.addEventListener('click', close);
 
-    /* Esc closes */
+    /* Backdrop closes ONLY when the backdrop itself is the target —
+       i.e. the area to the right of the panel. */
+    backdrop.addEventListener('click', function (e) {
+      if (e.target === backdrop) close();
+    });
+
+    /* Esc closes. */
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && sidebar.classList.contains('is-open')) close();
     });
 
-    /* Drawer behaves like a real side panel. Three-layer defense
-       against the persistent "tap inside closes the drawer" bug:
-
-       (1) Capture-phase listener at the DOCUMENT root. This fires
-           BEFORE any descendant handler — including ones we don't
-           know about. The instant a click lands anywhere inside
-           .chat-sidebar, we set a 700ms lock. By the time someone
-           else's outside-click handler tries to close, the lock is
-           already in place.
-       (2) Bubble-phase listener on the sidebar — stopPropagation so
-           the click never reaches document-level outside-click code.
-       (3) MutationObserver — if `is-open` somehow STILL gets stripped
-           while locked, immediately re-add it. */
-    var _lockedUntil = 0;
-    var _intentionalClose = false;
-    function isLocked() { return Date.now() < _lockedUntil; }
-
-    /* (1) capture phase on document — fires first, no matter what */
-    document.addEventListener('click', function (e) {
-      if (sidebar.contains(e.target)) _lockedUntil = Date.now() + 700;
-    }, true);  // ← USE_CAPTURE
-
-    /* (2) bubble phase on sidebar — stop propagation so document-level
-        outside-click handlers don't run for inner clicks. */
-    sidebar.addEventListener('click', function (e) {
-      _lockedUntil = Date.now() + 700;
-      e.stopPropagation();
-    });
-
-    /* Observer watches BOTH the class attribute AND inline style. If
-       either one suddenly says "closed" while we hold an inner-click
-       lock and didn't intentionally close, force re-open through both
-       channels. */
-    var classObserver = new MutationObserver(function (muts) {
-      for (var i = 0; i < muts.length; i++) {
-        var m = muts[i];
-        if (m.attributeName !== 'class' && m.attributeName !== 'style') continue;
-        var styleOk = sidebar.style.left === '0' || sidebar.style.left === '0px';
-        var classOk = sidebar.classList.contains('is-open');
-        if (styleOk && classOk) continue;       // still open — good
-        if (_intentionalClose) continue;
-        if (isLocked() || Date.now() - _lockedUntil < 800) {
-          sidebar.classList.add('is-open');
-          sidebar.style.left = '0';
-          backdrop.classList.add('is-open');
-          document.body.classList.add('chat-sidebar-open');
-          break;
-        }
-      }
-    });
-    classObserver.observe(sidebar, { attributes: true, attributeFilter: ['class', 'style'] });
-
-    /* Wrap close() so it: (a) refuses if locked by recent inner click,
-       (b) marks the close as intentional so the observer leaves it. */
-    var rawClose = close;
-    close = function () {
-      if (isLocked()) return;             // ← inner click within 500ms wins
-      _intentionalClose = true;
-      rawClose();
-      setTimeout(function () { _intentionalClose = false; }, 80);
-    };
-    backdrop.removeEventListener('click', rawClose);
-    backdrop.addEventListener('click', close);
-
-    /* The page's own .sidebar-toggle button (close-arrow on the right
-       edge). Closes the drawer fully on mobile. We CLEAR the lock
-       first so the close goes through even if the user just clicked
-       elsewhere inside. */
+    /* The panel's own close-arrow (top-right of the drawer) closes it. */
     var collapseBtn = sidebar.querySelector('.sidebar-toggle');
     if (collapseBtn) {
       collapseBtn.addEventListener('click', function (e) {
         e.stopPropagation();
-        _lockedUntil = 0;                  // ← user explicitly wants to close
         close();
       });
     }
+
+    /* Picking a conversation reveals the chat. On mobile the chat area
+       sits BEHIND the open drawer, so an in-page action like "open a
+       past chat" or "start a new conversation" loads the conversation
+       underneath but stays hidden by the panel — which reads as
+       "nothing happened / it just closed". So after such a selection we
+       close the drawer to reveal the chat. We DON'T close for the inline
+       delete (×) button (it opens a confirm dialog) or for neutral taps
+       (search box, empty space, labels). Delegated so it keeps working
+       after the history list re-renders. */
+    sidebar.addEventListener('click', function (e) {
+      if (e.target.closest('.history-menu')) return;   // delete — keep open
+      if (e.target.closest('.history-item') ||
+          e.target.closest('#newChatBtn')) {
+        close();
+      }
+    });
   }
 
   /* Inject a floating "+" FAB on the community feed (main.html)
