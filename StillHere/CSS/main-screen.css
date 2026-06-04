@@ -1369,7 +1369,7 @@ html[data-theme="dark"] .tag.tag-no-advice {
   border-top: 1.5px solid var(--ink);
   padding: 72px 40px 32px;
   position: relative;
-  z-index: 3;
+  z-index: 1;
   color: var(--ink-soft);
 }
 

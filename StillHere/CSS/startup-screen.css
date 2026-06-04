@@ -1941,9 +1941,9 @@ html[data-theme="dark"] .card-doodle {
    ══════════════════════════════════════════════════════ */
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(14px);
+  transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 .reveal.is-in {
@@ -1953,9 +1953,9 @@ html[data-theme="dark"] .card-doodle {
 
 .reveal-row {
   opacity: 0;
-  transform: translateX(-14px);
-  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateX(-10px);
+  transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 .reveal-row.is-in {
@@ -1963,17 +1963,17 @@ html[data-theme="dark"] .card-doodle {
   transform: translateX(0);
 }
 .reveal-row:nth-child(1).is-in { transition-delay: 0s; }
-.reveal-row:nth-child(2).is-in { transition-delay: 0.04s; }
-.reveal-row:nth-child(3).is-in { transition-delay: 0.08s; }
-.reveal-row:nth-child(4).is-in { transition-delay: 0.12s; }
-.reveal-row:nth-child(5).is-in { transition-delay: 0.16s; }
+.reveal-row:nth-child(2).is-in { transition-delay: 0.03s; }
+.reveal-row:nth-child(3).is-in { transition-delay: 0.06s; }
+.reveal-row:nth-child(4).is-in { transition-delay: 0.09s; }
+.reveal-row:nth-child(5).is-in { transition-delay: 0.12s; }
 
 /* Title — letter-by-letter slide-in via transform on .title */
 .reveal-stagger {
   opacity: 0;
-  transform: translateY(24px) scale(0.98);
-  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(18px) scale(0.98);
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 .reveal-stagger.is-in {

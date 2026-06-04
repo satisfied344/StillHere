@@ -110,6 +110,7 @@ The back end is [Supabase](https://supabase.com): Postgres with row-level securi
 
 | function | what it does |
 |---|---|
+| `moderate` | the submit-time AI guard. Every post, comment, letter or username runs through this before publishing — text and any attached images. Has its own prompt-injection regex pre-filter, a 24-hour verdict cache (skip the LLM if we just saw the same text), and an honest per-subject block ledger: 3 blocks in 24h → escalating ban (24h → 72h → 168h → 720h). Anonymous callers are tracked by a SHA-256 hash of their IP — never the raw address. |
 | [`ai-chat`](StillHere/supabase/functions/ai-chat/index.ts) | proxies the companion to OpenRouter. Verifies the user, rate-limits per account *and* per hashed IP, caps payload size, and fails closed – so nobody can run up the model bill. |
 | [`crisis-check`](StillHere/supabase/functions/crisis-check/index.ts) | the second-pass crisis judgement, with its own separate rate-limit budget so it never competes with the chat. |
 | [`strict-review`](StillHere/supabase/functions/strict-review/index.ts) | the stricter AI re-check that fires once a piece of content crosses the report threshold. |

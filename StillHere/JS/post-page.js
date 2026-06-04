@@ -566,6 +566,10 @@
     var input = document.createElement('input');
     input.type   = 'file';
     input.accept = 'image/*';
+    /* iOS Safari zooms the viewport when a form control with a sub-16px
+       computed font-size receives focus. The picker briefly focuses this
+       input on tap, so force a 16px label to keep the page from zooming. */
+    input.style.fontSize = '16px';
     input.onchange = function () {
       var file = input.files && input.files[0];
       if (!file) return;

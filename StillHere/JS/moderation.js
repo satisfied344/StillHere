@@ -269,7 +269,13 @@
           return { allowed: true };
         }
 
-        return await res.json();
+        var parsed = await res.json();
+        /* Attach the contentType so downstream (showError) can scope its
+           local "attempts remaining" counter per content kind. */
+        if (parsed && typeof parsed === 'object' && !('contentType' in parsed)) {
+          parsed.contentType = contentType;
+        }
+        return parsed;
 
       } catch (err) {
         console.warn('[SH_MOD] Network error, failing open:', err);
@@ -306,6 +312,9 @@
         }
         html += '<p class="mod-ban">' + mt('mod.banned', 'Account suspended') + ' · ' + timeStr + '</p>';
       } else if (!result.banned && typeof result.blocksLeft === 'number' && result.blocksLeft > 0) {
+        /* Server-driven counter: trust whatever the edge function reports.
+           The deployed `moderate` function tracks blocks_today per
+           subject (user_id OR ip-hash) and returns blocksLeft accordingly. */
         var n = result.blocksLeft;
         var attemptLabel = mt(n === 1 ? 'mod.attempt.one' : 'mod.attempt.many', n === 1 ? 'attempt remaining' : 'attempts remaining');
         html += '<p class="mod-warn">' + n + ' ' + attemptLabel + '</p>';

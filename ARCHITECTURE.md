@@ -56,10 +56,19 @@ type in Quill editor
   → if unsure but heavy → crisis-check edge fn  ── LLM judges intent
   → images compressed to WebP in-browser (media-compress.js)
   → presigned PUT → bytes land in R2, URL returned
+  → submit-time AI moderation:  moderate edge fn  ── prompt-injection regex first,
+                                                     then GPT-class verdict on text + each image,
+                                                     24h verdict cache skips the LLM on repeats,
+                                                     blocks counted in mod_blocks per subject,
+                                                     3 blocks/24h → escalating ban in user_bans
   → insert row in `posts` (RLS: author = auth.uid())
   → Realtime broadcasts the insert on `feed:posts`
   → every open feed prepends the new card live
 ```
+
+> `subject` is `'u:<uuid>'` for signed-in users and `'ip:<sha256(ip)>'` for anonymous
+> ones — same hashing pattern as `ai_chat_usage`, so we get per-anon bans without
+> ever storing raw IPs.
 
 ### Reporting → moderation (no human required to keep working)
 ```
@@ -218,7 +227,8 @@ the `/offline.html` fallback, never a browser error page.
 | Editor, crisis gate, upload | [`JS/create-post.js`](StillHere/JS/create-post.js), [`JS/media-compress.js`](StillHere/JS/media-compress.js) |
 | Companion | [`JS/ai-chat.js`](StillHere/JS/ai-chat.js), [`supabase/functions/ai-chat`](StillHere/supabase/functions/ai-chat/index.ts) |
 | Crisis detection | [`JS/crisis.js`](StillHere/JS/crisis.js), [`supabase/functions/crisis-check`](StillHere/supabase/functions/crisis-check/index.ts) |
-| Moderation | [`JS/moderation.js`](StillHere/JS/moderation.js), [`supabase/functions/strict-review`](StillHere/supabase/functions/strict-review/index.ts), [`supabase/MODERATION_SYSTEM.md`](StillHere/supabase/MODERATION_SYSTEM.md) |
+| Moderation (submit-time, AI) | [`JS/moderation.js`](StillHere/JS/moderation.js), `supabase/functions/moderate` (deployed in Supabase), tables `public.mod_blocks` + `public.user_bans` + `public.moderation_cache` |
+| Moderation (reports → admin) | [`supabase/functions/strict-review`](StillHere/supabase/functions/strict-review/index.ts), `public.moderation_log` (admin audit), [`supabase/MODERATION_SYSTEM.md`](StillHere/supabase/MODERATION_SYSTEM.md) |
 | Auth, recovery key | [`JS/auth.js`](StillHere/JS/auth.js), [`supabase/functions/recover-password`](StillHere/supabase/functions/recover-password/index.ts) |
 | Session / nav | [`JS/session.js`](StillHere/JS/session.js) |
 | Notifications | [`JS/notifications.js`](StillHere/JS/notifications.js), `supabase/migrations/015_notifications.sql` |

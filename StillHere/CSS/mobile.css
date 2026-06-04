@@ -1818,14 +1818,66 @@
     height: auto !important;
     z-index: 8500;
     transition: left 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.35);
     overflow-y: auto;
+    /* Solid surface on mobile — avoid the translucent desktop look,
+       which on phones reads as "not fully closed" because chat content
+       bleeds through the drawer. */
+    background: var(--paper-soft, #fffaf0) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  html[data-theme="dark"] .chat-sidebar,
+  html[data-theme="dark"] .ai-sidebar {
+    background: #1a1410 !important;
   }
   .chat-sidebar.is-open, .ai-sidebar.is-open { left: 0 !important; }
 
-  /* Hide the page's built-in sidebar reopen arrow on mobile —
-     we use our own .ai-sidebar-toggle pill instead. */
-  .sidebar-reopen, .sidebar-toggle { display: none !important; }
+  /* Hide the page's built-in sidebar-REOPEN arrow on mobile (we use
+     our own circular pill on the left edge of the page). KEEP the
+     .sidebar-toggle (close arrow) — but only show it when the drawer
+     is actually open, on the right edge of the panel, mirroring
+     desktop. (Closed state: hidden — the open-pill on the page
+     handles re-opening.) */
+  .sidebar-reopen { display: none !important; }
+  .sidebar-toggle { display: none !important; }
+  /* Close-arrow sits INSIDE the drawer near the right edge — never
+     clipped, always reads as a real button (clear background, border,
+     pointer cursor, visible hover/active). */
+  .chat-sidebar.is-open .sidebar-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: absolute !important;
+    top: 14px !important;
+    right: 12px !important;
+    left: auto !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    z-index: 8700 !important;
+    background: rgba(26, 20, 16, 0.06) !important;
+    border: 1px solid var(--line, rgba(26,20,16,0.18)) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+    cursor: pointer !important;
+    color: var(--ink, #1a1410) !important;
+    transition: background-color 0.18s ease, transform 0.12s ease !important;
+  }
+  .chat-sidebar.is-open .sidebar-toggle:hover {
+    background: rgba(26, 20, 16, 0.12) !important;
+  }
+  .chat-sidebar.is-open .sidebar-toggle:active {
+    transform: scale(0.92) !important;
+  }
+  html[data-theme="dark"] .chat-sidebar.is-open .sidebar-toggle {
+    background: rgba(244, 234, 214, 0.08) !important;
+    border-color: rgba(244, 234, 214, 0.20) !important;
+    color: #f4e9d5 !important;
+  }
+  html[data-theme="dark"] .chat-sidebar.is-open .sidebar-toggle:hover {
+    background: rgba(244, 234, 214, 0.16) !important;
+  }
 
   .chat-area, .ai-main, .ai-chat-area {
     width: 100% !important;
@@ -1887,28 +1939,33 @@
   }
 
   /* Backdrop — soft tint, NO blur (so the sidebar stays legible) */
+  /* Backdrop is INVISIBLE — drawer feels like a sliding side panel,
+     not a modal popup. The backdrop still exists as a click-catcher
+     for "tap-outside-to-close", but it doesn't dim the page. */
   .ai-sidebar-backdrop {
     position: fixed;
     inset: 56px 0 0 0;
-    background: rgba(0, 0, 0, 0.28);
-    opacity: 0;
+    background: transparent;
     pointer-events: none;
-    transition: opacity 0.25s ease;
     z-index: 8400;
   }
-  .ai-sidebar-backdrop.is-open { opacity: 1; pointer-events: auto; }
+  .ai-sidebar-backdrop.is-open { pointer-events: auto; }
 
   /* Sidebar toggle for AI chat — small pill anchored below
      the navbar, on the left. Disappears when the sidebar
      is open (the sidebar's own close arrow handles close). */
   .ai-sidebar-toggle {
     position: fixed;
-    top: 60px; left: 12px;
+    top: 76px; left: 12px;  /* clears the actual mobile navbar height */
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 12px 7px 9px;
-    border-radius: 999px;
+    justify-content: center;
+    gap: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;             /* icon-only, perfectly circular */
+    border-radius: 50%;
+    box-sizing: border-box;
     background: var(--paper-soft, #fffaf0);
     border: 1px solid var(--line, rgba(26,20,16,0.18));
     color: var(--ink, #1a1410);
@@ -1919,9 +1976,8 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.10);
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .ai-sidebar-toggle::after {
-    content: "history";
-  }
+  /* icon-only — no "history" label */
+  .ai-sidebar-toggle::after { content: none; }
   .ai-sidebar-toggle svg { width: 16px; height: 16px; }
   html[data-theme="dark"] .ai-sidebar-toggle {
     background: #1a1410;
@@ -2022,3 +2078,122 @@
 /* (Old tablet-narrow tweak removed — the main breakpoint now
    covers everything up to 900px so the mobile layout kicks in
    at the awkward middle widths too.) */
+
+/* ════════════════════════════════════════════════════════════════
+   MOBILE POLISH PASS — these scope ONLY to <=900px; desktop untouched.
+   Addresses: feed-card stagger feeling slow/abrupt, chat sidebar
+   over-tall, cryptic composer-tool icons, hero text too close to
+   the top, no breathing room around messages.
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+
+  /* ── Feed cards: lighter entry animation on mobile ──
+     The desktop reveal uses filter:blur(4px), which is GPU-expensive
+     on phones and amplifies the "jumpy/slow" feel during scroll.
+     Strip the blur and shorten the duration; keep opacity+translate
+     so the calm cascade still reads. */
+  .post-card--enter {
+    filter: none !important;
+    transform: translateY(8px);
+  }
+  .post-card--enter.is-in {
+    transition:
+      opacity   360ms var(--ease-calm, cubic-bezier(0.22,1,0.36,1)),
+      transform 360ms var(--ease-calm, cubic-bezier(0.22,1,0.36,1)) !important;
+  }
+
+  /* ── AI chat history drawer: full-page-height, but contents work ──
+     The drawer fills viewport height (user wants it that way). The
+     real fix was elsewhere: clicks on inner buttons no longer close
+     it (see JS/mobile-nav.js — only .history-item taps close). */
+  .chat-sidebar, .ai-sidebar {
+    bottom: 0 !important;
+    height: auto !important;
+    border-bottom-right-radius: 14px;
+    box-shadow: 6px 8px 28px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  /* ── Navbar: hard-pin to top on every page ──
+     Defensive — some pages were reported as having the navbar
+     scrolling with content. Force fixed positioning. */
+  .top-info {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  /* ── Scroll-reveal: instant on mobile ──
+     The fade-in-on-scroll cascade feels like loading lag on small
+     screens. Kill all reveal entrance animations under 900px; content
+     just appears. Desktop animations are unaffected. */
+  .reveal,
+  .reveal-row,
+  .reveal-stagger,
+  .ab-reveal,
+  .ab-reveal-stagger > *,
+  .sh-reveal,
+  .sh-reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    translate: 0 0 !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  /* ── Filter panel: avoid max-height jank on mobile ──
+     Animating max-height between 0 and 800px is expensive on phones
+     (forces layout every frame). Use a fixed clipping container and
+     animate transform on the inner content instead. */
+  .filter-panel {
+    transition: max-height 0.22s ease, margin-bottom 0.22s ease !important;
+    max-height: 0;
+  }
+  .filter-panel.is-open { max-height: 560px; }
+  .filter-panel .filters-container { padding: 16px !important; }
+
+  /* ── Chat hero + stream breathing room ──
+     The fixed navbar (56px) overlays the top of .chat-page on mobile,
+     so we add padding-top to .chat-page so the hero and stream both
+     clear it. Padding-bottom on the stream keeps the last message
+     above the fixed composer (~76px tall). */
+  .chat-page { padding-top: 56px !important; }
+  .chat-welcome {
+    padding: 18px 20px 24px !important;  /* lifts the hero a touch */
+  }
+  /* Background doodles — TWO separate systems on this page:
+     (a) .pg-doodle--N — fixed-position ambient doodles behind everything
+     (b) .wd--*       — absolute doodles INSIDE the welcome card
+     Both need to be lifted on mobile so they don't crowd the composer. */
+
+  /* (a) Page-level ambient doodles */
+  .pg-doodle--1 { top: -10% !important; left: -2% !important; bottom: auto !important; }
+  .pg-doodle--2 { top: 5% !important;   left: -3% !important; bottom: auto !important; }
+  .pg-doodle--3 { top: -6% !important;  right: -2% !important; bottom: auto !important; }
+  .pg-doodle--4 { top: -8% !important;  right: -3% !important; bottom: auto !important; }
+  .pg-doodle--5 { top: 2% !important;   left: 28% !important;  bottom: auto !important; width: 80px !important; }
+
+  /* (b) Welcome-card decorations — spread evenly across the welcome
+     area instead of clustering. Different `top` values + alternating
+     left/right anchors so each doodle gets its own quadrant. */
+  .wd--cloud-l { top: 45% !important; bottom: auto !important; left: 10% !important;   right: auto !important; width: 110px !important; }
+  .wd--heart   { top: 12% !important; bottom: auto !important; right: 0% !important;  left: auto !important;  width: 44px !important; }
+  .wd--wave    { top: 6% !important; bottom: auto !important; left: 15% !important;   right: auto !important; width: 60px !important; opacity: 0.07 !important; }
+  .wd--star-r  { top: 19% !important;  bottom: auto !important; right: 7% !important; left: auto !important;  width: 50px !important; }
+  .wd--spark   { top: 52% !important; bottom: auto !important; right: 23% !important; left: auto !important;  width: 60px !important; }
+  .chat-stream {
+    padding: 28px 16px 144px !important;  /* room above the fixed composer */
+    gap: 18px;
+    scroll-padding-bottom: 144px;
+  }
+  .msg { margin-bottom: 6px; }
+
+  /* ── Composer tool labels visible (not just cryptic icons) ──
+     Desktop hides .ctool span at <=460px which makes the row read as
+     two mystery glyphs. Restore the labels; composer-row already wraps. */
+  .ctool span { display: inline !important; }
+  .ctool {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+}
