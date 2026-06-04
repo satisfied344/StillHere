@@ -85,7 +85,7 @@
   <link rel="stylesheet" href="../CSS/nav-menu.css">
   <link rel="stylesheet" href="../CSS/motion.css?v=2">
   <link rel="stylesheet" href="../CSS/dark-theme.css">
-  <link rel="stylesheet" href="../CSS/mobile.css?v=20260606g">
+  <link rel="stylesheet" href="../CSS/mobile.css?v=20260607h">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="../JS/supabase-config.js" defer></script>
   <script src="../JS/site-pings.js" defer></script>
@@ -604,6 +604,12 @@
       width: 44px;
       transform: rotate(-14deg);
       animation-delay: -2s;
+    }
+    /* The little heart is a dark ink doodle — on the dark theme it sinks
+       into the background. Flip it to white so it stays visible. */
+    html[data-theme="dark"] .ab-story-art-doodle--2 {
+      filter: brightness(0) invert(1);
+      opacity: 0.85;
     }
     @keyframes abStoryBob {
       0%, 100% { transform: rotate(18deg) translateY(0); }

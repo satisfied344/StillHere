@@ -541,7 +541,7 @@ body { overflow-x: hidden; }
 /* ── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 760px) {
   .doc-hero { grid-template-columns: 1fr; gap: 24px; align-items: start; }
-  .doc-meta { justify-self: start; }
+  .doc-meta { justify-self: end; }
   .doc-title { font-size: 56px; }
   .doc-toc-list { grid-template-columns: 1fr; }
 }
