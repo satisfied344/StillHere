@@ -1833,6 +1833,21 @@
   }
   .chat-sidebar.is-open, .ai-sidebar.is-open { left: 0 !important; }
 
+  /* The DESKTOP collapse mechanism — `.chat-page.is-sidebar-collapsed
+     .chat-sidebar { transform: translateX(-100%); opacity:0;
+     visibility:hidden }` — must be fully neutralised on mobile. Here the
+     drawer is shown/hidden ONLY by `.is-open` (left). If that desktop
+     rule leaks through (its class can get toggled by the page's own
+     collapse button), it hides the *open* mobile drawer entirely:
+     content sits translated off-screen and every tap misses — the
+     "no button in the sidebar works" symptom. */
+  .chat-page.is-sidebar-collapsed .chat-sidebar,
+  .chat-sidebar, .ai-sidebar {
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
   /* Hide the page's built-in sidebar-REOPEN arrow on mobile (we use
      our own circular pill on the left edge of the page). KEEP the
      .sidebar-toggle (close arrow) — but only show it when the drawer
@@ -1841,42 +1856,68 @@
      handles re-opening.) */
   .sidebar-reopen { display: none !important; }
   .sidebar-toggle { display: none !important; }
-  /* Close-arrow sits INSIDE the drawer near the right edge — never
-     clipped, always reads as a real button (clear background, border,
-     pointer cursor, visible hover/active). */
+  /* Close-arrow straddles the drawer's RIGHT EDGE like the desktop
+     one — a clean circle sitting on the border, not crammed inside.
+     `position: fixed` (not absolute) so the drawer's `overflow-y: auto`
+     can't clip it; anchored to the panel edge via min(86vw, 320px)
+     minus half the button width to centre it on the edge line. */
   .chat-sidebar.is-open .sidebar-toggle {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    position: absolute !important;
-    top: 14px !important;
-    right: 12px !important;
-    left: auto !important;
-    width: 32px !important;
-    height: 32px !important;
+    position: fixed !important;
+    /* Viewport-fixed (the drawer no longer has a transform, so this is
+       relative to the viewport). Place it just INSIDE the drawer's right
+       edge — min(86vw,320px) is that edge; −46px tucks the 34px circle
+       fully inside so it renders as a complete circle, not a clipped
+       half-moon. Vertically level with the "your conversations" title,
+       clear of the navbar. */
+    top: 88px !important;
+    left: calc(min(86vw, 320px) - 46px) !important;
+    right: auto !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;   /* beat the global button{min-height:40px} */
+    box-sizing: border-box !important;
     padding: 0 !important;
     border-radius: 50% !important;
     z-index: 8700 !important;
-    background: rgba(26, 20, 16, 0.06) !important;
+    /* SOLID surface so the button always reads as a real, tappable
+       control sitting on the edge — not a faint shape half-lost over
+       the chat area behind it. */
+    background: var(--paper-soft, #fffaf0) !important;
     border: 1px solid var(--line, rgba(26,20,16,0.18)) !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18) !important;
     cursor: pointer !important;
     color: var(--ink, #1a1410) !important;
     transition: background-color 0.18s ease, transform 0.12s ease !important;
-  }
-  .chat-sidebar.is-open .sidebar-toggle:hover {
-    background: rgba(26, 20, 16, 0.12) !important;
   }
   .chat-sidebar.is-open .sidebar-toggle:active {
     transform: scale(0.92) !important;
   }
   html[data-theme="dark"] .chat-sidebar.is-open .sidebar-toggle {
-    background: rgba(244, 234, 214, 0.08) !important;
-    border-color: rgba(244, 234, 214, 0.20) !important;
+    background: #221b15 !important;
+    border-color: rgba(244, 234, 214, 0.22) !important;
     color: #f4e9d5 !important;
   }
-  html[data-theme="dark"] .chat-sidebar.is-open .sidebar-toggle:hover {
-    background: rgba(244, 234, 214, 0.16) !important;
+
+  /* Delete (×) on each past conversation. Desktop only reveals it on
+     hover — there's no hover on touch, so make it permanently visible
+     with a real tap target, right-aligned and vertically centred. */
+  .chat-sidebar .history-menu {
+    opacity: 1 !important;
+    flex: 0 0 auto !important;
+    align-self: center !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    padding: 6px 6px !important;
+    margin: 0 -2px 0 4px !important;
+    color: var(--ink-light, rgba(26,20,16,0.55)) !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chat-sidebar .history-menu:active {
+    color: var(--accent, #d6533c) !important;
+    transform: scale(0.9);
   }
 
   .chat-area, .ai-main, .ai-chat-area {
@@ -1942,9 +1983,20 @@
   /* Backdrop is INVISIBLE — drawer feels like a sliding side panel,
      not a modal popup. The backdrop still exists as a click-catcher
      for "tap-outside-to-close", but it doesn't dim the page. */
+  /* CRITICAL: the backdrop must cover ONLY the strip to the RIGHT of the
+     drawer — never the drawer itself.
+     Why: the drawer (.chat-sidebar, z-index 8500) lives inside
+     `.chat-page`, which is `position:fixed; z-index:2` and therefore its
+     own stacking context. The backdrop is a <body> child at z-index 8400,
+     so it paints ABOVE the entire .chat-page subtree (drawer included),
+     no matter the drawer's z-index. If it overlapped the drawer it would
+     swallow every tap on the buttons inside — which is exactly the
+     "nothing in the sidebar works on mobile" bug. Starting it at the
+     drawer's right edge means it can only ever catch outside taps. */
   .ai-sidebar-backdrop {
     position: fixed;
-    inset: 56px 0 0 0;
+    top: 56px; right: 0; bottom: 0;
+    left: min(86vw, 320px);
     background: transparent;
     pointer-events: none;
     z-index: 8400;

@@ -129,6 +129,13 @@
     $$('.msg--you .msg-who').forEach(function (el) { el.textContent = currentUser.name; });
     refreshSelfAvatars();
 
+    /* Account binding is the priority: adopt any anonymous ("guest")
+       chats into this account, then sync with the server so the account's
+       conversations follow it across devices. (Adopting also stops old
+       chats from vanishing when the storage bucket flips on login —
+       which used to read as "my old chat just got deleted".) */
+    if (typeof syncOnLogin === 'function') syncOnLogin(currentUser.id);
+
     /* Re-render sidebar history with this user's chats (closes any open chat
        that may have been showing from a stale "guest" view) */
     if (typeof startFresh === 'function') startFresh();
@@ -166,9 +173,21 @@
     }
   }
 
+  /* Hook the session BOTH ways:
+       • whenReady — fires immediately if SH_SESSION is already loaded.
+       • the `sh:session` document event — the reliable path, because
+         ai-chat.js (a plain end-of-body script) runs BEFORE the deferred
+         session.js, so at this point window.SH_SESSION is usually still
+         undefined and the whenReady branch is skipped. The event listener
+         doesn't need SH_SESSION to exist yet; it just waits for session.js
+         to dispatch once auth resolves, then re-renders under the right
+         (account) storage bucket. Without this, the history stayed on the
+         empty "guest" bucket until a manual action (e.g. "start a new
+         conversation") happened to call renderHistory again. */
   if (window.SH_SESSION && window.SH_SESSION.whenReady) {
     window.SH_SESSION.whenReady(applyUser);
   }
+  document.addEventListener('sh:session', function (e) { applyUser(e.detail); });
 
   /* ────────────────────────────────────────────────
      4. Local chat store (browser localStorage) — scoped per user
@@ -198,10 +217,144 @@
     var i = list.findIndex(function (c) { return c.id === chat.id; });
     if (i >= 0) list[i] = chat; else list.unshift(chat);
     saveAll(list);
+    /* Mirror to the account on the server (best-effort, fire-and-forget).
+       localStorage stays the fast/offline source; the cloud copy is what
+       makes chats follow the account across devices. */
+    if (isLoggedIn()) remoteUpsert(chat);
   }
   function deleteChat(id) {
     saveAll(loadAll().filter(function (c) { return c.id !== id; }));
+    if (isLoggedIn()) remoteDelete(id);
   }
+
+  /* Move every chat from the anonymous "guest" bucket into the given
+     account bucket, merging (dedupe by id, account copy wins) and
+     clearing the guest bucket afterwards. Called on login so prior
+     anonymous conversations follow the account instead of disappearing
+     when the storage key flips from "guest" to the user id. */
+  function migrateGuestChatsTo(accountId) {
+    if (!accountId) return;
+    var guestKey = 'sh_ai_chats_v1_guest';
+    var destKey  = 'sh_ai_chats_v1_' + accountId;
+    if (guestKey === destKey) return;
+    try {
+      var guest = JSON.parse(localStorage.getItem(guestKey) || '[]');
+      if (!guest.length) return;
+      var dest  = JSON.parse(localStorage.getItem(destKey) || '[]');
+      var byId  = {};
+      dest.forEach(function (c) { byId[c.id] = c; });
+      guest.forEach(function (c) { if (!byId[c.id]) dest.push(c); });
+      dest.sort(function (a, b) {
+        return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+      });
+      localStorage.setItem(destKey, JSON.stringify(dest));
+      localStorage.removeItem(guestKey);
+    } catch (_) { /* storage blocked — nothing to migrate */ }
+  }
+
+  /* ────────────────────────────────────────────────
+     4b. Cloud sync (Supabase) — only when logged in.
+     localStorage is the fast, offline-friendly source of truth on each
+     device; Supabase (`public.ai_chats`, RLS-scoped to auth.uid()) is the
+     shared copy that makes a conversation follow the ACCOUNT to any other
+     device. All remote calls are best-effort: if Supabase is unreachable
+     the local experience is unchanged.
+     ──────────────────────────────────────────────── */
+  function sb() {
+    /* Reuse the ONE shared client the rest of the app uses
+       (window._sbClient). Creating a second client triggers
+       "Multiple GoTrueClient instances" warnings and can desync auth —
+       and crucially the shared client already carries the logged-in
+       session, which RLS on ai_chats needs. */
+    if (!window.supabase || !window.SH_SUPABASE_URL || !window.SH_SUPABASE_KEY) return null;
+    try {
+      if (!window._sbClient) {
+        window._sbClient = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
+      }
+    } catch (_) { return null; }
+    return window._sbClient || null;
+  }
+  function isLoggedIn() {
+    return !!(window.SH_SESSION && window.SH_SESSION.user && window.SH_SESSION.user.id);
+  }
+  function currentUid() {
+    return (window.SH_SESSION && window.SH_SESSION.user && window.SH_SESSION.user.id) ||
+           (currentUser && currentUser.id) || null;
+  }
+
+  function remoteUpsert(chat) {
+    var c = sb(), uidv = currentUid();
+    if (!c || !uidv) return;
+    try {
+      c.from('ai_chats').upsert({
+        id:         chat.id,
+        user_id:    uidv,
+        title:      chat.title || '',
+        messages:   chat.messages || [],
+        created_at: chat.createdAt || nowIso(),
+        updated_at: chat.updatedAt || nowIso()
+      }, { onConflict: 'id' }).then(function () {}, function () {});
+    } catch (_) {}
+  }
+  function remoteDelete(id) {
+    var c = sb();
+    if (!c) return;
+    try { c.from('ai_chats').delete().eq('id', id).then(function () {}, function () {}); }
+    catch (_) {}
+  }
+  function remotePull() {
+    var c = sb();
+    if (!c) return Promise.resolve(null);
+    try {
+      return c.from('ai_chats')
+        .select('id,title,messages,created_at,updated_at')
+        .order('updated_at', { ascending: false })
+        .then(function (res) {
+          if (!res || res.error || !res.data) return null;
+          return res.data.map(function (r) {
+            return {
+              id:        r.id,
+              title:     r.title || '',
+              messages:  r.messages || [],
+              createdAt: r.created_at,
+              updatedAt: r.updated_at
+            };
+          });
+        }, function () { return null; });
+    } catch (_) { return Promise.resolve(null); }
+  }
+
+  /* Merge two chat lists by id; the copy with the newer updatedAt wins. */
+  function mergeChats(localList, remoteList) {
+    var map = {};
+    (localList || []).forEach(function (c) { map[c.id] = c; });
+    (remoteList || []).forEach(function (r) {
+      var ex = map[r.id];
+      if (!ex || new Date(r.updatedAt || 0) >= new Date(ex.updatedAt || 0)) map[r.id] = r;
+    });
+    return Object.keys(map).map(function (k) { return map[k]; })
+      .sort(function (a, b) { return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0); });
+  }
+
+  /* Run once the session resolves to a logged-in user:
+       1. adopt any anonymous ("guest") chats into the account locally,
+       2. push those freshly-adopted chats up to the server,
+       3. pull the account's chats from the server (source of truth for
+          cross-device), merge into local, and re-render. */
+  function syncOnLogin(accountId) {
+    if (!accountId) return;
+    var adopted = [];
+    try { adopted = JSON.parse(localStorage.getItem('sh_ai_chats_v1_guest') || '[]'); }
+    catch (_) {}
+    migrateGuestChatsTo(accountId);
+    adopted.forEach(function (ch) { remoteUpsert(ch); });
+    remotePull().then(function (remote) {
+      if (!remote) return;                 // offline / failed — keep local as-is
+      saveAll(mergeChats(loadAll(), remote));
+      renderHistory();
+    });
+  }
+
   /* Translation helper — falls back to the English default if i18n
      hasn't loaded yet (deferred script ordering can race the first
      `createChat` call from very-early page state). */
