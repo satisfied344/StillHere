@@ -2542,6 +2542,42 @@
     'idx.btn.explore':     { en: 'explore stories',       ru: 'читать истории' },
     'idx.btn.scroll':      { en: 'scroll',                ru: 'листай' },
 
+    /* Hero CTA microcopy */
+    'idx.hero.ctanote':    { en: '<strong>no account needed.</strong> write anonymously, or just read. always free.',
+                             ru: '<strong>аккаунт не нужен.</strong> пиши анонимно или просто читай. всегда бесплатно.' },
+
+    /* How it works — 3 steps */
+    'idx.how.eyebrow':     { en: 'how it works',          ru: 'как это работает' },
+    'idx.how.title':       { en: 'write it down.<br><em>someone sits with you.</em>',
+                             ru: 'просто напиши.<br><em>кто-то побудет рядом.</em>' },
+    'idx.how.lede':        { en: "no account, no real name, no fixing. write the thing you can't say out loud, and a real person will be with it.",
+                             ru: 'без аккаунта, без настоящего имени, без «починки». напиши то, что не можешь сказать вслух, — и живой человек побудет с этим рядом.' },
+    'idx.how.s1.title':    { en: 'write the heavy thing',  ru: 'напиши то, что давит' },
+    'idx.how.s1.desc':     { en: "anonymously — a sentence, half a thought, or a whole story. whatever's sitting on your chest.",
+                             ru: 'анонимно — предложение, половину мысли или целую историю. всё, что лежит на душе.' },
+    'idx.how.s2.title':    { en: 'ask for presence, not advice', ru: 'попроси присутствие, а не советы' },
+    'idx.how.s2.desc':     { en: 'flip on <em>"no advice"</em> and readers know to just be with you — no "have you tried…".',
+                             ru: 'включи режим <em>«без советов»</em> — и читатели знают, что нужно просто быть рядом, без «а ты пробовал…».' },
+    'idx.how.s3.title':    { en: 'someone says "i\'m here"', ru: 'кто-то говорит «я рядом»' },
+    'idx.how.s3.desc':     { en: 'a quiet reply, or just a heart — proof a real person read every word.',
+                             ru: 'тихий ответ или просто сердечко — знак, что живой человек прочитал каждое слово.' },
+
+    /* Safety note */
+    'idx.safe.head':       { en: 'a quiet promise.',         ru: 'тихое обещание.' },
+    'idx.safe.s1':         { en: '<strong>anonymous by default</strong> — no email, no real name, nothing to sign.',
+                             ru: '<strong>анонимно по умолчанию</strong> — без почты, без настоящего имени, ничего подписывать не нужно.' },
+    'idx.safe.s2':         { en: '<strong>every post &amp; comment</strong> is read for safety before it ever appears.',
+                             ru: '<strong>каждый пост и комментарий</strong> проходит проверку на безопасность до появления.' },
+    'idx.safe.s3':         { en: '<strong>no-advice mode</strong> keeps your story safe from unwanted "fixes".',
+                             ru: '<strong>режим «без советов»</strong> бережёт твою историю от непрошеной «починки».' },
+    'idx.safe.link':       { en: '<span>read how we keep this place gentle →</span>',
+                             ru: '<span>как мы сохраняем это место бережным →</span>' },
+
+    /* Live feed preview */
+    'idx.live.eyebrow':    { en: 'real, right now',        ru: 'по-настоящему, прямо сейчас' },
+    'idx.live.title':      { en: 'people are here <em>today.</em>', ru: 'люди здесь <em>сегодня.</em>' },
+    'idx.live.more':       { en: '<span>read more, quietly →</span>', ru: '<span>читать дальше, тихо →</span>' },
+
     'idx.why.eyebrow':     { en: 'why stillhere',    ru: 'зачем stillhere' },
     'idx.why.title':       { en: 'built for <em>quiet</em>,<br>not for noise.',
                              ru: 'для <em>тишины</em>,<br>а не для шума.' },

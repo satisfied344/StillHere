@@ -91,8 +91,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
     <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
-    <script src="JS/i18n.uk.js?v=10" defer></script>
-  <script src="JS/i18n.js?v=9" defer></script>
+    <script src="JS/i18n.uk.js?v=12" defer></script>
+  <script src="JS/i18n.js?v=11" defer></script>
     <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=15" defer></script>
   <script src="JS/nav-menu.js?v=1" defer></script>
@@ -178,6 +178,152 @@
     .implicit-consent a:hover {
       color: var(--accent-2, #d6533c);
       border-bottom-color: var(--accent-2, #d6533c);
+    }
+
+    /* ════════ Landing funnel: how-it-works · live feed · safety ════════ */
+    .how-section, .live-section { position: relative; padding: 88px 24px 92px; overflow: hidden; }
+    .how-section .container, .live-section .container { max-width: 1080px; margin: 0 auto; position: relative; z-index: 2; }
+    .how-section .section-head, .live-section .section-head { text-align: center; }
+    .how-lede {
+      font-size: 16px; color: var(--ink-mid, #5b5046); line-height: 1.65;
+      max-width: 540px; margin: 16px auto 0; font-style: italic;
+    }
+
+    /* ── Shared hand-torn paper note (mirrors .feature-card on the why page) ── */
+    .note-card {
+      position: relative;
+      background-color: #fbf4e3;
+      background-image: repeating-linear-gradient(0deg,
+        transparent 0, transparent 27px,
+        rgba(26,20,16,0.04) 27px, rgba(26,20,16,0.04) 28px);
+      border: 1px solid rgba(26,20,16,0.12);
+      border-radius: 6px;
+      box-shadow: 0 10px 28px -14px rgba(26,20,16,0.18), 0 2px 4px rgba(26,20,16,0.04);
+      transition: transform 0.5s cubic-bezier(0.2,0.7,0.2,1),
+                  box-shadow 0.5s cubic-bezier(0.2,0.7,0.2,1),
+                  border-color 0.3s ease;
+    }
+    /* single piece of tape at the top, angled per-card via --tape */
+    .note-card::before {
+      content: ""; position: absolute; top: -11px; left: 50%;
+      width: 70px; height: 22px;
+      transform: translateX(-50%) rotate(var(--tape, -3deg));
+      background: rgba(214,83,60,0.38); border-radius: 2px;
+      box-shadow: 0 2px 5px rgba(26,20,16,0.12); z-index: 5;
+    }
+
+    /* ── 3 concrete steps ── */
+    .how-steps {
+      list-style: none; margin: 56px 0 0; padding: 0;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+    }
+    .how-step { padding: 42px 28px 30px; display: flex; flex-direction: column; min-height: 232px; z-index: 1; }
+    /* scattered tilts (set with !important so reveal-row's transform can't flatten them) */
+    .how-step:nth-child(1) { transform: rotate(-1.8deg) translateY(5px) !important; z-index: 2; }
+    .how-step:nth-child(2) { transform: rotate(1.4deg) translateY(-7px) !important; z-index: 3; }
+    .how-step:nth-child(3) { transform: rotate(-1.1deg) translateY(2px) !important; z-index: 2; }
+    .how-step:hover { transform: rotate(0deg) translateY(-7px) !important; z-index: 12 !important;
+      border-color: rgba(26,20,16,0.20);
+      box-shadow: 0 18px 36px -14px rgba(26,20,16,0.26), 0 4px 8px rgba(26,20,16,0.06); }
+    .how-step:nth-child(2)::before { background: rgba(109,130,104,0.46); }
+    .how-step-num {
+      font-family: "Caveat", cursive; font-weight: 700; font-size: 52px; line-height: 0.75;
+      color: var(--accent-2, #d6533c); align-self: flex-start;
+      transform: rotate(-5deg); margin: 0 0 16px 2px;
+    }
+    .how-step:nth-child(2) .how-step-num { color: var(--accent-3, #6a8f6b); transform: rotate(4deg); }
+    /* Cards stay cream paper in BOTH themes, so card text is set to explicit
+       dark ink (not theme tokens, which would flip to light in dark mode). */
+    .how-step h3 { font-size: clamp(18px, 1.5vw, 21px); font-weight: 600; color: #241c15; margin: 0 0 10px; letter-spacing: -0.01em; text-transform: lowercase; line-height: 1.2; }
+    .how-step p { font-size: 14.5px; color: #5b5046; line-height: 1.6; margin: 0; }
+    .how-step p em, .how-step h3 em { color: var(--accent-2, #d6533c); font-style: italic; }
+    .step-doodle {
+      position: absolute; bottom: 14px; right: 14px; width: 38px; height: auto;
+      opacity: 0.5; mix-blend-mode: multiply; pointer-events: none;
+      transition: transform 0.6s cubic-bezier(0.2,0.7,0.2,1), opacity 0.4s ease;
+    }
+    .how-step:hover .step-doodle { opacity: 0.85; transform: rotate(0deg) scale(1.12); }
+
+    /* ── Safety: one hand-torn reassurance note ── */
+    .safety-note {
+      max-width: 660px; margin: 60px auto 0; padding: 30px 36px 28px;
+      text-align: left; transform: rotate(-1.1deg) !important;
+    }
+    .safety-note::before { background: rgba(109,130,104,0.46); width: 86px; --tape: 2deg; }
+    .safety-note h4 { font-family: "Caveat", cursive; font-size: 30px; font-weight: 700; color: #241c15; margin: 0 0 16px; transform: rotate(-1deg); }
+    .safety-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+    .safety-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 14.5px; color: #5b5046; line-height: 1.45; }
+    .safety-list li img { width: 15px; height: auto; margin-top: 3px; opacity: 0.7; flex-shrink: 0; mix-blend-mode: multiply; }
+    .safety-list strong { color: #241c15; font-weight: 600; }
+    .safety-link { display: inline-block; margin-top: 20px; font-size: 13.5px; color: var(--accent-2, #d6533c); text-decoration: none; }
+    .safety-link span { border-bottom: 1px dashed rgba(214,83,60,0.4); }
+    .safety-link:hover span { border-bottom-style: solid; }
+
+    /* ── Live feed preview ── */
+    .live-feed { margin: 50px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+    .live-card { padding: 26px 24px 18px; display: flex; flex-direction: column; gap: 13px; text-align: left; min-height: 168px; z-index: 1; }
+    .live-card:nth-child(3n+1) { transform: rotate(-1.4deg) translateY(4px) !important; z-index: 2; }
+    .live-card:nth-child(3n+2) { transform: rotate(1.2deg) translateY(-5px) !important; z-index: 3; }
+    .live-card:nth-child(3n)   { transform: rotate(-0.8deg) translateY(2px) !important; z-index: 2; }
+    .live-card:hover { transform: rotate(0deg) translateY(-6px) !important; z-index: 12 !important;
+      border-color: rgba(26,20,16,0.20);
+      box-shadow: 0 18px 36px -14px rgba(26,20,16,0.26), 0 4px 8px rgba(26,20,16,0.06); }
+    .live-card:nth-child(3n+2)::before { background: rgba(109,130,104,0.44); }
+    .live-card-head { display: flex; align-items: baseline; gap: 7px; }
+    .live-card-who { font-size: 11.5px; font-weight: 600; font-style: italic; letter-spacing: 0.06em; text-transform: uppercase; color: #6a5e50; }
+    .live-card-time { font-size: 11.5px; color: #8a7d6d; }
+    .live-card-time::before { content: "·"; margin-right: 6px; }
+    .live-card-text { font-size: 15px; line-height: 1.6; color: #2a2018; margin: 0; flex: 1; }
+    .live-card-foot { display: flex; align-items: center; gap: 10px; margin-top: 2px; padding-top: 12px; border-top: 1px solid rgba(26,20,16,0.10); }
+    .live-here { font-size: 13px; color: var(--accent-2, #d6533c); }
+    .live-count { font-size: 12px; color: #8a7d6d; }
+    .live-more { display: inline-block; margin-top: 40px; font-size: 14px; color: var(--accent-2, #d6533c); text-decoration: none; }
+    .live-more span { border-bottom: 1px dashed rgba(214,83,60,0.4); }
+    .live-more:hover span { border-bottom-style: solid; }
+
+    /* hero CTA microcopy — taken out of flow so it can't grow the hero column
+       (which was pushing the lower hero text down past where it should sit) */
+    .hero-cta-note { position: absolute; top: 100%; left: 0; right: 0; margin: 18px 0 0; font-size: 12.5px; color: var(--ink-light, #8a7d6d); letter-spacing: 0.01em; line-height: 1.5; }
+    .hero-cta-note strong { color: var(--ink-mid, #5b5046); font-weight: 600; }
+
+    /* ════════ Warm cream paper — every card, both themes ════════ */
+    /* Make the why-page feature cards a touch creamier and match the new
+       note cards, in light AND dark. Cards stay cream, only ink flips. */
+    .feature-card { background-color: #fbf4e3 !important; }
+    html[data-theme="dark"] .feature-card {
+      background-color: #fbf4e3 !important;
+      background-image: repeating-linear-gradient(0deg,
+        transparent 0, transparent 27px,
+        rgba(26,20,16,0.04) 27px, rgba(26,20,16,0.04) 28px) !important;
+      border-color: rgba(26,20,16,0.12) !important;
+    }
+    html[data-theme="dark"] .feature-card h3 { color: #241c15 !important; }
+    html[data-theme="dark"] .feature-card p  { color: #5b5046 !important; }
+    html[data-theme="dark"] .feature-card:hover h3 { color: var(--accent-2) !important; }
+
+    /* The big "you don't always need to be fixed" quote note — cream too. */
+    .quote-note::before { background: #fbf4e3 !important; }
+    html[data-theme="dark"] .quote-note::before { background: #fbf4e3 !important; }
+    html[data-theme="dark"] .quote-text { color: #241c15 !important; }
+    html[data-theme="dark"] .quote-text em { color: var(--accent-2) !important; }
+    html[data-theme="dark"] .quote-cite { color: #8a7d6d !important; }
+
+    /* Doodles sitting INSIDE the cream cards must stay dark-ink (multiply),
+       not get flipped to light by the global dark-mode doodle inversion. */
+    html[data-theme="dark"] .step-doodle,
+    html[data-theme="dark"] .safety-list li img {
+      mix-blend-mode: multiply !important; filter: none !important;
+    }
+
+    @media (max-width: 760px) {
+      .how-section, .live-section { padding: 56px 16px 60px; }
+      .how-steps { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; }
+      .live-feed { grid-template-columns: 1fr; gap: 28px; }
+      .how-step, .live-card { min-height: 0; }
+      /* keep the hand-pinned tilt on mobile too — the section clips overflow
+         so the scattered angles never cause a horizontal scrollbar */
+      .safety-note { margin-top: 46px; padding: 26px 24px; }
+      .hero-cta-note { position: static; margin-top: 14px; }
     }
   </style>
   <script src="JS/mobile-nav.js?v=20260606f" defer></script>
@@ -367,6 +513,10 @@
                         <span class="btn-arrow">↗</span>
                     </a>
                 </div>
+
+                <p class="hero-cta-note" data-i18n="idx.hero.ctanote">
+                    <strong>no account needed.</strong> write anonymously, or just read. always free.
+                </p>
             </div>
         </div>
 
@@ -406,6 +556,63 @@
             </span>
         </div>
     </div>
+
+    <!-- ── How it works — concrete 3-step flow ── -->
+    <section class="how-section" id="how-section">
+      <!-- Scattered hand-drawn ambiance, same vocabulary as the rest of the page -->
+      <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img grid-side grid-side--l-top d-bob d-mouse" data-px="0.022" data-rot="-14" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/doodles2/02_asterisk_flower.png" class="d-img grid-side grid-side--l-mid d-spin-slow d-mouse" data-px="0.028" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/doodles2/08_wavy_line.png" class="d-img grid-side grid-side--l-bot d-tilt d-mouse" data-px="0.016" data-rot="-6" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/letters/_Special Characters/Asterisk_02.png" class="d-img grid-side grid-side--r-top d-tilt d-mouse" data-px="0.020" data-rot="12" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/doodles2/09_cloud.png" class="d-img grid-side grid-side--r-mid d-bob d-mouse" data-px="0.030" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/doodles2/01_star.png" class="d-img grid-side grid-side--r-bot d-spin-slow d-mouse" data-px="0.018" alt="" aria-hidden="true" loading="lazy">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-eyebrow"><span data-i18n="idx.how.eyebrow">how it works</span></span>
+          <h2 class="card-section-title" data-i18n="idx.how.title">write it down.<br><em>someone sits with you.</em></h2>
+          <p class="how-lede" data-i18n="idx.how.lede">no account, no real name, no fixing. write the thing you can't say out loud, and a real person will be with it.</p>        </div>
+
+        <ol class="how-steps">
+          <li class="how-step note-card reveal-row" style="--tape:-4deg;">
+            <span class="how-step-num">1</span>
+            <h3 data-i18n="idx.how.s1.title">write the heavy thing</h3>
+            <p data-i18n="idx.how.s1.desc">anonymously — a sentence, half a thought, or a whole story. whatever's sitting on your chest.</p>
+            <img src="assets/doodles2/08_wavy_line.png" class="d-img step-doodle" style="transform:rotate(-8deg);" alt="" aria-hidden="true" loading="lazy">
+          </li>
+          <li class="how-step note-card reveal-row" style="--tape:3deg;">
+            <span class="how-step-num">2</span>
+            <h3 data-i18n="idx.how.s2.title">ask for presence, not advice</h3>
+            <p data-i18n="idx.how.s2.desc">flip on <em>"no advice"</em> and readers know to just be with you — no "have you tried…".</p>
+            <img src="assets/doodles2/09_cloud.png" class="d-img step-doodle" style="transform:rotate(6deg);" alt="" aria-hidden="true" loading="lazy">
+          </li>
+          <li class="how-step note-card reveal-row" style="--tape:-2deg;">
+            <span class="how-step-num">3</span>
+            <h3 data-i18n="idx.how.s3.title">someone says "i'm here"</h3>
+            <p data-i18n="idx.how.s3.desc">a quiet reply, or just a heart — proof a real person read every word.</p>
+            <img src="assets/doodles2/06_double_heart.png" class="d-img step-doodle" style="transform:rotate(-6deg);" alt="" aria-hidden="true" loading="lazy">
+          </li>
+        </ol>
+
+        <div class="safety-note note-card reveal">
+          <h4 data-i18n="idx.safe.head">a quiet promise.</h4>
+          <ul class="safety-list">
+            <li>
+              <img src="assets/letters/_Special Characters/Asterisk_02.png" alt="" aria-hidden="true" loading="lazy">
+              <span data-i18n="idx.safe.s1"><strong>anonymous by default</strong> — no email, no real name, nothing to sign.</span>
+            </li>
+            <li>
+              <img src="assets/letters/_Special Characters/Asterisk_04.png" alt="" aria-hidden="true" loading="lazy">
+              <span data-i18n="idx.safe.s2"><strong>every post &amp; comment</strong> is read for safety before it ever appears.</span>
+            </li>
+            <li>
+              <img src="assets/letters/_Special Characters/Asterisk_06.png" alt="" aria-hidden="true" loading="lazy">
+              <span data-i18n="idx.safe.s3"><strong>no-advice mode</strong> keeps your story safe from unwanted "fixes".</span>
+            </li>
+          </ul>
+          <a class="safety-link" href="docs/html/guidelines" data-i18n="idx.safe.link"><span>read how we keep this place gentle →</span></a>
+        </div>
+      </div>
+    </section>
 
     <section class="card-section" id="why-section">
         <!-- Soft fog at corners, ties this section into the page rhythm -->
@@ -480,6 +687,22 @@
                 </article>
             </div>
         </div>
+    </section>
+
+    <!-- ── Real, right now — live feed preview (real anonymous posts) ── -->
+    <section class="live-section reveal" id="live-section">
+      <!-- Same scattered hand-drawn ambiance as the sections above -->
+      <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img grid-side grid-side--l-top d-tilt d-mouse" data-px="0.022" data-rot="-14" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/doodles2/06_double_heart.png" class="d-img grid-side grid-side--l-bot d-bob d-mouse" data-px="0.026" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img grid-side grid-side--r-top d-spin-slow d-mouse" data-px="0.020" alt="" aria-hidden="true" loading="lazy">
+      <img src="assets/doodles2/08_wavy_line.png" class="d-img grid-side grid-side--r-bot d-tilt d-mouse" data-px="0.016" data-rot="8" alt="" aria-hidden="true" loading="lazy">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-eyebrow"><span data-i18n="idx.live.eyebrow">real, right now</span></span>
+          <h2 class="card-section-title" data-i18n="idx.live.title">people are here <em>today.</em></h2>        </div>
+        <div class="live-feed" id="liveFeed" aria-live="polite"></div>
+        <a href="main" class="live-more" data-i18n="idx.live.more"><span>read more, quietly →</span></a>
+      </div>
     </section>
 
     <!-- ── Quote band, framed by giant quotation marks + ambient doodles ── -->
@@ -642,6 +865,59 @@
   </button>
 
   <script src="JS/index-init.js" defer></script>
+
+  <!-- Live feed preview — a few REAL anonymous posts so the landing feels
+       like living people. Gentle example notes show first / as fallback. -->
+  <script>
+    (function () {
+      var feedEl = document.getElementById('liveFeed');
+      if (!feedEl) return;
+      function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+      function strip(h){var d=document.createElement('div');d.innerHTML=h||'';return (d.textContent||'').replace(/\s+/g,' ').trim();}
+      function tAgo(iso){var s=(Date.now()-new Date(iso).getTime())/1000;if(s<60)return 'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
+      var tapes=['-4deg','3deg','-2deg'];
+      function render(items){
+        feedEl.innerHTML = items.map(function(p,i){
+          var text = strip(p.content); if(text.length>150) text = text.slice(0,150).trim()+'…';
+          return '<article class="live-card note-card" style="--tape:'+tapes[i%3]+'">'+
+            '<div class="live-card-head"><span class="live-card-who">anonymous</span>'+
+            '<span class="live-card-time">'+esc(tAgo(p.created_at))+'</span></div>'+
+            '<p class="live-card-text">'+esc(text)+'</p>'+
+            '<div class="live-card-foot"><span class="live-here">♡ i’m here</span>'+
+            (p.support_count?('<span class="live-count">'+esc(p.support_count)+'</span>'):'')+'</div>'+
+          '</article>';
+        }).join('');
+      }
+      function fallback(){
+        render([
+          {content:"i don’t even know who i’m writing this to. i just needed one place where i didn’t have to pretend i’m fine.",created_at:new Date(Date.now()-7*60000).toISOString(),support_count:4},
+          {content:"today was heavy. but i’m still here, and somehow that counts for something.",created_at:new Date(Date.now()-26*60000).toISOString(),support_count:6},
+          {content:"thank you to whoever read my last post. i felt a little less alone for a minute.",created_at:new Date(Date.now()-3*3600000).toISOString(),support_count:9}
+        ]);
+      }
+      /* Gentle, representative example notes by default. Pulling LIVE posts
+         is intentionally OFF until the feed holds only real, moderated
+         content — otherwise unmoderated test rows (incl. abusive ones) would
+         land on the very first screen. Flip USE_LIVE = true once it's clean. */
+      var USE_LIVE = true;
+      fallback();
+      if (USE_LIVE) {
+        document.addEventListener('DOMContentLoaded', function () {
+          try {
+            if (!window.supabase || !window.SH_SUPABASE_URL) return;
+            var sb = window._sbClient || (window._sbClient = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY));
+            sb.from('posts').select('content,created_at,support_count')
+              .eq('moderation_state','active').order('created_at',{ascending:false}).limit(12)
+              .then(function(res){
+                var rows=(res&&res.data)||[];
+                var good=rows.filter(function(r){return strip(r.content).length>=30;}).slice(0,3);
+                if (good.length>=2) render(good);
+              }, function(){});
+          } catch(e) {}
+        });
+      }
+    })();
+  </script>
 
   <!-- Scroll reveal + parallax + global mouse-tracking -->
   <script>
