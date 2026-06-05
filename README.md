@@ -174,7 +174,7 @@ There's no automated test runner wired up yet – honestly noted as the biggest 
 
 ## license
 
-Released under the [MIT License](StillHere/LICENSE) – use it, learn from it, build on it. If StillHere or anything in here is useful to you, that's the whole point.
+Released under the [MIT License](LICENSE) – use it, learn from it, build on it. If StillHere or anything in here is useful to you, that's the whole point.
 
 ---
 
