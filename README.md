@@ -45,7 +45,7 @@ A few things it deliberately is **not**, and we say so out loud everywhere on th
 
 **See the honest numbers.** The statistics page (`/statistics`) shows aggregate totals – people here today, stories shared, languages in use, topics carried – and *only* aggregates. Nothing personal, nothing that traces back to you.
 
-There's also a small [therapists directory](StillHere/therapists.html) for when presence isn't enough and you want a real professional, and a set of documents written in the same plain voice: [community guidelines](StillHere/docs/html/guidelines.html), [privacy policy](StillHere/docs/html/privacy-policy.html), [terms](StillHere/docs/html/terms-of-service.html).
+There's also a set of documents written in the same plain voice: [community guidelines](StillHere/docs/html/guidelines.html), [privacy policy](StillHere/docs/html/privacy-policy.html), [terms](StillHere/docs/html/terms-of-service.html), and a one-tap [crisis resources](StillHere/docs/html/crisis-resources.html) page reachable from every screen.
 
 ---
 
@@ -56,6 +56,8 @@ This is the part that's easy to claim and hard to actually build, so here's how 
 Accounts don't use real email. When you register, StillHere creates a throwaway address like `username@stillhere.users` – there's no inbox, nothing to verify, nothing that ties the account to you. The trade-off is that the normal "reset your password by email" flow can't exist. So instead, at sign-up you're given a single high-entropy **recovery key** to save, like a wallet seed phrase. It's stored only as a SHA-256 hash; to reset a password you supply your username and that key. Lose both and the account is genuinely gone – which is the honest cost of having no email on file.
 
 You can download everything we hold about you at any time. The "export my data" button (GDPR Article 15 / 20) assembles a full machine-readable bundle straight from the database using your own session – row-level security already limits every query to *your* rows, so it needs no special server endpoint and can't leak anyone else's data.
+
+One honest caveat that bundle makes visible: when a post or comment is created **anonymously** (no account), the row keeps the author's IP address for a limited anti-abuse window, so that a banned author can be blocked not only by account and device fingerprint but by IP too. It's *your own* address in *your own* export, never anyone else's (RLS guarantees that), but we'd rather name it than pretend the field isn't there. Signed-in posts are tied to your account id instead. The separate visitor counter, below, stores no IP at all.
 
 The visitor counter is deliberately blind. The table behind the "X here now / Y total" widget stores **only a timestamp per visit** – no IP, no user-id, no fingerprint, no path, no user agent. You literally cannot reconstruct who did what from it. Site analytics (Vercel) are cookieless. And [`robots.txt`](StillHere/robots.txt) opts the whole site *out* of LLM training crawlers – this place is about human voices, not feedstock.
 
@@ -171,6 +173,10 @@ There's no automated test runner wired up yet – honestly noted as the biggest 
 - **[`supabase/MODERATION_SYSTEM.md`](StillHere/supabase/MODERATION_SYSTEM.md)** – the full moderation design.
 
 ---
+
+## credits
+
+Designed and built by one developer, with AI assistance (Anthropic's Claude) used as a pair-programmer for parts of the code, copy, and this documentation. Every product decision, the concept, and the final review are the author's own.
 
 ## license
 

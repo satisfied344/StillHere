@@ -71,22 +71,22 @@
   }
   </script>
 
-  <link rel="stylesheet" href="CSS/main-screen.css?v=3">
+  <link rel="stylesheet" href="CSS/main-screen.css?v=7">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/motion.css?v=2">
   <link rel="stylesheet" href="CSS/dark-theme.css">
-  <link rel="stylesheet" href="CSS/mobile.css?v=20260607h">
+  <link rel="stylesheet" href="CSS/mobile.css?v=20260607m">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/mobile-nav.js?v=20260606f" defer></script>
-  <script src="JS/i18n.uk.js?v=7" defer></script>
-  <script src="JS/i18n.js?v=6" defer></script>
+  <script src="JS/i18n.uk.js?v=10" defer></script>
+  <script src="JS/i18n.js?v=9" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=15" defer></script>
   <script src="JS/theme.js" defer></script>
   <!-- Required for SH_MOD.checkLetter (letter submit moderation). -->
-  <script src="JS/moderation.js?v=7" defer></script>
+  <script src="JS/moderation.js?v=8" defer></script>
   <!-- Crisis-detection (SH_CRISIS), surfaces a calm hotline card when
        a letter contains distress signals. Non-blocking. -->
   <script src="JS/crisis.js?v=6" defer></script>
@@ -325,13 +325,25 @@
       overflow: visible;
       margin: 0 0 28px;
       padding-top: 12px;            /* reserved space for the tape */
+      /* Vertical stagger so notes don't line up in tidy rows. */
+      margin-top: var(--card-shift, 0px);
       background: transparent;
       box-shadow: none;
       border-radius: 0;
       color: var(--letter-ink, #1a1410);
       isolation: isolate;
-      animation: letterIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
       margin-bottom: 18px;
+      /* The tilt + scale live on .letter (the OUTER element) so the tape
+         (::before) is part of the same transformed unit — card and tape
+         rotate, scale, and straighten on hover together, as one note.
+         Values are set per card by JS. */
+      transform: rotate(var(--card-rot, 0deg)) scale(var(--card-scale, 1));
+      transform-origin: center top;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .letter:hover {
+      z-index: 5;
+      transform: rotate(0deg) scale(1.035);   /* straighten & lift, tape too */
     }
     .letter-card {
       position: relative;
@@ -343,6 +355,20 @@
       box-shadow:
         0 4px 14px -6px rgba(26, 20, 16, 0.18),
         0 1px 3px rgba(26, 20, 16, 0.05);
+      transition: box-shadow 0.28s ease;
+      /* Entrance slide lives on the inner card (its own transform) so it
+         never fights the tilt that now sits on the outer .letter. */
+      animation: letterIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .letter:hover .letter-card {
+      box-shadow:
+        0 16px 34px -12px rgba(26, 20, 16, 0.34),
+        0 2px 6px rgba(26, 20, 16, 0.10);
+    }
+    html[data-theme="dark"] .letter:hover .letter-card {
+      box-shadow:
+        0 18px 40px -12px rgba(0, 0, 0, 0.70),
+        0 2px 6px rgba(0, 0, 0, 0.35);
     }
     html[data-theme="dark"] .letter-card {
       box-shadow:
@@ -1297,6 +1323,16 @@ document.addEventListener('DOMContentLoaded', function () {
          properties on this specific card. The ::before reads these. */
       article.style.setProperty('--tape-rot',  pick(TAPE_ROTATIONS) + 'deg');
       article.style.setProperty('--tape-left', randomTapeLeft()     + 'px');
+
+      /* "Paper pile" chaos — each note gets its own small tilt, a vertical
+         stagger so they don't line up in neat rows, and a slight scale, so
+         the wall feels like real scattered notes rather than a grid.
+         The .letter-card reads --card-rot / --card-scale; the outer .letter
+         reads --card-shift for the stagger. Hover straightens it. */
+      var rnd = function (min, max) { return Math.random() * (max - min) + min; };
+      article.style.setProperty('--card-rot',   rnd(-3.2, 3.2).toFixed(2) + 'deg');
+      article.style.setProperty('--card-scale', rnd(0.965, 1.035).toFixed(3));
+      article.style.setProperty('--card-shift', Math.round(rnd(0, 26)) + 'px');
 
       /* Inner .letter-card wraps the visible card so the outer
          .letter can stay overflow:visible for the tape. */

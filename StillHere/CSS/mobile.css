@@ -70,6 +70,16 @@
     animation: none !important;
   }
 
+  /* ── Tighten the gap above the closing "you're here, that's enough"
+     coda on mobile. Each page stacks a section margin + a 50–64px
+     margin-top + a 40–50px padding-top → ~100px of dead space on a
+     phone. Pull it in. Mobile only. */
+  .ab-closing, .pf-closing, .ct-closing, .cp-closing,
+  .st-closing, .doc-closing, .th-closing {
+    margin-top: 18px !important;
+    padding-top: 16px !important;
+  }
+
   html body .main-main,
   html body div.main-main {
     display: flex !important;
@@ -274,6 +284,19 @@
     gap: 6px;
     flex-wrap: nowrap !important;
     z-index: 10000 !important;
+    /* PERF: a 20px backdrop-blur on a fixed, full-width bar forces the
+       browser to re-blur the whole page on every scroll frame — the main
+       cause of the "feed stutters while scrolling" lag on phones. Drop the
+       blur and use a near-opaque background (visually almost identical,
+       massively cheaper). */
+    background: rgba(244, 234, 214, 0.97) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  html[data-theme="dark"] .top-info {
+    background: rgba(26, 20, 16, 0.97) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   .top-info .logo,
   .top-info .logo a,
@@ -904,9 +927,12 @@
     right: 6vw !important;
     bottom: 4px !important;
     top: auto !important;
-    transform: rotate(15deg) !important;
+    /* No static `transform: rotate()` here — an !important transform would
+       block the keyframe animation. Bob it like the other doodles (and the
+       green star2) instead. */
     pointer-events: none !important;
     z-index: 2 !important;
+    animation: dBob 4s ease-in-out infinite alternate !important;
   }
   /* Also bring the GREEN asterisk (star2 — Asterisk_06, which the dark
      invert renders green) onto mobile. Tucked into the top-right dead
@@ -1283,16 +1309,40 @@
   .filter-panel {
     margin-bottom: 14px !important;
     padding: 0 !important;
-    /* Replace the sluggish 0.4s max-height animation (animates the full
-       0→800px range causing a layout recalculation on every frame) with a
-       snappy 0.18s ease. Mobile CPUs feel the difference immediately. */
-    transition: max-height 0.18s ease, margin-bottom 0.15s ease !important;
+    /* SMOOTH collapse on mobile: animate a CSS grid track fraction
+       (0fr→1fr) instead of max-height. max-height animation forces a full
+       layout recalc every frame AND eases across a fixed 0→560px range
+       (so it stutters and "snaps"); grid-template-rows interpolates to the
+       exact content height and is far cheaper for the compositor. */
+    display: grid !important;
+    /* minmax(0, …fr) — a bare `0fr` keeps an implicit `auto` (content)
+       minimum, so the track never shrinks below the content's min-height
+       (~32px) and the filters peek out. minmax(0, …) forces the floor to 0. */
+    grid-template-rows: minmax(0, 0fr) !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    transition: grid-template-rows 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+                margin-bottom 0.2s ease !important;
   }
-  /* Tighten the max-height cap so the easing range is smaller. */
-  .filter-panel.is-open { max-height: 560px !important; }
-  .filter-panel.is-open .filters-container,
-  .filter-panel .filters-container {
+  .filter-panel.is-open {
+    grid-template-rows: minmax(0, 1fr) !important;
+    max-height: none !important;
+  }
+  /* The single grid child must clip its own overflow while the row
+     collapses, allow shrinking below content size, AND drop its vertical
+     padding when closed — otherwise that padding keeps the 0fr track from
+     reaching 0, leaving a ~32px strip of the filters peeking under the
+     button (the reported bug). Padding is restored (and animated) on open. */
+  .filter-panel > .filters-container {
+    overflow: hidden !important;
+    min-height: 0 !important;
+    padding: 0 18px !important;
+    transition: padding 0.28s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+  .filter-panel.is-open > .filters-container {
     padding: 20px 18px !important;
+  }
+  .filter-panel .filters-container {
     gap: 18px !important;
     display: flex;
     flex-direction: column;
@@ -1784,6 +1834,20 @@
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 8px !important;
   }
+  /* Let the three stat cells shrink and their labels wrap, so they never
+     push the card wider than the screen on very narrow phones. */
+  .pf-stats .pf-stat {
+    min-width: 0 !important;
+    padding: 14px 4px !important;
+    overflow-wrap: anywhere !important;
+  }
+  .pf-stats .pf-stat-label {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    font-size: 9px !important;
+    letter-spacing: 0.06em !important;
+  }
+  .pf-stats .pf-stat-num { font-size: 26px !important; }
   .pf-tabs {
     overflow-x: auto !important;
     white-space: nowrap !important;
@@ -2209,6 +2273,17 @@
      ══════════════════════════════════════════════════ */
   button, .btn, a.btn, input[type="submit"], input[type="button"] {
     min-height: 40px;
+  }
+  /* …but the small circular "remove image" button must stay a circle —
+     the 40px min-height above was stretching it into a tall pill. */
+  .media-remove {
+    width: 26px !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    box-sizing: border-box !important;
+    flex: 0 0 auto !important;
   }
 
   /* Prevent iOS auto-zoom on input focus */

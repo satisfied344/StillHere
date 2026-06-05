@@ -80,18 +80,18 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="../../CSS/main-screen.css?v=3">
+  <link rel="stylesheet" href="../../CSS/main-screen.css?v=7">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../CSS/nav-menu.css">
   <link rel="stylesheet" href="../../CSS/motion.css?v=2">
   <link rel="stylesheet" href="../../CSS/dark-theme.css">
-  <link rel="stylesheet" href="../../CSS/mobile.css?v=20260607h">
-  <link rel="stylesheet" href="../../CSS/docs.css?v=2">
+  <link rel="stylesheet" href="../../CSS/mobile.css?v=20260607m">
+  <link rel="stylesheet" href="../../CSS/docs.css?v=4">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="../../JS/supabase-config.js" defer></script>
   <script src="../../JS/site-pings.js" defer></script>
-  <script src="../../JS/i18n.uk.js?v=7" defer></script>
-  <script src="../../JS/i18n.js?v=6" defer></script>
+  <script src="../../JS/i18n.uk.js?v=10" defer></script>
+  <script src="../../JS/i18n.js?v=9" defer></script>
   <script src="../../JS/session.js" defer></script>
   <script src="../../JS/theme.js" defer></script>
   <script src="../../JS/mobile-nav.js?v=20260606f" defer></script>
@@ -161,6 +161,22 @@
         </p>
         <p>if you're not in physical danger but need a trained human to talk to, the lines below are <em>free, anonymous, and 24/7</em> in most countries.</p>
       </div>
+    </div>
+
+    <!-- Live filter: type a country / city / line and only matching
+         helplines stay. So nobody has to scroll a wall of countries in a
+         hard moment. -->
+    <div class="cr-find">
+      <label class="cr-find-label" for="crSearch" data-i18n="dc.cr.find.label">find help where you are</label>
+      <div class="cr-find-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+        <input type="search" id="crSearch" autocomplete="off"
+               placeholder="type your country or a helpline name…"
+               data-i18n-attr-placeholder="dc.cr.find.ph"
+               aria-label="Search crisis lines by country" data-i18n-attr-aria-label="dc.cr.find.aria">
+      </div>
+      <a class="cr-find-link" href="https://findahelpline.com" target="_blank" rel="noopener" data-i18n="dc.cr.find.link">or let findahelpline.com detect a line for your exact location →</a>
+      <p class="cr-find-empty" id="crNoResults" hidden data-i18n="dc.cr.find.none">no match in this list — findahelpline.com (above) will find a current line for your country.</p>
     </div>
 
     <nav class="doc-toc" aria-label="Table of contents">
@@ -636,6 +652,56 @@
       });
       var navEl = document.querySelector('.top-info');
       if (navEl) { window.addEventListener('scroll', function () { navEl.classList.toggle('is-scrolled', window.scrollY > 24); }, { passive: true }); }
+    })();
+
+    /* ── Live "find your country" filter ──────────────────────────────
+       Typing narrows the wall of helplines to just what matches, so in a
+       crisis you don't have to scan every region. Empty regions and the
+       table-of-contents fold away while searching. */
+    (function () {
+      var input = document.getElementById('crSearch');
+      if (!input) return;
+      var sections = Array.prototype.slice.call(document.querySelectorAll('.doc-section'));
+      var toc = document.querySelector('.doc-toc');
+      var noRes = document.getElementById('crNoResults');
+      function norm(s) { return (s || '').toLowerCase(); }
+      // Cache searchable text once.
+      sections.forEach(function (sec) {
+        sec._cards = Array.prototype.slice.call(sec.querySelectorAll('.doc-resource'));
+        sec._cards.forEach(function (c) { c._txt = norm(c.textContent); });
+        sec._txt = norm(sec.textContent);
+      });
+      function apply() {
+        var q = norm(input.value).trim();
+        var anyVisible = false;
+        sections.forEach(function (sec) {
+          if (!q) {
+            sec.style.display = '';
+            sec._cards.forEach(function (c) { c.style.display = ''; });
+            anyVisible = true;
+            return;
+          }
+          if (sec._cards.length) {
+            var anyCard = false;
+            sec._cards.forEach(function (c) {
+              var show = c._txt.indexOf(q) !== -1;
+              c.style.display = show ? '' : 'none';
+              if (show) anyCard = true;
+            });
+            sec.style.display = anyCard ? '' : 'none';
+            if (anyCard) anyVisible = true;
+          } else {
+            // Region without country cards (youth / lgbtq / chat) — match
+            // the whole section's text.
+            var show = sec._txt.indexOf(q) !== -1;
+            sec.style.display = show ? '' : 'none';
+            if (show) anyVisible = true;
+          }
+        });
+        if (toc) toc.style.display = q ? 'none' : '';
+        if (noRes) noRes.hidden = !(q && !anyVisible);
+      }
+      input.addEventListener('input', apply);
     })();
   </script>
   <script src="../../JS/burger-extras.js?v=5" defer></script>

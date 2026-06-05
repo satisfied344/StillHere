@@ -33,6 +33,7 @@ enforce.
 │ notifications      │   │ strict-review┤ role +   │──────► OpenRouter
 │ reports · modlog   │   │ recover-pass ┘ LLM key  │       (GPT-class LLM)
 │ ai_chat_usage      │   └─────────────────────────┘
+│ ai_chats           │   (companion history, RLS per account)
 │ site_pings         │
 │                    │   Realtime (WebSocket) ───────────► browser
 │ RLS + RPCs + triggers │   • feed:posts                  (live feed,
@@ -67,8 +68,14 @@ type in Quill editor
 ```
 
 > `subject` is `'u:<uuid>'` for signed-in users and `'ip:<sha256(ip)>'` for anonymous
-> ones — same hashing pattern as `ai_chat_usage`, so we get per-anon bans without
-> ever storing raw IPs.
+> ones — same hashing pattern as `ai_chat_usage`, so the rate-limit and ban
+> *ledgers* never hold a raw IP.
+>
+> Note: the **content rows themselves** (`posts.anon_ip`, `comments.anon_ip`) do
+> keep the author's raw IP when a post is made anonymously, for a limited
+> anti-abuse window — it lets a ban apply by IP as well as by account and device
+> fingerprint, and it shows up in that author's own data export. Signed-in
+> content is keyed to the account id instead.
 
 ### Reporting → moderation (no human required to keep working)
 ```

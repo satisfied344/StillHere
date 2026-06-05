@@ -538,10 +538,75 @@ body { overflow-x: hidden; }
   transform: translateY(-1px);
 }
 
+/* ── Crisis page: "find help where you are" live filter ───────────── */
+.cr-find { margin: 0 0 30px; }
+.cr-find-label {
+  display: block;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-light); margin-bottom: 10px;
+}
+.cr-find-box {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface-card, #fffbf2);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 13px 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.cr-find-box:focus-within {
+  border-color: var(--accent-2, #d6533c);
+  box-shadow: 0 0 0 3px rgba(214, 83, 60, 0.12);
+}
+.cr-find-box svg { width: 18px; height: 18px; color: var(--ink-light); flex-shrink: 0; }
+.cr-find-box input {
+  flex: 1; min-width: 0;
+  border: none; background: none; outline: none;
+  font-family: inherit; font-size: 16px; color: var(--ink);
+}
+.cr-find-box input::placeholder { color: var(--ink-light); }
+.cr-find-link {
+  display: inline-block; margin-top: 11px;
+  font-size: 13.5px; color: var(--accent-2, #d6533c);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(214, 83, 60, 0.4);
+}
+.cr-find-link:hover { border-bottom-style: solid; }
+.cr-find-empty { margin-top: 14px; font-size: 14px; color: var(--ink-mid); line-height: 1.5; }
+
 /* ── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 760px) {
   .doc-hero { grid-template-columns: 1fr; gap: 24px; align-items: start; }
-  .doc-meta { justify-self: end; }
+  /* On phones, give the version/meta card the same treatment as the
+     updates page status card: right-aligned, a soft paper tilt, and a
+     small pulsing accent dot — so all the "version / last updated" cards
+     across the site read as one consistent component. */
+  .doc-meta {
+    /* Full-width on phones, matching the updates page status card. */
+    justify-self: stretch;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 18px 20px;
+    transform: rotate(-1deg);
+    position: relative;
+    box-shadow: 0 10px 30px -15px rgba(26, 20, 16, 0.16);
+  }
+  .doc-meta::after {
+    content: "";
+    position: absolute;
+    top: -7px; right: 16px;
+    width: 13px; height: 13px;
+    background: var(--accent-2, #d6533c);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(214, 83, 60, 0.18);
+    animation: docMetaPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes docMetaPulse {
+    0%, 100% { transform: scale(1);   opacity: 1; }
+    50%      { transform: scale(0.78); opacity: 0.55; }
+  }
   .doc-title { font-size: 56px; }
   .doc-toc-list { grid-template-columns: 1fr; }
 }

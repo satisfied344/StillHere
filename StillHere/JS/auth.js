@@ -658,7 +658,13 @@
           '<input type="text" id="shRecUser" placeholder="' + t('auth.reset.ph.user', 'username') + '" autocomplete="username" class="sh-rec-input">' +
           /* Recovery-key format is brand-specific (literal STILL-…); no translation. */
           '<input type="text" id="shRecKeyIn" placeholder="STILL-XXXX-XXXX-XXXX-XXXX" class="sh-rec-input">' +
-          '<input type="password" id="shRecPass" placeholder="' + t('auth.reset.ph.newpw', 'new password') + '" autocomplete="new-password" class="sh-rec-input">' +
+          '<div class="input-pw-wrap sh-rec-pw">' +
+            '<input type="password" id="shRecPass" placeholder="' + t('auth.reset.ph.newpw', 'new password') + '" autocomplete="new-password" class="sh-rec-input">' +
+            '<button type="button" class="pw-toggle" data-target="shRecPass" aria-label="' + t('login.pw.aria', 'Show password') + '">' +
+              '<span class="pw-toggle-show">' + t('login.pw.show', 'show') + '</span>' +
+              '<span class="pw-toggle-hide" hidden>' + t('login.pw.hide', 'hide') + '</span>' +
+            '</button>' +
+          '</div>' +
           '<p class="sh-rec-hint">' + t('auth.reset.hint', 'min 8 characters, at least 1 letter &amp; 1 number, no spaces') + '</p>' +
           '<p class="sh-rec-msg" id="shRecMsg"></p>' +
         '</div>' +
@@ -679,6 +685,10 @@
         '.sh-rec-input{width:100%;padding:11px 13px;border-radius:8px;border:1px solid var(--line,rgba(26,20,16,.2));' +
           'background:var(--surface-input,#fffaf0);color:var(--ink,#1a1410);font:inherit;font-size:14px;text-align:left;}' +
         '.sh-rec-input:focus{outline:none;border-color:var(--accent-2,#d6533c);box-shadow:0 0 0 3px rgba(214,83,60,.14);}' +
+        '.sh-rec-pw{position:relative;display:flex;align-items:center;}' +
+        '.sh-rec-pw .sh-rec-input{padding-right:58px;}' +
+        '.sh-rec-pw .pw-toggle{position:absolute;right:10px;background:transparent;border:none;color:var(--ink-light,#8a7d6d);font:inherit;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:4px 6px;}' +
+        '.sh-rec-pw .pw-toggle:hover{color:var(--accent-2,#d6533c);}' +
         '.sh-rec-hint{margin:-4px 0 0;font-size:11.5px;color:var(--ink-light,#8a7a6e);text-align:center;font-style:italic;}' +
         '.sh-rec-msg{margin:2px 0 0;font-size:12.5px;min-height:16px;color:#c0392b;text-align:center;}' +
         '.sh-rec-msg.ok{color:var(--accent-3,#6d8268);}' +
@@ -693,6 +703,24 @@
     var msg = bd.querySelector('#shRecMsg');
     bd.querySelector('#shRecCancel').addEventListener('click', closeReset);
     bd.addEventListener('click', function (e) { if (e.target === bd) closeReset(); });
+
+    /* Show / hide for the new-password field (the global .pw-toggle wiring
+       ran on page load, before this modal existed, so bind it here). */
+    var recPwToggle = bd.querySelector('.pw-toggle');
+    if (recPwToggle) {
+      recPwToggle.addEventListener('click', function () {
+        var input = bd.querySelector('#' + recPwToggle.dataset.target);
+        if (!input) return;
+        var show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        var sh = recPwToggle.querySelector('.pw-toggle-show');
+        var hd = recPwToggle.querySelector('.pw-toggle-hide');
+        if (sh) sh.hidden = show;
+        if (hd) hd.hidden = !show;
+        recPwToggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        input.focus();
+      });
+    }
 
     var submit = bd.querySelector('#shRecSubmit');
     submit.addEventListener('click', async function () {

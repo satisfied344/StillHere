@@ -522,10 +522,13 @@ document.addEventListener('click', async function (e) {
       var isLast  = (i === shown.length - 1) && extra > 0;
 
       html += '<div class="post-media-cell">';
+      /* If a media file fails to load (deleted from storage, network blip,
+         orphaned URL), hide its cell instead of showing the browser's
+         broken-image "?" placeholder. */
       if (isVideo) {
-        html += '<video src="' + escHtml(url) + '" autoplay muted loop playsinline preload="auto" class="post-media-thumb-img"></video>';
+        html += '<video src="' + escHtml(url) + '" autoplay muted loop playsinline preload="auto" class="post-media-thumb-img" onerror="var c=this.closest(\'.post-media-cell\'); if(c) c.style.display=\'none\';"></video>';
       } else {
-        html += '<img src="' + escHtml(url) + '" class="post-media-thumb-img" alt="" loading="lazy">';
+        html += '<img src="' + escHtml(url) + '" class="post-media-thumb-img" alt="" loading="lazy" onerror="var c=this.closest(\'.post-media-cell\'); if(c) c.style.display=\'none\';">';
       }
       if (isLast) {
         html += '<div class="post-media-more">+' + extra + '</div>';

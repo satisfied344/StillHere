@@ -124,6 +124,10 @@
       // Categories we ALWAYS allow through for letters (profanity is
       // OK in a letter to mom, anger is OK, sexual chat is just
       // embarrassing not harmful since no one can reply).
+      // Letters are read-only for the recipient (nobody can reply), so the
+      // bar is as low as a POST — even an insult or angry rant to "mom" is
+      // allowed. We rely on the local extreme-slur block above for the truly
+      // unacceptable, and only the AI categories below stay hard-blocked.
       var ALWAYS_ALLOW = [
         'profanity',
         'mild',
@@ -136,6 +140,15 @@
         'links',
         'low_quality',
         'off_topic',
+        // insult / hostility categories — fine in a one-way letter:
+        'targeted_insult',
+        'insult',
+        'harassment',
+        'toxic',
+        'toxicity',
+        'sarcasm',
+        'devaluation',
+        'passive_aggression',
       ];
       if (ALWAYS_ALLOW.some(function (k) { return reason.indexOf(k) !== -1; })) {
         return { allowed: true };

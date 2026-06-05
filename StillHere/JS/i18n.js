@@ -175,8 +175,8 @@
     'ab.princ.01.desc':  { en: 'listening is the work. solutions are optional.',
                            ru: 'слушать, это и есть работа. решения, опциональны.' },
     'ab.princ.02.title': { en: 'slow over viral',       ru: 'медленно важнее вирусно' },
-    'ab.princ.02.desc':  { en: 'no streaks, no notifications begging for return.',
-                           ru: 'без стриков, без уведомлений, выпрашивающих вернуться.' },
+    'ab.princ.02.desc':  { en: 'no streaks, no badges, nothing begging for your return.',
+                           ru: 'без стриков, без бейджей, ничего, что выпрашивает вернуться.' },
     'ab.princ.03.title': { en: 'private over public',   ru: 'приватно важнее публично' },
     'ab.princ.03.desc':  { en: 'your story is yours. we don\'t sell, profile, or train on it.',
                            ru: 'твоя история, твоя. мы её не продаём и не используем для обучения моделей с нашей стороны.' },
@@ -347,7 +347,7 @@
     'up.stat.version':     { en: 'version',          ru: 'версия' },
     'up.stat.codename':    { en: 'paper',            ru: 'paper' },
     'up.stat.updated':     { en: 'last updated',     ru: 'обновлено' },
-    'up.stat.updated.value':{ en: 'may 26, 2026',    ru: '26 мая 2026' },
+    'up.stat.updated.value':{ en: 'june 2, 2026',    ru: '2 июня 2026' },
     'up.stat.commits':     { en: 'commits',          ru: 'изменений' },
     'up.stat.commits.value':{ en: '42 on main',      ru: '42 в main' },
 
@@ -362,6 +362,21 @@
     'up.tag.security':     { en: 'security',         ru: 'безопасность' },
     'up.tag.ai':           { en: 'ai support',       ru: 'AI-спутник' },
     'up.tag.perf':         { en: 'performance',      ru: 'производительность' },
+
+    /* Entry: June 2, 2026 — account-synced AI chat, crisis search, mobile polish */
+    'up.e0602.date':       { en: 'june 2, 2026',     ru: '2 июня 2026' },
+    'up.e0602.title':      { en: 'your AI chats now follow your account',
+                             ru: 'твои чаты с ИИ теперь привязаны к аккаунту' },
+    'up.e0602.lede':       { en: 'conversations with the AI companion now save to your <em>account</em> and sync across devices, and the whole mobile experience got calmer and quicker.',
+                             ru: 'разговоры с ИИ-компаньоном теперь сохраняются в твой <em>аккаунт</em> и синхронизируются между устройствами, а вся мобильная версия стала спокойнее и быстрее.' },
+    'up.e0602.li1':        { en: '<strong>AI chat history syncs to your account</strong>, not just one device; sign in anywhere and your past conversations are there. signed-out chats stay private to that browser',
+                             ru: '<strong>история чатов с ИИ синхронизируется с аккаунтом</strong>, а не только с одним устройством; войди где угодно — и прошлые разговоры на месте. чаты без входа остаются только в этом браузере' },
+    'up.e0602.li2':        { en: '<strong>crisis resources</strong> rebuilt around a live "find help where you are" search, so you\'re not scrolling a wall of countries in a hard moment',
+                             ru: '<strong>страница кризисной помощи</strong> переделана вокруг живого поиска «найди помощь там, где ты», чтобы в тяжёлый момент не листать стену стран' },
+    'up.e0602.li3':        { en: 'mobile: smoother filter menu, the navbar no longer drifts on fast scroll, the feed feels faster, and gentle doodle motion is back',
+                             ru: 'мобильная версия: плавнее меню фильтров, навбар больше не уезжает при быстром скролле, лента ощущается быстрее, вернулась мягкая анимация дудлов' },
+    'up.e0602.li4':        { en: 'small fixes: round image-remove buttons, show/hide on the password-reset field, broken images hide gracefully, and copy updated now that gentle reply notifications exist',
+                             ru: 'мелкие правки: круглые кнопки удаления фото, показать/скрыть в поле сброса пароля, битые картинки скрываются аккуратно, тексты обновлены — ведь тихие уведомления об ответах теперь есть' },
 
     /* Entry: May 26, 2026, performance + edit posts */
     'up.e0526.date':       { en: 'may 26, 2026',     ru: '26 мая 2026' },
@@ -1552,7 +1567,7 @@
             '<li>bans for prohibited content (section 05) are permanent.</li>' +
           '</ol>' +
           '<h3>appeals</h3>' +
-          '<p>if you think we got it wrong, write to <a href="mailto:support@stillhere.app">support@stillhere.app</a> with what happened. we read every email, this is a one-person project, not a queue, so a real human will respond.</p>',
+          '<p>if you think we got it wrong, write to <a href="mailto:hello@stillhere.global">hello@stillhere.global</a> with what happened. we read every email, this is a one-person project, not a queue, so a real human will respond.</p>',
       ru: '<h3>как пожаловаться</h3>' +
           '<p>у каждого поста и комментария есть меню три-точки с пунктом <strong>«пожаловаться»</strong>. один клик. мы получаем уведомление. жалобы анонимны для того, на кого жалуются.</p>' +
           '<h3>что будет дальше</h3>' +
@@ -1563,7 +1578,7 @@
             '<li>баны за запрещённый контент (раздел 05), постоянные.</li>' +
           '</ol>' +
           '<h3>апелляции</h3>' +
-          '<p>если думаешь, что мы ошиблись, напиши на <a href="mailto:support@stillhere.app">support@stillhere.app</a> с тем, что произошло. мы читаем каждое письмо, это проект одного человека, не очередь, поэтому ответит живой человек.</p>'
+          '<p>если думаешь, что мы ошиблись, напиши на <a href="mailto:hello@stillhere.global">hello@stillhere.global</a> с тем, что произошло. мы читаем каждое письмо, это проект одного человека, не очередь, поэтому ответит живой человек.</p>'
     },
 
     'dc.gl.closing.title': { en: 'these aren\'t <em>rules</em>, they\'re a request.',
@@ -1982,9 +1997,9 @@
 
     'dc.tos.s7.body':      {
       en: '<p>when a post is tagged <strong>"no advice"</strong>, the author is asking only for presence, not suggestions, not therapy recommendations, not "have you tried…". replies that ignore this tag may be removed.</p>' +
-          '<p>the ai companion also has a <strong>no-advice toggle</strong> that switches its tone from a gentle helper to a quiet listener. it doesn\'t keep notes between sessions.</p>',
+          '<p>the ai companion also has a <strong>no-advice toggle</strong> that switches its tone from a gentle helper to a quiet listener. if you\'re signed in, your conversations are saved to your account so you can reopen them later (and they sync across your devices); signed out, they stay only in this browser. the companion doesn\'t build a profile of you across separate chats.</p>',
       ru: '<p>когда пост помечен <strong>«без советов»</strong>, автор просит только "быть рядом", не предложений, не рекомендаций терапии, не «а ты пробовал…». ответы, игнорирующие этот тег, могут быть удалены.</p>' +
-          '<p>у AI-спутника тоже есть <strong>переключатель «без советов»</strong>, который меняет его тон с мягкого помощника на тихого слушателя. он не ведёт заметок между сессиями.</p>'
+          '<p>у AI-спутника тоже есть <strong>переключатель «без советов»</strong>, который меняет его тон с мягкого помощника на тихого слушателя. если ты вошёл в аккаунт, разговоры сохраняются в твой аккаунт, чтобы их можно было открыть позже (и они синхронизируются между устройствами); без входа они остаются только в этом браузере. спутник не составляет твой «профиль» между разными чатами.</p>'
     },
 
     'dc.tos.s8.alert.head':{ en: 'please read this carefully',         ru: 'пожалуйста, прочитай внимательно' },
@@ -2074,6 +2089,12 @@
     },
 
     'dc.cr.toc.head':      { en: 'jump to',                         ru: 'перейти к' },
+
+    'dc.cr.find.label':    { en: 'find help where you are',         ru: 'найдите помощь там, где вы' },
+    'dc.cr.find.ph':       { en: 'type your country or a helpline name…', ru: 'введите страну или название линии…' },
+    'dc.cr.find.aria':     { en: 'Search crisis lines by country',  ru: 'Поиск линий помощи по стране' },
+    'dc.cr.find.link':     { en: 'or let findahelpline.com detect a line for your exact location →', ru: 'или пусть findahelpline.com подберёт линию для вашего точного местоположения →' },
+    'dc.cr.find.none':     { en: 'no match in this list — findahelpline.com (above) will find a current line for your country.', ru: 'нет совпадений в этом списке — findahelpline.com (выше) подберёт актуальную линию для вашей страны.' },
 
     'dc.cr.s6.body':       {
       en: '<p>specifically trained for people under 25:</p>' +
@@ -2755,8 +2776,8 @@
                                    ru: 'с возвращением' },
     'login.intro.title':         { en: 'you\'re still <em>here.</em><img src="assets/letters/_Special Characters/Asterisk_01.png" class="auth-title-star" alt="" aria-hidden="true">',
                                    ru: 'ты всё ещё <em>здесь.</em><img src="assets/letters/_Special Characters/Asterisk_01.png" class="auth-title-star" alt="" aria-hidden="true">' },
-    'login.intro.lede':          { en: 'your space hasn\'t gone anywhere. no notifications were missed, there are none. just <em>quiet</em>, waiting for you to come back when you wanted to.',
-                                   ru: 'твоё место никуда не делось. никаких пропущенных уведомлений, их просто нет. только <em>тишина</em>, которая ждала, когда ты захочешь вернуться.' },
+    'login.intro.lede':          { en: 'your space hasn\'t gone anywhere. nothing here chases you, just a quiet note when someone replies. mostly <em>quiet</em>, waiting for you to come back when you wanted to.',
+                                   ru: 'твоё место никуда не делось. ничто здесь не гонится за тобой — лишь тихое уведомление, когда кто-то ответит. в основном <em>тишина</em>, которая ждала, когда ты захочешь вернуться.' },
     'login.intro.b1':            { en: 'no real name, <strong>no profile to maintain</strong>',
                                    ru: 'никаких настоящих имён, <strong>никакого профиля для поддержки</strong>' },
     'login.intro.b2':            { en: 'your stories &amp; saves are still where you left them',

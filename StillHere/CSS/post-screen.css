@@ -528,59 +528,68 @@ a.post-avatar-link:hover {
    doesn't dominate (max ~520 × 480). Multiple attachments: flow
    into a row that wraps. No visible cell background or border —
    the media itself is the visual, not the container.            */
+/* Post-page media — clean uniform gallery, Twitter / Reddit style.
+   Single item: the whole frame (uncropped, capped). Multiple items:
+   an even cropped grid — so a 16:9 video and a portrait photo no longer
+   sit at mismatched sizes (the ragged look). */
 .post-media-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* multi default: two columns */
+  gap: 3px;
   margin-top: 14px;
+  max-width: 520px;
+  border-radius: 14px;
+  overflow: hidden;
 }
 .post-gallery-item {
-  display: block;
-  border-radius: 8px;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
+  min-width: 0;
   cursor: zoom-in;
-  /* No background, no border — let the media speak. */
+  background: rgba(26, 20, 16, 0.06);
 }
 .post-gallery-item--video { cursor: default; }
+.post-gallery-media { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* Tile size — kept modest so the TEXT of the post stays the
-   focal point and the media reads as a supporting attachment.
-   Single attachment ≤ 380 × 340. Multi-attachment tiles ≤ 200. */
-.post-media-gallery .post-gallery-item {
-  max-width: 200px;
+/* Multi-item tiles — uniform squares, cover crop. Applies to images
+   AND video, so nothing sticks out at a different size. */
+.post-media-gallery:not(:has(.post-gallery-item:only-child)) .post-gallery-item {
+  aspect-ratio: 1 / 1;
+}
+.post-media-gallery:not(:has(.post-gallery-item:only-child)) .post-gallery-media {
+  width: 100%; height: 100%; object-fit: cover; aspect-ratio: auto; max-height: none;
+}
+/* 3 items: first tile is tall on the left, the other two stack on the right. */
+.post-media-gallery:has(.post-gallery-item:nth-child(3):last-child) {
+  grid-template-rows: 1fr 1fr;
+  aspect-ratio: 16 / 10;
+}
+.post-media-gallery:has(.post-gallery-item:nth-child(3):last-child) .post-gallery-item:first-child {
+  grid-row: 1 / span 2;
+  aspect-ratio: auto;
+}
+
+/* Single item — full, uncropped, capped + rounded. */
+.post-media-gallery:has(.post-gallery-item:only-child) {
+  display: block;
+  border-radius: 0;
+  overflow: visible;
 }
 .post-media-gallery:has(.post-gallery-item:only-child) .post-gallery-item {
-  max-width: 380px;
+  max-width: 440px;
+  border-radius: 14px;
+  background: none;
 }
-
-.post-gallery-media {
-  display: block;
-  width: 100%;
-  height: auto;
-  /* `contain` keeps the full frame visible — no bottom cropping.
-     We pair it with NO fixed wrapper height so the cell shrinks
-     to the image's natural aspect ratio. */
+.post-media-gallery:has(.post-gallery-item:only-child) .post-gallery-media {
+  width: auto; height: auto;
+  max-width: 100%; max-height: 510px;
   object-fit: contain;
-  border-radius: 8px;
-  max-height: 340px;
+  border-radius: 14px;
 }
-/* Multi-attachment tiles: square thumbnails with cover crop. */
-.post-media-gallery:not(:has(.post-gallery-item:only-child)) .post-gallery-media {
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  max-height: 200px;
-}
-
-/* Video — keep native player chrome (play, scrubber, ⛶ fullscreen).
-   max-height applies to the <video> itself so the player isn't
-   weirdly short. */
-.post-gallery-item--video { max-width: 380px; }
-.post-gallery-item--video .post-gallery-media {
+/* A single video keeps its native controls and a comfortable size. */
+.post-media-gallery:has(.post-gallery-item:only-child) .post-gallery-item--video .post-gallery-media {
   width: 100%;
-  max-height: 340px;
-  aspect-ratio: auto;        /* override the multi-tile square rule */
-  object-fit: contain;
+  max-height: 440px;
 }
 
 /* ── Post footer / heart + copy ── */

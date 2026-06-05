@@ -712,7 +712,12 @@ html[data-theme="dark"] .tag.tag-no-advice {
   color: var(--ink-light);
   flex-shrink: 0;
 }
-.post-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+/* border-radius on the IMG itself (not just the parent) — Safari can fail
+   to clip an <img> to a parent's border-radius+overflow:hidden, leaving
+   square white corners around the round avatar. Rounding the image directly
+   fixes it everywhere. */
+.post-avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.pf-avatar img, .avatar-img, .comment-avatar img { border-radius: 50% !important; display: block; }
 .post-include-info { display: flex; flex-direction: column; gap: 2px; }
 .post-author {
   font-size: 14px;
@@ -837,56 +842,65 @@ html[data-theme="dark"] .tag.tag-no-advice {
   color: var(--ink-soft);
 }
 
-/* Media strip on the feed (main page) — Reddit-style preview.
-   Single attachment: shows at natural aspect ratio up to 480 ×
-   400. Multiple: a wrapping flex row of ~200px tiles. No frame
-   chrome — just the media itself with rounded corners. */
+/* Media on the feed — a clean, uniform gallery like Twitter / Reddit.
+   • 1 item  → the whole image (no crop), capped height + rounded.
+   • 2 items → two equal tiles.
+   • 3 items → one tall tile on the left, two stacked on the right.
+   • 4+      → a 2×2 grid (the 4th carries a "+N" overlay).
+   Multi-item tiles use object-fit:cover so mixed aspect ratios always
+   line up into a neat block instead of a ragged row. */
 .post-media-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  gap: 3px;
   margin-top: 12px;
-}
-/* Drop the old grid-template variants — flex handles wrapping. */
-.post-media-strip--1,
-.post-media-strip--2,
-.post-media-strip--3,
-.post-media-strip--4 {
-  /* override the legacy grid display from the variant selectors  */
-  display: flex;
+  max-width: 520px;
+  border-radius: 16px;
+  overflow: hidden;
 }
 .post-media-cell {
   position: relative;
   overflow: hidden;
-  border-radius: 6px;
-  flex: 0 0 auto;
+  min-width: 0;
+  background: rgba(26, 20, 16, 0.06);
 }
-/* Single image / video in a card: aspect-preserved, modest size.
-   No fixed width/height — the cell shrinks to the image's natural
-   aspect so there are no letterbox bars and no bottom cropping. */
+/* `.post-media-strip` prefix raises specificity above the generic
+   `.post-card img { object-fit: contain; height: auto }` rule, which
+   otherwise made the gallery tiles keep their own aspect → ragged heights. */
+.post-media-strip .post-media-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* 1 — full image, uncropped, capped + rounded */
+.post-media-strip--1 { display: block; border-radius: 0; overflow: visible; }
 .post-media-strip--1 .post-media-cell {
-  max-width: 320px;
-  width: auto;
-  height: auto;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 16px;
+  background: none;
 }
 .post-media-strip--1 .post-media-thumb-img {
-  width: auto;
-  height: auto;
-  max-width: 320px;
-  max-height: 280px;
+  width: auto; height: auto;
+  max-width: 100%; max-height: 510px;
+  object-fit: contain;
+  border-radius: 16px;
 }
-/* Multi-attachment: small square tiles. */
-.post-media-strip--2 .post-media-cell,
-.post-media-strip--3 .post-media-cell,
-.post-media-strip--4 .post-media-cell {
-  width: 140px;
-  height: 140px;
+
+/* 2 — two equal tiles side by side */
+.post-media-strip--2 {
+  grid-template-columns: 1fr 1fr;
+  aspect-ratio: 16 / 9;
 }
-/* Default: cover (used by multi-attachment square tiles).
-   Single-attachment overrides this with `contain` so the full
-   image / video frame is visible (no cropping). */
-.post-media-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.post-media-strip--1 .post-media-thumb-img { object-fit: contain; }
+/* 3 — three equal tiles in a single even row (clean & uniform) */
+.post-media-strip--3 {
+  grid-template-columns: repeat(3, 1fr);
+  aspect-ratio: 3 / 1.15;
+}
+
+/* 4+ — 2×2 grid */
+.post-media-strip--4 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  aspect-ratio: 1 / 1;
+}
 .post-media-more {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
