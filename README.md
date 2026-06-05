@@ -180,7 +180,7 @@ Designed and built by one developer, with AI assistance (Anthropic's Claude) use
 
 ## license
 
-Released under the [MIT License](StillHere/LICENSE) – use it, learn from it, build on it. If StillHere or anything in here is useful to you, that's the whole point.
+Released under the [MIT License](LICENSE) – use it, learn from it, build on it. If StillHere or anything in here is useful to you, that's the whole point.
 
 ---
 
