@@ -91,7 +91,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
     <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js?v=2" defer></script>
-    <script src="JS/i18n.uk.js?v=14" defer></script>
+    <script src="JS/i18n.uk.js?v=15" defer></script>
   <script src="JS/i18n.js?v=14" defer></script>
     <script src="JS/session.js?v=2" defer></script>
   <script src="JS/notifications.js?v=16" defer></script>
@@ -336,6 +336,19 @@
     }
     /* NB: index is intentionally exempt from the "total dark" theme - its
        paper sections stay identical in dark and total-dark. */
+
+    /* Quote-note washi tape: keep the original PNGs, render them as-is in BOTH
+       themes — normal blend (no multiply) so the tape is one clean strip and
+       doesn't "split" where it crosses the note edge (multiply reacted to the
+       note vs the page background differently). Raised higher + top layer. */
+    .quote-note .skotch-tl,
+    .quote-note .skotch-tr {
+      top: -36px !important;
+      z-index: 20 !important;
+      mix-blend-mode: normal !important;
+      filter: none !important;
+      opacity: 1 !important;
+    }
   </style>
   <script src="JS/mobile-nav.js?v=20260607f" defer></script>
   <script src="JS/pwa-register.js?v=2" defer></script>
