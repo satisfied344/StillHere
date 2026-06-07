@@ -363,20 +363,20 @@
     'up.tag.ai':           { en: 'ai support',       ru: 'AI-спутник' },
     'up.tag.perf':         { en: 'performance',      ru: 'производительность' },
 
-    /* Entry: June 2, 2026 — account-synced AI chat, crisis search, mobile polish */
+    /* Entry: June 2, 2026 - account-synced AI chat, crisis search, mobile polish */
     'up.e0602.date':       { en: 'june 2, 2026',     ru: '2 июня 2026' },
     'up.e0602.title':      { en: 'your AI chats now follow your account',
                              ru: 'твои чаты с ИИ теперь привязаны к аккаунту' },
     'up.e0602.lede':       { en: 'conversations with the AI companion now save to your <em>account</em> and sync across devices, and the whole mobile experience got calmer and quicker.',
                              ru: 'разговоры с ИИ-компаньоном теперь сохраняются в твой <em>аккаунт</em> и синхронизируются между устройствами, а вся мобильная версия стала спокойнее и быстрее.' },
     'up.e0602.li1':        { en: '<strong>AI chat history syncs to your account</strong>, not just one device; sign in anywhere and your past conversations are there. signed-out chats stay private to that browser',
-                             ru: '<strong>история чатов с ИИ синхронизируется с аккаунтом</strong>, а не только с одним устройством; войди где угодно — и прошлые разговоры на месте. чаты без входа остаются только в этом браузере' },
+                             ru: '<strong>история чатов с ИИ синхронизируется с аккаунтом</strong>, а не только с одним устройством; войди где угодно - и прошлые разговоры на месте. чаты без входа остаются только в этом браузере' },
     'up.e0602.li2':        { en: '<strong>crisis resources</strong> rebuilt around a live "find help where you are" search, so you\'re not scrolling a wall of countries in a hard moment',
                              ru: '<strong>страница кризисной помощи</strong> переделана вокруг живого поиска «найди помощь там, где ты», чтобы в тяжёлый момент не листать стену стран' },
     'up.e0602.li3':        { en: 'mobile: smoother filter menu, the navbar no longer drifts on fast scroll, the feed feels faster, and gentle doodle motion is back',
                              ru: 'мобильная версия: плавнее меню фильтров, навбар больше не уезжает при быстром скролле, лента ощущается быстрее, вернулась мягкая анимация дудлов' },
     'up.e0602.li4':        { en: 'small fixes: round image-remove buttons, show/hide on the password-reset field, broken images hide gracefully, and copy updated now that gentle reply notifications exist',
-                             ru: 'мелкие правки: круглые кнопки удаления фото, показать/скрыть в поле сброса пароля, битые картинки скрываются аккуратно, тексты обновлены — ведь тихие уведомления об ответах теперь есть' },
+                             ru: 'мелкие правки: круглые кнопки удаления фото, показать/скрыть в поле сброса пароля, битые картинки скрываются аккуратно, тексты обновлены - ведь тихие уведомления об ответах теперь есть' },
 
     /* Entry: May 26, 2026, performance + edit posts */
     'up.e0526.date':       { en: 'may 26, 2026',     ru: '26 мая 2026' },
@@ -2094,7 +2094,7 @@
     'dc.cr.find.ph':       { en: 'type your country or a helpline name…', ru: 'введите страну или название линии…' },
     'dc.cr.find.aria':     { en: 'Search crisis lines by country',  ru: 'Поиск линий помощи по стране' },
     'dc.cr.find.link':     { en: 'or let findahelpline.com detect a line for your exact location →', ru: 'или пусть findahelpline.com подберёт линию для вашего точного местоположения →' },
-    'dc.cr.find.none':     { en: 'no match in this list — findahelpline.com (above) will find a current line for your country.', ru: 'нет совпадений в этом списке — findahelpline.com (выше) подберёт актуальную линию для вашей страны.' },
+    'dc.cr.find.none':     { en: 'no match in this list - findahelpline.com (above) will find a current line for your country.', ru: 'нет совпадений в этом списке - findahelpline.com (выше) подберёт актуальную линию для вашей страны.' },
 
     'dc.cr.s6.body':       {
       en: '<p>specifically trained for people under 25:</p>' +
@@ -2546,26 +2546,26 @@
     'idx.hero.ctanote':    { en: '<strong>no account needed.</strong> write anonymously, or just read. always free.',
                              ru: '<strong>аккаунт не нужен.</strong> пиши анонимно или просто читай. всегда бесплатно.' },
 
-    /* How it works — 3 steps */
+    /* How it works - 3 steps */
     'idx.how.eyebrow':     { en: 'how it works',          ru: 'как это работает' },
     'idx.how.title':       { en: 'write it down.<br><em>someone sits with you.</em>',
                              ru: 'просто напиши.<br><em>кто-то побудет рядом.</em>' },
     'idx.how.lede':        { en: "no account, no real name, no fixing. write the thing you can't say out loud, and a real person will be with it.",
-                             ru: 'без аккаунта, без настоящего имени, без «починки». напиши то, что не можешь сказать вслух, — и живой человек побудет с этим рядом.' },
+                             ru: 'без аккаунта, без настоящего имени, без «починки». напиши то, что не можешь сказать вслух, - и живой человек побудет с этим рядом.' },
     'idx.how.s1.title':    { en: 'write the heavy thing',  ru: 'напиши то, что давит' },
     'idx.how.s1.desc':     { en: "anonymously: a sentence, half a thought, or a whole story. whatever's sitting on your chest.",
-                             ru: 'анонимно — предложение, половину мысли или целую историю. всё, что лежит на душе.' },
+                             ru: 'анонимно - предложение, половину мысли или целую историю. всё, что лежит на душе.' },
     'idx.how.s2.title':    { en: 'ask for presence, not advice', ru: 'попроси присутствие, а не советы' },
     'idx.how.s2.desc':     { en: 'flip on <em>"no advice"</em> and readers know to just be with you, no "have you tried…".',
-                             ru: 'включи режим <em>«без советов»</em> — и читатели знают, что нужно просто быть рядом, без «а ты пробовал…».' },
+                             ru: 'включи режим <em>«без советов»</em> - и читатели знают, что нужно просто быть рядом, без «а ты пробовал…».' },
     'idx.how.s3.title':    { en: 'someone says "i\'m here"', ru: 'кто-то говорит «я рядом»' },
     'idx.how.s3.desc':     { en: 'a quiet reply, or just a heart. proof a real person read every word.',
-                             ru: 'тихий ответ или просто сердечко — знак, что живой человек прочитал каждое слово.' },
+                             ru: 'тихий ответ или просто сердечко - знак, что живой человек прочитал каждое слово.' },
 
     /* Safety note */
     'idx.safe.head':       { en: 'a quiet promise.',         ru: 'тихое обещание.' },
     'idx.safe.s1':         { en: '<strong>anonymous by default</strong>: no email, no real name, nothing to sign.',
-                             ru: '<strong>анонимно по умолчанию</strong> — без почты, без настоящего имени, ничего подписывать не нужно.' },
+                             ru: '<strong>анонимно по умолчанию</strong> - без почты, без настоящего имени, ничего подписывать не нужно.' },
     'idx.safe.s2':         { en: '<strong>every post &amp; comment</strong> is read for safety before it ever appears.',
                              ru: '<strong>каждый пост и комментарий</strong> проходит проверку на безопасность до появления.' },
     'idx.safe.s3':         { en: '<strong>no-advice mode</strong> keeps your story safe from unwanted "fixes".',
@@ -2813,7 +2813,7 @@
     'login.intro.title':         { en: 'you\'re still <em>here.</em><img src="assets/letters/_Special Characters/Asterisk_01.png" class="auth-title-star" alt="" aria-hidden="true">',
                                    ru: 'ты всё ещё <em>здесь.</em><img src="assets/letters/_Special Characters/Asterisk_01.png" class="auth-title-star" alt="" aria-hidden="true">' },
     'login.intro.lede':          { en: 'your space hasn\'t gone anywhere. nothing here chases you, just a quiet note when someone replies. mostly <em>quiet</em>, waiting for you to come back when you wanted to.',
-                                   ru: 'твоё место никуда не делось. ничто здесь не гонится за тобой — лишь тихое уведомление, когда кто-то ответит. в основном <em>тишина</em>, которая ждала, когда ты захочешь вернуться.' },
+                                   ru: 'твоё место никуда не делось. ничто здесь не гонится за тобой - лишь тихое уведомление, когда кто-то ответит. в основном <em>тишина</em>, которая ждала, когда ты захочешь вернуться.' },
     'login.intro.b1':            { en: 'no real name, <strong>no profile to maintain</strong>',
                                    ru: 'никаких настоящих имён, <strong>никакого профиля для поддержки</strong>' },
     'login.intro.b2':            { en: 'your stories &amp; saves are still where you left them',

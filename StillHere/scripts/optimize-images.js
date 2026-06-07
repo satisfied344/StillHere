@@ -41,7 +41,7 @@ function walk(dir, out = []) {
     const isJpg = /\.jpe?g$/i.test(file);
 
     try {
-      // Read into buffer first — sidesteps Windows file-lock UNKNOWN errors.
+      // Read into buffer first - sidesteps Windows file-lock UNKNOWN errors.
       const input = fs.readFileSync(file);
       const meta = await sharp(input).metadata();
       const resize = meta.width > rule.maxW

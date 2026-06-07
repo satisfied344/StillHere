@@ -1,12 +1,12 @@
 /* ══════════════════════════════════════════════════════════════════
-   burger-extras.js — append 4 extra items (About / Contacts /
+   burger-extras.js - append 4 extra items (About / Contacts /
    Updates / Profile) to the burger menu on every page.
 
    Why a separate file (and not nav-menu.js):
    Most pages already wire their burger open/close via an inline
    <script> block. Adding click-handling here would double-bind and
    the burger would visibly fail to toggle (each click cancels its
-   pair). This file does ONLY DOM injection — never attaches click
+   pair). This file does ONLY DOM injection - never attaches click
    listeners to .main-menu-trigger.
 
    Visibility on desktop vs mobile is gated by CSS, not JS, so the
@@ -40,15 +40,15 @@
   }
 
   function injectInto(panel, base) {
-    /* Idempotent — skip if already done (e.g. live-server reload). */
+    /* Idempotent - skip if already done (e.g. live-server reload). */
     if (panel.querySelector('.mmenu-burger-extras')) return;
 
     /* Two-part layout:
-       1. PROFILE item — inserted at the TOP, ABOVE the Login /
+       1. PROFILE item - inserted at the TOP, ABOVE the Login /
           Sign-out pill. Reads as a primary action when the user
           is logged in (their profile). When guest, clicking goes
-          to profile.html which redirects to login — harmless.
-       2. ABOUT · CONTACTS · UPDATES — appended at the BOTTOM as
+          to profile.html which redirects to login - harmless.
+       2. ABOUT · CONTACTS · UPDATES - appended at the BOTTOM as
           a compact footer-style text row with dot separators.
        Both blocks are mobile-only via .mmenu-burger-extras CSS
        in mobile.css. */
@@ -123,13 +123,13 @@
       // the user-specific name with the generic "profile" string.
       span.removeAttribute('data-i18n');
     }
-    // Initial — session may already be ready.
+    // Initial - session may already be ready.
     if (window.SH_SESSION && window.SH_SESSION.user) {
       applyProfileLabel(window.SH_SESSION.user);
     } else if (window.SH_SESSION && typeof window.SH_SESSION.whenReady === 'function') {
       window.SH_SESSION.whenReady(applyProfileLabel);
     }
-    // Live — re-label on auth state changes.
+    // Live - re-label on auth state changes.
     document.addEventListener('sh:session', function (e) {
       applyProfileLabel(e.detail);
     });

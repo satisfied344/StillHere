@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   moderation.js — frontend helper for AI content moderation
+   moderation.js - frontend helper for AI content moderation
    Calls the Supabase Edge Function "moderate" before any submit.
 
    Usage:
@@ -16,12 +16,12 @@
 
   /* ── Hardcoded slur blacklist (names/usernames only) ─────
      Two layers:
-     1. ROOTS — Russian slur roots that appear inside compound words
+     1. ROOTS - Russian slur roots that appear inside compound words
         (e.g. "хуе" catches хуеглот, хуесос, хуеплёт, etc.)
-     2. WORDS — full slur words that must match exactly
+     2. WORDS - full slur words that must match exactly
      ─────────────────────────────────────────────────────── */
 
-  // Root substrings — if the name contains ANY of these, block it
+  // Root substrings - if the name contains ANY of these, block it
   var SLUR_ROOTS = [
     'хуй','хуе','хуё','хуи',   // хуеглот, хуесос, хуеплёт, etc.
     'пизд',                     // пиздец-derived compounds
@@ -30,7 +30,7 @@
     'педер','педик',
   ];
 
-  // Full words — checked as substrings after stripping spaces/hyphens
+  // Full words - checked as substrings after stripping spaces/hyphens
   var SLUR_WORDS = [
     'шлюха','шлюшка','блядь','блядина','бляд',
     'чмо','чмошник','чмошница',
@@ -48,13 +48,13 @@
 
   function isBlacklisted(text) {
     var lower    = text.toLowerCase();
-    // Strip ALL separators/punctuation — catches "ху-е-глот", "п.и.д.о.р" etc.
+    // Strip ALL separators/punctuation - catches "ху-е-глот", "п.и.д.о.р" etc.
     var stripped = lower.replace(/[\s\-_'.­​]/g, '');
-    // 1. Root check — on BOTH versions
+    // 1. Root check - on BOTH versions
     if (SLUR_ROOTS.some(function (r) {
       return lower.indexOf(r) !== -1 || stripped.indexOf(r) !== -1;
     })) return true;
-    // 2. Full-word check — on stripped version
+    // 2. Full-word check - on stripped version
     if (SLUR_WORDS.some(function (w) { return stripped.indexOf(w) !== -1; })) return true;
     return false;
   }
@@ -62,7 +62,7 @@
   /* ── Public API ──────────────────────────────────────────── */
   window.SH_MOD = {
 
-    /* Lightweight LOCAL check — synchronous, no network call, no AI.
+    /* Lightweight LOCAL check - synchronous, no network call, no AI.
        Only fires on the hardcoded slur blacklist (extreme profanity /
        targeted insults). Used as a first pass before the AI call so
        we save round-trips on obvious cases. */
@@ -73,7 +73,7 @@
       return { allowed: true };
     },
 
-    /* Letter-specific check — designed for quiet-letters where the
+    /* Letter-specific check - designed for quiet-letters where the
        bar is intentionally low. We call the AI moderate function but
        only HARD-BLOCK when the category is something a recipient
        cannot reply to or defend themselves from (they can only read).
@@ -88,9 +88,9 @@
          · threat / violence
          · self-harm encouragement to another person
          · doxxing / personal info
-         · sexual_minors / illegal — never. */
+         · sexual_minors / illegal - never. */
     checkLetter: async function (text) {
-      // No local profanity pre-check here — letters intentionally
+      // No local profanity pre-check here - letters intentionally
       // allow venting / cursing ("пиздец какой ты" should post).
       // Only the AI decides, because only it can distinguish
       // "profanity as venting" from "profanity as a weapon".
@@ -100,7 +100,7 @@
       // never venting). Catches signed-out users where the AI
       // doesn't run.
       //
-      // IMPORTANT: JavaScript `\b` is ASCII-only — `\bуебищ\b` does
+      // IMPORTANT: JavaScript `\b` is ASCII-only - `\bуебищ\b` does
       // NOT match Cyrillic text. We use Unicode-aware boundaries via
       // `(?<![\p{L}])` lookbehind and a Cyrillic-tail match so we
       // catch all inflections (уебище, уебища, уебищу, уебищем …).
@@ -125,7 +125,7 @@
       // OK in a letter to mom, anger is OK, sexual chat is just
       // embarrassing not harmful since no one can reply).
       // Letters are read-only for the recipient (nobody can reply), so the
-      // bar is as low as a POST — even an insult or angry rant to "mom" is
+      // bar is as low as a POST - even an insult or angry rant to "mom" is
       // allowed. We rely on the local extreme-slur block above for the truly
       // unacceptable, and only the AI categories below stay hard-blocked.
       var ALWAYS_ALLOW = [
@@ -140,7 +140,7 @@
         'links',
         'low_quality',
         'off_topic',
-        // insult / hostility categories — fine in a one-way letter:
+        // insult / hostility categories - fine in a one-way letter:
         'targeted_insult',
         'insult',
         'harassment',
@@ -160,7 +160,7 @@
       // banter from a real threat. If the message contains clear
       // signals of love / longing / apology, treat threat/violence
       // categories as banter and let them through. The recipient
-      // can never reply on this platform — harm vector is small.
+      // can never reply on this platform - harm vector is small.
       var LOVING_CONTEXT = /(\bлюбл|\bобожа|\bсосе|скучаю|скуча|целую|целова|обнима|жду тебя|мил[аы]й|милая|любимы|любима|родн[аы]я|родной|солныш|солнце моё|маленьк[аыо]|зайк|котёнок|baby|babe|honey|sweetheart|darling|love you|miss you|i love|i miss|love ya|i'?d die for|sorry|forgive me|прости меня|извини|жалко|жаль)/i;
       var SOFT_THREAT_REASONS = ['threat', 'violence', 'self_harm', 'self-harm'];
       var isSoftThreat = SOFT_THREAT_REASONS.some(function (k) {
@@ -180,7 +180,7 @@
       };
     },
 
-    /* Username check — no JWT required (user not logged in yet at registration).
+    /* Username check - no JWT required (user not logged in yet at registration).
        Returns { allowed, reason, label }.
 
        Client-side cache: every unique candidate name is checked AT MOST
@@ -189,7 +189,7 @@
        handle would burn 8 OR calls (one per character as the user
        types) before a single submit. Cache key is the trimmed
        lower-cased name. Cache lives in a closure Map so it dies with
-       the tab — exactly what we want for moderation freshness. */
+       the tab - exactly what we want for moderation freshness. */
     checkUsername: (function () {
       var cache = new Map();
 
@@ -199,7 +199,7 @@
 
         if (cache.has(key)) return cache.get(key);
 
-        // Fast local check first — catch obvious slurs without a network round-trip
+        // Fast local check first - catch obvious slurs without a network round-trip
         if (isBlacklisted(username)) {
           var blockedResult = { allowed: false, reason: 'targeted_insult', label: 'Direct insult or harassment' };
           cache.set(key, blockedResult);
@@ -226,7 +226,7 @@
           var verdict;
           if (!res.ok) {
             verdict = { allowed: true };
-            // Don't cache transient HTTP errors — leave open for retry.
+            // Don't cache transient HTTP errors - leave open for retry.
           } else {
             verdict = await res.json();
             cache.set(key, verdict);
@@ -248,11 +248,11 @@
     check: async function (content, contentType, mediaUrls, postAuthorId) {
       var jwt = await getJwt();
       /* Previous behaviour skipped moderation entirely for anonymous
-         users — that meant anyone posting a comment without an account
+         users - that meant anyone posting a comment without an account
          could write anything bad. Now we ALWAYS call the edge function,
          using the publishable (anon) key as Bearer when no user JWT is
          present. The edge function decides whether to moderate or
-         fail-open — but at least the request is made. */
+         fail-open - but at least the request is made. */
 
       try {
         var body = { content: content, contentType: contentType };
@@ -276,7 +276,7 @@
 
         if (!res.ok) {
           console.warn('[SH_MOD] Edge function returned', res.status);
-          // Network/HTTP error — fail open ONLY here. Real moderation
+          // Network/HTTP error - fail open ONLY here. Real moderation
           // decisions (including service_unavailable) come back as 200
           // with allowed:false in the body.
           return { allowed: true };
@@ -297,8 +297,8 @@
     },
 
     /* Render a block error inside a container element.
-       el     — the container where the message will appear
-       result — object returned by SH_MOD.check() */
+       el     - the container where the message will appear
+       result - object returned by SH_MOD.check() */
     showBlock: function (el, result) {
       if (!el) return;
       var mt = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
@@ -307,7 +307,7 @@
       var html = '<p class="mod-error">✕ ' + label + '</p>';
 
       if (result.retry) {
-        // service_unavailable — soft, retryable error, no block counter
+        // service_unavailable - soft, retryable error, no block counter
         el.innerHTML = html;
         el.style.display = 'block';
         return;
@@ -353,7 +353,7 @@
        Note: we reuse the *same* supabase client instance across
        calls so the user's session token is attached automatically.
        (createClient() each time loses the auth context, and would
-       make every call look anonymous — bug fixed.)
+       make every call look anonymous - bug fixed.)
        ──────────────────────────────────────────────────────── */
     report: async function (targetType, targetId, reason) {
       if (targetType !== 'post' && targetType !== 'comment') {
@@ -364,7 +364,7 @@
       var db = getSharedClient();
       if (!db) return { ok: false, error: 'supabase_not_loaded' };
 
-      /* Anonymous fallback fingerprint — stable per device */
+      /* Anonymous fallback fingerprint - stable per device */
       var fp = null;
       try {
         fp = localStorage.getItem('sh_anon_fp');
@@ -397,7 +397,7 @@
       /* Fire-and-forget kick to strict-review whenever the server
          tells us a review is warranted. Uses the supabase client's
          functions.invoke() which handles CORS + auth headers
-         automatically — no manual fetch needed. */
+         automatically - no manual fetch needed. */
       if (data.should_review || data.new_state === 'ai_reviewing') {
         db.functions.invoke('strict-review', {
           body: { target_type: targetType, target_id: targetId }
@@ -413,7 +413,7 @@
 
   /* Cache one shared client so the user's JWT is carried on every call.
      Also expose it on window so other modules (site-pings.js, etc.)
-     can reuse instead of spawning a second GoTrueClient — silences the
+     can reuse instead of spawning a second GoTrueClient - silences the
      "Multiple GoTrueClient instances detected" warning. */
   function getSharedClient() {
     if (window.__shSharedSupabase) return window.__shSharedSupabase;

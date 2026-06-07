@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="total-dark")t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
     <meta name="darkreader-lock">
@@ -88,12 +88,12 @@
   <link rel="stylesheet" href="../CSS/mobile.css?v=20260607m">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="../JS/supabase-config.js" defer></script>
-  <script src="../JS/site-pings.js" defer></script>
-  <script src="../JS/i18n.uk.js?v=12" defer></script>
-  <script src="../JS/i18n.js?v=12" defer></script>
-  <script src="../JS/session.js" defer></script>
-  <script src="../JS/theme.js" defer></script>
-  <script src="../JS/notifications.js?v=15" defer></script>
+  <script src="../JS/site-pings.js?v=2" defer></script>
+  <script src="../JS/i18n.uk.js?v=14" defer></script>
+  <script src="../JS/i18n.js?v=14" defer></script>
+  <script src="../JS/session.js?v=2" defer></script>
+  <script src="../JS/theme.js?v=3" defer></script>
+  <script src="../JS/notifications.js?v=16" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -245,7 +245,7 @@
       position: relative;
     }
     .ab-hero-card::before {
-      /* Top-center tape that protrudes slightly above the card —
+      /* Top-center tape that protrudes slightly above the card -
          same pattern as the Contacts "we read every message" card. */
       content: "";
       position: absolute;
@@ -605,7 +605,7 @@
       transform: rotate(-14deg);
       animation-delay: -2s;
     }
-    /* The little heart is a dark ink doodle — on the dark theme it sinks
+    /* The little heart is a dark ink doodle - on the dark theme it sinks
        into the background. Flip it to white so it stays visible. */
     html[data-theme="dark"] .ab-story-art-doodle--2 {
       filter: brightness(0) invert(1);
@@ -908,8 +908,9 @@
       box-shadow: 0 12px 30px -12px rgba(26, 20, 16, 0.22);
     }
   </style>
-  <script src="../JS/mobile-nav.js?v=20260606f" defer></script>
-  <script src="../JS/pwa-register.js" defer></script>
+  <script src="../JS/mobile-nav.js?v=20260607f" defer></script>
+  <script src="../JS/pwa-register.js?v=2" defer></script>
+  <link rel="stylesheet" href="../CSS/paper-cards.css?v=5">
 </head>
 <body>
 
@@ -1159,7 +1160,7 @@
           </div>
           <p class="ab-card-desc" data-i18n="ab.feat.02.desc">
             a quiet companion for the hours when nobody else is around. <strong>no diagnosis,
-            no scripts, no pressure</strong> to feel better by the end of the conversation —
+            no scripts, no pressure</strong> to feel better by the end of the conversation -
             it just stays with you for as long as you want it to.
           </p>
           <a href="../ai-chat" class="ab-card-link">
@@ -1539,6 +1540,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-  <script src="../JS/burger-extras.js?v=5" defer></script>
+  <script src="../JS/burger-extras.js?v=6" defer></script>
 </body>
 </html>

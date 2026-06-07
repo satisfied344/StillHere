@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════
-   nav-menu.js — shared burger-menu wiring.
+   nav-menu.js - shared burger-menu wiring.
 
    Wires every `.main-menu-dropdown` (trigger + panel pair) on the
    page so the dropdown opens / closes correctly across all pages

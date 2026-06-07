@@ -109,7 +109,7 @@
         .maybeSingle();
 
       if (profileErr && profileErr.message && profileErr.message.includes('avatar_url')) {
-        /* Column not yet added — retry without it */
+        /* Column not yet added - retry without it */
         var { data: profileBasic } = await sb
           .from('profiles')
           .select('username, display_name, created_at')
@@ -130,7 +130,7 @@
          mean either "row doesn't exist" OR "RLS hid it from us / temp
          network glitch". UPSERTing in the second case overwrites the
          real profile (username, display_name, avatar) with the fallback
-         — which is exactly the bug that turned "start" into
+         - which is exactly the bug that turned "start" into
          "user_30f113be" and broke that user's login (since auth.email
          is derived from the username at signup time and never changed
          alongside).
@@ -138,9 +138,9 @@
          New rules:
          1. Only attempt the write if we have a REAL username source
             (auth metadata or localStorage). Never persist a synthetic
-            `user_xxxxx` fallback — that silently destroys data.
+            `user_xxxxx` fallback - that silently destroys data.
          2. Use plain `.insert()` so a duplicate-key error fails loud
-            and we don't overwrite. The user already has a profile —
+            and we don't overwrite. The user already has a profile -
             it was just temporarily unreadable.
          3. Keep the fallback display string for in-memory use only
             (see `fire()` below) so the UI doesn't go blank. */
@@ -163,7 +163,7 @@
               };
             } else if (/duplicate|unique|conflict/i.test(insRes.error.message || '')) {
               /* Profile exists but we couldn't read it (RLS / glitch).
-                 Use the metadata username for this session only —
+                 Use the metadata username for this session only -
                  do NOT write back. Next load will probably succeed. */
               profile = {
                 username: uname, display_name: dname,

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="total-dark")t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
     <meta name="darkreader-lock">
@@ -88,21 +88,21 @@
   <link rel="stylesheet" href="CSS/mobile.css?v=20260607m">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
-  <script src="JS/site-pings.js" defer></script>
-  <script src="JS/i18n.uk.js?v=12" defer></script>
-  <script src="JS/i18n.js?v=12" defer></script>
-  <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=15" defer></script>
-  <script src="JS/moderation.js?v=8" defer></script>
-  <script src="JS/media-compress.js?v=3" defer></script>
+  <script src="JS/site-pings.js?v=2" defer></script>
+  <script src="JS/i18n.uk.js?v=14" defer></script>
+  <script src="JS/i18n.js?v=14" defer></script>
+  <script src="JS/session.js?v=2" defer></script>
+  <script src="JS/notifications.js?v=16" defer></script>
+  <script src="JS/moderation.js?v=9" defer></script>
+  <script src="JS/media-compress.js?v=4" defer></script>
   <!-- auth.js exposes SH_AUTH.validatePassword, we reuse the same
        password rules here as on register / reset, so a user can't
        set a weaker password from the profile-edit page. The page-
        specific init paths inside auth.js (register / login / recovery
        wiring) all guard on form presence, so loading the file here
        has no side-effects. -->
-  <script src="JS/auth.js?v=10" defer></script>
-  <script src="JS/theme.js" defer></script>
+  <script src="JS/auth.js?v=11" defer></script>
+  <script src="JS/theme.js?v=3" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -637,8 +637,8 @@
       .fields-row { grid-template-columns: 1fr; }
     }
   </style>
-  <script src="JS/mobile-nav.js?v=20260606f" defer></script>
-  <script src="JS/pwa-register.js" defer></script>
+  <script src="JS/mobile-nav.js?v=20260607f" defer></script>
+  <script src="JS/pwa-register.js?v=2" defer></script>
 </head>
 <body>
 
@@ -1245,7 +1245,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /* avatarChanged controls whether we touch avatar_url at all on
            this save. Without it, the submit would re-write the user's
-           original avatar_url every time, even when nothing changed —
+           original avatar_url every time, even when nothing changed -
            and would resurrect a removed photo. */
         var newAvatarUrl = undefined;
         var avatarChanged = false;
@@ -1494,6 +1494,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
 });
 </script>
-  <script src="JS/burger-extras.js?v=5" defer></script>
+  <script src="JS/burger-extras.js?v=6" defer></script>
 </body>
 </html>

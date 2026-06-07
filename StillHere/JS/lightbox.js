@@ -1,5 +1,5 @@
 /*
- * lightbox.js — modal image viewer for the post page.
+ * lightbox.js - modal image viewer for the post page.
  *
  * Listens for clicks on any <img> inside `.post-body` or
  * `.comment-body` (and any future `[data-lightbox]` opt-in) and
@@ -106,7 +106,7 @@
 
   /* ── Delegated click handler ──────────────────────────────
      Catches images that are inserted AFTER load (comments, lazy
-     replies) too — that's why we delegate on document instead of
+     replies) too - that's why we delegate on document instead of
      binding to each <img>. */
   document.addEventListener('click', function (e) {
     var t = e.target;
@@ -115,7 +115,7 @@
     // explicitly opts in via [data-lightbox].
     var inPost = !!(t.closest && (t.closest('.post-body') || t.closest('.comment-body') || t.closest('[data-lightbox]')));
     if (!inPost) return;
-    // Skip avatars and icons — they're not the content.
+    // Skip avatars and icons - they're not the content.
     if (t.closest('.avatar-circle') || t.closest('.sh-icon')) return;
     e.preventDefault();
     open(t.currentSrc || t.src, t.alt);

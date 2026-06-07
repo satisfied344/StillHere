@@ -1,5 +1,5 @@
 /*
- * media-compress.js — client-side compression + R2 upload helpers.
+ * media-compress.js - client-side compression + R2 upload helpers.
  *
  * Exposes a single global `window.SH_MEDIA` with:
  *
@@ -10,7 +10,7 @@
  *     stays as PNG so transparency isn't flattened.
  *
  *   checkVideo(file, opts?)     -> Promise<File>
- *     Strategy C: enforce the size cap only (no transcoding —
+ *     Strategy C: enforce the size cap only (no transcoding -
  *     browsers can't transcode video without ffmpeg.wasm, which
  *     is 30 MB of WASM and too expensive for this site). Throws
  *     a tagged error if too large so the UI can show a friendly
@@ -34,7 +34,7 @@
   var MAX_LONG_SIDE   = 1920;
   var Q               = 0.82;
 
-  // Cache the WebP-encode capability check — running it on every
+  // Cache the WebP-encode capability check - running it on every
   // upload would be wasteful. Returns a Promise<boolean>.
   var _webpProbe = null;
   function canEncodeWebp() {
@@ -67,7 +67,7 @@
     });
   }
 
-  // iPhone delivers HEIC from Files/iCloud — canvas can't decode it.
+  // iPhone delivers HEIC from Files/iCloud - canvas can't decode it.
   // Detect by mime OR extension and fail loud with a friendly tag so
   // the UI can show "convert to JPG" instead of silently swallowing
   // the upload.
@@ -93,7 +93,7 @@
       return Promise.reject(hErr);
     }
 
-    // PNGs with alpha stay PNG — re-encoding to JPEG/WebP flattens
+    // PNGs with alpha stay PNG - re-encoding to JPEG/WebP flattens
     // transparency to a black background, which is jarring for UI
     // assets. Tiny PNGs (< 200 KB) also pass through untouched.
     if (!forceResize && file.type === 'image/png' && file.size < 200 * 1024) {
@@ -105,7 +105,7 @@
     return Promise.all([loadBitmap(file), canEncodeWebp()]).catch(function (err) {
       // Decode failed entirely (corrupt EXIF, exotic colorspace,
       // browser-specific bug). If the original is already small
-      // enough for the server cap, pass it through raw — the user
+      // enough for the server cap, pass it through raw - the user
       // gets their post out, even uncompressed.
       if (file.size <= MAX_IMAGE_BYTES && /^image\/(jpe?g|png|webp)$/i.test(file.type || '')) {
         return [null, false];
@@ -242,7 +242,7 @@
         if (!d.putUrl || !d.publicUrl) throw new Error('presign_failed');
 
         // Direct PUT to R2. content-type MUST match what we
-        // signed for — V4 includes it in SignedHeaders, so a
+        // signed for - V4 includes it in SignedHeaders, so a
         // mismatch returns 403 SignatureDoesNotMatch.
         return fetch(d.putUrl, {
           method:  'PUT',

@@ -4,7 +4,7 @@
   var form = document.getElementById('postForm');
   if (!form) return;
 
-  /* Shared i18n lookup — top-level so every alert / toast / button
+  /* Shared i18n lookup - top-level so every alert / toast / button
      label in this file uses the same lookup pattern. Falls back to
      the English literal if i18n.js hasn't loaded yet. */
   function t(key, fallback) {
@@ -14,7 +14,7 @@
   }
 
   /* ─────────────────────────────────────────────
-     Edit mode — when URL has ?edit=<post-id>, we
+     Edit mode - when URL has ?edit=<post-id>, we
      load the existing post into the form and the
      submit handler runs UPDATE instead of INSERT.
      Author-only: ownership is verified after the
@@ -56,7 +56,7 @@
   });
 
   /* Track URLs of images inserted via the Quill toolbar.
-     Populated as each upload completes — used at submit time for moderation. */
+     Populated as each upload completes - used at submit time for moderation. */
   var inlineImageUrls = [];
 
   /* image upload → Cloudflare R2 (via SH_MEDIA), then insert URL into editor */
@@ -261,7 +261,7 @@
   }
 
   /* ─────────────────────────────────────────────
-     Language selection — sync radios ↔ dropdown
+     Language selection - sync radios ↔ dropdown
      ───────────────────────────────────────────── */
 
   var langOtherSelectEl = form.querySelector('[name="lang_other"]');
@@ -379,9 +379,9 @@
     if (window.SH_MOD) window.SH_MOD.clearError(modErrorEl);
 
     // ── Collect editor image URLs from all available sources ──
-    // Source 1: inlineImageUrls — tracked at upload time in handleImageUpload
+    // Source 1: inlineImageUrls - tracked at upload time in handleImageUpload
     var editorImageUrls = inlineImageUrls.slice();
-    // Source 2: Quill delta — reads Quill's internal ops directly (most reliable)
+    // Source 2: Quill delta - reads Quill's internal ops directly (most reliable)
     try {
       quill.getContents().ops.forEach(function (op) {
         if (op.insert && typeof op.insert === 'object') {
@@ -400,11 +400,11 @@
 
     var textToCheck = (title ? title + '\n' : '') + plainText;
 
-    /* Crisis-detection gate — runs BEFORE moderation so the user sees
+    /* Crisis-detection gate - runs BEFORE moderation so the user sees
        hotlines before we burn an AI moderation call. If the user
        chose "see who can listen now" (or dismissed the modal), gate
        returns FALSE → we cancel the submit. They keep all their
-       text — they can click publish again whenever they're ready. */
+       text - they can click publish again whenever they're ready. */
     var crisisPromise = (window.SH_CRISIS && window.SH_CRISIS.gate)
       ? window.SH_CRISIS.gate(textToCheck, { source: 'post' })
       : Promise.resolve(true);
@@ -422,7 +422,7 @@
       if (!mod.allowed) {
         setLoading(false);
         if (window.SH_MOD) window.SH_MOD.showBlock(modErrorEl, mod);
-        // Если забанен — заблокировать кнопку полностью
+        // Если забанен - заблокировать кнопку полностью
         if (mod.banned && btn) btn.disabled = true;
         return;
       }
@@ -469,7 +469,7 @@
               var uname  = (shUser && shUser.username) || null;
               var dname  = (shUser && shUser.displayName) || null;
               var aurl   = (shUser && shUser.avatarUrl)   || null;
-              // Never upsert without a real username — that would overwrite
+              // Never upsert without a real username - that would overwrite
               // the profile with a synthetic "user_xxxxxxxx" fallback if the
               // session hasn't loaded yet (race condition across tabs/SW).
               // ignoreDuplicates:true = INSERT … ON CONFLICT DO NOTHING,
@@ -481,7 +481,7 @@
               );
             })() : Promise.resolve({ error: null });
 
-            /* Stable per-device fingerprint — same key as moderation.js.
+            /* Stable per-device fingerprint - same key as moderation.js.
                Stored on every post so admins can block repeat offenders
                (anonymous or otherwise) by device, not just by account. */
             var anonFp = null;
@@ -493,7 +493,7 @@
               }
             } catch (_) {}
 
-            /* ── Rate-limit gate — short-circuits BEFORE we burn an
+            /* ── Rate-limit gate - short-circuits BEFORE we burn an
                AI call. Caps:
                  logged-in: 5 posts / 60s
                  anonymous: 3 posts / 60s
@@ -510,7 +510,7 @@
               if (rl && rl.data && rl.data.allowed === false) {
                 setLoading(false);
                 alert(t('cp.err.ratelimited',
-                  'Slow down for a moment — you can publish again in ' +
+                  'Slow down for a moment - you can publish again in ' +
                   (rl.data.retry_after || 60) + ' s.'));
                 throw new Error('rate_limited');
               }
@@ -529,7 +529,7 @@
 
               var op;
               if (EDIT_ID) {
-                /* UPDATE — scope to id + user_id so a malicious actor
+                /* UPDATE - scope to id + user_id so a malicious actor
                    can't edit someone else's post by spoofing the URL.
                    We DON'T touch user_id / anon_fp / created_at. */
                 op = db.from('posts').update(payload)
@@ -560,7 +560,7 @@
                   setLoading(false);
                   return;
                 }
-                /* Successful write — clear the saved draft (hooked by the
+                /* Successful write - clear the saved draft (hooked by the
                    inline draft script in create-post.html). */
                 if (typeof window.__shClearPostDraft === 'function') {
                   window.__shClearPostDraft();
@@ -581,25 +581,25 @@
   });
 
   /* ─────────────────────────────────────────────
-     Edit mode — load existing post into the form.
+     Edit mode - load existing post into the form.
      Triggered by ?edit=<id> in the URL.
      ───────────────────────────────────────────── */
   function loadPostForEdit(postId) {
     if (!window.supabase || !window.SH_SUPABASE_URL) {
-      /* Supabase isn't ready yet — poll fast (20ms) so we don't add
+      /* Supabase isn't ready yet - poll fast (20ms) so we don't add
          a visible delay once the deferred CDN script lands. */
       setTimeout(function () { loadPostForEdit(postId); }, 20);
       return;
     }
     var db = window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY);
 
-    /* Flip the UI to "edit mode" copy immediately — no need to wait
+    /* Flip the UI to "edit mode" copy immediately - no need to wait
        for the network. Cheaper visually than seeing "publish story"
        briefly before the post loads. */
     applyEditModeChrome(postId);
 
     /* Run BOTH requests in parallel and populate the form as soon as
-       the post arrives. Ownership is verified independently — if it
+       the post arrives. Ownership is verified independently - if it
        fails we redirect. This avoids waiting for the slower of the
        two before showing any data. */
     var authPromise = db.auth.getUser();
@@ -607,7 +607,7 @@
 
     postPromise.then(function (postRes) {
       if (postRes.error || !postRes.data) {
-        alert(t('cp.err.notfound', 'Post not found — it may have been deleted.'));
+        alert(t('cp.err.notfound', 'Post not found - it may have been deleted.'));
         window.location.href = 'main';
         return;
       }
@@ -626,8 +626,8 @@
     });
   }
 
-  /* Flip page chrome to edit mode — button label, tab title, cancel
-     link. Pure DOM, no network — safe to run before the post lands. */
+  /* Flip page chrome to edit mode - button label, tab title, cancel
+     link. Pure DOM, no network - safe to run before the post lands. */
   function applyEditModeChrome(postId) {
     var publishBtn = form.querySelector('.btn-publish');
     if (publishBtn) {
@@ -668,7 +668,7 @@
       } catch (_) {}
     }
 
-    // Language — match a radio, else fall back to lang_other select
+    // Language - match a radio, else fall back to lang_other select
     var langRadios = form.querySelectorAll('[name="lang"]');
     var matched = false;
     langRadios.forEach(function (r) {
@@ -690,7 +690,7 @@
     var modeRadio = form.querySelector('[name="mode"][value="' + (post.mode || 'support') + '"]');
     if (modeRadio) modeRadio.checked = true;
 
-    // Existing media — previews + remove buttons
+    // Existing media - previews + remove buttons
     if (Array.isArray(post.media_urls) && post.media_urls.length) {
       existingMediaUrls = post.media_urls.slice();
       existingMediaUrls.forEach(function (url) { renderExistingPreview(url); });

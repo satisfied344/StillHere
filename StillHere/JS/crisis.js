@@ -1,9 +1,9 @@
 /* ══════════════════════════════════════════════════════════════════
-   crisis.js — gentle crisis-signal detector for StillHere.
+   crisis.js - gentle crisis-signal detector for StillHere.
 
    Goal: when someone writes something that sounds like they may be
    in acute danger (suicidal ideation, self-harm, "I want to die"),
-   we DON'T block them — we pause for a second, in the site's voice,
+   we DON'T block them - we pause for a second, in the site's voice,
    and put a real-person hotline within one tap. The platform is not
    a substitute for emergency care; this is the moment we say so.
 
@@ -25,12 +25,12 @@
 
   /* ────────────────────────────────────────────────────────────────
      1. Lexicon. Two tiers:
-        HIGH  — phrases that almost always indicate active risk;
+        HIGH  - phrases that almost always indicate active risk;
                 we ALWAYS surface care.
-        SOFT  — distress signals; surface care once per session.
+        SOFT  - distress signals; surface care once per session.
      The regexes use Unicode-aware boundaries so they work on
      Cyrillic too (the JS \b is ASCII-only).
-     Word stems where possible — Russian inflects heavily.
+     Word stems where possible - Russian inflects heavily.
      ──────────────────────────────────────────────────────────────── */
 
   // Helper: build a regex from a list of word-stem alternatives so
@@ -44,7 +44,7 @@
 
   // HIGH: phrases that almost always indicate active risk.
   // Searched ANYWHERE in the text (no rigid structural anchors), because
-  // real distress writing is messy — typos, broken syntax, mixed tense.
+  // real distress writing is messy - typos, broken syntax, mixed tense.
   // False-positive control is handled by phrase specificity, not structure.
   // \p{L} non-word boundaries via lookarounds work for Cyrillic too.
   var BOUND_L = '(?:^|[^\\p{L}])';
@@ -62,7 +62,7 @@
   }
 
   var HIGH_PATTERNS = [
-    // ── Russian — direct statements of intent ────────────────────
+    // ── Russian - direct statements of intent ────────────────────
     rxAny([
       'покончить с собой', 'покончу с собой', 'покончу с жизнью',
       'свести счёт* с жизнью', 'свести счеты с жизнью', 'свести счет* с жизнью',
@@ -76,11 +76,11 @@
       'лучше бы сдох*', 'хоть бы я умер*', 'хоть бы умер*',
     ]),
 
-    // ── Russian — methods. Listed explicitly so "повестка"/"повесть"
+    // ── Russian - methods. Listed explicitly so "повестка"/"повесть"
     //    don't trigger as crisis. Only forms that mean "to hang oneself"
     //    or the misspelled reflexive are included.
     rxAny([
-      // hanging — explicit reflexive forms only (commonly typed
+      // hanging - explicit reflexive forms only (commonly typed
       // "повесится"/"повешус" instead of "повеситься"/"повешусь").
       'повешусь', 'повесюсь', 'повешус', 'повесюс',
       'повеситься', 'повесится', 'повеситса',
@@ -99,14 +99,14 @@
       'застрелюсь', 'отравлюсь',
     ]),
 
-    // ── Russian — explicit terms ─────────────────────────────────
+    // ── Russian - explicit terms ─────────────────────────────────
     rxAny([
       'суицид*', 'самоубийств*',
       'селфхарм', 'селф-харм', 'селфхарм*',
     ]),
 
-    // ── Russian — internet slang for suicide ─────────────────────
-    // "выпилиться" / "выпилюсь" etc. — common slang, no false positives.
+    // ── Russian - internet slang for suicide ─────────────────────
+    // "выпилиться" / "выпилюсь" etc. - common slang, no false positives.
     // Anchored to full reflexive forms ("выпил" alone = "drank").
     // Includes common і-obfuscation ('вырілітся', 'випилитися').
     rxAny([
@@ -124,8 +124,8 @@
       'покинчити життя', 'покинчити з собою', 'покинчу з собою',
     ]),
 
-    // ── Russian — euphemisms after distress markers ──────────────
-    // "закончить с этим", "закончить со всем" — common indirect way
+    // ── Russian - euphemisms after distress markers ──────────────
+    // "закончить с этим", "закончить со всем" - common indirect way
     // to mean "end my life". Same as "I want to end this" in EN.
     rxAny([
       'хочу закончить с этим', 'хочется закончить с этим',
@@ -134,7 +134,7 @@
       'наконец закончить с этим', 'наконец-то закончить с этим',
     ]),
 
-    // ── English — direct statements & methods ────────────────────
+    // ── English - direct statements & methods ────────────────────
     /\bi\s*(?:'m| am)\s*(?:going\s*to|gonna|about\s*to)\s+(?:kill|end)\s+(?:myself|my\s*life)\b/i,
     /\bi\s+want\s+to\s+(?:die|kill\s+myself|end\s+(?:it|my\s+life|things))\b/i,
     /\bi\s+wish\s+i\s+(?:was|were)\s+dead\b/i,
@@ -156,7 +156,7 @@
        Internet slang + obfuscation that the regex previously missed
        and that the AI second pass typically caught. */
     /\b(?:k|kill)\s*(?:myself|my\s+self)\b/i,
-    /\bkms\b/i,                          // "kms" — internet shorthand
+    /\bkms\b/i,                          // "kms" - internet shorthand
     /\bunalive(?:\s+(?:myself|me))?\b/i, // tiktok-safe word for "kill"
     /\bsewer[\s-]*slide\b/i,             // "sewer slide" = "suicide"
     /\bgoodbye\s+(?:everyone|world|forever)\b/i,
@@ -176,7 +176,7 @@
     ]),
   ];
 
-  // SOFT: less explicit distress signals. More permissive than HIGH —
+  // SOFT: less explicit distress signals. More permissive than HIGH -
   // allow short fillers between key words (e.g. "никому я не нужен").
   var SOFT_PATTERNS = [
     /(?:^|[^\p{L}])(?:не\s+вижу\s+смысла|нет\s+смысла|всё\s+бессмысленн|жизнь\s+бессмысл)/iu,
@@ -195,7 +195,7 @@
        Patterns picked from real distress-vocabulary lists + the cases
        the previous AI fallback most often caught. */
 
-    // RU — hopelessness / "I can't anymore"
+    // RU - hopelessness / "I can't anymore"
     /(?:^|[^\p{L}])(?:я\s+(?:больше\s+)?не\s+мог[уy]\s+(?:так\s+)?(?:жить|жит))/iu,
     /(?:^|[^\p{L}])(?:не\s+могу\s+(?:это\s+)?(?:вынести|терпеть|выдержать|переживать))/iu,
     /(?:^|[^\p{L}])(?:всё\s+(?:так\s+)?(?:плохо|херово|хуёво|хреново)|жизнь\s+(?:это\s+)?ад)/iu,
@@ -209,18 +209,18 @@
     /(?:^|[^\p{L}])(?:одиночество\s+(?:меня\s+)?(?:убивает|съедает))/iu,
     /(?:^|[^\p{L}])(?:я\s+(?:такой|такая|такие)\s+(?:ничтожество|никчёмн|никчемн|жалк))/iu,
 
-    // RU — finality / farewell tone
+    // RU - finality / farewell tone
     /(?:^|[^\p{L}])(?:прощайте|прощай(?:те)?\s+(?:все|друзья|мама|папа))/iu,
     /(?:^|[^\p{L}])(?:последн(?:ий|ее|яя)\s+(?:раз|пост|сообщение|запись))/iu,
     /(?:^|[^\p{L}])(?:спасибо\s+за\s+(?:всё|все)\b)/iu,
 
-    // UK — Ukrainian distress
+    // UK - Ukrainian distress
     /(?:^|[^\p{L}])(?:я\s+(?:більше\s+)?не\s+можу\s+(?:так\s+)?(?:жити|жит))/iu,
     /(?:^|[^\p{L}])(?:нікому\s+я\s+не\s+потрібн)/iu,
     /(?:^|[^\p{L}])(?:не\s+бачу\s+сенсу|немає\s+сенсу)/iu,
     /(?:^|[^\p{L}])(?:втомив(?:ся|лася)\s+(?:від|жити))/iu,
 
-    // EN — additional distress markers
+    // EN - additional distress markers
     /\bi\s+(?:just\s+)?want\s+(?:it|this|the\s+pain)\s+to\s+(?:stop|end)\b/i,
     /\bi\s+can(?:'?t| not)\s+(?:keep\s+going|deal\s+with\s+this|handle\s+(?:it|this))\b/i,
     /\bi\s+(?:'?m|\s+am)\s+(?:so\s+)?(?:done|over\s+(?:it|this)|exhausted\s+(?:with|by)\s+life)\b/i,
@@ -284,9 +284,9 @@
 
   // Cheap pre-filter: only ask the AI if the text plausibly carries
   // distress. Keeps cost / latency near zero for benign messages.
-  // Words/stems are matched as substrings — pre-filter, not detector.
+  // Words/stems are matched as substrings - pre-filter, not detector.
   var DISTRESS_HINTS = [
-    // RU — emotion / finality / sleep / farewell
+    // RU - emotion / finality / sleep / farewell
     'умер', 'смерт', 'жить', 'жизн', 'устал', 'устав', 'одинок', 'одна',
     'одиноч', 'никому', 'никто', 'больно', 'тяжело', 'плохо мне',
     'плох', 'тосклив', 'грус', 'депресс', 'тревог', 'паник', 'страш',
@@ -320,7 +320,7 @@
   }
 
   /* AI fallback was previously used when the local regex returned
-     "none" but the text contained distress markers — it added 1
+     "none" but the text contained distress markers - it added 1
      OpenRouter call per submit. We replaced it with an EXPANDED
      local regex (see EXTRA_HIGH_PATTERNS + EXTRA_SOFT_PATTERNS
      below) that catches the previously-AI-only cases. Kept as a
@@ -330,7 +330,7 @@
   }
 
   /* ────────────────────────────────────────────────────────────────
-     2. Care modal — same paper aesthetic as the rest of the site.
+     2. Care modal - same paper aesthetic as the rest of the site.
         Reuses the .sh-care-* namespace (independent of any page's
         local .del-modal/.sh-modal styles) and injects its own CSS
         once, so it works on every page that loads crisis.js.
@@ -367,14 +367,14 @@
     var s = document.createElement('style');
     s.id = 'sh-care-styles';
     s.textContent = [
-      /* Backdrop — soft blur, calm not alarming. */
+      /* Backdrop - soft blur, calm not alarming. */
       '.sh-care-backdrop{position:fixed;inset:0;z-index:10010;display:flex;align-items:center;',
         'justify-content:center;background:rgba(26,20,16,.55);backdrop-filter:blur(4px);',
         '-webkit-backdrop-filter:blur(4px);padding:20px;opacity:0;visibility:hidden;',
         'transition:opacity .3s ease,visibility .3s ease;}',
       '.sh-care-backdrop.is-open{opacity:1;visibility:visible;}',
 
-      /* Paper card — taped-on-the-wall feeling. */
+      /* Paper card - taped-on-the-wall feeling. */
       '.sh-care-modal{position:relative;background:var(--paper-soft,#fffaf0);color:var(--ink,#1a1410);',
         'border:1px solid var(--line,rgba(26,20,16,.14));border-radius:12px;max-width:460px;',
         'width:calc(100% - 32px);padding:36px 32px 26px;text-align:center;font-family:"Ubuntu",sans-serif;',
@@ -382,13 +382,13 @@
         'transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .25s ease;}',
       '.sh-care-backdrop.is-open .sh-care-modal{transform:none;opacity:1;}',
 
-      /* Tape strip — same paper-stamp vocabulary as feature cards. */
+      /* Tape strip - same paper-stamp vocabulary as feature cards. */
       '.sh-care-modal::before{content:"";position:absolute;top:-11px;left:50%;',
         'transform:translateX(-50%) rotate(-2deg);width:96px;height:22px;',
         'background:rgba(214,83,60,.22);border-radius:2px;',
         'box-shadow:0 2px 4px rgba(26,20,16,.08);}',
 
-      /* Heart icon — warm, not alarming. */
+      /* Heart icon - warm, not alarming. */
       '.sh-care-icon{width:56px;height:56px;border-radius:50%;background:rgba(214,83,60,.12);',
         'color:var(--accent-2,#d6533c);display:inline-flex;align-items:center;justify-content:center;',
         'margin-bottom:14px;}',
@@ -398,7 +398,7 @@
       '.sh-care-desc{margin:0 0 18px;font-size:14px;line-height:1.6;color:var(--ink-mid,#6e5f53);}',
       '.sh-care-desc em{color:var(--accent-2,#d6533c);font-style:italic;}',
 
-      /* Quick-actions row — primary "see who can help", secondary "keep writing". */
+      /* Quick-actions row - primary "see who can help", secondary "keep writing". */
       '.sh-care-actions{display:flex;flex-direction:column;gap:9px;align-items:stretch;}',
       '.sh-care-btn{padding:12px 22px;border-radius:999px;font:inherit;font-size:13.5px;font-weight:600;',
         'cursor:pointer;letter-spacing:.01em;transition:background .25s ease,border-color .25s ease,',
@@ -411,10 +411,10 @@
       '.sh-care-btn--ghost:hover{color:var(--ink,#1a1410);border-color:var(--ink,#1a1410);}',
       '.sh-care-btn:active{transform:translateY(1px);}',
 
-      /* Footnote — quiet line below buttons. */
+      /* Footnote - quiet line below buttons. */
       '.sh-care-foot{margin:16px 0 0;font-size:11.5px;color:var(--ink-light,#8a7a6e);font-style:italic;}',
 
-      /* Dark theme overrides — same warm-dark surface as other modals. */
+      /* Dark theme overrides - same warm-dark surface as other modals. */
       'html[data-theme="dark"] .sh-care-modal{background:#26201a;border-color:rgba(244,234,214,.14);color:#f4ead6;}',
       'html[data-theme="dark"] .sh-care-title{color:#f4ead6;}',
       'html[data-theme="dark"] .sh-care-desc{color:#d8cab0;}',
@@ -422,7 +422,7 @@
       'html[data-theme="dark"] .sh-care-btn--ghost:hover{color:#f4ead6;border-color:rgba(244,234,214,.4);}',
       'html[data-theme="dark"] .sh-care-foot{color:rgba(244,234,214,.5);}',
 
-      /* Reduced motion — drop the springy entrance. */
+      /* Reduced motion - drop the springy entrance. */
       '@media (prefers-reduced-motion: reduce){',
         '.sh-care-backdrop,.sh-care-modal{transition:opacity .15s ease!important;}',
         '.sh-care-modal{transform:none!important;}',
@@ -431,7 +431,7 @@
     document.head.appendChild(s);
   }
 
-  /* Path to crisis-resources page — works from root + nested folders. */
+  /* Path to crisis-resources page - works from root + nested folders. */
   function crisisHref() {
     var p = window.location.pathname || '';
     // /docs/html/*  → already there → same-folder link
@@ -450,7 +450,7 @@
     return new Promise(function (resolve) {
       ensureStyles();
 
-      // For the SOFT tier, only show once per session — repeated nudges
+      // For the SOFT tier, only show once per session - repeated nudges
       // for someone venting feel hostile, not caring.
       if (severity === 'soft' && softShownThisSession()) {
         resolve('continue');
@@ -464,26 +464,26 @@
       bd.setAttribute('aria-modal', 'true');
 
       var title = severity === 'high'
-        ? t('crisis.high.title', 'before you keep going —')
+        ? t('crisis.high.title', 'before you keep going -')
         : t('crisis.soft.title', 'we noticed something heavy');
 
       var desc = severity === 'high'
         ? t('crisis.high.desc',
             'what you wrote sounds like you may be in pain right now. ' +
-            'we\'re not an emergency service — but real, trained people <em>are</em>, ' +
+            'we\'re not an emergency service - but real, trained people <em>are</em>, ' +
             'and they\'re free, anonymous, 24/7.')
         : t('crisis.soft.desc',
-            'this can stay here, and you can post it. just — if it helps — there\'s ' +
+            'this can stay here, and you can post it. just - if it helps - there\'s ' +
             '<em>someone who listens</em>, available right now, free, no questions asked.');
 
       var btnPrimary = t('crisis.btn.see',  'see who can listen now');
       var btnGhost   = severity === 'high'
-        ? t('crisis.btn.keep.high', 'I\'m okay — keep writing')
-        : t('crisis.btn.keep.soft', 'I\'m okay — keep writing');
+        ? t('crisis.btn.keep.high', 'I\'m okay - keep writing')
+        : t('crisis.btn.keep.soft', 'I\'m okay - keep writing');
       var foot = t('crisis.foot',
         'nothing you write is deleted by this message. it\'s here when you\'re ready.');
 
-      // Inline SVG heart — matches the site's hand-drawn aesthetic.
+      // Inline SVG heart - matches the site's hand-drawn aesthetic.
       var heart =
         '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" ' +
           'fill="currentColor" aria-hidden="true">' +
@@ -521,7 +521,7 @@
 
       // "see who can listen now" → opens hotlines in a NEW TAB and
       // resolves 'resources'. Callers treat this as "pause the submit"
-      // — clicking help shouldn't auto-publish what you wrote.
+      // - clicking help shouldn't auto-publish what you wrote.
       bd.querySelector('.sh-care-btn--primary').addEventListener('click', function () {
         close('resources');
       });
@@ -554,14 +554,14 @@
        Returns true ALWAYS if severity is 'none' (no-op fast path),
        and true if the user explicitly chose "keep writing". Only
        returns false if the caller decides to treat 'resources' as
-       a pause — by default we keep that as `true` because the post
+       a pause - by default we keep that as `true` because the post
        is still allowed; the user just opened a help link in a new
-       tab. So this gate is effectively non-blocking — its real job
+       tab. So this gate is effectively non-blocking - its real job
        is making sure the help-link gets seen. */
     /* Gate returns boolean:
          true  → caller may proceed with submit/send
          false → caller MUST hold off (user clicked help or dismissed)
-       Note "soft" tier still returns true — we surface help once per
+       Note "soft" tier still returns true - we surface help once per
        session but don't pause every venting message. */
     gate: async function (text, opts) {
       var source = (opts && opts.source) || 'unknown';

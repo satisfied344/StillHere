@@ -5,7 +5,7 @@
      window.supabase, SH_SUPABASE_URL) in DOMContentLoaded so they run AFTER
      deferred scripts execute.
 
-   Idempotent — running twice changes nothing.
+   Idempotent - running twice changes nothing.
    Run: node scripts/optimize-html.js */
 const fs = require('fs');
 const path = require('path');
@@ -57,7 +57,7 @@ function ensureViewport(html) {
 
 /* color-scheme meta tells the browser the site supports both palettes
    (affects scrollbars and native form-control rendering). Standards-
-   based — no extension-specific tags. */
+   based - no extension-specific tags. */
 function ensureColorScheme(html) {
   // Drop any stale extension-lock metas from earlier iterations.
   html = html.replace(/\s*<meta\s+name=["'](?:darkreader-lock|nighteye|midnight-lizard-status)["'][^>]*>\s*\n?/gi, '\n    ');
@@ -75,7 +75,7 @@ function upgradeThemeBootstrap(html) {
      resource. Two responsibilities:
        1. Apply localStorage.sh_theme (explicit user choice via FAB).
        2. Otherwise honour matchMedia('(prefers-color-scheme: dark)')
-          — i.e. the user's OS / browser-level color preference.
+          - i.e. the user's OS / browser-level color preference.
      Idempotent: matches any prior inline bootstrap shape and overwrites. */
   const NEW = `<script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>`;
   const RE = /<script>\s*\(function\(\)[\s\S]*?localStorage\.getItem\(["']sh_theme["']\)[\s\S]*?<\/script>/;

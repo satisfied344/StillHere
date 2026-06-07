@@ -1,0 +1,70 @@
+/* ════════════════════════════════════════════════════════════════════
+   paper-cards.css
+
+   Applies the warm aged-paper look (cream + faint ruled texture + dark ink)
+   to a SMALL, hand-picked set of cards, in light and dark themes.
+
+   Kept paper (per request):
+     • about      — every card (.ab-*)
+     • contacts   — only the "note from us" card (.ct-hero-card)
+     • coming-soon— the cards + the note (.cs-card, .cs-paper-note)
+     • statistics — every stat card EXCEPT the "last refreshed" live widget
+                    (.st-card .st-engage .st-kpi .st-presence-card .st-strip;
+                     NOT .st-live)
+     • updates    — only the version/commits card (.up-hero-stats)
+     • profile/u  — only the profile identity card (.pf-card)
+     • letters    — only the "how this works" card (.ql-hero-card)
+   Everywhere else is the plain dark/light theme.
+
+   Each selector is listed twice — bare (light + any --paper-soft cards) and
+   html[data-theme="dark"]-prefixed (to beat dark-theme.css's 0,2,1 rules).
+   Text flips dark via re-scoped ink custom properties. Existing tape is kept.
+   ════════════════════════════════════════════════════════════════════ */
+
+.ab-hero-card, .ab-paper-note, 
+.ab-stats, .ab-origin-mock,
+.ct-hero-card,
+.cs-paper-note,
+.ql-hero-card,
+html[data-theme="dark"] .ab-hero-card, html[data-theme="dark"] .ab-paper-note,
+html[data-theme="dark"] .ab-stats, html[data-theme="dark"] .ab-origin-mock,
+html[data-theme="dark"] .ct-hero-card,
+html[data-theme="dark"] .cs-paper-note,
+html[data-theme="dark"] .ql-hero-card {
+  /* warm aged paper — a touch darker than the index cards */
+  background-color: #e3d8bc !important;
+  background-image: repeating-linear-gradient(0deg,
+    transparent 0, transparent 27px,
+    rgba(26, 20, 16, 0.045) 27px, rgba(26, 20, 16, 0.045) 28px) !important;
+  border-color: rgba(26, 20, 16, 0.14) !important;
+  color: #2a2018 !important;
+
+  /* Re-scope ink tokens to dark values so descendant var-based text turns
+     dark. Accent colours (--accent-2 …) are left alone — fine on cream. */
+  --ink:        #241c15;
+  --ink-mid:    #5b5046;
+  --ink-soft:   #5b5046;
+  --ink-light:  #8a7d6d;
+  --charcoal:   #241c15;
+  --text-dark:  #241c15;
+  --text-mid:   #5b5046;
+  --text-light: #8a7d6d;
+  --line:       rgba(26, 20, 16, 0.18);
+  --line-soft:  rgba(26, 20, 16, 0.10);
+}
+
+/* ── Stat-list cards already have their own row-divider lines, so drop the
+   ruled-paper stripes there (keep the cream colour). ── */
+.up-hero-stats, .st-strip,
+html[data-theme="dark"] .up-hero-stats, html[data-theme="dark"] .st-strip {
+  background-image: none !important;
+}
+
+/* ── Scotch tape on these cards reads too faint — make it less transparent. ── */
+.ab-hero-card::before, .ct-hero-card::before, .up-hero-stats::before,
+.ql-hero-card::before, .cs-paper-note::before, .pf-card::before {
+  background: rgba(214, 83, 60, 0.36) !important;
+}
+.ab-story-art-paper::before {
+  background: rgba(109, 130, 104, 0.48) !important;
+}

@@ -24,12 +24,12 @@
   }
 
   function fmt(n) {
-    if (n === null || n === undefined) return '—';
+    if (n === null || n === undefined) return '-';
     if (n >= 1000) return (n / 1000).toFixed(1).replace('.0','') + 'k';
     return String(n);
   }
 
-  /* Animated counter — rolls up from 0 to target */
+  /* Animated counter - rolls up from 0 to target */
   function animateCount(id, target) {
     var el = document.getElementById(id);
     if (!el || target === null) return;
@@ -86,7 +86,7 @@
     /* Trend labels */
     var weekPosts    = r[3].count ?? 0;
     var weekComments = r[4].count ?? 0;
-    /* "+N this week" trend strings — i18n so the label flips with
+    /* "+N this week" trend strings - i18n so the label flips with
        the language toggle. */
     var weekLabel = (window.SH_I18N && SH_I18N.t('st.trend.week')) || 'this week';
     setTrend('trend-posts',    weekPosts,    weekLabel);
@@ -235,7 +235,7 @@
     });
 
     var labels = Object.keys(postBuckets).map(function (d) {
-      /* Localised date — flips to "29 мая" in Russian. */
+      /* Localised date - flips to "29 мая" in Russian. */
       var stLang = (window.SH_I18N && SH_I18N.getLang) ? SH_I18N.getLang() : 'en';
       var stLocale = stLang === 'ru' ? 'ru-RU' : 'en-GB';
       return new Date(d + 'T12:00:00').toLocaleDateString(stLocale, { month: 'short', day: 'numeric' });

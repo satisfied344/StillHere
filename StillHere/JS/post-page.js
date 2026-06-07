@@ -4,7 +4,7 @@
 
   /* ── helpers ── */
 
-  /* Tiny i18n lookup — defers to SH_I18N when ready, else falls
+  /* Tiny i18n lookup - defers to SH_I18N when ready, else falls
      back to the English literal. Used everywhere we render a
      user-visible string from JS (toasts, errors, dynamic labels). */
   function t(key, fallback) {
@@ -187,7 +187,7 @@
           var safeUrl = escAttr(url);   // never interpolate a raw URL into an attribute
           bodyHtml += isVideo
             ? '<div class="post-gallery-item post-gallery-item--video"><video src="' + safeUrl + '" controls playsinline preload="metadata" class="post-gallery-media"></video></div>'
-            // No <a> wrapper — click is caught by SH_LIGHTBOX, which
+            // No <a> wrapper - click is caught by SH_LIGHTBOX, which
             // opens an in-page modal instead of navigating away.
             : '<div class="post-gallery-item" data-lightbox><img src="' + safeUrl + '" class="post-gallery-media" alt="" loading="lazy"></div>';
         });
@@ -231,7 +231,7 @@
       }
     }
 
-    /* Post header avatar — swap default anon SVG for the author's
+    /* Post header avatar - swap default anon SVG for the author's
        avatar_url (when present), and wrap the whole tile in an <a>
        linking to their public profile so the avatar is clickable
        too (matches the main feed). */
@@ -253,7 +253,7 @@
       }
     }
 
-    /* Only the author can edit or delete their post — hide both for everyone else. */
+    /* Only the author can edit or delete their post - hide both for everyone else. */
     var deleteBtn = document.getElementById('deletePostBtn');
     var editBtn   = document.getElementById('editPostBtn');
     var ownerDiv  = document.getElementById('postOwnerDivider');
@@ -321,14 +321,14 @@
           return;
         }
         console.error('Post fetch failed on all passes:', postRes.error);
-        /* Treat as a hard 404 — friendlier than a fragment with an
+        /* Treat as a hard 404 - friendlier than a fragment with an
            error blob, and matches the URL semantics (the requested
            resource genuinely doesn't exist for this user). */
         location.replace('/404.html');
         return;
       }
       if (!postRes.data) {
-        /* Treat as a hard 404 — friendlier than a fragment with an
+        /* Treat as a hard 404 - friendlier than a fragment with an
            error blob, and matches the URL semantics (the requested
            resource genuinely doesn't exist for this user). */
         location.replace('/404.html');
@@ -400,7 +400,7 @@
   if (copyBtn2) copyBtn2.addEventListener('click', copyLink);
 
   /* ────────────────────────────────────────────────
-     Liked + Saved posts — shared with main feed via localStorage
+     Liked + Saved posts - shared with main feed via localStorage
      ──────────────────────────────────────────────── */
 
   var _likedPosts = (function () {
@@ -425,7 +425,7 @@
 
   var heartBtn = document.getElementById('heartBtn');
   if (heartBtn) {
-    /* Calm presence label — i18n-aware. */
+    /* Calm presence label - i18n-aware. */
     var _setHeartLabel = function (active) {
       var label = window.SH_I18N
         ? window.SH_I18N.t(active ? 'main.post.support.active' : 'main.post.support')
@@ -451,16 +451,16 @@
       heartBtn.classList.toggle('is-active', nowActive);
       _setHeartLabel(nowActive);
 
-      /* Presence pulse — re-trigger by removing class + forcing reflow. */
+      /* Presence pulse - re-trigger by removing class + forcing reflow. */
       heartBtn.classList.remove('is-pulsing');
       void heartBtn.offsetWidth;
       if (nowActive) heartBtn.classList.add('is-pulsing');
       setTimeout(function () { heartBtn.classList.remove('is-pulsing'); }, 600);
 
-      /* Calm presence toast — UI only, RPC unchanged. */
+      /* Calm presence toast - UI only, RPC unchanged. */
       showToast(window.SH_I18N
         ? window.SH_I18N.t(nowActive ? 'main.toast.presence' : 'main.toast.presence.off')
-        : (nowActive ? 'they know someone is here.' : 'okay — quietly stepping back.'));
+        : (nowActive ? 'they know someone is here.' : 'okay - quietly stepping back.'));
 
       if (nowActive) _likedPosts.add(postId);
       else           _likedPosts.delete(postId);
@@ -512,7 +512,7 @@
     });
   }
 
-  /* ── Report (post) — real report submitted via SH_MOD.report ── */
+  /* ── Report (post) - real report submitted via SH_MOD.report ── */
   document.addEventListener('click', async function (e) {
     var rbtn = e.target.closest('[data-action-report]');
     if (!rbtn) return;
@@ -524,8 +524,8 @@
     if (optionsBtn)      optionsBtn.setAttribute('aria-expanded', 'false');
 
     /* `postId` is defined at the top of the IIFE from URL params */
-    if (!postId) { showToast('Cannot report — post id missing.'); return; }
-    if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report — moderation API not loaded.'); return; }
+    if (!postId) { showToast('Cannot report - post id missing.'); return; }
+    if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report - moderation API not loaded.'); return; }
 
     showToast('Sending report…');
     try {
@@ -536,17 +536,17 @@
         if (err === 'already_reported') {
           showToast('You already reported this.');
         } else {
-          showToast('Could not send report — ' + err);
+          showToast('Could not send report - ' + err);
           console.error('[report-post] full error response:', res);
         }
         return;
       }
 
-      var msg = 'Thanks — report counted (weight ' + (res.weight_added || 1) + ').';
-      if (res.new_state === 'ai_reviewing') msg = 'Thanks — flagged for AI review.';
-      if (res.new_state === 'hidden')       msg = 'Thanks — hidden pending review.';
-      if (res.new_state === 'shadow')       msg = 'Thanks — downranked while we look.';
-      if (res.new_state === 'pending_manual') msg = 'Thanks — sent to manual review.';
+      var msg = 'Thanks - report counted (weight ' + (res.weight_added || 1) + ').';
+      if (res.new_state === 'ai_reviewing') msg = 'Thanks - flagged for AI review.';
+      if (res.new_state === 'hidden')       msg = 'Thanks - hidden pending review.';
+      if (res.new_state === 'shadow')       msg = 'Thanks - downranked while we look.';
+      if (res.new_state === 'pending_manual') msg = 'Thanks - sent to manual review.';
       showToast(msg);
     } catch (ex) {
       console.error('[report-post] exception:', ex);
@@ -555,7 +555,7 @@
   });
 
   /* ═══════════════════════════════════════════
-     COMMENTS — threaded, with inline reply form
+     COMMENTS - threaded, with inline reply form
      ═══════════════════════════════════════════ */
 
   /* Track image URLs inserted into the main compose editor (used at submit
@@ -714,7 +714,7 @@
       : '<span class="comment-author">';
     var authorClose = commenterUsername ? '</a>' : '</span>';
 
-    /* Build avatar tile — show profile picture when available, else anon SVG.
+    /* Build avatar tile - show profile picture when available, else anon SVG.
        Wrap in <a> to make it clickable (same pattern as main feed cards). */
     var avatarInner = commenterAvatar
       ? '<img src="' + escAttr(commenterAvatar) + '" alt="" class="comment-avatar-img" loading="lazy" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
@@ -753,7 +753,7 @@
     return li;
   }
 
-  /* ── renderComments — builds threaded tree ── */
+  /* ── renderComments - builds threaded tree ── */
 
   /* Progressive batch sizes for comments: 10, +10, +15, +15, +20, then +20 forever */
   var COMMENTS_BATCH_SIZES = [10, 10, 15, 15, 20];
@@ -786,7 +786,7 @@
       var t = function (k, fb) { return window.SH_I18N ? window.SH_I18N.t(k) : fb; };
       empty.innerHTML =
         '<p class="feed-empty__title">' + t('post.comments.emptyTitle', 'No replies yet') + '</p>' +
-        '<p class="feed-empty__text">'  + t('post.comments.emptyText',  'be the first to respond — quietly is fine.') + '</p>';
+        '<p class="feed-empty__text">'  + t('post.comments.emptyText',  'be the first to respond - quietly is fine.') + '</p>';
       list.appendChild(empty);
       return;
     }
@@ -815,7 +815,7 @@
       var end  = Math.min(renderedCount + size, topLevel.length);
       /* Only animate-in batches AFTER the first paint of the comment list.
          The very first batch lands together with the post body, so let it
-         appear instantly — no double-reveal. Subsequent batches (Show more
+         appear instantly - no double-reveal. Subsequent batches (Show more
          replies) get the calm cascade. */
       var animate = batchIndex > 0;
       var newLis  = [];
@@ -865,7 +865,7 @@
       }
     }
 
-    /* "Show more replies" button below the list — explicit click only. */
+    /* "Show more replies" button below the list - explicit click only. */
     var btn = document.createElement('button');
     btn.id = 'commentsLoadMoreBtn';
     btn.type = 'button';
@@ -892,7 +892,7 @@
   function getReplyForm() {
     if (_replyForm) return _replyForm;
 
-    /* build HTML — Quill needs a real DOM node, not innerHTML */
+    /* build HTML - Quill needs a real DOM node, not innerHTML */
     var div = document.createElement('div');
     div.className = 'inline-reply-form';
 
@@ -1013,7 +1013,7 @@
 
     var replyImages = collectQuillImages(_replyQuill, replyInlineImageUrls);
 
-    /* Crisis-detection gate — if the user chose help / dismissed the
+    /* Crisis-detection gate - if the user chose help / dismissed the
        care modal, gate returns false and we pause the reply. */
     var crisisP = (window.SH_CRISIS && window.SH_CRISIS.gate)
       ? window.SH_CRISIS.gate(plainText, { source: 'reply' })
@@ -1048,7 +1048,7 @@
         }
       } catch (_) {}
 
-      /* Defensive profile upsert — guarantees the join in loadComments
+      /* Defensive profile upsert - guarantees the join in loadComments
          can resolve, so the user's handle shows instead of "Anonymous". */
       var profileStep = _currentUserId ? (function () {
         var u = window.SH_SESSION && window.SH_SESSION.user;
@@ -1070,7 +1070,7 @@
         if (rl && rl.data && rl.data.allowed === false) {
           btn.disabled = false;
           btn.textContent = 'Post reply';
-          showToast('Slow down — try again in ' + (rl.data.retry_after || 60) + ' s.');
+          showToast('Slow down - try again in ' + (rl.data.retry_after || 60) + ' s.');
           throw new Error('rate_limited');
         }
         return profileStep;
@@ -1177,7 +1177,7 @@
     });
   });
 
-  /* ── comment report — real report submitted via SH_MOD.report ── */
+  /* ── comment report - real report submitted via SH_MOD.report ── */
 
   document.addEventListener('click', async function (e) {
     var btn = e.target.closest('[data-comment-report]');
@@ -1185,8 +1185,8 @@
     closeAllCommentMenus();
 
     var cid = btn.getAttribute('data-comment-report');
-    if (!cid) { showToast('Cannot report — comment id missing.'); return; }
-    if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report — moderation API not loaded.'); return; }
+    if (!cid) { showToast('Cannot report - comment id missing.'); return; }
+    if (!window.SH_MOD || !window.SH_MOD.report) { showToast('Cannot report - moderation API not loaded.'); return; }
 
     showToast('Sending report…');
     try {
@@ -1197,17 +1197,17 @@
         if (err === 'already_reported') {
           showToast('You already reported this.');
         } else {
-          showToast('Could not send report — ' + err);
+          showToast('Could not send report - ' + err);
           console.error('[report-comment] full error response:', res);
         }
         return;
       }
 
-      var msg = 'Thanks — report counted (weight ' + (res.weight_added || 1) + ').';
-      if (res.new_state === 'ai_reviewing') msg = 'Thanks — flagged for AI review.';
-      if (res.new_state === 'hidden')       msg = 'Thanks — hidden pending review.';
-      if (res.new_state === 'shadow')       msg = 'Thanks — downranked while we look.';
-      if (res.new_state === 'pending_manual') msg = 'Thanks — sent to manual review.';
+      var msg = 'Thanks - report counted (weight ' + (res.weight_added || 1) + ').';
+      if (res.new_state === 'ai_reviewing') msg = 'Thanks - flagged for AI review.';
+      if (res.new_state === 'hidden')       msg = 'Thanks - hidden pending review.';
+      if (res.new_state === 'shadow')       msg = 'Thanks - downranked while we look.';
+      if (res.new_state === 'pending_manual') msg = 'Thanks - sent to manual review.';
       showToast(msg);
     } catch (ex) {
       console.error('[report-comment] exception:', ex);
@@ -1224,7 +1224,7 @@
       .order('created_at', { ascending: true })
       .then(function (result) {
         if (result.error) {
-          // Older schema without profiles join — retry without it
+          // Older schema without profiles join - retry without it
           if (result.error.message && /relation|column|profiles/.test(result.error.message)) {
             db.from('comments')
               .select('*')
@@ -1296,7 +1296,7 @@
     }, function (payload) {
       var c = payload && payload.new;
       if (!c || !c.id) return;
-      // Skip own comment — it was already optimistically added.
+      // Skip own comment - it was already optimistically added.
       if (_currentUserId && c.user_id === _currentUserId) return;
       // Skip if already rendered.
       if (document.getElementById('comment-' + c.id)) return;
@@ -1369,7 +1369,7 @@
 
       var commentImages = collectQuillImages(commentQuill, commentInlineImageUrls);
 
-      /* Crisis-detection gate — care modal first. If the user chose
+      /* Crisis-detection gate - care modal first. If the user chose
          help / dismissed, gate returns false → we pause the comment
          (it stays in the editor) and skip the rest of the pipeline. */
       var crisisP = (window.SH_CRISIS && window.SH_CRISIS.gate)
@@ -1425,7 +1425,7 @@
           if (rl && rl.data && rl.data.allowed === false) {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Reply';
-            showToast('Slow down — try again in ' + (rl.data.retry_after || 60) + ' s.');
+            showToast('Slow down - try again in ' + (rl.data.retry_after || 60) + ' s.');
             throw new Error('rate_limited');
           }
           return profileStepC;

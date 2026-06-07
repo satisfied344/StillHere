@@ -9,7 +9,7 @@ window.SH_SESSION.whenReady(function (user) {
   var loginLink   = document.getElementById('navLoginLink');
   var profileLink = document.getElementById('navProfileLink');
   var burger      = document.getElementById('navMenuDropdown');
-  /* Use style.display in addition to .hidden — the [hidden] attribute
+  /* Use style.display in addition to .hidden - the [hidden] attribute
      has the same specificity as `.nav-link`, so .nav-link's
      `display:inline-flex` wins and the element stays visible. Setting
      style.display explicitly is the cleanest override. */

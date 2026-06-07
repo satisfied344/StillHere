@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════
-   u-page.js — public profile renderer.
+   u-page.js - public profile renderer.
    URL: /u?u=<username>
    Loads the profile by username + that user's posts, reusing the same
    .post-card markup as the main feed so the visual language is 1:1.
@@ -48,7 +48,7 @@
       _uSaveLiked();
       _uToast(window.SH_I18N
         ? window.SH_I18N.t(active ? 'main.toast.presence' : 'main.toast.presence.off')
-        : (active ? 'they know someone is here.' : 'okay — quietly stepping back.'));
+        : (active ? 'they know someone is here.' : 'okay - quietly stepping back.'));
       /* Persist to DB */
       if (window._sbClient) {
         var fn = active ? 'increment_support' : 'decrement_support';
@@ -116,7 +116,7 @@
   function renderHeader(p) {
     var displayName = (p.display_name && p.display_name.trim()) || p.username;
 
-    /* Hero — left side (big Caveat name + tagline) */
+    /* Hero - left side (big Caveat name + tagline) */
     var heroSpan = document.getElementById('heroNameSpan');
     if (heroSpan) heroSpan.textContent = displayName;
 
@@ -131,7 +131,7 @@
     if (joinedEl) {
       var span = joinedEl.querySelector('span');
       if (span) {
-        /* "here since {month year}" — prefix is i18n, the date is
+        /* "here since {month year}" - prefix is i18n, the date is
            localised via toLocaleDateString below. */
         var prefix = (window.SH_I18N && window.SH_I18N.t)
           ? window.SH_I18N.t('u.card.joined')
@@ -146,20 +146,20 @@
 
   function applyDocumentMeta(p) {
     var displayName = (p.display_name && p.display_name.trim()) || p.username;
-    document.title = displayName + ' (@' + p.username + ') — StillHere';
+    document.title = displayName + ' (@' + p.username + ') - StillHere';
 
     var url = 'https://www.stillhere.global/u?u=' + encodeURIComponent(p.username);
-    setMeta('description', 'Stories shared by @' + p.username + ' on StillHere — anonymous, free, no advice.');
+    setMeta('description', 'Stories shared by @' + p.username + ' on StillHere - anonymous, free, no advice.');
     setLink('canonical', url);
 
     // Open Graph + Twitter
-    setMeta('og:title', displayName + ' — StillHere', true);
+    setMeta('og:title', displayName + ' - StillHere', true);
     setMeta('og:description', 'Quiet stories from @' + p.username + '.', true);
     setMeta('og:url', url, true);
     setMeta('og:type', 'profile', true);
     setMeta('og:image', p.avatar_url || 'https://www.stillhere.global/assets/favicon/og-image.svg', true);
     setMeta('twitter:card', 'summary');
-    setMeta('twitter:title', displayName + ' — StillHere');
+    setMeta('twitter:title', displayName + ' - StillHere');
     setMeta('twitter:description', 'Quiet stories from @' + p.username + '.');
   }
 
@@ -198,7 +198,7 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
-     B. Stories load — same .post-card markup as the feed
+     B. Stories load - same .post-card markup as the feed
      ────────────────────────────────────────────────────────────── */
   function loadStories(sb, profile) {
     sb.from('posts')
@@ -225,7 +225,7 @@
     var totalSupport = 0;
     posts.forEach(function (p) { totalSupport += p.support_count || 0; });
 
-    /* Stats row — 3 metrics in profile.html style */
+    /* Stats row - 3 metrics in profile.html style */
     var elStories = document.getElementById('statStories');
     var elSupport = document.getElementById('statSupport');
     var elDays    = document.getElementById('statDays');
@@ -247,7 +247,7 @@
         '<div class="u-empty"><em>' +
           (t('u.empty.tag', 'quiet here') || 'quiet here') +
         '</em>' +
-          (t('u.empty.text', 'no stories yet — they\'re just listening.') || 'no stories yet — they\'re just listening.') +
+          (t('u.empty.text', 'no stories yet - they\'re just listening.') || 'no stories yet - they\'re just listening.') +
         '</div>';
       return;
     }
@@ -266,7 +266,7 @@
   }
 
   /* ──────────────────────────────────────────────────────────────
-     C. Card builder — clone of main-page.js buildPostCard MINUS
+     C. Card builder - clone of main-page.js buildPostCard MINUS
      the in-feed delete/edit menu (this is a public view).
      ────────────────────────────────────────────────────────────── */
   function buildPostCard(post) {
@@ -290,7 +290,7 @@
 
     /* Markup mirrors main-page.js buildPostCard exactly: same icons,
        same labels ("I'm here", "Responses", "Share"). Heart shows NO
-       count (mirrors the feed — count only appears via JS on click). */
+       count (mirrors the feed - count only appears via JS on click). */
     var i18nLabel = function (k, fb) { return window.SH_I18N ? window.SH_I18N.t(k) : fb; };
     return (
       '<article class="post-card" data-post-id="' + id + '">' +
@@ -316,14 +316,14 @@
         '</div>' +
 
         '<div class="post-actions">' +
-          /* "I'm here" — button, in-place support (no navigation) */
+          /* "I'm here" - button, in-place support (no navigation) */
           '<button type="button" class="post-actions-item' + (_uLiked.has(id) ? ' post-actions-item--active' : '') + '" data-action="support" data-post-id="' + id + '">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/>' +
             '</svg>' +
             '<span class="action-title">' + i18nLabel(_uLiked.has(id) ? 'main.post.support.active' : 'main.post.support', "I'm here") + '</span>' +
           '</button>' +
-          /* Responses — link to post comments */
+          /* Responses - link to post comments */
           '<a class="post-actions-item" href="post?id=' + id + '#comments">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Zm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64ZM40,224h0ZM216,64H40V224l34.77-30A8,8,0,0,1,80,192H216Z"/>' +
@@ -331,7 +331,7 @@
             '<span class="action-stat">' + (post.comment_count || 0) + '</span>' +
             '<span class="action-title">' + i18nLabel('main.post.responses', 'Responses') + '</span>' +
           '</a>' +
-          /* Share — button, copies link in-place */
+          /* Share - button, copies link in-place */
           '<button type="button" class="post-actions-item" data-action="share" data-post-id="' + id + '">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="currentColor" class="icon" aria-hidden="true">' +
               '<path d="M176,160a39.89,39.89,0,0,0-28.62,12.09l-46.1-29.63a39.8,39.8,0,0,0,0-28.92l46.1-29.63a40,40,0,1,0-8.66-13.45l-46.1,29.63a40,40,0,1,0,0,55.82l46.1,29.63A40,40,0,1,0,176,160Zm0-128a24,24,0,1,1-24,24A24,24,0,0,1,176,32ZM64,152a24,24,0,1,1,24-24A24,24,0,0,1,64,152Zm112,72a24,24,0,1,1,24-24A24,24,0,0,1,176,224Z"/>' +

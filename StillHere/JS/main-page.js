@@ -30,18 +30,18 @@ if (filterToggle && filterPanel) {
    crowded by them on small screens.
 
    Mechanics:
-     • matchMedia('(max-width: 900px)') is the SOLE gate — desktop
+     • matchMedia('(max-width: 900px)') is the SOLE gate - desktop
        never enters this code path, so layout stays exactly as it
        was. The change is observed live; rotating a phone or
        resizing DevTools moves the nodes back/forth.
-     • We MOVE (appendChild — not cloneNode) so the original click
+     • We MOVE (appendChild - not cloneNode) so the original click
        handlers attached elsewhere in this file via id selectors
        (#sidebarHome, #sidebarSaved) and event delegation
-       (`[data-topic-filter]`) keep firing — same DOM nodes,
+       (`[data-topic-filter]`) keep firing - same DOM nodes,
        different parent.
      • A comment-node anchor remembers the original slot inside
        the sidebar so we can put nodes back on resize-to-desktop.
-     • The sidebar gets `.sidebar--emptied` once moved — mobile.css
+     • The sidebar gets `.sidebar--emptied` once moved - mobile.css
        collapses it to `display: none` so it doesn't leave a 4 px
        sliver above the feed. Desktop CSS doesn't have this rule
        (it lives inside the @media block), so adding the class
@@ -106,7 +106,7 @@ if (searchInput && searchClear) {
 }
 
 /* ─────────────────────────────────────────────
-   Post options menu — event delegation
+   Post options menu - event delegation
    (works for both static and dynamic post cards)
    ───────────────────────────────────────────── */
 
@@ -142,7 +142,7 @@ document.addEventListener('click', function (e) {
    point in the viewport; once the user starts scrolling their
    anchor drifts and the open panel feels glued to the wrong
    spot. Threshold of 8 px avoids closing on micro-scroll/jitter.
-   Passive listener — never blocks scroll perf.
+   Passive listener - never blocks scroll perf.
    ───────────────────────────────────────────── */
 (function closeFloatingOnScroll() {
   let lastY = window.scrollY;
@@ -175,7 +175,7 @@ document.addEventListener('click', function (e) {
 })();
 
 /* ─────────────────────────────────────────────
-   Liked-posts set — persisted in localStorage
+   Liked-posts set - persisted in localStorage
    ───────────────────────────────────────────── */
 
 var _likedPosts = (function () {
@@ -187,7 +187,7 @@ function _saveLiked() {
   try { localStorage.setItem('sh_liked_posts', JSON.stringify([..._likedPosts])); } catch (e) {}
 }
 
-/* ── Saved posts set — persisted in localStorage ── */
+/* ── Saved posts set - persisted in localStorage ── */
 var _savedPosts = (function () {
   try { return new Set(JSON.parse(localStorage.getItem('sh_saved_posts') || '[]')); }
   catch (e) { return new Set(); }
@@ -217,7 +217,7 @@ document.addEventListener('click', function (e) {
     '[data-action-report]'
   )) return;
 
-  /* Don't hijack text selection — if the user is highlighting text,
+  /* Don't hijack text selection - if the user is highlighting text,
      don't navigate. */
   var sel = window.getSelection && window.getSelection();
   if (sel && sel.toString().length > 0) return;
@@ -231,8 +231,8 @@ document.addEventListener('click', function (e) {
 });
 
 /* ─────────────────────────────────────────────
-   Post action buttons — event delegation
-   (support / share — works for dynamic cards)
+   Post action buttons - event delegation
+   (support / share - works for dynamic cards)
    ───────────────────────────────────────────── */
 
 document.addEventListener('click', function (e) {
@@ -259,7 +259,7 @@ document.addEventListener('click', function (e) {
         : window.SH_I18N.t('main.post.support');
     }
 
-    /* Presence pulse — heart icon scales briefly via .is-pulsing in motion.css.
+    /* Presence pulse - heart icon scales briefly via .is-pulsing in motion.css.
        Targets reduced-motion users via the @media block already in that file. */
     btn.classList.remove('is-pulsing');
     // force reflow so the animation can re-trigger when toggled rapidly
@@ -267,11 +267,11 @@ document.addEventListener('click', function (e) {
     if (active) btn.classList.add('is-pulsing');
     setTimeout(function () { btn.classList.remove('is-pulsing'); }, 600);
 
-    /* Calm presence toast — UI text only, backend unchanged. */
+    /* Calm presence toast - UI text only, backend unchanged. */
     if (typeof showMainToast === 'function') {
       showMainToast(window.SH_I18N
         ? window.SH_I18N.t(active ? 'main.toast.presence' : 'main.toast.presence.off')
-        : (active ? 'they know someone is here.' : 'okay — quietly stepping back.'));
+        : (active ? 'they know someone is here.' : 'okay - quietly stepping back.'));
     }
 
     /* Persist liked state in localStorage */
@@ -357,7 +357,7 @@ function showMainToast(msg) {
   setTimeout(function () { t.classList.remove('is-visible'); }, 2800);
 }
 
-/* ── Edit post — only shown for authors. Send them to create-post in
+/* ── Edit post - only shown for authors. Send them to create-post in
    edit mode; the page detects ?edit=<id> and loads the existing data. */
 document.addEventListener('click', function (e) {
   var ebtn = e.target.closest('[data-action-edit]');
@@ -368,16 +368,16 @@ document.addEventListener('click', function (e) {
   window.location.href = 'create-post?edit=' + encodeURIComponent(pid);
 });
 
-/* ── Report (post) — feed-level, calls SH_MOD.report ── */
+/* ── Report (post) - feed-level, calls SH_MOD.report ── */
 document.addEventListener('click', async function (e) {
   var rbtn = e.target.closest('[data-action-report]');
   if (!rbtn) return;
   closeAllPostMenus();
 
   var pid = rbtn.getAttribute('data-action-report');
-  if (!pid) { showMainToast('Cannot report — post id missing.'); return; }
+  if (!pid) { showMainToast('Cannot report - post id missing.'); return; }
   if (!window.SH_MOD || !window.SH_MOD.report) {
-    showMainToast('Cannot report — moderation API not loaded.');
+    showMainToast('Cannot report - moderation API not loaded.');
     return;
   }
 
@@ -388,14 +388,14 @@ document.addEventListener('click', async function (e) {
     if (!res || res.ok === false) {
       var err = (res && res.error) || 'unknown';
       if (err === 'already_reported') showMainToast('You already reported this.');
-      else                            showMainToast('Could not send report — ' + err);
+      else                            showMainToast('Could not send report - ' + err);
       return;
     }
-    var msg = 'Thanks — report counted (weight ' + (res.weight_added || 1) + ').';
-    if (res.new_state === 'ai_reviewing')   msg = 'Thanks — flagged for AI review.';
-    if (res.new_state === 'hidden')         msg = 'Thanks — hidden pending review.';
-    if (res.new_state === 'shadow')         msg = 'Thanks — downranked while we look.';
-    if (res.new_state === 'pending_manual') msg = 'Thanks — sent to manual review.';
+    var msg = 'Thanks - report counted (weight ' + (res.weight_added || 1) + ').';
+    if (res.new_state === 'ai_reviewing')   msg = 'Thanks - flagged for AI review.';
+    if (res.new_state === 'hidden')         msg = 'Thanks - hidden pending review.';
+    if (res.new_state === 'shadow')         msg = 'Thanks - downranked while we look.';
+    if (res.new_state === 'pending_manual') msg = 'Thanks - sent to manual review.';
     showMainToast(msg);
   } catch (ex) {
     console.error('[main-report] exception:', ex);
@@ -404,7 +404,7 @@ document.addEventListener('click', async function (e) {
 });
 
 /* ─────────────────────────────────────────────
-   Supabase — load posts from database
+   Supabase - load posts from database
    ───────────────────────────────────────────── */
 
 (function () {
@@ -488,7 +488,7 @@ document.addEventListener('click', async function (e) {
         escHtml(topicLabel) + '</a>';
     });
 
-    /* Mode pill labels — reuse the existing filter dictionary so
+    /* Mode pill labels - reuse the existing filter dictionary so
        the chip text on the card matches "Need Support" / "No Advice"
        filter pills in the filter panel. */
     var tFn = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
@@ -667,9 +667,9 @@ document.addEventListener('click', async function (e) {
   var allPosts    = [];
   var _currentUserId = null;
   var activeLangs = {};   // { en: true, ru: true, … }
-  var activeModes       = {};    // { 'support': true, 'no-advice': true } — both can be active
+  var activeModes       = {};    // { 'support': true, 'no-advice': true } - both can be active
   var activeTopic       = '';    // legacy single-topic state (kept for URL-deep-link compat)
-  var activeTopics      = [];    // NEW — multi-select topic list, post matches if its topics include ANY of these
+  var activeTopics      = [];    // NEW - multi-select topic list, post matches if its topics include ANY of these
   var searchQuery       = '';
   var activeSavedFilter = false; // true when "Saved" sidebar item is selected
 
@@ -686,7 +686,7 @@ document.addEventListener('click', async function (e) {
     return batchIndex < BATCH_SIZES.length ? BATCH_SIZES[batchIndex] : 20;
   }
 
-  /* ── "Load more" button — shown after the first batch ── */
+  /* ── "Load more" button - shown after the first batch ── */
   var loadMoreBtn = document.createElement('button');
   loadMoreBtn.type = 'button';
   loadMoreBtn.id = 'feedLoadMoreBtn';
@@ -758,12 +758,12 @@ document.addEventListener('click', async function (e) {
     feed.insertBefore(fragment, loader);
 
     /* Skeleton removal is deferred to this point so the layout doesn't
-       collapse between "skeleton gone" and "cards faded in" — the new
+       collapse between "skeleton gone" and "cards faded in" - the new
        cards (in their hidden --enter state) already occupy the space. */
     hideSkeleton();
 
     if (newCards.length) {
-      /* Calm stagger — one rAF lets the browser commit initial styles, then
+      /* Calm stagger - one rAF lets the browser commit initial styles, then
          a small per-card delay produces the soft cascade. Caps at 6 to avoid
          a long wait on large batches. */
       requestAnimationFrame(function () {
@@ -782,7 +782,7 @@ document.addEventListener('click', async function (e) {
     syncLoadMoreBtn();
   }
 
-  /* ── skeleton stack — shown only on initial fetch / refresh ── */
+  /* ── skeleton stack - shown only on initial fetch / refresh ── */
 
   var _skelEl = null;
   function showSkeleton(count) {
@@ -827,7 +827,7 @@ document.addEventListener('click', async function (e) {
   function renderPosts(posts) {
     /* Atomic swap: snapshot the old cards but DO NOT remove them yet.
        renderBatch() inserts the new fragment first, then we strip the
-       leftover old nodes — at no point is the feed visually empty.
+       leftover old nodes - at no point is the feed visually empty.
        Skip the enter animation on the next batch when there were
        already cards (filter / sort / refresh re-render). */
     var oldNodes = Array.prototype.slice.call(
@@ -871,7 +871,7 @@ document.addEventListener('click', async function (e) {
         titleKey = 'main.empty.title';
         textKey  = 'main.empty.text';
         fbTitle  = 'No stories yet';
-        fbText   = 'be the first to share — your story matters.';
+        fbText   = 'be the first to share - your story matters.';
         ctaHtml  = '<a class="feed-empty__cta feed-empty__cta--primary" href="create-post">' +
                      escHtml(t('main.empty.share', 'share something')) +
                    '</a>';
@@ -914,8 +914,8 @@ document.addEventListener('click', async function (e) {
       return;
     }
 
-    /* Render first page only — user clicks "Show more" for the rest.
-       (No IntersectionObserver — it fires immediately on attach if the
+    /* Render first page only - user clicks "Show more" for the rest.
+       (No IntersectionObserver - it fires immediately on attach if the
        sentinel is already in view, which auto-loads everything.) */
     renderBatch();
     /* Strip leftover old cards now that the new fragment is in place. */
@@ -938,7 +938,7 @@ document.addEventListener('click', async function (e) {
       /* Multi-topic filter (AND semantics): the post must contain
          EVERY currently-selected topic in its `topics` array. If
          the user picks "grief" + "trauma", only posts tagged with
-         BOTH are shown — per explicit user request. Empty
+         BOTH are shown - per explicit user request. Empty
          selection = no topic filter. */
       if (activeTopics.length) {
         var pt = post.topics || [];
@@ -974,7 +974,7 @@ document.addEventListener('click', async function (e) {
       filtered.sort(function (a, b) {
         var sa = a.support_count || 0;
         var sb = b.support_count || 0;
-        if (sa !== sb) return sa - sb; // ascending — least supported first
+        if (sa !== sb) return sa - sb; // ascending - least supported first
         return new Date(a.created_at) - new Date(b.created_at); // oldest first
       });
     }
@@ -984,7 +984,7 @@ document.addEventListener('click', async function (e) {
 
   /* ── lang chip helpers (for dropdown-selected languages) ── */
 
-  // Languages that already have a visible checkbox pill — no chip needed
+  // Languages that already have a visible checkbox pill - no chip needed
   var PILL_LANG_CODES = ['en','ru','uk','de','fr','es','zh','ja','ar'];
 
   // Short display labels for dropdown langs
@@ -1127,10 +1127,10 @@ document.addEventListener('click', async function (e) {
      activeTopics[]. applyFilters() shows posts whose `topics`
      intersect with any selected topic. Works on desktop sidebar
      AND on the mobile filter-panel (same elements, just moved
-     between containers — event delegation on document covers
+     between containers - event delegation on document covers
      both contexts).
 
-     Legacy `activeTopic` (single) is kept in sync — it points to
+     Legacy `activeTopic` (single) is kept in sync - it points to
      the FIRST selected topic so URL deep-links and any external
      code that reads it still work. */
   function syncTopicActiveClass() {
@@ -1140,7 +1140,7 @@ document.addEventListener('click', async function (e) {
     });
   }
 
-  /* Delegated click — catches every [data-topic-filter] anywhere
+  /* Delegated click - catches every [data-topic-filter] anywhere
      on the page, current and future (dynamic chips). */
   document.addEventListener('click', function (e) {
     var link = e.target && e.target.closest && e.target.closest('[data-topic-filter]');
@@ -1159,7 +1159,7 @@ document.addEventListener('click', async function (e) {
   /* ── fetch from Supabase ── */
 
   function fetchPosts() {
-    /* Keep existing cards visible during refresh — renderPosts() will
+    /* Keep existing cards visible during refresh - renderPosts() will
        swap them in one paint once the new data arrives. Only show the
        skeleton when there is genuinely nothing to look at (first load
        or after an empty state). */
@@ -1170,7 +1170,7 @@ document.addEventListener('click', async function (e) {
       showSkeleton(3);
     }
 
-    /* Hide the "Show more stories" button while we're reloading —
+    /* Hide the "Show more stories" button while we're reloading -
        renderPosts() will re-show it if there are still more posts after the fetch. */
     if (loadMoreBtn) loadMoreBtn.style.display = 'none';
 
@@ -1242,14 +1242,14 @@ document.addEventListener('click', async function (e) {
                 if (counts[p.id] !== undefined) p.comment_count = counts[p.id];
               });
             }
-            /* In-place DOM patch — no re-render, no atomic swap, no flicker,
+            /* In-place DOM patch - no re-render, no atomic swap, no flicker,
                no killed enter animation. We only need to update the small
                "Responses" stat number on cards that are already visible. */
             feed.querySelectorAll('.post-card[data-post-id]').forEach(function (card) {
               var pid = card.getAttribute('data-post-id');
               if (counts[pid] === undefined) return;
               /* Comments link is the only post-actions-item that contains
-                 an .action-stat span — target that. */
+                 an .action-stat span - target that. */
               var statEl = card.querySelector('a.post-actions-item .action-stat');
               if (statEl) statEl.textContent = String(counts[pid]);
             });
@@ -1400,7 +1400,7 @@ document.addEventListener('click', async function (e) {
     }, function (payload) {
       var p = payload && payload.new;
       if (!p || !p.id) return;
-      // Skip user's own posts — they'd be confused to see a "new!" badge
+      // Skip user's own posts - they'd be confused to see a "new!" badge
       // for something they just published.
       if (_currentUserId && p.user_id === _currentUserId) return;
       // Skip duplicates if a refresh raced us.
@@ -1459,7 +1459,7 @@ document.addEventListener('click', async function (e) {
     });
 
     /* Apply visibility: first VISIBLE_LIMIT chips show, the rest
-       hide — unless the user expanded the list via "Show more
+       hide - unless the user expanded the list via "Show more
        topics". Toggled by inline-script in main.html (which only
        flips data-topics-expanded and calls SH_applyTopicVisibility). */
     if (window.SH_applyTopicVisibility) window.SH_applyTopicVisibility();
@@ -1483,7 +1483,7 @@ document.addEventListener('click', async function (e) {
       else                                        el.setAttribute('hidden', '');
     });
     /* Hide the toggle button if everything already fits in the
-       visible window — no point offering "show more" when there
+       visible window - no point offering "show more" when there
        are no extras. */
     var btn = document.getElementById('sidebarMoreTopicsBtn');
     if (btn) {
@@ -1493,7 +1493,7 @@ document.addEventListener('click', async function (e) {
 
   /* ── "This Week" stats (right sidebar) ──
      Counts events since the start of the current calendar week (Monday 00:00 local).
-     This makes the widget visibly RESET every Monday — true "this week" meaning. */
+     This makes the widget visibly RESET every Monday - true "this week" meaning. */
 
   function startOfCalendarWeek() {
     var d = new Date();

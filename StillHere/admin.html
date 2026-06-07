@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="total-dark")t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
     <meta name="darkreader-lock">
@@ -88,11 +88,11 @@
   <link rel="stylesheet" href="CSS/mobile.css?v=20260607m">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
-  <script src="JS/site-pings.js" defer></script>
-  <script src="JS/i18n.js?v=12" defer></script>
-  <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=15" defer></script>
-  <script src="JS/theme.js" defer></script>
+  <script src="JS/site-pings.js?v=2" defer></script>
+  <script src="JS/i18n.js?v=14" defer></script>
+  <script src="JS/session.js?v=2" defer></script>
+  <script src="JS/notifications.js?v=16" defer></script>
+  <script src="JS/theme.js?v=3" defer></script>
 
   <style>
     body { overflow-x: hidden; }
@@ -349,8 +349,8 @@
       .adm-page { padding: calc(73px + 24px) 18px 50px; }
     }
   </style>
-  <script src="JS/mobile-nav.js?v=20260606f" defer></script>
-  <script src="JS/pwa-register.js" defer></script>
+  <script src="JS/mobile-nav.js?v=20260607f" defer></script>
+  <script src="JS/pwa-register.js?v=2" defer></script>
 </head>
 <body>
   <!-- Ambient page-edge doodles -->
@@ -483,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function () {
              ─────────────────────────────────────────────────────── */
           var aiBox = '';
           var m = r.moderation_note &&
-                  r.moderation_note.match(/^strict-AI:\s*(violation|borderline|clean)\s*\(([^)]+)\)\s*[—-]\s*(.*)$/i);
+                  r.moderation_note.match(/^strict-AI:\s*(violation|borderline|clean)\s*\(([^)]+)\)\s*[--]\s*(.*)$/i);
           if (m) {
             var verdict  = m[1].toLowerCase();
             var category = m[2].trim();

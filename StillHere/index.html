@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="total-dark")t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
     <meta charset="UTF-8">
     <!-- Google Search Console site ownership verification.
          Keep this tag, Google re-checks it periodically; remove and
@@ -90,16 +90,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
     <script src="JS/supabase-config.js" defer></script>
-  <script src="JS/site-pings.js" defer></script>
-    <script src="JS/i18n.uk.js?v=12" defer></script>
-  <script src="JS/i18n.js?v=12" defer></script>
-    <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=15" defer></script>
-  <script src="JS/nav-menu.js?v=1" defer></script>
+  <script src="JS/site-pings.js?v=2" defer></script>
+    <script src="JS/i18n.uk.js?v=14" defer></script>
+  <script src="JS/i18n.js?v=14" defer></script>
+    <script src="JS/session.js?v=2" defer></script>
+  <script src="JS/notifications.js?v=16" defer></script>
+  <script src="JS/nav-menu.js?v=2" defer></script>
   <link rel="stylesheet" href="CSS/motion.css?v=2">
   <link rel="stylesheet" href="CSS/dark-theme.css">
   <link rel="stylesheet" href="CSS/mobile.css?v=20260607m">
-  <script src="JS/theme.js" defer></script>
+  <script src="JS/theme.js?v=3" defer></script>
 
   <style>
     /* ── Floating theme toggle (sun / moon) ── */
@@ -188,7 +188,7 @@
       font-size: 16px; color: var(--ink-mid, #5b5046); line-height: 1.65;
       max-width: 540px; margin: 16px auto 0; font-style: italic;
     }
-    /* small hand-drawn flourish under the lede — a normal centred block (not an
+    /* small hand-drawn flourish under the lede - a normal centred block (not an
        absolutely-positioned d-img), so it can't drift over the heading */
     .how-flourish { display: block; width: 122px; height: auto; margin: 26px auto 4px; opacity: 0.5; }
     html[data-theme="dark"] .how-flourish { filter: invert(1) brightness(1.05); opacity: 0.42; }
@@ -285,12 +285,12 @@
     .live-more span { border-bottom: 1px dashed rgba(214,83,60,0.4); }
     .live-more:hover span { border-bottom-style: solid; }
 
-    /* hero CTA microcopy — taken out of flow so it can't grow the hero column
+    /* hero CTA microcopy - taken out of flow so it can't grow the hero column
        (which was pushing the lower hero text down past where it should sit) */
     .hero-cta-note { position: absolute; top: 100%; left: 0; right: 0; margin: 18px 0 0; font-size: 12.5px; color: var(--ink-light, #8a7d6d); letter-spacing: 0.01em; line-height: 1.5; }
     .hero-cta-note strong { color: var(--ink-mid, #5b5046); font-weight: 600; }
 
-    /* ════════ Warm cream paper — every card, both themes ════════ */
+    /* ════════ Warm cream paper - every card, both themes ════════ */
     /* Make the why-page feature cards a touch creamier and match the new
        note cards, in light AND dark. Cards stay cream, only ink flips. */
     .feature-card { background-color: #f8efd2 !important; }
@@ -305,7 +305,7 @@
     html[data-theme="dark"] .feature-card p  { color: #5b5046 !important; }
     html[data-theme="dark"] .feature-card:hover h3 { color: var(--accent-2) !important; }
 
-    /* The big "you don't always need to be fixed" quote note — cream too.
+    /* The big "you don't always need to be fixed" quote note - cream too.
        Scope text overrides under .quote-band to beat dark-theme.css's
        `.quote-band .quote-text` rule (specificity 0,3,1). */
     .quote-note::before { background: #f8efd2 !important; }
@@ -313,6 +313,9 @@
     html[data-theme="dark"] .quote-band .quote-text { color: #241c15 !important; }
     html[data-theme="dark"] .quote-band .quote-text em { color: var(--accent-2) !important; }
     html[data-theme="dark"] .quote-band .quote-cite { color: #8a7d6d !important; }
+    /* The big decorative quotation marks invert to a stark bright white in dark
+       mode - dim + warm them so they read as a soft tan texture, not glare. */
+    html[data-theme="dark"] .quote-mark { opacity: 0.06 !important; filter: invert(1) brightness(0.78) sepia(0.5) !important; }
 
     /* Doodles sitting INSIDE the cream cards must stay dark-ink (multiply),
        not get flipped to light by the global dark-mode doodle inversion. */
@@ -326,14 +329,16 @@
       .how-steps { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; }
       .live-feed { grid-template-columns: 1fr; gap: 28px; }
       .how-step, .live-card { min-height: 0; }
-      /* keep the hand-pinned tilt on mobile too — the section clips overflow
+      /* keep the hand-pinned tilt on mobile too - the section clips overflow
          so the scattered angles never cause a horizontal scrollbar */
       .safety-note { margin-top: 46px; padding: 26px 24px; }
       .hero-cta-note { position: static; margin-top: 14px; }
     }
+    /* NB: index is intentionally exempt from the "total dark" theme - its
+       paper sections stay identical in dark and total-dark. */
   </style>
-  <script src="JS/mobile-nav.js?v=20260606f" defer></script>
-  <script src="JS/pwa-register.js" defer></script>
+  <script src="JS/mobile-nav.js?v=20260607f" defer></script>
+  <script src="JS/pwa-register.js?v=2" defer></script>
 </head>
 <body>
     <nav class="top-info" data-i18n-attr-aria-label="aria.primaryNav" aria-label="Primary navigation">
@@ -563,7 +568,7 @@
         </div>
     </div>
 
-    <!-- ── How it works — concrete 3-step flow ── -->
+    <!-- ── How it works - concrete 3-step flow ── -->
     <section class="how-section" id="how-section">
       <!-- Scattered hand-drawn ambiance, same vocabulary as the rest of the page -->
       <img src="assets/letters/_Special Characters/Asterisk_06.png" class="d-img grid-side grid-side--l-top d-bob d-mouse" data-px="0.022" data-rot="-14" alt="" aria-hidden="true" loading="lazy">
@@ -696,7 +701,7 @@
         </div>
     </section>
 
-    <!-- ── Real, right now — live feed preview (real anonymous posts) ── -->
+    <!-- ── Real, right now - live feed preview (real anonymous posts) ── -->
     <section class="live-section reveal" id="live-section">
       <!-- Same scattered hand-drawn ambiance as the sections above -->
       <img src="assets/letters/_Special Characters/Asterisk_04.png" class="d-img grid-side grid-side--l-top d-tilt d-mouse" data-px="0.022" data-rot="-14" alt="" aria-hidden="true" loading="lazy">
@@ -871,9 +876,9 @@
     </svg>
   </button>
 
-  <script src="JS/index-init.js" defer></script>
+  <script src="JS/index-init.js?v=2" defer></script>
 
-  <!-- Live feed preview — a few REAL anonymous posts so the landing feels
+  <!-- Live feed preview - a few REAL anonymous posts so the landing feels
        like living people. Gentle example notes show first / as fallback. -->
   <script>
     (function () {
@@ -904,7 +909,7 @@
       }
       /* Gentle, representative example notes by default. Pulling LIVE posts
          is intentionally OFF until the feed holds only real, moderated
-         content — otherwise unmoderated test rows (incl. abusive ones) would
+         content - otherwise unmoderated test rows (incl. abusive ones) would
          land on the very first screen. Flip USE_LIVE = true once it's clean. */
       var USE_LIVE = true;
       fallback();
@@ -1101,6 +1106,6 @@
   </script>
 
 
-  <script src="JS/burger-extras.js?v=5" defer></script>
+  <script src="JS/burger-extras.js?v=6" defer></script>
 </body>
 </html>

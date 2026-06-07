@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   ai-chat.js — real chat: OpenAI API + user auth + history
+   ai-chat.js - real chat: OpenAI API + user auth + history
    ══════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -106,7 +106,7 @@
   if (reopenBtn)   reopenBtn  .addEventListener('click', function () { setSidebar(true);  });
 
   /* ────────────────────────────────────────────────
-     3. User identity — pulled from SH_SESSION
+     3. User identity - pulled from SH_SESSION
      ──────────────────────────────────────────────── */
   var currentUser = {
     name:   'you',
@@ -117,7 +117,7 @@
 
   function applyUser(u) {
     if (!u) {
-      /* Anonymous / signed-out — reload history under "guest" bucket */
+      /* Anonymous / signed-out - reload history under "guest" bucket */
       if (typeof startFresh === 'function') startFresh();
       return;
     }
@@ -132,7 +132,7 @@
     /* Account binding is the priority: adopt any anonymous ("guest")
        chats into this account, then sync with the server so the account's
        conversations follow it across devices. (Adopting also stops old
-       chats from vanishing when the storage bucket flips on login —
+       chats from vanishing when the storage bucket flips on login -
        which used to read as "my old chat just got deleted".) */
     if (typeof syncOnLogin === 'function') syncOnLogin(currentUser.id);
 
@@ -174,8 +174,8 @@
   }
 
   /* Hook the session BOTH ways:
-       • whenReady — fires immediately if SH_SESSION is already loaded.
-       • the `sh:session` document event — the reliable path, because
+       • whenReady - fires immediately if SH_SESSION is already loaded.
+       • the `sh:session` document event - the reliable path, because
          ai-chat.js (a plain end-of-body script) runs BEFORE the deferred
          session.js, so at this point window.SH_SESSION is usually still
          undefined and the whenReady branch is skipped. The event listener
@@ -190,7 +190,7 @@
   document.addEventListener('sh:session', function (e) { applyUser(e.detail); });
 
   /* ────────────────────────────────────────────────
-     4. Local chat store (browser localStorage) — scoped per user
+     4. Local chat store (browser localStorage) - scoped per user
      Each chat: { id, title, createdAt, updatedAt, messages: [{role, content, ts}] }
 
      The storage key includes the current user id, so chats stay with their
@@ -249,11 +249,11 @@
       });
       localStorage.setItem(destKey, JSON.stringify(dest));
       localStorage.removeItem(guestKey);
-    } catch (_) { /* storage blocked — nothing to migrate */ }
+    } catch (_) { /* storage blocked - nothing to migrate */ }
   }
 
   /* ────────────────────────────────────────────────
-     4b. Cloud sync (Supabase) — only when logged in.
+     4b. Cloud sync (Supabase) - only when logged in.
      localStorage is the fast, offline-friendly source of truth on each
      device; Supabase (`public.ai_chats`, RLS-scoped to auth.uid()) is the
      shared copy that makes a conversation follow the ACCOUNT to any other
@@ -263,7 +263,7 @@
   function sb() {
     /* Reuse the ONE shared client the rest of the app uses
        (window._sbClient). Creating a second client triggers
-       "Multiple GoTrueClient instances" warnings and can desync auth —
+       "Multiple GoTrueClient instances" warnings and can desync auth -
        and crucially the shared client already carries the logged-in
        session, which RLS on ai_chats needs. */
     if (!window.supabase || !window.SH_SUPABASE_URL || !window.SH_SUPABASE_KEY) return null;
@@ -347,13 +347,13 @@
   function syncOnLogin(accountId) {
     if (!accountId) return;
     remotePull().then(function (remote) {
-      if (!remote) return;                 // offline / failed — keep local as-is
+      if (!remote) return;                 // offline / failed - keep local as-is
       saveAll(mergeChats(loadAll(), remote));
       renderHistory();
     });
   }
 
-  /* Translation helper — falls back to the English default if i18n
+  /* Translation helper - falls back to the English default if i18n
      hasn't loaded yet (deferred script ordering can race the first
      `createChat` call from very-early page state). */
   function tI(key, fallback) {
@@ -387,7 +387,7 @@
     if (diff < 7) return 'thisweek';
     return 'earlier';
   }
-  /* Translated label for a bucket key — kept separate so the bucket
+  /* Translated label for a bucket key - kept separate so the bucket
      key stays stable (used as an object key + i18n lookup). */
   function bucketLabelI18n(key) {
     if (key === 'today')    return tI('ac.bucket.today',    'today');
@@ -518,7 +518,7 @@
   }
 
   /* ────────────────────────────────────────────────
-     8. The AI call — goes through Supabase Edge Function
+     8. The AI call - goes through Supabase Edge Function
         which holds the OPENROUTER_KEY_SUPPORT secret.
      ──────────────────────────────────────────────── */
   function getConfig() {
@@ -533,7 +533,7 @@
   }
 
   /* Compose the system prompt with active toggles.
-     All three prompts live in JS/ai-chat-config.js — edit them there. */
+     All three prompts live in JS/ai-chat-config.js - edit them there. */
   function buildSystemPrompt() {
     var cfg   = window.SH_AI_CONFIG || {};
     var parts = [cfg.systemPrompt || ''];
@@ -573,7 +573,7 @@
       })
     };
 
-    /* The companion is open to everyone — anonymous users may chat too.
+    /* The companion is open to everyone - anonymous users may chat too.
        We send the user JWT when logged in (higher rate budget, keyed to
        the account) or the anon key otherwise (the function then keys the
        limit on a hash of the IP). Either way the request goes through. */
@@ -610,7 +610,7 @@
   }
 
   /* ────────────────────────────────────────────────
-     8b. Composer tools — no-advice + mood
+     8b. Composer tools - no-advice + mood
      ──────────────────────────────────────────────── */
   var toolState = { noAdvice: false, mood: '' };
 
@@ -677,7 +677,7 @@
     var text = (ta.value || '').trim();
     if (!text) return;
 
-    /* Crisis-detection gate — show the care modal BEFORE we add the
+    /* Crisis-detection gate - show the care modal BEFORE we add the
        message to the chat. If the user chose "see who can listen"
        (or dismissed), pause: the text stays in the input so they
        can re-send when ready, or edit, or just walk away. */
@@ -700,7 +700,7 @@
 
     showWelcome(false);
 
-    /* Append user message — UI + store */
+    /* Append user message - UI + store */
     appendMsg('user', text);
     chat.messages.push({ role: 'user', content: text, ts: nowIso() });
 
@@ -738,7 +738,7 @@
 
       var code = err && err.code;
       if (code === 'auth_required') {
-        /* Offer a direct path to sign in — the companion needs an account. */
+        /* Offer a direct path to sign in - the companion needs an account. */
         pEl.innerHTML =
           '<span style="color:var(--ink);">' + escapeHtml(err.message) + '</span><br>' +
           '<a href="login" style="color:var(--accent-2,#d6533c);font-weight:600;text-decoration:underline;text-underline-offset:3px;">' +
@@ -778,7 +778,7 @@
     });
   }
 
-  /* Re-render the sidebar history when the language changes — bucket
+  /* Re-render the sidebar history when the language changes - bucket
      labels ("today" / "this week" / "earlier") and the "untitled"
      fallback need to switch with it. */
   document.addEventListener('sh:langchange', function () { renderHistory(); });

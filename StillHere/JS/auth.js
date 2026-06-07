@@ -27,7 +27,7 @@
     return _sb;
   }
 
-  // Fake-email constructor (deterministic — same username always gives same email)
+  // Fake-email constructor (deterministic - same username always gives same email)
   function toFakeEmail(username) {
     return username.toLowerCase() + '@stillhere.users';
   }
@@ -77,18 +77,18 @@
   function validateDisplayName(val) {
     if (!val) return null; // optional
     if (val.length > 30) return t('auth.name.max', 'Max 30 characters.');
-    if (/\s/.test(val))  return t('auth.name.oneword', 'One word per field — put the rest in Last name.');
+    if (/\s/.test(val))  return t('auth.name.oneword', 'One word per field - put the rest in Last name.');
     if (!/^[\p{L}\p{M}][\p{L}\p{M}'\-]*$/u.test(val)) return t('auth.name.chars', 'Letters, hyphens and apostrophes only.');
     return null;
   }
 
   function validatePassword(val) {
     if (!val)            return t('auth.pw.required', 'Password is required.');
-    /* Whitespace check up front — catches all-spaces inputs AND
+    /* Whitespace check up front - catches all-spaces inputs AND
        spaces between characters. Same rule applies on reset and
        registration since they share this validator. */
     if (/\s/.test(val))  return t('auth.pw.nospace', 'No spaces allowed.');
-    /* ASCII-printable only (0x21–0x7E) — rejects Russian/Unicode
+    /* ASCII-printable only (0x21–0x7E) - rejects Russian/Unicode
        letters, emoji, control chars. Lets normal Latin letters,
        digits, and common symbols through (!@#$%^&* etc). */
     if (!/^[\x21-\x7E]+$/.test(val)) return t('auth.pw.ascii', 'Latin letters, digits and common symbols only.');
@@ -159,7 +159,7 @@
   }
 
   var STRENGTH_LEVELS = ['', 'weak', 'fair', 'good', 'strong', 'strong'];
-  /* Localised on every call via labels() — STRENGTH_LABELS itself is
+  /* Localised on every call via labels() - STRENGTH_LABELS itself is
      just a stable English vocabulary for the dictionary lookups. */
   var STRENGTH_LABELS_EN = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Strong'];
   function strengthLabel(i) {
@@ -319,7 +319,7 @@
         return;
       }
 
-      // CAPTCHA — require a token when bot protection is enabled.
+      // CAPTCHA - require a token when bot protection is enabled.
       if (captchaEnabled() && !_captchaToken) {
         setFormError(form, t('auth.form.captcha', 'Please complete the "I\'m human" check below.'));
         return;
@@ -348,7 +348,7 @@
         return;
       }
 
-      // 2. Moderate username + names (AI check — no JWT needed)
+      // 2. Moderate username + names (AI check - no JWT needed)
       if (window.SH_MOD) {
         var modResult = await window.SH_MOD.checkUsername(username);
         if (!modResult.allowed) {
@@ -397,11 +397,11 @@
       }
 
       // Session will be set if email confirmation is disabled.
-      // If signData.session is null, email confirmation is still enabled —
+      // If signData.session is null, email confirmation is still enabled -
       // remind the user to disable it in Supabase dashboard.
       if (signData && !signData.session) {
         setBtnLoading(btn, false);
-        setFormError(form, t('auth.form.confirm', 'Almost there — but email confirmation is enabled in your Supabase project. Disable it under Authentication → Settings → Email confirmations.'));
+        setFormError(form, t('auth.form.confirm', 'Almost there - but email confirmation is enabled in your Supabase project. Disable it under Authentication → Settings → Email confirmations.'));
         return;
       }
 
@@ -420,7 +420,7 @@
           },
           { onConflict: 'id' }
         );
-        // Ignore errors — even if RLS blocks it we still redirect.
+        // Ignore errors - even if RLS blocks it we still redirect.
         // The session.js auto-create will retry on next login.
       }
 
@@ -463,7 +463,7 @@
     var inPassword = document.getElementById('login-password');
     var btn        = form.querySelector('.auth-btn');
 
-    // Render captcha widget on login too — when CAPTCHA is enabled in
+    // Render captcha widget on login too - when CAPTCHA is enabled in
     // Supabase Auth settings, it applies to signInWithPassword too,
     // not just signUp. Without a token Supabase returns a generic
     // error that surfaces as "Incorrect username or password" → the
@@ -512,7 +512,7 @@
         // user doesn't think it's their password. Anything else stays generic.
         var em = (error.message || '').toLowerCase();
         if (em.indexOf('captcha') !== -1) {
-          setFormError(form, t('auth.form.captchafail', 'Captcha check failed — please tick the box below again and retry.'));
+          setFormError(form, t('auth.form.captchafail', 'Captcha check failed - please tick the box below again and retry.'));
         } else {
           setFormError(form, t('auth.form.bad', 'Incorrect username or password. Please try again.'));
         }
@@ -535,7 +535,7 @@
           '<path d="M216.57,39.43a80,80,0,0,0-117.66,108L34.34,212.28A8,8,0,0,0,32,217.94V240a8,8,0,0,0,8,8H72a8,8,0,0,0,8-8V224H96a8,8,0,0,0,8-8V200h16a8,8,0,0,0,5.66-2.34l12.52-12.52A80,80,0,0,0,216.57,39.43ZM164,100a16,16,0,1,1,16-16A16,16,0,0,1,164,100Z"/></svg>' +
         '</div>' +
         '<h2 id="shRecTitle" class="sh-rec-title">save your recovery key</h2>' +
-        '<p class="sh-rec-desc">there\'s no email on file — this key is the <strong>only</strong> way ' +
+        '<p class="sh-rec-desc">there\'s no email on file - this key is the <strong>only</strong> way ' +
           'back into your account if you forget your password. write it down or save it somewhere safe. ' +
           'we can\'t recover it for you.</p>' +
         '<div class="sh-rec-key" id="shRecKey">' + key + '</div>' +
@@ -745,7 +745,7 @@
         var data = await res.json().catch(function () { return null; });
         if (data && data.ok) {
           msg.className = 'sh-rec-msg ok';
-          msg.textContent = t('auth.reset.ok', 'Password updated — you can sign in now.');
+          msg.textContent = t('auth.reset.ok', 'Password updated - you can sign in now.');
           submit.textContent = t('auth.reset.done', 'done ✓');
           setTimeout(closeReset, 1800);
         } else {
@@ -753,7 +753,7 @@
           submit.disabled = false; submit.textContent = t('auth.reset.submit', 'reset password');
         }
       } catch (_) {
-        msg.textContent = t('auth.reset.network', 'Network error — try again.');
+        msg.textContent = t('auth.reset.network', 'Network error - try again.');
         submit.disabled = false; submit.textContent = t('auth.reset.submit', 'reset password');
       }
     });
@@ -764,11 +764,11 @@
   /* ── Live input filter on password fields ───────────────────────
      Strips anything outside ASCII printable (0x21–0x7E) before it
      hits the field value. Users can't accidentally paste Cyrillic
-     from a translator or trail a space from copy-paste — the field
+     from a translator or trail a space from copy-paste - the field
      literally won't accept those chars. Validator stays as the
      authoritative gate on submit. Selector covers every password
      input we ship today (register / login / edit-profile / reset
-     modal — the modal's input is created later, so we use a
+     modal - the modal's input is created later, so we use a
      delegated listener on document). */
   function filterAsciiInput(e) {
     var el = e.target;
@@ -785,7 +785,7 @@
   }
 
   function attachAsciiFilters() {
-    // Document-level delegated listener — picks up password inputs
+    // Document-level delegated listener - picks up password inputs
     // added later (e.g. the recovery modal that's built on demand).
     document.addEventListener('input', filterAsciiInput, true);
   }
@@ -798,7 +798,7 @@
     attachAsciiFilters();
   });
 
-  /* Public surface — single source of truth for password rules so
+  /* Public surface - single source of truth for password rules so
      other pages (edit-profile, future settings flows) enforce the
      exact same rules as registration and reset. */
   window.SH_AUTH = window.SH_AUTH || {};

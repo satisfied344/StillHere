@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="total-dark")t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
     <meta name="darkreader-lock">
@@ -92,16 +92,16 @@
   <script src="https://cdn.quilljs.com/1.3.7/quill.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
-  <script src="JS/site-pings.js" defer></script>
-  <script src="JS/i18n.uk.js?v=12" defer></script>
-  <script src="JS/i18n.js?v=12" defer></script>
-  <script src="JS/session.js" defer></script>
-  <script src="JS/notifications.js?v=15" defer></script>
-  <script src="JS/moderation.js?v=8" defer></script>
-  <script src="JS/crisis.js?v=6" defer></script>
-  <script src="JS/theme.js" defer></script>
-  <script src="JS/media-compress.js?v=3" defer></script>
-  <script src="JS/create-post.js?v=8" defer></script>
+  <script src="JS/site-pings.js?v=2" defer></script>
+  <script src="JS/i18n.uk.js?v=14" defer></script>
+  <script src="JS/i18n.js?v=14" defer></script>
+  <script src="JS/session.js?v=2" defer></script>
+  <script src="JS/notifications.js?v=16" defer></script>
+  <script src="JS/moderation.js?v=9" defer></script>
+  <script src="JS/crisis.js?v=7" defer></script>
+  <script src="JS/theme.js?v=3" defer></script>
+  <script src="JS/media-compress.js?v=4" defer></script>
+  <script src="JS/create-post.js?v=9" defer></script>
 
   <style>
     /* ══════════════════════════════════════════════════════
@@ -967,7 +967,7 @@
       .cp-card { padding: 18px 18px; }
       .cp-modes { grid-template-columns: 1fr; }
       .cp-submit-row { flex-direction: column; align-items: stretch; }
-      /* Stack all three actions full-width — three buttons with long RU/UK
+      /* Stack all three actions full-width - three buttons with long RU/UK
          labels (cancel / delete draft / publish) overflowed and overlapped
          when laid out in a single non-wrapping row. */
       .cp-submit-actions { flex-direction: column; align-items: stretch; width: 100%; margin-left: 0; gap: 10px; }
@@ -977,8 +977,8 @@
       .cp-submit-actions .btn-publish { order: -1; }
     }
   </style>
-  <script src="JS/mobile-nav.js?v=20260606f" defer></script>
-  <script src="JS/pwa-register.js" defer></script>
+  <script src="JS/mobile-nav.js?v=20260607f" defer></script>
+  <script src="JS/pwa-register.js?v=2" defer></script>
 </head>
 <body>
 
@@ -1273,7 +1273,7 @@
           <!-- submit -->
           <div class="cp-submit-row">
             <p class="cp-submit-hint" data-i18n="cp.submit.hint">
-              everything goes through a gentle moderation pass before it's published —
+              everything goes through a gentle moderation pass before it's published -
               this keeps the space soft for everyone.
             </p>
             <div class="cp-submit-actions">
@@ -1979,6 +1979,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     })();
   </script>
-  <script src="JS/burger-extras.js?v=5" defer></script>
+  <script src="JS/burger-extras.js?v=6" defer></script>
 </body>
 </html>

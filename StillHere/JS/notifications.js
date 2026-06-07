@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════
-   notifications.js — bell icon, dropdown, realtime toasts.
+   notifications.js - bell icon, dropdown, realtime toasts.
 
    Loaded after session.js + supabase-config.js on pages that have a
    nav (.top-info). Works for any signed-in user; quietly does
@@ -21,12 +21,12 @@
   // ── Boot guard ────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', init);
 
-  /* Mobile-only: scrolling closes any open floating panel — burger
+  /* Mobile-only: scrolling closes any open floating panel - burger
      menu, notifications bell, post kebab. Lives here (in
      notifications.js) because this file is loaded on every page
-     with a navbar — putting the logic here makes it run site-wide
+     with a navbar - putting the logic here makes it run site-wide
      without touching every page's HTML. Gated on matchMedia so
-     desktop is never affected. Passive listener — never blocks
+     desktop is never affected. Passive listener - never blocks
      scroll perf. */
   (function closeFloatingOnScrollMobile() {
     var mq = window.matchMedia('(max-width: 900px)');
@@ -56,7 +56,7 @@
         if (bell) bell.setAttribute('aria-expanded', 'false');
       }
       /* Tooltips on data-presence-tooltip pills (e.g. "no advice")
-         open via :focus — blur on scroll so they close. */
+         open via :focus - blur on scroll so they close. */
       var fe = document.activeElement;
       if (fe && fe.hasAttribute && fe.hasAttribute('data-presence-tooltip')) {
         try { fe.blur(); } catch (_) {}
@@ -83,14 +83,14 @@
     var s = document.createElement('style');
     s.id = 'sh-notif-styles';
     s.textContent = [
-      /* ── Bell — calm, matches inline-icon hover behavior of nav. ──
+      /* ── Bell - calm, matches inline-icon hover behavior of nav. ──
          No round chip background, no label. Just the Phosphor bell
          at the same 24px size as nav icons, with a hover lift. */
       '.sh-notif-bell{position:relative;display:inline-flex;align-items:center;justify-content:center;',
         'padding:8px;background:transparent;border:none;cursor:pointer;',
         'color:var(--ink-mid,#6e5f53);transition:color .2s ease,transform .3s ease;}',
       /* Calm hover: same gentle lift as .nav-link:hover, plus a
-         small tilt on the glyph — no ringing/jingling, intentionally
+         small tilt on the glyph - no ringing/jingling, intentionally
          quiet so a notifications icon never reads as anxious. */
       '.sh-notif-bell:hover{color:var(--ink,#1a1410);transform:translateY(-1px);}',
       '.sh-notif-bell svg{width:24px;height:24px;display:block;color:inherit;',
@@ -117,7 +117,7 @@
 
       '.sh-notif-head{display:flex;align-items:center;justify-content:space-between;gap:8px;',
         'padding:13px 16px 9px;border-bottom:1px solid var(--line-soft,rgba(26,20,16,.08));}',
-      /* "notifications" — Caveat, same vocabulary as widget-titles
+      /* "notifications" - Caveat, same vocabulary as widget-titles
          (.widget.support .widget-title is Caveat 22px). Soft brand
          accent without the heavy tape / tilt feel of the toast. */
       '.sh-notif-head h3{margin:0;font-family:"Caveat",cursive;font-size:22px;font-weight:600;',
@@ -139,7 +139,7 @@
       'html[data-theme="dark"] .sh-notif-item.is-unread{background:rgba(214,83,60,.08);}',
       '.sh-notif-body{flex:1;min-width:0;}',
       '.sh-notif-text{margin:0;font-size:13px;line-height:1.45;color:var(--ink-mid,#6e5f53);}',
-      /* Caveat accent for the actor name — same family as the dropdown
+      /* Caveat accent for the actor name - same family as the dropdown
          header, just smaller. Keeps the brand voice without screaming. */
       '.sh-notif-text .sh-notif-who{font-family:"Caveat",cursive;font-weight:600;font-size:18px;',
         'color:var(--ink,#1a1410);line-height:1;letter-spacing:.005em;margin-right:2px;}',
@@ -177,7 +177,7 @@
       'html[data-theme="dark"] .sh-notif-clear{color:rgba(244,234,214,.55);}',
 
       /* ── Realtime corner toast ──────────────────────────────────
-         Clean paper card. No tilt, no tape, no italics — just a calm
+         Clean paper card. No tilt, no tape, no italics - just a calm
          neutral card with the site's colors. Top-right of viewport. */
       '.sh-notif-toast{position:fixed;top:90px;right:24px;bottom:auto;left:auto;max-width:320px;width:auto;',
         'background:var(--paper-soft,#fffaf0);color:var(--ink,#1a1410);',
@@ -194,20 +194,20 @@
       '.sh-notif-toast .sh-notif-toast-icon svg{width:13px;height:13px;}',
       '.sh-notif-toast .sh-notif-toast-body{flex:1;min-width:0;}',
       '.sh-notif-toast .sh-notif-toast-text{margin:0;color:var(--ink-mid,#6e5f53);font-size:13px;}',
-      /* Caveat accent for the name — same family/role as the dropdown
+      /* Caveat accent for the name - same family/role as the dropdown
          header and the widget-titles around the site. No tilt / tape. */
       '.sh-notif-toast .sh-notif-who{font-family:"Caveat",cursive;font-weight:600;font-size:20px;',
         'color:var(--ink,#1a1410);line-height:1;letter-spacing:.005em;margin-right:2px;}',
       '.sh-notif-toast .sh-notif-toast-preview{margin:4px 0 0;font-size:12.5px;color:var(--ink-mid,#6e5f53);',
         'overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}',
-      /* Dark theme — warm-dark surface. */
+      /* Dark theme - warm-dark surface. */
       'html[data-theme="dark"] .sh-notif-toast{background:#26201a;border-color:rgba(244,234,214,.14);',
         'color:#f4ead6;box-shadow:0 14px 36px -14px rgba(0,0,0,.5),0 2px 4px rgba(0,0,0,.2);}',
       'html[data-theme="dark"] .sh-notif-toast .sh-notif-toast-text{color:rgba(244,234,214,.75);}',
       'html[data-theme="dark"] .sh-notif-toast .sh-notif-who{color:#f4ead6;}',
       'html[data-theme="dark"] .sh-notif-toast .sh-notif-toast-preview{color:rgba(244,234,214,.65);}',
 
-      /* Mobile — keep it small, top of viewport */
+      /* Mobile - keep it small, top of viewport */
       '@media (max-width:520px){',
         '.sh-notif-panel{position:fixed;top:auto;right:8px;left:8px;min-width:0;max-width:none;}',
         '.sh-notif-toast{right:12px;left:12px;top:72px;bottom:auto;max-width:none;}',
@@ -223,16 +223,16 @@
     var wrap = document.createElement('div');
     wrap.className = 'sh-notif-wrap';
     /* Bell stays hidden until bootSession() confirms an authed user.
-       Guests should never see a notifications icon — there's nothing
+       Guests should never see a notifications icon - there's nothing
        it can do for them and it clutters the navbar. */
     wrap.style.display = 'none';
-    /* Local i18n helper — falls back to the English literal when
+    /* Local i18n helper - falls back to the English literal when
        SH_I18N isn't ready (e.g. early boot). */
     var nt = function (k, fb) { return (window.SH_I18N && window.SH_I18N.t(k)) || fb; };
 
     wrap.innerHTML =
       '<button type="button" class="sh-notif-bell" id="shNotifBell" aria-label="' + nt('nt.aria', 'Notifications') + '" aria-haspopup="true" aria-expanded="false">' +
-        /* Phosphor "Bell" regular weight, 24px — same family as the
+        /* Phosphor "Bell" regular weight, 24px - same family as the
            other nav icons (about / contacts / updates / profile). */
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
           '<path d="M221.8,175.94c-5.55-9.56-13.8-36.61-13.8-71.94a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"/>' +
@@ -297,7 +297,7 @@
     });
     /* Capture-phase listener: ANY burger-trigger click closes the
        notifications panel before the burger's own handler opens its
-       menu — gives us mutual exclusion without having to touch the
+       menu - gives us mutual exclusion without having to touch the
        inline burger code on every page. */
     document.addEventListener('click', function (e) {
       var trig = e.target.closest && e.target.closest('.main-menu-trigger');
@@ -343,7 +343,7 @@
   var MAX_FETCH     = 30;
 
   function loadRecent(sb, ui) {
-    /* ONLY unread — once you read a row it disappears from the
+    /* ONLY unread - once you read a row it disappears from the
        dropdown (user request). Read rows still live in DB so future
        analytics can use them. */
     sb.from('notifications')
@@ -377,7 +377,7 @@
 
   /* Fetch display names for a batch of actor_ids. Returns a promise
      resolving to { uuid → "display name" }. Anonymous commenters
-     (actor_id NULL) are skipped — we display "someone" for them. */
+     (actor_id NULL) are skipped - we display "someone" for them. */
   function fetchActorNames(sb, actorIds) {
     return sb.from('profiles')
       .select('id, username, display_name')
@@ -419,7 +419,7 @@
     ui.clearBtn.addEventListener('click', function () {
       sb.rpc('mark_notifications_read').then(function () {
         /* Once marked read, the user wants them GONE from the
-           dropdown — not just dimmed. They stay in the DB for
+           dropdown - not just dimmed. They stay in the DB for
            analytics but disappear from the UI immediately. */
         ui.cache = [];
         ui.expanded = false;
@@ -430,7 +430,7 @@
   }
 
   function subscribeRealtime(sb, ui) {
-    /* Realtime delivery respects RLS — so we MUST pass the user's
+    /* Realtime delivery respects RLS - so we MUST pass the user's
        access token to the realtime socket. Without this, the broker
        sees an anon connection, RLS rejects, and your own row never
        reaches you even though it exists in the DB. The JS client
@@ -537,7 +537,7 @@
     var li = document.createElement('a');
     li.className = 'sh-notif-item' + (n.read_at ? '' : ' is-unread');
     li.href = postUrl(n.target_post_id, n.target_comment_id);
-    /* Strip HTML again on render — defensive for legacy DB rows. */
+    /* Strip HTML again on render - defensive for legacy DB rows. */
     var cleanPreview = stripHtml(n.preview);
     var who = actorLabel(ui, n);
     li.innerHTML =
@@ -573,13 +573,13 @@
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'sh-notif-more';
-      /* "show N more" — use a {n} placeholder so RU/EN can put the
+      /* "show N more" - use a {n} placeholder so RU/EN can put the
          number where the grammar requires (RU: "ещё N"). */
       var moreTpl = (window.SH_I18N && window.SH_I18N.t('nt.showmore')) || 'show {n} more';
       btn.textContent = moreTpl.replace('{n}', hidden);
       btn.addEventListener('click', function (e) {
         e.preventDefault();
-        /* Stop the click from bubbling to document — otherwise the
+        /* Stop the click from bubbling to document - otherwise the
            outside-click handler sees that the (re-rendered, now
            detached) target isn't inside `wrap` and closes the panel. */
         e.stopPropagation();

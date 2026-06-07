@@ -2,14 +2,14 @@
    site-pings.js
    Calls the `site_ping` RPC once on page load, then keeps pinging
    every 30 seconds while the tab is visible. The server stores
-   ONLY a timestamp — no IP, no fingerprint, no path — so this is
+   ONLY a timestamp - no IP, no fingerprint, no path - so this is
    a privacy-neutral way to power "X online right now / Y total"
    without any new tracking.
 
    Behaviour:
    • Waits for the Supabase JS lib to be present.
    • Pings on initial load.
-   • Pings every 30s — but ONLY while document.visibilityState
+   • Pings every 30s - but ONLY while document.visibilityState
      is "visible", so background tabs don't inflate "online" counts.
    • Skips when offline / network errors silently.
    ─────────────────────────────────────────────────────────────── */
@@ -39,7 +39,7 @@
     } catch (_) { return; }
 
     /* Stable per-tab session id (lives in sessionStorage). Distinct
-       across tabs but constant for one tab — so the "online" counter
+       across tabs but constant for one tab - so the "online" counter
        in site_stats() can COUNT DISTINCT and reflect actual unique
        sessions, not raw pings. Closing the tab forgets the id; opening
        a new one mints a fresh one. */
@@ -62,7 +62,7 @@
     /* Initial ping on load */
     ping();
 
-    /* Keep-alive pings — every 30 seconds while tab is visible.
+    /* Keep-alive pings - every 30 seconds while tab is visible.
        This is what makes "online right now" accurate: a user with
        the tab open for 5 minutes will generate ~10 pings, so the
        "pings in last 5 minutes" count maps roughly to actual

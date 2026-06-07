@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
+  <script>(function(){var t=localStorage.getItem("sh_theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="total-dark")t="dark";if(t)document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
     <meta name="darkreader-lock">
@@ -89,18 +89,18 @@
   <link rel="stylesheet" href="../../CSS/docs.css?v=5">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="../../JS/supabase-config.js" defer></script>
-  <script src="../../JS/site-pings.js" defer></script>
-  <script src="../../JS/i18n.uk.js?v=12" defer></script>
-  <script src="../../JS/i18n.js?v=12" defer></script>
-  <script src="../../JS/session.js" defer></script>
-  <script src="../../JS/theme.js" defer></script>
+  <script src="../../JS/site-pings.js?v=2" defer></script>
+  <script src="../../JS/i18n.uk.js?v=14" defer></script>
+  <script src="../../JS/i18n.js?v=14" defer></script>
+  <script src="../../JS/session.js?v=2" defer></script>
+  <script src="../../JS/theme.js?v=3" defer></script>
 
   <style>
     /* No page-specific styles needed, see CSS/docs.css */
     body { overflow-x: hidden; }
   </style>
-  <script src="../../JS/mobile-nav.js?v=20260606f" defer></script>
-  <script src="../../JS/pwa-register.js" defer></script>
+  <script src="../../JS/mobile-nav.js?v=20260607f" defer></script>
+  <script src="../../JS/pwa-register.js?v=2" defer></script>
 </head>
 <body>
 
@@ -317,7 +317,7 @@
         <div class="doc-prose" data-i18n="dc.gl.s6.alert">
           <p>
             <strong>StillHere is not an emergency service.</strong> if you or someone else is
-            in immediate danger, please call a trained crisis counselor —
+            in immediate danger, please call a trained crisis counselor -
             <a href="crisis-resources">our crisis-resources page</a> has free 24/7 numbers
             by country.
           </p>
@@ -545,6 +545,6 @@
       }
     })();
   </script>
-  <script src="../../JS/burger-extras.js?v=5" defer></script>
+  <script src="../../JS/burger-extras.js?v=6" defer></script>
 </body>
 </html>

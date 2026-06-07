@@ -1,12 +1,12 @@
 /* ═══════════════════════════════════════════════════════════════════
-   gdpr-export.js — "download my data" on the profile page.
+   gdpr-export.js - "download my data" on the profile page.
 
    GDPR Article 15 (right of access) + Article 20 (portability):
    the user can request and receive ALL personal data we hold about
    them, in a machine-readable format, at any time.
 
    We assemble the export client-side from Supabase using the user's
-   own session — RLS already restricts every SELECT to "id = auth.uid()
+   own session - RLS already restricts every SELECT to "id = auth.uid()
    OR user_id = auth.uid()", so the user can only ever fetch their
    own rows. No new server endpoint required.
 
@@ -28,7 +28,7 @@
     var status  = document.getElementById('exportDataStatus');
     if (!section || !btn) return;
 
-    // Signed-out users get no export panel at all — nothing to export.
+    // Signed-out users get no export panel at all - nothing to export.
     if (!user) return;
     section.style.display = '';
 
@@ -42,7 +42,7 @@
         setStatus(status, t('pf.data.ok', 'downloaded.'), 'is-ok');
       }).catch(function (err) {
         console.warn('[gdpr-export]', err);
-        setStatus(status, t('pf.data.error', 'something went wrong — try again.'), 'is-error');
+        setStatus(status, t('pf.data.error', 'something went wrong - try again.'), 'is-error');
       }).then(function () {
         btn.disabled = false;
         // Clear status after a few seconds so the section stays calm.
@@ -74,7 +74,7 @@
     throw new Error('Supabase client unavailable');
   }
 
-  /* Assemble the bundle. Each fetch is guarded — if a table doesn't
+  /* Assemble the bundle. Each fetch is guarded - if a table doesn't
      exist on this deployment, or RLS hides it, we just record it as
      null and keep going. Partial > nothing. */
   async function buildExport(user) {

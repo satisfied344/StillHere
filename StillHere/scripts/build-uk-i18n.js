@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 /*
- * build-uk-i18n.js — regenerate JS/i18n.uk.js from JS/i18n.js (RU source of truth).
+ * build-uk-i18n.js - regenerate JS/i18n.uk.js from JS/i18n.js (RU source of truth).
  *
  * Run:  cd public/StillHere && node scripts/build-uk-i18n.js
  *
  * Inputs (all live in the tracked tree, so a fresh clone can rebuild):
- *   ../JS/i18n.js                    — canonical key list + RU translations
- *   ../JS/i18n.uk.js                 — current UK file (we read it for keys
+ *   ../JS/i18n.js                    - canonical key list + RU translations
+ *   ../JS/i18n.uk.js                 - current UK file (we read it for keys
  *                                      whose translation is already correct)
- *   scripts/i18n-uk-additions.json   — newly authored UK translations for
+ *   scripts/i18n-uk-additions.json   - newly authored UK translations for
  *                                      keys that didn't exist before
- *   scripts/i18n-uk-fixes.json       — corrected UK translations that
+ *   scripts/i18n-uk-fixes.json       - corrected UK translations that
  *                                      override the existing file (kill
  *                                      paraphrased / truncated entries)
  *
  * Output:
- *   ../JS/i18n.uk.js                 — fully regenerated, in RU key order,
+ *   ../JS/i18n.uk.js                 - fully regenerated, in RU key order,
  *                                      stale UK-only keys dropped naturally
  *
  * Priority order when filling each key:
@@ -35,7 +35,7 @@ const FIXES = path.join(HERE, 'i18n-uk-fixes.json');
 
 /* ── 1. Parse RU dict from i18n.js ─────────────────────────────
    Format: 'key': { en: '...', ru: '...' },
-   ru can be a concatenation of string fragments — collapse them. */
+   ru can be a concatenation of string fragments - collapse them. */
 function parseRu(src) {
   const re = /'([a-zA-Z][a-zA-Z0-9._-]+)':\s*\{[\s\S]*?ru:\s*('[^']*(?:'\s*\+\s*'[^']*)*')[\s\S]*?\}/g;
   const out = [];
@@ -88,7 +88,7 @@ for (const { key } of ru) {
 const lines = [
   '(function () {',
   "  'use strict';",
-  '  /* Ukrainian dictionary — keys mirror i18n.js (RU is canonical).',
+  '  /* Ukrainian dictionary - keys mirror i18n.js (RU is canonical).',
   '     Maintained by scripts/build-uk-i18n.js: any new RU key auto-flows',
   '     here on the next run. Hand-authored UK strings live in',
   '     scripts/i18n-uk-additions.json (new keys) and',

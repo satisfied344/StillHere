@@ -19,7 +19,7 @@
       });
   }
 
-  /* AI-chat page has its own sidebar — add a toggle button on mobile.
+  /* AI-chat page has its own sidebar - add a toggle button on mobile.
      Sidebar starts CLOSED. Tapping the button opens it; tapping the
      backdrop or pressing Esc closes it. */
   function buildAiSidebarToggle() {
@@ -44,7 +44,7 @@
     btn.className = 'ai-sidebar-toggle';
     btn.setAttribute('aria-label', 'Open chat history');
     btn.setAttribute('aria-expanded', 'false');
-    /* Chevron-left to mirror the sidebar's own close-arrow style —
+    /* Chevron-left to mirror the sidebar's own close-arrow style -
        this button "opens" the drawer that slides in from the left. */
     btn.innerHTML =
       '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">' +
@@ -77,7 +77,7 @@
        (z-index 8500 vs 8400) and spanning the full height of the
        viewport. So:
          • A tap on any button INSIDE the drawer hits that button and
-           does its job — the backdrop never sees the event, because the
+           does its job - the backdrop never sees the event, because the
            backdrop is a SIBLING of the drawer, not an ancestor, and
            click events only bubble through ancestors.
          • A tap on the empty area below the buttons still lands on the
@@ -93,7 +93,7 @@
       toggle();
     });
 
-    /* Backdrop closes ONLY when the backdrop itself is the target —
+    /* Backdrop closes ONLY when the backdrop itself is the target -
        i.e. the area to the right of the panel. */
     backdrop.addEventListener('click', function (e) {
       if (e.target === backdrop) close();
@@ -116,14 +116,14 @@
     /* Picking a conversation reveals the chat. On mobile the chat area
        sits BEHIND the open drawer, so an in-page action like "open a
        past chat" or "start a new conversation" loads the conversation
-       underneath but stays hidden by the panel — which reads as
+       underneath but stays hidden by the panel - which reads as
        "nothing happened / it just closed". So after such a selection we
        close the drawer to reveal the chat. We DON'T close for the inline
        delete (×) button (it opens a confirm dialog) or for neutral taps
        (search box, empty space, labels). Delegated so it keeps working
        after the history list re-renders. */
     sidebar.addEventListener('click', function (e) {
-      if (e.target.closest('.history-menu')) return;   // delete — keep open
+      if (e.target.closest('.history-menu')) return;   // delete - keep open
       if (e.target.closest('.history-item') ||
           e.target.closest('#newChatBtn')) {
         close();
