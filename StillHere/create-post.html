@@ -94,7 +94,7 @@
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.uk.js?v=12" defer></script>
-  <script src="JS/i18n.js?v=11" defer></script>
+  <script src="JS/i18n.js?v=12" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=15" defer></script>
   <script src="JS/moderation.js?v=8" defer></script>
@@ -967,9 +967,14 @@
       .cp-card { padding: 18px 18px; }
       .cp-modes { grid-template-columns: 1fr; }
       .cp-submit-row { flex-direction: column; align-items: stretch; }
-      .cp-submit-actions { justify-content: stretch; }
+      /* Stack all three actions full-width — three buttons with long RU/UK
+         labels (cancel / delete draft / publish) overflowed and overlapped
+         when laid out in a single non-wrapping row. */
+      .cp-submit-actions { flex-direction: column; align-items: stretch; width: 100%; margin-left: 0; gap: 10px; }
       .cp-submit-actions .btn-cancel,
-      .cp-submit-actions .btn-publish { flex: 1; justify-content: center; }
+      .cp-submit-actions .btn-delete-draft,
+      .cp-submit-actions .btn-publish { flex: none; width: 100%; justify-content: center; }
+      .cp-submit-actions .btn-publish { order: -1; }
     }
   </style>
   <script src="JS/mobile-nav.js?v=20260606f" defer></script>

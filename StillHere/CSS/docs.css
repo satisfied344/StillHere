@@ -101,16 +101,32 @@ body { overflow-x: hidden; }
 }
 
 @media (max-width: 760px) {
-  .doc-nav { padding: 0 16px; height: 64px; gap: 8px; flex-wrap: wrap; }
+  /* Keep a single row: fixed back button on the left, the tab strip scrolls
+     horizontally on the right. Wrapping used to push tabs onto a 2nd line
+     that got clipped by the fixed nav height — worse in RU/UK (longer words). */
+  .doc-nav { padding: 0 12px; height: 64px; gap: 10px; flex-wrap: nowrap; }
   .doc-nav .logo { font-size: 20px; margin-left: 4px; }
-  .doc-nav-link { padding: 6px 10px; font-size: 12px; }
+  .doc-nav-left { flex-shrink: 0; }
+  .doc-nav-right {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* fade hint at the right edge so it's clear the strip scrolls */
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
+            mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
+  }
+  .doc-nav-right::-webkit-scrollbar { display: none; }
+  .doc-nav-link { padding: 6px 11px; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
 }
 @media (max-width: 540px) {
   .doc-nav .logo { display: none; } /* on narrow screens hide logo, keep back btn */
-  .doc-nav-right { gap: 4px; }
-  .doc-nav-link { padding: 5px 8px; font-size: 11.5px; }
+  .doc-nav-right { gap: 5px; }
+  .doc-nav-link { padding: 6px 10px; font-size: 11.5px; }
   .doc-nav-back span { display: none; }
-  .doc-nav-back { padding: 7px 10px; }
+  .doc-nav-back { padding: 7px 10px; flex-shrink: 0; }
 }
 
 .doc-page {

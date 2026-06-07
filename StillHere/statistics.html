@@ -91,7 +91,7 @@
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
   <script src="JS/i18n.uk.js?v=12" defer></script>
-  <script src="JS/i18n.js?v=11" defer></script>
+  <script src="JS/i18n.js?v=12" defer></script>
   <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=15" defer></script>
   <script src="JS/theme.js" defer></script>
@@ -728,7 +728,9 @@
     /* ── RESPONSIVE ───────────────────────────────────────── */
     @media (max-width: 980px) {
       .st-hero { grid-template-columns: 1fr; gap: 28px; align-items: start; }
-      .st-live { justify-self: end; }
+      /* once the hero is a single column, let the "last refreshed" card span
+         the full width instead of hugging the right corner */
+      .st-live { justify-self: stretch; align-self: start; min-width: 0; width: 100%; }
       .st-kpi-grid { grid-template-columns: repeat(2, 1fr); }
       .st-strip { grid-template-columns: repeat(2, 1fr); }
       .st-strip-cell:nth-child(2) { border-right: none; }

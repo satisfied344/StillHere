@@ -92,7 +92,7 @@
     <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js" defer></script>
     <script src="JS/i18n.uk.js?v=12" defer></script>
-  <script src="JS/i18n.js?v=11" defer></script>
+  <script src="JS/i18n.js?v=12" defer></script>
     <script src="JS/session.js" defer></script>
   <script src="JS/notifications.js?v=15" defer></script>
   <script src="JS/nav-menu.js?v=1" defer></script>
@@ -188,11 +188,15 @@
       font-size: 16px; color: var(--ink-mid, #5b5046); line-height: 1.65;
       max-width: 540px; margin: 16px auto 0; font-style: italic;
     }
+    /* small hand-drawn flourish under the lede — a normal centred block (not an
+       absolutely-positioned d-img), so it can't drift over the heading */
+    .how-flourish { display: block; width: 122px; height: auto; margin: 26px auto 4px; opacity: 0.5; }
+    html[data-theme="dark"] .how-flourish { filter: invert(1) brightness(1.05); opacity: 0.42; }
 
     /* ── Shared hand-torn paper note (mirrors .feature-card on the why page) ── */
     .note-card {
       position: relative;
-      background-color: #fbf4e3;
+      background-color: #f8efd2;
       background-image: repeating-linear-gradient(0deg,
         transparent 0, transparent 27px,
         rgba(26,20,16,0.04) 27px, rgba(26,20,16,0.04) 28px);
@@ -289,9 +293,9 @@
     /* ════════ Warm cream paper — every card, both themes ════════ */
     /* Make the why-page feature cards a touch creamier and match the new
        note cards, in light AND dark. Cards stay cream, only ink flips. */
-    .feature-card { background-color: #fbf4e3 !important; }
+    .feature-card { background-color: #f8efd2 !important; }
     html[data-theme="dark"] .feature-card {
-      background-color: #fbf4e3 !important;
+      background-color: #f8efd2 !important;
       background-image: repeating-linear-gradient(0deg,
         transparent 0, transparent 27px,
         rgba(26,20,16,0.04) 27px, rgba(26,20,16,0.04) 28px) !important;
@@ -301,12 +305,14 @@
     html[data-theme="dark"] .feature-card p  { color: #5b5046 !important; }
     html[data-theme="dark"] .feature-card:hover h3 { color: var(--accent-2) !important; }
 
-    /* The big "you don't always need to be fixed" quote note — cream too. */
-    .quote-note::before { background: #fbf4e3 !important; }
-    html[data-theme="dark"] .quote-note::before { background: #fbf4e3 !important; }
-    html[data-theme="dark"] .quote-text { color: #241c15 !important; }
-    html[data-theme="dark"] .quote-text em { color: var(--accent-2) !important; }
-    html[data-theme="dark"] .quote-cite { color: #8a7d6d !important; }
+    /* The big "you don't always need to be fixed" quote note — cream too.
+       Scope text overrides under .quote-band to beat dark-theme.css's
+       `.quote-band .quote-text` rule (specificity 0,3,1). */
+    .quote-note::before { background: #f8efd2 !important; }
+    html[data-theme="dark"] .quote-note::before { background: #f8efd2 !important; }
+    html[data-theme="dark"] .quote-band .quote-text { color: #241c15 !important; }
+    html[data-theme="dark"] .quote-band .quote-text em { color: var(--accent-2) !important; }
+    html[data-theme="dark"] .quote-band .quote-cite { color: #8a7d6d !important; }
 
     /* Doodles sitting INSIDE the cream cards must stay dark-ink (multiply),
        not get flipped to light by the global dark-mode doodle inversion. */
@@ -570,25 +576,26 @@
         <div class="section-head reveal">
           <span class="section-eyebrow"><span data-i18n="idx.how.eyebrow">how it works</span></span>
           <h2 class="card-section-title" data-i18n="idx.how.title">write it down.<br><em>someone sits with you.</em></h2>
-          <p class="how-lede" data-i18n="idx.how.lede">no account, no real name, no fixing. write the thing you can't say out loud, and a real person will be with it.</p>        </div>
+          <p class="how-lede" data-i18n="idx.how.lede">no account, no real name, no fixing. write the thing you can't say out loud, and a real person will be with it.</p>
+        </div>
 
         <ol class="how-steps">
           <li class="how-step note-card reveal-row" style="--tape:-4deg;">
             <span class="how-step-num">1</span>
             <h3 data-i18n="idx.how.s1.title">write the heavy thing</h3>
-            <p data-i18n="idx.how.s1.desc">anonymously — a sentence, half a thought, or a whole story. whatever's sitting on your chest.</p>
+            <p data-i18n="idx.how.s1.desc">anonymously: a sentence, half a thought, or a whole story. whatever's sitting on your chest.</p>
             <img src="assets/doodles2/08_wavy_line.png" class="d-img step-doodle" style="transform:rotate(-8deg);" alt="" aria-hidden="true" loading="lazy">
           </li>
           <li class="how-step note-card reveal-row" style="--tape:3deg;">
             <span class="how-step-num">2</span>
             <h3 data-i18n="idx.how.s2.title">ask for presence, not advice</h3>
-            <p data-i18n="idx.how.s2.desc">flip on <em>"no advice"</em> and readers know to just be with you — no "have you tried…".</p>
+            <p data-i18n="idx.how.s2.desc">flip on <em>"no advice"</em> and readers know to just be with you, no "have you tried…".</p>
             <img src="assets/doodles2/09_cloud.png" class="d-img step-doodle" style="transform:rotate(6deg);" alt="" aria-hidden="true" loading="lazy">
           </li>
           <li class="how-step note-card reveal-row" style="--tape:-2deg;">
             <span class="how-step-num">3</span>
             <h3 data-i18n="idx.how.s3.title">someone says "i'm here"</h3>
-            <p data-i18n="idx.how.s3.desc">a quiet reply, or just a heart — proof a real person read every word.</p>
+            <p data-i18n="idx.how.s3.desc">a quiet reply, or just a heart. proof a real person read every word.</p>
             <img src="assets/doodles2/06_double_heart.png" class="d-img step-doodle" style="transform:rotate(-6deg);" alt="" aria-hidden="true" loading="lazy">
           </li>
         </ol>
@@ -598,7 +605,7 @@
           <ul class="safety-list">
             <li>
               <img src="assets/letters/_Special Characters/Asterisk_02.png" alt="" aria-hidden="true" loading="lazy">
-              <span data-i18n="idx.safe.s1"><strong>anonymous by default</strong> — no email, no real name, nothing to sign.</span>
+              <span data-i18n="idx.safe.s1"><strong>anonymous by default</strong>: no email, no real name, nothing to sign.</span>
             </li>
             <li>
               <img src="assets/letters/_Special Characters/Asterisk_04.png" alt="" aria-hidden="true" loading="lazy">
