@@ -111,8 +111,9 @@ Deno.serve(async (req: Request) => {
       body: JSON.stringify({ password: newPassword }),
     });
     if (!up.ok) {
-      const t = await up.text();
-      return json({ ok: false, error: "update_failed", message: "Could not reset password. Try again.", detail: t }, 502);
+      // Log server-side only; never leak raw Admin API errors to the client.
+      console.error("recover-password admin update failed:", up.status, await up.text().catch(() => ""));
+      return json({ ok: false, error: "update_failed", message: "Could not reset password. Try again." }, 502);
     }
   } catch (_) {
     return json({ ok: false, error: "update_failed", message: "Could not reset password. Try again." }, 502);

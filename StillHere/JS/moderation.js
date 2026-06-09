@@ -429,10 +429,14 @@
 
   async function getJwt() {
     try {
-      var db = window.supabase.createClient(
-        window.SH_SUPABASE_URL,
-        window.SH_SUPABASE_KEY
-      );
+      // Reuse the shared client so (a) we don't spawn a second GoTrueClient
+      // ("Multiple GoTrueClient instances detected"), and (b) we read the
+      // ALREADY-restored session. A freshly created client hasn't loaded the
+      // session from localStorage yet, so getSession() can return null and a
+      // logged-in user's moderation call would go out anonymously — attaching
+      // ban-tracking to their IP instead of their account.
+      var db = getSharedClient();
+      if (!db) return null;
       var { data } = await db.auth.getSession();
       return data?.session?.access_token ?? null;
     } catch {
