@@ -644,6 +644,12 @@
         }
       }
     });
+    /* Pasted / dropped images → straight to R2 (no base64 blob) so they're
+       moderated and stored as URLs. */
+    if (window.SH_MEDIA && SH_MEDIA.wireQuillImageUpload) {
+      SH_MEDIA.wireQuillImageUpload(commentQuill, function () { return { db: db }; },
+        function (url) { commentInlineImageUrls.push(url); });
+    }
   }
 
   /* Inline reply image-url tracking (cleared every time the form opens) */
@@ -944,6 +950,11 @@
         }
       }
     });
+    /* Pasted / dropped images in a reply → straight to R2, same as above. */
+    if (window.SH_MEDIA && SH_MEDIA.wireQuillImageUpload) {
+      SH_MEDIA.wireQuillImageUpload(_replyQuill, function () { return { db: db }; },
+        function (url) { replyInlineImageUrls.push(url); });
+    }
 
     actions.querySelector('.irep-cancel').addEventListener('click', closeReplyForm);
     actions.querySelector('.irep-submit').addEventListener('click', submitInlineReply);

@@ -59,6 +59,17 @@
      Populated as each upload completes - used at submit time for moderation. */
   var inlineImageUrls = [];
 
+  /* Pasted / dropped images upload straight to R2 (never a base64 blob in the
+     editor) so they get moderated and the post stores a URL, not a blob. */
+  if (window.SH_MEDIA && SH_MEDIA.wireQuillImageUpload) {
+    SH_MEDIA.wireQuillImageUpload(quill, function () {
+      return { db: window.__shSharedSupabase ||
+        (window.supabase && window.SH_SUPABASE_URL
+          ? window.supabase.createClient(window.SH_SUPABASE_URL, window.SH_SUPABASE_KEY)
+          : null) };
+    }, function (url) { inlineImageUrls.push(url); });
+  }
+
   /* image upload → Cloudflare R2 (via SH_MEDIA), then insert URL into editor */
   function handleImageUpload() {
     var input = document.createElement('input');
@@ -381,12 +392,16 @@
     // ── Collect editor image URLs from all available sources ──
     // Source 1: inlineImageUrls - tracked at upload time in handleImageUpload
     var editorImageUrls = inlineImageUrls.slice();
-    // Source 2: Quill delta - reads Quill's internal ops directly (most reliable)
+    // Source 2: Quill delta - reads Quill's internal ops directly (most reliable).
+    // Include BOTH uploaded R2 urls (http) AND inline base64 (data:image) — the
+    // latter is what Quill inserts for pasted / dropped images, which otherwise
+    // slipped past moderation entirely. Vision moderation accepts data: URLs.
     try {
       quill.getContents().ops.forEach(function (op) {
         if (op.insert && typeof op.insert === 'object') {
           var src = op.insert.image;
-          if (typeof src === 'string' && src.startsWith('http') &&
+          if (typeof src === 'string' &&
+              (src.startsWith('http') || src.startsWith('data:image')) &&
               editorImageUrls.indexOf(src) === -1) {
             editorImageUrls.push(src);
           }

@@ -348,6 +348,28 @@
       .adm-stats { min-width: 0; }
       .adm-page { padding: calc(73px + 24px) 18px 50px; }
     }
+
+    /* ════════ Dark theme adaptation ════════
+       The page was authored light-only: cards/tabs/stats hardcode #fffbf2
+       and text uses var(--ink) — which flips to light in dark mode, so it
+       was light-on-near-white (washed out). Repaint the surfaces dark and
+       lift the muted status/verdict/button text so everything reads. */
+    html[data-theme="dark"] .adm-stats,
+    html[data-theme="dark"] .adm-card { background: var(--surface-card); border-color: var(--border-glass); }
+    html[data-theme="dark"] .adm-tab:not(.is-active) { background: var(--surface-card); border-color: var(--border-glass); }
+    html[data-theme="dark"] .adm-tab:not(.is-active):hover { border-color: var(--accent-2); }
+    html[data-theme="dark"] .adm-badge--state { background: rgba(255, 255, 255, 0.08); }
+    html[data-theme="dark"] .adm-badge--comment,
+    html[data-theme="dark"] .adm-btn--keep,
+    html[data-theme="dark"] .ai-verdict-box--clean .ai-verdict-head { color: #93b08c; }
+    html[data-theme="dark"] .adm-state-ai_reviewing,
+    html[data-theme="dark"] .adm-btn--ai,
+    html[data-theme="dark"] .ai-verdict-box--borderline .ai-verdict-head { color: #d2bf57; }
+    html[data-theme="dark"] .adm-state-shadow,
+    html[data-theme="dark"] .adm-btn--shadow { color: #93b6d8; }
+    html[data-theme="dark"] .adm-state-hidden,
+    html[data-theme="dark"] .ai-verdict-box--violation .ai-verdict-head { color: #ea8870; }
+    html[data-theme="dark"] .adm-block-menu button:hover { color: #e08a7a; }
   </style>
   <script src="JS/mobile-nav.js?v=20260607f" defer></script>
   <script src="JS/pwa-register.js?v=2" defer></script>

@@ -260,10 +260,116 @@
     });
   }
 
+  /* Convert a data: URL (base64) into a File so it can go through uploadToR2. */
+  function dataUrlToFile(dataUrl, filename) {
+    var parts = String(dataUrl).split(',');
+    var mime  = ((parts[0] || '').match(/data:([^;]+)/) || [])[1] || 'image/png';
+    var bin   = atob(parts[1] || '');
+    var len   = bin.length;
+    var u8    = new Uint8Array(len);
+    for (var i = 0; i < len; i++) u8[i] = bin.charCodeAt(i);
+    return new File([u8], filename, { type: mime });
+  }
+
+  /* Scan a Quill editor for inline base64 (data:image) embeds — what Quill
+     inserts for PASTED / DROPPED images — upload each to R2 and swap the
+     embed's src for the public R2 URL. Guarantees every editor image lives
+     on R2 (so it gets moderated, and the post never stores base64 blobs).
+     Returns a Promise resolving to the list of new R2 URLs. */
+  function uploadInlineDataImages(quill, opts) {
+    if (!quill || typeof quill.getContents !== 'function') return Promise.resolve([]);
+    var ops = (quill.getContents().ops || []).map(function (op) {
+      var o = { insert: op.insert };
+      if (op.attributes) o.attributes = op.attributes;
+      return o;
+    });
+    var tasks = [];
+    ops.forEach(function (op, idx) {
+      var img = (op.insert && typeof op.insert === 'object') ? op.insert.image : null;
+      if (typeof img === 'string' && img.indexOf('data:image') === 0) {
+        tasks.push({ idx: idx, dataUrl: img });
+      }
+    });
+    if (!tasks.length) return Promise.resolve([]);
+
+    var urls  = [];
+    var chain = Promise.resolve();
+    tasks.forEach(function (t) {
+      chain = chain.then(function () {
+        var file = dataUrlToFile(t.dataUrl, 'inline-' + Date.now() + '-' + t.idx + '.png');
+        return uploadToR2(file, opts).then(function (url) {
+          ops[t.idx] = ops[t.idx].attributes
+            ? { insert: { image: url }, attributes: ops[t.idx].attributes }
+            : { insert: { image: url } };
+          urls.push(url);
+        }).catch(function (e) {
+          /* Upload failed — keep the original op so the post isn't broken,
+             but surface it so the caller can decide to abort. */
+          if (!chain._failed) chain._failed = e;
+        });
+      });
+    });
+    return chain.then(function () {
+      if (urls.length) { try { quill.setContents({ ops: ops }, 'silent'); } catch (_) {} }
+      return urls;
+    });
+  }
+
+  /* Intercept image PASTE and DROP inside a Quill editor and upload straight
+     to R2 instead of letting Quill embed a base64 blob. Runs in the capture
+     phase + stopImmediatePropagation so Quill's own clipboard handler never
+     sees the image. `optsOrFn` is the uploadToR2 opts (or a function that
+     returns them, resolved at upload time so the supabase client is current).
+     `onUploaded(url)` lets the caller track the URL for moderation. */
+  function wireQuillImageUpload(quill, optsOrFn, onUploaded) {
+    if (!quill || !quill.root) return;
+    function resolveOpts() { return typeof optsOrFn === 'function' ? (optsOrFn() || {}) : (optsOrFn || {}); }
+    function imageFilesFrom(dt) {
+      var out = [];
+      if (!dt) return out;
+      if (dt.files && dt.files.length) {
+        for (var i = 0; i < dt.files.length; i++) if (/^image\//.test(dt.files[i].type)) out.push(dt.files[i]);
+      }
+      if (!out.length && dt.items) {
+        for (var j = 0; j < dt.items.length; j++) {
+          if (dt.items[j].kind === 'file' && /^image\//.test(dt.items[j].type)) {
+            var f = dt.items[j].getAsFile(); if (f) out.push(f);
+          }
+        }
+      }
+      return out;
+    }
+    function doUpload(file) {
+      var sel   = quill.getSelection(true);
+      var index = sel ? sel.index : quill.getLength();
+      var tip   = '⏳';
+      quill.insertText(index, tip, 'silent');
+      uploadToR2(file, resolveOpts()).then(function (url) {
+        quill.deleteText(index, tip.length, 'silent');
+        quill.insertEmbed(index, 'image', url, 'user');
+        quill.setSelection(index + 1, 0, 'silent');
+        if (typeof onUploaded === 'function') onUploaded(url);
+      }).catch(function () {
+        quill.deleteText(index, tip.length, 'silent');
+        try { window.alert("Couldn't upload that image — try a smaller JPG/PNG."); } catch (_) {}
+      });
+    }
+    quill.root.addEventListener('paste', function (e) {
+      var imgs = imageFilesFrom(e.clipboardData);
+      if (imgs.length) { e.preventDefault(); e.stopImmediatePropagation(); imgs.forEach(doUpload); }
+    }, true);
+    quill.root.addEventListener('drop', function (e) {
+      var imgs = imageFilesFrom(e.dataTransfer);
+      if (imgs.length) { e.preventDefault(); e.stopImmediatePropagation(); imgs.forEach(doUpload); }
+    }, true);
+  }
+
   window.SH_MEDIA = {
     compressImage: compressImage,
     checkVideo:    checkVideo,
     uploadToR2:    uploadToR2,
+    uploadInlineDataImages: uploadInlineDataImages,
+    wireQuillImageUpload:   wireQuillImageUpload,
     LIMITS: {
       MAX_IMAGE_BYTES: MAX_IMAGE_BYTES,
       MAX_VIDEO_BYTES: MAX_VIDEO_BYTES,
