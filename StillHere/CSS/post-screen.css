@@ -986,8 +986,12 @@ a.comment-author-link:hover {
 .inline-reply-actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
+/* moderation error sits at the LEFT of the row, buttons stay on the right */
+.inline-reply-actions .mod-error-wrap { margin-right: auto; }
 .irep-cancel,
 .irep-submit {
   padding: 7px 14px;

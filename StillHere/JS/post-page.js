@@ -592,15 +592,20 @@
     input.click();
   }
 
-  /* Scan a Quill editor for all embedded image URLs (used at submit time
-     as a backup in case the upload-time tracker missed something). */
-  function collectQuillImages(quill, tracked) {
-    var urls = (tracked || []).slice();
+  /* Collect images CURRENTLY embedded in a Quill editor, straight from its
+     delta so DELETED images are excluded. (Previously seeded from an
+     append-only tracker that never dropped removed images, so a deleted
+     picture kept getting re-moderated → false "violation" block.)
+     `_tracked` is kept for call-site compatibility but intentionally unused. */
+  function collectQuillImages(quill, _tracked) {
+    var urls = [];
     try {
       quill.getContents().ops.forEach(function (op) {
         if (op.insert && typeof op.insert === 'object') {
           var src = op.insert.image;
-          if (typeof src === 'string' && src.indexOf('http') === 0 && urls.indexOf(src) === -1) {
+          if (typeof src === 'string' &&
+              (src.indexOf('http') === 0 || src.indexOf('data:image') === 0) &&
+              urls.indexOf(src) === -1) {
             urls.push(src);
           }
         }
@@ -650,6 +655,15 @@
       SH_MEDIA.wireQuillImageUpload(commentQuill, function () { return { db: db }; },
         function (url) { commentInlineImageUrls.push(url); });
     }
+    /* Editing re-enables a button left disabled by a previous block/ban. */
+    commentQuill.on('text-change', function (delta, oldDelta, source) {
+      if (source !== 'user') return;
+      var b = document.getElementById('commentSubmitBtn');
+      if (!b) return;
+      if (b.disabled && (b.textContent || '').indexOf('…') === -1) b.disabled = false;
+      var er = b.parentNode && b.parentNode.querySelector('.mod-error-wrap');
+      if (window.SH_MOD && er) window.SH_MOD.clearError(er);
+    });
   }
 
   /* Inline reply image-url tracking (cleared every time the form opens) */
@@ -955,6 +969,14 @@
       SH_MEDIA.wireQuillImageUpload(_replyQuill, function () { return { db: db }; },
         function (url) { replyInlineImageUrls.push(url); });
     }
+    /* Editing re-enables a reply button left disabled by a previous block/ban. */
+    _replyQuill.on('text-change', function (delta, oldDelta, source) {
+      if (source !== 'user') return;
+      var b = actions.querySelector('.irep-submit');
+      if (b && b.disabled && (b.textContent || '').indexOf('…') === -1) b.disabled = false;
+      var er = div.querySelector('.mod-error-wrap');
+      if (window.SH_MOD && er) window.SH_MOD.clearError(er);
+    });
 
     actions.querySelector('.irep-cancel').addEventListener('click', closeReplyForm);
     actions.querySelector('.irep-submit').addEventListener('click', submitInlineReply);
@@ -1009,13 +1031,16 @@
     var parentCid = _replyTarget;
     var btn       = _replyForm.querySelector('.irep-submit');
 
-    // Find or create mod-error container inside reply form
+    // Find or create mod-error container inside reply form. Insert it BEFORE
+    // the Cancel button (left edge of the row), not between the two buttons.
     var replyModErr = _replyForm.querySelector('.mod-error-wrap');
     if (!replyModErr) {
       replyModErr = document.createElement('div');
       replyModErr.className = 'mod-error-wrap';
       replyModErr.style.display = 'none';
-      btn.parentNode.insertBefore(replyModErr, btn);
+      var cancelBtn = _replyForm.querySelector('.irep-cancel');
+      var anchor = cancelBtn || btn;
+      anchor.parentNode.insertBefore(replyModErr, anchor);
     }
     if (window.SH_MOD) window.SH_MOD.clearError(replyModErr);
 

@@ -70,6 +70,18 @@
     }, function (url) { inlineImageUrls.push(url); });
   }
 
+  /* When a previous attempt was blocked/banned the publish button is left
+     disabled. Editing the content clears the stale error and re-enables it so
+     the user can try again — the server re-checks (and re-blocks if needed). */
+  var cpBusy = false;   // mirrors setLoading(); true only while a submit is in flight
+  quill.on('text-change', function (delta, oldDelta, source) {
+    if (source !== 'user' || cpBusy) return;
+    var pb = document.querySelector('.btn-publish');
+    if (pb && pb.disabled) pb.disabled = false;
+    var me = document.getElementById('mod-error');
+    if (window.SH_MOD && me) window.SH_MOD.clearError(me);
+  });
+
   /* image upload → Cloudflare R2 (via SH_MEDIA), then insert URL into editor */
   function handleImageUpload() {
     var input = document.createElement('input');
@@ -340,6 +352,7 @@
     var btnHtml = btn ? btn.innerHTML : '';
 
     function setLoading(on, label) {
+      cpBusy = !!on;
       if (!btn) return;
       btn.disabled = on;
       btn.innerHTML = on
@@ -389,13 +402,13 @@
     var modErrorEl = document.getElementById('mod-error');
     if (window.SH_MOD) window.SH_MOD.clearError(modErrorEl);
 
-    // ── Collect editor image URLs from all available sources ──
-    // Source 1: inlineImageUrls - tracked at upload time in handleImageUpload
-    var editorImageUrls = inlineImageUrls.slice();
-    // Source 2: Quill delta - reads Quill's internal ops directly (most reliable).
-    // Include BOTH uploaded R2 urls (http) AND inline base64 (data:image) — the
-    // latter is what Quill inserts for pasted / dropped images, which otherwise
-    // slipped past moderation entirely. Vision moderation accepts data: URLs.
+    // ── Collect images CURRENTLY in the editor ──
+    // Read straight from the Quill delta so it reflects the live content —
+    // crucially, images the user DELETED are gone. (The old code seeded this
+    // from an append-only `inlineImageUrls` tracker that never dropped removed
+    // images, so a deleted picture kept getting re-moderated → false block.)
+    // Accept http R2 urls and any leftover inline base64 (data:image).
+    var editorImageUrls = [];
     try {
       quill.getContents().ops.forEach(function (op) {
         if (op.insert && typeof op.insert === 'object') {
