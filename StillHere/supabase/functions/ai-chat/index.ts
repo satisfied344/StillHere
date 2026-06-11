@@ -159,7 +159,17 @@ Deno.serve(async (req: Request) => {
       "HTTP-Referer":  "https://stillhere.app",
       "X-Title":       "StillHere",
     },
-    body: JSON.stringify({ model, messages, temperature: 0.7, max_tokens: 600 }),
+    // Friend-vibe params: warm but coherent (0.8), capped short so replies stay
+    // text-message length, top_p 0.9, and a frequency penalty to avoid repeated
+    // stock phrases. See JS/ai-chat-config.js for the voice/system prompt.
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature:       0.8,
+      max_tokens:        220,
+      top_p:             0.9,
+      frequency_penalty: 0.4,
+    }),
   });
 
   const text = await upstream.text();

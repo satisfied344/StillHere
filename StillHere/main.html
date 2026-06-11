@@ -79,18 +79,18 @@
     ]
   }
   </script>
-    <link rel="stylesheet" href="CSS/main-screen.css?v=7">
+    <link rel="stylesheet" href="CSS/main-screen.css?v=8">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js?v=2" defer></script>
   <script src="JS/i18n.uk.js?v=16" defer></script>
-  <script src="JS/i18n.js?v=14" defer></script>
+  <script src="JS/i18n.js?v=15" defer></script>
   <script src="JS/session.js?v=2" defer></script>
   <script src="JS/notifications.js?v=16" defer></script>
   <script src="JS/moderation.js?v=10" defer></script>
-  <script src="JS/main-page.js?v=21" defer></script>
+  <script src="JS/main-page.js?v=22" defer></script>
   <script>
     /* ── Sidebar Home / Saved toggle ── */
     document.addEventListener('DOMContentLoaded', function () {
@@ -302,7 +302,7 @@
   <script src="JS/theme.js?v=3" defer></script>
 
   <!-- Widget / filter / card overrides previously inlined here were moved
-       to the end of CSS/main-screen.css?v=3 under the section header
+       to the end of CSS/main-screen.css?v=8 under the section header
        "Moved from main.html inline <style> blocks". Letters-widget
        styles (previously inline in the right-sidebar markup) moved too. -->
   <script src="JS/mobile-nav.js?v=20260607f" defer></script>
@@ -489,6 +489,42 @@
                             <span class="topic-span topic-trauma"></span>
                             <span data-i18n="main.side.topic.trauma">Trauma</span>
                             <span class="topic-count" id="tc-trauma">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="joy" hidden>
+                            <span class="topic-span topic-joy"></span>
+                            <span data-i18n="main.side.topic.joy">Joy</span>
+                            <span class="topic-count" id="tc-joy">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="love" hidden>
+                            <span class="topic-span topic-love"></span>
+                            <span data-i18n="main.side.topic.love">Love</span>
+                            <span class="topic-count" id="tc-love">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="relief" hidden>
+                            <span class="topic-span topic-relief"></span>
+                            <span data-i18n="main.side.topic.relief">Relief</span>
+                            <span class="topic-count" id="tc-relief">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="hope" hidden>
+                            <span class="topic-span topic-hope"></span>
+                            <span data-i18n="main.side.topic.hope">Hope</span>
+                            <span class="topic-count" id="tc-hope">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="pride" hidden>
+                            <span class="topic-span topic-pride"></span>
+                            <span data-i18n="main.side.topic.pride">Pride</span>
+                            <span class="topic-count" id="tc-pride">0</span>
+                        </a>
+
+                        <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="envy" hidden>
+                            <span class="topic-span topic-envy"></span>
+                            <span data-i18n="main.side.topic.envy">Envy</span>
+                            <span class="topic-count" id="tc-envy">0</span>
                         </a>
 
                         <a href="#" class="sidebar-item small sidebar-topic-extra" data-topic-filter="other" hidden>
@@ -775,7 +811,7 @@
 
             
 
-            <!-- Letters mini-widget styles moved to CSS/main-screen.css?v=3
+            <!-- Letters mini-widget styles moved to CSS/main-screen.css?v=8
                  (section "Moved from main.html inline <style> blocks → Block B"). -->
 
             <script>

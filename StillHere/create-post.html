@@ -81,7 +81,7 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="CSS/main-screen.css?v=7">
+  <link rel="stylesheet" href="CSS/main-screen.css?v=8">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/nav-menu.css">
   <link rel="stylesheet" href="CSS/motion.css?v=2">
@@ -94,7 +94,7 @@
   <script src="JS/supabase-config.js" defer></script>
   <script src="JS/site-pings.js?v=2" defer></script>
   <script src="JS/i18n.uk.js?v=16" defer></script>
-  <script src="JS/i18n.js?v=14" defer></script>
+  <script src="JS/i18n.js?v=15" defer></script>
   <script src="JS/session.js?v=2" defer></script>
   <script src="JS/notifications.js?v=16" defer></script>
   <script src="JS/moderation.js?v=10" defer></script>
@@ -565,6 +565,12 @@
     .chip-burnout     { --chip-color: #b85c3a; }
     .chip-loneliness  { --chip-color: #45688a; }
     .chip-trauma      { --chip-color: #864242; }
+    .chip-joy         { --chip-color: #c98a1f; }
+    .chip-love        { --chip-color: #c2476a; }
+    .chip-relief      { --chip-color: #2f8a73; }
+    .chip-hope        { --chip-color: #3d8aa8; }
+    .chip-pride       { --chip-color: #9c4f86; }
+    .chip-envy        { --chip-color: #6b8e3c; }
     .chip-other       { --chip-color: var(--ink-light); }
 
     /* ── MODE CARDS ───────────────────────────────────── */
@@ -1202,6 +1208,24 @@
 
               <input type="checkbox" name="topic" value="trauma"        id="t-trauma"     class="cp-topic-input">
               <label for="t-trauma"     class="cp-topic-chip chip-trauma" data-i18n="cp.topic.trauma">trauma</label>
+
+              <input type="checkbox" name="topic" value="joy"           id="t-joy"        class="cp-topic-input">
+              <label for="t-joy"        class="cp-topic-chip chip-joy" data-i18n="cp.topic.joy">joy</label>
+
+              <input type="checkbox" name="topic" value="love"          id="t-love"       class="cp-topic-input">
+              <label for="t-love"       class="cp-topic-chip chip-love" data-i18n="cp.topic.love">love</label>
+
+              <input type="checkbox" name="topic" value="relief"        id="t-relief"     class="cp-topic-input">
+              <label for="t-relief"     class="cp-topic-chip chip-relief" data-i18n="cp.topic.relief">relief</label>
+
+              <input type="checkbox" name="topic" value="hope"          id="t-hope"       class="cp-topic-input">
+              <label for="t-hope"       class="cp-topic-chip chip-hope" data-i18n="cp.topic.hope">hope</label>
+
+              <input type="checkbox" name="topic" value="pride"         id="t-pride"      class="cp-topic-input">
+              <label for="t-pride"      class="cp-topic-chip chip-pride" data-i18n="cp.topic.pride">pride</label>
+
+              <input type="checkbox" name="topic" value="envy"          id="t-envy"       class="cp-topic-input">
+              <label for="t-envy"       class="cp-topic-chip chip-envy" data-i18n="cp.topic.envy">envy</label>
 
               <input type="checkbox" name="topic" value="other"         id="t-other"      class="cp-topic-input">
               <label for="t-other"      class="cp-topic-chip chip-other" data-i18n="cp.topic.other">other</label>

@@ -1419,7 +1419,9 @@ document.addEventListener('click', async function (e) {
   function updateTopicCounts(posts) {
     var counts = {
       anxiety: 0, depression: 0, relationships: 0, grief: 0, burnout: 0,
-      loneliness: 0, trauma: 0, other: 0
+      loneliness: 0, trauma: 0,
+      joy: 0, love: 0, relief: 0, hope: 0, pride: 0, envy: 0,
+      other: 0
     };
     posts.forEach(function (post) {
       (post.topics || []).forEach(function (t) {

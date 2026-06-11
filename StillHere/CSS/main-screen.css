@@ -359,6 +359,12 @@ a { color: inherit; text-decoration: none; }
 .topic-burnout       { background: #b85c3a; }     /* burnt orange */
 .topic-loneliness    { background: #6b8baf; }     /* dusty blue */
 .topic-trauma        { background: #a55a5a; }     /* rose red */
+.topic-joy           { background: #c98a1f; }     /* warm gold */
+.topic-love          { background: #c2476a; }     /* soft rose */
+.topic-relief        { background: #2f8a73; }     /* calm teal */
+.topic-hope          { background: #3d8aa8; }     /* sky blue */
+.topic-pride         { background: #9c4f86; }     /* plum */
+.topic-envy          { background: #6b8e3c; }     /* leaf green */
 .topic-other         { background: #847569; }     /* warm grey */
 
 /* ── Topic tag pills — tinted background + tinted text from
@@ -371,6 +377,12 @@ a { color: inherit; text-decoration: none; }
 .tag.tag-topic-burnout       { background: rgba(184,  92,  58, 0.20) !important; color: #b85c3a !important; border-color: rgba(184,  92,  58, 0.38) !important; }
 .tag.tag-topic-loneliness    { background: rgba(107, 139, 175, 0.22) !important; color: #45688a !important; border-color: rgba(107, 139, 175, 0.40) !important; }
 .tag.tag-topic-trauma        { background: rgba(165,  90,  90, 0.20) !important; color: #864242 !important; border-color: rgba(165,  90,  90, 0.38) !important; }
+.tag.tag-topic-joy           { background: rgba(201, 138,  31, 0.20) !important; color: #a4711a !important; border-color: rgba(201, 138,  31, 0.40) !important; }
+.tag.tag-topic-love          { background: rgba(194,  71, 106, 0.18) !important; color: #b03c5e !important; border-color: rgba(194,  71, 106, 0.38) !important; }
+.tag.tag-topic-relief        { background: rgba( 47, 138, 115, 0.20) !important; color: #2f8a73 !important; border-color: rgba( 47, 138, 115, 0.38) !important; }
+.tag.tag-topic-hope          { background: rgba( 61, 138, 168, 0.20) !important; color: #357d99 !important; border-color: rgba( 61, 138, 168, 0.38) !important; }
+.tag.tag-topic-pride         { background: rgba(156,  79, 134, 0.20) !important; color: #9c4f86 !important; border-color: rgba(156,  79, 134, 0.38) !important; }
+.tag.tag-topic-envy          { background: rgba(107, 142,  60, 0.20) !important; color: #5f7d35 !important; border-color: rgba(107, 142,  60, 0.38) !important; }
 .tag.tag-topic-other         { background: rgba(132, 117, 105, 0.18) !important; color: #6e5f53 !important; border-color: rgba(132, 117, 105, 0.34) !important; }
 html[data-theme="dark"] .tag.tag-topic-anxiety       { color: #ff8a72 !important; }
 html[data-theme="dark"] .tag.tag-topic-depression    { color: #a3bd9a !important; }
@@ -379,6 +391,12 @@ html[data-theme="dark"] .tag.tag-topic-grief         { color: #c0a8d4 !important
 html[data-theme="dark"] .tag.tag-topic-burnout       { color: #f49d72 !important; }
 html[data-theme="dark"] .tag.tag-topic-loneliness    { color: #95b3c5 !important; }
 html[data-theme="dark"] .tag.tag-topic-trauma        { color: #d99393 !important; }
+html[data-theme="dark"] .tag.tag-topic-joy           { color: #e6b24e !important; }
+html[data-theme="dark"] .tag.tag-topic-love          { color: #e58aa3 !important; }
+html[data-theme="dark"] .tag.tag-topic-relief        { color: #6fc3ae !important; }
+html[data-theme="dark"] .tag.tag-topic-hope          { color: #8fc2c8 !important; }
+html[data-theme="dark"] .tag.tag-topic-pride         { color: #c98ab3 !important; }
+html[data-theme="dark"] .tag.tag-topic-envy          { color: #9bbe72 !important; }
 html[data-theme="dark"] .tag.tag-topic-other         { color: #c0afa0 !important; }
 
 /* Mode pills — ONE unified colour (warm tan) for both
