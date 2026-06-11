@@ -19,7 +19,7 @@ const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 // ── Abuse caps ────────────────────────────────────────────────────────
 const MAX_MESSAGES      = 40;     // conversation turns sent per request
 const MAX_MSG_CHARS     = 4000;   // per-message length
-const MAX_TOTAL_CHARS   = 16000;  // whole conversation length
+const MAX_TOTAL_CHARS   = 32000;  // whole conversation length (history the model remembers)
 
 // Logged-in users get a generous budget keyed by their account.
 const USER_MAX_PER_HOUR = 60;
@@ -159,14 +159,16 @@ Deno.serve(async (req: Request) => {
       "HTTP-Referer":  "https://stillhere.app",
       "X-Title":       "StillHere",
     },
-    // Friend-vibe params: warm but coherent (0.8), capped short so replies stay
-    // text-message length, top_p 0.9, and a frequency penalty to avoid repeated
-    // stock phrases. See JS/ai-chat-config.js for the voice/system prompt.
+    // Friend-vibe params: warm but coherent (0.8), top_p 0.9, frequency penalty
+    // to avoid repeated stock phrases. max_tokens is a HIGH safety ceiling (cost
+    // guard) only, NOT a length target — the system prompt keeps replies short;
+    // the ceiling just guarantees a reply is never cut off mid-sentence.
+    // See JS/ai-chat-config.js for the voice/system prompt.
     body: JSON.stringify({
       model,
       messages,
       temperature:       0.8,
-      max_tokens:        220,
+      max_tokens:        1000,
       top_p:             0.9,
       frequency_penalty: 0.4,
     }),
