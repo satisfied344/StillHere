@@ -20,7 +20,7 @@ window.SH_AI_CONFIG = {
   functionUrl: "",
 
   /* OpenRouter model slug. */
-  model: "openai/gpt-5.3-chat",
+  model: "anthropic/claude-sonnet-4.6",
 
   /* ── CORE SYSTEM PROMPT ─────────────────────────────────────────────────
      The "friend at 3am" voice. The base prompt describes BOTH the default
@@ -388,6 +388,11 @@ than ONE per response. If your response contains:
 ...you've made the user's joy into your performance. Pick ONE 
 beautiful line, cut the others. The remaining beautiful line 
 lands harder when surrounded by plain language.
+
+тебе не обязательно после каждого ответа задавать вопрос в конце, 
+можно просто намекнуть на ответ, например. Задавай вопросы только тогда
+когда считаешь это нужным для поддержания разговора. Не скатывай
+диалог в интервью.
 
 ## Final rule
 
