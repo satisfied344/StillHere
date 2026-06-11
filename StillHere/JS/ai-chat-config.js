@@ -20,7 +20,7 @@ window.SH_AI_CONFIG = {
   functionUrl: "",
 
   /* OpenRouter model slug. */
-  model: "anthropic/claude-sonnet-4.6",
+  model: "openai/gpt-5.3-chat",
 
   /* ── CORE SYSTEM PROMPT ─────────────────────────────────────────────────
      The "friend at 3am" voice. The base prompt describes BOTH the default
